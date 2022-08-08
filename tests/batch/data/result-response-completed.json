@@ -1,0 +1,23 @@
+{
+  "creation_timestamp": 1660594810,
+  "request": {
+    "models": {
+      "face": {
+        "fps_pred": 3.0,
+        "identify_faces": true,
+        "min_face_size": 60.0,
+        "prob_threshold": 0.9900000095367432
+      }
+    },
+    "urls": ["https://storage.googleapis.com/hume-test-data/video/royal-opera-house.mp4"]
+  },
+  "status": "COMPLETED",
+  "completion_timestamp": 1660594813,
+  "completed": {
+    "num_errors": 0,
+    "num_predictions": 20,
+    "artifacts_url": "https://storage.googleapis.com/humeai-batch-api-prod-results/c8e7d7a5-e74a-48dd-aa90-a788b5aad36e/4de3d8dac4704cf1aa4a281d0a90a26f/job-artifacts.zip?Expires=1661199613&GoogleAccessId=batch-api-subscriber%40hume-data.iam.gserviceaccount.com&Signature=reD6CDQ9xhy5OWX%2FEYvyFGziYAPGyMsacARf5lp4X5I7LBQ%2Bb8a5%2F6LLUJlAuZT0DEZt3hOmMDg3znIeTf8U99tn9tRIa%2Fdv6%2BAMvBAT7w4sQQbkThS4E5IajZWhNSCgzOh1MJ8JLFA%2BCeLetjgUti5KmiLHe%2FErpd7grHUf3yYOB41TDMVJH5K7BrL2jss5v%2BCaQIKue2geYvcOZnv4loM66JYZ2%2FQ0aQ3007R2TnitnJeDZKMNjnBBakQ6iSxLfOcoweerr7SY53KITZhIwgjsq7454a73klr3FjOTZWlI9TVyFVRR7KnnURcFk5AHa0oDJPORSCiOez2GuKAogQ%3D%3D",
+    "errors_url": "https://storage.googleapis.com/humeai-batch-api-prod-results/c8e7d7a5-e74a-48dd-aa90-a788b5aad36e/4de3d8dac4704cf1aa4a281d0a90a26f/job-errors.txt?Expires=1661199613&GoogleAccessId=batch-api-subscriber%40hume-data.iam.gserviceaccount.com&Signature=H61hUom2tLjLg7Q8o2ji6QbraiOJ1BJisbiymERMKNrqcXIWRnj5cfPcSBoiqw9bEQsM7xA4OQLkS%2FRRZ7iQ7RVwNNKyt%2FG4%2FdcI59OH3Z4uh9u7jsaRJbtvpKoozQbupVCcrz2OS%2BrY5sCuCZVZ9qIKd6ZVlUXfZrdyyPNB0mN2eVojhpEYjN4HwSoqtuCxuVNSEcLgzdmW5TxGaHmg0fzF3AqnrrnVUhVouWKmZr95UMhTL9mRqDLlWpxA%2FR8eWnQBq3dmsOKkrLjihnpooP1tn48Smwd4YUGNsbg43LzYElQJ82gBrEl4qOEaGolgv5vYMxYwCqy5Wpxz4UPwoA%3D%3D",
+    "predictions_url": "https://storage.googleapis.com/humeai-batch-api-prod-results/c8e7d7a5-e74a-48dd-aa90-a788b5aad36e/4de3d8dac4704cf1aa4a281d0a90a26f/job-predictions.json?Expires=1661199613&GoogleAccessId=batch-api-subscriber%40hume-data.iam.gserviceaccount.com&Signature=mLAqbIdkEdUsyFgxaExODJsLL%2F1Qx2fj55HKzXJesXry%2Fi9zS8ue7Xr5gI6YyZAyytRI5pvP9bpTzvMhvatG7clTz8wIRvhlDFZom62sQTgg5PforhAWCou5TmZT4NcbqhhU6utd7%2B%2BIC1xDp5kOo33fqzWBUpeptoQwBuz2uxNZE44%2FIXAUSesu4v0qM%2B%2BwYLEBReIRR%2BXh9okfN%2B4PxaNe0owScZ%2BL3ZK70CLdkCNjWkn1dpol%2FGCUsfIzQhDR2GrfK9J7GIGBaRZpD3ve%2FkNhA3CjfCyH9DCuwmPg0GISz204APG3RuQ%2B7SoU6LcG6nBUyvvLPdVr7xg9X%2FyCvw%3D%3D"
+  }
+}
