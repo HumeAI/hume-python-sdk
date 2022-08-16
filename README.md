@@ -6,7 +6,7 @@ To get started, [sign up for a Hume account](https://beta.hume.ai/sign-up)!
 
 ## Requirements
 
-Python versions between 3.7 and 3.10 are supported
+Python versions between 3.8 and 3.10 are supported
 
 ## Installation
 

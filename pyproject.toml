@@ -5,6 +5,7 @@ classifiers = [
   "Operating System :: OS Independent",
   "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
 ]
 description = "Hume AI Python Client"
 keywords = ["hume", "ai", "client", "sdk"]
@@ -15,14 +16,15 @@ repository = "https://github.com/HumeAI/python-client"
 version = "0.1.0"
 
 [tool.poetry.dependencies]
-python = ">=3.7,<3.10"
+python = ">=3.8,<3.10"
 requests = "^2.26.0"
 backoff = "^2.1.2"
+typing-extensions = "^4.3.0"
 
 [tool.poetry.dev-dependencies]
 covcheck = "^0.3.0"
 flake8 = "^4.0.1"
-mypy = "^0.910"
+mypy = "^0.960"
 pylint = "^2.12.1"
 pyproject-flake8 = "^0.0.1a2"
 pytest = "^6.2.5"
@@ -37,8 +39,8 @@ build-backend = "poetry.core.masonry.api"
 requires = ["poetry-core>=1.0.0"]
 
 [tool.covcheck]
-branch = 87.0
-line = 95.0
+branch = 70.0
+line = 76.0
 
 [tool.flake8]
 ignore = ""           # Required to disable default ignores

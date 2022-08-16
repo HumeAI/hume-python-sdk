@@ -15,7 +15,6 @@ logger = logging.getLogger(__name__)
 
 
 class HumeBatchClient(ClientBase):
-    _API_BASE_URL = "https://api.hume.ai"
 
     def __init__(self, *args: Any, **kwargs: Any):
         super().__init__(*args, **kwargs)
@@ -30,10 +29,15 @@ class HumeBatchClient(ClientBase):
         except json.decoder.JSONDecodeError:
             raise HumeClientError(f"Failed batch request: {response.text}")
 
-        job_id = body["job_id"]
-        return BatchJob(self, job_id)
+        if "job_id" not in body:
+            if "fault" in body and "faultstring" in body["fault"]:
+                fault_string = body["fault"]["faultstring"]
+                raise HumeClientError(f"Could not start batch job: {fault_string}")
+            raise HumeClientError("Unexpected error when starting batch job")
 
-    def get_job_result(self, job_id) -> BatchJobResult:
+        return BatchJob(self, body["job_id"])
+
+    def get_job_result(self, job_id: str) -> BatchJobResult:
         endpoint = (f"{self._api_base_url}/{self._api_version}/{ApiType.BATCH.value}/jobs/{job_id}"
                     f"?apikey={self._api_key}")
         response = requests.get(endpoint)

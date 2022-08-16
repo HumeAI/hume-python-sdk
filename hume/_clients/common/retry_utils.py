@@ -1,10 +1,12 @@
 import logging
 import time
-from typing import Any, Callable, Optional, TypeVar
+from typing import cast, Callable, Type, TypeVar
+from typing_extensions import ParamSpec
 
 from hume._clients.common.hume_client_error import HumeClientError
 
-TRet = TypeVar('TRet')  # Return type of function being retried
+P = ParamSpec('P')  # Parameter type variable for decorated function
+R = TypeVar('R')  # Return type variable for decorated function
 
 logger = logging.getLogger(__name__)
 
@@ -16,18 +18,18 @@ class RetryIterError(Exception):
 def retry(
     timeout: int = 300,
     backoff_factor: int = 2,
-    error_type: Exception = RetryIterError,
-):
+    error_type: Type[Exception] = RetryIterError,
+) -> Callable[[Callable[P, R]], Callable[P, R]]:
 
-    def decorator(func: Callable[[], Optional[TRet]]):
+    def decorator_func(decorated_func: Callable[P, R]) -> Callable[P, R]:
 
-        def func_wrapper(*args: Any, **kwargs: Any):
+        def func_wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
             inner_timeout = timeout
             if "timeout" in kwargs:
-                inner_timeout = kwargs["timeout"]
+                inner_timeout = cast(int, kwargs["timeout"])
             inner_backoff_factor = backoff_factor
             if "backoff_factor" in kwargs:
-                inner_backoff_factor = kwargs["backoff_factor"]
+                inner_backoff_factor = cast(int, kwargs["backoff_factor"])
 
             delay = 1
             total_await_time = 0
@@ -37,7 +39,7 @@ def retry(
                 logger.info(f"Retry attempt {attempt}, waited {total_await_time}s total")
 
                 try:
-                    return func(*args, **kwargs)
+                    return decorated_func(*args, **kwargs)
                 except error_type as e:
                     logger.info(f"Retry iteration {attempt} failed: {str(e)}")
 
@@ -57,4 +59,4 @@ def retry(
 
         return func_wrapper
 
-    return decorator
+    return decorator_func

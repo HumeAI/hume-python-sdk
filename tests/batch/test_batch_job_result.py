@@ -31,15 +31,15 @@ class TestBatchJobResult:
 
         message = "Could not download job artifacts. No artifacts found on job result"
         with pytest.raises(HumeClientError, match=message):
-            queued_result.download_artifacts('fake-path')
+            queued_result.download_artifacts("fake-path")
 
         message = "Could not download job errors. No errors found on job result."
         with pytest.raises(HumeClientError, match=message):
-            queued_result.download_errors('fake-path')
+            queued_result.download_errors("fake-path")
 
         message = "Could not download job predictions. No predictions found on job result."
         with pytest.raises(HumeClientError, match=message):
-            queued_result.download_predictions('fake-path')
+            queued_result.download_predictions("fake-path")
 
     def test_completed(self, completed_result: BatchJobResult):
         assert completed_result.status == BatchJobStatus.COMPLETED

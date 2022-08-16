@@ -3,7 +3,7 @@ from typing import Any, Dict, Generic, TypeVar
 
 from hume._clients.common.model_type import ModelType
 
-TConfig = TypeVar('TConfig')  # Type for subclasses of ModelConfigBase
+TConfig = TypeVar("TConfig")  # Type for subclasses of ModelConfigBase
 
 
 class ModelConfigBase(ABC, Generic[TConfig]):

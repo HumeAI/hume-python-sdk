@@ -1,0 +1,112 @@
+name: Package-CI
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - hume/**
+      - tests/**
+      - .github/workflows/ci.yaml
+  pull_request:
+    branches:
+      - main
+    paths:
+      - hume/**
+      - tests/**
+      - .github/workflows/ci.yaml
+
+jobs:
+  build-unit:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version:
+          - "3.8"
+          - "3.9"
+          - "3.10"
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Python ${{ matrix.python-version }} Setup
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install Python dependencies
+        shell: bash
+        run: |
+          pip install poetry
+
+          if [ -d /poetryenvs ]; then rm -rf ~/poetryenvs; fi
+          poetry config virtualenvs.path ~/poetryenvs
+          poetry install
+
+      - name: Run flake8
+        shell: bash
+        run: |
+          poetry run pflake8 hume --config pyproject.toml
+          poetry run pflake8 tests --config pyproject.toml
+
+      - name: Run pylint
+        shell: bash
+        run: |
+          poetry run pylint hume --rcfile pyproject.toml
+
+      - name: Run mypy
+        shell: bash
+        run: |
+          poetry run mypy hume --config pyproject.toml
+
+      - name: Run pytest
+        shell: bash
+        env:
+          HUME_DEV_API_KEY: ${{ secrets.HUME_DEV_API_KEY }}
+        run: |
+          poetry run pytest tests --cov=. --cov-report=html --cov-report=xml --cov-branch -m "not service"
+
+      - name: Upload HTML Coverage
+        uses: actions/upload-artifact@v2
+        with:
+          name: hume-coverage-html
+          path: hume/htmlcov
+
+      - name: Upload XML Coverage
+        uses: actions/upload-artifact@v2
+        with:
+          name: hume-coverage-xml
+          path: hume/coverage.xml
+
+      - name: Check Coverage
+        shell: bash
+        run: |
+          poetry run covcheck coverage.xml --config pyproject.toml
+
+  build-service:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Python 3.8 Setup
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+
+      - name: Install Python dependencies
+        shell: bash
+        run: |
+          pip install poetry
+
+          if [ -d /poetryenvs ]; then rm -rf ~/poetryenvs; fi
+          poetry config virtualenvs.path ~/poetryenvs
+          poetry install
+
+      - name: Run pytest
+        shell: bash
+        env:
+          HUME_DEV_API_KEY: ${{ secrets.HUME_DEV_API_KEY }}
+        run: |
+          poetry run pytest tests --cov=. --cov-report=html --cov-report=xml --cov-branch -m service

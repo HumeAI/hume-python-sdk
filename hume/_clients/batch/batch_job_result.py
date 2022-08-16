@@ -45,7 +45,7 @@ class BatchJobResult:
         urlretrieve(self.errors_url, filepath)
 
     @classmethod
-    def from_response(cls, response: Dict[str, Any]) -> 'BatchJobResult':
+    def from_response(cls, response: Dict[str, Any]) -> "BatchJobResult":
         try:
             request = response["request"]
             configs = {}

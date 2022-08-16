@@ -6,9 +6,6 @@ from hume._clients.common.model_type import ModelType
 
 class BurstConfig(ModelConfigBase["BurstConfig"]):
 
-    def __init__(self):
-        pass
-
     def get_model_type(cls) -> ModelType:
         return ModelType.BURST
 

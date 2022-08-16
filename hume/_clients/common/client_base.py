@@ -3,6 +3,7 @@ from abc import ABC
 
 
 class ClientBase(ABC):
+    _API_BASE_URL = "https://api.hume.ai"
 
     def __init__(
         self,
