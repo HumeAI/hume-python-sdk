@@ -6,7 +6,7 @@ import requests
 
 from hume._clients.batch.batch_job import BatchJob
 from hume._clients.batch.batch_job_result import BatchJobResult
-from hume._clients.common.configs import BurstConfig, FaceConfig, LanguageConfig, ProsodyConfig, ModelConfigBase
+from hume._clients.common.configs import BurstConfig, FaceConfig, LanguageConfig, ProsodyConfig, JobConfigBase
 from hume._clients.common.api_type import ApiType
 from hume._clients.common.client_base import ClientBase
 from hume._clients.common.hume_client_error import HumeClientError
@@ -44,7 +44,7 @@ class HumeBatchClient(ClientBase):
         body = response.json()
         return BatchJobResult.from_response(body)
 
-    def _submit(self, urls: List[str], configs: List[ModelConfigBase]) -> BatchJob:
+    def _submit(self, urls: List[str], configs: List[JobConfigBase]) -> BatchJob:
         request = self._get_request(configs, urls)
         return self._start_job(request)
 
@@ -88,7 +88,7 @@ class HumeBatchClient(ClientBase):
         return self._submit(urls, [config])
 
     @classmethod
-    def _get_request(cls, configs: List[ModelConfigBase], urls: List[str]) -> Dict[str, Any]:
+    def _get_request(cls, configs: List[JobConfigBase], urls: List[str]) -> Dict[str, Any]:
         model_requests = {}
         for config in configs:
             model_requests[config.get_model_type().value] = config.serialize()

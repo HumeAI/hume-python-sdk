@@ -1,10 +1,10 @@
 from typing import Any, Dict, Optional
 
-from hume._clients.common.configs.model_config_base import ModelConfigBase
+from hume._clients.common.configs.job_config_base import JobConfigBase
 from hume._clients.common.model_type import ModelType
 
 
-class LanguageConfig(ModelConfigBase["LanguageConfig"]):
+class LanguageConfig(JobConfigBase["LanguageConfig"]):
 
     def __init__(
         self,
