@@ -5,7 +5,7 @@ from urllib.request import urlretrieve
 
 from hume._clients.batch.batch_job_status import BatchJobStatus
 from hume._clients.common.model_type import ModelType
-from hume._clients.common.configs.model_config_base import ModelConfigBase
+from hume._clients.common.configs.job_config_base import JobConfigBase
 from hume._clients.common.configs.config_utils import config_from_model_type
 from hume._clients.common.hume_client_error import HumeClientError
 
@@ -15,7 +15,7 @@ class BatchJobResult:
     def __init__(
         self,
         *,
-        configs: Dict[ModelType, ModelConfigBase],
+        configs: Dict[ModelType, JobConfigBase],
         urls: List[str],
         status: BatchJobStatus,
         predictions_url: Optional[str] = None,
