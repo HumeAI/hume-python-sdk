@@ -1,0 +1,15 @@
+{
+  "recommendations": [
+    "amatiasq.sort-imports",
+    "docsmsft.docs-yaml",
+    "eamodio.gitlens",
+    "esbenp.prettier-vscode",
+    "ms-python.python",
+    "njpwerner.autodocstring",
+    "syler.sass-indented",
+    "tamasfe.even-better-toml",
+    "yzhang.markdown-all-in-one",
+    "zhuangtongfa.material-theme",
+    "rust-lang.rust-analyzer"
+  ]
+}

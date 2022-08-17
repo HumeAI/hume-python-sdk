@@ -1,0 +1,19 @@
+{
+  "[json]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[markdown]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[toml]": { "editor.defaultFormatter": "tamasfe.even-better-toml" },
+  "prettier.printWidth": 120,
+  "editor.formatOnSave": true,
+  "python.formatting.provider": "yapf",
+  "python.formatting.yapfPath": "yapf",
+  "python.formatting.yapfArgs": ["--style", "{based_on_style: pep8, indent_width: 4, column_limit: 119}"],
+  "python.linting.enabled": true,
+  "python.linting.flake8Args": ["--max-line-length=119"],
+  "python.linting.flake8Enabled": true,
+  "python.linting.pylintEnabled": true,
+  "python.linting.pylintPath": "pylint",
+  "python.linting.pylintArgs": ["--rcfile=../src/pyproject.toml"],
+  "python.testing.cwd": "tests",
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false
+}
