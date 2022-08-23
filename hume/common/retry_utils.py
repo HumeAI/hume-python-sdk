@@ -1,9 +1,10 @@
+"""Function retry utilities."""
 import logging
 import time
 from typing import cast, Callable, Type, TypeVar
 from typing_extensions import ParamSpec
 
-from hume._clients.common.hume_client_error import HumeClientError
+from hume.common.hume_client_error import HumeClientError
 
 P = ParamSpec('P')  # Parameter type variable for decorated function
 R = TypeVar('R')  # Return type variable for decorated function
@@ -13,11 +14,9 @@ logger = logging.getLogger(__name__)
 
 class RetryIterError(Exception):
     """Retry iteration exception.
-    
+
     Raised when a job has not completed by the allotted timeout.
     """
-
-    pass
 
 
 def retry(

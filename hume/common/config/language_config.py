@@ -1,8 +1,8 @@
 """Configuration for the language emotion model."""
 from typing import Any, Dict, Optional
 
-from hume._clients.common.configs.job_config_base import JobConfigBase
-from hume._clients.common.model_type import ModelType
+from hume.common.config.job_config_base import JobConfigBase
+from hume.common.model_type import ModelType
 
 
 class LanguageConfig(JobConfigBase["LanguageConfig"]):
@@ -26,6 +26,7 @@ class LanguageConfig(JobConfigBase["LanguageConfig"]):
         self.sliding_window = sliding_window
         self.identify_speakers = identify_speakers
 
+    @classmethod
     def get_model_type(cls) -> ModelType:
         """Get the configuration model type.
 

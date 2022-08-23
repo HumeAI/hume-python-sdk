@@ -54,7 +54,10 @@ class TestHumeBatchClient:
 
     def test_prosody(self, batch_client: HumeBatchClient):
         mock_url = "mock-url"
-        job = batch_client.submit_prosody([mock_url], identify_speakers=True)
+        job = batch_client.submit_prosody(
+            [mock_url],
+            identify_speakers=True,
+        )
         assert isinstance(job, BatchJob)
         assert job.id == "mock_job_id"
         batch_client._start_job.assert_called_once_with({
@@ -68,7 +71,11 @@ class TestHumeBatchClient:
 
     def test_language(self, batch_client: HumeBatchClient):
         mock_url = "mock-url"
-        job = batch_client.submit_language([mock_url], sliding_window=False)
+        job = batch_client.submit_language(
+            [mock_url],
+            sliding_window=False,
+            identify_speakers=True,
+        )
         assert isinstance(job, BatchJob)
         assert job.id == "mock_job_id"
         batch_client._start_job.assert_called_once_with({

@@ -1,13 +1,14 @@
 """Configuration for the vocal burst model."""
 from typing import Any, Dict
 
-from hume._clients.common.configs.job_config_base import JobConfigBase
-from hume._clients.common.model_type import ModelType
+from hume.common.config.job_config_base import JobConfigBase
+from hume.common.model_type import ModelType
 
 
 class BurstConfig(JobConfigBase["BurstConfig"]):
     """Configuration for the vocal burst model."""
 
+    @classmethod
     def get_model_type(cls) -> ModelType:
         """Get the configuration model type.
 

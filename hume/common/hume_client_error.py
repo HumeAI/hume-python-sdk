@@ -3,5 +3,3 @@
 
 class HumeClientError(Exception):
     """Hume API client exception."""
-
-    pass

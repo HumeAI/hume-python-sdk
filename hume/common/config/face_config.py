@@ -1,8 +1,8 @@
 """Configuration for the facial expression model."""
 from typing import Any, Dict, Optional
 
-from hume._clients.common.configs.job_config_base import JobConfigBase
-from hume._clients.common.model_type import ModelType
+from hume.common.config.job_config_base import JobConfigBase
+from hume.common.model_type import ModelType
 
 
 class FaceConfig(JobConfigBase["FaceConfig"]):
@@ -34,6 +34,7 @@ class FaceConfig(JobConfigBase["FaceConfig"]):
         self.identify_faces = identify_faces
         self.min_face_size = min_face_size
 
+    @classmethod
     def get_model_type(cls) -> ModelType:
         """Get the configuration model type.
 

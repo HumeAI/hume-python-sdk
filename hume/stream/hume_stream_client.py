@@ -3,5 +3,3 @@
 
 class HumeStreamClient:
     """Streaming API client."""
-
-    pass

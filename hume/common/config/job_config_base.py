@@ -2,7 +2,7 @@
 from abc import ABC, abstractmethod
 from typing import Any, Dict, Generic, TypeVar
 
-from hume._clients.common.model_type import ModelType
+from hume.common.model_type import ModelType
 
 TConfig = TypeVar("TConfig")  # Type for subclasses of JobConfigBase
 
@@ -18,7 +18,6 @@ class JobConfigBase(ABC, Generic[TConfig]):
         Returns:
             ModelType: Model type.
         """
-        pass
 
     @abstractmethod
     def serialize(self) -> Dict[str, Any]:
@@ -27,7 +26,6 @@ class JobConfigBase(ABC, Generic[TConfig]):
         Returns:
             Dict[str, Any]: Serialized configuration object.
         """
-        pass
 
     @classmethod
     @abstractmethod
@@ -40,4 +38,3 @@ class JobConfigBase(ABC, Generic[TConfig]):
         Returns:
             TConfig: Deserialized configuration object.
         """
-        pass

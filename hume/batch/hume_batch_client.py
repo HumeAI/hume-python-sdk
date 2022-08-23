@@ -5,12 +5,12 @@ from typing import Any, Dict, List, Optional
 
 import requests
 
-from hume._clients.batch.batch_job import BatchJob
-from hume._clients.batch.batch_job_result import BatchJobResult
-from hume._clients.common.configs import BurstConfig, FaceConfig, LanguageConfig, ProsodyConfig, JobConfigBase
-from hume._clients.common.api_type import ApiType
-from hume._clients.common.client_base import ClientBase
-from hume._clients.common.hume_client_error import HumeClientError
+from hume.batch.batch_job import BatchJob
+from hume.batch.batch_job_result import BatchJobResult
+from hume.common.config import BurstConfig, FaceConfig, LanguageConfig, ProsodyConfig, JobConfigBase
+from hume.common.api_type import ApiType
+from hume.common.client_base import ClientBase
+from hume.common.hume_client_error import HumeClientError
 
 logger = logging.getLogger(__name__)
 
@@ -161,6 +161,7 @@ class HumeBatchClient(ClientBase):
         try:
             body = response.json()
         except json.decoder.JSONDecodeError:
+            # pylint: disable=raise-missing-from
             raise HumeClientError(f"Failed batch request: {response.text}")
 
         if "job_id" not in body:

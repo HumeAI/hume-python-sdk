@@ -1,8 +1,8 @@
 """Configuration for the speech prosody model."""
 from typing import Any, Dict, Optional
 
-from hume._clients.common.configs.job_config_base import JobConfigBase
-from hume._clients.common.model_type import ModelType
+from hume.common.config.job_config_base import JobConfigBase
+from hume.common.model_type import ModelType
 
 
 class ProsodyConfig(JobConfigBase["ProsodyConfig"]):
@@ -21,6 +21,7 @@ class ProsodyConfig(JobConfigBase["ProsodyConfig"]):
         """
         self.identify_speakers = identify_speakers
 
+    @classmethod
     def get_model_type(cls) -> ModelType:
         """Get the configuration model type.
 
