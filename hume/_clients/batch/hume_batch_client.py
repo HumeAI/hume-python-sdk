@@ -1,3 +1,4 @@
+"""Batch API client."""
 import json
 import logging
 from typing import Any, Dict, List, Optional
@@ -15,14 +16,142 @@ logger = logging.getLogger(__name__)
 
 
 class HumeBatchClient(ClientBase):
+    """Batch API client."""
 
     def __init__(self, *args: Any, **kwargs: Any):
-        """ Construct a HumeBatchClient.
+        """Construct a HumeBatchClient.
 
         Args:
             api_key (str): Hume API key.
         """
         super().__init__(*args, **kwargs)
+
+    def get_job_result(self, job_id: str) -> BatchJobResult:
+        """Get the result of the batch job.
+
+        Args:
+            job_id (str): Job ID.
+
+        Raises:
+            HumeClientError: If the job result cannot be loaded.
+
+        Returns:
+            BatchJobResult: Batch job result.
+        """
+        endpoint = (f"{self._api_base_url}/{self._api_version}/{ApiType.BATCH.value}/jobs/{job_id}"
+                    f"?apikey={self._api_key}")
+        response = requests.get(endpoint)
+        body = response.json()
+        return BatchJobResult.from_response(body)
+
+    def submit_face(
+        self,
+        urls: List[str],
+        fps_pred: Optional[float] = None,
+        prob_threshold: Optional[float] = None,
+        identify_faces: Optional[bool] = None,
+        min_face_size: Optional[float] = None,
+    ) -> BatchJob:
+        """Submit a new job for facial expression.
+
+        Args:
+            urls (List[str]): URLs to process.
+            fps_pred (Optional[float]): Number of frames per second to process. Other frames will be omitted
+                from the response.
+            prob_threshold (Optional[float]): Face detection probability threshold. Faces detected with a
+                probability less than this threshold will be omitted from the response.
+            identify_faces (Optional[bool]): Whether to return identifiers for faces across frames.
+                If true, unique identifiers will be assigned to face bounding boxes to differentiate different faces.
+                If false, all faces will be tagged with an "unknown" ID.
+            min_face_size (Optional[float]): Minimum bounding box side length in pixels to treat as a face.
+                Faces detected with a bounding box side length in pixels less than this threshold will be
+                omitted from the response.
+
+        Raises:
+            HumeClientError: If the job fails.
+
+        Returns:
+            BatchJob: Batch job.
+        """
+        config = FaceConfig(
+            fps_pred=fps_pred,
+            prob_threshold=prob_threshold,
+            identify_faces=identify_faces,
+            min_face_size=min_face_size,
+        )
+        return self._submit(urls, [config])
+
+    def submit_burst(
+        self,
+        urls: List[str],
+    ) -> BatchJob:
+        """Submit a new job for vocal bursts.
+
+        Args:
+            urls (List[str]): URLs to process.
+
+        Raises:
+            HumeClientError: If the job fails.
+
+        Returns:
+            BatchJob: Batch job.
+        """
+        config = BurstConfig()
+        return self._submit(urls, [config])
+
+    def submit_prosody(
+        self,
+        urls: List[str],
+        identify_speakers: Optional[bool] = None,
+    ) -> BatchJob:
+        """Submit a new job for vocal bursts.
+
+        Args:
+            urls (List[str]): URLs to process.
+            identify_speakers (Optional[bool]): Whether to return identifiers for speakers over time. If true,
+                unique identifiers will be assigned to spoken words to differentiate different speakers. If false,
+                all speakers will be tagged with an "unknown" ID.
+
+        Raises:
+            HumeClientError: If the job fails.
+
+        Returns:
+            BatchJob: Batch job.
+        """
+        config = ProsodyConfig(identify_speakers=identify_speakers)
+        return self._submit(urls, [config])
+
+    def submit_language(
+        self,
+        urls: List[str],
+        sliding_window: Optional[bool] = None,
+        identify_speakers: Optional[bool] = None,
+    ) -> BatchJob:
+        """Submit a new job for language emotion.
+
+        Args:
+            urls (List[str]): URLs to process.
+            sliding_window (Optional[float]): Whether to generate predictions for each word in the text or
+                for the entire text in aggregate.
+            identify_speakers (Optional[bool]): Whether to return identifiers for speakers over time.
+                If true, unique identifiers will be assigned to spoken words to differentiate different speakers.
+                If false, all speakers will be tagged with an "unknown" ID.
+
+        Raises:
+            HumeClientError: If the job fails.
+
+        Returns:
+            BatchJob: Batch job.
+        """
+        config = LanguageConfig(
+            sliding_window=sliding_window,
+            identify_speakers=identify_speakers,
+        )
+        return self._submit(urls, [config])
+
+    def _submit(self, urls: List[str], configs: List[JobConfigBase]) -> BatchJob:
+        request = self._get_request(configs, urls)
+        return self._start_job(request)
 
     def _start_job(self, request_body: Any) -> BatchJob:
         endpoint = (f"{self._api_base_url}/{self._api_version}/{ApiType.BATCH.value}/jobs"
@@ -41,60 +170,6 @@ class HumeBatchClient(ClientBase):
             raise HumeClientError("Unexpected error when starting batch job")
 
         return BatchJob(self, body["job_id"])
-
-    def get_job_result(self, job_id: str) -> BatchJobResult:
-        endpoint = (f"{self._api_base_url}/{self._api_version}/{ApiType.BATCH.value}/jobs/{job_id}"
-                    f"?apikey={self._api_key}")
-        response = requests.get(endpoint)
-        body = response.json()
-        return BatchJobResult.from_response(body)
-
-    def _submit(self, urls: List[str], configs: List[JobConfigBase]) -> BatchJob:
-        request = self._get_request(configs, urls)
-        return self._start_job(request)
-
-    def submit_face(
-        self,
-        urls: List[str],
-        fps_pred: Optional[float] = None,
-        prob_threshold: Optional[float] = None,
-        identify_faces: Optional[bool] = None,
-        min_face_size: Optional[float] = None,
-    ) -> BatchJob:
-        config = FaceConfig(
-            fps_pred=fps_pred,
-            prob_threshold=prob_threshold,
-            identify_faces=identify_faces,
-            min_face_size=min_face_size,
-        )
-        return self._submit(urls, [config])
-
-    def submit_burst(
-        self,
-        urls: List[str],
-    ) -> BatchJob:
-        config = BurstConfig()
-        return self._submit(urls, [config])
-
-    def submit_prosody(
-        self,
-        urls: List[str],
-        identify_speakers: Optional[bool] = None,
-    ) -> BatchJob:
-        config = ProsodyConfig(identify_speakers=identify_speakers)
-        return self._submit(urls, [config])
-
-    def submit_language(
-        self,
-        urls: List[str],
-        sliding_window: Optional[bool] = None,
-        identify_speakers: Optional[bool] = None,
-    ) -> BatchJob:
-        config = LanguageConfig(
-            sliding_window=sliding_window,
-            identify_speakers=identify_speakers,
-        )
-        return self._submit(urls, [config])
 
     @classmethod
     def _get_request(cls, configs: List[JobConfigBase], urls: List[str]) -> Dict[str, Any]:

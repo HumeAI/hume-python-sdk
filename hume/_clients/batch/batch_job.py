@@ -1,5 +1,6 @@
+"""Batch job."""
 import logging
-from typing import Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 from hume._clients.batch.batch_job_result import BatchJobResult
 from hume._clients.batch.batch_job_status import BatchJobStatus
@@ -12,12 +13,31 @@ logger = logging.getLogger(__name__)
 
 
 class BatchJob:
+    """Batch job."""
 
     def __init__(self, client: "HumeBatchClient", job_id: str):
-        self.id = job_id
-        self._client = client
+        """Construct a BatchJob.
 
-    def await_complete(self, timeout: int = 300) -> Optional[BatchJobResult]:
+        Args:
+            client (HumeBatchClient): HumeBatchClient instance.
+            job_id (str): Job ID.
+        """
+        self._client = client
+        self.id = job_id
+
+    def await_complete(self, timeout: int = 300) -> BatchJobResult:
+        """Block until the job has reached a terminal status.
+
+        Args:
+            timeout (int): Maximum time in seconds to await before failing.
+                Will fail with `HumeClientError` if timeout is reached.
+
+        Raises:
+            ValueError: If the timeout is not valid.
+
+        Returns:
+            BatchJobResult: The result of the `BatchJob`.
+        """
         if timeout < 1:
             raise ValueError("timeout must be at least 1 second")
 

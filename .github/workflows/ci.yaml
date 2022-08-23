@@ -67,6 +67,11 @@ jobs:
         run: |
           poetry run pytest tests --cov=. --cov-report=html --cov-report=xml --cov-branch -m "not service"
 
+      - name: Run pydocstyle
+        shell: bash
+        run: |
+          poetry run pydocstyle
+
       - name: Upload HTML Coverage
         uses: actions/upload-artifact@v2
         with:

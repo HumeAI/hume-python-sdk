@@ -15,17 +15,19 @@ class FaceConfig(JobConfigBase["FaceConfig"]):
         identify_faces: Optional[bool] = None,
         min_face_size: Optional[float] = None,
     ):
-        """Construct a FaceConfig.
+        """Construct a `FaceConfig`.
 
         Args:
-            fps_pred: Number of frames per second to process. Other frames will be omitted from the response.
-            prob_threshold: Face detection probability threshold. Faces detected with a probability less than
-                this threshold will be omitted from the response.
-            identify_faces: Whether to return identifiers for faces across frames. If true, unique identifiers
-                will be assigned to face bounding boxes to differentiate different faces. If false, all faces will
-                be tagged with an "unknown" ID.
-            min_face_size: Minimum bounding box side length in pixels to treat as a face. Faces detected with a
-                bounding box side length in pixels less than this threshold will be omitted from the response.
+            fps_pred (Optional[float]): Number of frames per second to process. Other frames will be omitted
+                from the response.
+            prob_threshold (Optional[float]): Face detection probability threshold. Faces detected with a
+                probability less than this threshold will be omitted from the response.
+            identify_faces (Optional[bool]): Whether to return identifiers for faces across frames.
+                If true, unique identifiers will be assigned to face bounding boxes to differentiate different faces.
+                If false, all faces will be tagged with an "unknown" ID.
+            min_face_size (Optional[float]): Minimum bounding box side length in pixels to treat as a face.
+                Faces detected with a bounding box side length in pixels less than this threshold will be
+                omitted from the response.
         """
         self.fps_pred = fps_pred
         self.prob_threshold = prob_threshold
@@ -36,15 +38,15 @@ class FaceConfig(JobConfigBase["FaceConfig"]):
         """Get the configuration model type.
 
         Returns:
-            Model type.
+            ModelType: Model type.
         """
         return ModelType.FACE
 
     def serialize(self) -> Dict[str, Any]:
-        """Serialize FaceConfig to dictionary.
+        """Serialize `FaceConfig` to dictionary.
 
         Returns:
-            Serialized FaceConfig object.
+            Dict[str, Any]: Serialized `FaceConfig` object.
         """
         return {
             "fps_pred": self.fps_pred,
@@ -55,13 +57,13 @@ class FaceConfig(JobConfigBase["FaceConfig"]):
 
     @classmethod
     def deserialize(cls, request_dict: Dict[str, Any]) -> "FaceConfig":
-        """Deserialize FaceConfig from request JSON.
+        """Deserialize `FaceConfig` from request JSON.
 
         Args:
-            request_dict: Request JSON data.
+            request_dict (Dict[str, Any]): Request JSON data.
 
         Returns:
-            Deserialized FaceConfig object.
+            FaceConfig: Deserialized `FaceConfig` object.
         """
         return cls(
             fps_pred=request_dict["fps_pred"],

@@ -1,9 +1,20 @@
+"""Model configuration utilities."""
+from typing import Type
+
 from hume._clients.common.model_type import ModelType
 from hume._clients.common.configs import (BurstConfig, FaceConfig, LanguageConfig, JobConfigBase, ProsodyConfig)
 from hume._clients.common.hume_client_error import HumeClientError
 
 
-def config_from_model_type(model_type: ModelType) -> JobConfigBase:
+def config_from_model_type(model_type: ModelType) -> Type[JobConfigBase]:
+    """Get the configuration type for the given model type.
+
+    Args:
+        model_type (ModelType): Model type of configuration.
+
+    Returns:
+        Type[JobConfigBase]: Class of configuration for the given model type.
+    """
     if model_type == ModelType.BURST:
         return BurstConfig
     elif model_type == ModelType.FACE:

@@ -14,14 +14,14 @@ class LanguageConfig(JobConfigBase["LanguageConfig"]):
         sliding_window: Optional[float] = None,
         identify_speakers: Optional[bool] = None,
     ):
-        """Construct a LanguageConfig.
+        """Construct a `LanguageConfig`.
 
         Args:
-            sliding_window: Whether to generate predictions for each word in the text or for the entire
-                text in aggregate.
-            identify_speakers: Whether to return identifiers for speakers over time. If true, unique identifiers
-                will be assigned to spoken words to differentiate different speakers. If false, all speakers will
-                be tagged with an "unknown" ID.
+            sliding_window (Optional[float]): Whether to generate predictions for each word in the text or
+                for the entire text in aggregate.
+            identify_speakers (Optional[bool]): Whether to return identifiers for speakers over time.
+                If true, unique identifiers will be assigned to spoken words to differentiate different speakers.
+                If false, all speakers will be tagged with an "unknown" ID.
         """
         self.sliding_window = sliding_window
         self.identify_speakers = identify_speakers
@@ -30,15 +30,15 @@ class LanguageConfig(JobConfigBase["LanguageConfig"]):
         """Get the configuration model type.
 
         Returns:
-            Model type.
+            ModelType: Model type.
         """
         return ModelType.LANGUAGE
 
     def serialize(self) -> Dict[str, Any]:
-        """Serialize LanguageConfig to dictionary.
+        """Serialize `LanguageConfig` to dictionary.
 
         Returns:
-            Serialized LanguageConfig object.
+            Dict[str, Any]: Serialized `LanguageConfig` object.
         """
         return {
             "sliding_window": self.sliding_window,
@@ -47,13 +47,13 @@ class LanguageConfig(JobConfigBase["LanguageConfig"]):
 
     @classmethod
     def deserialize(cls, request_dict: Dict[str, Any]) -> "LanguageConfig":
-        """Deserialize LanguageConfig from request JSON.
+        """Deserialize `LanguageConfig` from request JSON.
 
         Args:
-            request_dict: Request JSON data.
+            request_dict (Dict[str, Any]): Request JSON data.
 
         Returns:
-            Deserialized LanguageConfig object.
+            LanguageConfig: Deserialized `LanguageConfig` object.
         """
         return cls(
             sliding_window=request_dict["sliding_window"],

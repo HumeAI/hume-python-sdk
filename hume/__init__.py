@@ -1,3 +1,4 @@
+"""Module init."""
 import importlib.metadata
 
 from hume._clients.batch import BatchJob, BatchJobResult, BatchJobStatus, HumeBatchClient

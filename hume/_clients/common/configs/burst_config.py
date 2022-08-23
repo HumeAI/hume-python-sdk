@@ -12,26 +12,26 @@ class BurstConfig(JobConfigBase["BurstConfig"]):
         """Get the configuration model type.
 
         Returns:
-            Model type.
+            ModelType: Model type.
         """
         return ModelType.BURST
 
     def serialize(self) -> Dict[str, Any]:
-        """Serialize BurstConfig to dictionary.
+        """Serialize `BurstConfig` to dictionary.
 
         Returns:
-            Serialized BurstConfig object.
+            Dict[str, Any]: Serialized `BurstConfig` object.
         """
         return {}
 
     @classmethod
     def deserialize(cls, request_dict: Dict[str, Any]) -> "BurstConfig":
-        """Deserialize BurstConfig from request JSON.
+        """Deserialize `BurstConfig` from request JSON.
 
         Args:
-            request_dict: Request JSON data.
+            request_dict (Dict[str, Any]): Request JSON data.
 
         Returns:
-            Deserialized BurstConfig object.
+            BurstConfig: Deserialized `BurstConfig` object.
         """
         return cls()

@@ -16,7 +16,7 @@ class JobConfigBase(ABC, Generic[TConfig]):
         """Get the configuration model type.
 
         Returns:
-            Model type.
+            ModelType: Model type.
         """
         pass
 
@@ -25,7 +25,7 @@ class JobConfigBase(ABC, Generic[TConfig]):
         """Serialize configuration to dictionary.
 
         Returns:
-            Serialized configuration object.
+            Dict[str, Any]: Serialized configuration object.
         """
         pass
 
@@ -35,9 +35,9 @@ class JobConfigBase(ABC, Generic[TConfig]):
         """Deserialize configuration from request JSON.
 
         Args:
-            request_dict: Request JSON data.
+            request_dict (Dict[str, Any]): Request JSON data.
 
         Returns:
-            Deserialized configuration object.
+            TConfig: Deserialized configuration object.
         """
         pass

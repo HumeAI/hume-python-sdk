@@ -12,6 +12,11 @@ logger = logging.getLogger(__name__)
 
 
 class RetryIterError(Exception):
+    """Retry iteration exception.
+    
+    Raised when a job has not completed by the allotted timeout.
+    """
+
     pass
 
 
@@ -20,6 +25,18 @@ def retry(
     backoff_factor: int = 2,
     error_type: Type[Exception] = RetryIterError,
 ) -> Callable[[Callable[P, R]], Callable[P, R]]:
+    """Retry decorator for exponential backoff retry.
+
+    Args:
+        timeout (int): Maximum seconds to keep retrying before giving up. Defaults to 300.
+        backoff_factor (int): Multiplier factor for exponential backoff. Defaults to 2.
+        error_type (Type[Exception]): Class of exception to expect from decorated function when
+            the function fails. Raise this exception type if the retry iteration has failed.
+            Defaults to RetryIterError.
+
+    Returns:
+        Callable[[Callable[P, R]], Callable[P, R]]: Function decorator.
+    """
 
     def decorator_func(decorated_func: Callable[P, R]) -> Callable[P, R]:
 
