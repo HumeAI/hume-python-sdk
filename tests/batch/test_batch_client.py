@@ -75,6 +75,7 @@ class TestHumeBatchClient:
             "models": {
                 "language": {
                     "sliding_window": False,
+                    "identify_speakers": True,
                 },
             },
             "urls": [mock_url],

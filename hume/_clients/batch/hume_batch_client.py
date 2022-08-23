@@ -17,6 +17,11 @@ logger = logging.getLogger(__name__)
 class HumeBatchClient(ClientBase):
 
     def __init__(self, *args: Any, **kwargs: Any):
+        """ Construct a HumeBatchClient.
+
+        Args:
+            api_key (str): Hume API key.
+        """
         super().__init__(*args, **kwargs)
 
     def _start_job(self, request_body: Any) -> BatchJob:
@@ -83,8 +88,12 @@ class HumeBatchClient(ClientBase):
         self,
         urls: List[str],
         sliding_window: Optional[bool] = None,
+        identify_speakers: Optional[bool] = None,
     ) -> BatchJob:
-        config = LanguageConfig(sliding_window=sliding_window)
+        config = LanguageConfig(
+            sliding_window=sliding_window,
+            identify_speakers=identify_speakers,
+        )
         return self._submit(urls, [config])
 
     @classmethod
