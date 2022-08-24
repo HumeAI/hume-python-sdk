@@ -1,4 +1,4 @@
-# Hume Python Client
+# Hume Python SDK
 
 ## Basic Usage
 
