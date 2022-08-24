@@ -9,7 +9,7 @@ from hume import BatchJob, HumeBatchClient
 @pytest.fixture(scope="function")
 def batch_client(monkeypatch: MonkeyPatch) -> HumeBatchClient:
     mock_start_job = MagicMock(return_value="fake-job")
-    monkeypatch.setattr(HumeBatchClient, "_start_job", mock_start_job)
+    monkeypatch.setattr(HumeBatchClient, "start_job", mock_start_job)
     return HumeBatchClient("0000-0000-0000-0000")
 
 
