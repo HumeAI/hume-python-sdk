@@ -9,7 +9,7 @@ from hume import BatchJob, HumeBatchClient
 @pytest.fixture(scope="function")
 def batch_client(monkeypatch: MonkeyPatch) -> HumeBatchClient:
     mock_start_job = MagicMock(return_value="temp-job-value")
-    monkeypatch.setattr(HumeBatchClient, "_start_job", mock_start_job)
+    monkeypatch.setattr(HumeBatchClient, "start_job", mock_start_job)
     client = HumeBatchClient("0000-0000-0000-0000")
     mock_start_job.return_value = BatchJob(client, "mock_job_id")
     return client
@@ -28,7 +28,7 @@ class TestHumeBatchClient:
         )
         assert isinstance(job, BatchJob)
         assert job.id == "mock_job_id"
-        batch_client._start_job.assert_called_once_with({
+        batch_client.start_job.assert_called_once_with({
             "models": {
                 "face": {
                     "fps_pred": 5,
@@ -45,7 +45,7 @@ class TestHumeBatchClient:
         job = batch_client.submit_burst([mock_url])
         assert isinstance(job, BatchJob)
         assert job.id == "mock_job_id"
-        batch_client._start_job.assert_called_once_with({
+        batch_client.start_job.assert_called_once_with({
             "models": {
                 "burst": {},
             },
@@ -60,7 +60,7 @@ class TestHumeBatchClient:
         )
         assert isinstance(job, BatchJob)
         assert job.id == "mock_job_id"
-        batch_client._start_job.assert_called_once_with({
+        batch_client.start_job.assert_called_once_with({
             "models": {
                 "prosody": {
                     "identify_speakers": True,
@@ -78,7 +78,7 @@ class TestHumeBatchClient:
         )
         assert isinstance(job, BatchJob)
         assert job.id == "mock_job_id"
-        batch_client._start_job.assert_called_once_with({
+        batch_client.start_job.assert_called_once_with({
             "models": {
                 "language": {
                     "sliding_window": False,

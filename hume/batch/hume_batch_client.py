@@ -151,9 +151,20 @@ class HumeBatchClient(ClientBase):
 
     def _submit(self, urls: List[str], configs: List[JobConfigBase]) -> BatchJob:
         request = self._get_request(configs, urls)
-        return self._start_job(request)
+        return self.start_job(request)
 
-    def _start_job(self, request_body: Any) -> BatchJob:
+    def start_job(self, request_body: Any) -> BatchJob:
+        """Start a batch job.
+
+        Args:
+            request_body (Any): JSON request body to be passed to the batch API.
+
+        Raises:
+            HumeClientError: If the batch job fails to start.
+
+        Returns:
+            BatchJob: A `BatchJob` that wraps the batch computation.
+        """
         endpoint = (f"{self._api_base_url}/{self._api_version}/{ApiType.BATCH.value}/jobs"
                     f"?apikey={self._api_key}")
         response = requests.post(endpoint, json=request_body)
