@@ -13,7 +13,7 @@ license = "Proprietary"
 name = "hume"
 readme = "README.md"
 repository = "https://github.com/HumeAI/python-client"
-version = "0.1.0"
+version = "0.1.0rc1"
 
 [tool.poetry.dependencies]
 python = ">=3.8,<3.10"
