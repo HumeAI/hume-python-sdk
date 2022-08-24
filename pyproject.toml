@@ -54,8 +54,8 @@ build-backend = "poetry.core.masonry.api"
 requires = ["poetry-core>=1.0.0"]
 
 [tool.covcheck]
-branch = 68.0
-line = 77.0
+branch = 67.0
+line = 75.0
 
 [tool.flake8]
 ignore = ""           # Required to disable default ignores
