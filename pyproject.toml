@@ -24,7 +24,7 @@ keywords = [
 license = "Proprietary"
 name = "hume"
 readme = "README.md"
-repository = "https://github.com/HumeAI/python-client"
+repository = "https://github.com/HumeAI/hume-python-sdk"
 version = "0.1.0"
 
 [tool.poetry.dependencies]
