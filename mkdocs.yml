@@ -1,0 +1,13 @@
+site_name: Hume Python Client
+
+theme:
+  name: material
+
+plugins:
+  - search
+  - mkdocstrings
+
+nav:
+  - "Home": index.md
+  - "Batch": batch-reference.md
+  - "Streaming": streaming-reference.md

@@ -1,2 +1,0 @@
-class HumeStreamClient:
-    pass

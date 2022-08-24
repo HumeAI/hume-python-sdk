@@ -1,2 +1,0 @@
-class HumeClientError(Exception):
-    pass
