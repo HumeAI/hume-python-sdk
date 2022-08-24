@@ -104,10 +104,11 @@ class BatchJobResult:
             )
         # pylint: disable=broad-except
         except Exception as exc:
-            cls._handle_invalid_response(response, exc)
+            message = cls._get_invalid_response_message(response)
+            raise HumeClientError(message) from exc
 
     @classmethod
-    def _handle_invalid_response(cls, response: Any, exception: Exception) -> None:
+    def _get_invalid_response_message(cls, response: Any) -> str:
         response_str = json.dumps(response)
         message = f"Could not parse response into BatchJobResult: {response_str}"
 
@@ -117,4 +118,4 @@ class BatchJobResult:
             if fault_string == "Invalid ApiKey":
                 message = "Client initialized with invalid API key"
 
-        raise HumeClientError(message) from exception
+        return message
