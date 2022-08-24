@@ -8,7 +8,19 @@ classifiers = [
   "Programming Language :: Python :: 3.10",
 ]
 description = "Hume AI Python Client"
-keywords = ["hume", "ai", "client", "sdk"]
+keywords = [
+  "hume",
+  "expressive",
+  "communication",
+  "audio",
+  "recognition",
+  "ai",
+  "analysis",
+  "detection",
+  "voice",
+  "sentiment",
+  "emotion",
+]
 license = "Proprietary"
 name = "hume"
 readme = "README.md"
