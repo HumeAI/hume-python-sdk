@@ -1,6 +1,6 @@
-# Hume AI Python Client
+# Hume AI Python SDK
 
-The Hume AI Python client makes it easy to call Hume APIs from Python applications.
+The Hume AI Python SDK makes it easy to call Hume APIs from Python applications.
 
 To get started, [sign up for a Hume account](https://beta.hume.ai/sign-up)!
 
@@ -57,4 +57,4 @@ See example requests and responses for all available endpoints in the [Hume API 
 
 ## Support
 
-If you've found a bug with this client please [open an issue](https://github.com/HumeAI/python-client/issues/new)!
+If you've found a bug with this SDK please [open an issue](https://github.com/HumeAI/hume-python-sdk/issues/new)!
