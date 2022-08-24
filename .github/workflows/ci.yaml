@@ -4,17 +4,9 @@ on:
   push:
     branches:
       - main
-    paths:
-      - hume/**
-      - tests/**
-      - .github/workflows/ci.yaml
   pull_request:
     branches:
       - main
-    paths:
-      - hume/**
-      - tests/**
-      - .github/workflows/ci.yaml
 
 jobs:
   build-unit:
