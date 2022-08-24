@@ -30,12 +30,14 @@ version = "0.1.0"
 [tool.poetry.dependencies]
 python = ">=3.8,<3.10"
 requests = "^2.26.0"
-backoff = "^2.1.2"
 typing-extensions = "^4.3.0"
 
 [tool.poetry.dev-dependencies]
 covcheck = "^0.3.0"
 flake8 = "^4.0.1"
+mkdocs = "^1.3.1"
+mkdocs-material = "^8.4.1"
+mkdocstrings = { extras = ["python"], version = "^0.19.0" }
 mypy = "^0.960"
 pydocstyle = "^6.1.1"
 pylint = "^2.12.1"
@@ -46,17 +48,14 @@ semver = "^2.13.0"
 types-requests = "^2.25.11"
 types-setuptools = "^57.4.2"
 yapf = "^0.32.0"
-mkdocs-material = "^8.4.1"
-mkdocs = "^1.3.1"
-mkdocstrings = { extras = ["python"], version = "^0.19.0" }
 
 [build-system]
 build-backend = "poetry.core.masonry.api"
 requires = ["poetry-core>=1.0.0"]
 
 [tool.covcheck]
-branch = 68.0
-line = 77.0
+branch = 67.0
+line = 75.0
 
 [tool.flake8]
 ignore = ""           # Required to disable default ignores
@@ -69,7 +68,7 @@ disallow_untyped_defs = true
 ignore_missing_imports = true
 
 [tool.pylint.basic]
-good-names = ["e", "id"]
+good-names = ["id"]
 max-args = 12
 max-locals = 25
 notes = ["FIXME"]

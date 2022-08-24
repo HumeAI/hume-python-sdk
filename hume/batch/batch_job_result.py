@@ -72,11 +72,11 @@ class BatchJobResult:
         urlretrieve(self.errors_url, filepath)
 
     @classmethod
-    def from_response(cls, response: Dict[str, Any]) -> "BatchJobResult":
+    def from_response(cls, response: Any) -> "BatchJobResult":
         """Construct a `BatchJobResult` from a batch API job response.
 
         Args:
-            response (Dict[str, Any]): Batch API job response.
+            response (Any): Batch API job response.
 
         Returns:
             BatchJobResult: A `BatchJobResult` based on a batch API job response.
@@ -102,6 +102,20 @@ class BatchJobResult:
                 status=BatchJobStatus.from_str(response["status"]),
                 **kwargs,
             )
-        except KeyError as e:
-            response_str = json.dumps(response)
-            raise HumeClientError(f"Could not parse response into BatchJobResult: {response_str}") from e
+        # pylint: disable=broad-except
+        except Exception as exc:
+            message = cls._get_invalid_response_message(response)
+            raise HumeClientError(message) from exc
+
+    @classmethod
+    def _get_invalid_response_message(cls, response: Any) -> str:
+        response_str = json.dumps(response)
+        message = f"Could not parse response into BatchJobResult: {response_str}"
+
+        # Check for invalid API key
+        if "fault" in response and "faultstring" in response["fault"]:
+            fault_string = response["fault"]["faultstring"]
+            if fault_string == "Invalid ApiKey":
+                message = "Client initialized with invalid API key"
+
+        return message
