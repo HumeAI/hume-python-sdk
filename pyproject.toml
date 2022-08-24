@@ -69,7 +69,7 @@ disallow_untyped_defs = true
 ignore_missing_imports = true
 
 [tool.pylint.basic]
-good-names = ["e", "id"]
+good-names = ["id"]
 max-args = 12
 max-locals = 25
 notes = ["FIXME"]
