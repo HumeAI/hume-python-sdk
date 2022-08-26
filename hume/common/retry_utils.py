@@ -21,6 +21,7 @@ class RetryIterError(Exception):
 
 def retry(
     timeout: int = 300,
+    max_delay: int = 300,
     backoff_factor: int = 2,
     error_type: Type[Exception] = RetryIterError,
 ) -> Callable[[Callable[P, R]], Callable[P, R]]:
@@ -28,6 +29,7 @@ def retry(
 
     Args:
         timeout (int): Maximum seconds to keep retrying before giving up. Defaults to 300.
+        max_delay (int): Maximum seconds to delay between retries. Defaults to 300.
         backoff_factor (int): Multiplier factor for exponential backoff. Defaults to 2.
         error_type (Type[Exception]): Class of exception to expect from decorated function when
             the function fails. Raise this exception type if the retry iteration has failed.
@@ -40,12 +42,16 @@ def retry(
     def decorator_func(decorated_func: Callable[P, R]) -> Callable[P, R]:
 
         def func_wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
-            inner_timeout = timeout
-            if "timeout" in kwargs:
-                inner_timeout = cast(int, kwargs["timeout"])
-            inner_backoff_factor = backoff_factor
-            if "backoff_factor" in kwargs:
-                inner_backoff_factor = cast(int, kwargs["backoff_factor"])
+            # If the decorated function has kwargs that match the retry decorator kwargs,
+            # then those values override the retry kwargs.
+            retry_kwargs = {
+                "timeout": timeout,
+                "max_delay": max_delay,
+                "backoff_factor": backoff_factor,
+            }
+            for retry_var in retry_kwargs:
+                if retry_var in kwargs:
+                    retry_kwargs[retry_var] = cast(int, kwargs[retry_var])
 
             delay = 1
             total_await_time = 0
@@ -59,15 +65,22 @@ def retry(
                 except error_type as exc:
                     logger.info(f"Retry iteration {attempt} failed: {str(exc)}")
 
-                if total_await_time >= inner_timeout:
-                    raise HumeClientError(f"Request timed out after {inner_timeout}s")
+                retry_timeout = retry_kwargs["inner_timeout"]
+                if total_await_time >= retry_timeout:
+                    raise HumeClientError(f"Request timed out after {retry_timeout}s")
 
                 time.sleep(delay)
                 total_await_time += delay
 
-                new_delay = delay * inner_backoff_factor
-                if total_await_time + new_delay > inner_timeout:
-                    delay = inner_timeout - total_await_time
+                new_delay = delay * retry_kwargs["backoff_factor"]
+
+                # Avoid going over the max delay
+                if new_delay > retry_kwargs["max_delay"]:
+                    new_delay = retry_kwargs["max_delay"]
+
+                # Avoid going over the total timeout
+                if total_await_time + new_delay > retry_timeout:
+                    delay = retry_timeout - total_await_time
                 else:
                     delay = new_delay
 
