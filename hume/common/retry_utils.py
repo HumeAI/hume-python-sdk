@@ -65,7 +65,7 @@ def retry(
                 except error_type as exc:
                     logger.info(f"Retry iteration {attempt} failed: {str(exc)}")
 
-                retry_timeout = retry_kwargs["inner_timeout"]
+                retry_timeout = retry_kwargs["timeout"]
                 if total_await_time >= retry_timeout:
                     raise HumeClientError(f"Request timed out after {retry_timeout}s")
 
