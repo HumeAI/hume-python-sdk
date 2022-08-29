@@ -154,6 +154,14 @@ class HumeBatchClient(ClientBase):
         return self.start_job(request)
 
     def get_job(self, job_id: str) -> BatchJob:
+        """Rehydrate a job based on a Job ID.
+
+        Args:
+            job_id (str): ID of the job to rehydrate.
+
+        Returns:
+            BatchJob: Job associated with the given ID.
+        """
         return BatchJob(self, job_id)
 
     def start_job(self, request_body: Any) -> BatchJob:
