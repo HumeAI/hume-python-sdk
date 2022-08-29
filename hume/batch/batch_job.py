@@ -25,6 +25,26 @@ class BatchJob:
         self._client = client
         self.id = job_id
 
+    def get_status(self) -> BatchJobStatus:
+        """Get the status of the job.
+
+        Returns:
+            BatchJobStatus: The status of the `BatchJob`.
+        """
+        return self.get_result().status
+
+    def get_result(self) -> BatchJobResult:
+        """Get the result of the BatchJob.
+
+        Note that the result of a job may be fetched before the job has completed.
+        You may want to use `job.await_complete()` which will wait for the job to
+        reach a terminal state before returning the result.
+
+        Returns:
+            BatchJobResult: The result of the `BatchJob`.
+        """
+        return self._client.get_job_result(self.id)
+
     def await_complete(self, timeout: int = 300) -> BatchJobResult:
         """Block until the job has reached a terminal status.
 
