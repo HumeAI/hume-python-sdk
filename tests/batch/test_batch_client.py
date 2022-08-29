@@ -11,7 +11,7 @@ def batch_client(monkeypatch: MonkeyPatch) -> HumeBatchClient:
     mock_start_job = MagicMock(return_value="temp-job-value")
     monkeypatch.setattr(HumeBatchClient, "start_job", mock_start_job)
     client = HumeBatchClient("0000-0000-0000-0000")
-    mock_start_job.return_value = BatchJob(client, "mock_job_id")
+    mock_start_job.return_value = BatchJob(client, "mock-job-id")
     return client
 
 
@@ -27,7 +27,7 @@ class TestHumeBatchClient:
             min_face_size=78,
         )
         assert isinstance(job, BatchJob)
-        assert job.id == "mock_job_id"
+        assert job.id == "mock-job-id"
         batch_client.start_job.assert_called_once_with({
             "models": {
                 "face": {
@@ -44,7 +44,7 @@ class TestHumeBatchClient:
         mock_url = "mock-url"
         job = batch_client.submit_burst([mock_url])
         assert isinstance(job, BatchJob)
-        assert job.id == "mock_job_id"
+        assert job.id == "mock-job-id"
         batch_client.start_job.assert_called_once_with({
             "models": {
                 "burst": {},
@@ -59,7 +59,7 @@ class TestHumeBatchClient:
             identify_speakers=True,
         )
         assert isinstance(job, BatchJob)
-        assert job.id == "mock_job_id"
+        assert job.id == "mock-job-id"
         batch_client.start_job.assert_called_once_with({
             "models": {
                 "prosody": {
@@ -77,7 +77,7 @@ class TestHumeBatchClient:
             identify_speakers=True,
         )
         assert isinstance(job, BatchJob)
-        assert job.id == "mock_job_id"
+        assert job.id == "mock-job-id"
         batch_client.start_job.assert_called_once_with({
             "models": {
                 "language": {
@@ -87,3 +87,7 @@ class TestHumeBatchClient:
             },
             "urls": [mock_url],
         })
+
+    def test_get_job(self, batch_client: HumeBatchClient):
+        job = batch_client.get_job("mock-job-id")
+        assert job.id == "mock-job-id"

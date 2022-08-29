@@ -153,6 +153,9 @@ class HumeBatchClient(ClientBase):
         request = self._get_request(configs, urls)
         return self.start_job(request)
 
+    def get_job(self, job_id: str) -> BatchJob:
+        return BatchJob(self, job_id)
+
     def start_job(self, request_body: Any) -> BatchJob:
         """Start a batch job.
 
