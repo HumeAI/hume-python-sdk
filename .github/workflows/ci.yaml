@@ -57,7 +57,7 @@ jobs:
         env:
           HUME_DEV_API_KEY: ${{ secrets.HUME_DEV_API_KEY }}
         run: |
-          poetry run pytest tests --cov=. --cov-report=html --cov-report=xml --cov-branch -m "not service"
+          poetry run pytest tests --cov=hume --cov-report=html --cov-report=xml --cov-branch -m "not service"
 
       - name: Run pydocstyle
         shell: bash
