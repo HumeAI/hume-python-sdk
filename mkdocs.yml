@@ -6,6 +6,14 @@ repo_url: https://github.com/HumeAI/hume-python-sdk
 
 theme:
   name: material
+  font:
+    text: Poppins
+  logo: assets/favicon-hume.ico
+  favicon: assets/favicon-hume.ico
+
+
+extra_css:
+  - stylesheets/extra.css
 
 extra:
   version:
