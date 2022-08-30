@@ -1,5 +1,15 @@
 # Hume Python SDK
 
+## Requirements
+
+Python versions between 3.8 and 3.10 are supported
+
+## Installation
+
+```python
+pip install hume
+```
+
 ## Basic Usage
 
 ### Submit a new batch job
@@ -25,12 +35,24 @@ print("Predictions downloaded!")
 ### Rehydrate a batch job from a job ID
 
 ```python
-from hume import BatchJob, HumeBatchClient
+from hume import HumeBatchClient
 
 client = HumeBatchClient("<your-api-key>")
 
 job_id = "<your-job-id>"
-job = BatchJob(client, job_id)
+job = client.get_job(job_id)
 
 print(job)
 ```
+
+## Other Resources
+
+- [Hume AI Homepage](https://hume.ai)
+- [Platform Documentation](https://help.hume.ai/basics/about-hume-ai)
+- [API Reference](https://docs.hume.ai)
+
+## Support
+
+The Python SDK is open source! More details can be found on [GitHub](https://github.com/HumeAI/hume-python-sdk).
+
+If you've found a bug with this SDK please [open an issue](https://github.com/HumeAI/hume-python-sdk/issues/new)!

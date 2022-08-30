@@ -4,10 +4,10 @@ from typing import Any, Dict, Generic, TypeVar
 
 from hume.common.model_type import ModelType
 
-TConfig = TypeVar("TConfig")  # Type for subclasses of JobConfigBase
+T = TypeVar("T")  # Type for subclasses of JobConfigBase
 
 
-class JobConfigBase(ABC, Generic[TConfig]):
+class JobConfigBase(ABC, Generic[T]):
     """Abstract base class for model configurations."""
 
     @classmethod
@@ -29,12 +29,12 @@ class JobConfigBase(ABC, Generic[TConfig]):
 
     @classmethod
     @abstractmethod
-    def deserialize(cls, request_dict: Dict[str, Any]) -> TConfig:
+    def deserialize(cls, request_dict: Dict[str, Any]) -> T:
         """Deserialize configuration from request JSON.
 
         Args:
             request_dict (Dict[str, Any]): Request JSON data.
 
         Returns:
-            TConfig: Deserialized configuration object.
+            T: Deserialized configuration object.
         """
