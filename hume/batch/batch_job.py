@@ -49,8 +49,9 @@ class BatchJob:
         """Block until the job has reached a terminal status.
 
         Args:
-            timeout (int): Maximum time in seconds to await before failing.
-                Will fail with `HumeClientError` if timeout is reached.
+            timeout (int): Maximum time in seconds to await. If the timeout is reached
+                before the job reaches a terminal state the job will continue to be processed,
+                but a `HumeClientError` will be raised to the caller of `await_complete`.
 
         Raises:
             ValueError: If the timeout is not valid.
