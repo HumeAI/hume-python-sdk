@@ -57,7 +57,7 @@ name = "click"
 version = "8.1.3"
 description = "Composable command line interface toolkit"
 category = "dev"
-optional = false
+optional = true
 python-versions = ">=3.7"
 
 [package.dependencies]
@@ -122,7 +122,7 @@ name = "ghp-import"
 version = "2.1.0"
 description = "Copy your docs directly to the gh-pages branch."
 category = "dev"
-optional = false
+optional = true
 python-versions = "*"
 
 [package.dependencies]
@@ -136,7 +136,7 @@ name = "griffe"
 version = "0.22.0"
 description = "Signatures for entire Python programs. Extract the structure, the frame, the skeleton of your project, to generate API documentation or find breaking changes in your API."
 category = "dev"
-optional = false
+optional = true
 python-versions = ">=3.7"
 
 [package.extras]
@@ -155,7 +155,7 @@ name = "importlib-metadata"
 version = "4.12.0"
 description = "Read metadata from Python packages"
 category = "dev"
-optional = false
+optional = true
 python-versions = ">=3.7"
 
 [package.dependencies]
@@ -193,7 +193,7 @@ name = "jinja2"
 version = "3.1.2"
 description = "A very fast and expressive template engine."
 category = "dev"
-optional = false
+optional = true
 python-versions = ">=3.7"
 
 [package.dependencies]
@@ -215,7 +215,7 @@ name = "markdown"
 version = "3.3.7"
 description = "Python implementation of Markdown."
 category = "dev"
-optional = false
+optional = true
 python-versions = ">=3.6"
 
 [package.dependencies]
@@ -229,7 +229,7 @@ name = "markupsafe"
 version = "2.1.1"
 description = "Safely add untrusted strings to HTML/XML markup."
 category = "dev"
-optional = false
+optional = true
 python-versions = ">=3.7"
 
 [[package]]
@@ -245,7 +245,7 @@ name = "mergedeep"
 version = "1.3.4"
 description = "A deep merge function for 🐍."
 category = "dev"
-optional = false
+optional = true
 python-versions = ">=3.6"
 
 [[package]]
@@ -253,7 +253,7 @@ name = "mike"
 version = "1.1.2"
 description = "Manage multiple versions of your MkDocs-powered documentation"
 category = "dev"
-optional = false
+optional = true
 python-versions = "*"
 
 [package.dependencies]
@@ -271,7 +271,7 @@ name = "mkdocs"
 version = "1.3.1"
 description = "Project documentation with Markdown."
 category = "dev"
-optional = false
+optional = true
 python-versions = ">=3.6"
 
 [package.dependencies]
@@ -294,7 +294,7 @@ name = "mkdocs-autorefs"
 version = "0.4.1"
 description = "Automatically link across pages in MkDocs."
 category = "dev"
-optional = false
+optional = true
 python-versions = ">=3.7"
 
 [package.dependencies]
@@ -306,7 +306,7 @@ name = "mkdocs-material"
 version = "8.4.2"
 description = "Documentation that simply works"
 category = "dev"
-optional = false
+optional = true
 python-versions = ">=3.7"
 
 [package.dependencies]
@@ -322,7 +322,7 @@ name = "mkdocs-material-extensions"
 version = "1.0.3"
 description = "Extension pack for Python Markdown."
 category = "dev"
-optional = false
+optional = true
 python-versions = ">=3.6"
 
 [[package]]
@@ -330,7 +330,7 @@ name = "mkdocstrings"
 version = "0.19.0"
 description = "Automatic documentation from sources, for MkDocs."
 category = "dev"
-optional = false
+optional = true
 python-versions = ">=3.7"
 
 [package.dependencies]
@@ -352,7 +352,7 @@ name = "mkdocstrings-python"
 version = "0.7.1"
 description = "A Python handler for mkdocstrings."
 category = "dev"
-optional = false
+optional = true
 python-versions = ">=3.7"
 
 [package.dependencies]
@@ -463,7 +463,7 @@ name = "pygments"
 version = "2.13.0"
 description = "Pygments is a syntax highlighting package written in Python."
 category = "dev"
-optional = false
+optional = true
 python-versions = ">=3.6"
 
 [package.extras]
@@ -497,7 +497,7 @@ name = "pymdown-extensions"
 version = "9.5"
 description = "Extension pack for Python Markdown."
 category = "dev"
-optional = false
+optional = true
 python-versions = ">=3.7"
 
 [package.dependencies]
@@ -567,7 +567,7 @@ name = "python-dateutil"
 version = "2.8.2"
 description = "Extensions to the standard Python datetime module"
 category = "dev"
-optional = false
+optional = true
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
 
 [package.dependencies]
@@ -578,7 +578,7 @@ name = "pyyaml"
 version = "6.0"
 description = "YAML parser and emitter for Python"
 category = "dev"
-optional = false
+optional = true
 python-versions = ">=3.6"
 
 [[package]]
@@ -586,7 +586,7 @@ name = "pyyaml-env-tag"
 version = "0.1"
 description = "A custom YAML tag for referencing environment variables in YAML files. "
 category = "dev"
-optional = false
+optional = true
 python-versions = ">=3.6"
 
 [package.dependencies]
@@ -623,7 +623,7 @@ name = "six"
 version = "1.16.0"
 description = "Python 2 and 3 compatibility utilities"
 category = "dev"
-optional = false
+optional = true
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 
 [[package]]
@@ -711,7 +711,7 @@ name = "verspec"
 version = "0.1.0"
 description = "Flexible version handling"
 category = "dev"
-optional = false
+optional = true
 python-versions = "*"
 
 [package.extras]
@@ -722,7 +722,7 @@ name = "watchdog"
 version = "2.1.9"
 description = "Filesystem events monitoring"
 category = "dev"
-optional = false
+optional = true
 python-versions = ">=3.6"
 
 [package.extras]
@@ -749,17 +749,20 @@ name = "zipp"
 version = "3.8.1"
 description = "Backport of pathlib-compatible object wrapper for zip files"
 category = "dev"
-optional = false
+optional = true
 python-versions = ">=3.7"
 
 [package.extras]
 docs = ["sphinx", "jaraco.packaging (>=9)", "rst.linker (>=1.9)", "jaraco.tidelift (>=1.4)"]
 testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-cov", "pytest-enabler (>=1.3)", "jaraco.itertools", "func-timeout", "pytest-black (>=0.3.7)", "pytest-mypy (>=0.9.1)"]
 
+[extras]
+docs = []
+
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8,<3.10"
-content-hash = "27c4956b516313e951b8867c170f93367cca87122159c4ecd15d1605ef7aba05"
+content-hash = "7b7c22ac97a78b6f202e1235a1f44d51454cdafce177d959056eb3c6f97f06e4"
 
 [metadata.files]
 astroid = [
