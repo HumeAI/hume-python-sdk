@@ -1,11 +1,20 @@
-site_name: Hume Python Client
+site_name: Hume Python SDK
+site_url: https://humeai.github.io/hume-python-sdk
+
+repo_name: HumeAI/hume-python-sdk
+repo_url: https://github.com/HumeAI/hume-python-sdk
 
 theme:
   name: material
 
+extra:
+  version:
+    provider: mike
+
 plugins:
   - search
   - mkdocstrings
+  - mike
 
 nav:
   - "Home": index.md

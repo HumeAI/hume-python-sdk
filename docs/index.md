@@ -25,12 +25,12 @@ print("Predictions downloaded!")
 ### Rehydrate a batch job from a job ID
 
 ```python
-from hume import BatchJob, HumeBatchClient
+from hume import HumeBatchClient
 
 client = HumeBatchClient("<your-api-key>")
 
 job_id = "<your-job-id>"
-job = BatchJob(client, job_id)
+job = client.get_job(job_id)
 
 print(job)
 ```
