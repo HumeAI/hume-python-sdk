@@ -36,3 +36,10 @@ plugins:
 nav:
   - "Home": index.md
   - "Batch": batch-reference.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
