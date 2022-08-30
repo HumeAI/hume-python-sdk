@@ -1,0 +1,3859 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.4.1">
+    
+    
+      
+        <title>Batch - Hume Python Client</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.69437709.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#batch-api-client" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Hume Python Client" class="md-header__button md-logo" aria-label="Hume Python Client" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Hume Python Client
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Batch
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Hume Python Client" class="md-nav__button md-logo" aria-label="Hume Python Client" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Hume Python Client
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Batch
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Batch
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#hume.batch.hume_batch_client" class="md-nav__link">
+    hume.batch.hume_batch_client
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hume.batch.hume_batch_client.HumeBatchClient" class="md-nav__link">
+    HumeBatchClient
+  </a>
+  
+    <nav class="md-nav" aria-label="HumeBatchClient">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.hume_batch_client.HumeBatchClient.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.hume_batch_client.HumeBatchClient.get_job" class="md-nav__link">
+    get_job()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.hume_batch_client.HumeBatchClient.get_job_result" class="md-nav__link">
+    get_job_result()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.hume_batch_client.HumeBatchClient.start_job" class="md-nav__link">
+    start_job()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.hume_batch_client.HumeBatchClient.submit_burst" class="md-nav__link">
+    submit_burst()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.hume_batch_client.HumeBatchClient.submit_face" class="md-nav__link">
+    submit_face()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.hume_batch_client.HumeBatchClient.submit_language" class="md-nav__link">
+    submit_language()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.hume_batch_client.HumeBatchClient.submit_prosody" class="md-nav__link">
+    submit_prosody()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hume.batch.batch_job_result" class="md-nav__link">
+    hume.batch.batch_job_result
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hume.batch.batch_job_result.BatchJobResult" class="md-nav__link">
+    BatchJobResult
+  </a>
+  
+    <nav class="md-nav" aria-label="BatchJobResult">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.batch_job_result.BatchJobResult.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.batch_job_result.BatchJobResult.download_artifacts" class="md-nav__link">
+    download_artifacts()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.batch_job_result.BatchJobResult.download_errors" class="md-nav__link">
+    download_errors()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.batch_job_result.BatchJobResult.download_predictions" class="md-nav__link">
+    download_predictions()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.batch_job_result.BatchJobResult.from_response" class="md-nav__link">
+    from_response()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hume.batch.batch_job_status" class="md-nav__link">
+    hume.batch.batch_job_status
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hume.batch.batch_job_status.BatchJobStatus" class="md-nav__link">
+    BatchJobStatus
+  </a>
+  
+    <nav class="md-nav" aria-label="BatchJobStatus">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.batch_job_status.BatchJobStatus.from_str" class="md-nav__link">
+    from_str()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.batch_job_status.BatchJobStatus.is_terminal" class="md-nav__link">
+    is_terminal()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hume.batch.batch_job" class="md-nav__link">
+    hume.batch.batch_job
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hume.batch.batch_job.BatchJob" class="md-nav__link">
+    BatchJob
+  </a>
+  
+    <nav class="md-nav" aria-label="BatchJob">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.batch_job.BatchJob.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.batch_job.BatchJob.__repr__" class="md-nav__link">
+    __repr__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.batch_job.BatchJob.await_complete" class="md-nav__link">
+    await_complete()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.batch_job.BatchJob.get_result" class="md-nav__link">
+    get_result()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.batch_job.BatchJob.get_status" class="md-nav__link">
+    get_status()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#hume.batch.hume_batch_client" class="md-nav__link">
+    hume.batch.hume_batch_client
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hume.batch.hume_batch_client.HumeBatchClient" class="md-nav__link">
+    HumeBatchClient
+  </a>
+  
+    <nav class="md-nav" aria-label="HumeBatchClient">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.hume_batch_client.HumeBatchClient.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.hume_batch_client.HumeBatchClient.get_job" class="md-nav__link">
+    get_job()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.hume_batch_client.HumeBatchClient.get_job_result" class="md-nav__link">
+    get_job_result()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.hume_batch_client.HumeBatchClient.start_job" class="md-nav__link">
+    start_job()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.hume_batch_client.HumeBatchClient.submit_burst" class="md-nav__link">
+    submit_burst()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.hume_batch_client.HumeBatchClient.submit_face" class="md-nav__link">
+    submit_face()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.hume_batch_client.HumeBatchClient.submit_language" class="md-nav__link">
+    submit_language()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.hume_batch_client.HumeBatchClient.submit_prosody" class="md-nav__link">
+    submit_prosody()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hume.batch.batch_job_result" class="md-nav__link">
+    hume.batch.batch_job_result
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hume.batch.batch_job_result.BatchJobResult" class="md-nav__link">
+    BatchJobResult
+  </a>
+  
+    <nav class="md-nav" aria-label="BatchJobResult">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.batch_job_result.BatchJobResult.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.batch_job_result.BatchJobResult.download_artifacts" class="md-nav__link">
+    download_artifacts()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.batch_job_result.BatchJobResult.download_errors" class="md-nav__link">
+    download_errors()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.batch_job_result.BatchJobResult.download_predictions" class="md-nav__link">
+    download_predictions()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.batch_job_result.BatchJobResult.from_response" class="md-nav__link">
+    from_response()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hume.batch.batch_job_status" class="md-nav__link">
+    hume.batch.batch_job_status
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hume.batch.batch_job_status.BatchJobStatus" class="md-nav__link">
+    BatchJobStatus
+  </a>
+  
+    <nav class="md-nav" aria-label="BatchJobStatus">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.batch_job_status.BatchJobStatus.from_str" class="md-nav__link">
+    from_str()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.batch_job_status.BatchJobStatus.is_terminal" class="md-nav__link">
+    is_terminal()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hume.batch.batch_job" class="md-nav__link">
+    hume.batch.batch_job
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hume.batch.batch_job.BatchJob" class="md-nav__link">
+    BatchJob
+  </a>
+  
+    <nav class="md-nav" aria-label="BatchJob">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.batch_job.BatchJob.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.batch_job.BatchJob.__repr__" class="md-nav__link">
+    __repr__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.batch_job.BatchJob.await_complete" class="md-nav__link">
+    await_complete()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.batch_job.BatchJob.get_result" class="md-nav__link">
+    get_result()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hume.batch.batch_job.BatchJob.get_status" class="md-nav__link">
+    get_status()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="batch-api-client">Batch API Client</h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+<a id="hume.batch.hume_batch_client"></a>
+  <div class="doc doc-contents first">
+  
+      <p>Batch API client.</p>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="hume.batch.hume_batch_client.HumeBatchClient" class="doc doc-heading">
+        <code>HumeBatchClient</code>
+
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+      <p class="doc doc-class-bases">
+        Bases: <code><span title="hume.common.client_base.ClientBase">ClientBase</span></code></p>
+
+  
+      <p>Batch API client.</p>
+
+
+        <details class="quote">
+          <summary>Source code in <code>hume/batch/hume_batch_client.py</code></summary>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 18</span>
+<span class="normal"> 19</span>
+<span class="normal"> 20</span>
+<span class="normal"> 21</span>
+<span class="normal"> 22</span>
+<span class="normal"> 23</span>
+<span class="normal"> 24</span>
+<span class="normal"> 25</span>
+<span class="normal"> 26</span>
+<span class="normal"> 27</span>
+<span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">HumeBatchClient</span><span class="p">(</span><span class="n">ClientBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Batch API client.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Construct a HumeBatchClient.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            api_key (str): Hume API key.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_job_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchJobResult</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get the result of the batch job.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            job_id (str): Job ID.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            HumeClientError: If the job result cannot be loaded.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            BatchJobResult: Batch job result.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_api_base_url</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_api_version</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">ApiType</span><span class="o">.</span><span class="n">BATCH</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">/jobs/</span><span class="si">{</span><span class="n">job_id</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;?apikey=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_api_key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">endpoint</span><span class="p">)</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">BatchJobResult</span><span class="o">.</span><span class="n">from_response</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">submit_face</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">urls</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">fps_pred</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">prob_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">identify_faces</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">min_face_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchJob</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Submit a new job for facial expression.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            urls (List[str]): URLs to process.</span>
+<span class="sd">            fps_pred (Optional[float]): Number of frames per second to process. Other frames will be omitted</span>
+<span class="sd">                from the response.</span>
+<span class="sd">            prob_threshold (Optional[float]): Face detection probability threshold. Faces detected with a</span>
+<span class="sd">                probability less than this threshold will be omitted from the response.</span>
+<span class="sd">            identify_faces (Optional[bool]): Whether to return identifiers for faces across frames.</span>
+<span class="sd">                If true, unique identifiers will be assigned to face bounding boxes to differentiate different faces.</span>
+<span class="sd">                If false, all faces will be tagged with an &quot;unknown&quot; ID.</span>
+<span class="sd">            min_face_size (Optional[float]): Minimum bounding box side length in pixels to treat as a face.</span>
+<span class="sd">                Faces detected with a bounding box side length in pixels less than this threshold will be</span>
+<span class="sd">                omitted from the response.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            HumeClientError: If the job fails.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            BatchJob: Batch job.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">FaceConfig</span><span class="p">(</span>
+            <span class="n">fps_pred</span><span class="o">=</span><span class="n">fps_pred</span><span class="p">,</span>
+            <span class="n">prob_threshold</span><span class="o">=</span><span class="n">prob_threshold</span><span class="p">,</span>
+            <span class="n">identify_faces</span><span class="o">=</span><span class="n">identify_faces</span><span class="p">,</span>
+            <span class="n">min_face_size</span><span class="o">=</span><span class="n">min_face_size</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_submit</span><span class="p">(</span><span class="n">urls</span><span class="p">,</span> <span class="p">[</span><span class="n">config</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">submit_burst</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">urls</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchJob</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Submit a new job for vocal bursts.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            urls (List[str]): URLs to process.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            HumeClientError: If the job fails.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            BatchJob: Batch job.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">BurstConfig</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_submit</span><span class="p">(</span><span class="n">urls</span><span class="p">,</span> <span class="p">[</span><span class="n">config</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">submit_prosody</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">urls</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">identify_speakers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchJob</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Submit a new job for vocal bursts.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            urls (List[str]): URLs to process.</span>
+<span class="sd">            identify_speakers (Optional[bool]): Whether to return identifiers for speakers over time. If true,</span>
+<span class="sd">                unique identifiers will be assigned to spoken words to differentiate different speakers. If false,</span>
+<span class="sd">                all speakers will be tagged with an &quot;unknown&quot; ID.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            HumeClientError: If the job fails.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            BatchJob: Batch job.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">ProsodyConfig</span><span class="p">(</span><span class="n">identify_speakers</span><span class="o">=</span><span class="n">identify_speakers</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_submit</span><span class="p">(</span><span class="n">urls</span><span class="p">,</span> <span class="p">[</span><span class="n">config</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">submit_language</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">urls</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">sliding_window</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">identify_speakers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchJob</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Submit a new job for language emotion.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            urls (List[str]): URLs to process.</span>
+<span class="sd">            sliding_window (Optional[float]): Whether to generate predictions for each word in the text or</span>
+<span class="sd">                for the entire text in aggregate.</span>
+<span class="sd">            identify_speakers (Optional[bool]): Whether to return identifiers for speakers over time.</span>
+<span class="sd">                If true, unique identifiers will be assigned to spoken words to differentiate different speakers.</span>
+<span class="sd">                If false, all speakers will be tagged with an &quot;unknown&quot; ID.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            HumeClientError: If the job fails.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            BatchJob: Batch job.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">LanguageConfig</span><span class="p">(</span>
+            <span class="n">sliding_window</span><span class="o">=</span><span class="n">sliding_window</span><span class="p">,</span>
+            <span class="n">identify_speakers</span><span class="o">=</span><span class="n">identify_speakers</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_submit</span><span class="p">(</span><span class="n">urls</span><span class="p">,</span> <span class="p">[</span><span class="n">config</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">_submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">urls</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">configs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">JobConfigBase</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">BatchJob</span><span class="p">:</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_request</span><span class="p">(</span><span class="n">configs</span><span class="p">,</span> <span class="n">urls</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_job</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchJob</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Rehydrate a job based on a Job ID.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            job_id (str): ID of the job to rehydrate.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            BatchJob: Job associated with the given ID.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">BatchJob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">start_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request_body</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchJob</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Start a batch job.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            request_body (Any): JSON request body to be passed to the batch API.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            HumeClientError: If the batch job fails to start.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            BatchJob: A `BatchJob` that wraps the batch computation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_api_base_url</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_api_version</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">ApiType</span><span class="o">.</span><span class="n">BATCH</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">/jobs&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;?apikey=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_api_key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">request_body</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">except</span> <span class="n">json</span><span class="o">.</span><span class="n">decoder</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">:</span>
+            <span class="c1"># pylint: disable=raise-missing-from</span>
+            <span class="k">raise</span> <span class="n">HumeClientError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed batch request: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;job_id&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">body</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;fault&quot;</span> <span class="ow">in</span> <span class="n">body</span> <span class="ow">and</span> <span class="s2">&quot;faultstring&quot;</span> <span class="ow">in</span> <span class="n">body</span><span class="p">[</span><span class="s2">&quot;fault&quot;</span><span class="p">]:</span>
+                <span class="n">fault_string</span> <span class="o">=</span> <span class="n">body</span><span class="p">[</span><span class="s2">&quot;fault&quot;</span><span class="p">][</span><span class="s2">&quot;faultstring&quot;</span><span class="p">]</span>
+                <span class="k">raise</span> <span class="n">HumeClientError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not start batch job: </span><span class="si">{</span><span class="n">fault_string</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">HumeClientError</span><span class="p">(</span><span class="s2">&quot;Unexpected error when starting batch job&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">BatchJob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body</span><span class="p">[</span><span class="s2">&quot;job_id&quot;</span><span class="p">])</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_get_request</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">configs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">JobConfigBase</span><span class="p">],</span> <span class="n">urls</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="n">model_requests</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">config</span> <span class="ow">in</span> <span class="n">configs</span><span class="p">:</span>
+            <span class="n">model_requests</span><span class="p">[</span><span class="n">config</span><span class="o">.</span><span class="n">get_model_type</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">]</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">serialize</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;models&quot;</span><span class="p">:</span> <span class="n">model_requests</span><span class="p">,</span>
+            <span class="s2">&quot;urls&quot;</span><span class="p">:</span> <span class="n">urls</span><span class="p">,</span>
+        <span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+        </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="hume.batch.hume_batch_client.HumeBatchClient.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Construct a HumeBatchClient.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>api_key</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td><p>Hume API key.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>hume/batch/hume_batch_client.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Construct a HumeBatchClient.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        api_key (str): Hume API key.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="hume.batch.hume_batch_client.HumeBatchClient.get_job" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">get_job</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Rehydrate a job based on a Job ID.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>job_id</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td><p>ID of the job to rehydrate.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>BatchJob</code></td>          <td>
+                <code><a class="autorefs autorefs-internal" title="hume.batch.batch_job.BatchJob" href="#hume.batch.batch_job.BatchJob">BatchJob</a></code>
+          </td>
+          <td><p>Job associated with the given ID.</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>hume/batch/hume_batch_client.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchJob</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Rehydrate a job based on a Job ID.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        job_id (str): ID of the job to rehydrate.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        BatchJob: Job associated with the given ID.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">BatchJob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="hume.batch.hume_batch_client.HumeBatchClient.get_job_result" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">get_job_result</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Get the result of the batch job.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>job_id</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td><p>Job ID.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Raises:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="hume.common.hume_client_error.HumeClientError">HumeClientError</span></code>
+          </td>
+          <td><p>If the job result cannot be loaded.</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>BatchJobResult</code></td>          <td>
+                <code><a class="autorefs autorefs-internal" title="hume.batch.batch_job_result.BatchJobResult" href="#hume.batch.batch_job_result.BatchJobResult">BatchJobResult</a></code>
+          </td>
+          <td><p>Batch job result.</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>hume/batch/hume_batch_client.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_job_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchJobResult</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Get the result of the batch job.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        job_id (str): Job ID.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        HumeClientError: If the job result cannot be loaded.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        BatchJobResult: Batch job result.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">endpoint</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_api_base_url</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_api_version</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">ApiType</span><span class="o">.</span><span class="n">BATCH</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">/jobs/</span><span class="si">{</span><span class="n">job_id</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;?apikey=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_api_key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">endpoint</span><span class="p">)</span>
+    <span class="n">body</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">BatchJobResult</span><span class="o">.</span><span class="n">from_response</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="hume.batch.hume_batch_client.HumeBatchClient.start_job" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">start_job</span><span class="p">(</span><span class="n">request_body</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Start a batch job.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>request_body</code></td>
+          <td>
+                <code><span title="typing.Any">Any</span></code>
+          </td>
+          <td><p>JSON request body to be passed to the batch API.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Raises:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="hume.common.hume_client_error.HumeClientError">HumeClientError</span></code>
+          </td>
+          <td><p>If the batch job fails to start.</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>BatchJob</code></td>          <td>
+                <code><a class="autorefs autorefs-internal" title="hume.batch.batch_job.BatchJob" href="#hume.batch.batch_job.BatchJob">BatchJob</a></code>
+          </td>
+          <td><p>A <code>BatchJob</code> that wraps the batch computation.</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>hume/batch/hume_batch_client.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">start_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request_body</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchJob</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Start a batch job.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        request_body (Any): JSON request body to be passed to the batch API.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        HumeClientError: If the batch job fails to start.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        BatchJob: A `BatchJob` that wraps the batch computation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">endpoint</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_api_base_url</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_api_version</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">ApiType</span><span class="o">.</span><span class="n">BATCH</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">/jobs&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;?apikey=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_api_key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">request_body</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="k">except</span> <span class="n">json</span><span class="o">.</span><span class="n">decoder</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">:</span>
+        <span class="c1"># pylint: disable=raise-missing-from</span>
+        <span class="k">raise</span> <span class="n">HumeClientError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed batch request: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s2">&quot;job_id&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">body</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;fault&quot;</span> <span class="ow">in</span> <span class="n">body</span> <span class="ow">and</span> <span class="s2">&quot;faultstring&quot;</span> <span class="ow">in</span> <span class="n">body</span><span class="p">[</span><span class="s2">&quot;fault&quot;</span><span class="p">]:</span>
+            <span class="n">fault_string</span> <span class="o">=</span> <span class="n">body</span><span class="p">[</span><span class="s2">&quot;fault&quot;</span><span class="p">][</span><span class="s2">&quot;faultstring&quot;</span><span class="p">]</span>
+            <span class="k">raise</span> <span class="n">HumeClientError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not start batch job: </span><span class="si">{</span><span class="n">fault_string</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">HumeClientError</span><span class="p">(</span><span class="s2">&quot;Unexpected error when starting batch job&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">BatchJob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body</span><span class="p">[</span><span class="s2">&quot;job_id&quot;</span><span class="p">])</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="hume.batch.hume_batch_client.HumeBatchClient.submit_burst" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">submit_burst</span><span class="p">(</span><span class="n">urls</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Submit a new job for vocal bursts.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>urls</code></td>
+          <td>
+                <code><span title="typing.List">List</span>[str]</code>
+          </td>
+          <td><p>URLs to process.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Raises:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="hume.common.hume_client_error.HumeClientError">HumeClientError</span></code>
+          </td>
+          <td><p>If the job fails.</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>BatchJob</code></td>          <td>
+                <code><a class="autorefs autorefs-internal" title="hume.batch.batch_job.BatchJob" href="#hume.batch.batch_job.BatchJob">BatchJob</a></code>
+          </td>
+          <td><p>Batch job.</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>hume/batch/hume_batch_client.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">submit_burst</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">urls</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchJob</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Submit a new job for vocal bursts.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        urls (List[str]): URLs to process.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        HumeClientError: If the job fails.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        BatchJob: Batch job.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">BurstConfig</span><span class="p">()</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_submit</span><span class="p">(</span><span class="n">urls</span><span class="p">,</span> <span class="p">[</span><span class="n">config</span><span class="p">])</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="hume.batch.hume_batch_client.HumeBatchClient.submit_face" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">submit_face</span><span class="p">(</span><span class="n">urls</span><span class="p">,</span> <span class="n">fps_pred</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prob_threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">identify_faces</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_face_size</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Submit a new job for facial expression.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>urls</code></td>
+          <td>
+                <code><span title="typing.List">List</span>[str]</code>
+          </td>
+          <td><p>URLs to process.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>fps_pred</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[float]</code>
+          </td>
+          <td><p>Number of frames per second to process. Other frames will be omitted
+from the response.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>prob_threshold</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[float]</code>
+          </td>
+          <td><p>Face detection probability threshold. Faces detected with a
+probability less than this threshold will be omitted from the response.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>identify_faces</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[bool]</code>
+          </td>
+          <td><p>Whether to return identifiers for faces across frames.
+If true, unique identifiers will be assigned to face bounding boxes to differentiate different faces.
+If false, all faces will be tagged with an "unknown" ID.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>min_face_size</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[float]</code>
+          </td>
+          <td><p>Minimum bounding box side length in pixels to treat as a face.
+Faces detected with a bounding box side length in pixels less than this threshold will be
+omitted from the response.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Raises:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="hume.common.hume_client_error.HumeClientError">HumeClientError</span></code>
+          </td>
+          <td><p>If the job fails.</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>BatchJob</code></td>          <td>
+                <code><a class="autorefs autorefs-internal" title="hume.batch.batch_job.BatchJob" href="#hume.batch.batch_job.BatchJob">BatchJob</a></code>
+          </td>
+          <td><p>Batch job.</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>hume/batch/hume_batch_client.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">submit_face</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">urls</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">fps_pred</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">prob_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">identify_faces</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">min_face_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchJob</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Submit a new job for facial expression.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        urls (List[str]): URLs to process.</span>
+<span class="sd">        fps_pred (Optional[float]): Number of frames per second to process. Other frames will be omitted</span>
+<span class="sd">            from the response.</span>
+<span class="sd">        prob_threshold (Optional[float]): Face detection probability threshold. Faces detected with a</span>
+<span class="sd">            probability less than this threshold will be omitted from the response.</span>
+<span class="sd">        identify_faces (Optional[bool]): Whether to return identifiers for faces across frames.</span>
+<span class="sd">            If true, unique identifiers will be assigned to face bounding boxes to differentiate different faces.</span>
+<span class="sd">            If false, all faces will be tagged with an &quot;unknown&quot; ID.</span>
+<span class="sd">        min_face_size (Optional[float]): Minimum bounding box side length in pixels to treat as a face.</span>
+<span class="sd">            Faces detected with a bounding box side length in pixels less than this threshold will be</span>
+<span class="sd">            omitted from the response.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        HumeClientError: If the job fails.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        BatchJob: Batch job.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">FaceConfig</span><span class="p">(</span>
+        <span class="n">fps_pred</span><span class="o">=</span><span class="n">fps_pred</span><span class="p">,</span>
+        <span class="n">prob_threshold</span><span class="o">=</span><span class="n">prob_threshold</span><span class="p">,</span>
+        <span class="n">identify_faces</span><span class="o">=</span><span class="n">identify_faces</span><span class="p">,</span>
+        <span class="n">min_face_size</span><span class="o">=</span><span class="n">min_face_size</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_submit</span><span class="p">(</span><span class="n">urls</span><span class="p">,</span> <span class="p">[</span><span class="n">config</span><span class="p">])</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="hume.batch.hume_batch_client.HumeBatchClient.submit_language" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">submit_language</span><span class="p">(</span><span class="n">urls</span><span class="p">,</span> <span class="n">sliding_window</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">identify_speakers</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Submit a new job for language emotion.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>urls</code></td>
+          <td>
+                <code><span title="typing.List">List</span>[str]</code>
+          </td>
+          <td><p>URLs to process.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>sliding_window</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[float]</code>
+          </td>
+          <td><p>Whether to generate predictions for each word in the text or
+for the entire text in aggregate.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>identify_speakers</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[bool]</code>
+          </td>
+          <td><p>Whether to return identifiers for speakers over time.
+If true, unique identifiers will be assigned to spoken words to differentiate different speakers.
+If false, all speakers will be tagged with an "unknown" ID.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Raises:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="hume.common.hume_client_error.HumeClientError">HumeClientError</span></code>
+          </td>
+          <td><p>If the job fails.</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>BatchJob</code></td>          <td>
+                <code><a class="autorefs autorefs-internal" title="hume.batch.batch_job.BatchJob" href="#hume.batch.batch_job.BatchJob">BatchJob</a></code>
+          </td>
+          <td><p>Batch job.</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>hume/batch/hume_batch_client.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">submit_language</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">urls</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">sliding_window</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">identify_speakers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchJob</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Submit a new job for language emotion.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        urls (List[str]): URLs to process.</span>
+<span class="sd">        sliding_window (Optional[float]): Whether to generate predictions for each word in the text or</span>
+<span class="sd">            for the entire text in aggregate.</span>
+<span class="sd">        identify_speakers (Optional[bool]): Whether to return identifiers for speakers over time.</span>
+<span class="sd">            If true, unique identifiers will be assigned to spoken words to differentiate different speakers.</span>
+<span class="sd">            If false, all speakers will be tagged with an &quot;unknown&quot; ID.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        HumeClientError: If the job fails.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        BatchJob: Batch job.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">LanguageConfig</span><span class="p">(</span>
+        <span class="n">sliding_window</span><span class="o">=</span><span class="n">sliding_window</span><span class="p">,</span>
+        <span class="n">identify_speakers</span><span class="o">=</span><span class="n">identify_speakers</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_submit</span><span class="p">(</span><span class="n">urls</span><span class="p">,</span> <span class="p">[</span><span class="n">config</span><span class="p">])</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="hume.batch.hume_batch_client.HumeBatchClient.submit_prosody" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">submit_prosody</span><span class="p">(</span><span class="n">urls</span><span class="p">,</span> <span class="n">identify_speakers</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Submit a new job for vocal bursts.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>urls</code></td>
+          <td>
+                <code><span title="typing.List">List</span>[str]</code>
+          </td>
+          <td><p>URLs to process.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>identify_speakers</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[bool]</code>
+          </td>
+          <td><p>Whether to return identifiers for speakers over time. If true,
+unique identifiers will be assigned to spoken words to differentiate different speakers. If false,
+all speakers will be tagged with an "unknown" ID.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Raises:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="hume.common.hume_client_error.HumeClientError">HumeClientError</span></code>
+          </td>
+          <td><p>If the job fails.</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>BatchJob</code></td>          <td>
+                <code><a class="autorefs autorefs-internal" title="hume.batch.batch_job.BatchJob" href="#hume.batch.batch_job.BatchJob">BatchJob</a></code>
+          </td>
+          <td><p>Batch job.</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>hume/batch/hume_batch_client.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">submit_prosody</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">urls</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">identify_speakers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchJob</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Submit a new job for vocal bursts.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        urls (List[str]): URLs to process.</span>
+<span class="sd">        identify_speakers (Optional[bool]): Whether to return identifiers for speakers over time. If true,</span>
+<span class="sd">            unique identifiers will be assigned to spoken words to differentiate different speakers. If false,</span>
+<span class="sd">            all speakers will be tagged with an &quot;unknown&quot; ID.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        HumeClientError: If the job fails.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        BatchJob: Batch job.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">ProsodyConfig</span><span class="p">(</span><span class="n">identify_speakers</span><span class="o">=</span><span class="n">identify_speakers</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_submit</span><span class="p">(</span><span class="n">urls</span><span class="p">,</span> <span class="p">[</span><span class="n">config</span><span class="p">])</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+<a id="hume.batch.batch_job_result"></a>
+  <div class="doc doc-contents first">
+  
+      <p>Batch job result.</p>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="hume.batch.batch_job_result.BatchJobResult" class="doc doc-heading">
+        <code>BatchJobResult</code>
+
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+
+  
+      <p>Batch job result.</p>
+
+
+        <details class="quote">
+          <summary>Source code in <code>hume/batch/batch_job_result.py</code></summary>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 14</span>
+<span class="normal"> 15</span>
+<span class="normal"> 16</span>
+<span class="normal"> 17</span>
+<span class="normal"> 18</span>
+<span class="normal"> 19</span>
+<span class="normal"> 20</span>
+<span class="normal"> 21</span>
+<span class="normal"> 22</span>
+<span class="normal"> 23</span>
+<span class="normal"> 24</span>
+<span class="normal"> 25</span>
+<span class="normal"> 26</span>
+<span class="normal"> 27</span>
+<span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BatchJobResult</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Batch job result.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">configs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">ModelType</span><span class="p">,</span> <span class="n">JobConfigBase</span><span class="p">],</span>
+        <span class="n">urls</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">status</span><span class="p">:</span> <span class="n">BatchJobStatus</span><span class="p">,</span>
+        <span class="n">predictions_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">artifacts_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">errors_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Construct a BatchJobResult.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            configs (Dict[ModelType, JobConfigBase]): Configurations for the `BatchJob`.</span>
+<span class="sd">            urls (List[str]): URLs processed in the `BatchJob`.</span>
+<span class="sd">            status (BatchJobStatus): Status of `BatchJob`.</span>
+<span class="sd">            predictions_url (Optional[str]): URL to predictions file.</span>
+<span class="sd">            artifacts_url (Optional[str]): URL to artifacts zip archive.</span>
+<span class="sd">            errors_url (Optional[str]): URL to errors file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">configs</span> <span class="o">=</span> <span class="n">configs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">urls</span> <span class="o">=</span> <span class="n">urls</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">status</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">artifacts_url</span> <span class="o">=</span> <span class="n">artifacts_url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">errors_url</span> <span class="o">=</span> <span class="n">errors_url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">predictions_url</span> <span class="o">=</span> <span class="n">predictions_url</span>
+
+    <span class="k">def</span> <span class="nf">download_artifacts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Download `BatchJob` artifacts zip archive.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filepath (Optional[Union[str, Path]]): Filepath where artifacts zip archive will be downloaded.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">artifacts_url</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">HumeClientError</span><span class="p">(</span><span class="s2">&quot;Could not download job artifacts. No artifacts found on job result.&quot;</span><span class="p">)</span>
+        <span class="n">urlretrieve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">artifacts_url</span><span class="p">,</span> <span class="n">filepath</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">download_predictions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Download `BatchJob` predictions file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filepath (Optional[Union[str, Path]]): Filepath where predictions will be downloaded.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">predictions_url</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">HumeClientError</span><span class="p">(</span><span class="s2">&quot;Could not download job predictions. No predictions found on job result.&quot;</span><span class="p">)</span>
+        <span class="n">urlretrieve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">predictions_url</span><span class="p">,</span> <span class="n">filepath</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">download_errors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Download `BatchJob` errors file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filepath (Optional[Union[str, Path]]): Filepath where errors will be downloaded.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">errors_url</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">HumeClientError</span><span class="p">(</span><span class="s2">&quot;Could not download job errors. No errors found on job result.&quot;</span><span class="p">)</span>
+        <span class="n">urlretrieve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">errors_url</span><span class="p">,</span> <span class="n">filepath</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_response</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;BatchJobResult&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Construct a `BatchJobResult` from a batch API job response.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            response (Any): Batch API job response.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            BatchJobResult: A `BatchJobResult` based on a batch API job response.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">request</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;request&quot;</span><span class="p">]</span>
+            <span class="n">configs</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">config_dict</span> <span class="ow">in</span> <span class="n">request</span><span class="p">[</span><span class="s2">&quot;models&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">model_type</span> <span class="o">=</span> <span class="n">ModelType</span><span class="o">.</span><span class="n">from_str</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+                <span class="n">config</span> <span class="o">=</span> <span class="n">config_from_model_type</span><span class="p">(</span><span class="n">model_type</span><span class="p">)</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">config_dict</span><span class="p">)</span>
+                <span class="n">configs</span><span class="p">[</span><span class="n">model_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">config</span>
+
+            <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">if</span> <span class="s2">&quot;completed&quot;</span> <span class="ow">in</span> <span class="n">response</span><span class="p">:</span>
+                <span class="n">completed_dict</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;completed&quot;</span><span class="p">]</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;artifacts_url&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">completed_dict</span><span class="p">[</span><span class="s2">&quot;artifacts_url&quot;</span><span class="p">]</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;errors_url&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">completed_dict</span><span class="p">[</span><span class="s2">&quot;errors_url&quot;</span><span class="p">]</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;predictions_url&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">completed_dict</span><span class="p">[</span><span class="s2">&quot;predictions_url&quot;</span><span class="p">]</span>
+
+            <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+                <span class="n">configs</span><span class="o">=</span><span class="n">configs</span><span class="p">,</span>
+                <span class="n">urls</span><span class="o">=</span><span class="n">request</span><span class="p">[</span><span class="s2">&quot;urls&quot;</span><span class="p">],</span>
+                <span class="n">status</span><span class="o">=</span><span class="n">BatchJobStatus</span><span class="o">.</span><span class="n">from_str</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">]),</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="c1"># pylint: disable=broad-except</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_get_invalid_response_message</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">HumeClientError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_get_invalid_response_message</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">response_str</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Could not parse response into BatchJobResult: </span><span class="si">{</span><span class="n">response_str</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="c1"># Check for invalid API key</span>
+        <span class="k">if</span> <span class="s2">&quot;fault&quot;</span> <span class="ow">in</span> <span class="n">response</span> <span class="ow">and</span> <span class="s2">&quot;faultstring&quot;</span> <span class="ow">in</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;fault&quot;</span><span class="p">]:</span>
+            <span class="n">fault_string</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;fault&quot;</span><span class="p">][</span><span class="s2">&quot;faultstring&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">fault_string</span> <span class="o">==</span> <span class="s2">&quot;Invalid ApiKey&quot;</span><span class="p">:</span>
+                <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Client initialized with invalid API key&quot;</span>
+
+        <span class="k">return</span> <span class="n">message</span>
+</code></pre></div></td></tr></table></div>
+        </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="hume.batch.batch_job_result.BatchJobResult.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">configs</span><span class="p">,</span> <span class="n">urls</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">predictions_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">artifacts_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">errors_url</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Construct a BatchJobResult.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>configs</code></td>
+          <td>
+                <code><span title="typing.Dict">Dict</span>[<span title="hume.common.model_type.ModelType">ModelType</span>, <span title="hume.common.config.job_config_base.JobConfigBase">JobConfigBase</span>]</code>
+          </td>
+          <td><p>Configurations for the <code>BatchJob</code>.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>urls</code></td>
+          <td>
+                <code><span title="typing.List">List</span>[str]</code>
+          </td>
+          <td><p>URLs processed in the <code>BatchJob</code>.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>status</code></td>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="hume.batch.batch_job_status.BatchJobStatus" href="#hume.batch.batch_job_status.BatchJobStatus">BatchJobStatus</a></code>
+          </td>
+          <td><p>Status of <code>BatchJob</code>.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>predictions_url</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[str]</code>
+          </td>
+          <td><p>URL to predictions file.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>artifacts_url</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[str]</code>
+          </td>
+          <td><p>URL to artifacts zip archive.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>errors_url</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[str]</code>
+          </td>
+          <td><p>URL to errors file.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>hume/batch/batch_job_result.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">configs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">ModelType</span><span class="p">,</span> <span class="n">JobConfigBase</span><span class="p">],</span>
+    <span class="n">urls</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">status</span><span class="p">:</span> <span class="n">BatchJobStatus</span><span class="p">,</span>
+    <span class="n">predictions_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">artifacts_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">errors_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Construct a BatchJobResult.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        configs (Dict[ModelType, JobConfigBase]): Configurations for the `BatchJob`.</span>
+<span class="sd">        urls (List[str]): URLs processed in the `BatchJob`.</span>
+<span class="sd">        status (BatchJobStatus): Status of `BatchJob`.</span>
+<span class="sd">        predictions_url (Optional[str]): URL to predictions file.</span>
+<span class="sd">        artifacts_url (Optional[str]): URL to artifacts zip archive.</span>
+<span class="sd">        errors_url (Optional[str]): URL to errors file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">configs</span> <span class="o">=</span> <span class="n">configs</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">urls</span> <span class="o">=</span> <span class="n">urls</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">status</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">artifacts_url</span> <span class="o">=</span> <span class="n">artifacts_url</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">errors_url</span> <span class="o">=</span> <span class="n">errors_url</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">predictions_url</span> <span class="o">=</span> <span class="n">predictions_url</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="hume.batch.batch_job_result.BatchJobResult.download_artifacts" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">download_artifacts</span><span class="p">(</span><span class="n">filepath</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Download <code>BatchJob</code> artifacts zip archive.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>filepath</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Union">Union</span>[str, <span title="pathlib.Path">Path</span>]]</code>
+          </td>
+          <td><p>Filepath where artifacts zip archive will be downloaded.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>hume/batch/batch_job_result.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">download_artifacts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Download `BatchJob` artifacts zip archive.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filepath (Optional[Union[str, Path]]): Filepath where artifacts zip archive will be downloaded.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">artifacts_url</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">HumeClientError</span><span class="p">(</span><span class="s2">&quot;Could not download job artifacts. No artifacts found on job result.&quot;</span><span class="p">)</span>
+    <span class="n">urlretrieve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">artifacts_url</span><span class="p">,</span> <span class="n">filepath</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="hume.batch.batch_job_result.BatchJobResult.download_errors" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">download_errors</span><span class="p">(</span><span class="n">filepath</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Download <code>BatchJob</code> errors file.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>filepath</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Union">Union</span>[str, <span title="pathlib.Path">Path</span>]]</code>
+          </td>
+          <td><p>Filepath where errors will be downloaded.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>hume/batch/batch_job_result.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">download_errors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Download `BatchJob` errors file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filepath (Optional[Union[str, Path]]): Filepath where errors will be downloaded.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">errors_url</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">HumeClientError</span><span class="p">(</span><span class="s2">&quot;Could not download job errors. No errors found on job result.&quot;</span><span class="p">)</span>
+    <span class="n">urlretrieve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">errors_url</span><span class="p">,</span> <span class="n">filepath</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="hume.batch.batch_job_result.BatchJobResult.download_predictions" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">download_predictions</span><span class="p">(</span><span class="n">filepath</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Download <code>BatchJob</code> predictions file.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>filepath</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Union">Union</span>[str, <span title="pathlib.Path">Path</span>]]</code>
+          </td>
+          <td><p>Filepath where predictions will be downloaded.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>hume/batch/batch_job_result.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">download_predictions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Download `BatchJob` predictions file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filepath (Optional[Union[str, Path]]): Filepath where predictions will be downloaded.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">predictions_url</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">HumeClientError</span><span class="p">(</span><span class="s2">&quot;Could not download job predictions. No predictions found on job result.&quot;</span><span class="p">)</span>
+    <span class="n">urlretrieve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">predictions_url</span><span class="p">,</span> <span class="n">filepath</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="hume.batch.batch_job_result.BatchJobResult.from_response" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">from_response</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Construct a <code>BatchJobResult</code> from a batch API job response.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>response</code></td>
+          <td>
+                <code><span title="typing.Any">Any</span></code>
+          </td>
+          <td><p>Batch API job response.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>BatchJobResult</code></td>          <td>
+                <code><a class="autorefs autorefs-internal" title="hume.batch.batch_job_result.BatchJobResult" href="#hume.batch.batch_job_result.BatchJobResult">BatchJobResult</a></code>
+          </td>
+          <td><p>A <code>BatchJobResult</code> based on a batch API job response.</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>hume/batch/batch_job_result.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="k">def</span> <span class="nf">from_response</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;BatchJobResult&quot;</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Construct a `BatchJobResult` from a batch API job response.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        response (Any): Batch API job response.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        BatchJobResult: A `BatchJobResult` based on a batch API job response.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;request&quot;</span><span class="p">]</span>
+        <span class="n">configs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">config_dict</span> <span class="ow">in</span> <span class="n">request</span><span class="p">[</span><span class="s2">&quot;models&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">model_type</span> <span class="o">=</span> <span class="n">ModelType</span><span class="o">.</span><span class="n">from_str</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="n">config_from_model_type</span><span class="p">(</span><span class="n">model_type</span><span class="p">)</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">config_dict</span><span class="p">)</span>
+            <span class="n">configs</span><span class="p">[</span><span class="n">model_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">config</span>
+
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="s2">&quot;completed&quot;</span> <span class="ow">in</span> <span class="n">response</span><span class="p">:</span>
+            <span class="n">completed_dict</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;completed&quot;</span><span class="p">]</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;artifacts_url&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">completed_dict</span><span class="p">[</span><span class="s2">&quot;artifacts_url&quot;</span><span class="p">]</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;errors_url&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">completed_dict</span><span class="p">[</span><span class="s2">&quot;errors_url&quot;</span><span class="p">]</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;predictions_url&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">completed_dict</span><span class="p">[</span><span class="s2">&quot;predictions_url&quot;</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">configs</span><span class="o">=</span><span class="n">configs</span><span class="p">,</span>
+            <span class="n">urls</span><span class="o">=</span><span class="n">request</span><span class="p">[</span><span class="s2">&quot;urls&quot;</span><span class="p">],</span>
+            <span class="n">status</span><span class="o">=</span><span class="n">BatchJobStatus</span><span class="o">.</span><span class="n">from_str</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">]),</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="c1"># pylint: disable=broad-except</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_get_invalid_response_message</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">HumeClientError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+<a id="hume.batch.batch_job_status"></a>
+  <div class="doc doc-contents first">
+  
+      <p>Batch job status.</p>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="hume.batch.batch_job_status.BatchJobStatus" class="doc doc-heading">
+        <code>BatchJobStatus</code>
+
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+      <p class="doc doc-class-bases">
+        Bases: <code><span title="enum.Enum">Enum</span></code></p>
+
+  
+      <p>Batch job status.</p>
+
+
+        <details class="quote">
+          <summary>Source code in <code>hume/batch/batch_job_status.py</code></summary>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BatchJobStatus</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Batch job status.&quot;&quot;&quot;</span>
+
+    <span class="n">COMPLETED</span> <span class="o">=</span> <span class="s2">&quot;COMPLETED&quot;</span>
+    <span class="n">FAILED</span> <span class="o">=</span> <span class="s2">&quot;FAILED&quot;</span>
+    <span class="n">IN_PROGRESS</span> <span class="o">=</span> <span class="s2">&quot;IN_PROGRESS&quot;</span>
+    <span class="n">QUEUED</span> <span class="o">=</span> <span class="s2">&quot;QUEUED&quot;</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">is_terminal</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="s2">&quot;BatchJobStatus&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Check if a status is &quot;terminal&quot;.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            status (BatchJobStatus): Status to check.</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            bool: Whether the status is &quot;terminal&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">status</span> <span class="ow">in</span> <span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">COMPLETED</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">FAILED</span><span class="p">]</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_str</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;BatchJobStatus&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Convert a status to a string.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            status (str): Status to convert.</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            BatchJobStatus: The enum variant for the given string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">enum_value</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__members__</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">enum_value</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">status</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">enum_value</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown status &#39;</span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+        </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="hume.batch.batch_job_status.BatchJobStatus.from_str" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">from_str</span><span class="p">(</span><span class="n">status</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Convert a status to a string.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>status</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td><p>Status to convert.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+<details class="return">
+  <summary>Return</summary>
+  <p>BatchJobStatus: The enum variant for the given string.</p>
+</details>
+      <details class="quote">
+        <summary>Source code in <code>hume/batch/batch_job_status.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="k">def</span> <span class="nf">from_str</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;BatchJobStatus&quot;</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Convert a status to a string.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        status (str): Status to convert.</span>
+
+<span class="sd">    Return:</span>
+<span class="sd">        BatchJobStatus: The enum variant for the given string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">enum_value</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__members__</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">enum_value</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">status</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">enum_value</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown status &#39;</span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="hume.batch.batch_job_status.BatchJobStatus.is_terminal" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">is_terminal</span><span class="p">(</span><span class="n">status</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Check if a status is "terminal".</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>status</code></td>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="hume.batch.batch_job_status.BatchJobStatus" href="#hume.batch.batch_job_status.BatchJobStatus">BatchJobStatus</a></code>
+          </td>
+          <td><p>Status to check.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+<details class="return">
+  <summary>Return</summary>
+  <p>bool: Whether the status is "terminal".</p>
+</details>
+      <details class="quote">
+        <summary>Source code in <code>hume/batch/batch_job_status.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="k">def</span> <span class="nf">is_terminal</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="s2">&quot;BatchJobStatus&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Check if a status is &quot;terminal&quot;.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        status (BatchJobStatus): Status to check.</span>
+
+<span class="sd">    Return:</span>
+<span class="sd">        bool: Whether the status is &quot;terminal&quot;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">status</span> <span class="ow">in</span> <span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">COMPLETED</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">FAILED</span><span class="p">]</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+<a id="hume.batch.batch_job"></a>
+  <div class="doc doc-contents first">
+  
+      <p>Batch job.</p>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="hume.batch.batch_job.BatchJob" class="doc doc-heading">
+        <code>BatchJob</code>
+
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+
+  
+      <p>Batch job.</p>
+
+
+        <details class="quote">
+          <summary>Source code in <code>hume/batch/batch_job.py</code></summary>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BatchJob</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Batch job.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="s2">&quot;HumeBatchClient&quot;</span><span class="p">,</span> <span class="n">job_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Construct a BatchJob.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            client (HumeBatchClient): HumeBatchClient instance.</span>
+<span class="sd">            job_id (str): Job ID.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">client</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">job_id</span>
+
+    <span class="k">def</span> <span class="nf">get_status</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchJobStatus</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get the status of the job.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            BatchJobStatus: The status of the `BatchJob`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_result</span><span class="p">()</span><span class="o">.</span><span class="n">status</span>
+
+    <span class="k">def</span> <span class="nf">get_result</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchJobResult</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get the result of the BatchJob.</span>
+
+<span class="sd">        Note that the result of a job may be fetched before the job has completed.</span>
+<span class="sd">        You may want to use `job.await_complete()` which will wait for the job to</span>
+<span class="sd">        reach a terminal state before returning the result.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            BatchJobResult: The result of the `BatchJob`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_job_result</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">await_complete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">300</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchJobResult</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Block until the job has reached a terminal status.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            timeout (int): Maximum time in seconds to await. If the timeout is reached</span>
+<span class="sd">                before the job reaches a terminal state the job will continue to be processed,</span>
+<span class="sd">                but a `HumeClientError` will be raised to the caller of `await_complete`.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the timeout is not valid.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            BatchJobResult: The result of the `BatchJob`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">timeout</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;timeout must be at least 1 second&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_await_complete</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+
+    <span class="c1"># pylint: disable=unused-argument</span>
+    <span class="nd">@retry</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">_await_complete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">300</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchJobResult</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_job_result</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">BatchJobStatus</span><span class="o">.</span><span class="n">is_terminal</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">status</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">RetryIterError</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get the string representation of the `BatchJob`.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The the string representation of the `BatchJob`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;Job(id=&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s1">&quot;)&#39;</span>
+</code></pre></div></td></tr></table></div>
+        </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="hume.batch.batch_job.BatchJob.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">job_id</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Construct a BatchJob.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>client</code></td>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="hume.batch.hume_batch_client.HumeBatchClient" href="#hume.batch.hume_batch_client.HumeBatchClient">HumeBatchClient</a></code>
+          </td>
+          <td><p>HumeBatchClient instance.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>job_id</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td><p>Job ID.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>hume/batch/batch_job.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="s2">&quot;HumeBatchClient&quot;</span><span class="p">,</span> <span class="n">job_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Construct a BatchJob.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        client (HumeBatchClient): HumeBatchClient instance.</span>
+<span class="sd">        job_id (str): Job ID.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">client</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">job_id</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="hume.batch.batch_job.BatchJob.__repr__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__repr__</span><span class="p">()</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Get the string representation of the <code>BatchJob</code>.</p>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>str</code>
+          </td>
+          <td><p>The the string representation of the <code>BatchJob</code>.</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>hume/batch/batch_job.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Get the string representation of the `BatchJob`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The the string representation of the `BatchJob`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;Job(id=&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s1">&quot;)&#39;</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="hume.batch.batch_job.BatchJob.await_complete" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">await_complete</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Block until the job has reached a terminal status.</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>timeout</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td><p>Maximum time in seconds to await. If the timeout is reached
+before the job reaches a terminal state the job will continue to be processed,
+but a <code>HumeClientError</code> will be raised to the caller of <code>await_complete</code>.</p></td>
+          <td>
+                <code>300</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Raises:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>ValueError</code>
+          </td>
+          <td><p>If the timeout is not valid.</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>BatchJobResult</code></td>          <td>
+                <code><a class="autorefs autorefs-internal" title="hume.batch.batch_job_result.BatchJobResult" href="#hume.batch.batch_job_result.BatchJobResult">BatchJobResult</a></code>
+          </td>
+          <td><p>The result of the <code>BatchJob</code>.</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>hume/batch/batch_job.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">await_complete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">300</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchJobResult</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Block until the job has reached a terminal status.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        timeout (int): Maximum time in seconds to await. If the timeout is reached</span>
+<span class="sd">            before the job reaches a terminal state the job will continue to be processed,</span>
+<span class="sd">            but a `HumeClientError` will be raised to the caller of `await_complete`.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the timeout is not valid.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        BatchJobResult: The result of the `BatchJob`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">timeout</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;timeout must be at least 1 second&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_await_complete</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="hume.batch.batch_job.BatchJob.get_result" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">get_result</span><span class="p">()</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Get the result of the BatchJob.</p>
+<p>Note that the result of a job may be fetched before the job has completed.
+You may want to use <code>job.await_complete()</code> which will wait for the job to
+reach a terminal state before returning the result.</p>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>BatchJobResult</code></td>          <td>
+                <code><a class="autorefs autorefs-internal" title="hume.batch.batch_job_result.BatchJobResult" href="#hume.batch.batch_job_result.BatchJobResult">BatchJobResult</a></code>
+          </td>
+          <td><p>The result of the <code>BatchJob</code>.</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>hume/batch/batch_job.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_result</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchJobResult</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Get the result of the BatchJob.</span>
+
+<span class="sd">    Note that the result of a job may be fetched before the job has completed.</span>
+<span class="sd">    You may want to use `job.await_complete()` which will wait for the job to</span>
+<span class="sd">    reach a terminal state before returning the result.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        BatchJobResult: The result of the `BatchJob`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_job_result</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="hume.batch.batch_job.BatchJob.get_status" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">get_status</span><span class="p">()</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Get the status of the job.</p>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>BatchJobStatus</code></td>          <td>
+                <code><a class="autorefs autorefs-internal" title="hume.batch.batch_job_status.BatchJobStatus" href="#hume.batch.batch_job_status.BatchJobStatus">BatchJobStatus</a></code>
+          </td>
+          <td><p>The status of the <code>BatchJob</code>.</p></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>hume/batch/batch_job.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_status</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchJobStatus</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Get the status of the job.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        BatchJobStatus: The status of the `BatchJob`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_result</span><span class="p">()</span><span class="o">.</span><span class="n">status</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href=".." class="md-footer__link md-footer__link--prev" aria-label="Previous: Home" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Home
+            </div>
+          </div>
+        </a>
+      
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.ecf98df9.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.9c69f0bc.min.js"></script>
+      
+    
+  </body>
+</html>
