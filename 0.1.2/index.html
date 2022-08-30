@@ -386,12 +386,12 @@ result.download_predictions(&quot;predictions.json&quot;)
 print(&quot;Predictions downloaded!&quot;)
 </code></pre>
 <h3 id="rehydrate-a-batch-job-from-a-job-id">Rehydrate a batch job from a job ID</h3>
-<pre><code class="language-python">from hume import BatchJob, HumeBatchClient
+<pre><code class="language-python">from hume import HumeBatchClient
 
 client = HumeBatchClient(&quot;&lt;your-api-key&gt;&quot;)
 
 job_id = &quot;&lt;your-job-id&gt;&quot;
-job = BatchJob(client, job_id)
+job = client.get_job(job_id)
 
 print(job)
 </code></pre>
