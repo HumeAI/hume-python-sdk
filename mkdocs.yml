@@ -18,6 +18,16 @@ extra_css:
 extra:
   version:
     provider: mike
+  social:
+    - icon: fontawesome/solid/house
+      link: https://hume.ai/
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/hume__ai
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/company/hume-ai/
+    - icon: fontawesome/brands/github
+      link: https://github.com/humeAI
+
 
 plugins:
   - search

@@ -18,6 +18,8 @@ logger = logging.getLogger(__name__)
 class HumeBatchClient(ClientBase):
     """Batch API client."""
 
+    _DEFAULT_API_TIMEOUT = 10
+
     def __init__(self, *args: Any, **kwargs: Any):
         """Construct a HumeBatchClient.
 
@@ -40,7 +42,7 @@ class HumeBatchClient(ClientBase):
         """
         endpoint = (f"{self._api_base_url}/{self._api_version}/{ApiType.BATCH.value}/jobs/{job_id}"
                     f"?apikey={self._api_key}")
-        response = requests.get(endpoint)
+        response = requests.get(endpoint, timeout=self._DEFAULT_API_TIMEOUT)
         body = response.json()
         return BatchJobResult.from_response(body)
 
@@ -178,7 +180,7 @@ class HumeBatchClient(ClientBase):
         """
         endpoint = (f"{self._api_base_url}/{self._api_version}/{ApiType.BATCH.value}/jobs"
                     f"?apikey={self._api_key}")
-        response = requests.post(endpoint, json=request_body)
+        response = requests.post(endpoint, json=request_body, timeout=self._DEFAULT_API_TIMEOUT)
 
         try:
             body = response.json()
