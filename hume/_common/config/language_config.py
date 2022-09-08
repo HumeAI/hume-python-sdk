@@ -57,6 +57,6 @@ class LanguageConfig(JobConfigBase["LanguageConfig"]):
             LanguageConfig: Deserialized `LanguageConfig` object.
         """
         return cls(
-            sliding_window=request_dict["sliding_window"],
-            identify_speakers=request_dict["identify_speakers"],
+            sliding_window=request_dict.get("sliding_window"),
+            identify_speakers=request_dict.get("identify_speakers"),
         )

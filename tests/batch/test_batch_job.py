@@ -20,6 +20,7 @@ def batch_client() -> Mock:
     return mock_client
 
 
+@pytest.mark.batch
 class TestBatchJob:
 
     def test_job_id(self, batch_client: Mock):

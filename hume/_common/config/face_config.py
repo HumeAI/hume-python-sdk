@@ -10,6 +10,7 @@ class FaceConfig(JobConfigBase["FaceConfig"]):
 
     def __init__(
         self,
+        *,
         fps_pred: Optional[float] = None,
         prob_threshold: Optional[float] = None,
         identify_faces: Optional[bool] = None,
@@ -67,8 +68,8 @@ class FaceConfig(JobConfigBase["FaceConfig"]):
             FaceConfig: Deserialized `FaceConfig` object.
         """
         return cls(
-            fps_pred=request_dict["fps_pred"],
-            prob_threshold=request_dict["prob_threshold"],
-            identify_faces=request_dict["identify_faces"],
-            min_face_size=request_dict["min_face_size"],
+            fps_pred=request_dict.get("fps_pred"),
+            prob_threshold=request_dict.get("prob_threshold"),
+            identify_faces=request_dict.get("identify_faces"),
+            min_face_size=request_dict.get("min_face_size"),
         )

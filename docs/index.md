@@ -45,6 +45,25 @@ job = client.get_job(job_id)
 print(job)
 ```
 
+### Stream predictions over a websocket
+
+```python
+import asyncio
+
+from hume import HumeStreamClient, StreamSocket
+from hume.config import FaceConfig
+
+async def main():
+    client = HumeStreamClient("<your-api-key>")
+    configs = [FaceConfig(identify_faces=True)]
+    async with client.connect(configs) as socket:
+        socket: StreamSocket
+        result = await socket.send_file("<your-image-filepath>")
+        print(result)
+
+asyncio.run(main())
+```
+
 ## Other Resources
 
 - [Hume AI Homepage](https://hume.ai)

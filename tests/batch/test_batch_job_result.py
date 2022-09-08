@@ -30,6 +30,7 @@ def failed_result() -> BatchJobResult:
         return BatchJobResult.from_response(response)
 
 
+@pytest.mark.batch
 class TestBatchJobResult:
 
     def test_queued_status(self, queued_result: BatchJobResult):

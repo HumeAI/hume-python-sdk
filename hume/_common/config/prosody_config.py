@@ -10,6 +10,7 @@ class ProsodyConfig(JobConfigBase["ProsodyConfig"]):
 
     def __init__(
         self,
+        *,
         identify_speakers: Optional[bool] = None,
     ):
         """Construct a `ProsodyConfig`.
@@ -50,4 +51,4 @@ class ProsodyConfig(JobConfigBase["ProsodyConfig"]):
         Returns:
             ProsodyConfig: Deserialized `ProsodyConfig` object.
         """
-        return cls(identify_speakers=request_dict["identify_speakers"])
+        return cls(identify_speakers=request_dict.get("identify_speakers"))

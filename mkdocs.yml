@@ -39,6 +39,9 @@ nav:
     - "BatchJob": batch/batch-job.md
     - "BatchJobStatus": batch/batch-job-status.md
     - "BatchJobResult": batch/batch-job-result.md
+  - "Streaming Reference":
+    - "HumeStreamClient": stream/hume-stream-client.md
+    - "StreamSocket": stream/stream-socket.md
 
 markdown_extensions:
   - pymdownx.highlight:
