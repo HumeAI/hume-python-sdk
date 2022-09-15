@@ -1,8 +1,8 @@
 """Configuration for the language emotion model."""
 from typing import Any, Dict, Optional
 
-from hume.common.config.job_config_base import JobConfigBase
-from hume.common.model_type import ModelType
+from hume._common.config.job_config_base import JobConfigBase
+from hume._common.model_type import ModelType
 
 
 class LanguageConfig(JobConfigBase["LanguageConfig"]):

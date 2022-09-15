@@ -3,7 +3,7 @@ from unittest.mock import Mock
 import pytest
 
 from hume import BatchJob, BatchJobResult, BatchJobStatus, ModelType
-from hume.common.config import FaceConfig
+from hume._common.config import FaceConfig
 
 
 @pytest.fixture(scope="function")
