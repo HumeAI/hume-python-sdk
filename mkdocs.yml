@@ -27,7 +27,6 @@ extra:
     - icon: fontawesome/brands/github
       link: https://github.com/humeAI
 
-
 plugins:
   - search
   - mkdocstrings
@@ -35,7 +34,11 @@ plugins:
 
 nav:
   - "Home": index.md
-  - "Batch": batch-reference.md
+  - "Batch Reference":
+    - "HumeBatchClient": batch/hume-batch-client.md
+    - "BatchJob": batch/batch-job.md
+    - "BatchJobStatus": batch/batch-job-status.md
+    - "BatchJobResult": batch/batch-job-result.md
 
 markdown_extensions:
   - pymdownx.highlight:

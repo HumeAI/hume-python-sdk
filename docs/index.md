@@ -1,4 +1,4 @@
-# Hume Python SDK
+# Home
 
 ## Requirements
 

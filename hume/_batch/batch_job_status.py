@@ -17,7 +17,7 @@ class BatchJobStatus(Enum):
         Args:
             status (BatchJobStatus): Status to check.
 
-        Return:
+        Returns:
             bool: Whether the status is "terminal".
         """
         return status in [cls.COMPLETED, cls.FAILED]
@@ -29,7 +29,7 @@ class BatchJobStatus(Enum):
         Args:
             status (str): Status to convert.
 
-        Return:
+        Returns:
             BatchJobStatus: The enum variant for the given string.
         """
         for _, enum_value in cls.__members__.items():
