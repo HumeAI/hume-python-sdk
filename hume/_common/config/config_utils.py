@@ -1,9 +1,9 @@
 """Model configuration utilities."""
 from typing import Type
 
-from hume.common.model_type import ModelType
-from hume.common.config import BurstConfig, FaceConfig, LanguageConfig, JobConfigBase, ProsodyConfig
-from hume.common.hume_client_error import HumeClientError
+from hume._common.model_type import ModelType
+from hume._common.config import BurstConfig, FaceConfig, LanguageConfig, JobConfigBase, ProsodyConfig
+from hume._common.hume_client_error import HumeClientError
 
 
 def config_from_model_type(model_type: ModelType) -> Type[JobConfigBase]:

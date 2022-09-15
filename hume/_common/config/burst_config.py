@@ -1,8 +1,8 @@
 """Configuration for the vocal burst model."""
 from typing import Any, Dict
 
-from hume.common.config.job_config_base import JobConfigBase
-from hume.common.model_type import ModelType
+from hume._common.config.job_config_base import JobConfigBase
+from hume._common.model_type import ModelType
 
 
 class BurstConfig(JobConfigBase["BurstConfig"]):

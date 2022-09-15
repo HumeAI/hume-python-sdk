@@ -2,7 +2,7 @@
 from abc import ABC, abstractmethod
 from typing import Any, Dict, Generic, TypeVar
 
-from hume.common.model_type import ModelType
+from hume._common.model_type import ModelType
 
 T = TypeVar("T")  # Type for subclasses of JobConfigBase
 

@@ -5,12 +5,12 @@ from typing import Any, Dict, List, Optional
 
 import requests
 
-from hume.batch.batch_job import BatchJob
-from hume.batch.batch_job_result import BatchJobResult
-from hume.common.config import BurstConfig, FaceConfig, LanguageConfig, ProsodyConfig, JobConfigBase
-from hume.common.api_type import ApiType
-from hume.common.client_base import ClientBase
-from hume.common.hume_client_error import HumeClientError
+from hume._batch.batch_job import BatchJob
+from hume._batch.batch_job_result import BatchJobResult
+from hume._common.config import BurstConfig, FaceConfig, LanguageConfig, ProsodyConfig, JobConfigBase
+from hume._common.api_type import ApiType
+from hume._common.client_base import ClientBase
+from hume._common.hume_client_error import HumeClientError
 
 logger = logging.getLogger(__name__)
 

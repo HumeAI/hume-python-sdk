@@ -4,11 +4,11 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
 from urllib.request import urlretrieve
 
-from hume.batch.batch_job_status import BatchJobStatus
-from hume.common.model_type import ModelType
-from hume.common.config.job_config_base import JobConfigBase
-from hume.common.config.config_utils import config_from_model_type
-from hume.common.hume_client_error import HumeClientError
+from hume._batch.batch_job_status import BatchJobStatus
+from hume._common.model_type import ModelType
+from hume._common.config.job_config_base import JobConfigBase
+from hume._common.config.config_utils import config_from_model_type
+from hume._common.hume_client_error import HumeClientError
 
 
 class BatchJobResult:
