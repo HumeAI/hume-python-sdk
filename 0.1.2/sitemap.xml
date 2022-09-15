@@ -2,12 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://humeai.github.io/hume-python-sdk/0.1.2/</loc>
-         <lastmod>2022-08-30</lastmod>
+         <lastmod>2022-09-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://humeai.github.io/hume-python-sdk/0.1.2/batch-reference/</loc>
-         <lastmod>2022-08-30</lastmod>
+         <loc>https://humeai.github.io/hume-python-sdk/0.1.2/batch/batch-job-result/</loc>
+         <lastmod>2022-09-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://humeai.github.io/hume-python-sdk/0.1.2/batch/batch-job-status/</loc>
+         <lastmod>2022-09-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://humeai.github.io/hume-python-sdk/0.1.2/batch/batch-job/</loc>
+         <lastmod>2022-09-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://humeai.github.io/hume-python-sdk/0.1.2/batch/hume-batch-client/</loc>
+         <lastmod>2022-09-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
