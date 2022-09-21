@@ -23,6 +23,7 @@ class BatchJobResult:
         predictions_url: Optional[str] = None,
         artifacts_url: Optional[str] = None,
         errors_url: Optional[str] = None,
+        error_message: Optional[str] = None,
     ):
         """Construct a BatchJobResult.
 
@@ -33,23 +34,15 @@ class BatchJobResult:
             predictions_url (Optional[str]): URL to predictions file.
             artifacts_url (Optional[str]): URL to artifacts zip archive.
             errors_url (Optional[str]): URL to errors file.
+            error_message (Optional[str]): Error message for request.
         """
         self.configs = configs
         self.urls = urls
         self.status = status
+        self.predictions_url = predictions_url
         self.artifacts_url = artifacts_url
         self.errors_url = errors_url
-        self.predictions_url = predictions_url
-
-    def download_artifacts(self, filepath: Optional[Union[str, Path]] = None) -> None:
-        """Download `BatchJob` artifacts zip archive.
-
-        Args:
-            filepath (Optional[Union[str, Path]]): Filepath where artifacts zip archive will be downloaded.
-        """
-        if self.artifacts_url is None:
-            raise HumeClientError("Could not download job artifacts. No artifacts found on job result.")
-        urlretrieve(self.artifacts_url, filepath)
+        self.error_message = error_message
 
     def download_predictions(self, filepath: Optional[Union[str, Path]] = None) -> None:
         """Download `BatchJob` predictions file.
@@ -61,6 +54,16 @@ class BatchJobResult:
             raise HumeClientError("Could not download job predictions. No predictions found on job result.")
         urlretrieve(self.predictions_url, filepath)
 
+    def download_artifacts(self, filepath: Optional[Union[str, Path]] = None) -> None:
+        """Download `BatchJob` artifacts zip archive.
+
+        Args:
+            filepath (Optional[Union[str, Path]]): Filepath where artifacts zip archive will be downloaded.
+        """
+        if self.artifacts_url is None:
+            raise HumeClientError("Could not download job artifacts. No artifacts found on job result.")
+        urlretrieve(self.artifacts_url, filepath)
+
     def download_errors(self, filepath: Optional[Union[str, Path]] = None) -> None:
         """Download `BatchJob` errors file.
 
@@ -70,6 +73,14 @@ class BatchJobResult:
         if self.errors_url is None:
             raise HumeClientError("Could not download job errors. No errors found on job result.")
         urlretrieve(self.errors_url, filepath)
+
+    def get_error_message(self) -> Optional[str]:
+        """Get any available error messages on the job.
+
+        Returns:
+            Optional[str]: A string with the error message if there was an error, otherwise None.
+        """
+        return self.error_message
 
     @classmethod
     def from_response(cls, response: Any) -> "BatchJobResult":
@@ -95,6 +106,11 @@ class BatchJobResult:
                 kwargs["artifacts_url"] = completed_dict["artifacts_url"]
                 kwargs["errors_url"] = completed_dict["errors_url"]
                 kwargs["predictions_url"] = completed_dict["predictions_url"]
+
+            if "failed" in response:
+                failed_dict = response["failed"]
+                if "message" in failed_dict:
+                    kwargs["error_message"] = failed_dict["message"]
 
             return cls(
                 configs=configs,
