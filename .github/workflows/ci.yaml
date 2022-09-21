@@ -67,19 +67,19 @@ jobs:
       - name: Upload HTML Coverage
         uses: actions/upload-artifact@v2
         with:
-          name: hume-coverage-html
+          name: hume-unit-coverage-html
           path: hume/htmlcov
 
       - name: Upload XML Coverage
         uses: actions/upload-artifact@v2
         with:
-          name: hume-coverage-xml
+          name: hume-unit-coverage-xml
           path: hume/coverage.xml
 
       - name: Check Coverage
         shell: bash
         run: |
-          poetry run covcheck coverage.xml --config pyproject.toml
+          poetry run covcheck coverage.xml --config pyproject.toml --group unit
 
   build-service:
     runs-on: ubuntu-latest
@@ -106,4 +106,21 @@ jobs:
         env:
           HUME_DEV_API_KEY: ${{ secrets.HUME_DEV_API_KEY }}
         run: |
-          poetry run pytest tests --cov=. --cov-report=html --cov-report=xml --cov-branch -m service
+          poetry run pytest tests --cov=hume --cov-report=html --cov-report=xml --cov-branch -m service
+
+      - name: Upload HTML Coverage
+        uses: actions/upload-artifact@v2
+        with:
+          name: hume-service-coverage-html
+          path: hume/htmlcov
+
+      - name: Upload XML Coverage
+        uses: actions/upload-artifact@v2
+        with:
+          name: hume-service-coverage-xml
+          path: hume/coverage.xml
+
+      - name: Check Coverage
+        shell: bash
+        run: |
+          poetry run covcheck coverage.xml --config pyproject.toml --group service
