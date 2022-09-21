@@ -22,6 +22,14 @@ def queued_result() -> BatchJobResult:
         return BatchJobResult.from_response(response)
 
 
+@pytest.fixture(scope="function")
+def failed_result() -> BatchJobResult:
+    response_filepath = Path(__file__).parent / "data" / "result-response-failed.json"
+    with response_filepath.open() as f:
+        response = json.load(f)
+        return BatchJobResult.from_response(response)
+
+
 class TestBatchJobResult:
 
     def test_queued_status(self, queued_result: BatchJobResult):
@@ -46,3 +54,7 @@ class TestBatchJobResult:
         assert completed_result.predictions_url is not None
         assert completed_result.errors_url is not None
         assert completed_result.artifacts_url is not None
+
+    def test_failed_message(self, failed_result: BatchJobResult):
+        assert failed_result.status == BatchJobStatus.FAILED
+        assert failed_result.get_error_message() == "user 'abcde' has exceeded their usage limit"

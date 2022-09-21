@@ -1,0 +1,23 @@
+{
+  "completion_timestamp": 1663790201,
+  "creation_timestamp": 1663790199,
+  "failed": {
+    "message": "user 'abcde' has exceeded their usage limit"
+  },
+  "request": {
+    "models": {
+      "face": {
+        "descriptions": null,
+        "facs": null,
+        "fps_pred": 3.0,
+        "identify_faces": false,
+        "min_face_size": 60.0,
+        "prob_threshold": 0.9900000095367432,
+        "save_faces": false
+      }
+    },
+    "notify": false,
+    "urls": ["https://storage.googleapis.com/hume-test-data/image/obama.png"]
+  },
+  "status": "FAILED"
+}
