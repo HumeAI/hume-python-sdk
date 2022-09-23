@@ -1,6 +1,11 @@
-# Hume AI Python SDK
+<div align="center">
+  <img src="https://storage.googleapis.com/hume-public-logos/hume/hume-banner.png">
+  <h1>Hume AI Python SDK</h1>
 
-The Hume AI Python SDK makes it easy to call Hume APIs from Python applications.
+  <p>
+    <strong>Integrate Hume APIs directly into your Python application</strong>
+  </p>
+</div>
 
 To get started, [sign up for a Hume account](https://beta.hume.ai/sign-up)!
 
