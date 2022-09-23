@@ -59,3 +59,18 @@ class TestBatchJobResult:
     def test_failed_message(self, failed_result: BatchJobResult):
         assert failed_result.status == BatchJobStatus.FAILED
         assert failed_result.get_error_message() == "user 'abcde' has exceeded their usage limit"
+
+    def test_job_time_completed(self, completed_result: BatchJobResult):
+        assert completed_result.get_run_time() == 3
+        assert completed_result.get_start_time().strftime('%Y-%m-%d %H:%M:%S') == '2022-08-15 20:20:10'
+        assert completed_result.get_end_time().strftime('%Y-%m-%d %H:%M:%S') == '2022-08-15 20:20:13'
+
+    def test_job_time_failed(self, failed_result: BatchJobResult):
+        assert failed_result.get_run_time() == 2
+        assert failed_result.get_start_time().strftime('%Y-%m-%d %H:%M:%S') == '2022-09-21 19:56:39'
+        assert failed_result.get_end_time().strftime('%Y-%m-%d %H:%M:%S') == '2022-09-21 19:56:41'
+
+    def test_job_time_queued(self, queued_result: BatchJobResult):
+        assert queued_result.get_run_time() is None
+        assert queued_result.get_start_time().strftime('%Y-%m-%d %H:%M:%S') == '2022-08-15 20:20:10'
+        assert queued_result.get_end_time() is None

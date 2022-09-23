@@ -1,7 +1,7 @@
 """Batch API client."""
 import json
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Iterator, List, Optional
 
 import requests
 
@@ -60,7 +60,15 @@ class HumeBatchClient(ClientBase):
         endpoint = (f"{self._api_http_base_url}/{self._api_version}/{ApiType.BATCH.value}/jobs/{job_id}"
                     f"?apikey={self._api_key}")
         response = requests.get(endpoint, timeout=self._DEFAULT_API_TIMEOUT)
-        body = response.json()
+        try:
+            body = response.json()
+        except json.JSONDecodeError:
+            # pylint: disable=raise-missing-from
+            raise HumeClientError("Unexpected error when getting job result")
+
+        if "message" in body and body["message"] == "job not found":
+            raise HumeClientError(f"Could not find a job with ID {job_id}")
+
         return BatchJobResult.from_response(body)
 
     def submit_face(

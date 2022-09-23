@@ -64,12 +64,12 @@ build-backend = "poetry.core.masonry.api"
 requires = ["poetry-core>=1.0.0"]
 
 [tool.covcheck.group.unit.coverage]
-branch = 65.0
-line = 74.0
+branch = 70.0
+line = 82.0
 
 [tool.covcheck.group.service.coverage]
-branch = 72.0
-line = 81.0
+branch = 75.0
+line = 89.0
 
 [tool.flake8]
 ignore = ""           # Required to disable default ignores
@@ -85,6 +85,7 @@ ignore_missing_imports = true
 good-names = ["id", "f"]
 max-args = 12
 max-locals = 25
+max-attributes = 9
 notes = ["FIXME"]
 
 [tool.pylint.format]
