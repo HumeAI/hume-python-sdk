@@ -1,4 +1,4 @@
-name: Package-CI
+name: Package CI
 
 on:
   push:
