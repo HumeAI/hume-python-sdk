@@ -23,23 +23,23 @@ logger = logging.getLogger(__name__)
 class HumeStreamClient(ClientBase):
     """Streaming API client.
 
-        Example:
-            ```python
-            import asyncio
+    Example:
+        ```python
+        import asyncio
 
-            from hume import HumeStreamClient, StreamSocket
-            from hume.config import FaceConfig
+        from hume import HumeStreamClient, StreamSocket
+        from hume.config import FaceConfig
 
-            async def main():
-                client = HumeStreamClient("<your-api-key>")
-                configs = [FaceConfig(identify_faces=True)]
-                async with client.connect(configs) as socket:
-                    socket: StreamSocket
-                    result = await socket.send_file("<your-image-filepath>")
-                    print(result)
+        async def main():
+            client = HumeStreamClient("<your-api-key>")
+            configs = [FaceConfig(identify_faces=True)]
+            async with client.connect(configs) as socket:
+                socket: StreamSocket
+                result = await socket.send_file("<your-image-filepath>")
+                print(result)
 
-            asyncio.run(main())
-            ```
+        asyncio.run(main())
+        ```
     """
 
     _DEFAULT_API_TIMEOUT = 10
