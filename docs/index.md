@@ -6,8 +6,16 @@ Python versions 3.8 and 3.9 are supported
 
 ## Installation
 
-```python
-pip install hume
+Basic installation:
+
+```bash
+$ pip install hume
+```
+
+Websocket and streaming features can be enabled with:
+
+```bash
+$ pip install hume[stream]
 ```
 
 ## Basic Usage
@@ -46,6 +54,8 @@ print(job)
 ```
 
 ### Stream predictions over a websocket
+
+> Note: `pip install hume[stream]` is required to use websocket features
 
 ```python
 import asyncio
