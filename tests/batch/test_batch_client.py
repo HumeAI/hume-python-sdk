@@ -15,6 +15,7 @@ def batch_client(monkeypatch: MonkeyPatch) -> HumeBatchClient:
     return client
 
 
+@pytest.mark.batch
 class TestHumeBatchClient:
 
     def test_face(self, batch_client: HumeBatchClient):

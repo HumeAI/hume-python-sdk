@@ -6,8 +6,16 @@ Python versions 3.8 and 3.9 are supported
 
 ## Installation
 
-```python
-pip install hume
+Basic installation:
+
+```bash
+$ pip install hume
+```
+
+Websocket and streaming features can be enabled with:
+
+```bash
+$ pip install hume[stream]
 ```
 
 ## Basic Usage
@@ -43,6 +51,27 @@ job_id = "<your-job-id>"
 job = client.get_job(job_id)
 
 print(job)
+```
+
+### Stream predictions over a websocket
+
+> Note: `pip install hume[stream]` is required to use websocket features
+
+```python
+import asyncio
+
+from hume import HumeStreamClient, StreamSocket
+from hume.config import FaceConfig
+
+async def main():
+    client = HumeStreamClient("<your-api-key>")
+    configs = [FaceConfig(identify_faces=True)]
+    async with client.connect(configs) as socket:
+        socket: StreamSocket
+        result = await socket.send_file("<your-image-filepath>")
+        print(result)
+
+asyncio.run(main())
 ```
 
 ## Other Resources

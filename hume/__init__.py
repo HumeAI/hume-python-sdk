@@ -2,6 +2,7 @@
 import importlib.metadata
 
 from hume._batch import BatchJob, BatchJobResult, BatchJobStatus, HumeBatchClient
+from hume._stream import HumeStreamClient, StreamSocket
 from hume._common.hume_client_error import HumeClientError
 from hume._common.model_type import ModelType
 
@@ -14,5 +15,7 @@ __all__ = [
     "BatchJobStatus",
     "HumeBatchClient",
     "HumeClientError",
+    "HumeStreamClient",
     "ModelType",
+    "StreamSocket",
 ]

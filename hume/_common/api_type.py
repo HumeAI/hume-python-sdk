@@ -6,3 +6,4 @@ class ApiType(Enum):
     """API type."""
 
     BATCH = "batch"
+    STREAM = "stream"

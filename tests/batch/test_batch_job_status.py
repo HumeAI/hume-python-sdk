@@ -3,6 +3,7 @@ import pytest
 from hume import BatchJobStatus
 
 
+@pytest.mark.batch
 class TestBatchJobStatus:
 
     def test_update(self):

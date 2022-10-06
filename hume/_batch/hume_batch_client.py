@@ -16,7 +16,24 @@ logger = logging.getLogger(__name__)
 
 
 class HumeBatchClient(ClientBase):
-    """Batch API client."""
+    """Batch API client.
+
+    Example:
+        ```python
+        from hume import HumeBatchClient
+
+        client = HumeBatchClient("<your-api-key>")
+        job = client.submit_face(["<your-image-url>"])
+
+        print(job)
+        print("Running...")
+
+        result = job.await_complete()
+        result.download_predictions("predictions.json")
+
+        print("Predictions downloaded!")
+        ```
+    """
 
     _DEFAULT_API_TIMEOUT = 10
 
@@ -40,7 +57,7 @@ class HumeBatchClient(ClientBase):
         Returns:
             BatchJobResult: Batch job result.
         """
-        endpoint = (f"{self._api_base_url}/{self._api_version}/{ApiType.BATCH.value}/jobs/{job_id}"
+        endpoint = (f"{self._api_http_base_url}/{self._api_version}/{ApiType.BATCH.value}/jobs/{job_id}"
                     f"?apikey={self._api_key}")
         response = requests.get(endpoint, timeout=self._DEFAULT_API_TIMEOUT)
         body = response.json()
@@ -178,7 +195,7 @@ class HumeBatchClient(ClientBase):
         Returns:
             BatchJob: A `BatchJob` that wraps the batch computation.
         """
-        endpoint = (f"{self._api_base_url}/{self._api_version}/{ApiType.BATCH.value}/jobs"
+        endpoint = (f"{self._api_http_base_url}/{self._api_version}/{ApiType.BATCH.value}/jobs"
                     f"?apikey={self._api_key}")
         response = requests.post(endpoint, json=request_body, timeout=self._DEFAULT_API_TIMEOUT)
 
