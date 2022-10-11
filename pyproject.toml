@@ -41,6 +41,7 @@ pydocstyle = "^6.1.1"
 pylint = "^2.12.1"
 pyproject-flake8 = "^0.0.1a2"
 pytest = "^6.2.5"
+pytest-asyncio = "^0.19.0"
 pytest-cov = "^3.0.0"
 semver = "^2.13.0"
 types-requests = "^2.25.11"
@@ -84,8 +85,8 @@ ignore_missing_imports = true
 [tool.pylint.basic]
 good-names = ["id", "f"]
 max-args = 12
-max-locals = 25
 max-attributes = 9
+max-locals = 25
 notes = ["FIXME"]
 
 [tool.pylint.format]
