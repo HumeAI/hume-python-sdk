@@ -65,11 +65,11 @@ build-backend = "poetry.core.masonry.api"
 requires = ["poetry-core>=1.0.0"]
 
 [tool.covcheck.group.unit.coverage]
-branch = 70.0
+branch = 57.0
 line = 82.0
 
 [tool.covcheck.group.service.coverage]
-branch = 75.0
+branch = 65.0
 line = 89.0
 
 [tool.flake8]
