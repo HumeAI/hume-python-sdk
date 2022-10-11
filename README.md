@@ -8,8 +8,9 @@
 
   <br>
   <div>
-    <a href="https://badge.fury.io/py/hume"><img src="https://badge.fury.io/py/hume.svg" alt="PyPI"></a>
+    <a href="https://humeai.github.io/hume-python-sdk"><img src="https://img.shields.io/badge/docs-mkdocs-blue" alt="Docs"></a>
     <a href="https://pepy.tech/project/hume"><img src="https://pepy.tech/badge/hume" alt="Downloads"></a>
+    <a href="https://pypi.org/project/hume"><img src="https://img.shields.io/pypi/v/hume?logo=python&logoColor=%23cccccc" alt="PyPI"></a>
     <a href="https://github.com/HumeAI/hume-python-sdk/actions/workflows/ci.yml"><img src="https://github.com/HumeAI/hume-python-sdk/actions/workflows/ci.yaml/badge.svg" alt="CI"></a>
   </div>
   <br>
