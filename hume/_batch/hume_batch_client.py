@@ -1,7 +1,7 @@
 """Batch API client."""
 import json
 import logging
-from typing import Any, Dict, Iterator, List, Optional
+from typing import Any, Dict, List, Optional
 
 import requests
 
