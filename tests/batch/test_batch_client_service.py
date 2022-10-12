@@ -1,12 +1,14 @@
 import json
 import logging
 import os
+from datetime import datetime
+from pathlib import Path
 from typing import Dict
 
 import pytest
 from pytest import TempPathFactory
 
-from hume import HumeBatchClient, BatchJob, HumeClientError
+from hume import BatchJob, BatchJobResult, HumeBatchClient, HumeClientError
 
 EvalData = Dict[str, str]
 
@@ -33,11 +35,8 @@ class TestHumeBatchClientService:
         assert len(job.id) == 32
         logger.info(f"Running test job {job.id}")
         result = job.await_complete()
-
-        download_filepath = tmp_path_factory.mktemp("results") / "results.json"
-        result.download_predictions(download_filepath)
-        with download_filepath.open() as f:
-            json.load(f)
+        job_files_dir = tmp_path_factory.mktemp("job-files")
+        self.check_result(result, job_files_dir)
 
     def test_burst(self, eval_data: EvalData, batch_client: HumeBatchClient, tmp_path_factory: TempPathFactory):
         data_url = eval_data["burst-amusement-009"]
@@ -46,11 +45,8 @@ class TestHumeBatchClientService:
         assert len(job.id) == 32
         logger.info(f"Running test job {job.id}")
         result = job.await_complete()
-
-        download_filepath = tmp_path_factory.mktemp("results") / "results.json"
-        result.download_predictions(download_filepath)
-        with download_filepath.open() as f:
-            json.load(f)
+        job_files_dir = tmp_path_factory.mktemp("job-files")
+        self.check_result(result, job_files_dir)
 
     def test_prosody(self, eval_data: EvalData, batch_client: HumeBatchClient, tmp_path_factory: TempPathFactory):
         data_url = eval_data["prosody-horror-1051"]
@@ -59,11 +55,8 @@ class TestHumeBatchClientService:
         assert len(job.id) == 32
         logger.info(f"Running test job {job.id}")
         result = job.await_complete()
-
-        download_filepath = tmp_path_factory.mktemp("results") / "results.json"
-        result.download_predictions(download_filepath)
-        with download_filepath.open() as f:
-            json.load(f)
+        job_files_dir = tmp_path_factory.mktemp("job-files")
+        self.check_result(result, job_files_dir)
 
     def test_language(self, eval_data: EvalData, batch_client: HumeBatchClient, tmp_path_factory: TempPathFactory):
         data_url = eval_data["text-happy-place"]
@@ -72,11 +65,8 @@ class TestHumeBatchClientService:
         assert len(job.id) == 32
         logger.info(f"Running test job {job.id}")
         result = job.await_complete()
-
-        download_filepath = tmp_path_factory.mktemp("results") / "results.json"
-        result.download_predictions(download_filepath)
-        with download_filepath.open() as f:
-            json.load(f)
+        job_files_dir = tmp_path_factory.mktemp("job-files")
+        self.check_result(result, job_files_dir)
 
     def test_client_invalid_api_key(self, eval_data: EvalData):
         invalid_client = HumeBatchClient("invalid-api-key")
@@ -93,3 +83,22 @@ class TestHumeBatchClientService:
         with pytest.raises(HumeClientError, match=message):
             rehydrated_job = BatchJob(invalid_client, job.id)
             rehydrated_job.await_complete(10)
+
+    def check_result(self, result: BatchJobResult, job_files_dir: Path):
+        predictions_filepath = job_files_dir / "results.json"
+        result.download_predictions(predictions_filepath)
+        with predictions_filepath.open() as f:
+            json.load(f)
+
+        artifacts_filepath = job_files_dir / "artifacts"
+        result.download_artifacts(artifacts_filepath)
+
+        error_filepath = job_files_dir / "errors.json"
+        result.download_errors(error_filepath)
+
+        error_message = result.get_error_message()
+        assert error_message is None
+
+        assert isinstance(result.get_run_time(), int)
+        assert isinstance(result.get_start_time(), datetime)
+        assert isinstance(result.get_end_time(), datetime)
