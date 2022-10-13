@@ -1,5 +1,6 @@
 """Batch job result."""
 import json
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
 from urllib.request import urlretrieve
@@ -24,6 +25,8 @@ class BatchJobResult:
         artifacts_url: Optional[str] = None,
         errors_url: Optional[str] = None,
         error_message: Optional[str] = None,
+        job_start_time: Optional[int] = None,
+        job_end_time: Optional[int] = None,
     ):
         """Construct a BatchJobResult.
 
@@ -35,6 +38,8 @@ class BatchJobResult:
             artifacts_url (Optional[str]): URL to artifacts zip archive.
             errors_url (Optional[str]): URL to errors file.
             error_message (Optional[str]): Error message for request.
+            job_start_time (Optional[int]): Time when job started.
+            job_end_time (Optional[int]): Time when job completed.
         """
         self.configs = configs
         self.urls = urls
@@ -43,6 +48,8 @@ class BatchJobResult:
         self.artifacts_url = artifacts_url
         self.errors_url = errors_url
         self.error_message = error_message
+        self.job_start_time = job_start_time
+        self.job_end_time = job_end_time
 
     def download_predictions(self, filepath: Optional[Union[str, Path]] = None) -> None:
         """Download `BatchJob` predictions file.
@@ -78,9 +85,42 @@ class BatchJobResult:
         """Get any available error messages on the job.
 
         Returns:
-            Optional[str]: A string with the error message if there was an error, otherwise None.
+            Optional[str]: A string with the error message if there was an error, otherwise `None`.
         """
         return self.error_message
+
+    def get_run_time(self) -> Optional[int]:
+        """Get the total time in seconds it took for the job to run if the job is in a terminal state.
+
+        Returns:
+            Optional[int]: Time in seconds it took for the job to run. If the job is not in a terminal
+                state then `None` is returned.
+        """
+        if self.job_start_time is not None and self.job_end_time is not None:
+            return self.job_end_time - self.job_start_time
+        return None
+
+    def get_start_time(self) -> Optional[datetime]:
+        """Get the time the job started running.
+
+        Returns:
+            Optional[datetime]: Datetime when the job started running. If the job has not started
+                then `None` is returned.
+        """
+        if self.job_start_time is None:
+            return None
+        return datetime.utcfromtimestamp(self.job_start_time)
+
+    def get_end_time(self) -> Optional[datetime]:
+        """Get the time the job stopped running if the job is in a terminal state.
+
+        Returns:
+            Optional[datetime]: Datetime when the job started running. If the job is not in a terminal
+                state then `None` is returned.
+        """
+        if self.job_end_time is None:
+            return None
+        return datetime.utcfromtimestamp(self.job_end_time)
 
     @classmethod
     def from_response(cls, response: Any) -> "BatchJobResult":
@@ -111,6 +151,12 @@ class BatchJobResult:
                 failed_dict = response["failed"]
                 if "message" in failed_dict:
                     kwargs["error_message"] = failed_dict["message"]
+
+            if "creation_timestamp" in response:
+                kwargs["job_start_time"] = response["creation_timestamp"]
+
+            if "completion_timestamp" in response:
+                kwargs["job_end_time"] = response["completion_timestamp"]
 
             return cls(
                 configs=configs,
