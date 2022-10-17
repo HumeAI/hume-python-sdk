@@ -1,6 +1,6 @@
 # Citations
 
-To cite Hume's expressive communication platform, its APIs, or SDKs, please reference one more more of the papers relevant to your application.
+To cite Hume's expressive communication platform, please reference one more more of the papers relevant to your application.
 
 | Publication                                                                                                                                                                          | Year | Modality |   BibTeX    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :--: | :------: | :---------: |

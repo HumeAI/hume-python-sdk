@@ -30,6 +30,10 @@ For usage examples check out the [full documentation](https://humeai.github.io/h
 - [Platform Documentation](https://help.hume.ai/basics/about-hume-ai)
 - [API Reference](https://docs.hume.ai)
 
+## Citation
+
+To cite Hume's models, datasets, APIs, or SDKs in your work please see [CITATIONS.md](CITATIONS.md).
+
 ## Support
 
 If you've found a bug with this SDK please [open an issue](https://github.com/HumeAI/hume-python-sdk/issues/new)!
