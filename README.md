@@ -30,9 +30,9 @@ For usage examples check out the [full documentation](https://humeai.github.io/h
 - [Platform Documentation](https://help.hume.ai/basics/about-hume-ai)
 - [API Reference](https://docs.hume.ai)
 
-## Citation
+## Citations
 
-To cite Hume's models, datasets, APIs, or SDKs in your work please see [CITATIONS.md](CITATIONS.md).
+Hume's expressive communication platform has been built on top of published scientific research. If you use this SDK in your work please see [CITATIONS.md](CITATIONS.md) for the best way to reference that research.
 
 ## Support
 
