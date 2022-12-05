@@ -7,7 +7,7 @@ import pytest
 from pytest import TempPathFactory
 
 from hume import HumeStreamClient, HumeClientError
-from hume.config import FaceConfig
+from hume.config import FaceConfig, LanguageConfig
 
 EvalData = Dict[str, str]
 
@@ -28,7 +28,12 @@ def stream_client() -> HumeStreamClient:
 @pytest.mark.service
 class TestHumeStreamClientService:
 
-    async def test_run(self, eval_data: EvalData, stream_client: HumeStreamClient, tmp_path_factory: TempPathFactory):
+    async def test_send_file(
+        self,
+        eval_data: EvalData,
+        stream_client: HumeStreamClient,
+        tmp_path_factory: TempPathFactory,
+    ):
         data_url = eval_data["image-obama-face"]
         data_filepath = tmp_path_factory.mktemp("data-dir") / "data-file"
         urlretrieve(data_url, data_filepath)
@@ -36,6 +41,13 @@ class TestHumeStreamClientService:
         configs = [FaceConfig(identify_faces=True)]
         async with stream_client.connect(configs) as websocket:
             predictions = await websocket.send_file(data_filepath)
+            assert predictions is not None
+
+    async def test_send_text(self, stream_client: HumeStreamClient):
+        sample_text = "Hello! I hope this test works!"
+        configs = [LanguageConfig()]
+        async with stream_client.connect(configs) as websocket:
+            predictions = await websocket.send_text(sample_text)
             assert predictions is not None
 
     async def test_invalid_api_key(self):
