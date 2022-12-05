@@ -62,7 +62,7 @@ jobs:
       - name: Run pydocstyle
         shell: bash
         run: |
-          poetry run pydocstyle
+          poetry run pydocstyle hume
 
       - name: Upload HTML Coverage
         uses: actions/upload-artifact@v2

@@ -6,7 +6,7 @@ import websockets
 from pytest import MonkeyPatch
 
 from hume import HumeStreamClient, StreamSocket
-from hume._common.config import FaceConfig
+from hume.config import FaceConfig
 
 
 def mock_connect(uri: str):
