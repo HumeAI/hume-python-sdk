@@ -15,7 +15,7 @@ class TestStreamSocket:
         configs = [FaceConfig(identify_faces=True)]
         socket = StreamSocket(mock_face_protocol, configs)
         mock_bytes_str = "bW9jay1tZWRpYS1maWxl"
-        result = await socket.send_bytes_str(mock_bytes_str)
+        result = await socket._send_bytes_str(mock_bytes_str)
         assert result["face"]["predictions"] == "mock-predictions"
 
     async def test_send_bytes(self, mock_face_protocol: Mock):

@@ -61,7 +61,7 @@ class StreamSocket:
 
         return json_response
 
-    async def send_bytes_str(self, bytes_str: str) -> Any:
+    async def _send_bytes_str(self, bytes_str: str) -> Any:
         """Send raw bytes string on the `StreamSocket`.
 
         Note: Must be base64 encoded bytes.
@@ -86,6 +86,8 @@ class StreamSocket:
     async def send_bytes(self, bytes_data: bytes) -> Any:
         """Send raw bytes on the `StreamSocket`.
 
+        Note: Must be base64 encoded bytes.
+
         Args:
             bytes_data (bytes): Raw bytes of media to send on socket connection.
 
@@ -93,7 +95,7 @@ class StreamSocket:
             Any: Predictions from the streaming API.
         """
         bytes_str = bytes_data.decode("utf-8")
-        return await self.send_bytes_str(bytes_str)
+        return await self._send_bytes_str(bytes_str)
 
     async def send_file(self, filepath: Union[str, Path]) -> Any:
         """Send a file on the `StreamSocket`.
