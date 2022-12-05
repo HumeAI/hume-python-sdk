@@ -1,4 +1,3 @@
-"""Conftest."""
 import json
 from unittest.mock import Mock
 

@@ -1,4 +1,3 @@
-"""Conftest."""
 from typing import Dict
 
 import pytest
@@ -8,7 +7,6 @@ EvalData = Dict[str, str]
 
 @pytest.fixture(scope="module")
 def eval_data() -> EvalData:
-    """Fixture for evaluation data."""
     base_url = "https://storage.googleapis.com/hume-test-data"
     return {
         "image-obama-face": f"{base_url}/image/obama.png",
