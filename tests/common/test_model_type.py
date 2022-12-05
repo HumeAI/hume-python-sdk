@@ -1,6 +1,6 @@
 import pytest
 
-from hume._common.model_type import ModelType
+from hume import ModelType
 
 
 class TestModelType:

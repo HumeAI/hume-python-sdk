@@ -10,7 +10,7 @@ try:
 except ModuleNotFoundError:
     HAS_WEBSOCKETS = False
 
-from hume._common.config import JobConfigBase
+from hume._common.config import JobConfigBase, LanguageConfig
 from hume._common.hume_client_error import HumeClientError
 
 
@@ -64,7 +64,7 @@ class StreamSocket:
     async def send_bytes_str(self, bytes_str: str) -> Any:
         """Send raw bytes string on the `StreamSocket`.
 
-        Note: Must be ascii encoded bytes.
+        Note: Must be base64 encoded bytes.
 
         Args:
             bytes_str (str): Raw bytes of media to send on socket connection converted to a string.
@@ -92,7 +92,7 @@ class StreamSocket:
         Returns:
             Any: Predictions from the streaming API.
         """
-        bytes_str = bytes_data.decode("ascii")
+        bytes_str = bytes_data.decode("utf-8")
         return await self.send_bytes_str(bytes_str)
 
     async def send_file(self, filepath: Union[str, Path]) -> Any:
@@ -105,4 +105,28 @@ class StreamSocket:
             Any: Predictions from the streaming API.
         """
         bytes_data = self._file_to_bytes(Path(filepath))
+        return await self.send_bytes(bytes_data)
+
+    async def send_text(self, text: str) -> Any:
+        """Send text on the `StreamSocket`.
+
+        Note: This method is intended for use with a `LanguageConfig`.
+            When the socket is configured for other modalities this method will fail.
+
+        Args:
+            text (str): Text to send to the language model.
+
+        Raises:
+            HumeClientError: If the socket is configured with a modality other than language.
+
+        Returns:
+            Any: Predictions from the streaming API.
+        """
+        for config in self._configs:
+            if not isinstance(config, LanguageConfig):
+                config_type = config.__class__.__name__
+                raise HumeClientError(f"Socket configured with {config_type}. "
+                                      "send_text is only supported when using a `LanguageConfig`")
+
+        bytes_data = base64.b64encode(text.encode("utf-8"))
         return await self.send_bytes(bytes_data)

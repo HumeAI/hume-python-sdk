@@ -7,7 +7,7 @@ import pytest
 from pytest import TempPathFactory
 
 from hume import HumeStreamClient, HumeClientError
-from hume._common.config import FaceConfig
+from hume.config import FaceConfig
 
 EvalData = Dict[str, str]
 
