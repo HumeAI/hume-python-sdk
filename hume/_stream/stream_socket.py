@@ -64,7 +64,8 @@ class StreamSocket:
     async def _send_bytes_str(self, bytes_str: str) -> Any:
         """Send raw bytes string on the `StreamSocket`.
 
-        Note: Must be base64 encoded bytes.
+        Note: Input should be base64 encoded bytes.
+            You can use base64.b64encode() to encode a raw string.
 
         Args:
             bytes_str (str): Raw bytes of media to send on socket connection converted to a string.
@@ -86,7 +87,8 @@ class StreamSocket:
     async def send_bytes(self, bytes_data: bytes) -> Any:
         """Send raw bytes on the `StreamSocket`.
 
-        Note: Must be base64 encoded bytes.
+        Note: Input should be base64 encoded bytes.
+            You can use base64.b64encode() to encode a raw string.
 
         Args:
             bytes_data (bytes): Raw bytes of media to send on socket connection.
