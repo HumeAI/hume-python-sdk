@@ -171,7 +171,7 @@ class StreamSocket:
             raise HumeClientError("No faces sent in facemesh payload.")
         n_landmarks = len(landmarks[0])
         if n_landmarks != self._N_LANDMARKS:
-            raise HumeClientError(f"Number of MediaPipe landmarks must be exactly {self._N_LANDMARKS}, "
+            raise HumeClientError(f"Number of MediaPipe landmarks per face must be exactly {self._N_LANDMARKS}, "
                                   f"found {n_landmarks}.")
         if len(landmarks[0][0]) != self._N_SPATIAL:
             raise HumeClientError("Invalid facemesh payload detected. "

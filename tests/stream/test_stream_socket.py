@@ -86,7 +86,7 @@ class TestStreamSocket:
         with pytest.raises(HumeClientError, match=re.escape(message)):
             await socket.send_facemesh([0] * 150)
 
-        message = "Number of MediaPipe landmarks must be exactly 478, found 474."
+        message = "Number of MediaPipe landmarks per face must be exactly 478, found 474."
         with pytest.raises(HumeClientError, match=re.escape(message)):
             await socket.send_facemesh([[[0, 0, 0]] * 474])
 
