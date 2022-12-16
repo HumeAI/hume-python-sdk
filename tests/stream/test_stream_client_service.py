@@ -51,7 +51,7 @@ class TestHumeStreamClientService:
             assert predictions is not None
 
     async def test_send_facemesh(self, stream_client: HumeStreamClient):
-        meshes = [[[0, 0, 0]] * 475]
+        meshes = [[[0, 0, 0]] * 478]
         configs = [FacemeshConfig()]
         async with stream_client.connect(configs) as websocket:
             predictions = await websocket.send_facemesh(meshes)

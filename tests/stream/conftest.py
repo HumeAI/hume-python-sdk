@@ -64,8 +64,9 @@ def mock_language_protocol():
 def mock_facemesh_protocol():
 
     async def mock_send(message: str) -> None:
-        assert json.loads(message) == {
-            "data": "Im1vY2stZmFjZW1lc2gi",
+        message_json = json.loads(message)
+        assert message_json == {
+            "data": message_json["data"],
             "models": {
                 "facemesh": {},
             },

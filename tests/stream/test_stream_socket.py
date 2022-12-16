@@ -59,16 +59,36 @@ class TestStreamSocket:
         configs = [FacemeshConfig()]
         socket = StreamSocket(mock_facemesh_protocol, configs)
 
-        sample_facemesh = "mock-facemesh"
+        sample_facemesh = [[[0, 0, 0]] * 478]
         result = await socket.send_facemesh(sample_facemesh)
         assert result["facemesh"]["predictions"] == "mock-predictions"
 
-    async def test_send_facemesh_not_facemesh(self, mock_language_protocol: Mock):
+    async def test_send_facemesh_not_facemesh(self, mock_facemesh_protocol: Mock):
         configs = [ProsodyConfig()]
-        socket = StreamSocket(mock_language_protocol, configs)
+        socket = StreamSocket(mock_facemesh_protocol, configs)
 
-        sample_facemesh = "mock-facemesh"
+        sample_facemesh = [[[0, 0, 0]] * 478]
         message = ("Socket configured with ProsodyConfig. "
                    "send_facemesh is only supported when using a `FacemeshConfig`")
         with pytest.raises(HumeClientError, match=message):
             await socket.send_facemesh(sample_facemesh)
+
+    async def test_send_facemesh_array_shapes(self, mock_facemesh_protocol: Mock):
+        configs = [FacemeshConfig()]
+        socket = StreamSocket(mock_facemesh_protocol, configs)
+
+        message = "No faces sent in facemesh payload."
+        with pytest.raises(HumeClientError, match=message):
+            await socket.send_facemesh([])
+
+        message = "Number of faces sent in facemesh payload was greater than the limit of 100."
+        with pytest.raises(HumeClientError, match=message):
+            await socket.send_facemesh([0] * 150)
+
+        message = "Number of MediaPipe landmarks must be exactly 478."
+        with pytest.raises(HumeClientError, match=message):
+            await socket.send_facemesh([[[0, 0, 0]] * 474])
+
+        message = r"Invalid facemesh payload detected. Each facemesh landmark should be an \(x, y, z\) point."
+        with pytest.raises(HumeClientError, match=message):
+            await socket.send_facemesh([[[0, 0]] * 478])
