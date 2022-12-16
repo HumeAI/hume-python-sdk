@@ -7,7 +7,7 @@ import pytest
 from pytest import TempPathFactory
 
 from hume import HumeStreamClient, HumeClientError
-from hume.config import FaceConfig, LanguageConfig
+from hume.config import FaceConfig, FacemeshConfig, LanguageConfig
 
 EvalData = Dict[str, str]
 
@@ -48,6 +48,13 @@ class TestHumeStreamClientService:
         configs = [LanguageConfig()]
         async with stream_client.connect(configs) as websocket:
             predictions = await websocket.send_text(sample_text)
+            assert predictions is not None
+
+    async def test_send_facemesh(self, stream_client: HumeStreamClient):
+        meshes = [[[0, 0, 0]] * 478]
+        configs = [FacemeshConfig()]
+        async with stream_client.connect(configs) as websocket:
+            predictions = await websocket.send_facemesh(meshes)
             assert predictions is not None
 
     async def test_invalid_api_key(self):
