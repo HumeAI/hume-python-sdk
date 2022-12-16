@@ -1,3 +1,4 @@
+import re
 from unittest.mock import Mock
 
 import pytest
@@ -78,17 +79,17 @@ class TestStreamSocket:
         socket = StreamSocket(mock_facemesh_protocol, configs)
 
         message = "No faces sent in facemesh payload."
-        with pytest.raises(HumeClientError, match=message):
+        with pytest.raises(HumeClientError, match=re.escape(message)):
             await socket.send_facemesh([])
 
-        message = "Number of faces sent in facemesh payload was greater than the limit of 100."
-        with pytest.raises(HumeClientError, match=message):
+        message = "Number of faces sent in facemesh payload was greater than the limit of 100, found 150."
+        with pytest.raises(HumeClientError, match=re.escape(message)):
             await socket.send_facemesh([0] * 150)
 
-        message = "Number of MediaPipe landmarks must be exactly 478."
-        with pytest.raises(HumeClientError, match=message):
+        message = "Number of MediaPipe landmarks must be exactly 478, found 474."
+        with pytest.raises(HumeClientError, match=re.escape(message)):
             await socket.send_facemesh([[[0, 0, 0]] * 474])
 
-        message = r"Invalid facemesh payload detected. Each facemesh landmark should be an \(x, y, z\) point."
-        with pytest.raises(HumeClientError, match=message):
+        message = "Invalid facemesh payload detected. Each facemesh landmark should be an (x, y, z) point."
+        with pytest.raises(HumeClientError, match=re.escape(message)):
             await socket.send_facemesh([[[0, 0]] * 478])
