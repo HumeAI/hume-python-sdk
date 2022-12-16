@@ -134,7 +134,7 @@ class StreamSocket:
             if not isinstance(config, LanguageConfig):
                 config_type = config.__class__.__name__
                 raise HumeClientError(f"Socket configured with {config_type}. "
-                                      "send_text is only supported when using a `LanguageConfig`")
+                                      "send_text is only supported when using a LanguageConfig.")
 
         bytes_data = base64.b64encode(text.encode("utf-8"))
         return await self.send_bytes(bytes_data)
@@ -161,7 +161,7 @@ class StreamSocket:
             if not isinstance(config, FacemeshConfig):
                 config_type = config.__class__.__name__
                 raise HumeClientError(f"Socket configured with {config_type}. "
-                                      "send_facemesh is only supported when using a `FacemeshConfig`")
+                                      "send_facemesh is only supported when using a FacemeshConfig.")
 
         n_faces = len(landmarks)
         if n_faces > self._FACE_LIMIT:
