@@ -7,6 +7,7 @@ class ModelType(Enum):
 
     BURST = "burst"
     FACE = "face"
+    FACEMESH = "facemesh"
     LANGUAGE = "language"
     PROSODY = "prosody"
 

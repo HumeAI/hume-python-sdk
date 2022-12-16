@@ -4,7 +4,7 @@ import pytest
 from pytest import TempPathFactory
 
 from hume import HumeClientError, StreamSocket
-from hume.config import FaceConfig, LanguageConfig, ProsodyConfig
+from hume.config import FaceConfig, FacemeshConfig, LanguageConfig, ProsodyConfig
 
 
 @pytest.mark.asyncio
@@ -41,7 +41,7 @@ class TestStreamSocket:
         configs = [LanguageConfig()]
         socket = StreamSocket(mock_language_protocol, configs)
 
-        sample_text = "mock-media-file"
+        sample_text = "mock-text"
         result = await socket.send_text(sample_text)
         assert result["language"]["predictions"] == "mock-predictions"
 
@@ -49,8 +49,26 @@ class TestStreamSocket:
         configs = [ProsodyConfig()]
         socket = StreamSocket(mock_language_protocol, configs)
 
-        sample_text = "mock-media-file"
+        sample_text = "mock-text"
         message = ("Socket configured with ProsodyConfig. "
                    "send_text is only supported when using a `LanguageConfig`")
         with pytest.raises(HumeClientError, match=message):
             await socket.send_text(sample_text)
+
+    async def test_send_facemesh(self, mock_facemesh_protocol: Mock):
+        configs = [FacemeshConfig()]
+        socket = StreamSocket(mock_facemesh_protocol, configs)
+
+        sample_facemesh = "mock-facemesh"
+        result = await socket.send_facemesh(sample_facemesh)
+        assert result["facemesh"]["predictions"] == "mock-predictions"
+
+    async def test_send_facemesh_not_facemesh(self, mock_language_protocol: Mock):
+        configs = [ProsodyConfig()]
+        socket = StreamSocket(mock_language_protocol, configs)
+
+        sample_facemesh = "mock-facemesh"
+        message = ("Socket configured with ProsodyConfig. "
+                   "send_facemesh is only supported when using a `FacemeshConfig`")
+        with pytest.raises(HumeClientError, match=message):
+            await socket.send_facemesh(sample_facemesh)

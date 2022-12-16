@@ -10,7 +10,7 @@ try:
 except ModuleNotFoundError:
     HAS_WEBSOCKETS = False
 
-from hume._common.config import JobConfigBase, LanguageConfig
+from hume._common.config import FacemeshConfig, JobConfigBase, LanguageConfig
 from hume._common.hume_client_error import HumeClientError
 
 
@@ -133,4 +133,32 @@ class StreamSocket:
                                       "send_text is only supported when using a `LanguageConfig`")
 
         bytes_data = base64.b64encode(text.encode("utf-8"))
+        return await self.send_bytes(bytes_data)
+
+    async def send_facemesh(self, landmarks: List[List[List[float]]]) -> Any:
+        """Send text on the `StreamSocket`.
+
+        Note: This method is intended for use with a `FacemeshConfig`.
+            When the socket is configured for other modalities this method will fail.
+
+        Args:
+            landmarks (List[List[List[float]]]): List of landmark points for multiple faces.
+                The shape of this 3-dimensional list should be (n, 478, 3) where n is the number
+                of faces to be processed, 478 is the number of MediaPipe landmarks per face and 3
+                represents the (x, y, z) coordinates of each landmark.
+
+        Raises:
+            HumeClientError: If the socket is configured with a modality other than facemesh.
+
+        Returns:
+            Any: Predictions from the streaming API.
+        """
+        for config in self._configs:
+            if not isinstance(config, FacemeshConfig):
+                config_type = config.__class__.__name__
+                raise HumeClientError(f"Socket configured with {config_type}. "
+                                      "send_facemesh is only supported when using a `FacemeshConfig`")
+
+        landmarks_str = json.dumps(landmarks)
+        bytes_data = base64.b64encode(landmarks_str.encode("utf-8"))
         return await self.send_bytes(bytes_data)
