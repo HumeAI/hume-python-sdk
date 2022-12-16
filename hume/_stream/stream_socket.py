@@ -159,6 +159,20 @@ class StreamSocket:
                 raise HumeClientError(f"Socket configured with {config_type}. "
                                       "send_facemesh is only supported when using a `FacemeshConfig`")
 
+        FACE_LIMIT = 100
+        N_LANDMARKS = 478
+        N_SPATIAL = 3
+        if len(landmarks) > FACE_LIMIT:
+            raise HumeClientError("Number of faces sent in facemesh payload was greater "
+                                  f"than the limit of {FACE_LIMIT}")
+        if len(landmarks) == 0:
+            raise HumeClientError("No faces sent in facemesh payload")
+        if len(landmarks[0]) != N_LANDMARKS:
+            raise HumeClientError(f"Number of MediaPipe landmarks must be exactly {N_LANDMARKS}")
+        if len(landmarks[0]) != N_SPATIAL:
+            raise HumeClientError("Invalid facemesh payload detected. "
+                                  "Each facemesh landmark should be an (x, y, z) point.")
+
         landmarks_str = json.dumps(landmarks)
         bytes_data = base64.b64encode(landmarks_str.encode("utf-8"))
         return await self.send_bytes(bytes_data)
