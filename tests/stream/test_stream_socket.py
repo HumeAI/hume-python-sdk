@@ -52,8 +52,8 @@ class TestStreamSocket:
 
         sample_text = "mock-text"
         message = ("Socket configured with ProsodyConfig. "
-                   "send_text is only supported when using a `LanguageConfig`")
-        with pytest.raises(HumeClientError, match=message):
+                   "send_text is only supported when using a LanguageConfig.")
+        with pytest.raises(HumeClientError, match=re.escape(message)):
             await socket.send_text(sample_text)
 
     async def test_send_facemesh(self, mock_facemesh_protocol: Mock):
@@ -70,8 +70,8 @@ class TestStreamSocket:
 
         sample_facemesh = [[[0, 0, 0]] * 478]
         message = ("Socket configured with ProsodyConfig. "
-                   "send_facemesh is only supported when using a `FacemeshConfig`")
-        with pytest.raises(HumeClientError, match=message):
+                   "send_facemesh is only supported when using a FacemeshConfig.")
+        with pytest.raises(HumeClientError, match=re.escape(message)):
             await socket.send_facemesh(sample_facemesh)
 
     async def test_send_facemesh_array_shapes(self, mock_facemesh_protocol: Mock):
