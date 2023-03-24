@@ -74,7 +74,7 @@ class TestHumeBatchClient:
         mock_url = "mock-url"
         job = batch_client.submit_language(
             [mock_url],
-            sliding_window=False,
+            granularity="word",
             identify_speakers=True,
         )
         assert isinstance(job, BatchJob)
@@ -82,7 +82,7 @@ class TestHumeBatchClient:
         batch_client.start_job.assert_called_once_with({
             "models": {
                 "language": {
-                    "sliding_window": False,
+                    "granularity": "word",
                     "identify_speakers": True,
                 },
             },

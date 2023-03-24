@@ -11,19 +11,19 @@ class LanguageConfig(JobConfigBase["LanguageConfig"]):
     def __init__(
         self,
         *,
-        sliding_window: Optional[float] = None,
+        granularity: Optional[str] = None,
         identify_speakers: Optional[bool] = None,
     ):
         """Construct a `LanguageConfig`.
 
         Args:
-            sliding_window (Optional[float]): Whether to generate predictions for each word in the text or
-                for the entire text in aggregate.
+            granularity (Optional[str]): The granularity at which to generate predictions.
+                Values are `word`, `sentence`, or `passage`. Default value is `word`.
             identify_speakers (Optional[bool]): Whether to return identifiers for speakers over time.
                 If true, unique identifiers will be assigned to spoken words to differentiate different speakers.
                 If false, all speakers will be tagged with an "unknown" ID.
         """
-        self.sliding_window = sliding_window
+        self.granularity = granularity
         self.identify_speakers = identify_speakers
 
     @classmethod
@@ -42,7 +42,7 @@ class LanguageConfig(JobConfigBase["LanguageConfig"]):
             Dict[str, Any]: Serialized `LanguageConfig` object.
         """
         return {
-            "sliding_window": self.sliding_window,
+            "granularity": self.granularity,
             "identify_speakers": self.identify_speakers,
         }
 
@@ -57,6 +57,6 @@ class LanguageConfig(JobConfigBase["LanguageConfig"]):
             LanguageConfig: Deserialized `LanguageConfig` object.
         """
         return cls(
-            sliding_window=request_dict.get("sliding_window"),
+            granularity=request_dict.get("granularity"),
             identify_speakers=request_dict.get("identify_speakers"),
         )
