@@ -17,7 +17,7 @@ class LanguageConfig(JobConfigBase["LanguageConfig"]):
         """Construct a `LanguageConfig`.
 
         Args:
-            granularity (Optional[float]): The granularity at which to generate predictions.
+            granularity (Optional[str]): The granularity at which to generate predictions.
                 Values are `word`, `sentence`, or `passage`. Default value is `word`.
             identify_speakers (Optional[bool]): Whether to return identifiers for speakers over time.
                 If true, unique identifiers will be assigned to spoken words to differentiate different speakers.
