@@ -42,7 +42,7 @@ def mock_language_protocol():
             "models": {
                 "language": {
                     "identify_speakers": None,
-                    "sliding_window": None,
+                    "granularity": None,
                 },
             },
         }

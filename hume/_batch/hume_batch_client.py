@@ -151,15 +151,15 @@ class HumeBatchClient(ClientBase):
     def submit_language(
         self,
         urls: List[str],
-        sliding_window: Optional[bool] = None,
+        granularity: Optional[bool] = None,
         identify_speakers: Optional[bool] = None,
     ) -> BatchJob:
         """Submit a new job for language emotion.
 
         Args:
             urls (List[str]): URLs to process.
-            sliding_window (Optional[float]): Whether to generate predictions for each word in the text or
-                for the entire text in aggregate.
+            granularity (Optional[float]): The granularity at which to generate predictions.
+                Values are `word`, `sentence`, or `passage`. Default value is `word`.
             identify_speakers (Optional[bool]): Whether to return identifiers for speakers over time.
                 If true, unique identifiers will be assigned to spoken words to differentiate different speakers.
                 If false, all speakers will be tagged with an "unknown" ID.
@@ -171,7 +171,7 @@ class HumeBatchClient(ClientBase):
             BatchJob: Batch job.
         """
         config = LanguageConfig(
-            sliding_window=sliding_window,
+            granularity=granularity,
             identify_speakers=identify_speakers,
         )
         return self._submit(urls, [config])
