@@ -205,7 +205,13 @@ class HumeBatchClient(ClientBase):
         """
         endpoint = (f"{self._api_http_base_url}/{self._api_version}/{ApiType.BATCH.value}/jobs"
                     f"?apikey={self._api_key}")
-        response = requests.post(endpoint, json=request_body, timeout=self._DEFAULT_API_TIMEOUT)
+
+        response = requests.post(
+            endpoint,
+            json=request_body,
+            timeout=self._DEFAULT_API_TIMEOUT,
+            headers=self._get_client_headers(),
+        )
 
         try:
             body = response.json()

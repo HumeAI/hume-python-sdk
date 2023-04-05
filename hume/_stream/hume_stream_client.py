@@ -67,7 +67,8 @@ class HumeStreamClient(ClientBase):
 
         try:
             # pylint: disable=no-member
-            async with websockets.connect(uri) as protocol:  # type: ignore[attr-defined]
+            async with websockets.connect(  # type: ignore[attr-defined]
+                    uri, extra_headers=self._get_client_headers()) as protocol:
                 yield StreamSocket(protocol, configs)
         except websockets.exceptions.InvalidStatusCode as exc:
             message = "Client initialized with invalid API key"
