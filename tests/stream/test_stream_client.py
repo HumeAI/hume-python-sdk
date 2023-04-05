@@ -1,5 +1,6 @@
 from contextlib import asynccontextmanager
 from unittest.mock import Mock
+from typing import Dict, Optional
 
 import pytest
 import websockets
@@ -9,8 +10,11 @@ from hume import HumeStreamClient, StreamSocket
 from hume.config import FaceConfig
 
 
-def mock_connect(uri: str):
+def mock_connect(uri: str, extra_headers: Optional[Dict[str, str]] = None):
     assert uri == "wss://api.hume.ai/v0/stream/multi?apikey=0000-0000-0000-0000"
+    assert isinstance(extra_headers, dict)
+    assert extra_headers.get("X-Hume-Client-Name") == "python-sdk"
+    assert isinstance(extra_headers.get("X-Hume-Client-Version"), str)
 
     @asynccontextmanager
     async def mock_connection() -> Mock:
