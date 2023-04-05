@@ -1,4 +1,5 @@
 """Batch API client."""
+import importlib.metadata
 import json
 import logging
 from typing import Any, Dict, List, Optional
@@ -205,7 +206,19 @@ class HumeBatchClient(ClientBase):
         """
         endpoint = (f"{self._api_http_base_url}/{self._api_version}/{ApiType.BATCH.value}/jobs"
                     f"?apikey={self._api_key}")
-        response = requests.post(endpoint, json=request_body, timeout=self._DEFAULT_API_TIMEOUT)
+
+        package_version = importlib.metadata.version("hume")
+        headers = {
+            "X-Hume-Client-Name": "python-sdk",
+            "X-Hume-Client-Version": package_version,
+        }
+
+        response = requests.post(
+            endpoint,
+            json=request_body,
+            timeout=self._DEFAULT_API_TIMEOUT,
+            headers=headers,
+        )
 
         try:
             body = response.json()
