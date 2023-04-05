@@ -1,5 +1,4 @@
 """Streaming API client."""
-import importlib.metadata
 import logging
 from contextlib import asynccontextmanager
 from typing import Any, AsyncIterator, List
@@ -66,15 +65,10 @@ class HumeStreamClient(ClientBase):
         uri = (f"{self._api_ws_base_uri}/{self._api_version}/{ApiType.STREAM.value}/multi"
                f"?apikey={self._api_key}")
 
-        package_version = importlib.metadata.version("hume")
-        headers = {
-            "X-Hume-Client-Name": "python-sdk",
-            "X-Hume-Client-Version": package_version,
-        }
-
         try:
             # pylint: disable=no-member
-            async with websockets.connect(uri, extra_headers=headers) as protocol:  # type: ignore[attr-defined]
+            async with websockets.connect(  # type: ignore[attr-defined]
+                    uri, extra_headers=self._get_client_headers()) as protocol:
                 yield StreamSocket(protocol, configs)
         except websockets.exceptions.InvalidStatusCode as exc:
             message = "Client initialized with invalid API key"
