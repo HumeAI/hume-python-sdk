@@ -203,8 +203,7 @@ class HumeBatchClient(ClientBase):
         Returns:
             BatchJob: A `BatchJob` that wraps the batch computation.
         """
-        endpoint = (f"{self._api_http_base_url}/{self._api_version}/{ApiType.BATCH.value}/jobs"
-                    f"?apikey={self._api_key}")
+        endpoint = f"{self._api_http_base_url}/{self._api_version}/{ApiType.BATCH.value}/jobs"
 
         response = requests.post(
             endpoint,

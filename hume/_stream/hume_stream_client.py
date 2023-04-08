@@ -62,8 +62,7 @@ class HumeStreamClient(ClientBase):
         Args:
             configs (List[JobConfigBase]): List of job configs.
         """
-        uri = (f"{self._api_ws_base_uri}/{self._api_version}/{ApiType.STREAM.value}/multi"
-               f"?apikey={self._api_key}")
+        uri = f"{self._api_ws_base_uri}/{self._api_version}/{ApiType.STREAM.value}/models"
 
         try:
             # pylint: disable=no-member
