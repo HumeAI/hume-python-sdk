@@ -7,7 +7,7 @@ from hume._common.api_type import ApiType
 from hume._common.client_base import ClientBase
 from hume._common.config import JobConfigBase
 from hume._common.config.config_utils import config_from_model_type
-from hume._common.hume_client_error import HumeClientError
+from hume._common.hume_client_exception import HumeClientException
 from hume._common.model_type import ModelType
 from hume._stream.stream_socket import StreamSocket
 
@@ -51,7 +51,7 @@ class HumeStreamClient(ClientBase):
             api_key (str): Hume API key.
         """
         if not HAS_WEBSOCKETS:
-            raise HumeClientError("websockets package required to use HumeStreamClient")
+            raise HumeClientException("websockets package required to use HumeStreamClient")
 
         super().__init__(*args, **kwargs)
 
@@ -71,7 +71,7 @@ class HumeStreamClient(ClientBase):
                 yield StreamSocket(protocol, configs)
         except websockets.exceptions.InvalidStatusCode as exc:
             message = "Client initialized with invalid API key"
-            raise HumeClientError(message) from exc
+            raise HumeClientException(message) from exc
 
     @asynccontextmanager
     async def _connect_to_models(self, configs_dict: Any) -> AsyncIterator:

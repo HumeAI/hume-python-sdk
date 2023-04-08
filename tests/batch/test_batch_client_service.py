@@ -8,7 +8,7 @@ from typing import Dict
 import pytest
 from pytest import TempPathFactory
 
-from hume import BatchJob, BatchJobResult, HumeBatchClient, HumeClientError
+from hume import BatchJob, BatchJobResult, HumeBatchClient, HumeClientException
 
 EvalData = Dict[str, str]
 
@@ -72,7 +72,7 @@ class TestHumeBatchClientService:
         invalid_client = HumeBatchClient("invalid-api-key")
         data_url = eval_data["image-obama-face"]
         message = "Could not start batch job: Invalid ApiKey"
-        with pytest.raises(HumeClientError, match=message):
+        with pytest.raises(HumeClientException, match=message):
             invalid_client.submit_face([data_url])
 
     def test_job_invalid_api_key(self, eval_data: EvalData, batch_client: HumeBatchClient):
@@ -80,7 +80,7 @@ class TestHumeBatchClientService:
         job = batch_client.submit_face([data_url])
         invalid_client = HumeBatchClient("invalid-api-key")
         message = "Client initialized with invalid API key"
-        with pytest.raises(HumeClientError, match=message):
+        with pytest.raises(HumeClientException, match=message):
             rehydrated_job = BatchJob(invalid_client, job.id)
             rehydrated_job.await_complete(10)
 

@@ -6,7 +6,7 @@ from urllib.request import urlretrieve
 import pytest
 from pytest import TempPathFactory
 
-from hume import HumeStreamClient, HumeClientError
+from hume import HumeStreamClient, HumeClientException
 from hume.config import FaceConfig, FacemeshConfig, LanguageConfig
 
 EvalData = Dict[str, str]
@@ -61,6 +61,6 @@ class TestHumeStreamClientService:
         invalid_client = HumeStreamClient("invalid-api-key")
         message = "Client initialized with invalid API key"
         configs = [FaceConfig(identify_faces=True)]
-        with pytest.raises(HumeClientError, match=message):
+        with pytest.raises(HumeClientException, match=message):
             async with invalid_client.connect(configs):
                 pass

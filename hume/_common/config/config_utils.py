@@ -3,7 +3,7 @@ from typing import Type
 
 from hume._common.model_type import ModelType
 from hume._common.config import BurstConfig, FaceConfig, FacemeshConfig, LanguageConfig, JobConfigBase, ProsodyConfig
-from hume._common.hume_client_error import HumeClientError
+from hume._common.hume_client_exception import HumeClientException
 
 
 def config_from_model_type(model_type: ModelType) -> Type[JobConfigBase]:
@@ -25,4 +25,4 @@ def config_from_model_type(model_type: ModelType) -> Type[JobConfigBase]:
         return LanguageConfig
     if model_type == ModelType.PROSODY:
         return ProsodyConfig
-    raise HumeClientError(f"Unknown model type {model_type}")
+    raise HumeClientException(f"Unknown model type {model_type}")

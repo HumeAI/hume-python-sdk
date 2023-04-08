@@ -9,7 +9,7 @@ from hume._batch.batch_job_status import BatchJobStatus
 from hume._common.model_type import ModelType
 from hume._common.config.job_config_base import JobConfigBase
 from hume._common.config.config_utils import config_from_model_type
-from hume._common.hume_client_error import HumeClientError
+from hume._common.hume_client_exception import HumeClientException
 
 
 class BatchJobResult:
@@ -58,7 +58,7 @@ class BatchJobResult:
             filepath (Optional[Union[str, Path]]): Filepath where predictions will be downloaded.
         """
         if self.predictions_url is None:
-            raise HumeClientError("Could not download job predictions. No predictions found on job result.")
+            raise HumeClientException("Could not download job predictions. No predictions found on job result.")
         urlretrieve(self.predictions_url, filepath)
 
     def download_artifacts(self, filepath: Optional[Union[str, Path]] = None) -> None:
@@ -68,7 +68,7 @@ class BatchJobResult:
             filepath (Optional[Union[str, Path]]): Filepath where artifacts zip archive will be downloaded.
         """
         if self.artifacts_url is None:
-            raise HumeClientError("Could not download job artifacts. No artifacts found on job result.")
+            raise HumeClientException("Could not download job artifacts. No artifacts found on job result.")
         urlretrieve(self.artifacts_url, filepath)
 
     def download_errors(self, filepath: Optional[Union[str, Path]] = None) -> None:
@@ -78,7 +78,7 @@ class BatchJobResult:
             filepath (Optional[Union[str, Path]]): Filepath where errors will be downloaded.
         """
         if self.errors_url is None:
-            raise HumeClientError("Could not download job errors. No errors found on job result.")
+            raise HumeClientException("Could not download job errors. No errors found on job result.")
         urlretrieve(self.errors_url, filepath)
 
     def get_error_message(self) -> Optional[str]:
@@ -167,7 +167,7 @@ class BatchJobResult:
         # pylint: disable=broad-except
         except Exception as exc:
             message = cls._get_invalid_response_message(response)
-            raise HumeClientError(message) from exc
+            raise HumeClientException(message) from exc
 
     @classmethod
     def _get_invalid_response_message(cls, response: Any) -> str:

@@ -4,7 +4,7 @@ import time
 from typing import cast, Callable, Type, TypeVar
 from typing_extensions import ParamSpec
 
-from hume._common.hume_client_error import HumeClientError
+from hume._common.hume_client_exception import HumeClientException
 
 P = ParamSpec('P')  # Parameter type variable for decorated function
 R = TypeVar('R')  # Return type variable for decorated function
@@ -67,7 +67,7 @@ def retry(
 
                 retry_timeout = retry_kwargs["timeout"]
                 if total_await_time >= retry_timeout:
-                    raise HumeClientError(f"Request timed out after {retry_timeout}s")
+                    raise HumeClientException(f"Request timed out after {retry_timeout}s")
 
                 time.sleep(delay)
                 total_await_time += delay

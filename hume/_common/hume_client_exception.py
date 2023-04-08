@@ -1,5 +1,5 @@
 """Hume API client exception."""
 
 
-class HumeClientError(Exception):
+class HumeClientException(Exception):
     """Hume API client exception."""
