@@ -1,5 +1,4 @@
 import logging
-import os
 from typing import Dict
 from urllib.request import urlretrieve
 
@@ -15,12 +14,8 @@ logger = logging.getLogger(__name__)
 
 
 @pytest.fixture(scope="module")
-def stream_client() -> HumeStreamClient:
-    api_key = os.getenv("HUME_DEV_API_KEY")
-    if api_key is None:
-        raise ValueError("Cannot construct HumeStreamClient, HUME_DEV_API_KEY variable not set.")
-
-    return HumeStreamClient(api_key)
+def stream_client(hume_api_key: str) -> HumeStreamClient:
+    return HumeStreamClient(hume_api_key)
 
 
 @pytest.mark.asyncio

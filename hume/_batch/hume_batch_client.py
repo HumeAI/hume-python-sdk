@@ -59,9 +59,14 @@ class HumeBatchClient(ClientBase):
         Returns:
             BatchJobResult: Batch job result.
         """
-        endpoint = (f"{self._api_http_base_url}/{self._api_version}/{ApiType.BATCH.value}/jobs/{job_id}"
-                    f"?apikey={self._api_key}")
-        response = requests.get(endpoint, timeout=self._DEFAULT_API_TIMEOUT)
+        endpoint = f"{self._api_http_base_url}/{self._api_version}/{ApiType.BATCH.value}/jobs/{job_id}"
+
+        response = requests.get(
+            endpoint,
+            timeout=self._DEFAULT_API_TIMEOUT,
+            headers=self._get_client_headers(),
+        )
+
         try:
             body = response.json()
         except json.JSONDecodeError:
@@ -72,10 +77,6 @@ class HumeBatchClient(ClientBase):
             raise HumeClientException(f"Could not find a job with ID {job_id}")
 
         return BatchJobResult.from_response(body)
-
-    def submit(self, urls: List[str], configs: List[JobConfigBase]) -> BatchJob:
-        request = self._get_request(configs, urls)
-        return self.start_job(request)
 
     def get_job(self, job_id: str) -> BatchJob:
         """Rehydrate a job based on a Job ID.
@@ -88,8 +89,38 @@ class HumeBatchClient(ClientBase):
         """
         return BatchJob(self, job_id)
 
-    def start_job(self, request_body: Any) -> BatchJob:
-        """Start a batch job.
+    def submit_job(self, urls: List[str], configs: List[JobConfigBase]) -> BatchJob:
+        """Submit a job for batch processing.
+
+        Note: Only one config per model should be passed.
+            If more than one config is passed for a given model type, only the last config will be used.
+
+        Args:
+            urls (List[str]): _description_
+            configs (List[JobConfigBase]): _description_
+
+        Returns:
+            BatchJob: _description_
+        """
+        request = self._get_request(configs, urls)
+        return self.submit_job_from_json(request)
+
+    @classmethod
+    def _get_request(cls, configs: List[JobConfigBase], urls: List[str]) -> Dict[str, Any]:
+        model_requests = {}
+        for config in configs:
+            model_requests[config.get_model_type().value] = config.serialize()
+
+        return {
+            "models": model_requests,
+            "urls": urls,
+        }
+
+    def submit_job_from_json(self, request_body: Any) -> BatchJob:
+        """Start a job for batch processing by passing a JSON request body.
+
+        This request body should match the request body used by the batch API,
+        including both the list of URLs and the models configuration.
 
         Args:
             request_body (Any): JSON request body to be passed to the batch API.
@@ -122,14 +153,3 @@ class HumeBatchClient(ClientBase):
             raise HumeClientException("Unexpected error when starting batch job")
 
         return BatchJob(self, body["job_id"])
-
-    @classmethod
-    def _get_request(cls, configs: List[JobConfigBase], urls: List[str]) -> Dict[str, Any]:
-        model_requests = {}
-        for config in configs:
-            model_requests[config.get_model_type().value] = config.serialize()
-
-        return {
-            "models": model_requests,
-            "urls": urls,
-        }

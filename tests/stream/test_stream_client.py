@@ -11,9 +11,10 @@ from hume.config import FaceConfig
 
 
 def mock_connect(uri: str, extra_headers: Optional[Dict[str, str]] = None):
-    assert uri == "wss://api.hume.ai/v0/stream/multi?apikey=0000-0000-0000-0000"
+    assert uri == "wss://api.hume.ai/v0/stream/models"
     assert isinstance(extra_headers, dict)
     assert extra_headers.get("X-Hume-Client-Name") == "python-sdk"
+    assert extra_headers.get("X-Hume-Api-Key") is not None
     assert isinstance(extra_headers.get("X-Hume-Client-Version"), str)
 
     @asynccontextmanager

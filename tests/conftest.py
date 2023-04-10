@@ -1,3 +1,4 @@
+import os
 from typing import Dict
 
 import pytest
@@ -15,3 +16,11 @@ def eval_data() -> EvalData:
         "text-happy-place": f"{base_url}/text/happy.txt",
         "mesh-faces": f"{base_url}/landmarks/facelandmark_3face_test.json",
     }
+
+
+@pytest.fixture(scope="session")
+def hume_api_key() -> str:
+    api_key = os.getenv("HUME_DEV_API_KEY")
+    if api_key is None:
+        raise ValueError("Cannot construct HumeBatchClient, HUME_DEV_API_KEY variable not set.")
+    return api_key
