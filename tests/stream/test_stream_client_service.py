@@ -1,4 +1,5 @@
 import logging
+import re
 from typing import Dict
 from urllib.request import urlretrieve
 
@@ -6,7 +7,7 @@ import pytest
 from pytest import TempPathFactory
 
 from hume import HumeStreamClient, HumeClientException
-from hume.config import FaceConfig, FacemeshConfig, LanguageConfig
+from hume.models.config import FaceConfig, FacemeshConfig, LanguageConfig, ProsodyConfig
 
 EvalData = Dict[str, str]
 
@@ -54,8 +55,25 @@ class TestHumeStreamClientService:
 
     async def test_invalid_api_key(self):
         invalid_client = HumeStreamClient("invalid-api-key")
-        message = "Client initialized with invalid API key"
         configs = [FaceConfig(identify_faces=True)]
-        with pytest.raises(HumeClientException, match=message):
+        message = "HumeStreamClient initialized with invalid API key"
+        with pytest.raises(HumeClientException, match=re.escape(message)):
             async with invalid_client.connect(configs):
                 pass
+
+    async def test_error_code_exception(
+        self,
+        eval_data: EvalData,
+        stream_client: HumeStreamClient,
+        tmp_path_factory: TempPathFactory,
+    ):
+        data_url = eval_data["image-obama-face"]
+        data_filepath = tmp_path_factory.mktemp("data-dir") / "data-file"
+        urlretrieve(data_url, data_filepath)
+
+        configs = [ProsodyConfig()]
+        async with stream_client.connect(configs) as websocket:
+            message = ("hume(E0102): Streaming payload configured with model type 'prosody', "
+                       "which is not supported for the detected file type 'image'.")
+            with pytest.raises(HumeClientException, match=re.escape(message)):
+                await websocket.send_file(data_filepath)

@@ -1,3 +1,5 @@
+import re
+
 import pytest
 
 from hume import BatchJobStatus
@@ -25,7 +27,8 @@ class TestBatchJobStatus:
         assert BatchJobStatus.from_str("COMPLETED") == BatchJobStatus.COMPLETED
 
     def test_from_str_fail(self):
-        with pytest.raises(ValueError, match="Unknown status 'COMPLETE'"):
+        message = "Unknown status 'COMPLETE'"
+        with pytest.raises(ValueError, match=re.escape(message)):
             BatchJobStatus.from_str("COMPLETE")
 
     @pytest.mark.parametrize("status,is_terminal", [

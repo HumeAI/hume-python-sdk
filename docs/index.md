@@ -9,13 +9,13 @@ Python versions 3.8 and 3.9 are supported
 Basic installation:
 
 ```bash
-$ pip install hume
+pip install hume
 ```
 
 Websocket and streaming features can be enabled with:
 
 ```bash
-$ pip install hume[stream]
+pip install hume[stream]
 ```
 
 ## Basic Usage
@@ -26,10 +26,12 @@ $ pip install hume[stream]
 
 ```python
 from hume import HumeBatchClient
+from hume.models.config import FaceConfig
 
 client = HumeBatchClient("<your-api-key>")
 urls = ["https://tinyurl.com/hume-img"]
-job = client.submit_face(urls)
+configs = [FaceConfig(identify_faces=True)]
+job = client.submit(urls, configs)
 
 print(job)
 print("Running...")
@@ -61,7 +63,7 @@ print(job)
 import asyncio
 
 from hume import HumeStreamClient, StreamSocket
-from hume.config import FaceConfig
+from hume.models.config import FaceConfig
 
 async def main():
     client = HumeStreamClient("<your-api-key>")

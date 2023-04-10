@@ -5,7 +5,7 @@ import pytest
 from pytest import TempPathFactory
 
 from hume import HumeClientException, StreamSocket
-from hume.config import FaceConfig, FacemeshConfig, LanguageConfig, ProsodyConfig
+from hume.models.config import FaceConfig, FacemeshConfig, LanguageConfig, ProsodyConfig
 
 
 @pytest.mark.asyncio

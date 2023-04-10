@@ -1,11 +1,11 @@
 """Configuration for the facial expression model."""
 from typing import Any, Dict
 
-from hume._common.config.job_config_base import JobConfigBase
-from hume._common.model_type import ModelType
+from hume.models import ModelType
+from hume.models.config.model_config_base import ModelConfigBase
 
 
-class FacemeshConfig(JobConfigBase["FacemeshConfig"]):
+class FacemeshConfig(ModelConfigBase["FacemeshConfig"]):
     """Configuration for the facemesh model."""
 
     @classmethod

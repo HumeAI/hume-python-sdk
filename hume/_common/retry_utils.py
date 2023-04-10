@@ -4,7 +4,7 @@ import time
 from typing import cast, Callable, Type, TypeVar
 from typing_extensions import ParamSpec
 
-from hume._common.hume_client_exception import HumeClientException
+from hume.error.hume_client_exception import HumeClientException
 
 P = ParamSpec('P')  # Parameter type variable for decorated function
 R = TypeVar('R')  # Return type variable for decorated function

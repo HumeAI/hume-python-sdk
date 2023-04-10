@@ -6,10 +6,10 @@ from typing import Any, Dict, List, Optional, Union
 from urllib.request import urlretrieve
 
 from hume._batch.batch_job_status import BatchJobStatus
-from hume._common.model_type import ModelType
-from hume._common.config.job_config_base import JobConfigBase
-from hume._common.config.config_utils import config_from_model_type
-from hume._common.hume_client_exception import HumeClientException
+from hume._common.config_utils import config_from_model_type
+from hume.error.hume_client_exception import HumeClientException
+from hume.models import ModelType
+from hume.models.config.model_config_base import ModelConfigBase
 
 
 class BatchJobResult:
@@ -18,7 +18,7 @@ class BatchJobResult:
     def __init__(
         self,
         *,
-        configs: Dict[ModelType, JobConfigBase],
+        configs: Dict[ModelType, ModelConfigBase],
         urls: List[str],
         status: BatchJobStatus,
         predictions_url: Optional[str] = None,
@@ -31,7 +31,7 @@ class BatchJobResult:
         """Construct a BatchJobResult.
 
         Args:
-            configs (Dict[ModelType, JobConfigBase]): Configurations for the `BatchJob`.
+            configs (Dict[ModelType, ModelConfigBase]): Configurations for the `BatchJob`.
             urls (List[str]): URLs processed in the `BatchJob`.
             status (BatchJobStatus): Status of `BatchJob`.
             predictions_url (Optional[str]): URL to predictions file.
@@ -178,6 +178,6 @@ class BatchJobResult:
         if "fault" in response and "faultstring" in response["fault"]:
             fault_string = response["fault"]["faultstring"]
             if fault_string == "Invalid ApiKey":
-                message = "Client initialized with invalid API key"
+                message = "HumeBatchClient initialized with invalid API key"
 
         return message

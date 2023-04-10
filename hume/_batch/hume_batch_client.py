@@ -7,10 +7,11 @@ import requests
 
 from hume._batch.batch_job import BatchJob
 from hume._batch.batch_job_result import BatchJobResult
-from hume._common.config import JobConfigBase
 from hume._common.api_type import ApiType
 from hume._common.client_base import ClientBase
-from hume._common.hume_client_exception import HumeClientException
+from hume._common.config_utils import serialize_configs
+from hume.error.hume_client_exception import HumeClientException
+from hume.models.config import ModelConfigBase
 
 logger = logging.getLogger(__name__)
 
@@ -21,11 +22,12 @@ class HumeBatchClient(ClientBase):
     Example:
         ```python
         from hume import HumeBatchClient
-        from hume.config import FaceConfig
+        from hume.models.config import FaceConfig
 
         client = HumeBatchClient("<your-api-key>")
+        urls = ["https://tinyurl.com/hume-img"]
         configs = [FaceConfig(identify_faces=True)]
-        job = client.submit(["<your-image-url>"], configs)
+        job = client.submit(urls, configs)
 
         print(job)
         print("Running...")
@@ -39,13 +41,13 @@ class HumeBatchClient(ClientBase):
 
     _DEFAULT_API_TIMEOUT = 10
 
-    def __init__(self, *args: Any, **kwargs: Any):
+    def __init__(self, api_key: str, *args: Any, **kwargs: Any):
         """Construct a HumeBatchClient.
 
         Args:
             api_key (str): Hume API key.
         """
-        super().__init__(*args, **kwargs)
+        super().__init__(api_key, *args, _api_type=ApiType.BATCH, **kwargs)
 
     def get_job_result(self, job_id: str) -> BatchJobResult:
         """Get the result of the batch job.
@@ -59,8 +61,7 @@ class HumeBatchClient(ClientBase):
         Returns:
             BatchJobResult: Batch job result.
         """
-        endpoint = f"{self._api_http_base_url}/{self._api_version}/{ApiType.BATCH.value}/jobs/{job_id}"
-
+        endpoint = self._construct_endpoint(f"jobs/{job_id}")
         response = requests.get(
             endpoint,
             timeout=self._DEFAULT_API_TIMEOUT,
@@ -89,34 +90,30 @@ class HumeBatchClient(ClientBase):
         """
         return BatchJob(self, job_id)
 
-    def submit_job(self, urls: List[str], configs: List[JobConfigBase]) -> BatchJob:
+    def submit_job(self, urls: List[str], configs: List[ModelConfigBase]) -> BatchJob:
         """Submit a job for batch processing.
 
-        Note: Only one config per model should be passed.
+        Note: Only one config per model type should be passed.
             If more than one config is passed for a given model type, only the last config will be used.
 
         Args:
             urls (List[str]): _description_
-            configs (List[JobConfigBase]): _description_
+            configs (List[ModelConfigBase]): _description_
 
         Returns:
             BatchJob: _description_
         """
         request = self._get_request(configs, urls)
-        return self.submit_job_from_json(request)
+        return self._submit_job_from_request(request)
 
     @classmethod
-    def _get_request(cls, configs: List[JobConfigBase], urls: List[str]) -> Dict[str, Any]:
-        model_requests = {}
-        for config in configs:
-            model_requests[config.get_model_type().value] = config.serialize()
-
+    def _get_request(cls, configs: List[ModelConfigBase], urls: List[str]) -> Dict[str, Any]:
         return {
-            "models": model_requests,
             "urls": urls,
+            "models": serialize_configs(configs),
         }
 
-    def submit_job_from_json(self, request_body: Any) -> BatchJob:
+    def _submit_job_from_request(self, request_body: Any) -> BatchJob:
         """Start a job for batch processing by passing a JSON request body.
 
         This request body should match the request body used by the batch API,
@@ -131,8 +128,7 @@ class HumeBatchClient(ClientBase):
         Returns:
             BatchJob: A `BatchJob` that wraps the batch computation.
         """
-        endpoint = f"{self._api_http_base_url}/{self._api_version}/{ApiType.BATCH.value}/jobs"
-
+        endpoint = self._construct_endpoint("jobs")
         response = requests.post(
             endpoint,
             json=request_body,

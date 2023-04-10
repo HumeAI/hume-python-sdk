@@ -1,6 +1,8 @@
+import re
+
 import pytest
 
-from hume import ModelType
+from hume.models import ModelType
 
 
 class TestModelType:
@@ -10,5 +12,6 @@ class TestModelType:
         ModelType.from_str(model_type)
 
     def test_from_str_fail(self):
-        with pytest.raises(ValueError, match="Unknown model type 'invalid'"):
+        message = "Unknown model type 'invalid'"
+        with pytest.raises(ValueError, match=re.escape(message)):
             ModelType.from_str("invalid")

@@ -1,9 +1,11 @@
+import re
 from unittest.mock import Mock
 
 import pytest
 
-from hume import BatchJob, BatchJobResult, BatchJobStatus, ModelType
-from hume.config import FaceConfig
+from hume import BatchJob, BatchJobResult, BatchJobStatus
+from hume.models import ModelType
+from hume.models.config import FaceConfig
 
 
 @pytest.fixture(scope="function")
@@ -30,7 +32,9 @@ class TestBatchJob:
 
     def test_invalid_await_timeout(self, batch_client: Mock):
         job = BatchJob(batch_client, "mock-job-id")
-        with pytest.raises(ValueError, match="timeout must be at least 1 second"):
+
+        message = "timeout must be at least 1 second"
+        with pytest.raises(ValueError, match=re.escape(message)):
             job.await_complete(timeout=0)
 
     def test_get_result(self, batch_client: Mock):

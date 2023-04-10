@@ -1,15 +1,14 @@
 """Streaming API client."""
 import logging
 from contextlib import asynccontextmanager
-from typing import Any, AsyncIterator, List
+from typing import Any, AsyncIterator, List, Optional
 
 from hume._common.api_type import ApiType
 from hume._common.client_base import ClientBase
-from hume._common.config import JobConfigBase
-from hume._common.config.config_utils import config_from_model_type
-from hume._common.hume_client_exception import HumeClientException
-from hume._common.model_type import ModelType
+from hume._common.config_utils import configs_from_dict
 from hume._stream.stream_socket import StreamSocket
+from hume.error.hume_client_exception import HumeClientException
+from hume.models.config import ModelConfigBase
 
 try:
     import websockets
@@ -28,7 +27,7 @@ class HumeStreamClient(ClientBase):
         import asyncio
 
         from hume import HumeStreamClient, StreamSocket
-        from hume.config import FaceConfig
+        from hume.models.config import FaceConfig
 
         async def main():
             client = HumeStreamClient("<your-api-key>")
@@ -44,48 +43,54 @@ class HumeStreamClient(ClientBase):
 
     _DEFAULT_API_TIMEOUT = 10
 
-    def __init__(self, *args: Any, **kwargs: Any):
+    def __init__(self, api_key: str, *args: Any, **kwargs: Any):
         """Construct a HumeStreamClient.
 
         Args:
             api_key (str): Hume API key.
         """
         if not HAS_WEBSOCKETS:
-            raise HumeClientException("websockets package required to use HumeStreamClient")
+            raise HumeClientException("The websockets package is required to use HumeStreamClient. "
+                                      "Run `pip install hume[websockets]` to install a version compatible with the"
+                                      "Hume Python SDK.")
 
-        super().__init__(*args, **kwargs)
+        super().__init__(api_key, *args, _api_type=ApiType.STREAM, **kwargs)
 
     @asynccontextmanager
-    async def connect(self, configs: List[JobConfigBase]) -> AsyncIterator:
+    async def connect(
+        self,
+        configs: List[ModelConfigBase],
+        stream_window_ms: Optional[int] = None,
+    ) -> AsyncIterator:
         """Connect to the streaming API.
 
-        Args:
-            configs (List[JobConfigBase]): List of job configs.
-        """
-        uri = f"{self._api_ws_base_uri}/{self._api_version}/{ApiType.STREAM.value}/models"
+        Note: Only one config per model type should be passed.
+            If more than one config is passed for a given model type, only the last config will be used.
 
+        Args:
+            configs (List[ModelConfigBase]): List of job configs.
+            stream_window_ms (Optional[int]): Length of the sliding window in milliseconds to use when
+                aggregating media across streaming payloads within one websocket connection.
+        """
+        endpoint = self._construct_endpoint("models")
         try:
             # pylint: disable=no-member
             async with websockets.connect(  # type: ignore[attr-defined]
-                    uri, extra_headers=self._get_client_headers()) as protocol:
-                yield StreamSocket(protocol, configs)
+                    endpoint, extra_headers=self._get_client_headers()) as protocol:
+                yield StreamSocket(protocol, configs, stream_window_ms=stream_window_ms)
+        # TODO: Check for a 401 unauthorized
         except websockets.exceptions.InvalidStatusCode as exc:
-            message = "Client initialized with invalid API key"
+            message = "HumeStreamClient initialized with invalid API key"
             raise HumeClientException(message) from exc
 
     @asynccontextmanager
-    async def _connect_to_models(self, configs_dict: Any) -> AsyncIterator:
+    async def _connect_with_configs_dict(self, configs_dict: Any) -> AsyncIterator:
         """Connect to the streaming API with a single models configuration dict.
 
         Args:
             configs_dict (Any): Models configurations dict. This should be a dict from model name
                 to model configuration dict. An empty dict uses the default configuration.
         """
-        configs = []
-        for model_name, config_dict in configs_dict.items():
-            model_type = ModelType.from_str(model_name)
-            config = config_from_model_type(model_type).deserialize(config_dict)
-            configs.append(config)
-
+        configs = configs_from_dict(configs_dict)
         async with self.connect(configs) as websocket:
             yield websocket

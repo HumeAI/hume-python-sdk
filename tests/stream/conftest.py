@@ -38,13 +38,14 @@ def mock_language_protocol():
 
     async def mock_send(message: str) -> None:
         assert json.loads(message) == {
-            "data": "bW9jay10ZXh0",
+            "data": "mock-text",
             "models": {
                 "language": {
                     "identify_speakers": None,
                     "granularity": None,
                 },
             },
+            "raw_text": True,
         }
 
     async def mock_recv() -> str:
