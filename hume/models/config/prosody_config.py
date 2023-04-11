@@ -21,6 +21,7 @@ class ProsodyConfig(ModelConfigBase["ProsodyConfig"]):
             all speakers will be tagged with an "unknown" ID.
             This configuration is not available for the streaming API.
     """
+
     language: Optional[str] = None
     identify_speakers: Optional[bool] = None
 

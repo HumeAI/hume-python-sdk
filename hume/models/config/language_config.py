@@ -33,6 +33,7 @@ class LanguageConfig(ModelConfigBase["LanguageConfig"]):
             Currently, toxicity prediction cannot be further configured with any parameters.
             If missing or null, no toxicity predictions will be generated.
     """
+
     language: Optional[str] = None
     granularity: Optional[str] = None
     identify_speakers: Optional[bool] = None

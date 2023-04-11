@@ -29,6 +29,14 @@ def config_from_model_type(model_type: ModelType) -> Type[ModelConfigBase]:
 
 
 def serialize_configs(configs: List[ModelConfigBase]) -> Dict[str, Dict[str, Any]]:
+    """Convert a list of configs into a dict from model name to serialized model config.
+
+    Args:
+        configs (List[ModelConfigBase]): List of configuration objects.
+
+    Returns:
+        Dict[str, Dict[str, Any]]: Dictionary of serialized model configurations.
+    """
     configs_dict = {}
     for config in configs:
         model_type = config.get_model_type()
@@ -38,6 +46,14 @@ def serialize_configs(configs: List[ModelConfigBase]) -> Dict[str, Dict[str, Any
 
 
 def deserialize_configs(configs_dict: Dict[str, Dict[str, Any]]) -> List[ModelConfigBase]:
+    """Convert a dict of serialized model configs into a list of config objects.
+
+    Args:
+        configs_dict (Dict[str, Dict[str, Any]]): Dictionary of serialized model configurations.
+
+    Returns:
+        List[ModelConfigBase]: List of deserialized configuration objects.
+    """
     configs = []
     for model_name, config_dict in configs_dict.items():
         model_type = ModelType.from_str(model_name)

@@ -32,6 +32,7 @@ class FaceConfig(ModelConfigBase["FaceConfig"]):
         facs (Optional[Dict[str, Any]]): Configuration for FACS predictions.
             If missing or null, no FACS predictions will be generated.
     """
+
     fps_pred: Optional[float] = None
     prob_threshold: Optional[float] = None
     identify_faces: Optional[bool] = None
