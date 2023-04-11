@@ -1,6 +1,5 @@
 """Batch API client."""
 import json
-import logging
 from typing import Any, Dict, List
 
 import requests
@@ -12,8 +11,6 @@ from hume._common.client_base import ClientBase
 from hume._common.config_utils import serialize_configs
 from hume.error.hume_client_exception import HumeClientException
 from hume.models.config.model_config_base import ModelConfigBase
-
-logger = logging.getLogger(__name__)
 
 
 class HumeBatchClient(ClientBase):

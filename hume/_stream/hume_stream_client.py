@@ -1,5 +1,4 @@
 """Streaming API client."""
-import logging
 from contextlib import asynccontextmanager
 from typing import Any, AsyncIterator, List, Optional
 
@@ -15,8 +14,6 @@ try:
     HAS_WEBSOCKETS = True
 except ModuleNotFoundError:
     HAS_WEBSOCKETS = False
-
-logger = logging.getLogger(__name__)
 
 
 class HumeStreamClient(ClientBase):

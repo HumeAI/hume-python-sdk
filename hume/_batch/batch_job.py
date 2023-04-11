@@ -1,5 +1,4 @@
 """Batch job."""
-import logging
 from typing import TYPE_CHECKING
 
 from hume._batch.batch_job_result import BatchJobResult
@@ -8,8 +7,6 @@ from hume._common.retry_utils import retry, RetryIterError
 
 if TYPE_CHECKING:
     from hume._batch.hume_batch_client import HumeBatchClient
-
-logger = logging.getLogger(__name__)
 
 
 class BatchJob:

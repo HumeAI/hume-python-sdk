@@ -1,4 +1,3 @@
-import logging
 import re
 from typing import Dict
 from urllib.request import urlretrieve
@@ -11,8 +10,6 @@ from hume.models.config import FaceConfig, FacemeshConfig, LanguageConfig, Proso
 
 EvalData = Dict[str, str]
 
-logger = logging.getLogger(__name__)
-
 
 @pytest.fixture(scope="module")
 def stream_client(hume_api_key: str) -> HumeStreamClient:
@@ -22,7 +19,7 @@ def stream_client(hume_api_key: str) -> HumeStreamClient:
 @pytest.mark.asyncio
 @pytest.mark.stream
 @pytest.mark.service
-class TestHumeStreamClientService:
+class TestServiceHumeStreamClient:
 
     async def test_send_file(
         self,

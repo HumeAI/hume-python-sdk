@@ -23,7 +23,7 @@ def batch_client(hume_api_key: str) -> HumeBatchClient:
 
 @pytest.mark.batch
 @pytest.mark.service
-class TestHumeBatchClientService:
+class TestServiceHumeBatchClient:
 
     def test_face(self, eval_data: EvalData, batch_client: HumeBatchClient, tmp_path_factory: TempPathFactory):
         data_url = eval_data["image-obama-face"]
