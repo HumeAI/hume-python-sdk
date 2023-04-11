@@ -5,7 +5,7 @@ from urllib.request import urlretrieve
 import pytest
 from pytest import TempPathFactory
 
-from hume import HumeStreamClient, HumeClientException
+from hume import HumeStreamClient, HumeClientException, StreamSocket
 from hume.models.config import FaceConfig, FacemeshConfig, LanguageConfig, ProsodyConfig
 
 EvalData = Dict[str, str]
@@ -33,6 +33,7 @@ class TestServiceHumeStreamClient:
 
         configs = [FaceConfig(identify_faces=True)]
         async with stream_client.connect(configs) as websocket:
+            websocket: StreamSocket
             predictions = await websocket.send_file(data_filepath)
             assert predictions is not None
 
@@ -40,6 +41,7 @@ class TestServiceHumeStreamClient:
         sample_text = "Hello! I hope this test works!"
         configs = [LanguageConfig()]
         async with stream_client.connect(configs) as websocket:
+            websocket: StreamSocket
             predictions = await websocket.send_text(sample_text)
             assert predictions is not None
 
@@ -47,6 +49,7 @@ class TestServiceHumeStreamClient:
         meshes = [[[0, 0, 0]] * 478]
         configs = [FacemeshConfig()]
         async with stream_client.connect(configs) as websocket:
+            websocket: StreamSocket
             predictions = await websocket.send_facemesh(meshes)
             assert predictions is not None
 
@@ -57,6 +60,14 @@ class TestServiceHumeStreamClient:
         with pytest.raises(HumeClientException, match=re.escape(message)):
             async with invalid_client.connect(configs):
                 pass
+
+    async def test_get_job_details(self, stream_client: HumeStreamClient):
+        configs = [ProsodyConfig()]
+        async with stream_client.connect(configs) as websocket:
+            websocket: StreamSocket
+            response = await websocket.get_job_details()
+            job_id = response["job_details"]["job_id"]
+            assert len(job_id) == 32
 
     async def test_error_code_exception(
         self,
@@ -70,6 +81,7 @@ class TestServiceHumeStreamClient:
 
         configs = [ProsodyConfig()]
         async with stream_client.connect(configs) as websocket:
+            websocket: StreamSocket
             message = ("hume(E0102): Streaming payload configured with model type 'prosody', "
                        "which is not supported for the detected file type 'image'.")
             with pytest.raises(HumeClientException, match=re.escape(message)):

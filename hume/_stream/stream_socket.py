@@ -193,7 +193,7 @@ class StreamSocket:
         if "error" in response:
             error = response["error"]
             code = response["code"]
-            raise HumeClientException(f"hume({code}): {error}")
+            raise HumeClientException.from_error(code, error)
 
         return response
 
