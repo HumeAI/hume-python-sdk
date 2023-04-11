@@ -137,7 +137,7 @@ class BatchJobResult:
             configs = {}
             for model_name, config_dict in request["models"].items():
                 model_type = ModelType.from_str(model_name)
-                config = config_from_model_type(model_type).deserialize(config_dict)
+                config = config_from_model_type(model_type).from_dict(config_dict)
                 configs[model_type] = config
 
             kwargs = {}
@@ -178,6 +178,6 @@ class BatchJobResult:
         if "fault" in response and "faultstring" in response["fault"]:
             fault_string = response["fault"]["faultstring"]
             if fault_string == "Invalid ApiKey":
-                message = "HumeBatchClient initialized with invalid API key"
+                message = "HumeBatchClient initialized with invalid API key."
 
         return message

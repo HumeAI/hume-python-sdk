@@ -72,7 +72,7 @@ class TestHumeBatchClientService:
     def test_client_invalid_api_key(self, eval_data: EvalData):
         invalid_client = HumeBatchClient("invalid-api-key")
         data_url = eval_data["image-obama-face"]
-        message = "Could not start batch job: Invalid ApiKey"
+        message = "HumeBatchClient initialized with invalid API key."
         with pytest.raises(HumeClientException, match=re.escape(message)):
             invalid_client.submit_job([data_url], [FaceConfig()])
 
@@ -80,7 +80,7 @@ class TestHumeBatchClientService:
         data_url = eval_data["image-obama-face"]
         job = batch_client.submit_job([data_url], [FaceConfig()])
         invalid_client = HumeBatchClient("invalid-api-key")
-        message = "HumeBatchClient initialized with invalid API key"
+        message = "HumeBatchClient initialized with invalid API key."
         with pytest.raises(HumeClientException, match=re.escape(message)):
             rehydrated_job = BatchJob(invalid_client, job.id)
             rehydrated_job.await_complete(10)

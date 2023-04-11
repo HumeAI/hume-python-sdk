@@ -56,7 +56,7 @@ class TestHumeStreamClientService:
     async def test_invalid_api_key(self):
         invalid_client = HumeStreamClient("invalid-api-key")
         configs = [FaceConfig(identify_faces=True)]
-        message = "HumeStreamClient initialized with invalid API key"
+        message = "HumeStreamClient initialized with invalid API key."
         with pytest.raises(HumeClientException, match=re.escape(message)):
             async with invalid_client.connect(configs):
                 pass

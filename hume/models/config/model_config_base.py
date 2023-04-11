@@ -22,7 +22,7 @@ class ModelConfigBase(ABC, Generic[T]):
             ModelType: Model type.
         """
 
-    def serialize(self, skip_none: bool = True) -> Dict[str, Any]:
+    def to_dict(self, skip_none: bool = True) -> Dict[str, Any]:
         """Serialize configuration to dictionary.
 
         Args:
@@ -34,7 +34,7 @@ class ModelConfigBase(ABC, Generic[T]):
         return {k: v for k, v in asdict(self).items() if v is not None or not skip_none}
 
     @classmethod
-    def deserialize(cls, request_dict: Dict[str, Any]) -> "ModelConfigBase[T]":
+    def from_dict(cls, request_dict: Dict[str, Any]) -> "ModelConfigBase[T]":
         """Deserialize configuration from request JSON.
 
         Args:

@@ -29,18 +29,18 @@ def config_from_model_type(model_type: ModelType) -> Type[ModelConfigBase]:
 
 
 def serialize_configs(configs: List[ModelConfigBase]) -> Dict[str, Dict[str, Any]]:
-    serialized = {}
+    configs_dict = {}
     for config in configs:
         model_type = config.get_model_type()
         model_name = model_type.value
-        serialized[model_name] = config.serialize()
-    return serialized
+        configs_dict[model_name] = config.to_dict()
+    return configs_dict
 
 
-def configs_from_dict(models_config_json: Dict[str, Dict[str, Any]]) -> List[ModelConfigBase]:
+def deserialize_configs(configs_dict: Dict[str, Dict[str, Any]]) -> List[ModelConfigBase]:
     configs = []
-    for model_name, config_dict in models_config_json.items():
+    for model_name, config_dict in configs_dict.items():
         model_type = ModelType.from_str(model_name)
-        config = config_from_model_type(model_type).deserialize(config_dict)
+        config = config_from_model_type(model_type).from_dict(config_dict)
         configs.append(config)
     return configs

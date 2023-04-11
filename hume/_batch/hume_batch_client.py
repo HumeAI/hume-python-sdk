@@ -160,6 +160,8 @@ class HumeBatchClient(ClientBase):
                         detail = fault["detail"]
                         if "errorcode" in detail:
                             error_code = detail["errorcode"]
+                            if "InvalidApiKey" in error_code:
+                                raise HumeClientException("HumeBatchClient initialized with invalid API key.")
                             raise HumeClientException(f"Could not start batch job: {error_code}: {fault_string}")
                     raise HumeClientException(f"Could not start batch job: {fault_string}")
             raise HumeClientException(f"Unexpected error when starting batch job: {body}")

@@ -16,10 +16,10 @@ class TestModelConfigs:
     def test_empty_serialize(self, model_name):
         model_type = ModelType.from_str(model_name)
         config = config_from_model_type(model_type)()
-        assert config.serialize() == {}
+        assert config.to_dict() == {}
 
     @pytest.mark.parametrize("model_name", ["burst", "face", "facemesh", "language", "prosody"])
     def test_empty_deserialize(self, model_name):
         model_type = ModelType.from_str(model_name)
         config_class = config_from_model_type(model_type)
-        config_class.deserialize({})
+        config_class.from_dict({})

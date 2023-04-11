@@ -5,7 +5,7 @@ from typing import Any, AsyncIterator, List, Optional
 
 from hume._common.api_type import ApiType
 from hume._common.client_base import ClientBase
-from hume._common.config_utils import configs_from_dict
+from hume._common.config_utils import deserialize_configs
 from hume._stream.stream_socket import StreamSocket
 from hume.error.hume_client_exception import HumeClientException
 from hume.models.config.model_config_base import ModelConfigBase
@@ -90,7 +90,7 @@ class HumeStreamClient(ClientBase):
         except websockets.exceptions.InvalidStatusCode as exc:
             status_code: int = exc.status_code
             if status_code == 401:  # Unauthorized
-                message = "HumeStreamClient initialized with invalid API key"
+                message = "HumeStreamClient initialized with invalid API key."
                 raise HumeClientException(message) from exc
             raise HumeClientException("Unexpected error when creating streaming connection") from exc
 
@@ -102,6 +102,6 @@ class HumeStreamClient(ClientBase):
             configs_dict (Any): Models configurations dict. This should be a dict from model name
                 to model configuration dict. An empty dict uses the default configuration.
         """
-        configs = configs_from_dict(configs_dict)
+        configs = deserialize_configs(configs_dict)
         async with self.connect(configs) as websocket:
             yield websocket
