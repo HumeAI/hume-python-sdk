@@ -149,18 +149,16 @@ class HumeBatchClient(ClientBase):
             raise HumeClientException(f"Failed batch request: {response.text}")
 
         if "job_id" not in body:
-            if "fault" in body:
+            if "fault" in body and "faultstring" in body["fault"]:
                 fault = body["fault"]
-                if "faultstring" in fault:
-                    fault_string = fault["faultstring"]
-                    if "detail" in fault:
-                        detail = fault["detail"]
-                        if "errorcode" in detail:
-                            error_code = detail["errorcode"]
-                            if "InvalidApiKey" in error_code:
-                                raise HumeClientException("HumeBatchClient initialized with invalid API key.")
-                            raise HumeClientException(f"Could not start batch job: {error_code}: {fault_string}")
-                    raise HumeClientException(f"Could not start batch job: {fault_string}")
+                fault_string = fault["faultstring"]
+                if "detail" in fault and "errorcode" in fault["detail"]:
+                    detail = fault["detail"]
+                    error_code = detail["errorcode"]
+                    if "InvalidApiKey" in error_code:
+                        raise HumeClientException("HumeBatchClient initialized with invalid API key.")
+                    raise HumeClientException(f"Could not start batch job: {error_code}: {fault_string}")
+                raise HumeClientException(f"Could not start batch job: {fault_string}")
             raise HumeClientException(f"Unexpected error when starting batch job: {body}")
 
         return BatchJob(self, body["job_id"])

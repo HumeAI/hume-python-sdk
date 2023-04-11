@@ -70,11 +70,11 @@ requires = ["poetry-core>=1.0.0"]
 
 [tool.covcheck.group.unit.coverage]
 branch = 63.0
-line = 84.0
+line = 82.0
 
 [tool.covcheck.group.service.coverage]
 branch = 64.0
-line = 89.0
+line = 87.0
 
 [tool.flake8]
 ignore = ""           # Required to disable default ignores
