@@ -8,7 +8,7 @@ from hume._common.client_base import ClientBase
 from hume._common.config_utils import configs_from_dict
 from hume._stream.stream_socket import StreamSocket
 from hume.error.hume_client_exception import HumeClientException
-from hume.models.config import ModelConfigBase
+from hume.models.config.model_config_base import ModelConfigBase
 
 try:
     import websockets
@@ -54,7 +54,16 @@ class HumeStreamClient(ClientBase):
                                       "Run `pip install hume[stream]` to install a version compatible with the"
                                       "Hume Python SDK.")
 
-        super().__init__(api_key, *args, _api_type=ApiType.STREAM, **kwargs)
+        super().__init__(api_key, *args, **kwargs)
+
+    @classmethod
+    def get_api_type(cls) -> ApiType:
+        """Get the ApiType of the client.
+
+        Returns:
+            ApiType: API type of the client.
+        """
+        return ApiType.STREAM
 
     @asynccontextmanager
     async def connect(
@@ -78,10 +87,12 @@ class HumeStreamClient(ClientBase):
             async with websockets.connect(  # type: ignore[attr-defined]
                     endpoint, extra_headers=self._get_client_headers()) as protocol:
                 yield StreamSocket(protocol, configs, stream_window_ms=stream_window_ms)
-        # TODO: Check for a 401 unauthorized
         except websockets.exceptions.InvalidStatusCode as exc:
-            message = "HumeStreamClient initialized with invalid API key"
-            raise HumeClientException(message) from exc
+            status_code: int = exc.status_code
+            if status_code == 401:  # Unauthorized
+                message = "HumeStreamClient initialized with invalid API key"
+                raise HumeClientException(message) from exc
+            raise HumeClientException("Unexpected error when creating streaming connection") from exc
 
     @asynccontextmanager
     async def _connect_with_configs_dict(self, configs_dict: Any) -> AsyncIterator:

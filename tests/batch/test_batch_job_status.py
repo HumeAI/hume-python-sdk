@@ -31,7 +31,7 @@ class TestBatchJobStatus:
         with pytest.raises(ValueError, match=re.escape(message)):
             BatchJobStatus.from_str("COMPLETE")
 
-    @pytest.mark.parametrize("status,is_terminal", [
+    @pytest.mark.parametrize("status, is_terminal", [
         (BatchJobStatus.COMPLETED, True),
         (BatchJobStatus.FAILED, True),
         (BatchJobStatus.IN_PROGRESS, False),

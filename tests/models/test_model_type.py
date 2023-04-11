@@ -7,9 +7,9 @@ from hume.models import ModelType
 
 class TestModelType:
 
-    @pytest.mark.parametrize("model_type", ["burst", "face", "facemesh", "language", "prosody"])
-    def test_from_str(self, model_type):
-        ModelType.from_str(model_type)
+    @pytest.mark.parametrize("model_name", ["burst", "face", "facemesh", "language", "prosody"])
+    def test_from_str(self, model_name):
+        ModelType.from_str(model_name)
 
     def test_from_str_fail(self):
         message = "Unknown model type 'invalid'"

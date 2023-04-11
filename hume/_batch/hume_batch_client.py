@@ -11,7 +11,7 @@ from hume._common.api_type import ApiType
 from hume._common.client_base import ClientBase
 from hume._common.config_utils import serialize_configs
 from hume.error.hume_client_exception import HumeClientException
-from hume.models.config import ModelConfigBase
+from hume.models.config.model_config_base import ModelConfigBase
 
 logger = logging.getLogger(__name__)
 
@@ -47,7 +47,16 @@ class HumeBatchClient(ClientBase):
         Args:
             api_key (str): Hume API key.
         """
-        super().__init__(api_key, *args, _api_type=ApiType.BATCH, **kwargs)
+        super().__init__(api_key, *args, **kwargs)
+
+    @classmethod
+    def get_api_type(cls) -> ApiType:
+        """Get the ApiType of the client.
+
+        Returns:
+            ApiType: API type of the client.
+        """
+        return ApiType.BATCH
 
     def get_job_result(self, job_id: str) -> BatchJobResult:
         """Get the result of the batch job.
@@ -143,9 +152,16 @@ class HumeBatchClient(ClientBase):
             raise HumeClientException(f"Failed batch request: {response.text}")
 
         if "job_id" not in body:
-            if "fault" in body and "faultstring" in body["fault"]:
-                fault_string = body["fault"]["faultstring"]
-                raise HumeClientException(f"Could not start batch job: {fault_string}")
-            raise HumeClientException("Unexpected error when starting batch job")
+            if "fault" in body:
+                fault = body["fault"]
+                if "faultstring" in fault:
+                    fault_string = fault["faultstring"]
+                    if "detail" in fault:
+                        detail = fault["detail"]
+                        if "errorcode" in detail:
+                            error_code = detail["errorcode"]
+                            raise HumeClientException(f"Could not start batch job: {error_code}: {fault_string}")
+                    raise HumeClientException(f"Could not start batch job: {fault_string}")
+            raise HumeClientException(f"Unexpected error when starting batch job: {body}")
 
         return BatchJob(self, body["job_id"])

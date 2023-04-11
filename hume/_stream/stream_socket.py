@@ -170,7 +170,7 @@ class StreamSocket:
         return await self._send_payload(payload)
 
     async def _send_bytes_str(self, bytes_str: str) -> Any:
-        payload = {
+        payload: Dict[str, Any] = {
             "data": bytes_str,
             "models": self._serialized_configs,
         }
@@ -197,7 +197,7 @@ class StreamSocket:
 
         return response
 
-    def _validate_configs_with_model_type(self, config_type: Any, method_name: str):
+    def _validate_configs_with_model_type(self, config_type: Any, method_name: str) -> None:
         for config in self._configs:
             if not isinstance(config, config_type):
                 config_name = config_type.__name__
