@@ -69,7 +69,6 @@ async def main():
     client = HumeStreamClient("<your-api-key>")
     config = FaceConfig(identify_faces=True)
     async with client.connect([config]) as socket:
-        socket: StreamSocket
         result = await socket.send_file("<your-image-filepath>")
         print(result)
 

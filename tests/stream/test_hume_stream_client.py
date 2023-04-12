@@ -43,7 +43,6 @@ class TestHumeStreamClient:
         monkeypatch.setattr(websockets, "connect", mock_connect)
         configs = [ProsodyConfig()]
         async with stream_client.connect(configs, stream_window_ms=350) as socket:
-            socket: StreamSocket
             assert socket._stream_window_ms == 350
 
     async def test_connect_with_models_config(self, stream_client: HumeStreamClient, monkeypatch: MonkeyPatch):
@@ -55,5 +54,4 @@ class TestHumeStreamClient:
             "prosody": {},
         }
         async with stream_client._connect_with_configs_dict(configs_dict) as socket:
-            socket: StreamSocket
             assert len(socket._configs) == 2

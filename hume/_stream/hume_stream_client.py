@@ -30,7 +30,6 @@ class HumeStreamClient(ClientBase):
             client = HumeStreamClient("<your-api-key>")
             config = FaceConfig(identify_faces=True)
             async with client.connect([configs]) as socket:
-                socket: StreamSocket
                 result = await socket.send_file("<your-image-filepath>")
                 print(result)
 
@@ -67,7 +66,7 @@ class HumeStreamClient(ClientBase):
         self,
         configs: List[ModelConfigBase],
         stream_window_ms: Optional[int] = None,
-    ) -> AsyncIterator:
+    ) -> AsyncIterator[StreamSocket]:
         """Connect to the streaming API.
 
         Note: Only one config per model type should be passed.
@@ -92,7 +91,7 @@ class HumeStreamClient(ClientBase):
             raise HumeClientException("Unexpected error when creating streaming connection") from exc
 
     @asynccontextmanager
-    async def _connect_with_configs_dict(self, configs_dict: Any) -> AsyncIterator:
+    async def _connect_with_configs_dict(self, configs_dict: Any) -> AsyncIterator[StreamSocket]:
         """Connect to the streaming API with a single models configuration dict.
 
         Args:
