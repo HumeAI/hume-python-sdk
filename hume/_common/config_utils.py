@@ -3,7 +3,8 @@ from typing import Any, Dict, List, Type
 
 from hume.error.hume_client_exception import HumeClientException
 from hume.models import ModelType
-from hume.models.config import BurstConfig, FaceConfig, FacemeshConfig, LanguageConfig, ModelConfigBase, ProsodyConfig
+from hume.models.config import (BurstConfig, FaceConfig, FacemeshConfig, LanguageConfig, ModelConfigBase, NerConfig,
+                                ProsodyConfig)
 
 
 def config_from_model_type(model_type: ModelType) -> Type[ModelConfigBase]:
@@ -23,6 +24,8 @@ def config_from_model_type(model_type: ModelType) -> Type[ModelConfigBase]:
         return FacemeshConfig
     if model_type == ModelType.LANGUAGE:
         return LanguageConfig
+    if model_type == ModelType.NER:
+        return NerConfig
     if model_type == ModelType.PROSODY:
         return ProsodyConfig
     raise HumeClientException(f"Unknown model type {model_type}")
