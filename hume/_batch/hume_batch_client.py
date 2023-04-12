@@ -103,11 +103,11 @@ class HumeBatchClient(ClientBase):
             If more than one config is passed for a given model type, only the last config will be used.
 
         Args:
-            urls (List[str]): _description_
-            configs (List[ModelConfigBase]): _description_
+            urls (List[str]): List of URLs to media files to be processed.
+            configs (List[ModelConfigBase]): List of model config objects to run on each media URL.
 
         Returns:
-            BatchJob: _description_
+            BatchJob: The `BatchJob` representing the batch computation.
         """
         request = self._get_request(configs, urls)
         return self._submit_job_from_request(request)
