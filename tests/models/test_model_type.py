@@ -8,7 +8,7 @@ from hume.models import ModelType
 class TestModelType:
 
     @pytest.mark.parametrize("model_name", ["burst", "face", "facemesh", "language", "prosody"])
-    def test_from_str(self, model_name):
+    def test_from_str(self, model_name: str):
         ModelType.from_str(model_name)
 
     def test_from_str_fail(self):
