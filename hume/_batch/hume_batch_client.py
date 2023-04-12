@@ -22,9 +22,9 @@ class HumeBatchClient(ClientBase):
         from hume.models.config import FaceConfig
 
         client = HumeBatchClient("<your-api-key>")
-        urls = ["https://tinyurl.com/hume-img"]
-        configs = [FaceConfig(identify_faces=True)]
-        job = client.submit(urls, configs)
+        urls = ["<your-image-url>"]
+        config = FaceConfig(identify_faces=True)
+        job = client.submit_job(urls, [configs])
 
         print(job)
         print("Running...")

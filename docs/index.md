@@ -30,8 +30,8 @@ from hume.models.config import FaceConfig
 
 client = HumeBatchClient("<your-api-key>")
 urls = ["https://tinyurl.com/hume-img"]
-configs = [FaceConfig(identify_faces=True)]
-job = client.submit(urls, configs)
+config = FaceConfig(identify_faces=True)
+job = client.submit_job(urls, [config])
 
 print(job)
 print("Running...")
@@ -67,8 +67,8 @@ from hume.models.config import FaceConfig
 
 async def main():
     client = HumeStreamClient("<your-api-key>")
-    configs = [FaceConfig(identify_faces=True)]
-    async with client.connect(configs) as socket:
+    config = FaceConfig(identify_faces=True)
+    async with client.connect([config]) as socket:
         socket: StreamSocket
         result = await socket.send_file("<your-image-filepath>")
         print(result)
