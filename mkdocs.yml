@@ -35,13 +35,20 @@ plugins:
 nav:
   - "Home": index.md
   - "Batch Reference":
-    - "HumeBatchClient": batch/hume-batch-client.md
-    - "BatchJob": batch/batch-job.md
-    - "BatchJobStatus": batch/batch-job-status.md
-    - "BatchJobResult": batch/batch-job-result.md
+      - "HumeBatchClient": batch/hume-batch-client.md
+      - "BatchJob": batch/batch-job.md
+      - "BatchJobStatus": batch/batch-job-status.md
+      - "BatchJobResult": batch/batch-job-result.md
   - "Streaming Reference":
-    - "HumeStreamClient": stream/hume-stream-client.md
-    - "StreamSocket": stream/stream-socket.md
+      - "HumeStreamClient": stream/hume-stream-client.md
+      - "StreamSocket": stream/stream-socket.md
+  - "Configs Reference":
+      - "BurstConfig": config/burst-config.md
+      - "FaceConfig": config/face-config.md
+      - "FacemeshConfig": config/facemesh-config.md
+      - "LanguageConfig": config/language-config.md
+      - "NerConfig": config/ner-config.md
+      - "ProsodyConfig": config/prosody-config.md
 
 markdown_extensions:
   - pymdownx.highlight:

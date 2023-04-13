@@ -1,23 +1,19 @@
 """Streaming API client."""
-import logging
 from contextlib import asynccontextmanager
-from typing import Any, AsyncIterator, List
+from typing import Any, AsyncIterator, List, Optional
 
 from hume._common.api_type import ApiType
 from hume._common.client_base import ClientBase
-from hume._common.config import JobConfigBase
-from hume._common.config.config_utils import config_from_model_type
-from hume._common.hume_client_error import HumeClientError
-from hume._common.model_type import ModelType
+from hume._common.config_utils import deserialize_configs
 from hume._stream.stream_socket import StreamSocket
+from hume.error.hume_client_exception import HumeClientException
+from hume.models.config.model_config_base import ModelConfigBase
 
 try:
     import websockets
     HAS_WEBSOCKETS = True
 except ModuleNotFoundError:
     HAS_WEBSOCKETS = False
-
-logger = logging.getLogger(__name__)
 
 
 class HumeStreamClient(ClientBase):
@@ -28,13 +24,12 @@ class HumeStreamClient(ClientBase):
         import asyncio
 
         from hume import HumeStreamClient, StreamSocket
-        from hume.config import FaceConfig
+        from hume.models.config import FaceConfig
 
         async def main():
             client = HumeStreamClient("<your-api-key>")
-            configs = [FaceConfig(identify_faces=True)]
-            async with client.connect(configs) as socket:
-                socket: StreamSocket
+            config = FaceConfig(identify_faces=True)
+            async with client.connect([configs]) as socket:
                 result = await socket.send_file("<your-image-filepath>")
                 print(result)
 
@@ -44,49 +39,65 @@ class HumeStreamClient(ClientBase):
 
     _DEFAULT_API_TIMEOUT = 10
 
-    def __init__(self, *args: Any, **kwargs: Any):
+    def __init__(self, api_key: str, *args: Any, **kwargs: Any):
         """Construct a HumeStreamClient.
 
         Args:
             api_key (str): Hume API key.
         """
         if not HAS_WEBSOCKETS:
-            raise HumeClientError("websockets package required to use HumeStreamClient")
+            raise HumeClientException("The websockets package is required to use HumeStreamClient. "
+                                      "Run `pip install hume[stream]` to install a version compatible with the"
+                                      "Hume Python SDK.")
 
-        super().__init__(*args, **kwargs)
+        super().__init__(api_key, *args, **kwargs)
+
+    @classmethod
+    def get_api_type(cls) -> ApiType:
+        """Get the ApiType of the client.
+
+        Returns:
+            ApiType: API type of the client.
+        """
+        return ApiType.STREAM
 
     @asynccontextmanager
-    async def connect(self, configs: List[JobConfigBase]) -> AsyncIterator:
+    async def connect(
+        self,
+        configs: List[ModelConfigBase],
+        stream_window_ms: Optional[int] = None,
+    ) -> AsyncIterator[StreamSocket]:
         """Connect to the streaming API.
 
-        Args:
-            configs (List[JobConfigBase]): List of job configs.
-        """
-        uri = (f"{self._api_ws_base_uri}/{self._api_version}/{ApiType.STREAM.value}/multi"
-               f"?apikey={self._api_key}")
+        Note: Only one config per model type should be passed.
+            If more than one config is passed for a given model type, only the last config will be used.
 
+        Args:
+            configs (List[ModelConfigBase]): List of job configs.
+            stream_window_ms (Optional[int]): Length of the sliding window in milliseconds to use when
+                aggregating media across streaming payloads within one websocket connection.
+        """
+        endpoint = self._construct_endpoint("models")
         try:
             # pylint: disable=no-member
             async with websockets.connect(  # type: ignore[attr-defined]
-                    uri, extra_headers=self._get_client_headers()) as protocol:
-                yield StreamSocket(protocol, configs)
+                    endpoint, extra_headers=self._get_client_headers()) as protocol:
+                yield StreamSocket(protocol, configs, stream_window_ms=stream_window_ms)
         except websockets.exceptions.InvalidStatusCode as exc:
-            message = "Client initialized with invalid API key"
-            raise HumeClientError(message) from exc
+            status_code: int = exc.status_code
+            if status_code == 401:  # Unauthorized
+                message = "HumeStreamClient initialized with invalid API key."
+                raise HumeClientException(message) from exc
+            raise HumeClientException("Unexpected error when creating streaming connection") from exc
 
     @asynccontextmanager
-    async def _connect_to_models(self, configs_dict: Any) -> AsyncIterator:
+    async def _connect_with_configs_dict(self, configs_dict: Any) -> AsyncIterator[StreamSocket]:
         """Connect to the streaming API with a single models configuration dict.
 
         Args:
             configs_dict (Any): Models configurations dict. This should be a dict from model name
                 to model configuration dict. An empty dict uses the default configuration.
         """
-        configs = []
-        for model_name, config_dict in configs_dict.items():
-            model_type = ModelType.from_str(model_name)
-            config = config_from_model_type(model_type).deserialize(config_dict)
-            configs.append(config)
-
+        configs = deserialize_configs(configs_dict)
         async with self.connect(configs) as websocket:
             yield websocket

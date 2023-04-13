@@ -1,5 +1,4 @@
 """Batch job."""
-import logging
 from typing import TYPE_CHECKING
 
 from hume._batch.batch_job_result import BatchJobResult
@@ -8,8 +7,6 @@ from hume._common.retry_utils import retry, RetryIterError
 
 if TYPE_CHECKING:
     from hume._batch.hume_batch_client import HumeBatchClient
-
-logger = logging.getLogger(__name__)
 
 
 class BatchJob:
@@ -51,7 +48,7 @@ class BatchJob:
         Args:
             timeout (int): Maximum time in seconds to await. If the timeout is reached
                 before the job reaches a terminal state the job will continue to be processed,
-                but a `HumeClientError` will be raised to the caller of `await_complete`.
+                but a `HumeClientException` will be raised to the caller of `await_complete`.
 
         Raises:
             ValueError: If the timeout is not valid.

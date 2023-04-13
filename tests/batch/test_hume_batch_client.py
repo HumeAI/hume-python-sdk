@@ -4,14 +4,15 @@ import pytest
 from pytest import MonkeyPatch
 
 from hume import BatchJob, HumeBatchClient
+from hume.models.config import BurstConfig, FaceConfig, LanguageConfig, ProsodyConfig
 
 
 @pytest.fixture(scope="function")
 def batch_client(monkeypatch: MonkeyPatch) -> HumeBatchClient:
-    mock_start_job = MagicMock(return_value="temp-job-value")
-    monkeypatch.setattr(HumeBatchClient, "start_job", mock_start_job)
+    mock_submit_request = MagicMock(return_value="temp-job-value")
+    monkeypatch.setattr(HumeBatchClient, "_submit_job_from_request", mock_submit_request)
     client = HumeBatchClient("0000-0000-0000-0000")
-    mock_start_job.return_value = BatchJob(client, "mock-job-id")
+    mock_submit_request.return_value = BatchJob(client, "mock-job-id")
     return client
 
 
@@ -20,16 +21,11 @@ class TestHumeBatchClient:
 
     def test_face(self, batch_client: HumeBatchClient):
         mock_url = "mock-url"
-        job = batch_client.submit_face(
-            [mock_url],
-            fps_pred=5,
-            prob_threshold=0.24,
-            identify_faces=True,
-            min_face_size=78,
-        )
+        config = FaceConfig(fps_pred=5, prob_threshold=0.24, identify_faces=True, min_face_size=78)
+        job = batch_client.submit_job([mock_url], [config])
         assert isinstance(job, BatchJob)
         assert job.id == "mock-job-id"
-        batch_client.start_job.assert_called_once_with({
+        batch_client._submit_job_from_request.assert_called_once_with({
             "models": {
                 "face": {
                     "fps_pred": 5,
@@ -43,10 +39,11 @@ class TestHumeBatchClient:
 
     def test_burst(self, batch_client: HumeBatchClient):
         mock_url = "mock-url"
-        job = batch_client.submit_burst([mock_url])
+        config = BurstConfig()
+        job = batch_client.submit_job([mock_url], [config])
         assert isinstance(job, BatchJob)
         assert job.id == "mock-job-id"
-        batch_client.start_job.assert_called_once_with({
+        batch_client._submit_job_from_request.assert_called_once_with({
             "models": {
                 "burst": {},
             },
@@ -55,13 +52,11 @@ class TestHumeBatchClient:
 
     def test_prosody(self, batch_client: HumeBatchClient):
         mock_url = "mock-url"
-        job = batch_client.submit_prosody(
-            [mock_url],
-            identify_speakers=True,
-        )
+        config = ProsodyConfig(identify_speakers=True)
+        job = batch_client.submit_job([mock_url], [config])
         assert isinstance(job, BatchJob)
         assert job.id == "mock-job-id"
-        batch_client.start_job.assert_called_once_with({
+        batch_client._submit_job_from_request.assert_called_once_with({
             "models": {
                 "prosody": {
                     "identify_speakers": True,
@@ -72,14 +67,11 @@ class TestHumeBatchClient:
 
     def test_language(self, batch_client: HumeBatchClient):
         mock_url = "mock-url"
-        job = batch_client.submit_language(
-            [mock_url],
-            granularity="word",
-            identify_speakers=True,
-        )
+        config = LanguageConfig(granularity="word", identify_speakers=True)
+        job = batch_client.submit_job([mock_url], [config])
         assert isinstance(job, BatchJob)
         assert job.id == "mock-job-id"
-        batch_client.start_job.assert_called_once_with({
+        batch_client._submit_job_from_request.assert_called_once_with({
             "models": {
                 "language": {
                     "granularity": "word",

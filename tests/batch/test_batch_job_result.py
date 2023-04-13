@@ -1,9 +1,10 @@
 import json
+import re
 from pathlib import Path
 
 import pytest
 
-from hume import BatchJobResult, BatchJobStatus, HumeClientError
+from hume import BatchJobResult, BatchJobStatus, HumeClientException
 
 
 @pytest.fixture(scope="function")
@@ -38,16 +39,16 @@ class TestBatchJobResult:
 
     def test_queued_download_fail(self, queued_result: BatchJobResult):
 
-        message = "Could not download job artifacts. No artifacts found on job result"
-        with pytest.raises(HumeClientError, match=message):
+        message = "Could not download job artifacts. No artifacts found on job result."
+        with pytest.raises(HumeClientException, match=re.escape(message)):
             queued_result.download_artifacts("fake-path")
 
         message = "Could not download job errors. No errors found on job result."
-        with pytest.raises(HumeClientError, match=message):
+        with pytest.raises(HumeClientException, match=re.escape(message)):
             queued_result.download_errors("fake-path")
 
         message = "Could not download job predictions. No predictions found on job result."
-        with pytest.raises(HumeClientError, match=message):
+        with pytest.raises(HumeClientException, match=re.escape(message)):
             queued_result.download_predictions("fake-path")
 
     def test_completed(self, completed_result: BatchJobResult):

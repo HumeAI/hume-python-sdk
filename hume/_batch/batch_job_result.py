@@ -6,10 +6,10 @@ from typing import Any, Dict, List, Optional, Union
 from urllib.request import urlretrieve
 
 from hume._batch.batch_job_status import BatchJobStatus
-from hume._common.model_type import ModelType
-from hume._common.config.job_config_base import JobConfigBase
-from hume._common.config.config_utils import config_from_model_type
-from hume._common.hume_client_error import HumeClientError
+from hume._common.config_utils import config_from_model_type
+from hume.error.hume_client_exception import HumeClientException
+from hume.models import ModelType
+from hume.models.config.model_config_base import ModelConfigBase
 
 
 class BatchJobResult:
@@ -18,7 +18,7 @@ class BatchJobResult:
     def __init__(
         self,
         *,
-        configs: Dict[ModelType, JobConfigBase],
+        configs: Dict[ModelType, ModelConfigBase],
         urls: List[str],
         status: BatchJobStatus,
         predictions_url: Optional[str] = None,
@@ -31,7 +31,7 @@ class BatchJobResult:
         """Construct a BatchJobResult.
 
         Args:
-            configs (Dict[ModelType, JobConfigBase]): Configurations for the `BatchJob`.
+            configs (Dict[ModelType, ModelConfigBase]): Configurations for the `BatchJob`.
             urls (List[str]): URLs processed in the `BatchJob`.
             status (BatchJobStatus): Status of `BatchJob`.
             predictions_url (Optional[str]): URL to predictions file.
@@ -58,7 +58,7 @@ class BatchJobResult:
             filepath (Optional[Union[str, Path]]): Filepath where predictions will be downloaded.
         """
         if self.predictions_url is None:
-            raise HumeClientError("Could not download job predictions. No predictions found on job result.")
+            raise HumeClientException("Could not download job predictions. No predictions found on job result.")
         urlretrieve(self.predictions_url, filepath)
 
     def download_artifacts(self, filepath: Optional[Union[str, Path]] = None) -> None:
@@ -68,7 +68,7 @@ class BatchJobResult:
             filepath (Optional[Union[str, Path]]): Filepath where artifacts zip archive will be downloaded.
         """
         if self.artifacts_url is None:
-            raise HumeClientError("Could not download job artifacts. No artifacts found on job result.")
+            raise HumeClientException("Could not download job artifacts. No artifacts found on job result.")
         urlretrieve(self.artifacts_url, filepath)
 
     def download_errors(self, filepath: Optional[Union[str, Path]] = None) -> None:
@@ -78,7 +78,7 @@ class BatchJobResult:
             filepath (Optional[Union[str, Path]]): Filepath where errors will be downloaded.
         """
         if self.errors_url is None:
-            raise HumeClientError("Could not download job errors. No errors found on job result.")
+            raise HumeClientException("Could not download job errors. No errors found on job result.")
         urlretrieve(self.errors_url, filepath)
 
     def get_error_message(self) -> Optional[str]:
@@ -137,7 +137,7 @@ class BatchJobResult:
             configs = {}
             for model_name, config_dict in request["models"].items():
                 model_type = ModelType.from_str(model_name)
-                config = config_from_model_type(model_type).deserialize(config_dict)
+                config = config_from_model_type(model_type).from_dict(config_dict)
                 configs[model_type] = config
 
             kwargs = {}
@@ -167,7 +167,7 @@ class BatchJobResult:
         # pylint: disable=broad-except
         except Exception as exc:
             message = cls._get_invalid_response_message(response)
-            raise HumeClientError(message) from exc
+            raise HumeClientException(message) from exc
 
     @classmethod
     def _get_invalid_response_message(cls, response: Any) -> str:
@@ -178,6 +178,6 @@ class BatchJobResult:
         if "fault" in response and "faultstring" in response["fault"]:
             fault_string = response["fault"]["faultstring"]
             if fault_string == "Invalid ApiKey":
-                message = "Client initialized with invalid API key"
+                message = "HumeBatchClient initialized with invalid API key."
 
         return message

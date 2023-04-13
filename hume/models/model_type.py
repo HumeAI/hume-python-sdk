@@ -9,6 +9,7 @@ class ModelType(Enum):
     FACE = "face"
     FACEMESH = "facemesh"
     LANGUAGE = "language"
+    NER = "ner"
     PROSODY = "prosody"
 
     @classmethod

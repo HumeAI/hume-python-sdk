@@ -1,21 +1,20 @@
 """Base class for Hume clients."""
-from abc import ABC
-from typing import Dict, Optional
-import importlib.metadata
+from abc import ABC, abstractmethod
+from importlib.metadata import version
+from typing import Dict
+
+from hume._common.api_type import ApiType
 
 
 class ClientBase(ABC):
     """Base class for Hume API clients."""
 
-    _HTTP_BASE_URL = "https://api.hume.ai"
-    _WS_BASE_URI = "wss://api.hume.ai"
-
     def __init__(
         self,
         api_key: str,
         _api_version: str = "v0",
-        _api_http_base_url: Optional[str] = None,
-        _api_ws_base_uri: Optional[str] = None,
+        _api_http_base_url: str = "https://api.hume.ai",
+        _api_ws_base_uri: str = "wss://api.hume.ai",
     ):
         """Construct a new Hume API client.
 
@@ -24,12 +23,27 @@ class ClientBase(ABC):
         """
         self._api_key = api_key
         self._api_version = _api_version
-        self._api_http_base_url = self._HTTP_BASE_URL if _api_http_base_url is None else _api_http_base_url
-        self._api_ws_base_uri = self._WS_BASE_URI if _api_ws_base_uri is None else _api_ws_base_uri
+        self._api_http_base_url = _api_http_base_url
+        self._api_ws_base_uri = _api_ws_base_uri
+
+    @classmethod
+    @abstractmethod
+    def get_api_type(cls) -> ApiType:
+        """Get the ApiType of the client.
+
+        Returns:
+            ApiType: API type of the client.
+        """
 
     def _get_client_headers(self) -> Dict[str, str]:
-        package_version = importlib.metadata.version("hume")
+        package_version = version("hume")
         return {
+            "X-Hume-Api-Key": self._api_key,
             "X-Hume-Client-Name": "python-sdk",
             "X-Hume-Client-Version": package_version,
         }
+
+    def _construct_endpoint(self, path: str) -> str:
+        api_type = self.get_api_type()
+        base = self._api_ws_base_uri if api_type == ApiType.STREAM else self._api_http_base_url
+        return f"{base}/{self._api_version}/{api_type.value}/{path}"

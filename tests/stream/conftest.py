@@ -12,10 +12,7 @@ def mock_face_protocol():
             "data": "bW9jay1tZWRpYS1maWxl",
             "models": {
                 "face": {
-                    "fps_pred": None,
-                    "prob_threshold": None,
                     "identify_faces": True,
-                    "min_face_size": None
                 },
             },
         }
@@ -38,13 +35,11 @@ def mock_language_protocol():
 
     async def mock_send(message: str) -> None:
         assert json.loads(message) == {
-            "data": "bW9jay10ZXh0",
+            "data": "mock-text",
             "models": {
-                "language": {
-                    "identify_speakers": None,
-                    "granularity": None,
-                },
+                "language": {},
             },
+            "raw_text": True,
         }
 
     async def mock_recv() -> str:

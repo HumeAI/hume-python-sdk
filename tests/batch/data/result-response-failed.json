@@ -7,13 +7,10 @@
   "request": {
     "models": {
       "face": {
-        "descriptions": null,
-        "facs": null,
         "fps_pred": 3.0,
         "identify_faces": false,
         "min_face_size": 60.0,
-        "prob_threshold": 0.9900000095367432,
-        "save_faces": false
+        "prob_threshold": 0.9900000095367432
       }
     },
     "notify": false,
