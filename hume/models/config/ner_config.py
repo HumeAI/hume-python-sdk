@@ -8,7 +8,7 @@ from hume.models.config.model_config_base import ModelConfigBase
 
 @dataclass
 class NerConfig(ModelConfigBase["NerConfig"]):
-    """Configuration for the named-entity emotion model
+    """Configuration for the named-entity emotion model.
 
     This model is not available for the streaming API.
 

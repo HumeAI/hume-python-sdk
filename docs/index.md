@@ -62,7 +62,7 @@ print(job)
 ```python
 import asyncio
 
-from hume import HumeStreamClient, StreamSocket
+from hume import HumeStreamClient
 from hume.models.config import FaceConfig
 
 async def main():
