@@ -1,7 +1,7 @@
 """Base class for Hume clients."""
 from abc import ABC, abstractmethod
+from importlib.metadata import version
 from typing import Dict
-import importlib.metadata
 
 from hume._common.api_type import ApiType
 
@@ -36,7 +36,7 @@ class ClientBase(ABC):
         """
 
     def _get_client_headers(self) -> Dict[str, str]:
-        package_version = importlib.metadata.version("hume")
+        package_version = version("hume")
         return {
             "X-Hume-Api-Key": self._api_key,
             "X-Hume-Client-Name": "python-sdk",
