@@ -22,7 +22,9 @@ To get started, [sign up for a Hume account](https://share.hsforms.com/1lVY-gpw0
 
 ## Usage & Documentation
 
-For usage examples check out the [full documentation](https://humeai.github.io/hume-python-sdk/).
+Example notebooks can be found in the [examples folder](./examples/README.md).
+
+For complete documentation check out the [docs site](https://humeai.github.io/hume-python-sdk/).
 
 ## Other Resources
 
