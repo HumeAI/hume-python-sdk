@@ -18,7 +18,6 @@ class LanguageConfig(ModelConfigBase["LanguageConfig"]):
             This configuration is not available for the streaming API.
         granularity (Optional[str]): The granularity at which to generate predictions.
             Values are `word`, `sentence`, or `passage`. Default value is `word`.
-            This configuration is not available for the streaming API.
         identify_speakers (Optional[bool]): Whether to return identifiers for speakers over time.
             If true, unique identifiers will be assigned to spoken words to differentiate different speakers.
             If false, all speakers will be tagged with an "unknown" ID.
