@@ -1,7 +1,7 @@
 """Module init."""
 from importlib.metadata import version
 
-from hume._batch import BatchJob, BatchJobResult, BatchJobStatus, HumeBatchClient
+from hume._batch import BatchJob, BatchJobResult, BatchJobStatus, HumeBatchClient, TranscriptionConfig
 from hume._stream import HumeStreamClient, StreamSocket
 from hume.error.hume_client_exception import HumeClientException
 
@@ -16,4 +16,5 @@ __all__ = [
     "HumeClientException",
     "HumeStreamClient",
     "StreamSocket",
+    "TranscriptionConfig",
 ]

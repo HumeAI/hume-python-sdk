@@ -1,11 +1,12 @@
 """Batch API client."""
 import json
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 import requests
 
 from hume._batch.batch_job import BatchJob
 from hume._batch.batch_job_result import BatchJobResult
+from hume._batch.transcription_config import TranscriptionConfig
 from hume._common.api_type import ApiType
 from hume._common.client_base import ClientBase
 from hume._common.config_utils import serialize_configs
@@ -96,7 +97,13 @@ class HumeBatchClient(ClientBase):
         """
         return BatchJob(self, job_id)
 
-    def submit_job(self, urls: List[str], configs: List[ModelConfigBase]) -> BatchJob:
+    def submit_job(
+        self,
+        urls: List[str],
+        configs: List[ModelConfigBase],
+        transcription_config: Optional[TranscriptionConfig] = None,
+        callback_url: Optional[str] = None,
+    ) -> BatchJob:
         """Submit a job for batch processing.
 
         Note: Only one config per model type should be passed.
@@ -105,19 +112,32 @@ class HumeBatchClient(ClientBase):
         Args:
             urls (List[str]): List of URLs to media files to be processed.
             configs (List[ModelConfigBase]): List of model config objects to run on each media URL.
+            transcription_config (Optional[TranscriptionConfig]): A `TranscriptionConfig` object.
+            callback_url (Optional[str]): A URL to which a POST request will be sent upon job completion.
 
         Returns:
             BatchJob: The `BatchJob` representing the batch computation.
         """
-        request = self._get_request(configs, urls)
+        request = self._get_request(configs, urls, transcription_config, callback_url)
         return self._submit_job_from_request(request)
 
     @classmethod
-    def _get_request(cls, configs: List[ModelConfigBase], urls: List[str]) -> Dict[str, Any]:
-        return {
+    def _get_request(
+        cls,
+        configs: List[ModelConfigBase],
+        urls: List[str],
+        transcription_config: Optional[TranscriptionConfig],
+        callback_url: Optional[str],
+    ) -> Dict[str, Any]:
+        request = {
             "urls": urls,
             "models": serialize_configs(configs),
         }
+        if transcription_config is not None:
+            request["transcription"] = transcription_config.to_dict()
+        if callback_url is not None:
+            request["callback_url"] = callback_url
+        return request
 
     def _submit_job_from_request(self, request_body: Any) -> BatchJob:
         """Start a job for batch processing by passing a JSON request body.
