@@ -5,7 +5,7 @@ from typing import Any, Dict, List, Optional
 import requests
 
 from hume._batch.batch_job import BatchJob
-from hume._batch.batch_job_result import BatchJobResult
+from hume._batch.batch_job_info import BatchJobInfo
 from hume._batch.transcription_config import TranscriptionConfig
 from hume._common.api_type import ApiType
 from hume._common.client_base import ClientBase
@@ -30,8 +30,8 @@ class HumeBatchClient(ClientBase):
         print(job)
         print("Running...")
 
-        result = job.await_complete()
-        result.download_predictions("predictions.json")
+        job.await_complete()
+        job.download_predictions("predictions.json")
 
         print("Predictions downloaded!")
         ```
@@ -55,36 +55,6 @@ class HumeBatchClient(ClientBase):
             ApiType: API type of the client.
         """
         return ApiType.BATCH
-
-    def get_job_result(self, job_id: str) -> BatchJobResult:
-        """Get the result of the batch job.
-
-        Args:
-            job_id (str): Job ID.
-
-        Raises:
-            HumeClientException: If the job result cannot be loaded.
-
-        Returns:
-            BatchJobResult: Batch job result.
-        """
-        endpoint = self._construct_endpoint(f"jobs/{job_id}")
-        response = requests.get(
-            endpoint,
-            timeout=self._DEFAULT_API_TIMEOUT,
-            headers=self._get_client_headers(),
-        )
-
-        try:
-            body = response.json()
-        except json.JSONDecodeError:
-            # pylint: disable=raise-missing-from
-            raise HumeClientException("Unexpected error when getting job result")
-
-        if "message" in body and body["message"] == "job not found":
-            raise HumeClientException(f"Could not find a job with ID {job_id}")
-
-        return BatchJobResult.from_response(body)
 
     def get_job(self, job_id: str) -> BatchJob:
         """Rehydrate a job based on a Job ID.
@@ -118,11 +88,101 @@ class HumeBatchClient(ClientBase):
         Returns:
             BatchJob: The `BatchJob` representing the batch computation.
         """
-        request = self._get_request(configs, urls, transcription_config, callback_url)
+        request = self._construct_request(configs, urls, transcription_config, callback_url)
         return self._submit_job_from_request(request)
 
+    def get_job_info(self, job_id: str) -> BatchJobInfo:
+        """Get info for the batch job.
+
+        Args:
+            job_id (str): Job ID.
+
+        Raises:
+            HumeClientException: If the job info cannot be loaded.
+
+        Returns:
+            BatchJobInfo: Batch job info.
+        """
+        endpoint = self._construct_endpoint(f"jobs/{job_id}")
+        response = requests.get(
+            endpoint,
+            timeout=self._DEFAULT_API_TIMEOUT,
+            headers=self._get_client_headers(),
+        )
+
+        try:
+            body = response.json()
+        except json.JSONDecodeError:
+            # pylint: disable=raise-missing-from
+            raise HumeClientException("Unexpected error when getting job info")
+
+        if "message" in body and body["message"] == "job not found":
+            raise HumeClientException(f"Could not find a job with ID {job_id}")
+
+        return BatchJobInfo.from_response(body)
+
+    def get_job_predictions(self, job_id: str) -> Any:
+        """Get a batch job's predictions.
+
+        Args:
+            job_id (str): Job ID.
+
+        Raises:
+            HumeClientException: If the job predictions cannot be loaded.
+
+        Returns:
+            Any: Batch job predictions.
+        """
+        endpoint = self._construct_endpoint(f"jobs/{job_id}/predictions")
+        response = requests.get(
+            endpoint,
+            timeout=self._DEFAULT_API_TIMEOUT,
+            headers=self._get_client_headers(),
+        )
+
+        try:
+            body = response.json()
+        except json.JSONDecodeError:
+            # pylint: disable=raise-missing-from
+            raise HumeClientException("Unexpected error when getting job info")
+
+        if "message" in body and body["message"] == "job not found":
+            raise HumeClientException(f"Could not find a job with ID {job_id}")
+
+        return BatchJobInfo.from_response(body)
+
+    def get_job_artifacts(self, job_id: str) -> Any:
+        """Get a batch job's artifacts.
+
+        Args:
+            job_id (str): Job ID.
+
+        Raises:
+            HumeClientException: If the job artifacts cannot be loaded.
+
+        Returns:
+            Any: Batch job artifacts.
+        """
+        endpoint = self._construct_endpoint(f"jobs/{job_id}/artifacts")
+        response = requests.get(
+            endpoint,
+            timeout=self._DEFAULT_API_TIMEOUT,
+            headers=self._get_client_headers(),
+        )
+
+        try:
+            body = response.json()
+        except json.JSONDecodeError:
+            # pylint: disable=raise-missing-from
+            raise HumeClientException("Unexpected error when getting job info")
+
+        if "message" in body and body["message"] == "job not found":
+            raise HumeClientException(f"Could not find a job with ID {job_id}")
+
+        return BatchJobInfo.from_response(body)
+
     @classmethod
-    def _get_request(
+    def _construct_request(
         cls,
         configs: List[ModelConfigBase],
         urls: List[str],

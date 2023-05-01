@@ -1,6 +1,5 @@
-"""Batch job result."""
+"""Batch job info."""
 import json
-from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from hume._batch.batch_job_state import BatchJobState
@@ -11,8 +10,8 @@ from hume.models import ModelType
 from hume.models.config.model_config_base import ModelConfigBase
 
 
-class BatchJobResult:
-    """Batch job result."""
+class BatchJobInfo:
+    """Batch job info."""
 
     def __init__(
         self,
@@ -24,7 +23,7 @@ class BatchJobResult:
         notify: bool,
         state: BatchJobState,
     ):
-        """Construct a BatchJobResult.
+        """Construct a BatchJobInfo.
 
         Args:
             configs (Dict[ModelType, ModelConfigBase]): Configurations for the `BatchJob`.
@@ -41,45 +40,15 @@ class BatchJobResult:
         self.notify = notify
         self.state = state
 
-    # def download_predictions(self, filepath: Optional[Union[str, Path]] = None) -> None:
-    #     """Download `BatchJob` predictions file.
-
-    #     Args:
-    #         filepath (Optional[Union[str, Path]]): Filepath where predictions will be downloaded.
-    #     """
-    #     if self.predictions_url is None:
-    #         raise HumeClientException("Could not download job predictions. No predictions found on job result.")
-    #     urlretrieve(self.predictions_url, filepath)
-
-    # def download_artifacts(self, filepath: Optional[Union[str, Path]] = None) -> None:
-    #     """Download `BatchJob` artifacts zip archive.
-
-    #     Args:
-    #         filepath (Optional[Union[str, Path]]): Filepath where artifacts zip archive will be downloaded.
-    #     """
-    #     if self.artifacts_url is None:
-    #         raise HumeClientException("Could not download job artifacts. No artifacts found on job result.")
-    #     urlretrieve(self.artifacts_url, filepath)
-
-    # def download_errors(self, filepath: Optional[Union[str, Path]] = None) -> None:
-    #     """Download `BatchJob` errors file.
-
-    #     Args:
-    #         filepath (Optional[Union[str, Path]]): Filepath where errors will be downloaded.
-    #     """
-    #     if self.errors_url is None:
-    #         raise HumeClientException("Could not download job errors. No errors found on job result.")
-    #     urlretrieve(self.errors_url, filepath)
-
     @classmethod
-    def from_response(cls, response: Any) -> "BatchJobResult":
-        """Construct a `BatchJobResult` from a batch API job response.
+    def from_response(cls, response: Any) -> "BatchJobInfo":
+        """Construct a `BatchJobInfo` from a batch API job response.
 
         Args:
             response (Any): Batch API job response.
 
         Returns:
-            BatchJobResult: A `BatchJobResult` based on a batch API job response.
+            BatchJobInfo: A `BatchJobInfo` based on a batch API job response.
         """
         try:
             request = response["request"]
@@ -119,7 +88,7 @@ class BatchJobResult:
     @classmethod
     def _get_invalid_response_message(cls, response: Any) -> str:
         response_str = json.dumps(response)
-        message = f"Could not parse response into BatchJobResult: {response_str}"
+        message = f"Could not parse response into BatchJobInfo: {response_str}"
 
         # Check for invalid API key
         if "fault" in response and "faultstring" in response["fault"]:
