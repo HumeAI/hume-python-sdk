@@ -41,33 +41,23 @@ class BatchJob:
         """
         return self._client.get_job_predictions(self.id)
 
-    def download_predictions(self, filepath: Optional[Union[str, Path]] = None) -> None:
+    def download_predictions(self, filepath: Union[str, Path]) -> None:
         """Download `BatchJob` predictions file.
 
         Args:
-            filepath (Optional[Union[str, Path]]): Filepath where predictions will be downloaded.
+            filepath (Union[str, Path]): Filepath where predictions will be downloaded.
         """
         predictions = self.get_predictions()
         with Path(filepath).open("w") as fp:
             json.dump(predictions, fp)
 
-    def get_artifacts(self) -> Any:
-        """Get `BatchJob` artifacts.
-
-        Returns:
-            Any: Artifacts for the `BatchJob`.
-        """
-        return self._client.get_job_artifacts(self.id)
-
-    def download_artifacts(self, filepath: Optional[Union[str, Path]] = None) -> None:
-        """Download `BatchJob` artifacts file.
+    def download_artifacts(self, filepath: Optional[Union[str, Path]]) -> None:
+        """Download `BatchJob` artifacts zip file.
 
         Args:
             filepath (Optional[Union[str, Path]]): Filepath where artifacts will be downloaded.
         """
-        artifacts = self.get_artifacts()
-        with Path(filepath).open("w") as fp:
-            json.dump(artifacts, fp)
+        self._client.download_job_artifacts(self.id, filepath)
 
     def get_info(self) -> BatchJobInfo:
         """Get info for the BatchJob.

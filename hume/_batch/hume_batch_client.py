@@ -1,6 +1,7 @@
 """Batch API client."""
 import json
-from typing import Any, Dict, List, Optional
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Union
 
 import requests
 
@@ -144,18 +145,19 @@ class HumeBatchClient(ClientBase):
             body = response.json()
         except json.JSONDecodeError:
             # pylint: disable=raise-missing-from
-            raise HumeClientException("Unexpected error when getting job info")
+            raise HumeClientException("Unexpected error when getting job predictions")
 
         if "message" in body and body["message"] == "job not found":
             raise HumeClientException(f"Could not find a job with ID {job_id}")
 
-        return BatchJobInfo.from_response(body)
+        return body
 
-    def get_job_artifacts(self, job_id: str) -> Any:
-        """Get a batch job's artifacts.
+    def download_job_artifacts(self, job_id: str, filepath: Union[str, Path]) -> None:
+        """Download a batch job's artifacts as a zip file.
 
         Args:
             job_id (str): Job ID.
+            filepath (Optional[Union[str, Path]]): Filepath where artifacts will be downloaded.
 
         Raises:
             HumeClientException: If the job artifacts cannot be loaded.
@@ -170,16 +172,8 @@ class HumeBatchClient(ClientBase):
             headers=self._get_client_headers(),
         )
 
-        try:
-            body = response.json()
-        except json.JSONDecodeError:
-            # pylint: disable=raise-missing-from
-            raise HumeClientException("Unexpected error when getting job info")
-
-        if "message" in body and body["message"] == "job not found":
-            raise HumeClientException(f"Could not find a job with ID {job_id}")
-
-        return BatchJobInfo.from_response(body)
+        with Path(filepath).open("wb") as fp:
+            fp.write(response.content)
 
     @classmethod
     def _construct_request(

@@ -1,6 +1,7 @@
 import json
 import logging
 import re
+import zipfile
 from datetime import datetime
 from pathlib import Path
 from typing import Dict
@@ -8,7 +9,7 @@ from typing import Dict
 import pytest
 from pytest import TempPathFactory
 
-from hume import BatchJob, BatchJobResult, HumeBatchClient, HumeClientException
+from hume import BatchJob, BatchJobInfo, HumeBatchClient, HumeClientException
 from hume.models.config import BurstConfig, FaceConfig, LanguageConfig, ProsodyConfig
 
 EvalData = Dict[str, str]
@@ -30,44 +31,44 @@ class TestServiceHumeBatchClient:
         config = FaceConfig(fps_pred=5, prob_threshold=0.24, identify_faces=True, min_face_size=78)
         job = batch_client.submit_job([data_url], [config])
         assert isinstance(job, BatchJob)
-        assert len(job.id) == 32
+        assert len(job.id) == 36
         logger.info(f"Running test job {job.id}")
-        result = job.await_complete()
+        info = job.await_complete()
         job_files_dir = tmp_path_factory.mktemp("job-files")
-        self.check_result(result, job_files_dir)
+        self.check_info(job, info, job_files_dir)
 
     def test_burst(self, eval_data: EvalData, batch_client: HumeBatchClient, tmp_path_factory: TempPathFactory):
         data_url = eval_data["burst-amusement-009"]
         config = BurstConfig()
         job = batch_client.submit_job([data_url], [config])
         assert isinstance(job, BatchJob)
-        assert len(job.id) == 32
+        assert len(job.id) == 36
         logger.info(f"Running test job {job.id}")
-        result = job.await_complete()
+        info = job.await_complete()
         job_files_dir = tmp_path_factory.mktemp("job-files")
-        self.check_result(result, job_files_dir)
+        self.check_info(job, info, job_files_dir)
 
     def test_prosody(self, eval_data: EvalData, batch_client: HumeBatchClient, tmp_path_factory: TempPathFactory):
         data_url = eval_data["prosody-horror-1051"]
         config = ProsodyConfig(identify_speakers=True)
         job = batch_client.submit_job([data_url], [config])
         assert isinstance(job, BatchJob)
-        assert len(job.id) == 32
+        assert len(job.id) == 36
         logger.info(f"Running test job {job.id}")
-        result = job.await_complete()
+        info = job.await_complete()
         job_files_dir = tmp_path_factory.mktemp("job-files")
-        self.check_result(result, job_files_dir)
+        self.check_info(job, info, job_files_dir)
 
     def test_language(self, eval_data: EvalData, batch_client: HumeBatchClient, tmp_path_factory: TempPathFactory):
         data_url = eval_data["text-happy-place"]
         config = LanguageConfig(granularity="word", identify_speakers=True)
         job = batch_client.submit_job([data_url], [config])
         assert isinstance(job, BatchJob)
-        assert len(job.id) == 32
+        assert len(job.id) == 36
         logger.info(f"Running test job {job.id}")
-        result = job.await_complete()
+        info = job.await_complete()
         job_files_dir = tmp_path_factory.mktemp("job-files")
-        self.check_result(result, job_files_dir)
+        self.check_info(job, info, job_files_dir)
 
     def test_client_invalid_api_key(self, eval_data: EvalData):
         invalid_client = HumeBatchClient("invalid-api-key")
@@ -85,21 +86,23 @@ class TestServiceHumeBatchClient:
             rehydrated_job = BatchJob(invalid_client, job.id)
             rehydrated_job.await_complete(10)
 
-    def check_result(self, result: BatchJobResult, job_files_dir: Path):
-        predictions_filepath = job_files_dir / "results.json"
-        result.download_predictions(predictions_filepath)
+    def check_info(self, job: BatchJob, info: BatchJobInfo, job_files_dir: Path):
+        assert isinstance(info.state.get_run_time_ms(), int)
+        assert isinstance(info.state.get_started_time(), datetime)
+        assert isinstance(info.state.get_ended_time(), datetime)
+
+        predictions_filepath = job_files_dir / "predictions.json"
+        job.download_predictions(predictions_filepath)
         with predictions_filepath.open() as f:
-            json.load(f)
+            predictions = json.load(f)
+            assert len(predictions) == 1
+            assert "results" in predictions[0]
 
-        artifacts_filepath = job_files_dir / "artifacts"
-        result.download_artifacts(artifacts_filepath)
+        artifacts_filepath = job_files_dir / "artifacts.zip"
+        job.download_artifacts(artifacts_filepath)
+        logger.info(f"Artifacts for job {job.id} downloaded to {artifacts_filepath}")
 
-        error_filepath = job_files_dir / "errors.json"
-        result.download_errors(error_filepath)
-
-        error_message = result.get_error_message()
-        assert error_message is None
-
-        assert isinstance(result.get_run_time(), int)
-        assert isinstance(result.get_start_time(), datetime)
-        assert isinstance(result.get_end_time(), datetime)
+        extracted_artifacts_dir = job_files_dir / "extract"
+        with zipfile.ZipFile(artifacts_filepath, "r") as zip_ref:
+            zip_ref.extractall(extracted_artifacts_dir)
+        assert len(list(extracted_artifacts_dir.iterdir())) == 1

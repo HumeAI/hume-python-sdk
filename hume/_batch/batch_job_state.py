@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional
 
-from hume import BatchJobStatus
+from hume._batch.batch_job_status import BatchJobStatus
 
 
 @dataclass
@@ -22,7 +22,7 @@ class BatchJobState:
     started_timestamp_ms: Optional[int]
     ended_timestamp_ms: Optional[int]
 
-    def get_run_time(self) -> Optional[int]:
+    def get_run_time_ms(self) -> Optional[int]:
         """Get the total time in milliseconds it took for the job to run if the job is in a terminal state.
 
         Returns:
@@ -40,9 +40,9 @@ class BatchJobState:
             Optional[datetime]: Datetime when the job was created. If the job has not started
                 then `None` is returned.
         """
-        if self.started_timestamp_ms is None:
+        if self.created_timestamp_ms is None:
             return None
-        return datetime.utcfromtimestamp(self.started_timestamp_ms)
+        return datetime.utcfromtimestamp(self.created_timestamp_ms / 1000)
 
     def get_started_time(self) -> Optional[datetime]:
         """Get the time the job started running.
@@ -53,7 +53,7 @@ class BatchJobState:
         """
         if self.started_timestamp_ms is None:
             return None
-        return datetime.utcfromtimestamp(self.started_timestamp_ms)
+        return datetime.utcfromtimestamp(self.started_timestamp_ms / 1000)
 
     def get_ended_time(self) -> Optional[datetime]:
         """Get the time the job stopped running if the job is in a terminal state.
@@ -64,4 +64,4 @@ class BatchJobState:
         """
         if self.ended_timestamp_ms is None:
             return None
-        return datetime.utcfromtimestamp(self.ended_timestamp_ms)
+        return datetime.utcfromtimestamp(self.ended_timestamp_ms / 1000)

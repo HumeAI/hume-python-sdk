@@ -1,9 +1,4 @@
 {
-  "completion_timestamp": 1663790201,
-  "creation_timestamp": 1663790199,
-  "failed": {
-    "message": "user 'abcde' has exceeded their usage limit"
-  },
   "request": {
     "models": {
       "face": {
@@ -13,8 +8,15 @@
         "prob_threshold": 0.9900000095367432
       }
     },
-    "notify": false,
-    "urls": ["https://storage.googleapis.com/hume-test-data/image/obama.png"]
+    "urls": ["https://storage.googleapis.com/hume-test-data/image/obama.png"],
+    "files": [],
+    "callback_url": null,
+    "notify": false
   },
-  "status": "FAILED"
+  "state": {
+    "status": "FAILED",
+    "created_timestamp_ms": 1660594811000,
+    "started_timestamp_ms": 1660594814000,
+    "ended_timestamp_ms": 1660594816000
+  }
 }
