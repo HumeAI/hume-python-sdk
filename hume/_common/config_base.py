@@ -2,7 +2,7 @@
 import warnings
 from abc import ABC
 from dataclasses import asdict, dataclass, fields
-from typing import Any, Dict, Generic, TypeVar
+from typing import Any, Dict, Generic, TypeVar, cast
 
 T = TypeVar("T")  # Type for subclasses of ConfigBase
 
@@ -23,7 +23,7 @@ class ConfigBase(ABC, Generic[T]):
         return {k: v for k, v in asdict(self).items() if v is not None or not skip_none}
 
     @classmethod
-    def from_dict(cls, request_dict: Dict[str, Any]) -> "ConfigBase[T]":
+    def from_dict(cls, request_dict: Dict[str, Any]) -> T:
         """Deserialize configuration from request JSON.
 
         Args:
@@ -45,4 +45,4 @@ class ConfigBase(ABC, Generic[T]):
         for removal_param in removal_params:
             request_dict.pop(removal_param)
 
-        return cls(**request_dict)
+        return cast(T, cls(**request_dict))

@@ -10,7 +10,7 @@ T = TypeVar("T")  # Type for subclasses of ModelConfigBase
 
 
 @dataclass
-class ModelConfigBase(ConfigBase, ABC, Generic[T]):
+class ModelConfigBase(ConfigBase["ModelConfigBase"], ABC, Generic[T]):
     """Abstract base class for model configurations."""
 
     @classmethod

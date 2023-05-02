@@ -172,8 +172,8 @@ class HumeBatchClient(ClientBase):
             headers=self._get_client_headers(),
         )
 
-        with Path(filepath).open("wb") as fp:
-            fp.write(response.content)
+        with Path(filepath).open("wb") as f:
+            f.write(response.content)
 
     @classmethod
     def _construct_request(

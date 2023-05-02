@@ -21,9 +21,11 @@ class ProsodyConfig(ModelConfigBase["ProsodyConfig"]):
             all speakers will be tagged with an "unknown" ID.
             This configuration is not available for the streaming API.
         granularity (Optional[str]): The granularity at which to generate predictions.
-            Values are `word`, `sentence`, `utterance`, or `conversational_turn`. Default value is `utterance`.
+            Values are `word`, `sentence`, `utterance`, or `conversational_turn`.
+            Default value is `utterance`.
             `utterance` corresponds to a natural pause or break in conversation
             `conversational_turn` corresponds to a change in speaker.
+            This configuration is not available for the streaming API.
     """
 
     language: Optional[str] = None

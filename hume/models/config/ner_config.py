@@ -1,6 +1,5 @@
 """Configuration for the named-entity emotion model."""
 from dataclasses import dataclass
-from typing import Optional
 
 from hume.models import ModelType
 from hume.models.config.model_config_base import ModelConfigBase

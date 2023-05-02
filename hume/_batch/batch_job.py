@@ -1,12 +1,11 @@
 """Batch job."""
 import json
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Optional, Union
+from typing import TYPE_CHECKING, Any, Union
 
 from hume._batch.batch_job_info import BatchJobInfo
 from hume._batch.batch_job_status import BatchJobStatus
 from hume._common.retry_utils import retry, RetryIterError
-from hume.error.hume_client_exception import HumeClientException
 
 if TYPE_CHECKING:
     from hume._batch.hume_batch_client import HumeBatchClient
@@ -48,10 +47,10 @@ class BatchJob:
             filepath (Union[str, Path]): Filepath where predictions will be downloaded.
         """
         predictions = self.get_predictions()
-        with Path(filepath).open("w") as fp:
-            json.dump(predictions, fp)
+        with Path(filepath).open("w") as f:
+            json.dump(predictions, f)
 
-    def download_artifacts(self, filepath: Optional[Union[str, Path]]) -> None:
+    def download_artifacts(self, filepath: Union[str, Path]) -> None:
         """Download `BatchJob` artifacts zip file.
 
         Args:
