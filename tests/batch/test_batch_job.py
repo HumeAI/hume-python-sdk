@@ -3,7 +3,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from hume import BatchJob, BatchJobInfo, BatchJobState, BatchJobStatus
+from hume import BatchJob, BatchJobDetails, BatchJobState, BatchJobStatus
 from hume.models import ModelType
 from hume.models.config import FaceConfig
 
@@ -11,7 +11,7 @@ from hume.models.config import FaceConfig
 @pytest.fixture(scope="function")
 def batch_client() -> Mock:
     mock_client = Mock()
-    job_info = BatchJobInfo(
+    job_details = BatchJobDetails(
         configs={
             ModelType.FACE: FaceConfig(),
         },
@@ -24,7 +24,7 @@ def batch_client() -> Mock:
             ended_timestamp_ms=2,
         ),
     )
-    mock_client.get_job_info = Mock(return_value=job_info)
+    mock_client.get_job_details = Mock(return_value=job_details)
     return mock_client
 
 
@@ -43,10 +43,10 @@ class TestBatchJob:
         with pytest.raises(ValueError, match=re.escape(message)):
             job.await_complete(timeout=0)
 
-    def test_get_info(self, batch_client: Mock):
+    def test_get_details(self, batch_client: Mock):
         job = BatchJob(batch_client, "mock-job-id")
-        info = job.get_info()
-        assert info.state.status == BatchJobStatus.FAILED
+        details = job.get_details()
+        assert details.state.status == BatchJobStatus.FAILED
 
     def test_get_status(self, batch_client: Mock):
         job = BatchJob(batch_client, "mock-job-id")
@@ -55,5 +55,5 @@ class TestBatchJob:
 
     def test_await_complete(self, batch_client: Mock):
         job = BatchJob(batch_client, "mock-job-id")
-        info = job.await_complete()
-        assert info.state.status == BatchJobStatus.FAILED
+        details = job.await_complete()
+        assert details.state.status == BatchJobStatus.FAILED

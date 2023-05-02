@@ -39,7 +39,7 @@ nav:
       - "BatchJob": batch/batch-job.md
       - "BatchJobState": batch/batch-job-state.md
       - "BatchJobStatus": batch/batch-job-status.md
-      - "BatchJobInfo": batch/batch-job-info.md
+      - "BatchJobDetails": batch/batch-job-details.md
   - "Streaming Reference":
       - "HumeStreamClient": stream/hume-stream-client.md
       - "StreamSocket": stream/stream-socket.md

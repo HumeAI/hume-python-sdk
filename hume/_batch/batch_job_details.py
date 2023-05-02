@@ -1,4 +1,4 @@
-"""Batch job info."""
+"""Batch job details."""
 import json
 from typing import Any, Dict, List, Optional
 
@@ -10,8 +10,8 @@ from hume.models import ModelType
 from hume.models.config.model_config_base import ModelConfigBase
 
 
-class BatchJobInfo:
-    """Batch job info."""
+class BatchJobDetails:
+    """Batch job details."""
 
     def __init__(
         self,
@@ -23,7 +23,7 @@ class BatchJobInfo:
         callback_url: Optional[str] = None,
         notify: bool = False,
     ):
-        """Construct a BatchJobInfo.
+        """Construct a BatchJobDetails.
 
         Args:
             configs (Dict[ModelType, ModelConfigBase]): Configurations for the `BatchJob`.
@@ -41,14 +41,14 @@ class BatchJobInfo:
         self.notify = notify
 
     @classmethod
-    def from_response(cls, response: Any) -> "BatchJobInfo":
-        """Construct a `BatchJobInfo` from a batch API job response.
+    def from_response(cls, response: Any) -> "BatchJobDetails":
+        """Construct a `BatchJobDetails` from a batch API job response.
 
         Args:
             response (Any): Batch API job response.
 
         Returns:
-            BatchJobInfo: A `BatchJobInfo` based on a batch API job response.
+            BatchJobDetails: A `BatchJobDetails` based on a batch API job response.
         """
         try:
             request = response["request"]
@@ -90,7 +90,7 @@ class BatchJobInfo:
     @classmethod
     def _get_invalid_response_message(cls, response: Any) -> str:
         response_str = json.dumps(response)
-        message = f"Could not parse response into BatchJobInfo: {response_str}"
+        message = f"Could not parse response into BatchJobDetails: {response_str}"
 
         # Check for invalid API key
         if "fault" in response and "faultstring" in response["fault"]:

@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Union
 
-from hume._batch.batch_job_info import BatchJobInfo
+from hume._batch.batch_job_details import BatchJobDetails
 from hume._batch.batch_job_status import BatchJobStatus
 from hume._common.retry_utils import retry, RetryIterError
 
@@ -30,7 +30,7 @@ class BatchJob:
         Returns:
             BatchJobStatus: The status of the `BatchJob`.
         """
-        return self.get_info().state.status
+        return self.get_details().state.status
 
     def get_predictions(self) -> Any:
         """Get `BatchJob` predictions.
@@ -58,19 +58,19 @@ class BatchJob:
         """
         self._client.download_job_artifacts(self.id, filepath)
 
-    def get_info(self) -> BatchJobInfo:
-        """Get info for the BatchJob.
+    def get_details(self) -> BatchJobDetails:
+        """Get details for the BatchJob.
 
-        Note that the info for a job may be fetched before the job has completed.
+        Note that the details for a job may be fetched before the job has completed.
         You may want to use `job.await_complete()` which will wait for the job to
         reach a terminal state before returning.
 
         Returns:
-            BatchJobInfo: Info for the `BatchJob`.
+            BatchJobDetails: Details for the `BatchJob`.
         """
-        return self._client.get_job_info(self.id)
+        return self._client.get_job_details(self.id)
 
-    def await_complete(self, timeout: int = 300) -> BatchJobInfo:
+    def await_complete(self, timeout: int = 300) -> BatchJobDetails:
         """Block until the job has reached a terminal status.
 
         Args:
@@ -82,7 +82,7 @@ class BatchJob:
             ValueError: If the timeout is not valid.
 
         Returns:
-            BatchJobInfo: Info for the `BatchJob`.
+            BatchJobDetails: Details for the `BatchJob`.
         """
         if timeout < 1:
             raise ValueError("timeout must be at least 1 second")
@@ -91,11 +91,11 @@ class BatchJob:
 
     # pylint: disable=unused-argument
     @retry()
-    def _await_complete(self, timeout: int = 300) -> BatchJobInfo:
-        info = self._client.get_job_info(self.id)
-        if not BatchJobStatus.is_terminal(info.state.status):
+    def _await_complete(self, timeout: int = 300) -> BatchJobDetails:
+        details = self._client.get_job_details(self.id)
+        if not BatchJobStatus.is_terminal(details.state.status):
             raise RetryIterError
-        return info
+        return details
 
     def __repr__(self) -> str:
         """Get the string representation of the `BatchJob`.
