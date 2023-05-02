@@ -11,7 +11,7 @@ class BatchJobState:
     """Batch job state.
 
     Args:
-        status (BatchJobStatus)
+        status (BatchJobStatus): Status of the batch job.
         created_timestamp_ms (Optional[int]): Time when job was created.
         started_timestamp_ms (Optional[int]): Time when job started.
         ended_timestamp_ms (Optional[int]): Time when job ended.
