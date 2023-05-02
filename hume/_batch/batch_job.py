@@ -1,7 +1,9 @@
 """Batch job."""
-from typing import TYPE_CHECKING
+import json
+from pathlib import Path
+from typing import TYPE_CHECKING, Any, Union
 
-from hume._batch.batch_job_result import BatchJobResult
+from hume._batch.batch_job_info import BatchJobInfo
 from hume._batch.batch_job_status import BatchJobStatus
 from hume._common.retry_utils import retry, RetryIterError
 
@@ -28,21 +30,47 @@ class BatchJob:
         Returns:
             BatchJobStatus: The status of the `BatchJob`.
         """
-        return self.get_result().status
+        return self.get_info().state.status
 
-    def get_result(self) -> BatchJobResult:
-        """Get the result of the BatchJob.
-
-        Note that the result of a job may be fetched before the job has completed.
-        You may want to use `job.await_complete()` which will wait for the job to
-        reach a terminal state before returning the result.
+    def get_predictions(self) -> Any:
+        """Get `BatchJob` predictions.
 
         Returns:
-            BatchJobResult: The result of the `BatchJob`.
+            Any: Predictions for the `BatchJob`.
         """
-        return self._client.get_job_result(self.id)
+        return self._client.get_job_predictions(self.id)
 
-    def await_complete(self, timeout: int = 300) -> BatchJobResult:
+    def download_predictions(self, filepath: Union[str, Path]) -> None:
+        """Download `BatchJob` predictions file.
+
+        Args:
+            filepath (Union[str, Path]): Filepath where predictions will be downloaded.
+        """
+        predictions = self.get_predictions()
+        with Path(filepath).open("w") as f:
+            json.dump(predictions, f)
+
+    def download_artifacts(self, filepath: Union[str, Path]) -> None:
+        """Download `BatchJob` artifacts zip file.
+
+        Args:
+            filepath (Optional[Union[str, Path]]): Filepath where artifacts will be downloaded.
+        """
+        self._client.download_job_artifacts(self.id, filepath)
+
+    def get_info(self) -> BatchJobInfo:
+        """Get info for the BatchJob.
+
+        Note that the info for a job may be fetched before the job has completed.
+        You may want to use `job.await_complete()` which will wait for the job to
+        reach a terminal state before returning.
+
+        Returns:
+            BatchJobInfo: Info for the `BatchJob`.
+        """
+        return self._client.get_job_info(self.id)
+
+    def await_complete(self, timeout: int = 300) -> BatchJobInfo:
         """Block until the job has reached a terminal status.
 
         Args:
@@ -54,7 +82,7 @@ class BatchJob:
             ValueError: If the timeout is not valid.
 
         Returns:
-            BatchJobResult: The result of the `BatchJob`.
+            BatchJobInfo: Info for the `BatchJob`.
         """
         if timeout < 1:
             raise ValueError("timeout must be at least 1 second")
@@ -63,11 +91,11 @@ class BatchJob:
 
     # pylint: disable=unused-argument
     @retry()
-    def _await_complete(self, timeout: int = 300) -> BatchJobResult:
-        result = self._client.get_job_result(self.id)
-        if not BatchJobStatus.is_terminal(result.status):
+    def _await_complete(self, timeout: int = 300) -> BatchJobInfo:
+        info = self._client.get_job_info(self.id)
+        if not BatchJobStatus.is_terminal(info.state.status):
             raise RetryIterError
-        return result
+        return info
 
     def __repr__(self) -> str:
         """Get the string representation of the `BatchJob`.

@@ -39,7 +39,7 @@ class ClientBase(ABC):
         package_version = version("hume")
         return {
             "X-Hume-Api-Key": self._api_key,
-            "X-Hume-Client-Name": "python-sdk",
+            "X-Hume-Client-Name": "python_sdk",
             "X-Hume-Client-Version": package_version,
         }
 

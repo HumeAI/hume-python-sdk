@@ -1,0 +1,22 @@
+{
+  "request": {
+    "models": {
+      "face": {
+        "fps_pred": 3.0,
+        "identify_faces": false,
+        "min_face_size": 60.0,
+        "prob_threshold": 0.9900000095367432
+      }
+    },
+    "urls": ["https://storage.googleapis.com/hume-test-data/image/obama.png"],
+    "files": [],
+    "callback_url": null,
+    "notify": false
+  },
+  "state": {
+    "status": "FAILED",
+    "created_timestamp_ms": 1660594811000,
+    "started_timestamp_ms": 1660594814000,
+    "ended_timestamp_ms": 1660594816000
+  }
+}
