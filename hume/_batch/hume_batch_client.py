@@ -24,17 +24,19 @@ class HumeBatchClient(ClientBase):
         from hume.models.config import FaceConfig
 
         client = HumeBatchClient("<your-api-key>")
-        urls = ["<your-image-url>"]
+        urls = ["https://tinyurl.com/hume-img"]
         config = FaceConfig(identify_faces=True)
-        job = client.submit_job(urls, [configs])
+        job = client.submit_job(urls, [config])
 
         print(job)
         print("Running...")
 
         job.await_complete()
         job.download_predictions("predictions.json")
+        print("Predictions downloaded to predictions.json")
 
-        print("Predictions downloaded!")
+        job.download_artifacts("artifacts.zip")
+        print("Artifacts downloaded to artifacts.zip")
         ```
     """
 

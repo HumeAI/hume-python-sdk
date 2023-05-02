@@ -38,8 +38,10 @@ print("Running...")
 
 job.await_complete()
 job.download_predictions("predictions.json")
+print("Predictions downloaded to predictions.json")
 
-print("Predictions downloaded!")
+job.download_artifacts("artifacts.zip")
+print("Artifacts downloaded to artifacts.zip")
 ```
 
 ### Rehydrate a batch job from a job ID
