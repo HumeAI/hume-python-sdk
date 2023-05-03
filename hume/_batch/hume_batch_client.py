@@ -188,7 +188,7 @@ class HumeBatchClient(ClientBase):
         callback_url: Optional[str],
         notify: Optional[bool],
     ) -> Dict[str, Any]:
-        request = {
+        request: Dict[str, Any] = {
             "urls": urls,
             "models": serialize_configs(configs),
         }
