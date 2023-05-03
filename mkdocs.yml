@@ -40,6 +40,7 @@ nav:
       - "BatchJobState": batch/batch-job-state.md
       - "BatchJobStatus": batch/batch-job-status.md
       - "BatchJobDetails": batch/batch-job-details.md
+      - "TranscriptionConfig": batch/transcription-config.md
   - "Streaming Reference":
       - "HumeStreamClient": stream/hume-stream-client.md
       - "StreamSocket": stream/stream-socket.md
