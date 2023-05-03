@@ -28,9 +28,13 @@ class FaceConfig(ModelConfigBase["FaceConfig"]):
             directory included in the response.
             This configuration is not available for the streaming API.
         descriptions (Optional[Dict[str, Any]]): Configuration for Descriptions predictions.
-            If missing or null, no Descriptions predictions will be generated.
+            Descriptions prediction can be enabled by setting "descriptions": {}.
+            Currently, Descriptions prediction cannot be further configured with any parameters.
+            If missing or null, no descriptions predictions will be generated.
         facs (Optional[Dict[str, Any]]): Configuration for FACS predictions.
-            If missing or null, no FACS predictions will be generated.
+            FACS prediction can be enabled by setting "facs": {}.
+            Currently, FACS prediction cannot be further configured with any parameters.
+            If missing or null, no facs predictions will be generated.
     """
 
     fps_pred: Optional[float] = None
