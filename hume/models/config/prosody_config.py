@@ -16,15 +16,15 @@ class ProsodyConfig(ModelConfigBase["ProsodyConfig"]):
             The default is `utterance`.
             `utterance` corresponds to a natural pause or break in conversation
             `conversational_turn` corresponds to a change in speaker.
-            This configuration is not available for the streaming API.
+            This configuration is only available for the batch API.
         identify_speakers (Optional[bool]): Whether to return identifiers for speakers over time. If true,
             unique identifiers will be assigned to spoken words to differentiate different speakers. If false,
             all speakers will be tagged with an "unknown" ID.
-            This configuration is not available for the streaming API.
+            This configuration is only available for the batch API.
         window (Optional[Dict[str, float]]): Sliding window used to chunk audio.
             This dictionary input takes two entries: `length` and `step` representing
             the width of the window in seconds and the the step size in seconds.
-            This configuration is not available for the streaming API.
+            This configuration is only available for the batch API.
     """
 
     identify_speakers: Optional[bool] = None

@@ -20,7 +20,7 @@ class LanguageConfig(ModelConfigBase["LanguageConfig"]):
         identify_speakers (Optional[bool]): Whether to return identifiers for speakers over time.
             If true, unique identifiers will be assigned to spoken words to differentiate different speakers.
             If false, all speakers will be tagged with an "unknown" ID.
-            This configuration is not available for the streaming API.
+            This configuration is only available for the batch API.
         sentiment (Optional[Dict[str, Any]]): Configuration for Sentiment predictions.
             Sentiment prediction can be enabled by setting "sentiment": {}.
             Currently, Sentiment prediction cannot be further configured with any parameters.
