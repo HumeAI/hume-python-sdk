@@ -1,1 +1,1 @@
-::: hume._batch.batch_job_info.BatchJobInfo
+::: hume.\_batch.batch_job_details.BatchJobDetails
