@@ -76,6 +76,7 @@ class HumeBatchClient(ClientBase):
         configs: List[ModelConfigBase],
         transcription_config: Optional[TranscriptionConfig] = None,
         callback_url: Optional[str] = None,
+        notify: Optional[bool] = None,
     ) -> BatchJob:
         """Submit a job for batch processing.
 
@@ -87,11 +88,12 @@ class HumeBatchClient(ClientBase):
             configs (List[ModelConfigBase]): List of model config objects to run on each media URL.
             transcription_config (Optional[TranscriptionConfig]): A `TranscriptionConfig` object.
             callback_url (Optional[str]): A URL to which a POST request will be sent upon job completion.
+            notify (Optional[bool]): Wether an email notification should be sent upon job completion.
 
         Returns:
             BatchJob: The `BatchJob` representing the batch computation.
         """
-        request = self._construct_request(configs, urls, transcription_config, callback_url)
+        request = self._construct_request(configs, urls, transcription_config, callback_url, notify)
         return self._submit_job_from_request(request)
 
     def get_job_details(self, job_id: str) -> BatchJobDetails:
@@ -184,8 +186,9 @@ class HumeBatchClient(ClientBase):
         urls: List[str],
         transcription_config: Optional[TranscriptionConfig],
         callback_url: Optional[str],
+        notify: Optional[bool],
     ) -> Dict[str, Any]:
-        request = {
+        request: Dict[str, Any] = {
             "urls": urls,
             "models": serialize_configs(configs),
         }
@@ -193,6 +196,8 @@ class HumeBatchClient(ClientBase):
             request["transcription"] = transcription_config.to_dict()
         if callback_url is not None:
             request["callback_url"] = callback_url
+        if notify is not None:
+            request["notify"] = notify
         return request
 
     def _submit_job_from_request(self, request_body: Any) -> BatchJob:
