@@ -13,24 +13,28 @@ class FaceConfig(ModelConfigBase["FaceConfig"]):
     Args:
         fps_pred (Optional[float]): Number of frames per second to process. Other frames will be omitted
             from the response.
-            This configuration is not available for the streaming API.
+            This configuration is only available for the batch API.
         prob_threshold (Optional[float]): Face detection probability threshold. Faces detected with a
             probability less than this threshold will be omitted from the response.
-            This configuration is not available for the streaming API.
+            This configuration is only available for the batch API.
         identify_faces (Optional[bool]): Whether to return identifiers for faces across frames.
             If true, unique identifiers will be assigned to face bounding boxes to differentiate different faces.
             If false, all faces will be tagged with an "unknown" ID.
         min_face_size (Optional[float]): Minimum bounding box side length in pixels to treat as a face.
             Faces detected with a bounding box side length in pixels less than this threshold will be
             omitted from the response.
-            This configuration is not available for the streaming API.
+            This configuration is only available for the batch API.
         save_faces (Optional[bool]): Whether to extract and save the detected faces to the artifacts
             directory included in the response.
-            This configuration is not available for the streaming API.
+            This configuration is only available for the batch API.
         descriptions (Optional[Dict[str, Any]]): Configuration for Descriptions predictions.
-            If missing or null, no Descriptions predictions will be generated.
+            Descriptions prediction can be enabled by setting "descriptions": {}.
+            Currently, Descriptions prediction cannot be further configured with any parameters.
+            If missing or null, no descriptions predictions will be generated.
         facs (Optional[Dict[str, Any]]): Configuration for FACS predictions.
-            If missing or null, no FACS predictions will be generated.
+            FACS prediction can be enabled by setting "facs": {}.
+            Currently, FACS prediction cannot be further configured with any parameters.
+            If missing or null, no facs predictions will be generated.
     """
 
     fps_pred: Optional[float] = None
