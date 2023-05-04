@@ -11,7 +11,7 @@ import pytest
 from pytest import TempPathFactory
 
 from hume import BatchJob, BatchJobDetails, HumeBatchClient, HumeClientException, TranscriptionConfig
-from hume.models.config import BurstConfig, FaceConfig, LanguageConfig, NerConfig, ProsodyConfig
+from hume.models.config import BurstConfig, FacemeshConfig, FaceConfig, LanguageConfig, NerConfig, ProsodyConfig
 from hume.models.config.model_config_base import ModelConfigBase
 
 EvalData = Dict[str, str]
@@ -39,27 +39,14 @@ class TestServiceHumeBatchClient:
             descriptions={},
             save_faces=False,
         )
-        self.check_complete_config(config, FaceConfig)
-        assert len(config.to_dict()) == len(fields(FaceConfig))
-        job = batch_client.submit_job([data_url], [config])
-        assert isinstance(job, BatchJob)
-        assert len(job.id) == 36
-        logger.info(f"Running test job {job.id}")
-        details = job.await_complete()
         job_files_dir = tmp_path_factory.mktemp("job-files")
-        self.check_details(job, details, job_files_dir)
+        self.run_and_test_job(batch_client, config, FaceConfig, data_url, job_files_dir)
 
     def test_burst(self, eval_data: EvalData, batch_client: HumeBatchClient, tmp_path_factory: TempPathFactory):
         data_url = eval_data["burst-amusement-009"]
         config = BurstConfig()
-        self.check_complete_config(config, BurstConfig)
-        job = batch_client.submit_job([data_url], [config])
-        assert isinstance(job, BatchJob)
-        assert len(job.id) == 36
-        logger.info(f"Running test job {job.id}")
-        details = job.await_complete()
         job_files_dir = tmp_path_factory.mktemp("job-files")
-        self.check_details(job, details, job_files_dir)
+        self.run_and_test_job(batch_client, config, BurstConfig, data_url, job_files_dir)
 
     def test_prosody(self, eval_data: EvalData, batch_client: HumeBatchClient, tmp_path_factory: TempPathFactory):
         data_url = eval_data["prosody-horror-1051"]
@@ -71,14 +58,8 @@ class TestServiceHumeBatchClient:
                 "step": 1.0
             },
         )
-        self.check_complete_config(config, ProsodyConfig)
-        job = batch_client.submit_job([data_url], [config])
-        assert isinstance(job, BatchJob)
-        assert len(job.id) == 36
-        logger.info(f"Running test job {job.id}")
-        details = job.await_complete()
         job_files_dir = tmp_path_factory.mktemp("job-files")
-        self.check_details(job, details, job_files_dir)
+        self.run_and_test_job(batch_client, config, ProsodyConfig, data_url, job_files_dir)
 
     def test_language(self, eval_data: EvalData, batch_client: HumeBatchClient, tmp_path_factory: TempPathFactory):
         data_url = eval_data["text-happy-place"]
@@ -88,26 +69,20 @@ class TestServiceHumeBatchClient:
             sentiment={},
             toxicity={},
         )
-        self.check_complete_config(config, LanguageConfig)
-        job = batch_client.submit_job([data_url], [config])
-        assert isinstance(job, BatchJob)
-        assert len(job.id) == 36
-        logger.info(f"Running test job {job.id}")
-        details = job.await_complete()
         job_files_dir = tmp_path_factory.mktemp("job-files")
-        self.check_details(job, details, job_files_dir)
+        self.run_and_test_job(batch_client, config, LanguageConfig, data_url, job_files_dir)
 
     def test_ner(self, eval_data: EvalData, batch_client: HumeBatchClient, tmp_path_factory: TempPathFactory):
         data_url = eval_data["text-obama-news"]
         config = NerConfig(identify_speakers=True)
-        self.check_complete_config(config, NerConfig)
-        job = batch_client.submit_job([data_url], [config])
-        assert isinstance(job, BatchJob)
-        assert len(job.id) == 36
-        logger.info(f"Running test job {job.id}")
-        details = job.await_complete()
         job_files_dir = tmp_path_factory.mktemp("job-files")
-        self.check_details(job, details, job_files_dir)
+        self.run_and_test_job(batch_client, config, NerConfig, data_url, job_files_dir)
+
+    def test_facemesh(self, eval_data: EvalData, batch_client: HumeBatchClient, tmp_path_factory: TempPathFactory):
+        data_url = eval_data["three-faces-mediapipe"]
+        config = FacemeshConfig()
+        job_files_dir = tmp_path_factory.mktemp("job-files")
+        self.run_and_test_job(batch_client, config, FacemeshConfig, data_url, job_files_dir)
 
     def test_transcription(self, eval_data: EvalData, batch_client: HumeBatchClient,
                            tmp_path_factory: TempPathFactory):
@@ -138,6 +113,22 @@ class TestServiceHumeBatchClient:
         with pytest.raises(HumeClientException, match=re.escape(message)):
             rehydrated_job = BatchJob(invalid_client, job.id)
             rehydrated_job.await_complete(10)
+
+    def run_and_test_job(
+        self,
+        batch_client: HumeBatchClient,
+        config: ModelConfigBase,
+        config_class: Type[ModelConfigBase],
+        data_url: str,
+        job_files_dirpath: Path,
+    ):
+        self.check_complete_config(config, config_class)
+        job = batch_client.submit_job([data_url], [config])
+        assert isinstance(job, BatchJob)
+        assert len(job.id) == 36
+        logger.info(f"Running test job {job.id}")
+        details = job.await_complete()
+        self.check_details(job, details, job_files_dirpath)
 
     def check_details(self, job: BatchJob, details: BatchJobDetails, job_files_dir: Path):
         assert isinstance(details.get_created_time(), datetime)

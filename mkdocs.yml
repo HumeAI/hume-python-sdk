@@ -44,7 +44,7 @@ nav:
   - "Streaming Reference":
       - "HumeStreamClient": stream/hume-stream-client.md
       - "StreamSocket": stream/stream-socket.md
-  - "Configs Reference":
+  - "Model Config Reference":
       - "BurstConfig": config/burst-config.md
       - "FaceConfig": config/face-config.md
       - "FacemeshConfig": config/facemesh-config.md

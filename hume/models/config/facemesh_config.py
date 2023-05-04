@@ -7,10 +7,7 @@ from hume.models.config.model_config_base import ModelConfigBase
 
 @dataclass
 class FacemeshConfig(ModelConfigBase["FacemeshConfig"]):
-    """Configuration for the facemesh model.
-
-    This model is not available for the batch API.
-    """
+    """Configuration for the facemesh model."""
 
     @classmethod
     def get_model_type(cls) -> ModelType:
