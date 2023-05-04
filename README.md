@@ -20,6 +20,8 @@ To get started, [sign up for a Hume account](https://share.hsforms.com/1lVY-gpw0
 
 > We're in private beta right now, but we'll be continuously rolling out access to developers and organizations on our waitlist.
 
+> **Note:** Our current version is not yet considered a stable release. As we are still in the development phase, we have chosen to continue releasing under the 0 major release until we are ready to launch version 1.0.0. Our APIs might undergo breaking changes that are necessary for us to improve our tooling and ensure a more stable and reliable release in the future. We encourage you to keep up with our [API changelog](https://docs.hume.ai/changes) and mailing list to stay up to date with the latest changes.
+
 ## Usage & Documentation
 
 Example notebooks can be found in the [examples folder](./examples/README.md).
