@@ -1,3 +1,5 @@
+from base64 import b64encode
+from io import BytesIO
 from pathlib import Path
 from typing import Any, Dict, Iterator, List
 
@@ -12,21 +14,12 @@ def download_file(url: str) -> Path:
     data_dirpath.mkdir(exist_ok=True)
     filepath = data_dirpath / Path(url).name
 
-    print("Downloaded media file from: ", url)
     urlretrieve(url, filepath)
     return filepath
 
 
-def print_emotions(emotions: List[Dict[str, Any]]) -> None:
-    emotion_map = {e["name"]: e["score"] for e in emotions}
-    for emotion in ["Joy", "Sadness", "Anger"]:
-        print(f"- {emotion}: {emotion_map[emotion]:4f}")
-
-
-def generate_audio_stream(filepath: Path) -> Iterator[AudioSegment]:
+def generate_audio_stream(filepath: Path, chunk_size: int = 2000) -> Iterator[AudioSegment]:
     segment = AudioSegment.from_file(filepath)
-
-    chunk_size = 3000
     chunk_count = 0
     while True:
         start_time = chunk_count * chunk_size
@@ -35,3 +28,15 @@ def generate_audio_stream(filepath: Path) -> Iterator[AudioSegment]:
             return
         yield segment[start_time:end_time]
         chunk_count += 1
+
+
+def encode_audio(segment: AudioSegment) -> str:
+    bytes_io = BytesIO()
+    segment.export(bytes_io, format="wav")
+    return b64encode(bytes_io.read())
+
+
+def print_emotions(emotions: List[Dict[str, Any]]) -> None:
+    emotion_map = {e["name"]: e["score"] for e in emotions}
+    for emotion in ["Joy", "Sadness", "Anger"]:
+        print(f"- {emotion}: {emotion_map[emotion]:4f}")
