@@ -10,7 +10,6 @@ def download_file(url: str) -> Path:
     data_dirpath.mkdir(exist_ok=True)
     filepath = data_dirpath / Path(url).name
 
-    print("Downloaded media file from: ", url)
     urlretrieve(url, filepath)
     return filepath
 
