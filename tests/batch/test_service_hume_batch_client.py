@@ -86,7 +86,7 @@ class TestServiceHumeBatchClient:
 
     def test_transcription(self, eval_data: EvalData, batch_client: HumeBatchClient,
                            tmp_path_factory: TempPathFactory):
-        data_url = eval_data["prosody-horror-1051"]
+        data_url = eval_data["prosody-noticias"]
         config = LanguageConfig()
         transcription_config = TranscriptionConfig(language="es")
         self.check_complete_config(transcription_config, TranscriptionConfig)
