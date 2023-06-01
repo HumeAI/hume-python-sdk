@@ -13,6 +13,7 @@ def eval_data() -> EvalData:
         "image-obama-face": f"{base_url}/image/obama.png",
         "burst-amusement-009": f"{base_url}/audio/burst-amusement-009.mp3",
         "prosody-horror-1051": f"{base_url}/audio/prosody-horror-1051.mp3",
+        "prosody-noticias": f"{base_url}/audio/prosody-noticias.mp3",
         "text-happy-place": f"{base_url}/text/happy.txt",
         "text-obama-news": f"{base_url}/text/obama.txt",
         "three-faces-mediapipe": f"{base_url}/landmarks/three-faces-mediapipe.json",
