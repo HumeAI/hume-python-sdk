@@ -23,7 +23,7 @@ class ProsodyConfig(ModelConfigBase["ProsodyConfig"]):
             This configuration is only available for the batch API.
         window (Optional[Dict[str, float]]): Sliding window used to chunk audio.
             This dictionary input takes two entries: `length` and `step` representing
-            the width of the window in seconds and the the step size in seconds.
+            the width of the window in seconds and the step size in seconds.
             This configuration is only available for the batch API.
     """
 
