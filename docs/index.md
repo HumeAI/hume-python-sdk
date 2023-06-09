@@ -15,10 +15,12 @@ pip install hume
 Websocket and streaming features can be enabled with:
 
 ```bash
-pip install hume[stream]
+pip install "hume[stream]"
 ```
 
 ## Basic Usage
+
+Jupyter example notebooks can be found in the [Python SDK GitHub repo](https://github.com/HumeAI/hume-python-sdk/tree/main/examples/README.md).
 
 ### Submit a new batch job
 
@@ -44,6 +46,8 @@ job.download_artifacts("artifacts.zip")
 print("Artifacts downloaded to artifacts.zip")
 ```
 
+> Note: You can also supply a local filepath when submitting a batch job. Check it out in a Jupyter notebook [here](https://github.com/HumeAI/hume-python-sdk/tree/main/examples/batch-text-entity-recognition/batch-text-entity-recognition.ipynb).
+
 ### Rehydrate a batch job from a job ID
 
 ```python
@@ -59,7 +63,7 @@ print(job)
 
 ### Stream predictions over a websocket
 
-> Note: `pip install hume[stream]` is required to use websocket features
+> Note: `pip install "hume[stream]"` is required to use websocket features
 
 ```python
 import asyncio

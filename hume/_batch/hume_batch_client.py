@@ -214,7 +214,7 @@ class HumeBatchClient(ClientBase):
 
         Args:
             request_body (Any): JSON request body to be passed to the batch API.
-            files: (List[Union[str, Path]]): JSON request body to be passed to the batch API.
+            files (Optional[List[Union[str, Path]]]): List of paths to files on the local disk to be processed.
 
         Raises:
             HumeClientException: If the batch job fails to start.
