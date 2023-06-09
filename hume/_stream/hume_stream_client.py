@@ -47,7 +47,7 @@ class HumeStreamClient(ClientBase):
         """
         if not HAS_WEBSOCKETS:
             raise HumeClientException("The websockets package is required to use HumeStreamClient. "
-                                      "Run `pip install hume[stream]` to install a version compatible with the"
+                                      "Run `pip install \"hume[stream]\"` to install a version compatible with the"
                                       "Hume Python SDK.")
 
         super().__init__(api_key, *args, **kwargs)

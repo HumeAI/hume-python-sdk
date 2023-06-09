@@ -77,6 +77,7 @@ class HumeBatchClient(ClientBase):
         transcription_config: Optional[TranscriptionConfig] = None,
         callback_url: Optional[str] = None,
         notify: Optional[bool] = None,
+        files: Optional[List[Union[str, Path]]] = None,
     ) -> BatchJob:
         """Submit a job for batch processing.
 
@@ -89,12 +90,13 @@ class HumeBatchClient(ClientBase):
             transcription_config (Optional[TranscriptionConfig]): A `TranscriptionConfig` object.
             callback_url (Optional[str]): A URL to which a POST request will be sent upon job completion.
             notify (Optional[bool]): Wether an email notification should be sent upon job completion.
+            files (Optional[List[Union[str, Path]]]): List of paths to files on the local disk to be processed.
 
         Returns:
             BatchJob: The `BatchJob` representing the batch computation.
         """
         request = self._construct_request(configs, urls, transcription_config, callback_url, notify)
-        return self._submit_job_from_request(request)
+        return self._submit_job(request, files)
 
     def get_job_details(self, job_id: str) -> BatchJobDetails:
         """Get details for the batch job.
@@ -200,7 +202,11 @@ class HumeBatchClient(ClientBase):
             request["notify"] = notify
         return request
 
-    def _submit_job_from_request(self, request_body: Any) -> BatchJob:
+    def _submit_job(
+        self,
+        request_body: Any,
+        files: Optional[List[Union[str, Path]]],
+    ) -> BatchJob:
         """Start a job for batch processing by passing a JSON request body.
 
         This request body should match the request body used by the batch API,
@@ -208,6 +214,7 @@ class HumeBatchClient(ClientBase):
 
         Args:
             request_body (Any): JSON request body to be passed to the batch API.
+            files (Optional[List[Union[str, Path]]]): List of paths to files on the local disk to be processed.
 
         Raises:
             HumeClientException: If the batch job fails to start.
@@ -215,12 +222,17 @@ class HumeBatchClient(ClientBase):
         Returns:
             BatchJob: A `BatchJob` that wraps the batch computation.
         """
+        if files is None:
+            files = []
+        post_files = [("file", Path(path).read_bytes()) for path in files]
+
         endpoint = self._construct_endpoint("jobs")
         response = requests.post(
             endpoint,
             json=request_body,
             timeout=self._DEFAULT_API_TIMEOUT,
             headers=self._get_client_headers(),
+            files=post_files,
         )
 
         try:
