@@ -131,6 +131,29 @@ class TestServiceHumeBatchClient:
         job = batch_client.submit_job([], [config], files=[data_filepath])
         self.check_job(job, config, FaceConfig, job_files_dirpath, complete_config=False)
 
+    def test_local_file_upload_configure(self, eval_data: EvalData, batch_client: HumeBatchClient,
+                                         tmp_path_factory: TempPathFactory):
+        data_url = eval_data["text-happy-place"]
+        data_filepath = tmp_path_factory.mktemp("data-dir") / "happy.txt"
+        urlretrieve(data_url, data_filepath)
+        config = LanguageConfig(granularity="sentence")
+        job_files_dirpath = tmp_path_factory.mktemp("job-files")
+        job = batch_client.submit_job([], [config], files=[data_filepath])
+        self.check_job(job, config, LanguageConfig, job_files_dirpath, complete_config=False)
+
+        predictions = job.get_predictions()
+
+        assert len(predictions) == 1
+        assert predictions[0]["results"]
+        assert len(predictions[0]["results"]["predictions"]) == 1
+        language_results = predictions[0]["results"]["predictions"][0]["models"]["language"]
+        grouped_predictions = language_results["grouped_predictions"]
+        assert len(grouped_predictions) == 1
+
+        # Configuring 'sentence' granularity should give us only one prediction
+        # rather than the nine we'd get if we used 'word' granularity.
+        assert len(grouped_predictions[0]["predictions"]) == 1
+
     def check_job(
         self,
         job: BatchJob,
