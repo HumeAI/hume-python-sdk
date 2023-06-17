@@ -222,18 +222,24 @@ class HumeBatchClient(ClientBase):
         Returns:
             BatchJob: A `BatchJob` that wraps the batch computation.
         """
-        if files is None:
-            files = []
-        post_files = [("file", Path(path).read_bytes()) for path in files]
-
         endpoint = self._construct_endpoint("jobs")
-        response = requests.post(
-            endpoint,
-            json=request_body,
-            timeout=self._DEFAULT_API_TIMEOUT,
-            headers=self._get_client_headers(),
-            files=post_files,
-        )
+
+        if files is None:
+            response = requests.post(
+                endpoint,
+                json=request_body,
+                timeout=self._DEFAULT_API_TIMEOUT,
+                headers=self._get_client_headers(),
+            )
+        else:
+            post_files = [("file", Path(path).read_bytes()) for path in files]
+            post_files.append(("json", json.dumps(request_body).encode("utf-8")))
+            response = requests.post(
+                endpoint,
+                timeout=self._DEFAULT_API_TIMEOUT,
+                headers=self._get_client_headers(),
+                files=post_files,
+            )
 
         try:
             body = response.json()
