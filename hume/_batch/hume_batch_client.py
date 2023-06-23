@@ -40,14 +40,13 @@ class HumeBatchClient(ClientBase):
         ```
     """
 
-    _DEFAULT_API_TIMEOUT = 10
-
-    def __init__(self, api_key: str, *args: Any, **kwargs: Any):
+    def __init__(self, api_key: str, *args: Any, timeout: int = 10, **kwargs: Any):
         """Construct a HumeBatchClient.
 
         Args:
             api_key (str): Hume API key.
         """
+        self._timeout = timeout
         super().__init__(api_key, *args, **kwargs)
 
     @classmethod
@@ -113,7 +112,7 @@ class HumeBatchClient(ClientBase):
         endpoint = self._construct_endpoint(f"jobs/{job_id}")
         response = requests.get(
             endpoint,
-            timeout=self._DEFAULT_API_TIMEOUT,
+            timeout=self._timeout,
             headers=self._get_client_headers(),
         )
 
@@ -143,7 +142,7 @@ class HumeBatchClient(ClientBase):
         endpoint = self._construct_endpoint(f"jobs/{job_id}/predictions")
         response = requests.get(
             endpoint,
-            timeout=self._DEFAULT_API_TIMEOUT,
+            timeout=self._timeout,
             headers=self._get_client_headers(),
         )
 
@@ -174,7 +173,7 @@ class HumeBatchClient(ClientBase):
         endpoint = self._construct_endpoint(f"jobs/{job_id}/artifacts")
         response = requests.get(
             endpoint,
-            timeout=self._DEFAULT_API_TIMEOUT,
+            timeout=self._timeout,
             headers=self._get_client_headers(),
         )
 
@@ -228,7 +227,7 @@ class HumeBatchClient(ClientBase):
             response = requests.post(
                 endpoint,
                 json=request_body,
-                timeout=self._DEFAULT_API_TIMEOUT,
+                timeout=self._timeout,
                 headers=self._get_client_headers(),
             )
         else:
@@ -236,7 +235,7 @@ class HumeBatchClient(ClientBase):
             post_files.append(("json", json.dumps(request_body).encode("utf-8")))
             response = requests.post(
                 endpoint,
-                timeout=self._DEFAULT_API_TIMEOUT,
+                timeout=self._timeout,
                 headers=self._get_client_headers(),
                 files=post_files,
             )

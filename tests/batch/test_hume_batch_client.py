@@ -11,7 +11,7 @@ from hume.models.config import BurstConfig, FaceConfig, LanguageConfig, ProsodyC
 def batch_client(monkeypatch: MonkeyPatch) -> HumeBatchClient:
     mock_submit_request = MagicMock(return_value="temp-job-value")
     monkeypatch.setattr(HumeBatchClient, "_submit_job", mock_submit_request)
-    client = HumeBatchClient("0000-0000-0000-0000")
+    client = HumeBatchClient("0000-0000-0000-0000", timeout=15)
     mock_submit_request.return_value = BatchJob(client, "mock-job-id")
     return client
 

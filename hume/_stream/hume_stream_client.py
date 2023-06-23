@@ -37,8 +37,6 @@ class HumeStreamClient(ClientBase):
         ```
     """
 
-    _DEFAULT_API_TIMEOUT = 10
-
     def __init__(self, api_key: str, *args: Any, **kwargs: Any):
         """Construct a HumeStreamClient.
 
