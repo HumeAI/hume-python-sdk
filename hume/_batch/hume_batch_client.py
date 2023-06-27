@@ -40,7 +40,13 @@ class HumeBatchClient(ClientBase):
         ```
     """
 
-    def __init__(self, api_key: str, *args: Any, timeout: int = 10, **kwargs: Any):
+    def __init__(
+        self,
+        api_key: str,
+        *args: Any,
+        timeout: int = 10,
+        **kwargs: Any,
+    ):
         """Construct a HumeBatchClient.
 
         Args:
