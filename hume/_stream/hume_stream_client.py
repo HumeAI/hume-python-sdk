@@ -41,14 +41,16 @@ class HumeStreamClient(ClientBase):
         self,
         api_key: str,
         *args: Any,
-        open_timeout: int = 10,
-        close_timeout: int = 10,
+        open_timeout: Optional[int] = 10,
+        close_timeout: Optional[int] = 10,
         **kwargs: Any,
     ):
         """Construct a HumeStreamClient.
 
         Args:
             api_key (str): Hume API key.
+            open_timeout (Optional[int]): Time in seconds before canceling socket open operation.
+            close_timeout (Optional[int]): Time in seconds before canceling socket close operation.
         """
         if not HAS_WEBSOCKETS:
             raise HumeClientException("The websockets package is required to use HumeStreamClient. "
