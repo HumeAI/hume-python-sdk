@@ -22,11 +22,12 @@ class HumeBatchClient(ClientBase):
         ```python
         from hume import HumeBatchClient
         from hume.models.config import FaceConfig
+        from hume.models.config import ProsodyConfig
 
         client = HumeBatchClient("<your-api-key>")
-        urls = ["https://tinyurl.com/hume-img"]
-        config = FaceConfig(identify_faces=True)
-        job = client.submit_job(urls, [config])
+        urls = ["https://storage.googleapis.com/hume-test-data/video/armisen-clip.mp4"]
+        configs = [FaceConfig(identify_faces=True), ProsodyConfig()]
+        job = client.submit_job(urls, configs)
 
         print(job)
         print("Running...")
