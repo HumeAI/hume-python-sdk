@@ -23,15 +23,15 @@ class HumeStreamClient(ClientBase):
         ```python
         import asyncio
 
-        from hume import HumeStreamClient, StreamSocket
-        from hume.models.config import FaceConfig
+        from hume import HumeStreamClient
+        from hume.models.config import BurstConfig
         from hume.models.config import ProsodyConfig
 
         async def main():
             client = HumeStreamClient("<your-api-key>")
-            configs = [FaceConfig(identify_faces=True), ProsodyConfig()]
+            configs = [BurstConfig(), ProsodyConfig()]
             async with client.connect(configs) as socket:
-                result = await socket.send_file("<your-video-filepath>")
+                result = await socket.send_file("<your-audio-filepath>")
                 print(result)
 
         asyncio.run(main())

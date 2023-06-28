@@ -25,7 +25,7 @@ class HumeBatchClient(ClientBase):
         from hume.models.config import ProsodyConfig
 
         client = HumeBatchClient("<your-api-key>")
-        urls = ["<your-video-url-here>"]
+        urls = ["https://storage.googleapis.com/hume-test-data/video/armisen-clip.mp4"]
         configs = [FaceConfig(identify_faces=True), ProsodyConfig()]
         job = client.submit_job(urls, configs)
 

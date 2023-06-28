@@ -32,7 +32,7 @@ from hume.models.config import FaceConfig
 from hume.models.config import ProsodyConfig
 
 client = HumeBatchClient("<your-api-key>")
-urls = ["<your-video-url-here>"]
+urls = ["https://storage.googleapis.com/hume-test-data/video/armisen-clip.mp4"]
 configs = [FaceConfig(identify_faces=True), ProsodyConfig()]
 job = client.submit_job(urls, configs)
 
@@ -70,14 +70,14 @@ print(job)
 import asyncio
 
 from hume import HumeStreamClient
-from hume.models.config import FaceConfig
+from hume.models.config import BurstConfig
 from hume.models.config import ProsodyConfig
 
 async def main():
     client = HumeStreamClient("<your-api-key>")
-    configs = [FaceConfig(identify_faces=True), ProsodyConfig()]
+    configs = [BurstConfig(), ProsodyConfig()]
     async with client.connect(configs) as socket:
-        result = await socket.send_file("<your-video-filepath>")
+        result = await socket.send_file("<your-audio-filepath>")
         print(result)
 
 asyncio.run(main())

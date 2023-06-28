@@ -106,7 +106,7 @@ class StreamSocket:
         return await self._send_payload(payload)
 
     async def send_facemesh(self, landmarks: List[List[List[float]]]) -> Any:
-        """Send text on the `StreamSocket`.
+        """Send feshmesh landmarks on the `StreamSocket`.
 
         Note: This method is intended for use with a `FacemeshConfig`.
             When the socket is configured for other modalities this method will fail.
