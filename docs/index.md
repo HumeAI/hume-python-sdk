@@ -28,12 +28,13 @@ Jupyter example notebooks can be found in the [Python SDK GitHub repo](https://g
 
 ```python
 from hume import HumeBatchClient
+from hume.models.config import FaceConfig
 from hume.models.config import ProsodyConfig
 
 client = HumeBatchClient("<your-api-key>")
 urls = ["<your-video-url-here>"]
-config = [FaceConfig(identify_faces=True), ProsodyConfig()]
-job = client.submit_job(urls, config)
+configs = [FaceConfig(identify_faces=True), ProsodyConfig()]
+job = client.submit_job(urls, configs)
 
 print(job)
 print("Running...")
