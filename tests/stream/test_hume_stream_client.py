@@ -10,7 +10,12 @@ from hume import HumeStreamClient, StreamSocket
 from hume.models.config import FaceConfig, ProsodyConfig
 
 
-def mock_connect(uri: str, extra_headers: Optional[Dict[str, str]] = None):
+def mock_connect(
+    uri: str,
+    extra_headers: Optional[Dict[str, str]] = None,
+    open_timeout: Optional[int] = None,
+    close_timeout: Optional[int] = None,
+):
     assert uri == "wss://api.hume.ai/v0/stream/models"
     assert isinstance(extra_headers, dict)
     assert extra_headers.get("X-Hume-Client-Name") == "python_sdk"

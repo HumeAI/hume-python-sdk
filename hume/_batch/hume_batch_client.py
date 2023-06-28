@@ -40,11 +40,18 @@ class HumeBatchClient(ClientBase):
         ```
     """
 
-    def __init__(self, api_key: str, *args: Any, timeout: int = 10, **kwargs: Any):
+    def __init__(
+        self,
+        api_key: str,
+        *args: Any,
+        timeout: int = 10,
+        **kwargs: Any,
+    ):
         """Construct a HumeBatchClient.
 
         Args:
             api_key (str): Hume API key.
+            timeout (int): Time in seconds before canceling long-running Hume API requests.
         """
         self._timeout = timeout
         super().__init__(api_key, *args, **kwargs)

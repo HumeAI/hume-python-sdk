@@ -37,17 +37,28 @@ class HumeStreamClient(ClientBase):
         ```
     """
 
-    def __init__(self, api_key: str, *args: Any, **kwargs: Any):
+    def __init__(
+        self,
+        api_key: str,
+        *args: Any,
+        open_timeout: Optional[int] = 10,
+        close_timeout: Optional[int] = 10,
+        **kwargs: Any,
+    ):
         """Construct a HumeStreamClient.
 
         Args:
             api_key (str): Hume API key.
+            open_timeout (Optional[int]): Time in seconds before canceling socket open operation.
+            close_timeout (Optional[int]): Time in seconds before canceling socket close operation.
         """
         if not HAS_WEBSOCKETS:
             raise HumeClientException("The websockets package is required to use HumeStreamClient. "
                                       "Run `pip install \"hume[stream]\"` to install a version compatible with the"
                                       "Hume Python SDK.")
 
+        self._open_timeout = open_timeout
+        self._close_timeout = close_timeout
         super().__init__(api_key, *args, **kwargs)
 
     @classmethod
@@ -79,7 +90,10 @@ class HumeStreamClient(ClientBase):
         try:
             # pylint: disable=no-member
             async with websockets.connect(  # type: ignore[attr-defined]
-                    endpoint, extra_headers=self._get_client_headers()) as protocol:
+                    endpoint,
+                    extra_headers=self._get_client_headers(),
+                    close_timeout=self._close_timeout,
+                    open_timeout=self._open_timeout) as protocol:
                 yield StreamSocket(protocol, configs, stream_window_ms=stream_window_ms)
         except websockets.exceptions.InvalidStatusCode as exc:
             status_code: int = exc.status_code
