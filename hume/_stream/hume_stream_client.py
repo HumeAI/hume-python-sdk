@@ -25,12 +25,13 @@ class HumeStreamClient(ClientBase):
 
         from hume import HumeStreamClient, StreamSocket
         from hume.models.config import FaceConfig
+        from hume.models.config import ProsodyConfig
 
         async def main():
             client = HumeStreamClient("<your-api-key>")
-            config = FaceConfig(identify_faces=True)
-            async with client.connect([config]) as socket:
-                result = await socket.send_file("<your-image-filepath>")
+            configs = [FaceConfig(identify_faces=True), ProsodyConfig()]
+            async with client.connect(configs) as socket:
+                result = await socket.send_file("<your-video-filepath>")
                 print(result)
 
         asyncio.run(main())

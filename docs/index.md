@@ -28,12 +28,12 @@ Jupyter example notebooks can be found in the [Python SDK GitHub repo](https://g
 
 ```python
 from hume import HumeBatchClient
-from hume.models.config import FaceConfig
+from hume.models.config import ProsodyConfig
 
 client = HumeBatchClient("<your-api-key>")
-urls = ["https://tinyurl.com/hume-img"]
-config = FaceConfig(identify_faces=True)
-job = client.submit_job(urls, [config])
+urls = ["<your-video-url-here>"]
+config = [FaceConfig(identify_faces=True), ProsodyConfig()]
+job = client.submit_job(urls, config)
 
 print(job)
 print("Running...")
@@ -70,12 +70,13 @@ import asyncio
 
 from hume import HumeStreamClient
 from hume.models.config import FaceConfig
+from hume.models.config import ProsodyConfig
 
 async def main():
     client = HumeStreamClient("<your-api-key>")
-    config = FaceConfig(identify_faces=True)
-    async with client.connect([config]) as socket:
-        result = await socket.send_file("<your-image-filepath>")
+    configs = [FaceConfig(identify_faces=True), ProsodyConfig()]
+    async with client.connect(configs) as socket:
+        result = await socket.send_file("<your-video-filepath>")
         print(result)
 
 asyncio.run(main())
