@@ -12,7 +12,7 @@ Basic installation:
 pip install hume
 ```
 
-Websocket and streaming features can be enabled with:
+WebSocket and streaming features can be enabled with:
 
 ```bash
 pip install "hume[stream]"
@@ -62,9 +62,9 @@ job = client.get_job(job_id)
 print(job)
 ```
 
-### Stream predictions over a websocket
+### Stream predictions over a WebSocket
 
-> Note: `pip install "hume[stream]"` is required to use websocket features
+> Note: `pip install "hume[stream]"` is required to use WebSocket features
 
 ```python
 import asyncio
