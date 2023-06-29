@@ -85,7 +85,7 @@ class HumeStreamClient(ClientBase):
         Args:
             configs (List[ModelConfigBase]): List of job configs.
             stream_window_ms (Optional[int]): Length of the sliding window in milliseconds to use when
-                aggregating media across streaming payloads within one websocket connection.
+                aggregating media across streaming payloads within one WebSocket connection.
         """
         endpoint = self._construct_endpoint("models")
         try:
