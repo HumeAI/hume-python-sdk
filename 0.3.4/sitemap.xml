@@ -2,77 +2,77 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://humeai.github.io/hume-python-sdk/0.3.4/</loc>
-         <lastmod>2023-06-29</lastmod>
+         <lastmod>2023-06-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://humeai.github.io/hume-python-sdk/0.3.4/batch/batch-job-details/</loc>
-         <lastmod>2023-06-29</lastmod>
+         <lastmod>2023-06-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://humeai.github.io/hume-python-sdk/0.3.4/batch/batch-job-state/</loc>
-         <lastmod>2023-06-29</lastmod>
+         <lastmod>2023-06-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://humeai.github.io/hume-python-sdk/0.3.4/batch/batch-job-status/</loc>
-         <lastmod>2023-06-29</lastmod>
+         <lastmod>2023-06-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://humeai.github.io/hume-python-sdk/0.3.4/batch/batch-job/</loc>
-         <lastmod>2023-06-29</lastmod>
+         <lastmod>2023-06-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://humeai.github.io/hume-python-sdk/0.3.4/batch/hume-batch-client/</loc>
-         <lastmod>2023-06-29</lastmod>
+         <lastmod>2023-06-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://humeai.github.io/hume-python-sdk/0.3.4/batch/transcription-config/</loc>
-         <lastmod>2023-06-29</lastmod>
+         <lastmod>2023-06-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://humeai.github.io/hume-python-sdk/0.3.4/config/burst-config/</loc>
-         <lastmod>2023-06-29</lastmod>
+         <lastmod>2023-06-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://humeai.github.io/hume-python-sdk/0.3.4/config/face-config/</loc>
-         <lastmod>2023-06-29</lastmod>
+         <lastmod>2023-06-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://humeai.github.io/hume-python-sdk/0.3.4/config/facemesh-config/</loc>
-         <lastmod>2023-06-29</lastmod>
+         <lastmod>2023-06-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://humeai.github.io/hume-python-sdk/0.3.4/config/language-config/</loc>
-         <lastmod>2023-06-29</lastmod>
+         <lastmod>2023-06-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://humeai.github.io/hume-python-sdk/0.3.4/config/ner-config/</loc>
-         <lastmod>2023-06-29</lastmod>
+         <lastmod>2023-06-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://humeai.github.io/hume-python-sdk/0.3.4/config/prosody-config/</loc>
-         <lastmod>2023-06-29</lastmod>
+         <lastmod>2023-06-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://humeai.github.io/hume-python-sdk/0.3.4/stream/hume-stream-client/</loc>
-         <lastmod>2023-06-29</lastmod>
+         <lastmod>2023-06-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://humeai.github.io/hume-python-sdk/0.3.4/stream/stream-socket/</loc>
-         <lastmod>2023-06-29</lastmod>
+         <lastmod>2023-06-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
