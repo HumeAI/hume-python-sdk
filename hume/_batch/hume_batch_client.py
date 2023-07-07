@@ -283,16 +283,12 @@ class HumeBatchClient(ClientBase):
             request_body (Any): JSON request body to be passed to the batch API.
             filepaths (Optional[List[Union[str, Path]]]): List of paths to files on the local disk to be processed.
 
-        Raises:
-            HumeClientException: If the batch job fails to start.
-
         Returns:
-            BatchJob: A `BatchJob` that wraps the batch computation.
+            Tuple[str, Tuple[str, bytes]]: A list of tuples representing the multipart form data for the POST request.
         """
         form_data = []
         for filepath in filepaths:
             path = Path(filepath)
-            # post_file = ("file", path.read_bytes())
             post_file = ("file", (path.name, path.read_bytes()))
             form_data.append(post_file)
 
