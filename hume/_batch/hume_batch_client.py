@@ -1,9 +1,9 @@
 """Batch API client."""
 import json
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 
-import requests
+from requests import Session
 
 from hume._batch.batch_job import BatchJob
 from hume._batch.batch_job_details import BatchJobDetails
@@ -55,6 +55,7 @@ class HumeBatchClient(ClientBase):
             timeout (int): Time in seconds before canceling long-running Hume API requests.
         """
         self._timeout = timeout
+        self._session = Session()
         super().__init__(api_key, *args, **kwargs)
 
     @classmethod
@@ -118,7 +119,7 @@ class HumeBatchClient(ClientBase):
             BatchJobDetails: Batch job details.
         """
         endpoint = self._construct_endpoint(f"jobs/{job_id}")
-        response = requests.get(
+        response = self._session.get(
             endpoint,
             timeout=self._timeout,
             headers=self._get_client_headers(),
@@ -148,7 +149,7 @@ class HumeBatchClient(ClientBase):
             Any: Batch job predictions.
         """
         endpoint = self._construct_endpoint(f"jobs/{job_id}/predictions")
-        response = requests.get(
+        response = self._session.get(
             endpoint,
             timeout=self._timeout,
             headers=self._get_client_headers(),
@@ -179,7 +180,7 @@ class HumeBatchClient(ClientBase):
             Any: Batch job artifacts.
         """
         endpoint = self._construct_endpoint(f"jobs/{job_id}/artifacts")
-        response = requests.get(
+        response = self._session.get(
             endpoint,
             timeout=self._timeout,
             headers=self._get_client_headers(),
@@ -212,7 +213,7 @@ class HumeBatchClient(ClientBase):
     def _submit_job(
         self,
         request_body: Any,
-        files: Optional[List[Union[str, Path]]],
+        filepaths: Optional[List[Union[str, Path]]],
     ) -> BatchJob:
         """Start a job for batch processing by passing a JSON request body.
 
@@ -221,7 +222,7 @@ class HumeBatchClient(ClientBase):
 
         Args:
             request_body (Any): JSON request body to be passed to the batch API.
-            files (Optional[List[Union[str, Path]]]): List of paths to files on the local disk to be processed.
+            filepaths (Optional[List[Union[str, Path]]]): List of paths to files on the local disk to be processed.
 
         Raises:
             HumeClientException: If the batch job fails to start.
@@ -231,21 +232,20 @@ class HumeBatchClient(ClientBase):
         """
         endpoint = self._construct_endpoint("jobs")
 
-        if files is None:
-            response = requests.post(
+        if filepaths is None:
+            response = self._session.post(
                 endpoint,
                 json=request_body,
                 timeout=self._timeout,
                 headers=self._get_client_headers(),
             )
         else:
-            post_files = [("file", Path(path).read_bytes()) for path in files]
-            post_files.append(("json", json.dumps(request_body).encode("utf-8")))
-            response = requests.post(
+            form_data = self._get_multipart_form_data(request_body, filepaths)
+            response = self._session.post(
                 endpoint,
                 timeout=self._timeout,
                 headers=self._get_client_headers(),
-                files=post_files,
+                files=form_data,
             )
 
         try:
@@ -268,3 +268,30 @@ class HumeBatchClient(ClientBase):
             raise HumeClientException(f"Unexpected error when starting batch job: {body}")
 
         return BatchJob(self, body["job_id"])
+
+    def _get_multipart_form_data(
+        self,
+        request_body: Any,
+        filepaths: List[Union[str, Path]],
+    ) -> List[Tuple[str, Union[bytes, Tuple[str, bytes]]]]:
+        """Convert a list of filepaths into a list of multipart form data.
+
+        Multipart form data allows the client to attach files to the POST request,
+        including both the raw file bytes and the filename.
+
+        Args:
+            request_body (Any): JSON request body to be passed to the batch API.
+            filepaths (List[Union[str, Path]]): List of paths to files on the local disk to be processed.
+
+        Returns:
+            List[Tuple[str, Union[bytes, Tuple[str, bytes]]]]: A list of tuples representing
+                the multipart form data for the POST request.
+        """
+        form_data: List[Tuple[str, Union[bytes, Tuple[str, bytes]]]] = []
+        for filepath in filepaths:
+            path = Path(filepath)
+            post_file = ("file", (path.name, path.read_bytes()))
+            form_data.append(post_file)
+
+        form_data.append(("json", json.dumps(request_body).encode("utf-8")))
+        return form_data
