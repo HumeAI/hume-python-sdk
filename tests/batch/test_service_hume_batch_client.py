@@ -121,8 +121,8 @@ class TestServiceHumeBatchClient:
             rehydrated_job = BatchJob(invalid_client, job.id)
             rehydrated_job.await_complete(10)
 
-    def test_local_file_upload(self, eval_data: EvalData, batch_client: HumeBatchClient,
-                               tmp_path_factory: TempPathFactory):
+    def test_local_file_upload_simple(self, eval_data: EvalData, batch_client: HumeBatchClient,
+                                      tmp_path_factory: TempPathFactory):
         data_url = eval_data["image-obama-face"]
         data_filepath = tmp_path_factory.mktemp("data-dir") / "obama.png"
         urlretrieve(data_url, data_filepath)
@@ -130,6 +130,9 @@ class TestServiceHumeBatchClient:
         job_files_dirpath = tmp_path_factory.mktemp("job-files")
         job = batch_client.submit_job([], [config], files=[data_filepath])
         self.check_job(job, config, FaceConfig, job_files_dirpath, complete_config=False)
+
+        predictions = job.get_predictions()
+        assert predictions[0]["source"]["filename"] == "obama.png"
 
     def test_local_file_upload_configure(self, eval_data: EvalData, batch_client: HumeBatchClient,
                                          tmp_path_factory: TempPathFactory):

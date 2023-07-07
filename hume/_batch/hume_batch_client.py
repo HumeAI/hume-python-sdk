@@ -292,7 +292,8 @@ class HumeBatchClient(ClientBase):
         form_data = []
         for filepath in filepaths:
             path = Path(filepath)
-            post_file = ("file", (path.name, (path.read_bytes())))
+            # post_file = ("file", path.read_bytes())
+            post_file = ("file", (path.name, path.read_bytes()))
             form_data.append(post_file)
 
         form_data.append(("json", json.dumps(request_body).encode("utf-8")))
