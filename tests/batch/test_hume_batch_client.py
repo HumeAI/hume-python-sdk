@@ -1,7 +1,7 @@
 from unittest.mock import MagicMock
 
 import pytest
-from pytest import MonkeyPatch
+from pytest import MonkeyPatch, TempPathFactory
 
 from hume import BatchJob, HumeBatchClient
 from hume.models.config import BurstConfig, FaceConfig, LanguageConfig, ProsodyConfig
@@ -96,3 +96,36 @@ class TestHumeBatchClient:
     def test_get_job(self, batch_client: HumeBatchClient):
         job = batch_client.get_job("mock-job-id")
         assert job.id == "mock-job-id"
+
+    def test_files(self, batch_client: HumeBatchClient):
+        mock_filepath = "my-audio.mp3"
+        config = ProsodyConfig(identify_speakers=True)
+        job = batch_client.submit_job(None, [config], files=[mock_filepath])
+        assert isinstance(job, BatchJob)
+        assert job.id == "mock-job-id"
+        batch_client._submit_job.assert_called_once_with(
+            {
+                "urls": None,
+                "models": {
+                    "prosody": {
+                        "identify_speakers": True,
+                    },
+                }
+            },
+            ['my-audio.mp3'],
+        )
+
+    def test_get_multipart_form_data(self, batch_client: HumeBatchClient, tmp_path_factory: TempPathFactory):
+        dirpath = tmp_path_factory.mktemp("multipart")
+        filepath = dirpath / "my-audio.mp3"
+        with filepath.open("w") as f:
+            f.write("I can't believe this test passed!")
+
+        request_body = {"mock": "body"}
+        filepaths = [filepath]
+        result = batch_client._get_multipart_form_data(request_body, filepaths)
+
+        assert result == [
+            ('file', ('my-audio.mp3', b"I can't believe this test passed!")),
+            ('json', b'{"mock": "body"}'),
+        ]
