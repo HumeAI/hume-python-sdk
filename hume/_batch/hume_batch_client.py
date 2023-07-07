@@ -272,8 +272,8 @@ class HumeBatchClient(ClientBase):
     def _get_multipart_form_data(
         self,
         request_body: Any,
-        filepaths: Optional[List[Union[str, Path]]],
-    ) -> Tuple[str, Tuple[str, bytes]]:
+        filepaths: List[Union[str, Path]],
+    ) -> List[Tuple[str, Union[bytes, Tuple[str, bytes]]]]:
         """Convert a list of filepaths into a list of multipart form data.
 
         Multipart form data allows the client to attach files to the POST request,
@@ -281,12 +281,13 @@ class HumeBatchClient(ClientBase):
 
         Args:
             request_body (Any): JSON request body to be passed to the batch API.
-            filepaths (Optional[List[Union[str, Path]]]): List of paths to files on the local disk to be processed.
+            filepaths (List[Union[str, Path]]): List of paths to files on the local disk to be processed.
 
         Returns:
-            Tuple[str, Tuple[str, bytes]]: A list of tuples representing the multipart form data for the POST request.
+            List[Tuple[str, Union[bytes, Tuple[str, bytes]]]]: A list of tuples representing
+                the multipart form data for the POST request.
         """
-        form_data = []
+        form_data: List[Tuple[str, Union[bytes, Tuple[str, bytes]]]] = []
         for filepath in filepaths:
             path = Path(filepath)
             post_file = ("file", (path.name, path.read_bytes()))
