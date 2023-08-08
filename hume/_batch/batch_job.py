@@ -14,6 +14,9 @@ if TYPE_CHECKING:
 class BatchJob:
     """Batch job."""
 
+    TIMEOUT_MESSAGE = ("Connection to API has been terminated after {}s, but your job will still continue to run. "
+                       "You can run `client.get_job('{}')` to get a reference to your job at any time.")
+
     def __init__(self, client: "HumeBatchClient", job_id: str):
         """Construct a BatchJob.
 
@@ -87,15 +90,15 @@ class BatchJob:
         if timeout < 1:
             raise ValueError("timeout must be at least 1 second")
 
-        return self._await_complete(timeout=timeout)
+        # pylint: disable=unused-argument
+        @retry(timeout_message=self.TIMEOUT_MESSAGE.format(timeout, self.id))
+        def _await_complete(timeout: int = timeout) -> BatchJobDetails:
+            details = self._client.get_job_details(self.id)
+            if not BatchJobStatus.is_terminal(details.state.status):
+                raise RetryIterError
+            return details
 
-    # pylint: disable=unused-argument
-    @retry()
-    def _await_complete(self, timeout: int = 300) -> BatchJobDetails:
-        details = self._client.get_job_details(self.id)
-        if not BatchJobStatus.is_terminal(details.state.status):
-            raise RetryIterError
-        return details
+        return _await_complete(timeout=timeout)
 
     def __repr__(self) -> str:
         """Get the string representation of the `BatchJob`.

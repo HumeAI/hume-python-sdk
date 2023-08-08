@@ -1,7 +1,7 @@
 """Function retry utilities."""
 import logging
 import time
-from typing import cast, Callable, Type, TypeVar
+from typing import Optional, cast, Callable, Type, TypeVar
 from typing_extensions import ParamSpec
 
 from hume.error.hume_client_exception import HumeClientException
@@ -24,6 +24,7 @@ def retry(
     max_delay: int = 300,
     backoff_factor: int = 2,
     error_type: Type[Exception] = RetryIterError,
+    timeout_message: Optional[str] = None,
 ) -> Callable[[Callable[P, R]], Callable[P, R]]:
     """Retry decorator for exponential backoff retry.
 
@@ -34,6 +35,8 @@ def retry(
         error_type (Type[Exception]): Class of exception to expect from decorated function when
             the function fails. Raise this exception type if the retry iteration has failed.
             Defaults to RetryIterError.
+        timeout_message (Optional[str]): A message that will be used when raising a
+            HumeClientException on timeout.
 
     Returns:
         Callable[[Callable[P, R]], Callable[P, R]]: Function decorator.
@@ -67,7 +70,10 @@ def retry(
 
                 retry_timeout = retry_kwargs["timeout"]
                 if total_await_time >= retry_timeout:
-                    raise HumeClientException(f"Request timed out after {retry_timeout}s")
+                    message = timeout_message
+                    if timeout_message is None:
+                        message = f"Request timed out after {retry_timeout}s"
+                    raise HumeClientException(message)
 
                 time.sleep(delay)
                 total_await_time += delay
