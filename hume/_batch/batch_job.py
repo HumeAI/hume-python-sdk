@@ -14,8 +14,8 @@ if TYPE_CHECKING:
 class BatchJob:
     """Batch job."""
 
-    TIMEOUT_MESSAGE = ("Connection to API has been terminated after {}s, but your job will still continue to run. "
-                       "You can run `client.get_job('{}')` to get a reference to your job at any time.")
+    TIMEOUT_MESSAGE = ("Connection to API has been terminated after {}s, but your job will continue to run. "
+                       "Get a reference to your job with `client.get_job('{}')` at any time.")
 
     def __init__(self, client: "HumeBatchClient", job_id: str):
         """Construct a BatchJob.
