@@ -87,7 +87,7 @@ asyncio.run(main())
 
 - [Hume AI Homepage](https://hume.ai)
 - [Platform Documentation](https://help.hume.ai/basics/about-hume-ai)
-- [API Reference](https://docs.hume.ai)
+- [API Reference](https://streaming.hume.ai)
 
 ## Support
 
