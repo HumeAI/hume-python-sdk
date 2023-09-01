@@ -81,3 +81,26 @@ class TestServiceHumeStreamClient:
                        "which is not supported for the detected file type 'image'.")
             with pytest.raises(HumeClientException, match=re.escape(message)):
                 await websocket.send_file(data_filepath)
+
+    async def test_payload_config(
+        self,
+        eval_data: EvalData,
+        stream_client: HumeStreamClient,
+        tmp_path_factory: TempPathFactory,
+    ):
+        data_dirpath = tmp_path_factory.mktemp("data-dir")
+        face_data_url = eval_data["image-obama-face"]
+        face_data_filepath = data_dirpath / "face-data-file"
+        urlretrieve(face_data_url, face_data_filepath)
+        text_data_url = eval_data["text-happy-place"]
+        text_data_filepath = data_dirpath / "text-data-file"
+        urlretrieve(text_data_url, text_data_filepath)
+
+        socket_configs = []
+        async with stream_client.connect(socket_configs) as websocket:
+            payload_configs = [FaceConfig()]
+            result = await websocket.send_file(face_data_filepath, configs=payload_configs)
+            assert "predictions" in result["face"]
+            payload_configs = [LanguageConfig()]
+            result = await websocket.send_file(text_data_filepath, configs=payload_configs)
+            assert "predictions" in result["language"]

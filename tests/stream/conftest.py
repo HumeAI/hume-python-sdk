@@ -15,6 +15,7 @@ def mock_face_protocol():
                     "identify_faces": True,
                 },
             },
+            "raw_text": False,
         }
 
     async def mock_recv() -> str:
@@ -65,6 +66,7 @@ def mock_facemesh_protocol():
             "models": {
                 "facemesh": {},
             },
+            "raw_text": False,
         }
 
     async def mock_recv() -> str:
