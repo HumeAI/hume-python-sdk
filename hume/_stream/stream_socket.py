@@ -32,7 +32,7 @@ class StreamSocket:
 
         Args:
             protocol (WebSocketClientProtocol): Protocol instance from websockets library.
-            configs (List[ModelConfigBase]): List of model configurations.
+            configs (Optional[List[ModelConfigBase]]): List of model configurations.
             stream_window_ms (Optional[int]): Length of the sliding window in milliseconds to use when
                 aggregating media across streaming payloads within one websocket connection.
 
@@ -60,9 +60,9 @@ class StreamSocket:
 
         Args:
             filepath (Path): Path to media file to send on socket connection.
-            configs (List[ModelConfigBase]): List of model configurations.
+            configs (Optional[List[ModelConfigBase]]): List of model configurations.
                 If set these configurations will overwrite any configurations
-                set when initializing the StreamSocket.
+                set when initializing the `StreamSocket`.
 
         Returns:
             Any: Response from the streaming API.
@@ -83,9 +83,9 @@ class StreamSocket:
 
         Args:
             bytes_data (bytes): Raw bytes of media to send on socket connection.
-            configs (List[ModelConfigBase]): List of model configurations.
+            configs (Optional[List[ModelConfigBase]]): List of model configurations.
                 If set these configurations will overwrite any configurations
-                set when initializing the StreamSocket.
+                set when initializing the `StreamSocket`.
 
         Returns:
             Any: Response from the streaming API.
@@ -105,9 +105,9 @@ class StreamSocket:
 
         Args:
             text (str): Text to send to the language model.
-            configs (List[ModelConfigBase]): List of model configurations.
+            configs (Optional[List[ModelConfigBase]]): List of model configurations.
                 If set these configurations will overwrite any configurations
-                set when initializing the StreamSocket.
+                set when initializing the `StreamSocket`.
 
         Raises:
             HumeClientException: If the socket is configured with a modality other than language.
@@ -133,9 +133,9 @@ class StreamSocket:
                 The shape of this 3-dimensional list should be (n, 478, 3) where n is the number
                 of faces to be processed, 478 is the number of MediaPipe landmarks per face and 3
                 represents the (x, y, z) coordinates of each landmark.
-            configs (List[ModelConfigBase]): List of model configurations.
+            configs (Optional[List[ModelConfigBase]]): List of model configurations.
                 If set these configurations will overwrite any configurations
-                set when initializing the StreamSocket.
+                set when initializing the `StreamSocket`.
 
         Raises:
             HumeClientException: If the socket is configured with a modality other than facemesh.
