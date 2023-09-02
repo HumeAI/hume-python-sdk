@@ -6,6 +6,7 @@ import pytest
 from hume import BatchJob, BatchJobDetails, BatchJobState, BatchJobStatus
 from hume.models import ModelType
 from hume.models.config import FaceConfig
+from hume import HumeClientException
 
 
 @pytest.fixture(scope="function")
@@ -57,3 +58,9 @@ class TestBatchJob:
         job = BatchJob(batch_client, "mock-job-id")
         details = job.await_complete()
         assert details.state.status == BatchJobStatus.FAILED
+
+    def test_raise_on_failed(self, batch_client: Mock):
+        job = BatchJob(batch_client, "mock-job-id")
+        message = "BatchJob mock-job-id failed."
+        with pytest.raises(HumeClientException, match=re.escape(message)):
+            job.await_complete(raise_on_failed=True)

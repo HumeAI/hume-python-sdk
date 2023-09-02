@@ -15,7 +15,6 @@ class BatchJobState:
         started_timestamp_ms (Optional[int]): Time when job started.
         ended_timestamp_ms (Optional[int]): Time when job ended.
     """
-
     status: BatchJobStatus
     created_timestamp_ms: Optional[int]
     started_timestamp_ms: Optional[int]
