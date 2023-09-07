@@ -16,8 +16,15 @@ class TestStreamSocket:
         configs = [FaceConfig(identify_faces=True)]
         socket = StreamSocket(mock_face_protocol, configs)
         mock_bytes_str = "bW9jay1tZWRpYS1maWxl"
-        result = await socket._send_bytes_str(mock_bytes_str)
+        result = await socket._send_str(mock_bytes_str, raw_text=False)
         assert result["face"]["predictions"] == "mock-predictions"
+
+    async def test_send_raw_str(self, mock_language_protocol: Mock):
+        configs = [LanguageConfig()]
+        socket = StreamSocket(mock_language_protocol, configs)
+        mock_raw_str = "mock-text"
+        result = await socket._send_str(mock_raw_str, raw_text=True)
+        assert result["language"]["predictions"] == "mock-predictions"
 
     async def test_send_bytes(self, mock_face_protocol: Mock):
         configs = [FaceConfig(identify_faces=True)]
@@ -93,3 +100,14 @@ class TestStreamSocket:
         message = "Invalid facemesh payload detected. Each facemesh landmark should be an (x, y, z) point."
         with pytest.raises(HumeClientException, match=re.escape(message)):
             await socket.send_facemesh([[[0, 0]] * 478])
+
+    async def test_invalid_payload_configs_send_text(self, mock_language_protocol: Mock):
+        socket_configs = [LanguageConfig()]
+        socket = StreamSocket(mock_language_protocol, socket_configs)
+
+        sample_text = "mock-text"
+        message = ("Payload configured with ProsodyConfig. "
+                   "send_text is only supported when using a LanguageConfig.")
+        with pytest.raises(HumeClientException, match=re.escape(message)):
+            payload_configs = [ProsodyConfig()]
+            await socket.send_text(sample_text, configs=payload_configs)
