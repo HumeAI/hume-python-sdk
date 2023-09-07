@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING, Any, Union
 from hume._batch.batch_job_details import BatchJobDetails
 from hume._batch.batch_job_status import BatchJobStatus
 from hume._common.retry_utils import retry, RetryIterError
+from hume.error.hume_client_exception import HumeClientException
 
 if TYPE_CHECKING:
     from hume._batch.hume_batch_client import HumeBatchClient
@@ -73,16 +74,20 @@ class BatchJob:
         """
         return self._client.get_job_details(self.id)
 
-    def await_complete(self, timeout: int = 300) -> BatchJobDetails:
+    def await_complete(self, timeout: int = 300, raise_on_failed: bool = False) -> BatchJobDetails:
         """Block until the job has reached a terminal status.
 
         Args:
             timeout (int): Maximum time in seconds to await. If the timeout is reached
                 before the job reaches a terminal state the job will continue to be processed,
                 but a `HumeClientException` will be raised to the caller of `await_complete`.
+            raise_on_failed (bool): If set to True and job fails an exception will be raised.
 
         Raises:
             ValueError: If the timeout is not valid.
+            HumeClientException: If the `BatchJob` has not reached a terminal state within
+                the specified timeout. Also can be raised if `raise_on_failed` is set and
+                the job reaches a `FAILED` terminal state.
 
         Returns:
             BatchJobDetails: Details for the `BatchJob`.
@@ -96,6 +101,8 @@ class BatchJob:
             details = self._client.get_job_details(self.id)
             if not BatchJobStatus.is_terminal(details.state.status):
                 raise RetryIterError
+            if raise_on_failed and details.state.status == BatchJobStatus.FAILED:
+                raise HumeClientException(f"BatchJob {self.id} failed.")
             return details
 
         return _await_complete(timeout=timeout)
