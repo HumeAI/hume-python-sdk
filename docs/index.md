@@ -2,7 +2,7 @@
 
 ## Requirements
 
-Python versions 3.8 and 3.9 are supported
+Python versions 3.9, 3.10, and 3.11 are supported
 
 ## Installation
 
