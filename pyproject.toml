@@ -3,9 +3,9 @@ authors = ["Hume AI Dev <dev@hume.ai>"]
 classifiers = [
   "Development Status :: 4 - Beta",
   "Operating System :: OS Independent",
-  "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
 ]
 description = "Hume AI Python Client"
 keywords = [
@@ -25,7 +25,7 @@ license = "Proprietary"
 name = "hume"
 readme = "README.md"
 repository = "https://github.com/HumeAI/hume-python-sdk"
-version = "0.3.7"
+version = "0.4.0"
 
 [tool.poetry.dependencies]
 python = ">=3.8.1,<4"
