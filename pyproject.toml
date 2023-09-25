@@ -10,16 +10,22 @@ classifiers = [
 description = "Hume AI Python Client"
 keywords = [
   "hume",
-  "expressive",
-  "communication",
-  "audio",
-  "recognition",
   "ai",
+  "multimodal",
+  "expression",
   "analysis",
-  "detection",
-  "voice",
   "sentiment",
+  "voice",
+  "recognition",
+  "detection",
   "emotion",
+  "speech",
+  "audio",
+  "vision",
+  "expressive",
+  "embeddings",
+  "communication",
+  "learning",
 ]
 license = "Proprietary"
 name = "hume"
