@@ -93,6 +93,26 @@ class TestHumeBatchClient:
             None,
         )
 
+    def test_language_with_raw_text(self, batch_client: HumeBatchClient):
+        mock_text = "Test!"
+        config = LanguageConfig(granularity="word", identify_speakers=True)
+        job = batch_client.submit_job([], [config], text=[mock_text])
+        assert isinstance(job, BatchJob)
+        assert job.id == "mock-job-id"
+        batch_client._submit_job.assert_called_once_with(
+            {
+                "urls": [],
+                "models": {
+                    "language": {
+                        "granularity": "word",
+                        "identify_speakers": True,
+                    },
+                },
+                "text": [mock_text],
+            },
+            None,
+        )
+
     def test_get_job(self, batch_client: HumeBatchClient):
         job = batch_client.get_job("mock-job-id")
         assert job.id == "mock-job-id"

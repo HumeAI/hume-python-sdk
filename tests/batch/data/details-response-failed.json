@@ -10,6 +10,7 @@
     },
     "urls": ["https://storage.googleapis.com/hume-test-data/image/obama.png"],
     "files": [],
+    "text": [],
     "callback_url": null,
     "notify": false
   },

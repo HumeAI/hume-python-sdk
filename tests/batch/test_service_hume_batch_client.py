@@ -134,6 +134,18 @@ class TestServiceHumeBatchClient:
         predictions = job.get_predictions()
         assert predictions[0]["source"]["filename"] == "obama.png"
 
+    def test_data_as_raw_text(self, batch_client: HumeBatchClient, tmp_path_factory: TempPathFactory):
+        data_raw_text = "Test!"
+        config = LanguageConfig()
+        job_files_dirpath = tmp_path_factory.mktemp("job-files")
+        job = batch_client.submit_job([], [config], text=[data_raw_text])
+        self.check_job(job, config, LanguageConfig, job_files_dirpath, complete_config=False)
+
+        predictions = job.get_predictions()
+        language_predictions = predictions[0]["results"]["predictions"][0]["models"]["language"]
+        assert predictions[0]["source"]["type"] == "text"
+        assert language_predictions["grouped_predictions"][0]["predictions"][0]["text"] == "Test!"
+
     def test_local_file_upload_configure(self, eval_data: EvalData, batch_client: HumeBatchClient,
                                          tmp_path_factory: TempPathFactory):
         data_url = eval_data["text-happy-place"]

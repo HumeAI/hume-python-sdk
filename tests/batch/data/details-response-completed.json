@@ -10,6 +10,7 @@
     },
     "urls": ["https://storage.googleapis.com/hume-test-data/video/royal-opera-house.mp4"],
     "files": [],
+    "text": [],
     "callback_url": "https:/fake-callback",
     "notify": false
   },
@@ -18,5 +19,5 @@
     "created_timestamp_ms": 1660594810000,
     "started_timestamp_ms": 1660594812000,
     "ended_timestamp_ms": 1660594815000
-}
+  }
 }
