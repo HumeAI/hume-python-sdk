@@ -142,9 +142,9 @@ class TestServiceHumeBatchClient:
         self.check_job(job, config, LanguageConfig, job_files_dirpath, complete_config=False)
 
         predictions = job.get_predictions()
-        languagePredictions = predictions[0]["results"]["predictions"][0]["models"]["language"]
+        language_predictions = predictions[0]["results"]["predictions"][0]["models"]["language"]
         assert predictions[0]["source"]["type"] == "text"
-        assert languagePredictions["grouped_predictions"][0]["predictions"][0]["text"] == "Test!"
+        assert language_predictions["grouped_predictions"][0]["predictions"][0]["text"] == "Test!"
 
     def test_local_file_upload_configure(self, eval_data: EvalData, batch_client: HumeBatchClient,
                                          tmp_path_factory: TempPathFactory):

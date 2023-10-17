@@ -82,11 +82,11 @@ class HumeBatchClient(ClientBase):
         self,
         urls: List[str],
         configs: List[ModelConfigBase],
-        text: Optional[List[str]] = None,
         transcription_config: Optional[TranscriptionConfig] = None,
         callback_url: Optional[str] = None,
         notify: Optional[bool] = None,
         files: Optional[List[Union[str, Path]]] = None,
+        text: Optional[List[str]] = None,
     ) -> BatchJob:
         """Submit a job for batch processing.
 
