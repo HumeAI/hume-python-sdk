@@ -20,6 +20,7 @@ class BatchJobDetails:
         configs: Dict[ModelType, ModelConfigBase],
         urls: List[str],
         files: List[str],
+        text: List[str],
         state: BatchJobState,
         callback_url: Optional[str] = None,
         notify: bool = False,
@@ -30,6 +31,7 @@ class BatchJobDetails:
             configs (Dict[ModelType, ModelConfigBase]): Configurations for the `BatchJob`.
             urls (List[str]): URLs processed in the `BatchJob`.
             files (List[str]): Files processed in the `BatchJob`.
+            text (List[str]): Raw text processed in the `BatchJob`.
             state (BatchJobState): State of `BatchJob`.
             callback_url (Optional[str]): A URL to which a POST request is sent upon job completion.
             notify (bool): Whether an email notification should be sent upon job completion.
@@ -37,6 +39,7 @@ class BatchJobDetails:
         self.configs = configs
         self.urls = urls
         self.files = files
+        self.text = text
         self.state = state
         self.callback_url = callback_url
         self.notify = notify
@@ -64,6 +67,7 @@ class BatchJobDetails:
 
             urls = request["urls"]
             files = request["files"]
+            text = request["text"]
             callback_url = request["callback_url"]
             notify = request["notify"]
 
@@ -79,6 +83,7 @@ class BatchJobDetails:
                 configs=configs,
                 urls=urls,
                 files=files,
+                text=text,
                 state=state,
                 callback_url=callback_url,
                 notify=notify,
