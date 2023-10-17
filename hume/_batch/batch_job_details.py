@@ -20,7 +20,7 @@ class BatchJobDetails:
         configs: Dict[ModelType, ModelConfigBase],
         urls: List[str],
         files: List[str],
-        text: List[str],
+        text: Optional[List[str]] = None,
         state: BatchJobState,
         callback_url: Optional[str] = None,
         notify: bool = False,
