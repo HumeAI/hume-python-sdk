@@ -23,7 +23,7 @@ To get started, create an account at [beta.hume.ai](https://beta.hume.ai).
 
 ## Documentation & Examples
 
-For complete documentation check out the [docs site](https://humeai.github.io/hume-python-sdk/) or [try some recipes](https://dev.hume.ai/recipes) from our platform documentation.
+For complete documentation check out the [Python SDK docs site](https://humeai.github.io/hume-python-sdk/) or [try some recipes](https://dev.hume.ai/recipes) from our platform documentation.
 
 Example notebooks can be found in the [examples folder](./examples/README.md).
 
