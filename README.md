@@ -38,4 +38,4 @@ Hume's expressive communication platform has been built on top of published scie
 
 ## Support
 
-If you've found a bug with this SDK please [join us on our Discord](https://dev.hume.ai/docs/support) to chat or [open a new issue on GitHub](https://github.com/HumeAI/hume-python-sdk/issues/new)!
+If you have questions, require assistance, or wish to engage in discussions pertaining to this SDK, [reach out to us on Discord](https://discord.com/invite/WPRSugvAm6)! For particular issues or feedback, we invite you to [open a new issue on Github](https://github.com/HumeAI/hume-python-sdk/issues/new).
