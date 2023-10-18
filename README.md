@@ -16,9 +16,7 @@
   <br>
 </div>
 
-To get started, [sign up for a Hume account](https://share.hsforms.com/1lVY-gpw0RTaWCeu7ZTkH-wcjsur)!
-
-> We're in private beta right now, but we'll be continuously rolling out access to developers and organizations on our waitlist.
+To get started, create an account at [beta.hume.ai](<](https://beta.hume.ai)>).
 
 > **Note**
 > Our current version is not yet considered a stable release. As we are still in the development phase, we have chosen to continue releasing under the 0 major release until we are ready to launch version 1.0.0. Our APIs might undergo breaking changes that are necessary for us to improve our tooling and ensure a more stable and reliable release in the future. We encourage you to keep up with our [API changelog](https://dev.hume.ai/changelog) and mailing list to stay up to date with the latest changes.
@@ -33,7 +31,6 @@ For complete documentation check out the [docs site](https://humeai.github.io/hu
 
 - [Hume AI Homepage](https://hume.ai)
 - [Platform Documentation](https://help.hume.ai/basics/about-hume-ai)
-- [API Reference](https://streaming.hume.ai)
 
 ## Citations
 
@@ -41,4 +38,4 @@ Hume's expressive communication platform has been built on top of published scie
 
 ## Support
 
-If you've found a bug with this SDK please [open an issue](https://github.com/HumeAI/hume-python-sdk/issues/new)!
+If you've found a bug with this SDK please [join us on our Discord](https://dev.hume.ai/docs/support) to chat or [open a new issue on GitHub](https://github.com/HumeAI/hume-python-sdk/issues/new)!
