@@ -16,24 +16,21 @@
   <br>
 </div>
 
-To get started, [sign up for a Hume account](https://share.hsforms.com/1lVY-gpw0RTaWCeu7ZTkH-wcjsur)!
-
-> We're in private beta right now, but we'll be continuously rolling out access to developers and organizations on our waitlist.
+To get started, create an account at [beta.hume.ai](https://beta.hume.ai).
 
 > **Note**
-> Our current version is not yet considered a stable release. As we are still in the development phase, we have chosen to continue releasing under the 0 major release until we are ready to launch version 1.0.0. Our APIs might undergo breaking changes that are necessary for us to improve our tooling and ensure a more stable and reliable release in the future. We encourage you to keep up with our [API changelog](https://streaming.hume.ai/changes) and mailing list to stay up to date with the latest changes.
+> Our current version is not yet considered a stable release. As we are still in the development phase, we have chosen to continue releasing under the 0 major release until we are ready to launch version 1.0.0. Our APIs might undergo breaking changes that are necessary for us to improve our tooling and ensure a more stable and reliable release in the future. We encourage you to keep up with our [API changelog](https://dev.hume.ai/changelog) and mailing list to stay up to date with the latest changes.
 
-## Usage & Documentation
+## Documentation & Examples
+
+For complete documentation check out the [Python SDK docs site](https://humeai.github.io/hume-python-sdk/) or [try some recipes](https://dev.hume.ai/recipes) from our platform documentation.
 
 Example notebooks can be found in the [examples folder](./examples/README.md).
-
-For complete documentation check out the [docs site](https://humeai.github.io/hume-python-sdk/).
 
 ## Other Resources
 
 - [Hume AI Homepage](https://hume.ai)
 - [Platform Documentation](https://help.hume.ai/basics/about-hume-ai)
-- [API Reference](https://streaming.hume.ai)
 
 ## Citations
 
@@ -41,4 +38,4 @@ Hume's expressive communication platform has been built on top of published scie
 
 ## Support
 
-If you've found a bug with this SDK please [open an issue](https://github.com/HumeAI/hume-python-sdk/issues/new)!
+If you have questions, require assistance, or wish to engage in discussions pertaining to this SDK, [reach out to us on Discord](https://discord.com/invite/WPRSugvAm6)! For particular issues or feedback, we invite you to [open a new issue on Github](https://github.com/HumeAI/hume-python-sdk/issues/new).
