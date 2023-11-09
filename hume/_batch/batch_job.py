@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Any, Union
 
 from hume._batch.batch_job_details import BatchJobDetails
 from hume._batch.batch_job_status import BatchJobStatus
-from hume._common.retry_utils import retry, RetryIterError
+from hume._common.retry_utils import RetryIterError, retry
 from hume.error.hume_client_exception import HumeClientException
 
 if TYPE_CHECKING:
@@ -15,8 +15,10 @@ if TYPE_CHECKING:
 class BatchJob:
     """Batch job."""
 
-    TIMEOUT_MESSAGE = ("Connection to API has been terminated after {}s, but your job will continue to run. "
-                       "Get a reference to your job with `client.get_job('{}')` at any time.")
+    TIMEOUT_MESSAGE = (
+        "Connection to API has been terminated after {}s, but your job will continue to run. "
+        "Get a reference to your job with `client.get_job('{}')` at any time."
+    )
 
     def __init__(self, client: "HumeBatchClient", job_id: str):
         """Construct a BatchJob.

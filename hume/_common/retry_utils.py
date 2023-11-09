@@ -1,13 +1,14 @@
 """Function retry utilities."""
 import logging
 import time
-from typing import Optional, cast, Callable, Type, TypeVar
+from typing import Callable, Optional, Type, TypeVar, cast
+
 from typing_extensions import ParamSpec
 
 from hume.error.hume_client_exception import HumeClientException
 
-P = ParamSpec('P')  # Parameter type variable for decorated function
-R = TypeVar('R')  # Return type variable for decorated function
+P = ParamSpec("P")  # Parameter type variable for decorated function
+R = TypeVar("R")  # Return type variable for decorated function
 
 logger = logging.getLogger(__name__)
 
@@ -43,7 +44,6 @@ def retry(
     """
 
     def decorator_func(decorated_func: Callable[P, R]) -> Callable[P, R]:
-
         def func_wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
             # If the decorated function has kwargs that match the retry decorator kwargs,
             # then those values override the retry kwargs.
