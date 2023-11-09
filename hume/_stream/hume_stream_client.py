@@ -11,6 +11,7 @@ from hume.models.config.model_config_base import ModelConfigBase
 
 try:
     import websockets
+
     HAS_WEBSOCKETS = True
 except ModuleNotFoundError:
     HAS_WEBSOCKETS = False
@@ -54,9 +55,11 @@ class HumeStreamClient(ClientBase):
             close_timeout (Optional[int]): Time in seconds before canceling socket close operation.
         """
         if not HAS_WEBSOCKETS:
-            raise HumeClientException("The websockets package is required to use HumeStreamClient. "
-                                      "Run `pip install \"hume[stream]\"` to install a version compatible with the"
-                                      "Hume Python SDK.")
+            raise HumeClientException(
+                "The websockets package is required to use HumeStreamClient. "
+                'Run `pip install "hume[stream]"` to install a version compatible with the'
+                "Hume Python SDK."
+            )
 
         self._open_timeout = open_timeout
         self._close_timeout = close_timeout
@@ -91,10 +94,11 @@ class HumeStreamClient(ClientBase):
         try:
             # pylint: disable=no-member
             async with websockets.connect(  # type: ignore[attr-defined]
-                    endpoint,
-                    extra_headers=self._get_client_headers(),
-                    close_timeout=self._close_timeout,
-                    open_timeout=self._open_timeout) as protocol:
+                endpoint,
+                extra_headers=self._get_client_headers(),
+                close_timeout=self._close_timeout,
+                open_timeout=self._open_timeout,
+            ) as protocol:
                 yield StreamSocket(protocol, configs, stream_window_ms=stream_window_ms)
         except websockets.exceptions.InvalidStatusCode as exc:
             status_code: int = exc.status_code

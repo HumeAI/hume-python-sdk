@@ -38,10 +38,12 @@ class ConfigBase(ABC, Generic[T]):
             if param not in class_fields:
                 removal_params.append(param)
                 class_name = cls.__name__
-                warnings.warn(f"Got an unknown parameter `{param}` when loading `{class_name}`. "
-                              "Your installed version of the Python SDK may be out of date "
-                              "with the latest Hume APIs. "
-                              "Run `pip install --upgrade hume` to get the latest version of the Python SDK.")
+                warnings.warn(
+                    f"Got an unknown parameter `{param}` when loading `{class_name}`. "
+                    "Your installed version of the Python SDK may be out of date "
+                    "with the latest Hume APIs. "
+                    "Run `pip install --upgrade hume` to get the latest version of the Python SDK."
+                )
         for removal_param in removal_params:
             request_dict.pop(removal_param)
 

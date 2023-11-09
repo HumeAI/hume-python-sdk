@@ -10,6 +10,7 @@ from hume.models.config import FacemeshConfig, LanguageConfig, ModelConfigBase
 
 try:
     from websockets.client import WebSocketClientProtocol
+
     HAS_WEBSOCKETS = True
 except ModuleNotFoundError:
     HAS_WEBSOCKETS = False
@@ -40,9 +41,11 @@ class StreamSocket:
             HumeClientException: If there is an error processing media over the socket connection.
         """
         if not HAS_WEBSOCKETS:
-            raise HumeClientException("The websockets package is required to use HumeStreamClient. "
-                                      "Run `pip install \"hume[stream]\"` to install a version compatible with the"
-                                      "Hume Python SDK.")
+            raise HumeClientException(
+                "The websockets package is required to use HumeStreamClient. "
+                'Run `pip install "hume[stream]"` to install a version compatible with the'
+                "Hume Python SDK."
+            )
 
         self._protocol = protocol
         self._configs = configs
@@ -67,7 +70,7 @@ class StreamSocket:
         Returns:
             Any: Response from the streaming API.
         """
-        with Path(filepath).open('rb') as f:
+        with Path(filepath).open("rb") as f:
             bytes_data = base64.b64encode(f.read())
             return await self.send_bytes(bytes_data, configs=configs)
 
@@ -147,17 +150,21 @@ class StreamSocket:
 
         n_faces = len(landmarks)
         if n_faces > self._FACE_LIMIT:
-            raise HumeClientException("Number of faces sent in facemesh payload was greater "
-                                      f"than the limit of {self._FACE_LIMIT}, found {n_faces}.")
+            raise HumeClientException(
+                "Number of faces sent in facemesh payload was greater "
+                f"than the limit of {self._FACE_LIMIT}, found {n_faces}."
+            )
         if n_faces == 0:
             raise HumeClientException("No faces sent in facemesh payload.")
         n_landmarks = len(landmarks[0])
         if n_landmarks != self._N_LANDMARKS:
-            raise HumeClientException(f"Number of MediaPipe landmarks per face must be exactly {self._N_LANDMARKS}, "
-                                      f"found {n_landmarks}.")
+            raise HumeClientException(
+                f"Number of MediaPipe landmarks per face must be exactly {self._N_LANDMARKS}, " f"found {n_landmarks}."
+            )
         if len(landmarks[0][0]) != self._N_SPATIAL:
-            raise HumeClientException("Invalid facemesh payload detected. "
-                                      "Each facemesh landmark should be an (x, y, z) point.")
+            raise HumeClientException(
+                "Invalid facemesh payload detected. Each facemesh landmark should be an (x, y, z) point."
+            )
 
         landmarks_str = json.dumps(landmarks)
         bytes_data = base64.b64encode(landmarks_str.encode("utf-8"))
@@ -244,5 +251,7 @@ class StreamSocket:
             if not isinstance(config, config_type):
                 config_name = config_type.__name__
                 invalid_config_name = config.__class__.__name__
-                raise HumeClientException(f"{config_method} configured with {invalid_config_name}. "
-                                          f"{method_name} is only supported when using a {config_name}.")
+                raise HumeClientException(
+                    f"{config_method} configured with {invalid_config_name}. "
+                    f"{method_name} is only supported when using a {config_name}."
+                )

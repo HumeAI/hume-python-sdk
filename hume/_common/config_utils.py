@@ -3,8 +3,15 @@ from typing import Any, Dict, List, Type
 
 from hume.error.hume_client_exception import HumeClientException
 from hume.models import ModelType
-from hume.models.config import (BurstConfig, FaceConfig, FacemeshConfig, LanguageConfig, ModelConfigBase, NerConfig,
-                                ProsodyConfig)
+from hume.models.config import (
+    BurstConfig,
+    FaceConfig,
+    FacemeshConfig,
+    LanguageConfig,
+    ModelConfigBase,
+    NerConfig,
+    ProsodyConfig,
+)
 
 
 def config_from_model_type(model_type: ModelType) -> Type[ModelConfigBase]:
