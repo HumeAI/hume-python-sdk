@@ -163,7 +163,7 @@ class StreamSocket:
             )
         if len(landmarks[0][0]) != self._N_SPATIAL:
             raise HumeClientException(
-                "Invalid facemesh payload detected. " "Each facemesh landmark should be an (x, y, z) point."
+                "Invalid facemesh payload detected. Each facemesh landmark should be an (x, y, z) point."
             )
 
         landmarks_str = json.dumps(landmarks)
