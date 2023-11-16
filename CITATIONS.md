@@ -21,6 +21,8 @@ To cite Hume's expressive communication platform, please reference one or more o
 | [Intersectionality in emotion signaling and recognition: The influence of gender, ethnicity, and social class](https://doi.org/10.1037/emo0001082)                                   | 2022 |   body   | [Cite](#15) |
 | [How emotions, relationships, and culture constitute each other: advances in social functionalist theory](https://doi.org/10.1080/02699931.2022.2047009)                             | 2022 |  multi   | [Cite](#16) |
 | [State & Trait Measurement from Nonverbal Vocalizations: A Multi-Task Joint Learning Approach](https://doi.org/10.21437/Interspeech.2022-10927)                                      | 2022 |  voice   | [Cite](#17) |
+| [Emotion Expression Estimates to Measure and Improve Multimodal Social-Affective Interactions](https://doi.org/10.1145/3610661.3616129)                                              | 2023 |  multi   | [Cite](#18) |
+
 
 ## BibTeX
 
@@ -254,5 +256,17 @@ To cite Hume's expressive communication platform, please reference one or more o
   booktitle={Proc. Interspeech 2022},
   pages={2028--2032},
   doi={10.21437/Interspeech.2022-10927}
+}
+```
+
+### <a id="18"></a>
+
+```bibtex
+@inproceedings{brooks2023emotion,
+  title={Emotion Expression Estimates to Measure and Improve Multimodal Social-Affective Interactions},
+  author={Brooks, Jeffrey A and Tiruvadi, Vineet and Baird, Alice and Tzirakis, Panagiotis and Li, Haoqi and Gagne, Chris and Oh, Moses and Cowen, Alan},
+  booktitle={Companion Publication of the 25th International Conference on Multimodal Interaction},
+  pages={353--358},
+  year={2023}
 }
 ```
