@@ -34,7 +34,7 @@ Example notebooks can be found in the [examples folder](./examples/README.md).
 
 ## Citations
 
-Hume's expressive communication platform has been built on top of published scientific research. If you use this SDK in your work please see [our docs](https://dev.hume.ai/docs/published) for the best way to cite that research.
+Hume's expressive communication platform has been built on top of published scientific research. If you use this SDK in your work please see [our docs](https://dev.hume.ai/docs/published) for the best way to cite Hume's publications.
 
 ## Support
 
