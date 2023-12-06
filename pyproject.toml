@@ -91,7 +91,7 @@ line = 87.0
 
 [tool.flake8]
 ignore = ""           # Required to disable default ignores
-max-line-length = 119
+max-line-length = 120
 
 [tool.isort]
 line_length = 120
@@ -112,7 +112,7 @@ max-locals = 25
 notes = ["FIXME"]
 
 [tool.pylint.format]
-max-line-length = 119
+max-line-length = 120
 
 [tool.pylint.messages_control]
 disable = [
