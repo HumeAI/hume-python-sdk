@@ -149,7 +149,7 @@ test = ["astroid (>=1,<2)", "astroid (>=2,<4)", "pytest"]
 name = "async-lru"
 version = "2.0.4"
 description = "Simple LRU cache for asyncio"
-optional = true
+optional = false
 python-versions = ">=3.8"
 files = [
     {file = "async-lru-2.0.4.tar.gz", hash = "sha256:b8a59a5df60805ff63220b2a0c5b5393da5521b113cd5465a44eb037d81a5627"},
@@ -984,7 +984,7 @@ i18n = ["Babel (>=2.7)"]
 name = "json5"
 version = "0.9.14"
 description = "A Python implementation of the JSON5 data format."
-optional = true
+optional = false
 python-versions = "*"
 files = [
     {file = "json5-0.9.14-py2.py3-none-any.whl", hash = "sha256:740c7f1b9e584a468dbb2939d8d458db3427f2c93ae2139d05f47e453eae964f"},
@@ -1237,7 +1237,7 @@ test = ["coverage", "jupyter-server (>=2.0.0)", "pytest (>=7.0)", "pytest-cov", 
 name = "jupyterlab"
 version = "4.0.8"
 description = "JupyterLab computational environment"
-optional = true
+optional = false
 python-versions = ">=3.8"
 files = [
     {file = "jupyterlab-4.0.8-py3-none-any.whl", hash = "sha256:2ff5aa2a51eb21df241d6011c236e88bd1ff9a5dbb75bebc54472f9c18bfffa4"},
@@ -1281,7 +1281,7 @@ files = [
 name = "jupyterlab-server"
 version = "2.25.1"
 description = "A set of server components for JupyterLab and JupyterLab like applications."
-optional = true
+optional = false
 python-versions = ">=3.8"
 files = [
     {file = "jupyterlab_server-2.25.1-py3-none-any.whl", hash = "sha256:dce9714d91fb3e53d2b37d0e0619fa26ed223c8e7b8c81cca112926de19b53a4"},
@@ -1792,13 +1792,13 @@ files = [
 
 [[package]]
 name = "notebook"
-version = "7.0.6"
+version = "7.0.7"
 description = "Jupyter Notebook - A web-based notebook environment for interactive computing"
-optional = true
+optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "notebook-7.0.6-py3-none-any.whl", hash = "sha256:0fe8f67102fea3744fedf652e4c15339390902ca70c5a31c4f547fa23da697cc"},
-    {file = "notebook-7.0.6.tar.gz", hash = "sha256:ec6113b06529019f7f287819af06c97a2baf7a95ac21a8f6e32192898e9f9a58"},
+    {file = "notebook-7.0.7-py3-none-any.whl", hash = "sha256:289b606d7e173f75a18beb1406ef411b43f97f7a9c55ba03efa3622905a62346"},
+    {file = "notebook-7.0.7.tar.gz", hash = "sha256:3bcff00c17b3ac142ef5f436d50637d936b274cfa0b41f6ac0175363de9b4e09"},
 ]
 
 [package.dependencies]
@@ -1817,7 +1817,7 @@ test = ["importlib-resources (>=5.0)", "ipykernel", "jupyter-server[test] (>=2.4
 name = "notebook-shim"
 version = "0.2.3"
 description = "A shim layer for notebook traits and config"
-optional = true
+optional = false
 python-versions = ">=3.7"
 files = [
     {file = "notebook_shim-0.2.3-py3-none-any.whl", hash = "sha256:a83496a43341c1674b093bfcebf0fe8e74cbe7eda5fd2bbc56f8e39e1486c0c7"},
