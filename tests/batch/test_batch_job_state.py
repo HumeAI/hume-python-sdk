@@ -6,7 +6,7 @@ from hume import BatchJobState, BatchJobStatus
 @pytest.mark.batch
 class TestBatchJobState:
 
-    def test_create(self):
+    def test_create(self) -> None:
         state = BatchJobState(
             status=BatchJobStatus.COMPLETED,
             created_timestamp_ms=1,
