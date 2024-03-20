@@ -42,7 +42,7 @@ typing-extensions = "^4.3.0"
 websockets = { version = "^10.3", optional = true }
 
 [tool.poetry.dev-dependencies]
-black = "^23.9.1"
+black = "^24.3.0"
 covcheck = { version = "^0.4.3", extras = ["toml"] }
 flake8 = "^6.0.0"
 ipykernel = "^6.22.0"
