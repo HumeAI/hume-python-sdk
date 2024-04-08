@@ -1,4 +1,5 @@
 """Abstract base class for model configurations."""
+
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Generic, TypeVar

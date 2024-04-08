@@ -19,11 +19,13 @@ def mock_face_protocol():
         }
 
     async def mock_recv() -> str:
-        return json.dumps({
-            "face": {
-                "predictions": "mock-predictions",
-            },
-        })
+        return json.dumps(
+            {
+                "face": {
+                    "predictions": "mock-predictions",
+                },
+            }
+        )
 
     protocol = Mock()
     protocol.send = mock_send
@@ -44,11 +46,13 @@ def mock_language_protocol():
         }
 
     async def mock_recv() -> str:
-        return json.dumps({
-            "language": {
-                "predictions": "mock-predictions",
-            },
-        })
+        return json.dumps(
+            {
+                "language": {
+                    "predictions": "mock-predictions",
+                },
+            }
+        )
 
     protocol = Mock()
     protocol.send = mock_send
@@ -70,11 +74,13 @@ def mock_facemesh_protocol():
         }
 
     async def mock_recv() -> str:
-        return json.dumps({
-            "facemesh": {
-                "predictions": "mock-predictions",
-            },
-        })
+        return json.dumps(
+            {
+                "facemesh": {
+                    "predictions": "mock-predictions",
+                },
+            }
+        )
 
     protocol = Mock()
     protocol.send = mock_send

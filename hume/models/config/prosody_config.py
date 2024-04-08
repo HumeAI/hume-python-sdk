@@ -1,4 +1,5 @@
 """Configuration for the speech prosody model."""
+
 from dataclasses import dataclass
 from typing import Dict, Optional
 

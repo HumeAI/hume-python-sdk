@@ -1,4 +1,5 @@
 """Configuration for speech transcription."""
+
 from dataclasses import dataclass
 from typing import Optional
 

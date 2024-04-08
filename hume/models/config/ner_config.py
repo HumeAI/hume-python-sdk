@@ -1,4 +1,5 @@
 """Configuration for the named-entity emotion model."""
+
 from dataclasses import dataclass
 from typing import Optional
 
