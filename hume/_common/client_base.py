@@ -1,7 +1,6 @@
 """Base class for Hume clients."""
 
 import logging
-from abc import ABC
 from importlib.metadata import version
 from typing import ClassVar, Dict, Optional
 
@@ -17,7 +16,7 @@ logger = logging.getLogger(__name__)
 StringMap = Dict[str, str]
 
 
-class ClientBase(ABC):
+class ClientBase:
     DEFAULT_PAGE_SIZE: ClassVar[int] = 50
     DEFAULT_RETRY_BACKOFF_FACTOR: ClassVar[int] = 2
     DEFAULT_RETRY_TIMEOUT: ClassVar[int] = 30 * 60
