@@ -3,19 +3,14 @@
 from contextlib import asynccontextmanager
 from typing import Any, AsyncIterator, List, Optional
 
+import websockets
+
 from hume._common.api_type import ApiType
 from hume._common.client_base import ClientBase
 from hume._common.utilities.config_utilities import deserialize_configs
 from hume._measurement.stream.stream_socket import StreamSocket
 from hume.error.hume_client_exception import HumeClientException
 from hume.models.config.model_config_base import ModelConfigBase
-
-try:
-    import websockets
-
-    HAS_WEBSOCKETS = True
-except ModuleNotFoundError:
-    HAS_WEBSOCKETS = False
 
 
 class HumeStreamClient(ClientBase):
@@ -55,13 +50,6 @@ class HumeStreamClient(ClientBase):
             open_timeout (Optional[int]): Time in seconds before canceling socket open operation.
             close_timeout (Optional[int]): Time in seconds before canceling socket close operation.
         """
-        if not HAS_WEBSOCKETS:
-            raise HumeClientException(
-                "The websockets package is required to use HumeStreamClient. "
-                'Run `pip install "hume[stream]"` to install a version compatible with the'
-                "Hume Python SDK."
-            )
-
         self._open_timeout = open_timeout
         self._close_timeout = close_timeout
         super().__init__(api_key, *args, **kwargs)
