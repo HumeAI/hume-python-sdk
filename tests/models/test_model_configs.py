@@ -1,6 +1,6 @@
 import pytest
 
-from hume._common.config_utils import config_from_model_type
+from hume._common.utilities.config_utilities import config_from_model_type
 from hume.models import ModelType
 
 
