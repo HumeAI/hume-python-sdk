@@ -1,4 +1,5 @@
 """Function retry utilities."""
+
 import logging
 import time
 from typing import Callable, Optional, Type, TypeVar, cast

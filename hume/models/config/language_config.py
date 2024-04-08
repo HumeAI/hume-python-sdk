@@ -1,4 +1,5 @@
 """Configuration for the language emotion model."""
+
 from dataclasses import dataclass
 from typing import Any, Dict, Optional
 

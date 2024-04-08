@@ -1,4 +1,5 @@
 """Base class for Hume clients."""
+
 from abc import ABC, abstractmethod
 from importlib.metadata import version
 from typing import Dict

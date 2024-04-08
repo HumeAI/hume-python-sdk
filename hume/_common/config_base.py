@@ -1,4 +1,5 @@
 """Abstract base class for model configurations."""
+
 import warnings
 from abc import ABC
 from dataclasses import asdict, dataclass, fields

@@ -1,4 +1,5 @@
 """Model type enum."""
+
 from enum import Enum
 
 

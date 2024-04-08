@@ -29,7 +29,7 @@ class TestStreamSocket:
     async def test_send_bytes(self, mock_face_protocol: Mock):
         configs = [FaceConfig(identify_faces=True)]
         socket = StreamSocket(mock_face_protocol, configs)
-        mock_bytes = b'bW9jay1tZWRpYS1maWxl'
+        mock_bytes = b"bW9jay1tZWRpYS1maWxl"
         result = await socket.send_bytes(mock_bytes)
         assert result["face"]["predictions"] == "mock-predictions"
 
@@ -58,8 +58,7 @@ class TestStreamSocket:
         socket = StreamSocket(mock_language_protocol, configs)
 
         sample_text = "mock-text"
-        message = ("Socket configured with ProsodyConfig. "
-                   "send_text is only supported when using a LanguageConfig.")
+        message = "Socket configured with ProsodyConfig. send_text is only supported when using a LanguageConfig."
         with pytest.raises(HumeClientException, match=re.escape(message)):
             await socket.send_text(sample_text)
 
@@ -76,8 +75,7 @@ class TestStreamSocket:
         socket = StreamSocket(mock_facemesh_protocol, configs)
 
         sample_facemesh = [[[0, 0, 0]] * 478]
-        message = ("Socket configured with ProsodyConfig. "
-                   "send_facemesh is only supported when using a FacemeshConfig.")
+        message = "Socket configured with ProsodyConfig. send_facemesh is only supported when using a FacemeshConfig."
         with pytest.raises(HumeClientException, match=re.escape(message)):
             await socket.send_facemesh(sample_facemesh)
 
@@ -106,8 +104,7 @@ class TestStreamSocket:
         socket = StreamSocket(mock_language_protocol, socket_configs)
 
         sample_text = "mock-text"
-        message = ("Payload configured with ProsodyConfig. "
-                   "send_text is only supported when using a LanguageConfig.")
+        message = "Payload configured with ProsodyConfig. send_text is only supported when using a LanguageConfig."
         with pytest.raises(HumeClientException, match=re.escape(message)):
             payload_configs = [ProsodyConfig()]
             await socket.send_text(sample_text, configs=payload_configs)

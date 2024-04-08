@@ -1,4 +1,5 @@
 """Configuration for the vocal burst model."""
+
 from dataclasses import dataclass
 
 from hume.models import ModelType

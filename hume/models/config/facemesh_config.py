@@ -1,4 +1,5 @@
 """Configuration for the facial expression model."""
+
 from dataclasses import dataclass
 
 from hume.models import ModelType

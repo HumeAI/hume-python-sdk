@@ -1,4 +1,5 @@
 """API type."""
+
 from enum import Enum
 
 

@@ -77,8 +77,10 @@ class TestServiceHumeStreamClient:
 
         configs = [ProsodyConfig()]
         async with stream_client.connect(configs) as websocket:
-            message = ("hume(E0102): Streaming payload configured with model type 'prosody', "
-                       "which is not supported for the detected file type 'image'.")
+            message = (
+                "hume(E0102): Streaming payload configured with model type 'prosody', "
+                "which is not supported for the detected file type 'image'."
+            )
             with pytest.raises(HumeClientException, match=re.escape(message)):
                 await websocket.send_file(data_filepath)
 

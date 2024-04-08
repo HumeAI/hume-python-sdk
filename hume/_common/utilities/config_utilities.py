@@ -1,4 +1,5 @@
 """Model configuration utilities."""
+
 from typing import Any, Dict, List, Type
 
 from hume.error.hume_client_exception import HumeClientException

@@ -1,4 +1,5 @@
 """Batch job status."""
+
 from enum import Enum
 
 
