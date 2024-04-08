@@ -1,12 +1,12 @@
 """Streaming API client."""
 
 from contextlib import asynccontextmanager
-from typing import Any, AsyncIterator, List, Optional
+from typing import Any, AsyncIterator, Optional, Sequence
 
 import websockets
 
-from hume._common.api_type import ApiType
 from hume._common.client_base import ClientBase
+from hume._common.protocol import Protocol
 from hume._common.utilities.config_utilities import deserialize_configs
 from hume._measurement.stream.stream_socket import StreamSocket
 from hume.error.hume_client_exception import HumeClientException
@@ -35,38 +35,10 @@ class HumeStreamClient(ClientBase):
         ```
     """
 
-    def __init__(
-        self,
-        api_key: str,
-        *args: Any,
-        open_timeout: Optional[int] = 10,
-        close_timeout: Optional[int] = 10,
-        **kwargs: Any,
-    ):
-        """Construct a HumeStreamClient.
-
-        Args:
-            api_key (str): Hume API key.
-            open_timeout (Optional[int]): Time in seconds before canceling socket open operation.
-            close_timeout (Optional[int]): Time in seconds before canceling socket close operation.
-        """
-        self._open_timeout = open_timeout
-        self._close_timeout = close_timeout
-        super().__init__(api_key, *args, **kwargs)
-
-    @classmethod
-    def get_api_type(cls) -> ApiType:
-        """Get the ApiType of the client.
-
-        Returns:
-            ApiType: API type of the client.
-        """
-        return ApiType.STREAM
-
     @asynccontextmanager
     async def connect(
         self,
-        configs: List[ModelConfigBase],
+        configs: Sequence[ModelConfigBase],
         stream_window_ms: Optional[int] = None,
     ) -> AsyncIterator[StreamSocket]:
         """Connect to the streaming API.
@@ -79,7 +51,7 @@ class HumeStreamClient(ClientBase):
             stream_window_ms (Optional[int]): Length of the sliding window in milliseconds to use when
                 aggregating media across streaming payloads within one WebSocket connection.
         """
-        endpoint = self._construct_endpoint("models")
+        endpoint = self._build_endpoint("stream", "models", protocol=Protocol.WS)
         try:
             # pylint: disable=no-member
             async with websockets.connect(  # type: ignore[attr-defined]
@@ -88,7 +60,7 @@ class HumeStreamClient(ClientBase):
                 close_timeout=self._close_timeout,
                 open_timeout=self._open_timeout,
             ) as protocol:
-                yield StreamSocket(protocol, configs, stream_window_ms=stream_window_ms)
+                yield StreamSocket(protocol, list(configs), stream_window_ms=stream_window_ms)
         except websockets.exceptions.InvalidStatusCode as exc:
             status_code: int = exc.status_code
             if status_code == 401:  # Unauthorized

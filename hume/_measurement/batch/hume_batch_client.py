@@ -6,7 +6,6 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 
 from requests import Session
 
-from hume._common.api_type import ApiType
 from hume._common.client_base import ClientBase
 from hume._common.utilities.config_utilities import serialize_configs
 from hume._measurement.batch.batch_job import BatchJob
@@ -58,15 +57,6 @@ class HumeBatchClient(ClientBase):
         self._timeout = timeout
         self._session = Session()
         super().__init__(api_key, *args, **kwargs)
-
-    @classmethod
-    def get_api_type(cls) -> ApiType:
-        """Get the ApiType of the client.
-
-        Returns:
-            ApiType: API type of the client.
-        """
-        return ApiType.BATCH
 
     def get_job(self, job_id: str) -> BatchJob:
         """Rehydrate a job based on a Job ID.
@@ -121,7 +111,7 @@ class HumeBatchClient(ClientBase):
         Returns:
             BatchJobDetails: Batch job details.
         """
-        endpoint = self._construct_endpoint(f"jobs/{job_id}")
+        endpoint = self._build_endpoint("batch", f"jobs/{job_id}")
         response = self._session.get(
             endpoint,
             timeout=self._timeout,
@@ -151,7 +141,7 @@ class HumeBatchClient(ClientBase):
         Returns:
             Any: Batch job predictions.
         """
-        endpoint = self._construct_endpoint(f"jobs/{job_id}/predictions")
+        endpoint = self._build_endpoint("batch", f"jobs/{job_id}/predictions")
         response = self._session.get(
             endpoint,
             timeout=self._timeout,
@@ -182,7 +172,7 @@ class HumeBatchClient(ClientBase):
         Returns:
             Any: Batch job artifacts.
         """
-        endpoint = self._construct_endpoint(f"jobs/{job_id}/artifacts")
+        endpoint = self._build_endpoint("batch", f"jobs/{job_id}/artifacts")
         response = self._session.get(
             endpoint,
             timeout=self._timeout,
@@ -236,7 +226,7 @@ class HumeBatchClient(ClientBase):
         Returns:
             BatchJob: A `BatchJob` that wraps the batch computation.
         """
-        endpoint = self._construct_endpoint("jobs")
+        endpoint = self._build_endpoint("batch", "jobs")
 
         if filepaths is None:
             response = self._session.post(
