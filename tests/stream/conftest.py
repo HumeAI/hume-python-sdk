@@ -5,7 +5,7 @@ import pytest
 
 
 @pytest.fixture(scope="function")
-def mock_face_protocol():
+def mock_face_protocol() -> Mock:
 
     async def mock_send(message: str) -> None:
         assert json.loads(message) == {
@@ -34,7 +34,7 @@ def mock_face_protocol():
 
 
 @pytest.fixture(scope="function")
-def mock_language_protocol():
+def mock_language_protocol() -> Mock:
 
     async def mock_send(message: str) -> None:
         assert json.loads(message) == {
@@ -61,7 +61,7 @@ def mock_language_protocol():
 
 
 @pytest.fixture(scope="function")
-def mock_facemesh_protocol():
+def mock_facemesh_protocol() -> Mock:
 
     async def mock_send(message: str) -> None:
         message_json = json.loads(message)

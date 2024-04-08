@@ -2,7 +2,6 @@ from base64 import b64encode
 from io import BytesIO
 from pathlib import Path
 from typing import Any, Dict, Iterator, List
-
 from urllib.request import urlretrieve
 
 from pydub import AudioSegment

@@ -1,18 +1,16 @@
 import re
-from typing import Dict
 from urllib.request import urlretrieve
 
 import pytest
 from pytest import TempPathFactory
 
-from hume import HumeStreamClient, HumeClientException
+from hume import HumeClientException, HumeStreamClient
 from hume.models.config import FaceConfig, FacemeshConfig, LanguageConfig, ProsodyConfig
+from utilities.eval_data import EvalData
 
-EvalData = Dict[str, str]
 
-
-@pytest.fixture(scope="module")
-def stream_client(hume_api_key: str) -> HumeStreamClient:
+@pytest.fixture(name="stream_client", scope="module")
+def stream_client_fixture(hume_api_key: str) -> HumeStreamClient:
     return HumeStreamClient(hume_api_key)
 
 
@@ -26,7 +24,7 @@ class TestServiceHumeStreamClient:
         eval_data: EvalData,
         stream_client: HumeStreamClient,
         tmp_path_factory: TempPathFactory,
-    ):
+    ) -> None:
         data_url = eval_data["image-obama-face"]
         data_filepath = tmp_path_factory.mktemp("data-dir") / "data-file"
         urlretrieve(data_url, data_filepath)
@@ -36,21 +34,21 @@ class TestServiceHumeStreamClient:
             predictions = await websocket.send_file(data_filepath)
             assert predictions is not None
 
-    async def test_send_text(self, stream_client: HumeStreamClient):
+    async def test_send_text(self, stream_client: HumeStreamClient) -> None:
         sample_text = "Hello! I hope this test works!"
         configs = [LanguageConfig()]
         async with stream_client.connect(configs) as websocket:
             predictions = await websocket.send_text(sample_text)
             assert predictions is not None
 
-    async def test_send_facemesh(self, stream_client: HumeStreamClient):
+    async def test_send_facemesh(self, stream_client: HumeStreamClient) -> None:
         meshes = [[[0, 0, 0]] * 478]
         configs = [FacemeshConfig()]
         async with stream_client.connect(configs) as websocket:
             predictions = await websocket.send_facemesh(meshes)
             assert predictions is not None
 
-    async def test_invalid_api_key(self):
+    async def test_invalid_api_key(self) -> None:
         invalid_client = HumeStreamClient("invalid-api-key")
         configs = [FaceConfig(identify_faces=True)]
         message = "HumeStreamClient initialized with invalid API key."
@@ -58,7 +56,7 @@ class TestServiceHumeStreamClient:
             async with invalid_client.connect(configs):
                 pass
 
-    async def test_get_job_details(self, stream_client: HumeStreamClient):
+    async def test_get_job_details(self, stream_client: HumeStreamClient) -> None:
         configs = [ProsodyConfig()]
         async with stream_client.connect(configs) as websocket:
             response = await websocket.get_job_details()
@@ -70,7 +68,7 @@ class TestServiceHumeStreamClient:
         eval_data: EvalData,
         stream_client: HumeStreamClient,
         tmp_path_factory: TempPathFactory,
-    ):
+    ) -> None:
         data_url = eval_data["image-obama-face"]
         data_filepath = tmp_path_factory.mktemp("data-dir") / "data-file"
         urlretrieve(data_url, data_filepath)
@@ -89,7 +87,7 @@ class TestServiceHumeStreamClient:
         eval_data: EvalData,
         stream_client: HumeStreamClient,
         tmp_path_factory: TempPathFactory,
-    ):
+    ) -> None:
         data_dirpath = tmp_path_factory.mktemp("data-dir")
         face_data_url = eval_data["image-obama-face"]
         face_data_filepath = data_dirpath / "face-data-file"

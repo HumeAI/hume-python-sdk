@@ -12,28 +12,28 @@ from hume.models.config import FaceConfig, FacemeshConfig, LanguageConfig, Proso
 @pytest.mark.stream
 class TestStreamSocket:
 
-    async def test_send_bytes_str(self, mock_face_protocol: Mock):
+    async def test_send_bytes_str(self, mock_face_protocol: Mock) -> None:
         configs = [FaceConfig(identify_faces=True)]
         socket = StreamSocket(mock_face_protocol, configs)
         mock_bytes_str = "bW9jay1tZWRpYS1maWxl"
         result = await socket._send_str(mock_bytes_str, raw_text=False)
         assert result["face"]["predictions"] == "mock-predictions"
 
-    async def test_send_raw_str(self, mock_language_protocol: Mock):
+    async def test_send_raw_str(self, mock_language_protocol: Mock) -> None:
         configs = [LanguageConfig()]
         socket = StreamSocket(mock_language_protocol, configs)
         mock_raw_str = "mock-text"
         result = await socket._send_str(mock_raw_str, raw_text=True)
         assert result["language"]["predictions"] == "mock-predictions"
 
-    async def test_send_bytes(self, mock_face_protocol: Mock):
+    async def test_send_bytes(self, mock_face_protocol: Mock) -> None:
         configs = [FaceConfig(identify_faces=True)]
         socket = StreamSocket(mock_face_protocol, configs)
         mock_bytes = b"bW9jay1tZWRpYS1maWxl"
         result = await socket.send_bytes(mock_bytes)
         assert result["face"]["predictions"] == "mock-predictions"
 
-    async def test_send_file(self, mock_face_protocol: Mock, tmp_path_factory: TempPathFactory):
+    async def test_send_file(self, mock_face_protocol: Mock, tmp_path_factory: TempPathFactory) -> None:
         configs = [FaceConfig(identify_faces=True)]
         socket = StreamSocket(mock_face_protocol, configs)
 
@@ -45,7 +45,7 @@ class TestStreamSocket:
         result = await socket.send_file(media_filepath)
         assert result["face"]["predictions"] == "mock-predictions"
 
-    async def test_send_text(self, mock_language_protocol: Mock):
+    async def test_send_text(self, mock_language_protocol: Mock) -> None:
         configs = [LanguageConfig()]
         socket = StreamSocket(mock_language_protocol, configs)
 
@@ -53,7 +53,7 @@ class TestStreamSocket:
         result = await socket.send_text(sample_text)
         assert result["language"]["predictions"] == "mock-predictions"
 
-    async def test_send_text_not_language(self, mock_language_protocol: Mock):
+    async def test_send_text_not_language(self, mock_language_protocol: Mock) -> None:
         configs = [ProsodyConfig()]
         socket = StreamSocket(mock_language_protocol, configs)
 
@@ -62,7 +62,7 @@ class TestStreamSocket:
         with pytest.raises(HumeClientException, match=re.escape(message)):
             await socket.send_text(sample_text)
 
-    async def test_send_facemesh(self, mock_facemesh_protocol: Mock):
+    async def test_send_facemesh(self, mock_facemesh_protocol: Mock) -> None:
         configs = [FacemeshConfig()]
         socket = StreamSocket(mock_facemesh_protocol, configs)
 
@@ -70,7 +70,7 @@ class TestStreamSocket:
         result = await socket.send_facemesh(sample_facemesh)
         assert result["facemesh"]["predictions"] == "mock-predictions"
 
-    async def test_send_facemesh_not_facemesh(self, mock_facemesh_protocol: Mock):
+    async def test_send_facemesh_not_facemesh(self, mock_facemesh_protocol: Mock) -> None:
         configs = [ProsodyConfig()]
         socket = StreamSocket(mock_facemesh_protocol, configs)
 
@@ -79,7 +79,7 @@ class TestStreamSocket:
         with pytest.raises(HumeClientException, match=re.escape(message)):
             await socket.send_facemesh(sample_facemesh)
 
-    async def test_send_facemesh_array_shapes(self, mock_facemesh_protocol: Mock):
+    async def test_send_facemesh_array_shapes(self, mock_facemesh_protocol: Mock) -> None:
         configs = [FacemeshConfig()]
         socket = StreamSocket(mock_facemesh_protocol, configs)
 
@@ -99,7 +99,7 @@ class TestStreamSocket:
         with pytest.raises(HumeClientException, match=re.escape(message)):
             await socket.send_facemesh([[[0, 0]] * 478])
 
-    async def test_invalid_payload_configs_send_text(self, mock_language_protocol: Mock):
+    async def test_invalid_payload_configs_send_text(self, mock_language_protocol: Mock) -> None:
         socket_configs = [LanguageConfig()]
         socket = StreamSocket(mock_language_protocol, socket_configs)
 

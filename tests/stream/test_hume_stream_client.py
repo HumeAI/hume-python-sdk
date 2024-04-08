@@ -1,6 +1,6 @@
 from contextlib import asynccontextmanager
+from typing import AsyncContextManager, Dict, Optional
 from unittest.mock import Mock
-from typing import Dict, Optional
 
 import pytest
 import websockets
@@ -15,7 +15,7 @@ def mock_connect(
     extra_headers: Optional[Dict[str, str]] = None,
     open_timeout: Optional[int] = None,
     close_timeout: Optional[int] = None,
-):
+) -> AsyncContextManager[Mock]:
     assert uri == "wss://api.hume.ai/v0/stream/models"
     assert isinstance(extra_headers, dict)
     assert extra_headers.get("X-Hume-Client-Name") == "python_sdk"
@@ -29,8 +29,8 @@ def mock_connect(
     return mock_connection()
 
 
-@pytest.fixture(scope="function")
-def stream_client() -> HumeStreamClient:
+@pytest.fixture(name="stream_client", scope="function")
+def stream_client_fixture() -> HumeStreamClient:
     return HumeStreamClient("0000-0000-0000-0000")
 
 
@@ -38,19 +38,19 @@ def stream_client() -> HumeStreamClient:
 @pytest.mark.stream
 class TestHumeStreamClient:
 
-    async def test_connect_basic(self, stream_client: HumeStreamClient, monkeypatch: MonkeyPatch):
+    async def test_connect_basic(self, stream_client: HumeStreamClient, monkeypatch: MonkeyPatch) -> None:
         monkeypatch.setattr(websockets, "connect", mock_connect)
         configs = [FaceConfig(identify_faces=True)]
         async with stream_client.connect(configs) as socket:
             assert isinstance(socket, StreamSocket)
 
-    async def test_connect_stream_window_ms(self, stream_client: HumeStreamClient, monkeypatch: MonkeyPatch):
+    async def test_connect_stream_window_ms(self, stream_client: HumeStreamClient, monkeypatch: MonkeyPatch) -> None:
         monkeypatch.setattr(websockets, "connect", mock_connect)
         configs = [ProsodyConfig()]
         async with stream_client.connect(configs, stream_window_ms=350) as socket:
             assert socket._stream_window_ms == 350
 
-    async def test_connect_with_models_config(self, stream_client: HumeStreamClient, monkeypatch: MonkeyPatch):
+    async def test_connect_with_models_config(self, stream_client: HumeStreamClient, monkeypatch: MonkeyPatch) -> None:
         monkeypatch.setattr(websockets, "connect", mock_connect)
         configs_dict = {
             "face": {

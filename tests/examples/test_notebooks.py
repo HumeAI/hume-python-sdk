@@ -19,7 +19,7 @@ class TestNotebooks:
         example: Example,
         tmp_path_factory: TempPathFactory,
         hume_api_key: str,
-    ):
+    ) -> None:
         notebook_text = example.notebook_filepath.read_text()
 
         # Inject API key for testing
@@ -37,13 +37,13 @@ class TestNotebooks:
         with testbook(temp_notebook_filepath, execute=True, kernel_name="hume"):
             pass
 
-    def test_notebook_replaced_api_key(self, example: Example):
+    def test_notebook_replaced_api_key(self, example: Example) -> None:
         notebook_text = example.notebook_filepath.read_text()
         if "Client(" in notebook_text:
             assert "<your-api-key>" in notebook_text, "Replace API key!"
 
     @pytest.mark.skip("Notebook environment not activated")
-    def test_notebook_empty_outputs(self, example: Example):
+    def test_notebook_empty_outputs(self, example: Example) -> None:
         with testbook(example.notebook_filepath, execute=False, kernel_name="hume") as notebook:
             for cell in notebook.cells:
                 if "outputs" in cell:
