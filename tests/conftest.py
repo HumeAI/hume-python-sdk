@@ -1,9 +1,8 @@
 import os
-from typing import Dict
 
 import pytest
 
-EvalData = Dict[str, str]
+from utilities.eval_data import EvalData
 
 
 @pytest.fixture(scope="module")
@@ -14,6 +13,7 @@ def eval_data() -> EvalData:
         "burst-amusement-009": f"{base_url}/audio/burst-amusement-009.mp3",
         "prosody-horror-1051": f"{base_url}/audio/prosody-horror-1051.mp3",
         "prosody-noticias": f"{base_url}/audio/prosody-noticias.mp3",
+        "tell-me-a-joke": f"{base_url}/audio/load-test-audio.wav",
         "text-happy-place": f"{base_url}/text/happy.txt",
         "text-obama-news": f"{base_url}/text/obama.txt",
         "three-faces-mediapipe": f"{base_url}/landmarks/three-faces-mediapipe.json",

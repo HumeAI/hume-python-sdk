@@ -5,7 +5,7 @@ import zipfile
 from dataclasses import fields
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Type, Union
+from typing import List, Optional, Type, Union
 from urllib.request import urlretrieve
 
 import pytest
@@ -14,8 +14,7 @@ from pytest import TempPathFactory
 from hume import BatchJob, BatchJobDetails, HumeBatchClient, HumeClientException, TranscriptionConfig
 from hume.models.config import BurstConfig, FaceConfig, FacemeshConfig, LanguageConfig, NerConfig, ProsodyConfig
 from hume.models.config.model_config_base import ModelConfigBase
-
-EvalData = Dict[str, str]
+from utilities.eval_data import EvalData
 
 logger = logging.getLogger(__name__)
 

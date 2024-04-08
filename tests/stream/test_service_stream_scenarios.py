@@ -1,4 +1,3 @@
-from typing import Dict
 from urllib.request import urlretrieve
 
 import pytest
@@ -6,12 +5,11 @@ from pytest import TempPathFactory
 
 from hume import HumeStreamClient
 from hume.models.config import FaceConfig, LanguageConfig
+from utilities.eval_data import EvalData
 
-EvalData = Dict[str, str]
 
-
-@pytest.fixture(scope="module")
-def stream_client(hume_api_key: str) -> HumeStreamClient:
+@pytest.fixture(name="stream_client", scope="module")
+def stream_client_fixture(hume_api_key: str) -> HumeStreamClient:
     return HumeStreamClient(hume_api_key)
 
 
@@ -25,7 +23,7 @@ class TestServiceStreamScenarios:
         eval_data: EvalData,
         stream_client: HumeStreamClient,
         tmp_path_factory: TempPathFactory,
-    ):
+    ) -> None:
         data_url = eval_data["image-obama-face"]
         data_filepath = tmp_path_factory.mktemp("data-dir") / "data-file"
         urlretrieve(data_url, data_filepath)
@@ -37,7 +35,7 @@ class TestServiceStreamScenarios:
             assert "facs" in predictions[0]
             assert "descriptions" in predictions[0]
 
-    async def test_sentiment_and_toxicity(self, stream_client: HumeStreamClient):
+    async def test_sentiment_and_toxicity(self, stream_client: HumeStreamClient) -> None:
         sample_text = "Hello! I hope this test works!"
         configs = [LanguageConfig(sentiment={}, toxicity={})]
         async with stream_client.connect(configs) as websocket:
