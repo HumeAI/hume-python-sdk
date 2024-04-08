@@ -1,8 +1,9 @@
 """Batch job state."""
+
 from dataclasses import dataclass
 from typing import Optional
 
-from hume._batch.batch_job_status import BatchJobStatus
+from hume._measurement.batch.batch_job_status import BatchJobStatus
 
 
 @dataclass

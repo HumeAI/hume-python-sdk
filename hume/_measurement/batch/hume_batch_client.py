@@ -1,16 +1,17 @@
 """Batch API client."""
+
 import json
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 from requests import Session
 
-from hume._batch.batch_job import BatchJob
-from hume._batch.batch_job_details import BatchJobDetails
-from hume._batch.transcription_config import TranscriptionConfig
 from hume._common.api_type import ApiType
 from hume._common.client_base import ClientBase
 from hume._common.config_utils import serialize_configs
+from hume._measurement.batch.batch_job import BatchJob
+from hume._measurement.batch.batch_job_details import BatchJobDetails
+from hume._measurement.batch.transcription_config import TranscriptionConfig
 from hume.error.hume_client_exception import HumeClientException
 from hume.models.config.model_config_base import ModelConfigBase
 

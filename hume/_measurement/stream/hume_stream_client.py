@@ -1,11 +1,12 @@
 """Streaming API client."""
+
 from contextlib import asynccontextmanager
 from typing import Any, AsyncIterator, List, Optional
 
 from hume._common.api_type import ApiType
 from hume._common.client_base import ClientBase
 from hume._common.config_utils import deserialize_configs
-from hume._stream.stream_socket import StreamSocket
+from hume._measurement.stream.stream_socket import StreamSocket
 from hume.error.hume_client_exception import HumeClientException
 from hume.models.config.model_config_base import ModelConfigBase
 
