@@ -1,10 +1,11 @@
 """Streaming socket connection."""
+
 import base64
 import json
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
 
-from hume._common.config_utils import serialize_configs
+from hume._common.utilities.config_utilities import serialize_configs
 from hume.error.hume_client_exception import HumeClientException
 from hume.models.config import FacemeshConfig, LanguageConfig, ModelConfigBase
 

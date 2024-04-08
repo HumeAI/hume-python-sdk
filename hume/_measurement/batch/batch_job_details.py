@@ -4,7 +4,7 @@ import json
 from datetime import datetime
 from typing import Any, Dict, List, Optional
 
-from hume._common.config_utils import config_from_model_type
+from hume._common.utilities.config_utilities import config_from_model_type
 from hume._measurement.batch.batch_job_state import BatchJobState
 from hume._measurement.batch.batch_job_status import BatchJobStatus
 from hume.error.hume_client_exception import HumeClientException

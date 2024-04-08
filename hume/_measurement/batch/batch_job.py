@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Union
 
-from hume._common.retry_utils import RetryIterError, retry
+from hume._common.utilities.retry_utilities import RetryIterError, retry
 from hume._measurement.batch.batch_job_details import BatchJobDetails
 from hume._measurement.batch.batch_job_status import BatchJobStatus
 from hume.error.hume_client_exception import HumeClientException

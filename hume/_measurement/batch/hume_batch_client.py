@@ -8,7 +8,7 @@ from requests import Session
 
 from hume._common.api_type import ApiType
 from hume._common.client_base import ClientBase
-from hume._common.config_utils import serialize_configs
+from hume._common.utilities.config_utilities import serialize_configs
 from hume._measurement.batch.batch_job import BatchJob
 from hume._measurement.batch.batch_job_details import BatchJobDetails
 from hume._measurement.batch.transcription_config import TranscriptionConfig
