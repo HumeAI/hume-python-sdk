@@ -34,7 +34,7 @@ jobs:
 
           if [ -d /poetryenvs ]; then rm -rf ~/poetryenvs; fi
           poetry config virtualenvs.path ~/poetryenvs
-          poetry install -E stream
+          poetry install
 
       - name: Run flake8
         shell: bash
@@ -99,7 +99,7 @@ jobs:
 
           if [ -d /poetryenvs ]; then rm -rf ~/poetryenvs; fi
           poetry config virtualenvs.path ~/poetryenvs
-          poetry install -E stream
+          poetry install
 
       - name: Run pytest
         shell: bash
