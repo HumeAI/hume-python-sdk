@@ -1,14 +1,11 @@
 import logging
 from typing import Optional
-from urllib.request import urlretrieve
 from uuid import uuid4
 
 import pytest
-from pydub import AudioSegment
 
 from hume import HumeVoiceClient, VoiceConfig
 from hume.error.hume_client_exception import HumeClientException
-from utilities.eval_data import EvalData
 
 logger = logging.getLogger(__name__)
 
@@ -18,10 +15,9 @@ def voice_client_fixture(hume_api_key: str) -> HumeVoiceClient:
     return HumeVoiceClient(hume_api_key)
 
 
-@pytest.mark.asyncio
 @pytest.mark.voice
 @pytest.mark.service
-class TestServiceHumeVoiceClient:
+class TestServiceHumeVoiceClientChats:
     UUID_REGEX = r"[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}"
 
     def test_config_operations(self, voice_client: HumeVoiceClient) -> None:
@@ -53,24 +49,3 @@ class TestServiceHumeVoiceClient:
         assert config.name == name
         assert config.prompt == prompt
         assert config.description == description
-
-    @pytest.mark.skip("TODO: Implement")
-    async def test_chat(
-        self,
-        eval_data: EvalData,
-        voice_client: HumeVoiceClient,
-        tmp_path_factory: pytest.TempPathFactory,
-    ) -> None:
-        data_url = eval_data["tell-me-a-joke"]
-        data_filepath = tmp_path_factory.mktemp("data-dir") / "sample.wav"
-        urlretrieve(data_url, data_filepath)
-        silence_filepath = tmp_path_factory.mktemp("data-dir") / "silence.wav"
-        AudioSegment.silent(duration=2000).export(silence_filepath, format="wav")
-
-        async with voice_client.connect() as socket:
-            await socket.send_file(data_filepath)
-            await socket.send_file(silence_filepath)
-            async for message in socket:
-                if not isinstance(message, bytes):
-                    print(message)
-            await socket.send_file(silence_filepath)

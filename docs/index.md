@@ -12,15 +12,105 @@ Basic installation:
 pip install hume
 ```
 
-WebSocket and streaming features can be enabled with:
+## Requirements
+
+To use the basic functionality of `HumeVoiceClient`, `HumeBatchClient` or `HumeStreamClient` there are no additional system dependencies, however using the audio playback functionality of the EVI `MicrophoneInterface` may require a few extra dependencies depending on your operating system.
+
+### Linux
+
+- `libasound2-dev`
+- `libportaudio2`
+
+You can install these dependencies with:
 
 ```bash
-pip install "hume[stream]"
+sudo apt-get --yes update
+sudo apt-get --yes install libasound2-dev libportaudio2
 ```
 
 ## Basic Usage
 
 Jupyter example notebooks can be found in the [Python SDK GitHub repo](https://github.com/HumeAI/hume-python-sdk/tree/main/examples/README.md).
+
+### Stream an EVI chat session
+
+Start a new session using your device's microphone:
+
+> Note: to use audio playback functionality in the MicrophoneInterface run `pip install hume[microphone]`
+
+```python
+import asyncio
+
+from hume import HumeVoiceClient, MicrophoneInterface
+
+async def main() -> None:
+    client = HumeVoiceClient("<your-api-key>")
+
+    async with client.connect() as socket:
+        await MicrophoneInterface.start(socket)
+
+asyncio.run(main())
+```
+
+Using a custom voice config:
+
+```py
+import asyncio
+
+from hume import HumeVoiceClient, MicrophoneInterface
+
+async def main() -> None:
+    client = HumeVoiceClient("<your-api-key>")
+
+    async with client.connect(config_id="<your-config-id>") as socket:
+        await MicrophoneInterface.start(socket)
+
+asyncio.run(main())
+```
+
+### Managing voice configs
+
+Create a new config:
+
+```py
+from hume import HumeVoiceClient, VoiceConfig
+
+client = HumeVoiceClient("<your-api-key">)
+config: VoiceConfig = client.create_config(
+    name=f"silly-poet",
+    prompt="you are a silly poet",
+)
+print("Created config: ", config.id)
+```
+
+Get an existing config:
+
+```py
+from hume import HumeVoiceClient
+
+client = HumeVoiceClient("<your-api-key">)
+config = client.get_config("<YOUR CONFIG ID>")
+print("Fetched config: ", config.name)
+```
+
+List all your configs:
+
+```py
+from hume import HumeVoiceClient
+
+client = HumeVoiceClient("<your-api-key">)
+for config in client.iter_configs():
+    print(f"- {config.name} ({config.id})")
+```
+
+Delete a config:
+
+```py
+from hume import HumeVoiceClient
+
+client = HumeVoiceClient("<your-api-key">)
+client.delete_config("<YOUR CONFIG ID>")
+```
 
 ### Submit a new batch job
 
@@ -63,8 +153,6 @@ print(job)
 ```
 
 ### Stream predictions over a WebSocket
-
-> Note: `pip install "hume[stream]"` is required to use WebSocket features
 
 ```python
 import asyncio

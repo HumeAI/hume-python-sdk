@@ -1,18 +1,32 @@
+"""Abstraction for handling microphone input."""
+
 import asyncio
 import contextlib
 import dataclasses
+import logging
 from typing import AsyncIterator, ClassVar, Iterator, Optional
 
-import _cffi_backend as cffi_backend
-import sounddevice
-from _cffi_backend import _CDataBase as CDataBase  # pylint: disable=no-name-in-module
-from sounddevice import CallbackFlags, RawInputStream
-
 from hume._voice.microphone.asyncio_utilities import Stream
+from hume.error.hume_client_exception import HumeClientException
+
+try:
+    import _cffi_backend as cffi_backend
+    import sounddevice
+    from _cffi_backend import _CDataBase as CDataBase  # pylint: disable=no-name-in-module
+    from sounddevice import CallbackFlags, RawInputStream
+
+    HAS_AUDIO_DEPENDENCIES = True
+except ModuleNotFoundError:
+    HAS_AUDIO_DEPENDENCIES = False
+
+
+logger = logging.getLogger(__name__)
 
 
 @dataclasses.dataclass
 class Microphone:
+    """Abstraction for handling microphone input."""
+
     # NOTE: use int16 for compatibility with deepgram
     DATA_TYPE: ClassVar[str] = "int16"
     DEFAULT_DEVICE: ClassVar[Optional[int]] = None
@@ -26,9 +40,22 @@ class Microphone:
     @classmethod
     @contextlib.contextmanager
     def context(cls, *, device: Optional[int] = DEFAULT_DEVICE) -> Iterator["Microphone"]:
+        """Create a new microphone context.
+
+        Args:
+            device (Optional[int]): Input device ID.
+        """
+        if not HAS_AUDIO_DEPENDENCIES:
+            raise HumeClientException(
+                'Run `pip install "hume[microphone]"` to install dependencies required to use microphone playback.'
+            )
+
         if device is None:
             device = sounddevice.default.device[0]
+        logger.info(f"device: {device}")
+
         sound_device = sounddevice.query_devices(device=device)
+        logger.info(f"sound_device: {sound_device}")
 
         num_channels = sound_device["max_input_channels"]
 
@@ -58,4 +85,5 @@ class Microphone:
             yield microphone
 
     def __aiter__(self) -> AsyncIterator[bytes]:
+        """Iterate over bytes of microphone input."""
         return self.stream

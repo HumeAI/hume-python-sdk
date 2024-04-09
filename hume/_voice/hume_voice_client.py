@@ -10,4 +10,4 @@ logger = logging.getLogger(__name__)
 
 
 class HumeVoiceClient(ChatMixin, ChatsMixin, ConfigsMixin):
-    pass
+    """Empathic Voice Interface client."""
