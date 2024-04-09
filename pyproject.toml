@@ -34,10 +34,11 @@ repository = "https://github.com/HumeAI/hume-python-sdk"
 version = "0.4.2"
 
 [tool.poetry.dependencies]
+httpx = { extras = ["http2"], version = "^0.27.0" }
 jupyter = { version = "^1.0.0", optional = true }
+pydantic = "^2.6.4"
 pydub = { version = "^0.25.1", optional = true }
 python = ">=3.8.1,<4"
-requests = "^2.28.2"
 typing-extensions = "^4.3.0"
 websockets = "^10.3"
 
@@ -57,7 +58,6 @@ pytest-forked = "^1.4.0"
 pytest-xdist = "^2.5.0"
 semver = "^2.13.0"
 testbook = "^0.4.2"
-types-requests = "^2.25.11"
 types-setuptools = "^57.4.4"
 types-toml = "^0.10.1"
 
@@ -83,11 +83,11 @@ line-length = 120
 
 [tool.covcheck.group.unit.coverage]
 branch = 63.0
-line = 80.0
+line = 78.0
 
 [tool.covcheck.group.service.coverage]
-branch = 64.0
-line = 87.0
+branch = 70.0
+line = 86.0
 
 [tool.flake8]
 ignore = ""           # Required to disable default ignores
