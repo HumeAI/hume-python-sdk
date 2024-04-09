@@ -5,16 +5,11 @@ import json
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
 
+from websockets.client import WebSocketClientProtocol
+
 from hume._common.utilities.config_utilities import serialize_configs
 from hume.error.hume_client_exception import HumeClientException
 from hume.models.config import FacemeshConfig, LanguageConfig, ModelConfigBase
-
-try:
-    from websockets.client import WebSocketClientProtocol
-
-    HAS_WEBSOCKETS = True
-except ModuleNotFoundError:
-    HAS_WEBSOCKETS = False
 
 
 class StreamSocket:
@@ -41,13 +36,6 @@ class StreamSocket:
         Raises:
             HumeClientException: If there is an error processing media over the socket connection.
         """
-        if not HAS_WEBSOCKETS:
-            raise HumeClientException(
-                "The websockets package is required to use HumeStreamClient. "
-                'Run `pip install "hume[stream]"` to install a version compatible with the'
-                "Hume Python SDK."
-            )
-
         self._protocol = protocol
         self._configs = configs
         self._stream_window_ms = stream_window_ms
