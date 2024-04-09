@@ -4,8 +4,6 @@ import json
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 
-from requests import Session
-
 from hume._common.client_base import ClientBase
 from hume._common.utilities.config_utilities import serialize_configs
 from hume._measurement.batch.batch_job import BatchJob
@@ -54,9 +52,7 @@ class HumeBatchClient(ClientBase):
             api_key (str): Hume API key.
             timeout (int): Time in seconds before canceling long-running Hume API requests.
         """
-        self._timeout = timeout
-        self._session = Session()
-        super().__init__(api_key, *args, **kwargs)
+        super().__init__(api_key, http_timeout=timeout, *args, **kwargs)
 
     def get_job(self, job_id: str) -> BatchJob:
         """Rehydrate a job based on a Job ID.
@@ -112,11 +108,7 @@ class HumeBatchClient(ClientBase):
             BatchJobDetails: Batch job details.
         """
         endpoint = self._build_endpoint("batch", f"jobs/{job_id}")
-        response = self._session.get(
-            endpoint,
-            timeout=self._timeout,
-            headers=self._get_client_headers(),
-        )
+        response = self._http_client.get(endpoint, headers=self._get_client_headers())
 
         try:
             body = response.json()
@@ -142,11 +134,7 @@ class HumeBatchClient(ClientBase):
             Any: Batch job predictions.
         """
         endpoint = self._build_endpoint("batch", f"jobs/{job_id}/predictions")
-        response = self._session.get(
-            endpoint,
-            timeout=self._timeout,
-            headers=self._get_client_headers(),
-        )
+        response = self._http_client.get(endpoint, headers=self._get_client_headers())
 
         try:
             body = response.json()
@@ -173,11 +161,7 @@ class HumeBatchClient(ClientBase):
             Any: Batch job artifacts.
         """
         endpoint = self._build_endpoint("batch", f"jobs/{job_id}/artifacts")
-        response = self._session.get(
-            endpoint,
-            timeout=self._timeout,
-            headers=self._get_client_headers(),
-        )
+        response = self._http_client.get(endpoint, headers=self._get_client_headers())
 
         with Path(filepath).open("wb") as f:
             f.write(response.content)
@@ -229,17 +213,15 @@ class HumeBatchClient(ClientBase):
         endpoint = self._build_endpoint("batch", "jobs")
 
         if filepaths is None:
-            response = self._session.post(
+            response = self._http_client.post(
                 endpoint,
                 json=request_body,
-                timeout=self._timeout,
                 headers=self._get_client_headers(),
             )
         else:
             form_data = self._get_multipart_form_data(request_body, filepaths)
-            response = self._session.post(
+            response = self._http_client.post(
                 endpoint,
-                timeout=self._timeout,
                 headers=self._get_client_headers(),
                 files=form_data,
             )

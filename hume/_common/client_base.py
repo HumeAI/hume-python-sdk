@@ -13,8 +13,6 @@ from hume.error.hume_client_exception import HumeClientException
 
 logger = logging.getLogger(__name__)
 
-StringMap = Dict[str, str]
-
 
 class ClientBase:
     DEFAULT_PAGE_SIZE: ClassVar[int] = 50
