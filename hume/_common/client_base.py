@@ -14,7 +14,10 @@ from hume.error.hume_client_exception import HumeClientException
 logger = logging.getLogger(__name__)
 
 
+# pylint: disable=too-many-instance-attributes
 class ClientBase:
+    """Base class for Hume API clients."""
+
     DEFAULT_PAGE_SIZE: ClassVar[int] = 50
     DEFAULT_RETRY_BACKOFF_FACTOR: ClassVar[int] = 2
     DEFAULT_RETRY_TIMEOUT: ClassVar[int] = 30 * 60

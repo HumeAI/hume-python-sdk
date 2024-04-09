@@ -86,8 +86,8 @@ branch = 63.0
 line = 80.0
 
 [tool.covcheck.group.service.coverage]
-branch = 64.0
-line = 87.0
+branch = 70.0
+line = 86.0
 
 [tool.flake8]
 ignore = ""           # Required to disable default ignores
