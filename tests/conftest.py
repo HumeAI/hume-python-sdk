@@ -24,5 +24,5 @@ def eval_data() -> EvalData:
 def hume_api_key() -> str:
     api_key = os.getenv("HUME_DEV_API_KEY")
     if api_key is None:
-        raise ValueError("Cannot construct HumeBatchClient, HUME_DEV_API_KEY variable not set.")
+        raise ValueError("HUME_DEV_API_KEY environment variable is required.")
     return api_key
