@@ -75,4 +75,29 @@
          <lastmod>2024-04-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
+    <url>
+         <loc>https://humeai.github.io/hume-python-sdk/0.5.0/voice/hume-voice-client/</loc>
+         <lastmod>2024-04-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://humeai.github.io/hume-python-sdk/0.5.0/voice/microphone-interface/</loc>
+         <lastmod>2024-04-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://humeai.github.io/hume-python-sdk/0.5.0/voice/voice-chat/</loc>
+         <lastmod>2024-04-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://humeai.github.io/hume-python-sdk/0.5.0/voice/voice-config/</loc>
+         <lastmod>2024-04-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://humeai.github.io/hume-python-sdk/0.5.0/voice/voice-socket/</loc>
+         <lastmod>2024-04-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
 </urlset>
