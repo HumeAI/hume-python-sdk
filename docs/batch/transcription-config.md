@@ -1,1 +1,1 @@
-::: hume._batch.transcription_config.TranscriptionConfig
+::: hume._measurement.batch.transcription_config.TranscriptionConfig

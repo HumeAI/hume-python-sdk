@@ -83,7 +83,7 @@ class VoiceSocket:
             filepath (Path): Filepath to the file to send over the socket.
         """
         with filepath.open("rb") as f:
-            segment: AudioSegment = AudioSegment.from_wav(f)
+            segment: AudioSegment = AudioSegment.from_file(f)
             segment = segment.set_frame_rate(self._sample_rate).set_channels(self._num_channels)
             audio_bytes = segment.raw_data
             await self._protocol.send(audio_bytes)

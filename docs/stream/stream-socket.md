@@ -1,1 +1,1 @@
-::: hume._stream.stream_socket.StreamSocket
+::: hume._measurement.stream.stream_socket.StreamSocket
