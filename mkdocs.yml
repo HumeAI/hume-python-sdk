@@ -34,6 +34,12 @@ plugins:
 
 nav:
   - "Home": index.md
+  - "Voice Reference":
+      - "HumeVoiceClient": voice/hume-voice-client.md
+      - "MicrophoneInterface": voice/microphone-interface.md
+      - "VoiceChat": voice/voice-chat.md
+      - "VoiceConfig": voice/voice-config.md
+      - "VoiceSocket": voice/voice-socket.md
   - "Batch Reference":
       - "HumeBatchClient": batch/hume-batch-client.md
       - "BatchJob": batch/batch-job.md

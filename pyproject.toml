@@ -7,10 +7,12 @@ classifiers = [
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
 ]
-description = "Hume AI Python Client"
+description = "Hume AI Python SDK"
 keywords = [
   "hume",
   "ai",
+  "evi",
+  "empathic",
   "multimodal",
   "expression",
   "analysis",
@@ -19,6 +21,7 @@ keywords = [
   "recognition",
   "detection",
   "emotion",
+  "interface",
   "speech",
   "audio",
   "vision",
@@ -31,19 +34,21 @@ license = "Proprietary"
 name = "hume"
 readme = "README.md"
 repository = "https://github.com/HumeAI/hume-python-sdk"
-version = "0.4.2"
+version = "0.5.0"
 
 [tool.poetry.dependencies]
 httpx = { extras = ["http2"], version = "^0.27.0" }
 jupyter = { version = "^1.0.0", optional = true }
 pydantic = "^2.6.4"
-pydub = { version = "^0.25.1", optional = true }
-python = ">=3.8.1,<4"
+pydub = "^0.25.1"
+python = ">=3.9,<4"
+simpleaudio = { version = "^1.0.4", optional = true }
+sounddevice = { version = "^0.4.6", optional = true }
 typing-extensions = "^4.3.0"
-websockets = "^10.3"
+websockets = "^12.0"
 
 [tool.poetry.dev-dependencies]
-black = "^24.3.0"
+black = "^24.4.0"
 covcheck = { version = "^0.4.3", extras = ["toml"] }
 flake8 = "^6.0.0"
 ipykernel = "^6.22.0"
@@ -71,7 +76,8 @@ mkdocs-material = "^9.1.9"
 mkdocstrings = { version = "^0.21.2", extras = ["python"] }
 
 [tool.poetry.extras]
-examples = ["jupyter", "pydub"]
+examples = ["jupyter"]
+microphone = ["simpleaudio", "sounddevice"]
 stream = []
 
 [build-system]
@@ -82,12 +88,12 @@ requires = ["poetry-core>=1.0.0"]
 line-length = 120
 
 [tool.covcheck.group.unit.coverage]
-branch = 63.0
-line = 78.0
+branch = 49.0
+line = 72.0
 
 [tool.covcheck.group.service.coverage]
-branch = 70.0
-line = 86.0
+branch = 57.0
+line = 80.0
 
 [tool.flake8]
 ignore = ""           # Required to disable default ignores

@@ -27,6 +27,12 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      - name: Install system dependencies
+        shell: bash
+        run: |
+          sudo apt-get --yes update
+          sudo apt-get --yes install ffmpeg
+
       - name: Install Python dependencies
         shell: bash
         run: |
@@ -57,7 +63,7 @@ jobs:
         env:
           HUME_DEV_API_KEY: ${{ secrets.HUME_DEV_API_KEY }}
         run: |
-          poetry run pytest tests --cov=hume --cov-report=html --cov-report=xml --cov-branch -m "not service"
+          poetry run pytest tests --cov=hume --cov-report=html --cov-report=xml --cov-branch -m "(not service) and (not microphone)"
 
       - name: Run pydocstyle
         shell: bash
@@ -84,13 +90,24 @@ jobs:
   build-service:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        python-version:
+          - "3.10"
+
     steps:
       - uses: actions/checkout@v2
 
-      - name: Python 3.10 Setup
+      - name: Python ${{ matrix.python-version }} Setup
         uses: actions/setup-python@v2
         with:
-          python-version: "3.10"
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install system dependencies
+        shell: bash
+        run: |
+          sudo apt-get --yes update
+          sudo apt-get --yes install ffmpeg
 
       - name: Install Python dependencies
         shell: bash
@@ -124,3 +141,40 @@ jobs:
         shell: bash
         run: |
           poetry run covcheck coverage.xml --config pyproject.toml --group service
+
+  build-microphone:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version:
+          - "3.10"
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Python ${{ matrix.python-version }} Setup
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install system dependencies
+        shell: bash
+        run: |
+          sudo apt-get --yes update
+          sudo apt-get --yes install libasound2-dev libportaudio2 ffmpeg
+
+      - name: Install Python dependencies
+        shell: bash
+        run: |
+          pip install poetry
+          if [ -d /poetryenvs ]; then rm -rf ~/poetryenvs; fi
+          poetry config virtualenvs.path ~/poetryenvs
+          poetry install -E microphone
+
+      - name: Run pytest
+        shell: bash
+        env:
+          HUME_DEV_API_KEY: ${{ secrets.HUME_DEV_API_KEY }}
+        run: |
+          poetry run pytest tests --cov=hume --cov-report=html --cov-report=xml --cov-branch -m microphone

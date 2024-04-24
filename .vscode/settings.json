@@ -3,14 +3,12 @@
   "[markdown]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
   "[python]": { "editor.defaultFormatter": "ms-python.black-formatter" },
   "[toml]": { "editor.defaultFormatter": "tamasfe.even-better-toml" },
-  "editor.codeActionsOnSave": {
-    "source.organizeImports": "explicit"
-  },
+  "editor.codeActionsOnSave": { "source.organizeImports": "explicit" },
   "black-formatter.args": ["--config", "pyproject.toml"],
   "flake8.args": ["--max-line-length", "120"],
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.detectIndentation": true,
-  "editor.formatOnSave": true,
+  // "editor.formatOnSave": true,
   "editor.insertSpaces": true,
   "editor.rulers": [120],
   "isort.args": ["--settings-file", "pyproject.toml"],
@@ -19,5 +17,6 @@
   "pylint.path": ["pylint"],
   "pylint.args": ["--rcfile", "pyproject.toml"],
   "python.analysis.extraPaths": ["tests"],
-  "python.testing.cwd": "tests"
+  "python.testing.cwd": "tests",
+  "cSpell.words": ["agen", "cffi", "deepgram", "indata", "samplerate", "simpleaudio", "sounddevice"]
 }

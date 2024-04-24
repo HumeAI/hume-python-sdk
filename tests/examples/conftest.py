@@ -22,7 +22,7 @@ def get_examples() -> List[Example]:
     examples = []
     for dirpath in get_example_dirpaths():
         dirname = dirpath.name
-        assert dirname.split("-")[0] in ["stream", "batch"]
+        assert dirname.split("-")[0] in ["stream", "batch", "evi"]
         assert re.match("^[a-z-]+$", dirname) is not None
         notebook_name = dirname.replace("_", "-")
         notebook_filepath = dirpath / f"{notebook_name}.ipynb"

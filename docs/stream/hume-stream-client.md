@@ -1,1 +1,1 @@
-::: hume._stream.hume_stream_client.HumeStreamClient
+::: hume._measurement.stream.hume_stream_client.HumeStreamClient

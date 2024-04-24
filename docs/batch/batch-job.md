@@ -1,1 +1,1 @@
-::: hume._batch.batch_job.BatchJob
+::: hume._measurement.batch.batch_job.BatchJob
