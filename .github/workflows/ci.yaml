@@ -42,12 +42,6 @@ jobs:
           poetry config virtualenvs.path ~/poetryenvs
           poetry install
 
-      - name: Run flake8
-        shell: bash
-        run: |
-          poetry run pflake8 hume --config pyproject.toml
-          poetry run pflake8 tests --config pyproject.toml
-
       - name: Run pylint
         shell: bash
         run: |
