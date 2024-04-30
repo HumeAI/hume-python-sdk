@@ -20,8 +20,6 @@ class ToolResponse(BaseModel):
     parameters: Optional[str]
 
 
-
-
 class ToolsResponse(BaseModel):
     """Response model for a page of EVI tools."""
 
