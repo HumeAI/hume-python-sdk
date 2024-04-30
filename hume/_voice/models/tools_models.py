@@ -17,7 +17,7 @@ class ToolResponse(BaseModel):
     modified_on: int
     fallback_content: Optional[str]
     description: Optional[str]
-    parameters: Optional[str]
+    parameters: str
 
 
 class ToolsResponse(BaseModel):
@@ -28,11 +28,11 @@ class ToolsResponse(BaseModel):
     tools_page: List[ToolResponse]
 
 
-class VoiceIdentityTool(BaseModel):
-    """Tool for changing the voice of EVI."""
+class ToolMeta(BaseModel):
+    """Tool metadata."""
 
-    provider: Optional[str] = None
-    name: Optional[str] = None
+    id: str
+    version: int
 
 
 class PostToolRequest(BaseModel):
@@ -40,14 +40,9 @@ class PostToolRequest(BaseModel):
 
     name: str
     version_description: Optional[str]
-    voice: VoiceIdentityTool
-
-
-class ToolMeta(BaseModel):
-    """EVI tool metadata."""
-
-    id: Optional[str]
-    version: Optional[int]
+    description: Optional[str]
+    parameters: str
+    fallback_content: Optional[str]
 
 
 class VoiceTool(BaseModel):
@@ -55,7 +50,8 @@ class VoiceTool(BaseModel):
 
     id: str
     name: str
-    description: Optional[str]
     created_on: int
     modified_on: int
-    prompt: Optional[str]
+    parameters: str
+    description: Optional[str]
+    fallback_content: Optional[str]

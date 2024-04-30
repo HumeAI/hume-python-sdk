@@ -17,7 +17,7 @@ def voice_client_fixture(hume_api_key: str) -> HumeVoiceClient:
 
 @pytest.mark.voice
 @pytest.mark.service
-class TestServiceHumeVoiceClientChats:
+class TestServiceHumeVoiceClientConfigs:
     UUID_REGEX = r"[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}"
 
     def test_config_operations(self, voice_client: HumeVoiceClient) -> None:

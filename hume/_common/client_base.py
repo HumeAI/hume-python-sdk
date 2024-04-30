@@ -115,7 +115,8 @@ class ClientBase:
             response = self._http_client.send(request)
             response.raise_for_status()
         except Exception as exc:  # pylint: disable=broad-exception-caught
-            raise HumeClientException(str(exc)) from exc
+            response_body = response.json()
+            raise HumeClientException(str(response_body)) from exc
 
         return response
 

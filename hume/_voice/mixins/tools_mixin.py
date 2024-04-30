@@ -5,7 +5,7 @@ from typing import Iterator, Optional
 
 from hume._common.client_base import ClientBase
 from hume._common.utilities.paging_utilities import Paging
-from hume._voice.models.tools_models import PostToolRequest, ToolResponse, ToolsResponse, VoiceIdentityTool, VoiceTool
+from hume._voice.models.tools_models import PostToolRequest, ToolResponse, ToolsResponse, VoiceTool
 from hume.error.hume_client_exception import HumeClientException
 
 logger = logging.getLogger(__name__)
@@ -19,20 +19,24 @@ class ToolsMixin(ClientBase):
         self,
         *,
         name: str,
-        prompt: str,
+        parameters: str,
+        fallback_content: Optional[str] = None,
         description: Optional[str] = None,
     ) -> VoiceTool:
         """Create a new EVI tool.
 
         Args:
             name (str): Tool name.
-            prompt (str): System prompt text.
+            parameters (str): Stringified JSON defining the parameters used by the tool.
+            fallback_content (Optional[str]): Text to use if the tool fails to generate content.
             description (Optional[str]): Tool description.
         """
         post_tool_request = PostToolRequest(
             name=name,
-            version_description=description,
-            voice=VoiceIdentityTool(name=voice_name),
+            description=description,
+            version_description=None,
+            parameters=parameters,
+            fallback_content=fallback_content,
         )
         post_tool_body = post_tool_request.to_json_str()
         endpoint = self._build_endpoint("evi", "tools")
@@ -68,16 +72,14 @@ class ToolsMixin(ClientBase):
                 yield self._tool_from_response(res)
 
     def _tool_from_response(self, tool_response: ToolResponse) -> VoiceTool:
-        prompt_response = tool_response.prompt
-        prompt = prompt_response.text if prompt_response is not None else None
-
         return VoiceTool(
             id=tool_response.id,
             name=tool_response.name,
-            description=tool_response.version_description,
             created_on=tool_response.created_on,
             modified_on=tool_response.modified_on,
-            prompt=prompt,
+            parameters=tool_response.parameters,
+            description=tool_response.description,
+            fallback_content=tool_response.fallback_content,
         )
 
     def iter_tools(self) -> Iterator[VoiceTool]:

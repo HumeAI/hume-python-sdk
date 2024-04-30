@@ -17,5 +17,5 @@
   "pylint.args": ["--rcfile", "pyproject.toml"],
   "python.analysis.extraPaths": ["tests"],
   "python.testing.cwd": "tests",
-  "cSpell.words": ["agen", "cffi", "deepgram", "indata", "samplerate", "simpleaudio", "sounddevice"]
+  "cSpell.words": ["agen", "cffi", "deepgram", "indata", "metas", "samplerate", "simpleaudio", "sounddevice"]
 }
