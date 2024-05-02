@@ -78,6 +78,13 @@ class MicrophoneSender(Sender):
                 await socket.send(byte_str)
 
     async def send_tool_response(self, *, socket: VoiceSocket, tool_call_id: str, content: str) -> None:
+        """Send a tool response over an EVI socket.
+
+        Args:
+            socket (VoiceSocket): EVI socket.
+            tool_call_id (str): Tool call ID.
+            content (str): Tool response content.
+        """
         response_message = {
             "type": "tool_response",
             "tool_call_id": tool_call_id,
