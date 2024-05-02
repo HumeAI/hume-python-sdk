@@ -110,4 +110,5 @@ class VoiceConfig(BaseModel):
     description: Optional[str]
     created_on: int
     modified_on: int
+    # TODO: Add tool info
     prompt: Optional[str]
