@@ -4,8 +4,8 @@ from uuid import uuid4
 
 import pytest
 
-from hume import HumeVoiceClient, VoiceTool
-from hume._voice.models.configs_models import LanguageModelConfig, VoiceConfig, VoiceIdentityConfig
+from hume import HumeVoiceClient, LanguageModelConfig, VoiceConfig, VoiceIdentityConfig, VoiceTool
+from hume.error.hume_client_exception import HumeClientException
 
 logger = logging.getLogger(__name__)
 
@@ -41,37 +41,42 @@ class TestServiceHumeVoiceClientTools:
     UUID_REGEX = r"[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}"
 
     def test_tool_operations(self, voice_client: HumeVoiceClient) -> None:
-
-        tool_name_uuid = str(uuid4())
+        # NOTE: This UUID can be removed when the API supports duplicate config names after deletion.
+        name_uuid = str(uuid4())
+        tool_name = f"weather-{name_uuid}"
+        parameters = json.dumps(WEATHER_TOOL_PARAMETERS)
         new_tool: VoiceTool = voice_client.create_tool(
-            name=f"weather-{tool_name_uuid}",
-            parameters=json.dumps(WEATHER_TOOL_PARAMETERS),
+            name=tool_name,
+            parameters=parameters,
         )
-        logger.info(f"Created tool: {new_tool.id}")
+        self.check_tool_fields(new_tool, tool_name, parameters)
 
-        config_name_uuid = str(uuid4())
+        config_name = f"weather-assistant-{name_uuid}"
         new_config: VoiceConfig = voice_client.create_config(
-            name=f"weather-assistant-{config_name_uuid}",
+            name=config_name,
             prompt=WHETHER_ASSISTANT_PROMPT,
             tools=[new_tool],
             language_model=LanguageModelConfig(model_provider="OPEN_AI", model_resource="gpt-3.5-turbo"),
             voice_identity_config=VoiceIdentityConfig(name="ITO"),
         )
-        logger.info(f"Created config: {new_config.id}")
 
         fetched_tool = voice_client.get_tool(new_tool.id)
-        logger.info(f"Fetched tool: {fetched_tool.name}")
+        self.check_tool_fields(fetched_tool, tool_name, parameters)
 
-        fetched_config = voice_client.get_config(new_config.id)
-        logger.info(f"Fetched config: {fetched_config.name}")
-
-        logger.info("Tools")
-        for tool in voice_client.iter_tools():
-            logger.info(f"- {tool.name} ({tool.id})")
-
-        logger.info("Configs")
-        for config in voice_client.iter_configs():
-            logger.info(f"- {config.name} ({config.id})")
+        listed_tools = list(voice_client.iter_tools())
+        n_tools = len(listed_tools)
+        assert n_tools >= 1
 
         voice_client.delete_config(new_config.id)
         voice_client.delete_tool(new_tool.id)
+
+        listed_tools = list(voice_client.iter_tools())
+        assert len(listed_tools) == n_tools - 1
+
+        match = f"Tool not found with ID: {self.UUID_REGEX}"
+        with pytest.raises(HumeClientException, match=match):
+            voice_client.get_tool(new_tool.id)
+
+    def check_tool_fields(self, tool: VoiceTool, name: str, parameters: str) -> None:
+        assert tool.name == name
+        assert tool.parameters == parameters
