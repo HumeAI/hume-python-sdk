@@ -11,7 +11,16 @@ from hume._measurement.batch import (
     TranscriptionConfig,
 )
 from hume._measurement.stream import HumeStreamClient, StreamSocket
-from hume._voice import HumeVoiceClient, MicrophoneInterface, VoiceChat, VoiceConfig, VoiceSocket
+from hume._voice import (
+    HumeVoiceClient,
+    LanguageModelConfig,
+    MicrophoneInterface,
+    VoiceChat,
+    VoiceConfig,
+    VoiceIdentityConfig,
+    VoiceSocket,
+    VoiceTool,
+)
 from hume.error.hume_client_exception import HumeClientException
 
 __version__ = version("hume")
@@ -26,10 +35,13 @@ __all__ = [
     "HumeClientException",
     "HumeStreamClient",
     "HumeVoiceClient",
+    "LanguageModelConfig",
     "MicrophoneInterface",
     "StreamSocket",
     "TranscriptionConfig",
     "VoiceChat",
     "VoiceConfig",
+    "VoiceIdentityConfig",
     "VoiceSocket",
+    "VoiceTool",
 ]

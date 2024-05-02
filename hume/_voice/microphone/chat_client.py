@@ -44,6 +44,11 @@ class ChatClient:
             return cls.DEFAULT_ASSISTANT_ROLE_NAME
         return role
 
+    def _print_prompt(self, text: str) -> None:
+        now = datetime.datetime.now(tz=datetime.timezone.utc)
+        now_str = now.strftime("%H:%M:%S")
+        print(f"[{now_str}] {text}")
+
     async def _recv(self, *, socket: VoiceSocket) -> None:
         async for socket_message in socket:
             message = json.loads(socket_message)
@@ -60,14 +65,22 @@ class ChatClient:
                 error_message: str = message["message"]
                 error_code: str = message["code"]
                 raise HumeClientException(f"Error ({error_code}): {error_message}")
+            elif message["type"] == "tool_call":
+                print(
+                    "Warning: EVI is trying to make a tool call. "
+                    "Either remove tool calling from your config or "
+                    "use the VoiceSocket directly without a MicrophoneInterface."
+                )
+                tool_call_id = message["tool_call_id"]
+                if message["response_required"]:
+                    content = "Let's start over"
+                    await self.sender.send_tool_response(socket=socket, tool_call_id=tool_call_id, content=content)
+                continue
             else:
                 message_type = message["type"].upper()
                 text = f"<{message_type}>"
 
-            now = datetime.datetime.now(tz=datetime.timezone.utc)
-            now_str = now.strftime("%H:%M:%S")
-
-            print(f"[{now_str}] {text}")
+            self._print_prompt(text)
 
     async def _play(self) -> None:
         async for byte_str in self.byte_strs:

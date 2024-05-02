@@ -3,6 +3,7 @@
 from typing import List, Optional
 
 from hume._common.utilities.model_utilities import BaseModel
+from hume._voice.models.tools_models import ToolMeta
 
 
 class PromptResponse(BaseModel):
@@ -30,6 +31,14 @@ class PromptMeta(BaseModel):
 
     id: str
     version: int
+
+
+class LanguageModelConfig(BaseModel):
+    """Language model configuration for EVI."""
+
+    model_provider: str
+    model_resource: str
+    temperature: Optional[float] = None
 
 
 class PostPromptRequest(BaseModel):
@@ -67,13 +76,23 @@ class VoiceIdentityConfig(BaseModel):
     name: Optional[str] = None
 
 
+class BuiltinToolConfig(BaseModel):
+    """Configuration for a built-in EVI tool."""
+
+    name: str
+    tool_type: str
+    fallback_content: Optional[str]
+
+
 class PostConfigRequest(BaseModel):
     """Post request model for creating a new EVI configuration."""
 
     name: str
     version_description: Optional[str]
     prompt: PromptMeta
-    voice: VoiceIdentityConfig
+    voice: Optional[VoiceIdentityConfig]
+    language_model: Optional[LanguageModelConfig]
+    tools: Optional[List[ToolMeta]]
 
 
 class ConfigMeta(BaseModel):
@@ -91,4 +110,5 @@ class VoiceConfig(BaseModel):
     description: Optional[str]
     created_on: int
     modified_on: int
+    # TODO: Add tool info
     prompt: Optional[str]

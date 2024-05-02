@@ -1,13 +1,14 @@
 """Client operations for managing EVI configurations."""
 
 import logging
-from typing import Iterator, Optional
+from typing import Iterator, List, Optional
 
 from hume._common.client_base import ClientBase
 from hume._common.utilities.paging_utilities import Paging
 from hume._voice.models.configs_models import (
     ConfigResponse,
     ConfigsResponse,
+    LanguageModelConfig,
     PostConfigRequest,
     PostPromptRequest,
     PromptMeta,
@@ -15,6 +16,7 @@ from hume._voice.models.configs_models import (
     VoiceConfig,
     VoiceIdentityConfig,
 )
+from hume._voice.models.tools_models import ToolMeta, VoiceTool
 from hume.error.hume_client_exception import HumeClientException
 
 logger = logging.getLogger(__name__)
@@ -32,7 +34,9 @@ class ConfigsMixin(ClientBase):
         name: str,
         prompt: str,
         description: Optional[str] = None,
-        voice_name: Optional[str] = DEFAULT_VOICE_NAME,
+        voice_identity_config: Optional[VoiceIdentityConfig] = None,
+        tools: Optional[List[VoiceTool]] = None,
+        language_model: Optional[LanguageModelConfig] = None,
     ) -> VoiceConfig:
         """Create a new EVI config.
 
@@ -48,11 +52,14 @@ class ConfigsMixin(ClientBase):
         prompt_response = PromptResponse.model_validate_json(response.text)
         prompt_meta = PromptMeta(id=prompt_response.id, version=prompt_response.version)
 
+        tool_metas = None if tools is None else [ToolMeta(id=tool.id, version=0) for tool in tools]
         post_config_request = PostConfigRequest(
             name=name,
             version_description=description,
             prompt=prompt_meta,
-            voice=VoiceIdentityConfig(name=voice_name),
+            voice=voice_identity_config,
+            tools=tool_metas,
+            language_model=language_model,
         )
         post_config_body = post_config_request.to_json_str()
         endpoint = self._build_endpoint("evi", "configs")

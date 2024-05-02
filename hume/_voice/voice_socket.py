@@ -8,6 +8,7 @@ from typing import Any, AsyncIterator, ClassVar, Optional
 from pydub import AudioSegment
 from websockets.client import WebSocketClientProtocol as WebSocket
 
+from hume._common.utilities.typing_utilities import JsonObject
 from hume._voice.session_settings import AudioSettings, SessionSettings
 
 logger = logging.getLogger(__name__)
@@ -46,6 +47,14 @@ class VoiceSocket:
             byte_str (bytes): Byte string to send.
         """
         await self._protocol.send(byte_str)
+
+    async def send_json(self, message: JsonObject) -> None:
+        """Send JSON as a byte string over the voice socket.
+
+        Args:
+            message (JsonObject): A dictionary representing a full JSON payload to the server.
+        """
+        await self._protocol.send(json.dumps(message).encode("utf-8"))
 
     async def recv(self) -> Any:
         """Receive a message on the voice socket."""
