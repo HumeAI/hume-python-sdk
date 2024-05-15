@@ -1,128 +1,34 @@
 [tool.poetry]
-authors = ["Hume AI Dev <dev@hume.ai>"]
-classifiers = [
-  "Development Status :: 4 - Beta",
-  "Operating System :: OS Independent",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-]
-description = "Hume AI Python SDK"
-keywords = [
-  "hume",
-  "ai",
-  "evi",
-  "empathic",
-  "multimodal",
-  "expression",
-  "analysis",
-  "sentiment",
-  "voice",
-  "recognition",
-  "detection",
-  "emotion",
-  "interface",
-  "speech",
-  "audio",
-  "vision",
-  "expressive",
-  "embeddings",
-  "communication",
-  "learning",
-]
-license = "Proprietary"
 name = "hume"
+version = "1.0.0"
+description = ""
 readme = "README.md"
-repository = "https://github.com/HumeAI/hume-python-sdk"
-version = "0.5.1"
+authors = []
+packages = [
+    { include = "hume", from = "src"}
+]
 
 [tool.poetry.dependencies]
-httpx = { extras = ["http2"], version = "^0.27.0" }
-jupyter = { version = "^1.0.0", optional = true }
-pydantic = "^2.6.4"
-pydub = "^0.25.1"
-python = ">=3.9,<4"
-simpleaudio = { version = "^1.0.4", optional = true }
-sounddevice = { version = "^0.4.6", optional = true }
-typing-extensions = "^4.3.0"
-websockets = "^12.0"
+python = "^3.8"
+httpx = ">=0.21.2"
+pydantic = ">= 1.9.2"
+typing_extensions = ">= 4.0.0"
+websockets = "12"
 
 [tool.poetry.dev-dependencies]
-black = "^24.4.0"
-covcheck = { version = "^0.4.3", extras = ["toml"] }
-ipykernel = "^6.22.0"
-mypy = "^1.0.1"
-pydocstyle = "^6.1.1"
-pylint = "^2.16.2"
-pytest = "^7.2.1"
-pytest-asyncio = "^0.19.0"
-pytest-cov = "^4.0.0"
-pytest-forked = "^1.4.0"
-pytest-xdist = "^2.5.0"
-semver = "^2.13.0"
-testbook = "^0.4.2"
-types-setuptools = "^57.4.4"
-types-toml = "^0.10.1"
+mypy = "1.9.0"
+pytest = "^7.4.0"
+pytest-asyncio = "^0.23.5"
+python-dateutil = "^2.9.0"
 
-[tool.poetry.group.docs]
-optional = true
-
-[tool.poetry.group.docs.dependencies]
-mike = "^1.1.2"
-mkdocs = "^1.4.3"
-mkdocs-material = "^9.1.9"
-mkdocstrings = { version = "^0.21.2", extras = ["python"] }
-
-[tool.poetry.extras]
-examples = ["jupyter"]
-microphone = ["simpleaudio", "sounddevice"]
-stream = []
-
-[build-system]
-build-backend = "poetry.core.masonry.api"
-requires = ["poetry-core>=1.0.0"]
-
-[tool.black]
-line-length = 120
-
-[tool.covcheck.group.unit.coverage]
-branch = 45.0
-line = 71.0
-
-[tool.covcheck.group.service.coverage]
-branch = 57.0
-line = 80.0
-
-[tool.isort]
-line_length = 120
-profile = "black"
-src_paths = "*"
+[tool.pytest.ini_options]
+testpaths = [ "tests" ]
+asyncio_mode = "auto"
 
 [tool.mypy]
-disallow_incomplete_defs = true
-disallow_untyped_calls = true
-disallow_untyped_defs = true
-ignore_missing_imports = true
+plugins = ["pydantic.mypy"]
 
-[tool.pylint.basic]
-good-names = ["id", "f"]
-max-args = 12
-max-attributes = 9
-max-locals = 25
-notes = ["FIXME"]
 
-[tool.pylint.format]
-max-line-length = 120
-
-[tool.pylint.messages_control]
-disable = [
-  "logging-fstring-interpolation",
-  "unspecified-encoding",
-  "missing-docstring",
-  "wrong-import-order",
-  "duplicate-code",
-  "too-few-public-methods",
-]
-
-[tool.pylint.reports]
-output-format = "colorized"
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
