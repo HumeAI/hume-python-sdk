@@ -7,7 +7,7 @@ from hume.models.config.model_config_base import ModelConfigBase
 
 
 @dataclass
-class BurstConfig(ModelConfigBase["BurstConfig"]):
+class BurstConfig(ModelConfigBase):
     """Configuration for the vocal burst model."""
 
     @classmethod

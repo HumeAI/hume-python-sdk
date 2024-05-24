@@ -8,7 +8,7 @@ from hume.models.config.model_config_base import ModelConfigBase
 
 
 @dataclass
-class ProsodyConfig(ModelConfigBase["ProsodyConfig"]):
+class ProsodyConfig(ModelConfigBase):
     """Configuration for the speech prosody model.
 
     Args:

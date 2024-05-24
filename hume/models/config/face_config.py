@@ -8,7 +8,7 @@ from hume.models.config.model_config_base import ModelConfigBase
 
 
 @dataclass
-class FaceConfig(ModelConfigBase["FaceConfig"]):
+class FaceConfig(ModelConfigBase):
     """Configuration for the facial expression model.
 
     Args:
