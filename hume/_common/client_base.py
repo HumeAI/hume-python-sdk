@@ -116,6 +116,8 @@ class ClientBase:
             response.raise_for_status()
         except Exception as exc:  # pylint: disable=broad-exception-caught
             response_body = response.json()
+            if "message" in response_body:
+                raise HumeClientException(response_body["message"]) from exc
             raise HumeClientException(str(response_body)) from exc
 
         return response

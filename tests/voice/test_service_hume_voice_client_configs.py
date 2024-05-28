@@ -18,8 +18,6 @@ def voice_client_fixture(hume_api_key: str) -> HumeVoiceClient:
 @pytest.mark.voice
 @pytest.mark.service
 class TestServiceHumeVoiceClientConfigs:
-    UUID_REGEX = r"[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}"
-
     def test_config_operations(self, voice_client: HumeVoiceClient) -> None:
         # NOTE: This UUID can be removed when the API supports duplicate config names after deletion.
         name_uuid = str(uuid4())
@@ -41,7 +39,7 @@ class TestServiceHumeVoiceClientConfigs:
         listed_configs = list(voice_client.iter_configs())
         assert len(listed_configs) == n_configs - 1
 
-        match = f"Config not found with ID: {self.UUID_REGEX}"
+        match = f"Config \(ID: {new_config.id}"
         with pytest.raises(HumeClientException, match=match):
             voice_client.get_config(new_config.id)
 
