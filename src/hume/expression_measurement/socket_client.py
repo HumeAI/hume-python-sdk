@@ -1,4 +1,4 @@
-from .batch.legacy_batch_client import LegacyBatchClient, AsyncLegacyBatchClient
+from .batch.legacy.legacy_batch_client import LegacyBatchClient, AsyncLegacyBatchClient
 from .client import AsyncExpressionMeasurementClient, ExpressionMeasurementClient
 from .stream.socket_client import AsyncStreamClientWithWebsocket
 

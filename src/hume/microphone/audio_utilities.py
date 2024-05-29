@@ -19,5 +19,6 @@ async def play_audio(byte_str: bytes) -> None:
     Args:
         byte_str (bytes): Byte string of audio data.
     """
-    segment = AudioSegment.from_file(BytesIO(byte_str))
-    await asyncio.to_thread(pydub.playback.play, segment)
+    # The stub library mis-types `from_file` and does not allow BytestIO as an input, so we mypy ignore it.
+    segment = AudioSegment.from_file(BytesIO(byte_str))  # type: ignore
+    await asyncio.get_running_loop().run_in_executor(pydub.playback.play, segment)

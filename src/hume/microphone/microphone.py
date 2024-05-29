@@ -4,16 +4,14 @@ import asyncio
 import contextlib
 import dataclasses
 import logging
-from typing import AsyncIterator, ClassVar, Iterator, Optional
+from typing import AsyncIterator, ClassVar, Iterator, Optional, Any
 
 from .asyncio_utilities import Stream
 from ..core.api_error import ApiError
 
 try:
-    import _cffi_backend as cffi_backend
-    import sounddevice
-    from _cffi_backend import _CDataBase as CDataBase  # pylint: disable=no-name-in-module
-    from sounddevice import CallbackFlags, RawInputStream
+    import sounddevice                                      # type: ignore
+    from sounddevice import CallbackFlags, RawInputStream   # type: ignore
 
     HAS_AUDIO_DEPENDENCIES = True
 except ModuleNotFoundError:
@@ -78,7 +76,7 @@ class Microphone:
         # NOTE:
         # - cffi types determined by logging; see more at [https://cffi.readthedocs.io/en/stable/ref.html]
         # - put_nowait(indata[:]) seems to block, so use call_soon_threadsafe() like the reference implementation
-        def callback(indata: cffi_backend.buffer, _frames: int, _time: CDataBase, _status: CallbackFlags) -> None:
+        def callback(indata: Any, _frames: int, _time: Any, _status: CallbackFlags) -> None:
             event_loop.call_soon_threadsafe(microphone.stream.queue.put_nowait, indata[:])
 
         with RawInputStream(callback=callback, dtype=cls.DATA_TYPE):

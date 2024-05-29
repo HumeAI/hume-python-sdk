@@ -6,7 +6,7 @@ from typing import Callable, Optional, Type, TypeVar, cast
 
 from typing_extensions import ParamSpec
 
-from ...core.api_error import ApiError
+from ....core.api_error import ApiError
 
 P = ParamSpec("P")  # Parameter type variable for decorated function
 R = TypeVar("R")  # Return type variable for decorated function
@@ -74,7 +74,7 @@ def retry(
                     message = timeout_message
                     if timeout_message is None:
                         message = f"Request timed out after {retry_timeout}s"
-                    raise ApiError(message)
+                    raise ApiError(body=message)
 
                 time.sleep(delay)
                 total_await_time += delay

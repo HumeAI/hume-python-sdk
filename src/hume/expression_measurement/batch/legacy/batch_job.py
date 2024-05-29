@@ -102,10 +102,10 @@ class BatchJob:
         @retry(timeout_message=self.TIMEOUT_MESSAGE.format(timeout, self.id))
         def _await_complete(timeout: int = timeout) -> UnionJob:
             details = self._client.get_job_details(self.id)
-            if not Status.is_terminal(details.state.status):
+            if details.state.status != "COMPLETED" and details.state.status != "FAILED":
                 raise RetryIterError
-            if raise_on_failed and details.state.status == Status.FAILED:
-                raise ApiError(f"BatchJob {self.id} failed.")
+            if raise_on_failed and details.state.status == "FAILED":
+                raise ApiError(body=f"BatchJob {self.id} failed.")
             return details
 
         return _await_complete(timeout=timeout)
@@ -207,10 +207,10 @@ class AsyncBatchJob:
         @retry(timeout_message=self.TIMEOUT_MESSAGE.format(timeout, self.id))
         async def _await_complete(timeout: int = timeout) -> UnionJob:
             details = await self._client.get_job_details(self.id)
-            if not Status.is_terminal(details.state.status):
+            if details.state.status != "COMPLETED" and details.state.status != "FAILED":
                 raise RetryIterError
-            if raise_on_failed and details.state.status == Status.FAILED:
-                raise ApiError(f"BatchJob {self.id} failed.")
+            if raise_on_failed and details.state.status == "FAILED":
+                raise ApiError(body=f"BatchJob {self.id} failed.")
             return details
 
         return await _await_complete(timeout=timeout)

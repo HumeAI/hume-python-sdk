@@ -4,16 +4,38 @@ from pathlib import Path
 from typing import List, Optional, Union
 import typing
 
+from ...types.inference_base_request import InferenceBaseRequest
 from ...types.models import Models
 from ...types.transcription import Transcription
 from ...types.union_job import UnionJob
 from ...types.union_predict_result import UnionPredictResult
-from .batch_job import BatchJob
-
+from .batch_job import AsyncBatchJob, BatchJob
+from .... import core
 from ..client import AsyncBatchClient, BatchClient
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
+
+    
+def _get_multipart_form_data(filepaths: List[Union[str, Path]]) -> List[core.File]:
+    """Convert a list of filepaths into a list of multipart form data.
+
+    Multipart form data allows the client to attach files to the POST request,
+    including both the raw file bytes and the filename.
+
+    Args:
+        filepaths (List[Union[str, Path]]): List of paths to files on the local disk to be processed.
+
+    Returns:
+        List[core.File]: A list of tuples representing
+            the multipart form data for the POST request.
+    """
+    form_data: List[core.File] = []
+    for filepath in filepaths:
+        path = Path(filepath)
+        form_data.append((path.name, path.read_bytes()))
+
+    return form_data
 
 class LegacyBatchClient:
     """Batch API client."""
@@ -59,7 +81,21 @@ class LegacyBatchClient:
         Returns:
             BatchJob: The `BatchJob` representing the batch computation.
         """
-        request = self._batch_client.start_inference_job(models=configs, transcription=transcription_config, urls=urls, registry_files=files, text=text, callback_url=callback_url, notify=notify)
+        if files is not None:
+            form_data = _get_multipart_form_data(files)
+            request = self._batch_client.start_inference_job_from_local_file(
+                file=form_data,
+                json=InferenceBaseRequest(
+                    models=configs,
+                    transcription=transcription_config,
+                    urls=urls,
+                    text=text,
+                    callback_url=callback_url,
+                    notify=notify
+                )
+            )
+        else:
+            request = self._batch_client.start_inference_job(models=configs, transcription=transcription_config, urls=urls, text=text, callback_url=callback_url, notify=notify)
         return BatchJob(self, request.job_id)
 
     def get_job_details(self, job_id: str) -> UnionJob:
@@ -106,7 +142,8 @@ class LegacyBatchClient:
         response = self._batch_client.get_job_artifacts(job_id)
 
         with Path(filepath).open("wb") as f:
-            f.write(response.content)
+            for chunk in response:
+                f.write(chunk)
 
 class AsyncLegacyBatchClient:
     """Batch API client."""
@@ -114,7 +151,7 @@ class AsyncLegacyBatchClient:
     def __init__(self, *, batch_client: AsyncBatchClient):
         self._batch_client = batch_client
 
-    def get_job(self, job_id: str) -> BatchJob:
+    def get_job(self, job_id: str) -> AsyncBatchJob:
         """Rehydrate a job based on a Job ID.
 
         Args:
@@ -123,7 +160,7 @@ class AsyncLegacyBatchClient:
         Returns:
             BatchJob: Job associated with the given ID.
         """
-        return BatchJob(self, job_id)
+        return AsyncBatchJob(self, job_id)
 
     async def submit_job(
         self,
@@ -134,7 +171,7 @@ class AsyncLegacyBatchClient:
         notify: Optional[bool] = None,
         files: Optional[List[Union[str, Path]]] = None,
         text: Optional[List[str]] = None,
-    ) -> BatchJob:
+    ) -> AsyncBatchJob:
         """Submit a job for batch processing.
 
         Note: Only one config per model type should be passed.
@@ -152,8 +189,22 @@ class AsyncLegacyBatchClient:
         Returns:
             BatchJob: The `BatchJob` representing the batch computation.
         """
-        request = await self._batch_client.start_inference_job(models=configs, transcription=transcription_config, urls=urls, registry_files=files, text=text, callback_url=callback_url, notify=notify)
-        return BatchJob(self, request.job_id)
+        if files is not None:
+            form_data = _get_multipart_form_data(files)
+            request = await self._batch_client.start_inference_job_from_local_file(
+                file=form_data,
+                json=InferenceBaseRequest(
+                    models=configs,
+                    transcription=transcription_config,
+                    urls=urls,
+                    text=text,
+                    callback_url=callback_url,
+                    notify=notify
+                )
+            )
+        else:
+            request = await self._batch_client.start_inference_job(models=configs, transcription=transcription_config, urls=urls, text=text, callback_url=callback_url, notify=notify)
+        return AsyncBatchJob(self, request.job_id)
 
     async def get_job_details(self, job_id: str) -> UnionJob:
         """Get details for the batch job.
@@ -196,7 +247,8 @@ class AsyncLegacyBatchClient:
         Returns:
             None: Batch job artifacts are written to disk and not returned.
         """
-        response = await self._batch_client.get_job_artifacts(job_id)
+        response = self._batch_client.get_job_artifacts(job_id)
 
         with Path(filepath).open("wb") as f:
-            f.write(response.content)
+            async for chunk in response:
+                f.write(chunk)

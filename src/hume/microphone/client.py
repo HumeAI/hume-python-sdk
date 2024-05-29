@@ -5,6 +5,9 @@ import logging
 from dataclasses import dataclass
 from typing import ClassVar, Optional
 
+from hume.empathic_voice.types.audio_configuration import AudioConfiguration
+from hume.empathic_voice.types.session_settings import SessionSettings
+
 from .chat_client import ChatClient
 from .microphone import Microphone
 from .microphone_sender import MicrophoneSender
@@ -37,9 +40,13 @@ class MicrophoneInterface:
             sender = MicrophoneSender.new(microphone=microphone, allow_interrupt=allow_user_interrupt)
             chat_client = ChatClient.new(sender=sender)
             print("Configuring socket with microphone settings...")
-            await socket.send_session_settings(
-                sample_rate=microphone.sample_rate,
-                num_channels=microphone.num_channels,
-            )
+            await socket.send_session_settings(SessionSettings(
+                type="session_settings",
+                audio=AudioConfiguration(
+                    encoding="linear16",
+                    sample_rate=microphone.sample_rate,
+                    channels=microphone.num_channels,
+                )
+            ))
             print("Microphone connected. Say something!")
             await chat_client.run(socket=socket)

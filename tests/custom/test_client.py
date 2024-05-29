@@ -31,3 +31,6 @@ async def test_client() -> None:
             type="user_input",
             text="Hello, world!"
         )))
+
+    job = hume.expression_measurement.batch_legacy.get_job("1")
+    job.get_details()
