@@ -2,6 +2,8 @@
 
 from typing import List, Optional
 
+from pydantic import ConfigDict
+
 from hume._common.utilities.model_utilities import BaseModel
 from hume._voice.models.tools_models import ToolMeta
 
@@ -39,6 +41,8 @@ class LanguageModelConfig(BaseModel):
     model_provider: str
     model_resource: str
     temperature: Optional[float] = None
+
+    model_config = ConfigDict(protected_namespaces=())
 
 
 class PostPromptRequest(BaseModel):
