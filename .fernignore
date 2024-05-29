@@ -18,3 +18,7 @@ tests/custom
 .vscode
 src/hume/microphone
 src/hume/expression_measurement/batch/legacy
+
+<!-- Ignoring `ci.yml` while we have the legacy tests in the repo (tests/custom) -->
+
+.github/workflows/ci.yml
