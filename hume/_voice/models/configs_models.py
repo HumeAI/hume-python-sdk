@@ -53,6 +53,13 @@ class PostPromptRequest(BaseModel):
     text: Optional[str]
 
 
+class VoiceIdentityConfig(BaseModel):
+    """Configuration for changing the voice of EVI."""
+
+    provider: Optional[str] = None
+    name: Optional[str] = None
+
+
 class ConfigResponse(BaseModel):
     """Response model for an EVI configurations."""
 
@@ -63,6 +70,7 @@ class ConfigResponse(BaseModel):
     created_on: int
     modified_on: int
     prompt: Optional[PromptResponse]
+    voice: Optional[VoiceIdentityConfig]
 
 
 class ConfigsResponse(BaseModel):
@@ -71,13 +79,6 @@ class ConfigsResponse(BaseModel):
     page_number: int
     page_size: int
     configs_page: List[ConfigResponse]
-
-
-class VoiceIdentityConfig(BaseModel):
-    """Configuration for changing the voice of EVI."""
-
-    provider: Optional[str] = None
-    name: Optional[str] = None
 
 
 class BuiltinToolConfig(BaseModel):
@@ -116,3 +117,4 @@ class VoiceConfig(BaseModel):
     modified_on: int
     # TODO: Add tool info
     prompt: Optional[str]
+    voice: Optional[VoiceIdentityConfig]

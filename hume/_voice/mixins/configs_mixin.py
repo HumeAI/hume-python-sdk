@@ -105,6 +105,7 @@ class ConfigsMixin(ClientBase):
             created_on=config_response.created_on,
             modified_on=config_response.modified_on,
             prompt=prompt,
+            voice=config_response.voice,
         )
 
     def iter_configs(self) -> Iterator[VoiceConfig]:
