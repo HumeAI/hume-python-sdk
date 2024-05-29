@@ -36,8 +36,7 @@ jobs:
 
       - name: Install Fern
         run: |
-          sudo apt update
-          sudo apt install libportaudio2
+          sudo apt-get install -y libportaudio2
           npm install -g fern-api
 
       - name: Test
