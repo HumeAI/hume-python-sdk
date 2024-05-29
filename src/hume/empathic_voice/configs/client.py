@@ -14,6 +14,7 @@ from ..types.posted_builtin_tool import PostedBuiltinTool
 from ..types.posted_language_model import PostedLanguageModel
 from ..types.posted_prompt_spec import PostedPromptSpec
 from ..types.posted_user_defined_tool_spec import PostedUserDefinedToolSpec
+from ..types.posted_voice import PostedVoice
 from ..types.return_config import ReturnConfig
 from ..types.return_paged_configs import ReturnPagedConfigs
 
@@ -64,7 +65,7 @@ class ConfigsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "configs"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/evi/configs"),
             params=jsonable_encoder(
                 remove_none_from_dict(
                     {
@@ -107,6 +108,7 @@ class ConfigsClient:
         name: str,
         version_description: typing.Optional[str] = OMIT,
         prompt: typing.Optional[PostedPromptSpec] = OMIT,
+        voice: typing.Optional[PostedVoice] = OMIT,
         language_model: typing.Optional[PostedLanguageModel] = OMIT,
         tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
@@ -122,6 +124,8 @@ class ConfigsClient:
             Description that is appended to a specific version of a Config.
 
         prompt : typing.Optional[PostedPromptSpec]
+
+        voice : typing.Optional[PostedVoice]
 
         language_model : typing.Optional[PostedLanguageModel]
 
@@ -155,6 +159,8 @@ class ConfigsClient:
             _request["version_description"] = version_description
         if prompt is not OMIT:
             _request["prompt"] = prompt
+        if voice is not OMIT:
+            _request["voice"] = voice
         if language_model is not OMIT:
             _request["language_model"] = language_model
         if tools is not OMIT:
@@ -163,7 +169,7 @@ class ConfigsClient:
             _request["builtin_tools"] = builtin_tools
         _response = self._client_wrapper.httpx_client.request(
             method="POST",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "configs"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/evi/configs"),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -240,7 +246,9 @@ class ConfigsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"configs/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/evi/configs/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 remove_none_from_dict(
                     {
@@ -283,6 +291,7 @@ class ConfigsClient:
         *,
         version_description: typing.Optional[str] = OMIT,
         prompt: typing.Optional[PostedPromptSpec] = OMIT,
+        voice: typing.Optional[PostedVoice] = OMIT,
         language_model: typing.Optional[PostedLanguageModel] = OMIT,
         tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
@@ -298,6 +307,8 @@ class ConfigsClient:
             Description that is appended to a specific version of a Config.
 
         prompt : typing.Optional[PostedPromptSpec]
+
+        voice : typing.Optional[PostedVoice]
 
         language_model : typing.Optional[PostedLanguageModel]
 
@@ -331,6 +342,8 @@ class ConfigsClient:
             _request["version_description"] = version_description
         if prompt is not OMIT:
             _request["prompt"] = prompt
+        if voice is not OMIT:
+            _request["voice"] = voice
         if language_model is not OMIT:
             _request["language_model"] = language_model
         if tools is not OMIT:
@@ -339,7 +352,9 @@ class ConfigsClient:
             _request["builtin_tools"] = builtin_tools
         _response = self._client_wrapper.httpx_client.request(
             method="POST",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"configs/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/evi/configs/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -398,7 +413,9 @@ class ConfigsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             method="DELETE",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"configs/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/evi/configs/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -456,7 +473,9 @@ class ConfigsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             method="PATCH",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"configs/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/evi/configs/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -524,7 +543,7 @@ class ConfigsClient:
             method="GET",
             url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/",
-                f"configs/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+                f"v0/evi/configs/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
             ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
@@ -586,7 +605,7 @@ class ConfigsClient:
             method="DELETE",
             url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/",
-                f"configs/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+                f"v0/evi/configs/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
             ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
@@ -660,7 +679,7 @@ class ConfigsClient:
             method="PATCH",
             url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/",
-                f"configs/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+                f"v0/evi/configs/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
             ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
@@ -737,7 +756,7 @@ class AsyncConfigsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "configs"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/evi/configs"),
             params=jsonable_encoder(
                 remove_none_from_dict(
                     {
@@ -780,6 +799,7 @@ class AsyncConfigsClient:
         name: str,
         version_description: typing.Optional[str] = OMIT,
         prompt: typing.Optional[PostedPromptSpec] = OMIT,
+        voice: typing.Optional[PostedVoice] = OMIT,
         language_model: typing.Optional[PostedLanguageModel] = OMIT,
         tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
@@ -795,6 +815,8 @@ class AsyncConfigsClient:
             Description that is appended to a specific version of a Config.
 
         prompt : typing.Optional[PostedPromptSpec]
+
+        voice : typing.Optional[PostedVoice]
 
         language_model : typing.Optional[PostedLanguageModel]
 
@@ -828,6 +850,8 @@ class AsyncConfigsClient:
             _request["version_description"] = version_description
         if prompt is not OMIT:
             _request["prompt"] = prompt
+        if voice is not OMIT:
+            _request["voice"] = voice
         if language_model is not OMIT:
             _request["language_model"] = language_model
         if tools is not OMIT:
@@ -836,7 +860,7 @@ class AsyncConfigsClient:
             _request["builtin_tools"] = builtin_tools
         _response = await self._client_wrapper.httpx_client.request(
             method="POST",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "configs"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/evi/configs"),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -913,7 +937,9 @@ class AsyncConfigsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"configs/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/evi/configs/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 remove_none_from_dict(
                     {
@@ -956,6 +982,7 @@ class AsyncConfigsClient:
         *,
         version_description: typing.Optional[str] = OMIT,
         prompt: typing.Optional[PostedPromptSpec] = OMIT,
+        voice: typing.Optional[PostedVoice] = OMIT,
         language_model: typing.Optional[PostedLanguageModel] = OMIT,
         tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
@@ -971,6 +998,8 @@ class AsyncConfigsClient:
             Description that is appended to a specific version of a Config.
 
         prompt : typing.Optional[PostedPromptSpec]
+
+        voice : typing.Optional[PostedVoice]
 
         language_model : typing.Optional[PostedLanguageModel]
 
@@ -1004,6 +1033,8 @@ class AsyncConfigsClient:
             _request["version_description"] = version_description
         if prompt is not OMIT:
             _request["prompt"] = prompt
+        if voice is not OMIT:
+            _request["voice"] = voice
         if language_model is not OMIT:
             _request["language_model"] = language_model
         if tools is not OMIT:
@@ -1012,7 +1043,9 @@ class AsyncConfigsClient:
             _request["builtin_tools"] = builtin_tools
         _response = await self._client_wrapper.httpx_client.request(
             method="POST",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"configs/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/evi/configs/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -1071,7 +1104,9 @@ class AsyncConfigsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="DELETE",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"configs/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/evi/configs/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -1131,7 +1166,9 @@ class AsyncConfigsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="PATCH",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"configs/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/evi/configs/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -1199,7 +1236,7 @@ class AsyncConfigsClient:
             method="GET",
             url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/",
-                f"configs/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+                f"v0/evi/configs/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
             ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
@@ -1261,7 +1298,7 @@ class AsyncConfigsClient:
             method="DELETE",
             url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/",
-                f"configs/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+                f"v0/evi/configs/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
             ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
@@ -1335,7 +1372,7 @@ class AsyncConfigsClient:
             method="PATCH",
             url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/",
-                f"configs/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+                f"v0/evi/configs/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
             ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None

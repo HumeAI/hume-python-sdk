@@ -100,7 +100,7 @@ class JobsClient:
             _request["notify"] = notify
         _response = self._client_wrapper.httpx_client.request(
             method="POST",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/batch/jobs/tl/train"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/registry/v0/batch/jobs/tl/train"),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -196,7 +196,9 @@ class JobsClient:
             _request["notify"] = notify
         _response = self._client_wrapper.httpx_client.request(
             method="POST",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/batch/jobs/tl/inference"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", "v0/registry/v0/batch/jobs/tl/inference"
+            ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -307,7 +309,7 @@ class AsyncJobsClient:
             _request["notify"] = notify
         _response = await self._client_wrapper.httpx_client.request(
             method="POST",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/batch/jobs/tl/train"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/registry/v0/batch/jobs/tl/train"),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -403,7 +405,9 @@ class AsyncJobsClient:
             _request["notify"] = notify
         _response = await self._client_wrapper.httpx_client.request(
             method="POST",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/batch/jobs/tl/inference"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", "v0/registry/v0/batch/jobs/tl/inference"
+            ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),

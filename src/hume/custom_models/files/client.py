@@ -8,6 +8,7 @@ from ... import core
 from ...core.api_error import ApiError
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.jsonable_encoder import jsonable_encoder
+from ...core.pagination import AsyncPager, SyncPager
 from ...core.pydantic_utilities import pydantic_v1
 from ...core.remove_none_from_dict import remove_none_from_dict
 from ...core.request_options import RequestOptions
@@ -30,7 +31,7 @@ class FilesClient:
         page_size: typing.Optional[int] = None,
         shared_assets: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> FilePage:
+    ) -> SyncPager[typing.List[FileWithAttributes]]:
         """
         Returns 200 if successful
 
@@ -50,7 +51,7 @@ class FilesClient:
 
         Returns
         -------
-        FilePage
+        SyncPager[typing.List[FileWithAttributes]]
             Success
 
         Examples
@@ -64,7 +65,7 @@ class FilesClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "files"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/registry/files"),
             params=jsonable_encoder(
                 remove_none_from_dict(
                     {
@@ -94,7 +95,16 @@ class FilesClient:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(FilePage, _response.json())  # type: ignore
+            _parsed_response = pydantic_v1.parse_obj_as(FilePage, _response.json())  # type: ignore
+            _has_next = True
+            _get_next = lambda: self.list_files(
+                page_number=page_number + 1 if page_number is not None else 1,
+                page_size=page_size,
+                shared_assets=shared_assets,
+                request_options=request_options,
+            )
+            _items = _parsed_response.content
+            return SyncPager(has_next=_has_next, items=_items, get_next=_get_next)
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -144,7 +154,7 @@ class FilesClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             method="POST",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "files"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/registry/files"),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -213,7 +223,7 @@ class FilesClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             method="POST",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "files/upload"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/registry/files/upload"),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -278,7 +288,9 @@ class FilesClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"files/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/registry/files/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -333,7 +345,9 @@ class FilesClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             method="DELETE",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"files/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/registry/files/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -395,7 +409,9 @@ class FilesClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             method="PATCH",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"files/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/registry/files/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 remove_none_from_dict(
                     {
@@ -463,7 +479,7 @@ class FilesClient:
         _response = self._client_wrapper.httpx_client.request(
             method="GET",
             url=urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"files/{jsonable_encoder(id)}/predictions"
+                f"{self._client_wrapper.get_base_url()}/", f"v0/registry/files/{jsonable_encoder(id)}/predictions"
             ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
@@ -502,7 +518,7 @@ class AsyncFilesClient:
         page_size: typing.Optional[int] = None,
         shared_assets: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> FilePage:
+    ) -> AsyncPager[typing.List[FileWithAttributes]]:
         """
         Returns 200 if successful
 
@@ -522,7 +538,7 @@ class AsyncFilesClient:
 
         Returns
         -------
-        FilePage
+        AsyncPager[typing.List[FileWithAttributes]]
             Success
 
         Examples
@@ -536,7 +552,7 @@ class AsyncFilesClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "files"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/registry/files"),
             params=jsonable_encoder(
                 remove_none_from_dict(
                     {
@@ -566,7 +582,16 @@ class AsyncFilesClient:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(FilePage, _response.json())  # type: ignore
+            _parsed_response = pydantic_v1.parse_obj_as(FilePage, _response.json())  # type: ignore
+            _has_next = True
+            _get_next = lambda: self.list_files(
+                page_number=page_number + 1 if page_number is not None else 1,
+                page_size=page_size,
+                shared_assets=shared_assets,
+                request_options=request_options,
+            )
+            _items = _parsed_response.content
+            return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next)
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -616,7 +641,7 @@ class AsyncFilesClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="POST",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "files"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/registry/files"),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -685,7 +710,7 @@ class AsyncFilesClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="POST",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "files/upload"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/registry/files/upload"),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -750,7 +775,9 @@ class AsyncFilesClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"files/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/registry/files/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -805,7 +832,9 @@ class AsyncFilesClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="DELETE",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"files/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/registry/files/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -867,7 +896,9 @@ class AsyncFilesClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="PATCH",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"files/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/registry/files/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 remove_none_from_dict(
                     {
@@ -935,7 +966,7 @@ class AsyncFilesClient:
         _response = await self._client_wrapper.httpx_client.request(
             method="GET",
             url=urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"files/{jsonable_encoder(id)}/predictions"
+                f"{self._client_wrapper.get_base_url()}/", f"v0/registry/files/{jsonable_encoder(id)}/predictions"
             ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None

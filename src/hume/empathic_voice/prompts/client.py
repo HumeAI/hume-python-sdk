@@ -7,6 +7,7 @@ from json.decoder import JSONDecodeError
 from ...core.api_error import ApiError
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.jsonable_encoder import jsonable_encoder
+from ...core.pagination import AsyncPager, SyncPager
 from ...core.pydantic_utilities import pydantic_v1
 from ...core.remove_none_from_dict import remove_none_from_dict
 from ...core.request_options import RequestOptions
@@ -28,7 +29,7 @@ class PromptsClient:
         page_size: typing.Optional[int] = None,
         restrict_to_most_recent: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> ReturnPagedPrompts:
+    ) -> SyncPager[typing.Optional[ReturnPrompt]]:
         """
         Parameters
         ----------
@@ -46,7 +47,7 @@ class PromptsClient:
 
         Returns
         -------
-        ReturnPagedPrompts
+        SyncPager[typing.Optional[ReturnPrompt]]
             Success
 
         Examples
@@ -60,7 +61,7 @@ class PromptsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "prompts"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/evi/prompts"),
             params=jsonable_encoder(
                 remove_none_from_dict(
                     {
@@ -90,7 +91,16 @@ class PromptsClient:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(ReturnPagedPrompts, _response.json())  # type: ignore
+            _parsed_response = pydantic_v1.parse_obj_as(ReturnPagedPrompts, _response.json())  # type: ignore
+            _has_next = True
+            _get_next = lambda: self.list_prompts(
+                page_number=page_number + 1 if page_number is not None else 1,
+                page_size=page_size,
+                restrict_to_most_recent=restrict_to_most_recent,
+                request_options=request_options,
+            )
+            _items = _parsed_response.prompts_page
+            return SyncPager(has_next=_has_next, items=_items, get_next=_get_next)
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -142,7 +152,7 @@ class PromptsClient:
             _request["version_description"] = version_description
         _response = self._client_wrapper.httpx_client.request(
             method="POST",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "prompts"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/evi/prompts"),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -187,6 +197,7 @@ class PromptsClient:
         Parameters
         ----------
         id : str
+            Identifier for a tool. Formatted as a UUID.
 
         page_number : typing.Optional[int]
             The page number of the results to return.
@@ -218,7 +229,9 @@ class PromptsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"prompts/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/evi/prompts/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 remove_none_from_dict(
                     {
@@ -300,7 +313,9 @@ class PromptsClient:
             _request["version_description"] = version_description
         _response = self._client_wrapper.httpx_client.request(
             method="POST",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"prompts/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/evi/prompts/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -359,7 +374,9 @@ class PromptsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             method="DELETE",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"prompts/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/evi/prompts/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -417,7 +434,9 @@ class PromptsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             method="PATCH",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"prompts/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/evi/prompts/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -485,7 +504,7 @@ class PromptsClient:
             method="GET",
             url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/",
-                f"prompts/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+                f"v0/evi/prompts/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
             ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
@@ -547,7 +566,7 @@ class PromptsClient:
             method="DELETE",
             url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/",
-                f"prompts/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+                f"v0/evi/prompts/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
             ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
@@ -621,7 +640,7 @@ class PromptsClient:
             method="PATCH",
             url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/",
-                f"prompts/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+                f"v0/evi/prompts/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
             ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
@@ -666,7 +685,7 @@ class AsyncPromptsClient:
         page_size: typing.Optional[int] = None,
         restrict_to_most_recent: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> ReturnPagedPrompts:
+    ) -> AsyncPager[typing.Optional[ReturnPrompt]]:
         """
         Parameters
         ----------
@@ -684,7 +703,7 @@ class AsyncPromptsClient:
 
         Returns
         -------
-        ReturnPagedPrompts
+        AsyncPager[typing.Optional[ReturnPrompt]]
             Success
 
         Examples
@@ -698,7 +717,7 @@ class AsyncPromptsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "prompts"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/evi/prompts"),
             params=jsonable_encoder(
                 remove_none_from_dict(
                     {
@@ -728,7 +747,16 @@ class AsyncPromptsClient:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(ReturnPagedPrompts, _response.json())  # type: ignore
+            _parsed_response = pydantic_v1.parse_obj_as(ReturnPagedPrompts, _response.json())  # type: ignore
+            _has_next = True
+            _get_next = lambda: self.list_prompts(
+                page_number=page_number + 1 if page_number is not None else 1,
+                page_size=page_size,
+                restrict_to_most_recent=restrict_to_most_recent,
+                request_options=request_options,
+            )
+            _items = _parsed_response.prompts_page
+            return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next)
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -780,7 +808,7 @@ class AsyncPromptsClient:
             _request["version_description"] = version_description
         _response = await self._client_wrapper.httpx_client.request(
             method="POST",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "prompts"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/evi/prompts"),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -825,6 +853,7 @@ class AsyncPromptsClient:
         Parameters
         ----------
         id : str
+            Identifier for a tool. Formatted as a UUID.
 
         page_number : typing.Optional[int]
             The page number of the results to return.
@@ -856,7 +885,9 @@ class AsyncPromptsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"prompts/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/evi/prompts/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 remove_none_from_dict(
                     {
@@ -938,7 +969,9 @@ class AsyncPromptsClient:
             _request["version_description"] = version_description
         _response = await self._client_wrapper.httpx_client.request(
             method="POST",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"prompts/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/evi/prompts/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -997,7 +1030,9 @@ class AsyncPromptsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="DELETE",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"prompts/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/evi/prompts/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -1057,7 +1092,9 @@ class AsyncPromptsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="PATCH",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"prompts/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/evi/prompts/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -1125,7 +1162,7 @@ class AsyncPromptsClient:
             method="GET",
             url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/",
-                f"prompts/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+                f"v0/evi/prompts/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
             ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
@@ -1187,7 +1224,7 @@ class AsyncPromptsClient:
             method="DELETE",
             url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/",
-                f"prompts/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+                f"v0/evi/prompts/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
             ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
@@ -1261,7 +1298,7 @@ class AsyncPromptsClient:
             method="PATCH",
             url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/",
-                f"prompts/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+                f"v0/evi/prompts/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
             ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None

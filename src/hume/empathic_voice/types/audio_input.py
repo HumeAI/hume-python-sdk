@@ -18,7 +18,10 @@ class AudioInput(pydantic_v1.BaseModel):
     Base64 encoded audio input.
     """
 
-    type: typing.Literal["audio_input"]
+    type: typing.Literal["audio_input"] = pydantic_v1.Field()
+    """
+    The type of message sent through the socket; for an Audio Input message, this must be 'audio_input'.
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

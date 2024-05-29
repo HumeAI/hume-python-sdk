@@ -5,18 +5,12 @@ import typing
 
 from ...core.datetime_utils import serialize_datetime
 from ...core.pydantic_utilities import deep_union_pydantic_dicts, pydantic_v1
+from .built_in_tool import BuiltInTool
 
 
-class AssistantEnd(pydantic_v1.BaseModel):
-    """
-    When provided, the output is an assistant end message.
-    """
-
-    custom_session_id: typing.Optional[str] = None
-    type: typing.Literal["assistant_end"] = pydantic_v1.Field()
-    """
-    The type of message sent through the socket; for an Assistant End message, this must be 'assistant_end'.
-    """
+class BuiltinToolConfig(pydantic_v1.BaseModel):
+    fallback_content: typing.Optional[str] = None
+    name: BuiltInTool
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

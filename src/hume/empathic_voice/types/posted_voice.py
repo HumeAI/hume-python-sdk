@@ -5,6 +5,7 @@ import typing
 
 from ...core.datetime_utils import serialize_datetime
 from ...core.pydantic_utilities import deep_union_pydantic_dicts, pydantic_v1
+from .posted_voice_name import PostedVoiceName
 
 
 class PostedVoice(pydantic_v1.BaseModel):
@@ -12,12 +13,12 @@ class PostedVoice(pydantic_v1.BaseModel):
     A Voice specification posted to the server
     """
 
-    provider: typing.Optional[str] = pydantic_v1.Field(default=None)
+    provider: typing.Optional[typing.Literal["HUME_AI"]] = pydantic_v1.Field(default=None)
     """
-    The provider of the voice to use. Based on the enum VoiceProvider.
+    The provider of the voice to use.
     """
 
-    name: str = pydantic_v1.Field()
+    name: PostedVoiceName = pydantic_v1.Field()
     """
     String with the name of the voice to use.
     """

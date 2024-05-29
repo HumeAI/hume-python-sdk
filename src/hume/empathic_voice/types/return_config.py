@@ -9,6 +9,7 @@ from .return_builtin_tool import ReturnBuiltinTool
 from .return_language_model import ReturnLanguageModel
 from .return_prompt import ReturnPrompt
 from .return_user_defined_tool import ReturnUserDefinedTool
+from .return_voice import ReturnVoice
 
 
 class ReturnConfig(pydantic_v1.BaseModel):
@@ -47,6 +48,7 @@ class ReturnConfig(pydantic_v1.BaseModel):
     """
 
     prompt: typing.Optional[ReturnPrompt] = None
+    voice: typing.Optional[ReturnVoice] = None
     language_model: typing.Optional[ReturnLanguageModel] = None
     tools: typing.Optional[typing.List[typing.Optional[ReturnUserDefinedTool]]] = pydantic_v1.Field(default=None)
     """

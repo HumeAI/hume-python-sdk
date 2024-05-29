@@ -7,15 +7,15 @@ from ...core.datetime_utils import serialize_datetime
 from ...core.pydantic_utilities import deep_union_pydantic_dicts, pydantic_v1
 
 
-class AssistantEnd(pydantic_v1.BaseModel):
+class ResumeAssistantMessage(pydantic_v1.BaseModel):
     """
-    When provided, the output is an assistant end message.
+    Resume responses from EVI. Chat history sent while paused will now be sent.
     """
 
     custom_session_id: typing.Optional[str] = None
-    type: typing.Literal["assistant_end"] = pydantic_v1.Field()
+    type: typing.Optional[typing.Literal["resume_assistant_message"]] = pydantic_v1.Field(default=None)
     """
-    The type of message sent through the socket; for an Assistant End message, this must be 'assistant_end'.
+    The type of message sent through the socket; for a Resume Assistant message, this must be 'resume_assistant_message'.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

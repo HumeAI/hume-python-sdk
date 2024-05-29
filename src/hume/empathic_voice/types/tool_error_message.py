@@ -6,6 +6,7 @@ import typing
 from ...core.datetime_utils import serialize_datetime
 from ...core.pydantic_utilities import deep_union_pydantic_dicts, pydantic_v1
 from .error_level import ErrorLevel
+from .tool_type import ToolType
 
 
 class ToolErrorMessage(pydantic_v1.BaseModel):
@@ -13,25 +14,25 @@ class ToolErrorMessage(pydantic_v1.BaseModel):
     When provided, the output is a function call error.
     """
 
-    type: typing.Literal["tool_error"]
+    code: typing.Optional[str] = None
+    content: typing.Optional[str] = None
     custom_session_id: typing.Optional[str] = None
-    tool_call_id: str = pydantic_v1.Field()
-    """
-    ID of the tool call.
-    """
-
-    content: str = pydantic_v1.Field()
-    """
-    The content passed to the LLM in place of the tool response.
-    """
-
     error: str = pydantic_v1.Field()
     """
     Error message from the tool call, not exposed to the LLM or user.
     """
 
-    code: typing.Optional[str] = None
     level: typing.Optional[ErrorLevel] = None
+    tool_call_id: str = pydantic_v1.Field()
+    """
+    ID of the tool call.
+    """
+
+    tool_type: typing.Optional[ToolType] = None
+    type: typing.Optional[typing.Literal["tool_error"]] = pydantic_v1.Field(default=None)
+    """
+    The type of message sent through the socket; for a Tool Error message, this must be 'tool_error'.
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

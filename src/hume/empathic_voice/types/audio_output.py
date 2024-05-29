@@ -23,7 +23,10 @@ class AudioOutput(pydantic_v1.BaseModel):
     ID of the audio output.
     """
 
-    type: typing.Literal["audio_output"]
+    type: typing.Literal["audio_output"] = pydantic_v1.Field()
+    """
+    The type of message sent through the socket; for an Audio Output message, this must be 'audio_output'.
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

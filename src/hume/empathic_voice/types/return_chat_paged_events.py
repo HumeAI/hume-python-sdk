@@ -9,7 +9,7 @@ from .return_chat_event import ReturnChatEvent
 from .return_config_spec import ReturnConfigSpec
 
 
-class ReturnChatWithPagedEvents(pydantic_v1.BaseModel):
+class ReturnChatPagedEvents(pydantic_v1.BaseModel):
     """
     A description of chat status with a paginated list of chat events returned from the server
     """

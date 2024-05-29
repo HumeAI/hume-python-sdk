@@ -9,23 +9,22 @@ from .tool_type import ToolType
 
 
 class Tool(pydantic_v1.BaseModel):
-    type: ToolType = pydantic_v1.Field()
-    """
-    Type of tool.
-    """
-
+    description: typing.Optional[str] = None
+    fallback_content: typing.Optional[str] = None
     name: str = pydantic_v1.Field()
     """
-    Name of the function.
+    Name of the tool.
     """
 
     parameters: str = pydantic_v1.Field()
     """
-    Parameters of the function. Is a stringified JSON schema.
+    Parameters of the tool. Is a stringified JSON schema.
     """
 
-    description: typing.Optional[str] = None
-    fallback_content: typing.Optional[str] = None
+    type: ToolType = pydantic_v1.Field()
+    """
+    Type of tool.
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

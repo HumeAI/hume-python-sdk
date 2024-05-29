@@ -8,11 +8,13 @@ from ... import core
 from ...core.api_error import ApiError
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.jsonable_encoder import jsonable_encoder
+from ...core.pagination import AsyncPager, SyncPager
 from ...core.pydantic_utilities import pydantic_v1
 from ...core.remove_none_from_dict import remove_none_from_dict
 from ...core.request_options import RequestOptions
 from ..types.dataset_labels import DatasetLabels
 from ..types.dataset_page import DatasetPage
+from ..types.dataset_version import DatasetVersion
 from ..types.dataset_version_page import DatasetVersionPage
 from ..types.file_page import FilePage
 from ..types.return_dataset import ReturnDataset
@@ -33,7 +35,7 @@ class DatasetsClient:
         page_size: typing.Optional[int] = None,
         shared_assets: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> DatasetPage:
+    ) -> SyncPager[typing.List[ReturnDataset]]:
         """
         Returns 200 if successful
 
@@ -56,7 +58,7 @@ class DatasetsClient:
 
         Returns
         -------
-        DatasetPage
+        SyncPager[typing.List[ReturnDataset]]
             Success
 
         Examples
@@ -70,7 +72,7 @@ class DatasetsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "datasets"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/registry/datasets"),
             params=jsonable_encoder(
                 remove_none_from_dict(
                     {
@@ -101,7 +103,17 @@ class DatasetsClient:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(DatasetPage, _response.json())  # type: ignore
+            _parsed_response = pydantic_v1.parse_obj_as(DatasetPage, _response.json())  # type: ignore
+            _has_next = True
+            _get_next = lambda: self.list_datasets(
+                name=name,
+                page_number=page_number + 1 if page_number is not None else 1,
+                page_size=page_size,
+                shared_assets=shared_assets,
+                request_options=request_options,
+            )
+            _items = _parsed_response.content
+            return SyncPager(has_next=_has_next, items=_items, get_next=_get_next)
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -151,7 +163,7 @@ class DatasetsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             method="POST",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "datasets"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/registry/datasets"),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -216,7 +228,9 @@ class DatasetsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"datasets/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/registry/datasets/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -285,7 +299,9 @@ class DatasetsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             method="POST",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"datasets/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/registry/datasets/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -349,7 +365,9 @@ class DatasetsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             method="DELETE",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"datasets/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/registry/datasets/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -383,7 +401,7 @@ class DatasetsClient:
         page_size: typing.Optional[int] = None,
         shared_assets: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> DatasetVersionPage:
+    ) -> SyncPager[typing.List[DatasetVersion]]:
         """
         Returns 200 if successful
 
@@ -406,7 +424,7 @@ class DatasetsClient:
 
         Returns
         -------
-        DatasetVersionPage
+        SyncPager[typing.List[DatasetVersion]]
             Success
 
         Examples
@@ -423,7 +441,7 @@ class DatasetsClient:
         _response = self._client_wrapper.httpx_client.request(
             method="GET",
             url=urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"datasets/{jsonable_encoder(id)}/versions"
+                f"{self._client_wrapper.get_base_url()}/", f"v0/registry/datasets/{jsonable_encoder(id)}/versions"
             ),
             params=jsonable_encoder(
                 remove_none_from_dict(
@@ -454,7 +472,17 @@ class DatasetsClient:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(DatasetVersionPage, _response.json())  # type: ignore
+            _parsed_response = pydantic_v1.parse_obj_as(DatasetVersionPage, _response.json())  # type: ignore
+            _has_next = True
+            _get_next = lambda: self.list_dataset_versions(
+                id,
+                page_number=page_number + 1 if page_number is not None else 1,
+                page_size=page_size,
+                shared_assets=shared_assets,
+                request_options=request_options,
+            )
+            _items = _parsed_response.content
+            return SyncPager(has_next=_has_next, items=_items, get_next=_get_next)
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -509,7 +537,7 @@ class DatasetsClient:
         _response = self._client_wrapper.httpx_client.request(
             method="GET",
             url=urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"datasets/{jsonable_encoder(id)}/files"
+                f"{self._client_wrapper.get_base_url()}/", f"v0/registry/datasets/{jsonable_encoder(id)}/files"
             ),
             params=jsonable_encoder(
                 remove_none_from_dict(
@@ -578,7 +606,7 @@ class DatasetsClient:
         _response = self._client_wrapper.httpx_client.request(
             method="GET",
             url=urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"datasets/version/{jsonable_encoder(id)}"
+                f"{self._client_wrapper.get_base_url()}/", f"v0/registry/datasets/version/{jsonable_encoder(id)}"
             ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
@@ -653,7 +681,7 @@ class DatasetsClient:
         _response = self._client_wrapper.httpx_client.request(
             method="GET",
             url=urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"datasets/version/{jsonable_encoder(id)}/files"
+                f"{self._client_wrapper.get_base_url()}/", f"v0/registry/datasets/version/{jsonable_encoder(id)}/files"
             ),
             params=jsonable_encoder(
                 remove_none_from_dict(
@@ -704,7 +732,7 @@ class AsyncDatasetsClient:
         page_size: typing.Optional[int] = None,
         shared_assets: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> DatasetPage:
+    ) -> AsyncPager[typing.List[ReturnDataset]]:
         """
         Returns 200 if successful
 
@@ -727,7 +755,7 @@ class AsyncDatasetsClient:
 
         Returns
         -------
-        DatasetPage
+        AsyncPager[typing.List[ReturnDataset]]
             Success
 
         Examples
@@ -741,7 +769,7 @@ class AsyncDatasetsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "datasets"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/registry/datasets"),
             params=jsonable_encoder(
                 remove_none_from_dict(
                     {
@@ -772,7 +800,17 @@ class AsyncDatasetsClient:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(DatasetPage, _response.json())  # type: ignore
+            _parsed_response = pydantic_v1.parse_obj_as(DatasetPage, _response.json())  # type: ignore
+            _has_next = True
+            _get_next = lambda: self.list_datasets(
+                name=name,
+                page_number=page_number + 1 if page_number is not None else 1,
+                page_size=page_size,
+                shared_assets=shared_assets,
+                request_options=request_options,
+            )
+            _items = _parsed_response.content
+            return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next)
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -822,7 +860,7 @@ class AsyncDatasetsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="POST",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "datasets"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/registry/datasets"),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -887,7 +925,9 @@ class AsyncDatasetsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"datasets/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/registry/datasets/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -956,7 +996,9 @@ class AsyncDatasetsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="POST",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"datasets/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/registry/datasets/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -1020,7 +1062,9 @@ class AsyncDatasetsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="DELETE",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"datasets/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/registry/datasets/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -1054,7 +1098,7 @@ class AsyncDatasetsClient:
         page_size: typing.Optional[int] = None,
         shared_assets: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> DatasetVersionPage:
+    ) -> AsyncPager[typing.List[DatasetVersion]]:
         """
         Returns 200 if successful
 
@@ -1077,7 +1121,7 @@ class AsyncDatasetsClient:
 
         Returns
         -------
-        DatasetVersionPage
+        AsyncPager[typing.List[DatasetVersion]]
             Success
 
         Examples
@@ -1094,7 +1138,7 @@ class AsyncDatasetsClient:
         _response = await self._client_wrapper.httpx_client.request(
             method="GET",
             url=urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"datasets/{jsonable_encoder(id)}/versions"
+                f"{self._client_wrapper.get_base_url()}/", f"v0/registry/datasets/{jsonable_encoder(id)}/versions"
             ),
             params=jsonable_encoder(
                 remove_none_from_dict(
@@ -1125,7 +1169,17 @@ class AsyncDatasetsClient:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(DatasetVersionPage, _response.json())  # type: ignore
+            _parsed_response = pydantic_v1.parse_obj_as(DatasetVersionPage, _response.json())  # type: ignore
+            _has_next = True
+            _get_next = lambda: self.list_dataset_versions(
+                id,
+                page_number=page_number + 1 if page_number is not None else 1,
+                page_size=page_size,
+                shared_assets=shared_assets,
+                request_options=request_options,
+            )
+            _items = _parsed_response.content
+            return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next)
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -1180,7 +1234,7 @@ class AsyncDatasetsClient:
         _response = await self._client_wrapper.httpx_client.request(
             method="GET",
             url=urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"datasets/{jsonable_encoder(id)}/files"
+                f"{self._client_wrapper.get_base_url()}/", f"v0/registry/datasets/{jsonable_encoder(id)}/files"
             ),
             params=jsonable_encoder(
                 remove_none_from_dict(
@@ -1251,7 +1305,7 @@ class AsyncDatasetsClient:
         _response = await self._client_wrapper.httpx_client.request(
             method="GET",
             url=urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"datasets/version/{jsonable_encoder(id)}"
+                f"{self._client_wrapper.get_base_url()}/", f"v0/registry/datasets/version/{jsonable_encoder(id)}"
             ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
@@ -1326,7 +1380,7 @@ class AsyncDatasetsClient:
         _response = await self._client_wrapper.httpx_client.request(
             method="GET",
             url=urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"datasets/version/{jsonable_encoder(id)}/files"
+                f"{self._client_wrapper.get_base_url()}/", f"v0/registry/datasets/version/{jsonable_encoder(id)}/files"
             ),
             params=jsonable_encoder(
                 remove_none_from_dict(

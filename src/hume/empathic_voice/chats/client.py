@@ -10,7 +10,7 @@ from ...core.jsonable_encoder import jsonable_encoder
 from ...core.pydantic_utilities import pydantic_v1
 from ...core.remove_none_from_dict import remove_none_from_dict
 from ...core.request_options import RequestOptions
-from ..types.return_chat_with_paged_events import ReturnChatWithPagedEvents
+from ..types.return_chat_paged_events import ReturnChatPagedEvents
 from ..types.return_paged_chats import ReturnPagedChats
 
 
@@ -53,7 +53,7 @@ class ChatsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "chats"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/evi/chats"),
             params=jsonable_encoder(
                 remove_none_from_dict(
                     {
@@ -96,7 +96,7 @@ class ChatsClient:
         page_size: typing.Optional[int] = None,
         page_number: typing.Optional[int] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> ReturnChatWithPagedEvents:
+    ) -> ReturnChatPagedEvents:
         """
         Parameters
         ----------
@@ -114,7 +114,7 @@ class ChatsClient:
 
         Returns
         -------
-        ReturnChatWithPagedEvents
+        ReturnChatPagedEvents
             Success
 
         Examples
@@ -130,7 +130,7 @@ class ChatsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"chats/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"v0/evi/chats/{jsonable_encoder(id)}"),
             params=jsonable_encoder(
                 remove_none_from_dict(
                     {
@@ -159,7 +159,7 @@ class ChatsClient:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(ReturnChatWithPagedEvents, _response.json())  # type: ignore
+            return pydantic_v1.parse_obj_as(ReturnChatPagedEvents, _response.json())  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -206,7 +206,7 @@ class AsyncChatsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "chats"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/evi/chats"),
             params=jsonable_encoder(
                 remove_none_from_dict(
                     {
@@ -249,7 +249,7 @@ class AsyncChatsClient:
         page_size: typing.Optional[int] = None,
         page_number: typing.Optional[int] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> ReturnChatWithPagedEvents:
+    ) -> ReturnChatPagedEvents:
         """
         Parameters
         ----------
@@ -267,7 +267,7 @@ class AsyncChatsClient:
 
         Returns
         -------
-        ReturnChatWithPagedEvents
+        ReturnChatPagedEvents
             Success
 
         Examples
@@ -283,7 +283,7 @@ class AsyncChatsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"chats/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"v0/evi/chats/{jsonable_encoder(id)}"),
             params=jsonable_encoder(
                 remove_none_from_dict(
                     {
@@ -312,7 +312,7 @@ class AsyncChatsClient:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(ReturnChatWithPagedEvents, _response.json())  # type: ignore
+            return pydantic_v1.parse_obj_as(ReturnChatPagedEvents, _response.json())  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:

@@ -7,6 +7,7 @@ from json.decoder import JSONDecodeError
 from ...core.api_error import ApiError
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.jsonable_encoder import jsonable_encoder
+from ...core.pagination import AsyncPager, SyncPager
 from ...core.pydantic_utilities import pydantic_v1
 from ...core.remove_none_from_dict import remove_none_from_dict
 from ...core.request_options import RequestOptions
@@ -30,7 +31,7 @@ class ModelsClient:
         page_size: typing.Optional[int] = None,
         shared_assets: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> ModelPage:
+    ) -> SyncPager[typing.List[ExternalModel]]:
         """
         Returns 200 if successful
 
@@ -53,7 +54,7 @@ class ModelsClient:
 
         Returns
         -------
-        ModelPage
+        SyncPager[typing.List[ExternalModel]]
             Success
 
         Examples
@@ -67,7 +68,7 @@ class ModelsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "models"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/registry/models"),
             params=jsonable_encoder(
                 remove_none_from_dict(
                     {
@@ -98,7 +99,17 @@ class ModelsClient:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(ModelPage, _response.json())  # type: ignore
+            _parsed_response = pydantic_v1.parse_obj_as(ModelPage, _response.json())  # type: ignore
+            _has_next = True
+            _get_next = lambda: self.list_models(
+                name=name,
+                page_number=page_number + 1 if page_number is not None else 1,
+                page_size=page_size,
+                shared_assets=shared_assets,
+                request_options=request_options,
+            )
+            _items = _parsed_response.content
+            return SyncPager(has_next=_has_next, items=_items, get_next=_get_next)
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -135,7 +146,9 @@ class ModelsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"models/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/registry/models/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -197,7 +210,9 @@ class ModelsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             method="PATCH",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"models/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/registry/models/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 remove_none_from_dict(
                     {
@@ -280,7 +295,7 @@ class ModelsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "models/version"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/registry/models/version"),
             params=jsonable_encoder(
                 remove_none_from_dict(
                     {
@@ -358,7 +373,7 @@ class ModelsClient:
         _response = self._client_wrapper.httpx_client.request(
             method="GET",
             url=urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"models/version/{jsonable_encoder(id)}"
+                f"{self._client_wrapper.get_base_url()}/", f"v0/registry/models/version/{jsonable_encoder(id)}"
             ),
             params=jsonable_encoder(
                 remove_none_from_dict(
@@ -430,7 +445,7 @@ class ModelsClient:
         _response = self._client_wrapper.httpx_client.request(
             method="PATCH",
             url=urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"models/version/{jsonable_encoder(id)}"
+                f"{self._client_wrapper.get_base_url()}/", f"v0/registry/models/version/{jsonable_encoder(id)}"
             ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
@@ -471,7 +486,7 @@ class AsyncModelsClient:
         page_size: typing.Optional[int] = None,
         shared_assets: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> ModelPage:
+    ) -> AsyncPager[typing.List[ExternalModel]]:
         """
         Returns 200 if successful
 
@@ -494,7 +509,7 @@ class AsyncModelsClient:
 
         Returns
         -------
-        ModelPage
+        AsyncPager[typing.List[ExternalModel]]
             Success
 
         Examples
@@ -508,7 +523,7 @@ class AsyncModelsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "models"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/registry/models"),
             params=jsonable_encoder(
                 remove_none_from_dict(
                     {
@@ -539,7 +554,17 @@ class AsyncModelsClient:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(ModelPage, _response.json())  # type: ignore
+            _parsed_response = pydantic_v1.parse_obj_as(ModelPage, _response.json())  # type: ignore
+            _has_next = True
+            _get_next = lambda: self.list_models(
+                name=name,
+                page_number=page_number + 1 if page_number is not None else 1,
+                page_size=page_size,
+                shared_assets=shared_assets,
+                request_options=request_options,
+            )
+            _items = _parsed_response.content
+            return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next)
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -578,7 +603,9 @@ class AsyncModelsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"models/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/registry/models/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -640,7 +667,9 @@ class AsyncModelsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="PATCH",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"models/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/registry/models/{jsonable_encoder(id)}"
+            ),
             params=jsonable_encoder(
                 remove_none_from_dict(
                     {
@@ -723,7 +752,7 @@ class AsyncModelsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "models/version"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/registry/models/version"),
             params=jsonable_encoder(
                 remove_none_from_dict(
                     {
@@ -801,7 +830,7 @@ class AsyncModelsClient:
         _response = await self._client_wrapper.httpx_client.request(
             method="GET",
             url=urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"models/version/{jsonable_encoder(id)}"
+                f"{self._client_wrapper.get_base_url()}/", f"v0/registry/models/version/{jsonable_encoder(id)}"
             ),
             params=jsonable_encoder(
                 remove_none_from_dict(
@@ -873,7 +902,7 @@ class AsyncModelsClient:
         _response = await self._client_wrapper.httpx_client.request(
             method="PATCH",
             url=urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"models/version/{jsonable_encoder(id)}"
+                f"{self._client_wrapper.get_base_url()}/", f"v0/registry/models/version/{jsonable_encoder(id)}"
             ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None

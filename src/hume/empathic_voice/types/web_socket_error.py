@@ -28,7 +28,10 @@ class WebSocketError(pydantic_v1.BaseModel):
     Error slug.
     """
 
-    type: typing.Literal["error"]
+    type: typing.Literal["error"] = pydantic_v1.Field()
+    """
+    The type of message sent through the socket; for a Web Socket Error message, this must be 'error'.
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

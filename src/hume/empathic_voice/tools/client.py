@@ -64,7 +64,7 @@ class ToolsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "tools"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/evi/tools"),
             params=jsonable_encoder(
                 remove_none_from_dict(
                     {
@@ -170,7 +170,7 @@ class ToolsClient:
             _request["fallback_content"] = fallback_content
         _response = self._client_wrapper.httpx_client.request(
             method="POST",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "tools"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/evi/tools"),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -215,6 +215,7 @@ class ToolsClient:
         Parameters
         ----------
         id : str
+            Identifier for a tool. Formatted as a UUID.
 
         page_number : typing.Optional[int]
             The page number of the results to return.
@@ -246,7 +247,7 @@ class ToolsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"tools/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"v0/evi/tools/{jsonable_encoder(id)}"),
             params=jsonable_encoder(
                 remove_none_from_dict(
                     {
@@ -343,7 +344,7 @@ class ToolsClient:
             _request["fallback_content"] = fallback_content
         _response = self._client_wrapper.httpx_client.request(
             method="POST",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"tools/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"v0/evi/tools/{jsonable_encoder(id)}"),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -402,7 +403,7 @@ class ToolsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             method="DELETE",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"tools/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"v0/evi/tools/{jsonable_encoder(id)}"),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -460,7 +461,7 @@ class ToolsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             method="PATCH",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"tools/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"v0/evi/tools/{jsonable_encoder(id)}"),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -528,7 +529,7 @@ class ToolsClient:
             method="GET",
             url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/",
-                f"tools/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+                f"v0/evi/tools/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
             ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
@@ -590,7 +591,7 @@ class ToolsClient:
             method="DELETE",
             url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/",
-                f"tools/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+                f"v0/evi/tools/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
             ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
@@ -665,7 +666,7 @@ class ToolsClient:
             method="PATCH",
             url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/",
-                f"tools/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+                f"v0/evi/tools/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
             ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
@@ -745,7 +746,7 @@ class AsyncToolsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "tools"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/evi/tools"),
             params=jsonable_encoder(
                 remove_none_from_dict(
                     {
@@ -851,7 +852,7 @@ class AsyncToolsClient:
             _request["fallback_content"] = fallback_content
         _response = await self._client_wrapper.httpx_client.request(
             method="POST",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "tools"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/evi/tools"),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -896,6 +897,7 @@ class AsyncToolsClient:
         Parameters
         ----------
         id : str
+            Identifier for a tool. Formatted as a UUID.
 
         page_number : typing.Optional[int]
             The page number of the results to return.
@@ -927,7 +929,7 @@ class AsyncToolsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"tools/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"v0/evi/tools/{jsonable_encoder(id)}"),
             params=jsonable_encoder(
                 remove_none_from_dict(
                     {
@@ -1024,7 +1026,7 @@ class AsyncToolsClient:
             _request["fallback_content"] = fallback_content
         _response = await self._client_wrapper.httpx_client.request(
             method="POST",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"tools/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"v0/evi/tools/{jsonable_encoder(id)}"),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -1083,7 +1085,7 @@ class AsyncToolsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="DELETE",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"tools/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"v0/evi/tools/{jsonable_encoder(id)}"),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -1143,7 +1145,7 @@ class AsyncToolsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="PATCH",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"tools/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"v0/evi/tools/{jsonable_encoder(id)}"),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -1211,7 +1213,7 @@ class AsyncToolsClient:
             method="GET",
             url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/",
-                f"tools/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+                f"v0/evi/tools/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
             ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
@@ -1273,7 +1275,7 @@ class AsyncToolsClient:
             method="DELETE",
             url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/",
-                f"tools/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+                f"v0/evi/tools/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
             ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
@@ -1348,7 +1350,7 @@ class AsyncToolsClient:
             method="PATCH",
             url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/",
-                f"tools/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+                f"v0/evi/tools/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
             ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None

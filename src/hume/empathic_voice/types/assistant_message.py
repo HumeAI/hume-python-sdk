@@ -35,7 +35,10 @@ class AssistantMessage(pydantic_v1.BaseModel):
     Inference model results.
     """
 
-    type: typing.Literal["assistant_message"]
+    type: typing.Literal["assistant_message"] = pydantic_v1.Field()
+    """
+    The type of message sent through the socket; for an Assistant Message message, this must be 'assistant_message'.
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

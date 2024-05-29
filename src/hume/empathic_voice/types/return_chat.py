@@ -38,6 +38,11 @@ class ReturnChat(pydantic_v1.BaseModel):
     The timestamp when the chat ended, formatted as a Unix epoch milliseconds.
     """
 
+    event_count: typing.Optional[int] = pydantic_v1.Field(default=None)
+    """
+    The total number of events currently in this chat.
+    """
+
     metadata: typing.Optional[str] = pydantic_v1.Field(default=None)
     """
     Stringified JSON with additional metadata about the chat.

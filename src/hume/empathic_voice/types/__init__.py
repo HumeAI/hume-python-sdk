@@ -6,27 +6,34 @@ from .assistant_message import AssistantMessage
 from .audio_configuration import AudioConfiguration
 from .audio_input import AudioInput
 from .audio_output import AudioOutput
+from .built_in_tool import BuiltInTool
+from .builtin_tool_config import BuiltinToolConfig
 from .chat_message import ChatMessage
 from .chat_message_tool_result import ChatMessageToolResult
+from .context import Context
+from .context_type import ContextType
 from .emotion_scores import EmotionScores
 from .encoding import Encoding
 from .error_level import ErrorLevel
 from .function_call_response_input import FunctionCallResponseInput
 from .inference import Inference
 from .millisecond_interval import MillisecondInterval
+from .pause_assistant_message import PauseAssistantMessage
 from .posted_builtin_tool import PostedBuiltinTool
 from .posted_language_model import PostedLanguageModel
 from .posted_language_model_model_provider import PostedLanguageModelModelProvider
 from .posted_prompt_spec import PostedPromptSpec
 from .posted_user_defined_tool_spec import PostedUserDefinedToolSpec
 from .posted_voice import PostedVoice
+from .posted_voice_name import PostedVoiceName
 from .prosody_inference import ProsodyInference
+from .resume_assistant_message import ResumeAssistantMessage
 from .return_active_chat_count import ReturnActiveChatCount
 from .return_active_chat_count_per_tag import ReturnActiveChatCountPerTag
 from .return_builtin_tool import ReturnBuiltinTool
 from .return_chat import ReturnChat
 from .return_chat_event import ReturnChatEvent
-from .return_chat_with_paged_events import ReturnChatWithPagedEvents
+from .return_chat_paged_events import ReturnChatPagedEvents
 from .return_config import ReturnConfig
 from .return_config_spec import ReturnConfigSpec
 from .return_language_model import ReturnLanguageModel
@@ -58,27 +65,34 @@ __all__ = [
     "AudioConfiguration",
     "AudioInput",
     "AudioOutput",
+    "BuiltInTool",
+    "BuiltinToolConfig",
     "ChatMessage",
     "ChatMessageToolResult",
+    "Context",
+    "ContextType",
     "EmotionScores",
     "Encoding",
     "ErrorLevel",
     "FunctionCallResponseInput",
     "Inference",
     "MillisecondInterval",
+    "PauseAssistantMessage",
     "PostedBuiltinTool",
     "PostedLanguageModel",
     "PostedLanguageModelModelProvider",
     "PostedPromptSpec",
     "PostedUserDefinedToolSpec",
     "PostedVoice",
+    "PostedVoiceName",
     "ProsodyInference",
+    "ResumeAssistantMessage",
     "ReturnActiveChatCount",
     "ReturnActiveChatCountPerTag",
     "ReturnBuiltinTool",
     "ReturnChat",
     "ReturnChatEvent",
-    "ReturnChatWithPagedEvents",
+    "ReturnChatPagedEvents",
     "ReturnConfig",
     "ReturnConfigSpec",
     "ReturnLanguageModel",

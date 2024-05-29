@@ -13,8 +13,15 @@ class UserInterruption(pydantic_v1.BaseModel):
     """
 
     custom_session_id: typing.Optional[str] = None
-    time: int
-    type: typing.Literal["user_interruption"]
+    time: int = pydantic_v1.Field()
+    """
+    Unix timestamp of the detected user interruption.
+    """
+
+    type: typing.Literal["user_interruption"] = pydantic_v1.Field()
+    """
+    The type of message sent through the socket; for a User Interruption message, this must be 'user_interruption'.
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

@@ -5,6 +5,7 @@ import typing
 
 from ...core.datetime_utils import serialize_datetime
 from ...core.pydantic_utilities import deep_union_pydantic_dicts, pydantic_v1
+from .tool_type import ToolType
 
 
 class ToolResponseMessage(pydantic_v1.BaseModel):
@@ -12,16 +13,22 @@ class ToolResponseMessage(pydantic_v1.BaseModel):
     When provided, the output is a function call response.
     """
 
-    type: typing.Literal["tool_response"]
+    content: str = pydantic_v1.Field()
+    """
+    Return value of the tool call.
+    """
+
     custom_session_id: typing.Optional[str] = None
     tool_call_id: str = pydantic_v1.Field()
     """
     ID of the tool call.
     """
 
-    content: str = pydantic_v1.Field()
+    tool_name: typing.Optional[str] = None
+    tool_type: typing.Optional[ToolType] = None
+    type: typing.Optional[typing.Literal["tool_response"]] = pydantic_v1.Field(default=None)
     """
-    Return value of the tool call.
+    The type of message sent through the socket; for a Tool Response message, this must be ‘tool_response’.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

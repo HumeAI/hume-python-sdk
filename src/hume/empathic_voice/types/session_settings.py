@@ -6,6 +6,7 @@ import typing
 from ...core.datetime_utils import serialize_datetime
 from ...core.pydantic_utilities import deep_union_pydantic_dicts, pydantic_v1
 from .audio_configuration import AudioConfiguration
+from .builtin_tool_config import BuiltinToolConfig
 from .tool import Tool
 
 
@@ -14,12 +15,16 @@ class SessionSettings(pydantic_v1.BaseModel):
     Settings for this chat session.
     """
 
-    custom_session_id: typing.Optional[str] = None
     audio: typing.Optional[AudioConfiguration] = None
+    builtin_tools: typing.Optional[typing.List[BuiltinToolConfig]] = None
+    custom_session_id: typing.Optional[str] = None
     language_model_api_key: typing.Optional[str] = None
     system_prompt: typing.Optional[str] = None
-    type: typing.Literal["session_settings"]
     tools: typing.Optional[typing.List[Tool]] = None
+    type: typing.Literal["session_settings"] = pydantic_v1.Field()
+    """
+    The type of message sent through the socket; for a Session Settings message, this must be 'session_settings'.
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

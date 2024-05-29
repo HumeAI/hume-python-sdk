@@ -18,7 +18,10 @@ class UserInput(pydantic_v1.BaseModel):
     User text to insert into the conversation.
     """
 
-    type: typing.Literal["user_input"]
+    type: typing.Literal["user_input"] = pydantic_v1.Field()
+    """
+    The type of message sent through the socket; for a User Input message, this must be ‘user_input’.
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

@@ -13,6 +13,7 @@ class ToolCallMessage(pydantic_v1.BaseModel):
     When provided, the output is a tool call.
     """
 
+    custom_session_id: typing.Optional[str] = None
     name: str = pydantic_v1.Field()
     """
     Name of the tool called.
@@ -23,21 +24,24 @@ class ToolCallMessage(pydantic_v1.BaseModel):
     Parameters of the tool call. Is a stringified JSON schema.
     """
 
+    response_required: bool = pydantic_v1.Field()
+    """
+    Whether a response is required from the developer.
+    """
+
     tool_call_id: str = pydantic_v1.Field()
     """
     ID of the tool call.
     """
 
-    type: typing.Optional[typing.Literal["tool_call"]] = None
-    custom_session_id: typing.Optional[str] = None
     tool_type: ToolType = pydantic_v1.Field()
     """
     Type of tool called, either 'builtin' or 'function'.
     """
 
-    response_required: bool = pydantic_v1.Field()
+    type: typing.Optional[typing.Literal["tool_call"]] = pydantic_v1.Field(default=None)
     """
-    Whether a response is required from the developer.
+    The type of message sent through the socket; for a Tool Call message, this must be 'tool_call'.
     """
 
     def json(self, **kwargs: typing.Any) -> str:
