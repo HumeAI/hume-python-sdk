@@ -20,7 +20,11 @@ class ChatMixin(ClientBase):
     DEFAULT_MAX_PAYLOAD_SIZE_BYTES: ClassVar[int] = 2**24
 
     @asynccontextmanager
-    async def connect(self, config_id: Optional[str] = None) -> AsyncIterator[VoiceSocket]:
+    async def connect(
+        self,
+        config_id: Optional[str] = None,
+        chat_group_id: Optional[str] = None,
+    ) -> AsyncIterator[VoiceSocket]:
         """Connect to the EVI API.
 
         Args:
@@ -28,9 +32,17 @@ class ChatMixin(ClientBase):
         """
         uri_base = self._build_endpoint("evi", "chat", Protocol.WS)
 
+        if config_id is not None and chat_group_id is not None:
+            raise HumeClientException(
+                "If resuming from a chat_group_id you must not provide a config_id. "
+                "The original config for the chat group will be used automatically."
+            )
+
         params: Dict[str, Any] = {}
         if config_id is not None:
             params["config_id"] = config_id
+        if chat_group_id is not None:
+            params["chat_group_id"] = chat_group_id
 
         encoded_params = urllib.parse.urlencode(params)
         uri = f"{uri_base}?{encoded_params}"
