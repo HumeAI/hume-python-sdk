@@ -1,0 +1,265 @@
+imports:
+  root: __package__.yml
+service:
+  auth: false
+  base-path: ''
+  endpoints:
+    list-prompts:
+      path: /prompts
+      method: GET
+      auth: false
+      display-name: List prompts
+      request:
+        name: PromptsListPromptsRequest
+        query-parameters:
+          page_number:
+            type: optional<integer>
+            docs: The page number of the results to return.
+          page_size:
+            type: optional<integer>
+            docs: The maximum number of results to include per page.
+          restrict_to_most_recent:
+            type: optional<boolean>
+            docs: Only include the most recent version of each prompt in the list.
+      response:
+        docs: Success
+        type: root.ReturnPagedPrompts
+      examples:
+        - response:
+            body:
+              page_number: 1
+              page_size: 1
+              prompts_page:
+                - id: id
+                  version: 1
+                  version_type: version_type
+                  version_description: version_description
+                  name: name
+                  created_on: 1
+                  modified_on: 1
+                  text: text
+    create-prompt:
+      path: /prompts
+      method: POST
+      auth: false
+      display-name: Create prompt
+      request:
+        name: PostedPrompt
+        body:
+          properties:
+            name:
+              type: string
+              docs: Name applied to all versions of a particular Prompt.
+            version_description:
+              type: optional<string>
+              docs: Description that is appended to a specific version of a Prompt.
+            text:
+              type: string
+              docs: Text used for this version of the Prompt.
+      response:
+        docs: Success
+        type: optional<root.ReturnPrompt>
+      examples:
+        - request:
+            name: name
+            text: text
+          response:
+            body:
+              id: id
+              version: 1
+              version_type: version_type
+              version_description: version_description
+              name: name
+              created_on: 1
+              modified_on: 1
+              text: text
+    list-prompt-versions:
+      path: /prompts/{id}
+      method: GET
+      auth: false
+      path-parameters:
+        id:
+          type: string
+          docs: Identifier for a tool. Formatted as a UUID.
+      display-name: List prompt versions
+      request:
+        name: PromptsListPromptVersionsRequest
+        query-parameters:
+          page_number:
+            type: optional<integer>
+            docs: The page number of the results to return.
+          page_size:
+            type: optional<integer>
+            docs: The maximum number of results to include per page.
+          restrict_to_most_recent:
+            type: optional<boolean>
+            docs: Only include the most recent version of each prompt in the list.
+      response:
+        docs: Success
+        type: root.ReturnPagedPrompts
+      examples:
+        - path-parameters:
+            id: id
+          response:
+            body:
+              page_number: 1
+              page_size: 1
+              prompts_page:
+                - id: id
+                  version: 1
+                  version_type: version_type
+                  version_description: version_description
+                  name: name
+                  created_on: 1
+                  modified_on: 1
+                  text: text
+    create-prompt-verison:
+      path: /prompts/{id}
+      method: POST
+      auth: false
+      path-parameters:
+        id:
+          type: string
+          docs: Identifier for a prompt. Formatted as a UUID.
+      display-name: Create prompt version
+      request:
+        name: PostedPromptVersion
+        body:
+          properties:
+            version_description:
+              type: optional<string>
+              docs: Description that is appended to a specific version of a Prompt.
+            text:
+              type: string
+              docs: Text used for this version of the Prompt.
+      response:
+        docs: Success
+        type: optional<root.ReturnPrompt>
+      examples:
+        - path-parameters:
+            id: id
+          request:
+            text: text
+          response:
+            body:
+              id: id
+              version: 1
+              version_type: version_type
+              version_description: version_description
+              name: name
+              created_on: 1
+              modified_on: 1
+              text: text
+    delete-prompt:
+      path: /prompts/{id}
+      method: DELETE
+      auth: false
+      path-parameters:
+        id:
+          type: string
+          docs: Identifier for a prompt. Formatted as a UUID.
+      display-name: Delete prompt
+      examples:
+        - path-parameters:
+            id: id
+    update-prompt-name:
+      path: /prompts/{id}
+      method: PATCH
+      auth: false
+      path-parameters:
+        id:
+          type: string
+          docs: Identifier for a prompt. Formatted as a UUID.
+      display-name: Update prompt name
+      request:
+        name: PostedPromptName
+        body:
+          properties:
+            name:
+              type: string
+              docs: Name applied to all versions of a particular Prompt.
+      response:
+        docs: Success
+        type: text
+    get-prompt-version:
+      path: /prompts/{id}/version/{version}
+      method: GET
+      auth: false
+      path-parameters:
+        id:
+          type: string
+          docs: Identifier for a prompt. Formatted as a UUID.
+        version:
+          type: integer
+          docs: Version number for a prompt. Version numbers should be integers.
+      display-name: Get prompt version
+      response:
+        docs: Success
+        type: optional<root.ReturnPrompt>
+      examples:
+        - path-parameters:
+            id: id
+            version: 1
+          response:
+            body:
+              id: id
+              version: 1
+              version_type: version_type
+              version_description: version_description
+              name: name
+              created_on: 1
+              modified_on: 1
+              text: text
+    delete-prompt-version:
+      path: /prompts/{id}/version/{version}
+      method: DELETE
+      auth: false
+      path-parameters:
+        id:
+          type: string
+          docs: Identifier for a prompt. Formatted as a UUID.
+        version:
+          type: integer
+          docs: Version number for a prompt. Version numbers should be integers.
+      display-name: Delete prompt version
+      examples:
+        - path-parameters:
+            id: id
+            version: 1
+    update-prompt-description:
+      path: /prompts/{id}/version/{version}
+      method: PATCH
+      auth: false
+      path-parameters:
+        id:
+          type: string
+          docs: Identifier for a prompt. Formatted as a UUID.
+        version:
+          type: integer
+          docs: Version number for a prompt. Version numbers should be integers.
+      display-name: Update prompt description
+      request:
+        name: PostedPromptVersionDescription
+        body:
+          properties:
+            version_description:
+              type: optional<string>
+              docs: Description that is appended to a specific version of a Prompt.
+      response:
+        docs: Success
+        type: optional<root.ReturnPrompt>
+      examples:
+        - path-parameters:
+            id: id
+            version: 1
+          request: {}
+          response:
+            body:
+              id: id
+              version: 1
+              version_type: version_type
+              version_description: version_description
+              name: name
+              created_on: 1
+              modified_on: 1
+              text: text

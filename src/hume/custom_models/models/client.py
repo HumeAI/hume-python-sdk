@@ -9,6 +9,7 @@ from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.jsonable_encoder import jsonable_encoder
 from ...core.pagination import AsyncPager, SyncPager
 from ...core.pydantic_utilities import pydantic_v1
+from ...core.query_encoder import encode_query
 from ...core.remove_none_from_dict import remove_none_from_dict
 from ...core.request_options import RequestOptions
 from ..types.external_model import ExternalModel
@@ -31,7 +32,7 @@ class ModelsClient:
         page_size: typing.Optional[int] = None,
         shared_assets: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[typing.List[ExternalModel]]:
+    ) -> SyncPager[ExternalModel]:
         """
         Returns 200 if successful
 
@@ -54,7 +55,7 @@ class ModelsClient:
 
         Returns
         -------
-        SyncPager[typing.List[ExternalModel]]
+        SyncPager[ExternalModel]
             Success
 
         Examples
@@ -69,19 +70,21 @@ class ModelsClient:
         _response = self._client_wrapper.httpx_client.request(
             method="GET",
             url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/registry/models"),
-            params=jsonable_encoder(
-                remove_none_from_dict(
-                    {
-                        "name": name,
-                        "page_number": page_number,
-                        "page_size": page_size,
-                        "shared_assets": shared_assets,
-                        **(
-                            request_options.get("additional_query_parameters", {})
-                            if request_options is not None
-                            else {}
-                        ),
-                    }
+            params=encode_query(
+                jsonable_encoder(
+                    remove_none_from_dict(
+                        {
+                            "name": name,
+                            "page_number": page_number,
+                            "page_size": page_size,
+                            "shared_assets": shared_assets,
+                            **(
+                                request_options.get("additional_query_parameters", {})
+                                if request_options is not None
+                                else {}
+                            ),
+                        }
+                    )
                 )
             ),
             headers=jsonable_encoder(
@@ -149,8 +152,10 @@ class ModelsClient:
             url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/", f"v0/registry/models/{jsonable_encoder(id)}"
             ),
-            params=jsonable_encoder(
-                request_options.get("additional_query_parameters") if request_options is not None else None
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
             ),
             headers=jsonable_encoder(
                 remove_none_from_dict(
@@ -213,16 +218,18 @@ class ModelsClient:
             url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/", f"v0/registry/models/{jsonable_encoder(id)}"
             ),
-            params=jsonable_encoder(
-                remove_none_from_dict(
-                    {
-                        "name": name,
-                        **(
-                            request_options.get("additional_query_parameters", {})
-                            if request_options is not None
-                            else {}
-                        ),
-                    }
+            params=encode_query(
+                jsonable_encoder(
+                    remove_none_from_dict(
+                        {
+                            "name": name,
+                            **(
+                                request_options.get("additional_query_parameters", {})
+                                if request_options is not None
+                                else {}
+                            ),
+                        }
+                    )
                 )
             ),
             json=jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))
@@ -296,19 +303,21 @@ class ModelsClient:
         _response = self._client_wrapper.httpx_client.request(
             method="GET",
             url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/registry/models/version"),
-            params=jsonable_encoder(
-                remove_none_from_dict(
-                    {
-                        "id": id,
-                        "name": name,
-                        "version": version,
-                        "shared_assets": shared_assets,
-                        **(
-                            request_options.get("additional_query_parameters", {})
-                            if request_options is not None
-                            else {}
-                        ),
-                    }
+            params=encode_query(
+                jsonable_encoder(
+                    remove_none_from_dict(
+                        {
+                            "id": id,
+                            "name": name,
+                            "version": version,
+                            "shared_assets": shared_assets,
+                            **(
+                                request_options.get("additional_query_parameters", {})
+                                if request_options is not None
+                                else {}
+                            ),
+                        }
+                    )
                 )
             ),
             headers=jsonable_encoder(
@@ -375,16 +384,18 @@ class ModelsClient:
             url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/", f"v0/registry/models/version/{jsonable_encoder(id)}"
             ),
-            params=jsonable_encoder(
-                remove_none_from_dict(
-                    {
-                        "shared_assets": shared_assets,
-                        **(
-                            request_options.get("additional_query_parameters", {})
-                            if request_options is not None
-                            else {}
-                        ),
-                    }
+            params=encode_query(
+                jsonable_encoder(
+                    remove_none_from_dict(
+                        {
+                            "shared_assets": shared_assets,
+                            **(
+                                request_options.get("additional_query_parameters", {})
+                                if request_options is not None
+                                else {}
+                            ),
+                        }
+                    )
                 )
             ),
             headers=jsonable_encoder(
@@ -447,8 +458,10 @@ class ModelsClient:
             url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/", f"v0/registry/models/version/{jsonable_encoder(id)}"
             ),
-            params=jsonable_encoder(
-                request_options.get("additional_query_parameters") if request_options is not None else None
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
             ),
             json=jsonable_encoder(request),
             headers=jsonable_encoder(
@@ -486,7 +499,7 @@ class AsyncModelsClient:
         page_size: typing.Optional[int] = None,
         shared_assets: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[typing.List[ExternalModel]]:
+    ) -> AsyncPager[ExternalModel]:
         """
         Returns 200 if successful
 
@@ -509,7 +522,7 @@ class AsyncModelsClient:
 
         Returns
         -------
-        AsyncPager[typing.List[ExternalModel]]
+        AsyncPager[ExternalModel]
             Success
 
         Examples
@@ -524,19 +537,21 @@ class AsyncModelsClient:
         _response = await self._client_wrapper.httpx_client.request(
             method="GET",
             url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/registry/models"),
-            params=jsonable_encoder(
-                remove_none_from_dict(
-                    {
-                        "name": name,
-                        "page_number": page_number,
-                        "page_size": page_size,
-                        "shared_assets": shared_assets,
-                        **(
-                            request_options.get("additional_query_parameters", {})
-                            if request_options is not None
-                            else {}
-                        ),
-                    }
+            params=encode_query(
+                jsonable_encoder(
+                    remove_none_from_dict(
+                        {
+                            "name": name,
+                            "page_number": page_number,
+                            "page_size": page_size,
+                            "shared_assets": shared_assets,
+                            **(
+                                request_options.get("additional_query_parameters", {})
+                                if request_options is not None
+                                else {}
+                            ),
+                        }
+                    )
                 )
             ),
             headers=jsonable_encoder(
@@ -606,8 +621,10 @@ class AsyncModelsClient:
             url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/", f"v0/registry/models/{jsonable_encoder(id)}"
             ),
-            params=jsonable_encoder(
-                request_options.get("additional_query_parameters") if request_options is not None else None
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
             ),
             headers=jsonable_encoder(
                 remove_none_from_dict(
@@ -670,16 +687,18 @@ class AsyncModelsClient:
             url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/", f"v0/registry/models/{jsonable_encoder(id)}"
             ),
-            params=jsonable_encoder(
-                remove_none_from_dict(
-                    {
-                        "name": name,
-                        **(
-                            request_options.get("additional_query_parameters", {})
-                            if request_options is not None
-                            else {}
-                        ),
-                    }
+            params=encode_query(
+                jsonable_encoder(
+                    remove_none_from_dict(
+                        {
+                            "name": name,
+                            **(
+                                request_options.get("additional_query_parameters", {})
+                                if request_options is not None
+                                else {}
+                            ),
+                        }
+                    )
                 )
             ),
             json=jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))
@@ -753,19 +772,21 @@ class AsyncModelsClient:
         _response = await self._client_wrapper.httpx_client.request(
             method="GET",
             url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/registry/models/version"),
-            params=jsonable_encoder(
-                remove_none_from_dict(
-                    {
-                        "id": id,
-                        "name": name,
-                        "version": version,
-                        "shared_assets": shared_assets,
-                        **(
-                            request_options.get("additional_query_parameters", {})
-                            if request_options is not None
-                            else {}
-                        ),
-                    }
+            params=encode_query(
+                jsonable_encoder(
+                    remove_none_from_dict(
+                        {
+                            "id": id,
+                            "name": name,
+                            "version": version,
+                            "shared_assets": shared_assets,
+                            **(
+                                request_options.get("additional_query_parameters", {})
+                                if request_options is not None
+                                else {}
+                            ),
+                        }
+                    )
                 )
             ),
             headers=jsonable_encoder(
@@ -832,16 +853,18 @@ class AsyncModelsClient:
             url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/", f"v0/registry/models/version/{jsonable_encoder(id)}"
             ),
-            params=jsonable_encoder(
-                remove_none_from_dict(
-                    {
-                        "shared_assets": shared_assets,
-                        **(
-                            request_options.get("additional_query_parameters", {})
-                            if request_options is not None
-                            else {}
-                        ),
-                    }
+            params=encode_query(
+                jsonable_encoder(
+                    remove_none_from_dict(
+                        {
+                            "shared_assets": shared_assets,
+                            **(
+                                request_options.get("additional_query_parameters", {})
+                                if request_options is not None
+                                else {}
+                            ),
+                        }
+                    )
                 )
             ),
             headers=jsonable_encoder(
@@ -904,8 +927,10 @@ class AsyncModelsClient:
             url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/", f"v0/registry/models/version/{jsonable_encoder(id)}"
             ),
-            params=jsonable_encoder(
-                request_options.get("additional_query_parameters") if request_options is not None else None
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
             ),
             json=jsonable_encoder(request),
             headers=jsonable_encoder(

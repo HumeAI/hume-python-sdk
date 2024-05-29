@@ -18,7 +18,7 @@ class UserInterruption(pydantic_v1.BaseModel):
     Unix timestamp of the detected user interruption.
     """
 
-    type: typing.Literal["user_interruption"] = pydantic_v1.Field()
+    type: typing.Literal["user_interruption"] = pydantic_v1.Field(default="user_interruption")
     """
     The type of message sent through the socket; for a User Interruption message, this must be 'user_interruption'.
     """

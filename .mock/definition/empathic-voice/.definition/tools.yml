@@ -1,0 +1,398 @@
+imports:
+  root: __package__.yml
+service:
+  auth: false
+  base-path: ''
+  endpoints:
+    list-tools:
+      path: /tools
+      method: GET
+      auth: false
+      display-name: List tools
+      request:
+        name: ToolsListToolsRequest
+        query-parameters:
+          page_number:
+            type: optional<integer>
+            docs: The page number of the results to return.
+          page_size:
+            type: optional<integer>
+            docs: The maximum number of results to include per page.
+          restrict_to_most_recent:
+            type: optional<boolean>
+            docs: Only include the most recent version of each tool in the list.
+      response:
+        docs: Success
+        type: root.ReturnPagedUserDefinedTools
+      examples:
+        - query-parameters:
+            page_number: 0
+            page_size: 2
+          response:
+            body:
+              page_number: 0
+              page_size: 2
+              tools_page:
+                - tool_type: FUNCTION
+                  id: d20827af-5d8d-4f66-b6b9-ce2e3e1ea2b2
+                  version: 0
+                  version_type: FIXED
+                  version_description: Fetches user's current location.
+                  name: get_current_location
+                  created_on: 1715267200693
+                  modified_on: 1715267200693
+                  fallback_content: Unable to fetch location.
+                  description: Fetches user's current location.
+                  parameters: >-
+                    { "type": "object", "properties": { "location": { "type":
+                    "string", "description": "The city and state, e.g. San
+                    Francisco, CA" }}, "required": ["location"] }
+                - tool_type: FUNCTION
+                  id: 4442f3ea-9038-40e3-a2ce-1522b7de770f
+                  version: 0
+                  version_type: FIXED
+                  version_description: >-
+                    Fetches current weather and uses celsius or fahrenheit based
+                    on location of user.
+                  name: get_current_weather
+                  created_on: 1715266126705
+                  modified_on: 1715266126705
+                  fallback_content: Unable to fetch location.
+                  description: >-
+                    Fetches current weather and uses celsius or fahrenheit based
+                    on location of user.
+                  parameters: >-
+                    { "type": "object", "properties": { "location": { "type":
+                    "string", "description": "The city and state, e.g. San
+                    Francisco, CA" }, "format": { "type": "string", "enum":
+                    ["celsius", "fahrenheit"], "description": "The temperature
+                    unit to use. Infer this from the users location." } },
+                    "required": ["location", "format"] }
+    create-tool:
+      path: /tools
+      method: POST
+      auth: false
+      display-name: Create tool
+      request:
+        name: PostedUserDefinedTool
+        body:
+          properties:
+            name:
+              type: string
+              docs: Name applied to all versions of a particular Tool.
+            version_description:
+              type: optional<string>
+              docs: Description that is appended to a specific version of a Tool.
+            description:
+              type: optional<string>
+              docs: Text describing what the tool does.
+            parameters:
+              type: string
+              docs: >-
+                Stringified JSON defining the parameters used by this version of
+                the Tool.
+            fallback_content:
+              type: optional<string>
+              docs: Text to use if the tool fails to generate content.
+      response:
+        docs: Success
+        type: optional<root.ReturnUserDefinedTool>
+      examples:
+        - request:
+            name: get_current_weather
+            parameters: >-
+              { "type": "object", "properties": { "location": { "type":
+              "string", "description": "The city and state, e.g. San Francisco,
+              CA" }, "format": { "type": "string", "enum": ["celsius",
+              "fahrenheit"], "description": "The temperature unit to use. Infer
+              this from the users location." } }, "required": ["location",
+              "format"] }
+            version_description: >-
+              Fetches current weather and uses celsius or fahrenheit based on
+              location of user.
+            description: This tool is for getting the current weather.
+            fallback_content: Unable to fetch current weather.
+          response:
+            body:
+              tool_type: FUNCTION
+              id: aa9b71c4-723c-47ff-9f83-1a1829e74376
+              version: 0
+              version_type: FIXED
+              version_description: >-
+                Fetches current weather and uses celsius or fahrenheit based on
+                location of user.
+              name: get_current_weather
+              created_on: 1715275452390
+              modified_on: 1715275452390
+              fallback_content: Unable to fetch current weather.
+              description: This tool is for getting the current weather.
+              parameters: >-
+                { "type": "object", "properties": { "location": { "type":
+                "string", "description": "The city and state, e.g. San
+                Francisco, CA" }, "format": { "type": "string", "enum":
+                ["celsius", "fahrenheit"], "description": "The temperature unit
+                to use. Infer this from the users location." } }, "required":
+                ["location", "format"] }
+    list-tool-versions:
+      path: /tools/{id}
+      method: GET
+      auth: false
+      path-parameters:
+        id:
+          type: string
+          docs: Identifier for a tool. Formatted as a UUID.
+      display-name: List tool versions
+      request:
+        name: ToolsListToolVersionsRequest
+        query-parameters:
+          page_number:
+            type: optional<integer>
+            docs: The page number of the results to return.
+          page_size:
+            type: optional<integer>
+            docs: The maximum number of results to include per page.
+          restrict_to_most_recent:
+            type: optional<boolean>
+            docs: Only include the most recent version of each tool in the list.
+      response:
+        docs: Success
+        type: root.ReturnPagedUserDefinedTools
+      examples:
+        - path-parameters:
+            id: 00183a3f-79ba-413d-9f3b-609864268bea
+          response:
+            body:
+              page_number: 0
+              page_size: 10
+              tools_page:
+                - tool_type: FUNCTION
+                  id: 00183a3f-79ba-413d-9f3b-609864268bea
+                  version: 1
+                  version_type: FIXED
+                  version_description: >-
+                    Fetches current weather and uses celsius, fahrenheit, or
+                    kelvin based on location of user.
+                  name: get_current_weather
+                  created_on: 1715277014228
+                  modified_on: 1715277602313
+                  fallback_content: Unable to fetch current weather.
+                  description: This tool is for getting the current weather.
+                  parameters: >-
+                    { "type": "object", "properties": { "location": { "type":
+                    "string", "description": "The city and state, e.g. San
+                    Francisco, CA" }, "format": { "type": "string", "enum":
+                    ["celsius", "fahrenheit", "kelvin"], "description": "The
+                    temperature unit to use. Infer this from the users
+                    location." } }, "required": ["location", "format"] }
+    create-tool-version:
+      path: /tools/{id}
+      method: POST
+      auth: false
+      path-parameters:
+        id:
+          type: string
+          docs: Identifier for a tool. Formatted as a UUID.
+      display-name: Create tool version
+      request:
+        name: PostedUserDefinedToolVersion
+        body:
+          properties:
+            version_description:
+              type: optional<string>
+              docs: Description that is appended to a specific version of a Tool.
+            description:
+              type: optional<string>
+              docs: Text describing what the tool does.
+            parameters:
+              type: string
+              docs: >-
+                Stringified JSON defining the parameters used by this version of
+                the Tool.
+            fallback_content:
+              type: optional<string>
+              docs: Text to use if the tool fails to generate content.
+      response:
+        docs: Success
+        type: optional<root.ReturnUserDefinedTool>
+      examples:
+        - path-parameters:
+            id: 00183a3f-79ba-413d-9f3b-609864268bea
+          request:
+            parameters: >-
+              { "type": "object", "properties": { "location": { "type":
+              "string", "description": "The city and state, e.g. San Francisco,
+              CA" }, "format": { "type": "string", "enum": ["celsius",
+              "fahrenheit", "kelvin"], "description": "The temperature unit to
+              use. Infer this from the users location." } }, "required":
+              ["location", "format"] }
+            version_description: >-
+              Fetches current weather and uses celsius, fahrenheit, or kelvin
+              based on location of user.
+            fallback_content: Unable to fetch current weather.
+            description: This tool is for getting the current weather.
+          response:
+            body:
+              tool_type: FUNCTION
+              id: 00183a3f-79ba-413d-9f3b-609864268bea
+              version: 1
+              version_type: FIXED
+              version_description: >-
+                Fetches current weather and uses celsius, fahrenheit, or kelvin
+                based on location of user.
+              name: get_current_weather
+              created_on: 1715277014228
+              modified_on: 1715277602313
+              fallback_content: Unable to fetch current weather.
+              description: This tool is for getting the current weather.
+              parameters: >-
+                { "type": "object", "properties": { "location": { "type":
+                "string", "description": "The city and state, e.g. San
+                Francisco, CA" }, "format": { "type": "string", "enum":
+                ["celsius", "fahrenheit", "kelvin"], "description": "The
+                temperature unit to use. Infer this from the users location." }
+                }, "required": ["location", "format"] }
+    delete-tool:
+      path: /tools/{id}
+      method: DELETE
+      auth: false
+      path-parameters:
+        id:
+          type: string
+          docs: Identifier for a tool. Formatted as a UUID.
+      display-name: Delete tool
+      examples:
+        - path-parameters:
+            id: 00183a3f-79ba-413d-9f3b-609864268bea
+    update-tool-name:
+      path: /tools/{id}
+      method: PATCH
+      auth: false
+      path-parameters:
+        id:
+          type: string
+          docs: Identifier for a tool. Formatted as a UUID.
+      display-name: Update tool name
+      request:
+        name: PostedUserDefinedToolName
+        body:
+          properties:
+            name:
+              type: string
+              docs: Name applied to all versions of a particular Tool.
+      response:
+        docs: Success
+        type: text
+      examples:
+        - path-parameters:
+            id: 00183a3f-79ba-413d-9f3b-609864268bea
+          request:
+            name: get_current_temperature
+    get-tool-version:
+      path: /tools/{id}/version/{version}
+      method: GET
+      auth: false
+      path-parameters:
+        id:
+          type: string
+          docs: Identifier for a tool. Formatted as a UUID.
+        version:
+          type: integer
+          docs: Version number for a tool. Version numbers should be integers.
+      display-name: Get tool version
+      response:
+        docs: Success
+        type: optional<root.ReturnUserDefinedTool>
+      examples:
+        - path-parameters:
+            id: 00183a3f-79ba-413d-9f3b-609864268bea
+            version: 1
+          response:
+            body:
+              tool_type: FUNCTION
+              id: 00183a3f-79ba-413d-9f3b-609864268bea
+              version: 1
+              version_type: FIXED
+              version_description: >-
+                Fetches current weather and uses celsius, fahrenheit, or kelvin
+                based on location of user.
+              name: string
+              created_on: 1715277014228
+              modified_on: 1715277602313
+              fallback_content: Unable to fetch current weather.
+              description: This tool is for getting the current weather.
+              parameters: >-
+                { "type": "object", "properties": { "location": { "type":
+                "string", "description": "The city and state, e.g. San
+                Francisco, CA" }, "format": { "type": "string", "enum":
+                ["celsius", "fahrenheit", "kelvin"], "description": "The
+                temperature unit to use. Infer this from the users location." }
+                }, "required": ["location", "format"] }
+    delete-tool-version:
+      path: /tools/{id}/version/{version}
+      method: DELETE
+      auth: false
+      path-parameters:
+        id:
+          type: string
+          docs: Identifier for a tool. Formatted as a UUID.
+        version:
+          type: integer
+          docs: Version number for a tool. Version numbers should be integers.
+      display-name: Delete tool version
+      examples:
+        - path-parameters:
+            id: 00183a3f-79ba-413d-9f3b-609864268bea
+            version: 1
+    update-tool-description:
+      path: /tools/{id}/version/{version}
+      method: PATCH
+      auth: false
+      path-parameters:
+        id:
+          type: string
+          docs: Identifier for a tool. Formatted as a UUID.
+        version:
+          type: integer
+          docs: Version number for a tool. Version numbers should be integers.
+      display-name: Update tool description
+      request:
+        name: PostedUserDefinedToolVersionDescription
+        body:
+          properties:
+            version_description:
+              type: optional<string>
+              docs: Description that is appended to a specific version of a Tool.
+      response:
+        docs: Success
+        type: optional<root.ReturnUserDefinedTool>
+      examples:
+        - path-parameters:
+            id: 00183a3f-79ba-413d-9f3b-609864268bea
+            version: 1
+          request:
+            version_description: >-
+              Fetches current temperature, precipitation, wind speed, AQI, and
+              other weather conditions. Uses Celsius, Fahrenheit, or kelvin
+              depending on user's region.
+          response:
+            body:
+              tool_type: FUNCTION
+              id: 00183a3f-79ba-413d-9f3b-609864268bea
+              version: 1
+              version_type: FIXED
+              version_description: >-
+                Fetches current temperature, precipitation, wind speed, AQI, and
+                other weather conditions. Uses Celsius, Fahrenheit, or kelvin
+                depending on user's region.
+              name: string
+              created_on: 1715277014228
+              modified_on: 1715277602313
+              fallback_content: Unable to fetch current weather.
+              description: This tool is for getting the current weather.
+              parameters: >-
+                { "type": "object", "properties": { "location": { "type":
+                "string", "description": "The city and state, e.g. San
+                Francisco, CA" }, "format": { "type": "string", "enum":
+                ["celsius", "fahrenheit", "kelvin"], "description": "The
+                temperature unit to use. Infer this from the users location." }
+                }, "required": ["location", "format"] }

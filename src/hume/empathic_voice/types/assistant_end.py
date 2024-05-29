@@ -13,7 +13,7 @@ class AssistantEnd(pydantic_v1.BaseModel):
     """
 
     custom_session_id: typing.Optional[str] = None
-    type: typing.Literal["assistant_end"] = pydantic_v1.Field()
+    type: typing.Literal["assistant_end"] = pydantic_v1.Field(default="assistant_end")
     """
     The type of message sent through the socket; for an Assistant End message, this must be 'assistant_end'.
     """

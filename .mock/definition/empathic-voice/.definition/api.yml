@@ -1,0 +1,14 @@
+name: api
+error-discrimination:
+  strategy: status-code
+display-name: OpenAPI definition
+environments:
+  Default: https://api.hume.ai/
+default-environment: Default
+auth-schemes:
+  bearerAuth:
+    header: X-Hume-Api-Key
+    name: apiKey
+    type: string
+auth: bearerAuth
+base-path: /v0/evi

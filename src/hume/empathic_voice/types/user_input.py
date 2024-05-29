@@ -18,7 +18,7 @@ class UserInput(pydantic_v1.BaseModel):
     User text to insert into the conversation.
     """
 
-    type: typing.Literal["user_input"] = pydantic_v1.Field()
+    type: typing.Literal["user_input"] = pydantic_v1.Field(default="user_input")
     """
     The type of message sent through the socket; for a User Input message, this must be ‘user_input’.
     """

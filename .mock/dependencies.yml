@@ -1,0 +1,4 @@
+dependencies:
+  custom-models: ../custom-models
+  empathic-voice: ../empathic-voice-interface
+  expression-measurement: ../expression-measurement

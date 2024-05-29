@@ -18,7 +18,7 @@ class AssistantInput(pydantic_v1.BaseModel):
     Text to be synthesized.
     """
 
-    type: typing.Literal["assistant_input"] = pydantic_v1.Field()
+    type: typing.Literal["assistant_input"] = pydantic_v1.Field(default="assistant_input")
     """
     The type of message sent through the socket; for an Assistant Input message, this must be 'assistant_input'.
     """

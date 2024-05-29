@@ -1,0 +1,55 @@
+channel:
+  path: /chat
+  auth: false
+  query-parameters:
+    access_token:
+      type: optional<string>
+      docs: Access token used for authenticating the client.
+    config_id:
+      type: optional<string>
+      docs: The unique identifier for the EVI configuration to be used.
+    config_version:
+      type: optional<integer>
+      docs: The version number of the specified EVI configuration to be used.
+  messages:
+    subscribe:
+      origin: server
+      body: SubscribeEvent
+    publish:
+      origin: client
+      body: PublishEvent
+  examples:
+    - messages:
+        - type: publish
+          body:
+            data: data
+            type: audio_input
+        - type: subscribe
+          body:
+            type: assistant_end
+imports:
+  root: __package__.yml
+types:
+  SubscribeEvent:
+    discriminated: false
+    union:
+      - root.AssistantEnd
+      - root.AssistantMessage
+      - root.AudioOutput
+      - root.WebSocketError
+      - root.UserInterruption
+      - root.UserMessage
+      - root.ToolCallMessage
+      - root.ToolResponseMessage
+      - root.ToolErrorMessage
+  PublishEvent:
+    discriminated: false
+    union:
+      - root.AudioInput
+      - root.SessionSettings
+      - root.UserInput
+      - root.AssistantInput
+      - root.ToolResponseMessage
+      - root.ToolErrorMessage
+      - root.PauseAssistantMessage
+      - root.ResumeAssistantMessage

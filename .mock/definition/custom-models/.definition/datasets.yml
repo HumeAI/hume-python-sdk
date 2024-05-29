@@ -1,0 +1,406 @@
+imports:
+  root: __package__.yml
+service:
+  auth: false
+  base-path: ''
+  endpoints:
+    list-datasets:
+      path: /datasets
+      method: GET
+      auth: true
+      docs: Returns 200 if successful
+      display-name: List datasets
+      request:
+        name: DatasetsListDatasetsRequest
+        query-parameters:
+          name:
+            type: optional<string>
+            docs: Dataset name to be queried
+          page_number:
+            type: optional<integer>
+            docs: Index of the first result
+          page_size:
+            type: optional<integer>
+            docs: Maximum number of results
+          shared_assets:
+            type: optional<boolean>
+            docs: >-
+              `True` Will show all assets owned by you and shared with you.
+              `False` Will show only your assets. Default: `False`
+      response:
+        docs: Success
+        type: root.DatasetPage
+      examples:
+        - response:
+            body:
+              content:
+                - id: id
+                  name: name
+                  latest_version:
+                    id: id
+                    user_id: user_id
+                    labels_file_uri: labels_file_uri
+                    feature_types:
+                      feature_types: CATEGORICAL
+                    dataset_id: dataset_id
+                    dataset_version: 1
+                    created_on: 1
+                  modified_on: 1
+                  metadata:
+                    metadata: {}
+              pageable:
+                offset: 1
+                sort:
+                  empty: true
+                  sorted: true
+                  unsorted: true
+                paged: true
+                unpaged: true
+                page_number: 1
+                page_size: 1
+              total: 1
+              last: true
+              total_elements: 1
+              total_pages: 1
+              size: 1
+              number: 1
+              sort:
+                empty: true
+                sorted: true
+                unsorted: true
+              first: true
+              number_of_elements: 1
+              empty: true
+    create-dataset:
+      path: /datasets
+      method: POST
+      auth: true
+      docs: Returns 201 if successful
+      display-name: Create dataset
+      request:
+        name: DatasetsCreateDatasetRequest
+        body:
+          properties:
+            name:
+              type: string
+              docs: Name of the Dataset to be created
+            feature_types: optional<file>
+            labels_file: file
+        content-type: multipart/form-data
+      response:
+        docs: Success
+        type: root.ReturnDataset
+      examples:
+        - request:
+            name: name
+          response:
+            body:
+              id: id
+              name: name
+              latest_version:
+                id: id
+                user_id: user_id
+                labels_file_uri: labels_file_uri
+                feature_types:
+                  feature_types: CATEGORICAL
+                dataset_id: dataset_id
+                dataset_version: 1
+                created_on: 1
+              modified_on: 1
+              metadata:
+                metadata:
+                  metadata:
+                    key: value
+    get-dataset:
+      path: /datasets/{id}
+      method: GET
+      auth: true
+      docs: Returns 200 if successful
+      path-parameters:
+        id:
+          type: string
+          docs: Hume-generated ID of a Dataset
+      display-name: Get dataset
+      response:
+        docs: Success
+        type: root.ReturnDataset
+      examples:
+        - path-parameters:
+            id: id
+          response:
+            body:
+              id: id
+              name: name
+              latest_version:
+                id: id
+                user_id: user_id
+                labels_file_uri: labels_file_uri
+                feature_types:
+                  feature_types: CATEGORICAL
+                dataset_id: dataset_id
+                dataset_version: 1
+                created_on: 1
+              modified_on: 1
+              metadata:
+                metadata:
+                  metadata:
+                    key: value
+    create-dataset-version:
+      path: /datasets/{id}
+      method: POST
+      auth: true
+      docs: Returns 200 if successful
+      path-parameters:
+        id:
+          type: string
+          docs: Hume-generated ID of a Dataset
+      display-name: Create dataset version
+      request:
+        name: DatasetsCreateDatasetVersionRequest
+        body:
+          properties:
+            feature_types: optional<file>
+            labels_file: file
+        content-type: multipart/form-data
+      response:
+        docs: Success
+        type: list<root.ReturnDataset>
+      examples:
+        - path-parameters:
+            id: id
+          request: {}
+          response:
+            body:
+              - id: id
+                name: name
+                latest_version:
+                  id: id
+                  user_id: user_id
+                  labels_file_uri: labels_file_uri
+                  feature_types:
+                    feature_types: CATEGORICAL
+                  dataset_id: dataset_id
+                  dataset_version: 1
+                  created_on: 1
+                modified_on: 1
+                metadata:
+                  metadata: {}
+    delete-dataset:
+      path: /datasets/{id}
+      method: DELETE
+      auth: true
+      docs: Returns 204 if successful
+      path-parameters:
+        id:
+          type: string
+          docs: Hume-generated ID of a Dataset
+      display-name: Delete dataset
+      examples:
+        - path-parameters:
+            id: id
+    list-dataset-versions:
+      path: /datasets/{id}/versions
+      method: GET
+      auth: true
+      docs: Returns 200 if successful
+      path-parameters:
+        id:
+          type: string
+          docs: Hume-generated ID of a Dataset
+      display-name: List dataset versions
+      request:
+        name: DatasetsListDatasetVersionsRequest
+        query-parameters:
+          page_number:
+            type: optional<integer>
+            docs: Index of the first result
+          page_size:
+            type: optional<integer>
+            docs: Maximum number of results
+          shared_assets:
+            type: optional<boolean>
+            docs: >-
+              `True` Will show all assets owned by you and shared with you.
+              `False` Will show only your assets. Default: `False`
+      response:
+        docs: Success
+        type: root.DatasetVersionPage
+      examples:
+        - path-parameters:
+            id: id
+          response:
+            body:
+              content:
+                - id: id
+                  user_id: user_id
+                  labels_file_uri: labels_file_uri
+                  feature_types:
+                    feature_types: CATEGORICAL
+                  dataset_id: dataset_id
+                  dataset_version: 1
+                  created_on: 1
+              pageable:
+                offset: 1
+                sort:
+                  empty: true
+                  sorted: true
+                  unsorted: true
+                paged: true
+                unpaged: true
+                page_number: 1
+                page_size: 1
+              total: 1
+              last: true
+              total_elements: 1
+              total_pages: 1
+              size: 1
+              number: 1
+              sort:
+                empty: true
+                sorted: true
+                unsorted: true
+              first: true
+              number_of_elements: 1
+              empty: true
+    list-dataset-files:
+      path: /datasets/{id}/files
+      method: GET
+      auth: true
+      docs: Returns 200 if successful
+      path-parameters:
+        id:
+          type: string
+          docs: Hume-generated ID of a Dataset
+      display-name: List dataset files
+      request:
+        name: DatasetsListDatasetFilesRequest
+        query-parameters:
+          page_number:
+            type: optional<integer>
+            docs: Index of the first result
+          page_size:
+            type: optional<integer>
+            docs: Maximum number of results
+          shared_assets:
+            type: optional<boolean>
+            docs: >-
+              `True` Will show all assets owned by you and shared with you.
+              `False` Will show only your assets. Default: `False`
+      response:
+        docs: Success
+        type: list<root.FilePage>
+      examples:
+        - path-parameters:
+            id: id
+          response:
+            body:
+              - content:
+                  - file:
+                      id: id
+                      user_id: user_id
+                      data_type: data_type
+                      is_sanitized: true
+                      is_owned_by_reader: true
+                pageable:
+                  offset: 1
+                  paged: true
+                  unpaged: true
+                  page_number: 1
+                  page_size: 1
+                total: 1
+                last: true
+                total_elements: 1
+                total_pages: 1
+                size: 1
+                number: 1
+                sort:
+                  empty: true
+                  sorted: true
+                  unsorted: true
+                first: true
+                number_of_elements: 1
+                empty: true
+    get-dataset-version:
+      path: /datasets/version/{id}
+      method: GET
+      auth: true
+      docs: Returns 200 if successful
+      path-parameters:
+        id:
+          type: string
+          docs: Hume-generated ID of a Dataset version
+      display-name: Get dataset version
+      response:
+        docs: Success
+        type: root.DatasetLabels
+      examples:
+        - path-parameters:
+            id: id
+          response:
+            body:
+              id: id
+              user_id: user_id
+              labels_file_uri: labels_file_uri
+              feature_type_json_uri: feature_type_json_uri
+              dataset_id: dataset_id
+              dataset_version: 1
+              created_on: 1
+              is_most_recent_version: true
+    list-dataset-version-files:
+      path: /datasets/version/{id}/files
+      method: GET
+      auth: true
+      docs: Returns 200 if successful
+      path-parameters:
+        id:
+          type: string
+          docs: Hume-generated ID of a Dataset version
+      display-name: List dataset version files
+      request:
+        name: DatasetsListDatasetVersionFilesRequest
+        query-parameters:
+          page_number:
+            type: optional<integer>
+            docs: Index of the first result
+          page_size:
+            type: optional<integer>
+            docs: Maximum number of results
+          shared_assets:
+            type: optional<boolean>
+            docs: >-
+              `True` Will show all assets owned by you and shared with you.
+              `False` Will show only your assets. Default: `False`
+      response:
+        docs: Success
+        type: list<root.FilePage>
+      examples:
+        - path-parameters:
+            id: id
+          response:
+            body:
+              - content:
+                  - file:
+                      id: id
+                      user_id: user_id
+                      data_type: data_type
+                      is_sanitized: true
+                      is_owned_by_reader: true
+                pageable:
+                  offset: 1
+                  paged: true
+                  unpaged: true
+                  page_number: 1
+                  page_size: 1
+                total: 1
+                last: true
+                total_elements: 1
+                total_pages: 1
+                size: 1
+                number: 1
+                sort:
+                  empty: true
+                  sorted: true
+                  unsorted: true
+                first: true
+                number_of_elements: 1
+                empty: true

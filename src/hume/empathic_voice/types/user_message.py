@@ -36,7 +36,7 @@ class UserMessage(pydantic_v1.BaseModel):
     Start and End time of user message.
     """
 
-    type: typing.Literal["user_message"]
+    type: typing.Literal["user_message"] = "user_message"
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

@@ -21,7 +21,7 @@ class SessionSettings(pydantic_v1.BaseModel):
     language_model_api_key: typing.Optional[str] = None
     system_prompt: typing.Optional[str] = None
     tools: typing.Optional[typing.List[Tool]] = None
-    type: typing.Literal["session_settings"] = pydantic_v1.Field()
+    type: typing.Literal["session_settings"] = pydantic_v1.Field(default="session_settings")
     """
     The type of message sent through the socket; for a Session Settings message, this must be 'session_settings'.
     """

@@ -1,0 +1,94 @@
+groups:
+  ts-sdk:
+    generators:
+      - name: fernapi/fern-typescript-node-sdk
+        version: 0.20.0-rc1
+        output:
+          location: npm
+          package-name: 'hume'
+          token: ${NPM_TOKEN}
+        github:
+          repository: HumeAI/hume-typescript-sdk
+        config:
+          allowCustomFetcher: true
+          skipResponseValidation: true
+          namespaceExport: Hume
+          extraDependencies:
+            'ws': '^8.14.2'
+            'uuid': 9.0.1
+          extraDevDependencies:
+            '@types/ws': '^8.5.9'
+            '@types/uuid': 9.0.7
+  ts-sdk-pr:
+    generators:
+      - name: fernapi/fern-typescript-node-sdk
+        version: 0.20.0-rc1
+        output:
+          location: npm
+          package-name: 'hume'
+          token: ${NPM_TOKEN}
+        github:
+          repository: HumeAI/hume-typescript-sdk
+          mode: pull-request
+        config:
+          allowCustomFetcher: true
+          skipResponseValidation: true
+          namespaceExport: Hume
+          extraDependencies:
+            'ws': '^8.14.2'
+            'uuid': 9.0.1
+          extraDevDependencies:
+            '@types/ws': '^8.5.9'
+            '@types/uuid': 9.0.7
+
+  python-sdk:
+    generators:
+      - name: fernapi/fern-python-sdk
+        version: 2.5.6
+        output:
+          location: pypi
+          package-name: 'hume'
+          # Uncomment when we'd like to publish to PyPI
+          # token: ${PYPI_TOKEN}
+        github:
+          repository: HumeAI/hume-python-sdk
+          branch: v1
+          mode: push
+        config:
+          client: 
+            class_name: BaseHumeClient
+            filename: base_client.py
+            exported_class_name: HumeClient
+            exported_filename: client.py
+          extra_dependencies:
+            websockets: 12.0
+            pydub: "^0.25.1"
+            # simpleaudio: "^1.0.4"
+            sounddevice: "^0.4.7"
+          extra_dev_dependencies:
+            pydub-stubs: "^0.25.1"
+          additional_init_exports:
+            - from: microphone
+              imports:
+                - MicrophoneInterface
+
+  python-local:
+    generators:
+      - name: fernapi/fern-python-sdk
+        version: 2.5.6
+        output:
+          location: local-file-system
+          path: ../../generated/python
+        config:
+          client: 
+            class_name: BaseHumeClient
+            filename: base_client.py
+            exported_class_name: HumeClient
+            exported_filename: client.py
+          extra_dependencies:
+            websockets: 12.0
+            pydub: "^0.25.1"
+            # simpleaudio: "^1.0.4"
+            sounddevice: "^0.4.7"
+          extra_dev_dependencies:
+            pydub-stubs: "^0.25.1"

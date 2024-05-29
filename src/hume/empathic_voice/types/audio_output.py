@@ -23,7 +23,7 @@ class AudioOutput(pydantic_v1.BaseModel):
     ID of the audio output.
     """
 
-    type: typing.Literal["audio_output"] = pydantic_v1.Field()
+    type: typing.Literal["audio_output"] = pydantic_v1.Field(default="audio_output")
     """
     The type of message sent through the socket; for an Audio Output message, this must be 'audio_output'.
     """

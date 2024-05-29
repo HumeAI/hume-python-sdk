@@ -1,0 +1,16 @@
+name: api
+
+error-discrimination:
+  strategy: status-code
+
+auth: HeaderAuthScheme
+auth-schemes: 
+  HeaderAuthScheme: 
+    header: X-Hume-Api-Key
+    name: apiKey
+    type: optional<string>
+
+
+default-environment: Production
+environments:
+  Production: https://api.hume.ai

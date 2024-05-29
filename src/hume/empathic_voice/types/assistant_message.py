@@ -35,7 +35,7 @@ class AssistantMessage(pydantic_v1.BaseModel):
     Inference model results.
     """
 
-    type: typing.Literal["assistant_message"] = pydantic_v1.Field()
+    type: typing.Literal["assistant_message"] = pydantic_v1.Field(default="assistant_message")
     """
     The type of message sent through the socket; for an Assistant Message message, this must be 'assistant_message'.
     """

@@ -13,7 +13,7 @@ from .expression_measurement.client import AsyncExpressionMeasurementClient, Exp
 
 class BaseHumeClient:
     """
-    Use this class to access the different functions within the SDK. You can instantiate any number of clients with different configuration that will propogate to these functions.
+    Use this class to access the different functions within the SDK. You can instantiate any number of clients with different configuration that will propagate to these functions.
 
     Parameters
     ----------
@@ -76,7 +76,7 @@ class BaseHumeClient:
 
 class AsyncBaseHumeClient:
     """
-    Use this class to access the different functions within the SDK. You can instantiate any number of clients with different configuration that will propogate to these functions.
+    Use this class to access the different functions within the SDK. You can instantiate any number of clients with different configuration that will propagate to these functions.
 
     Parameters
     ----------
