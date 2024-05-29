@@ -2,9 +2,19 @@
 
 README.md
 
+<!-- Custom client modifications -->
+
 src/hume/client.py
 src/hume/empathic_voice/socket_client.py
 src/hume/empathic_voice/chat/socket_client.py
 
 src/hume/expression_measurement/socket_client.py
 src/hume/expression_measurement/stream/socket_client.py
+
+tests/custom/test_client.py
+
+<!-- Content pulled from legacy SDK -->
+
+.vscode
+src/hume/microphone
+src/hume/expression_measurement/batch/legacy

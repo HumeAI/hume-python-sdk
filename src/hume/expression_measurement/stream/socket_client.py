@@ -8,7 +8,7 @@ import websockets.protocol
 from ..stream.types.stream_data_models import StreamDataModels
 from ..stream.types.subscribe_event import SubscribeEvent
 from ...core.pydantic_utilities import pydantic_v1
-from ...core.client_wrapper import AsyncClientWrapper
+from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 
 
 class AsyncStreamConnectOptions(pydantic_v1.BaseModel):
@@ -164,7 +164,7 @@ class AsyncStreamWSSConnection:
 
 
 class AsyncStreamClientWithWebsocket:
-    def __init__(self, *, client_wrapper: AsyncClientWrapper):
+    def __init__(self, *, client_wrapper: typing.Union[AsyncClientWrapper, SyncClientWrapper]):
         self.client_wrapper = client_wrapper
 
     @asynccontextmanager

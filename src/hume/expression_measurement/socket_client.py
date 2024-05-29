@@ -1,8 +1,16 @@
-from .client import AsyncExpressionMeasurementClient
+from .batch.legacy_batch_client import LegacyBatchClient, AsyncLegacyBatchClient
+from .client import AsyncExpressionMeasurementClient, ExpressionMeasurementClient
 from .stream.socket_client import AsyncStreamClientWithWebsocket
 
+
+class ExpressionMeasurementClientWithWebsocket(ExpressionMeasurementClient):
+    def __init__(self, *, client_wrapper):
+        super().__init__(client_wrapper=client_wrapper)
+        self.stream = AsyncStreamClientWithWebsocket(client_wrapper=client_wrapper)
+        self.batch_legacy = LegacyBatchClient(batch_client=self.batch)
 
 class AsyncExpressionMeasurementClientWithWebsocket(AsyncExpressionMeasurementClient):
     def __init__(self, *, client_wrapper):
         super().__init__(client_wrapper=client_wrapper)
         self.stream = AsyncStreamClientWithWebsocket(client_wrapper=client_wrapper)
+        self.batch_legacy = AsyncLegacyBatchClient(batch_client=self.batch)

@@ -13,7 +13,7 @@ from ..types.session_settings import SessionSettings
 from ..types.audio_input import AudioInput
 from ..types.user_input import UserInput
 from ...core.pydantic_utilities import pydantic_v1
-from ...core.client_wrapper import AsyncClientWrapper
+from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.api_error import ApiError
 
 
@@ -112,7 +112,7 @@ class AsyncChatWSSConnection:
 
 
 class AsyncChatClientWithWebsocket:
-    def __init__(self, *, client_wrapper: AsyncClientWrapper):
+    def __init__(self, *, client_wrapper: typing.Union[AsyncClientWrapper, SyncClientWrapper]):
         self.client_wrapper = client_wrapper
 
     @asynccontextmanager
@@ -144,12 +144,20 @@ class AsyncChatClientWithWebsocket:
     async def _fetch_access_token(self, client_secret: str, api_key: str) -> str:
         auth = f"{api_key}:{client_secret}"
         encoded_auth = base64.b64encode(auth.encode()).decode()
-        _response = await self.client_wrapper.httpx_client.request(
-            method="POST",
-            url="https://api.hume.ai/oauth2-cc/token",
-            headers={"Authorization": f"Basic {encoded_auth}"},
-            data={"grant_type": "client_credentials"},
-        )
+        if isinstance(self.client_wrapper.httpx_client, httpx.AsyncClient):
+            _response = await self.client_wrapper.httpx_client.request(
+                method="POST",
+                url="https://api.hume.ai/oauth2-cc/token",
+                headers={"Authorization": f"Basic {encoded_auth}"},
+                data={"grant_type": "client_credentials"},
+            )
+        else:
+            _response = self.client_wrapper.httpx_client.request(
+                method="POST",
+                url="https://api.hume.ai/oauth2-cc/token",
+                headers={"Authorization": f"Basic {encoded_auth}"},
+                data={"grant_type": "client_credentials"},
+            )
 
         if 200 <= _response.status_code < 300:
             return _response.json()["access_token"]
