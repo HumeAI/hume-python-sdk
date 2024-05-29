@@ -5,7 +5,7 @@ service:
   base-path: ''
   endpoints:
     list-chats:
-      path: /chats
+      path: /v0/evi/chats
       method: GET
       auth: false
       display-name: List chats
@@ -37,7 +37,7 @@ service:
                   config:
                     id: id
     list-chat-events:
-      path: /chats/{id}
+      path: /v0/evi/chats/{id}
       method: GET
       auth: false
       path-parameters:

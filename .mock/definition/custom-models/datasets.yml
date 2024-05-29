@@ -5,10 +5,13 @@ service:
   base-path: ''
   endpoints:
     list-datasets:
-      path: /datasets
+      path: /v0/registry/datasets
       method: GET
       auth: true
       docs: Returns 200 if successful
+      pagination:
+        offset: $request.page_number
+        results: $response.content
       display-name: List datasets
       request:
         name: DatasetsListDatasetsRequest
@@ -72,7 +75,7 @@ service:
               number_of_elements: 1
               empty: true
     create-dataset:
-      path: /datasets
+      path: /v0/registry/datasets
       method: POST
       auth: true
       docs: Returns 201 if successful
@@ -112,7 +115,7 @@ service:
                   metadata:
                     key: value
     get-dataset:
-      path: /datasets/{id}
+      path: /v0/registry/datasets/{id}
       method: GET
       auth: true
       docs: Returns 200 if successful
@@ -146,7 +149,7 @@ service:
                   metadata:
                     key: value
     create-dataset-version:
-      path: /datasets/{id}
+      path: /v0/registry/datasets/{id}
       method: POST
       auth: true
       docs: Returns 200 if successful
@@ -186,7 +189,7 @@ service:
                 metadata:
                   metadata: {}
     delete-dataset:
-      path: /datasets/{id}
+      path: /v0/registry/datasets/{id}
       method: DELETE
       auth: true
       docs: Returns 204 if successful
@@ -199,10 +202,13 @@ service:
         - path-parameters:
             id: id
     list-dataset-versions:
-      path: /datasets/{id}/versions
+      path: /v0/registry/datasets/{id}/versions
       method: GET
       auth: true
       docs: Returns 200 if successful
+      pagination:
+        offset: $request.page_number
+        results: $response.content
       path-parameters:
         id:
           type: string
@@ -263,7 +269,7 @@ service:
               number_of_elements: 1
               empty: true
     list-dataset-files:
-      path: /datasets/{id}/files
+      path: /v0/registry/datasets/{id}/files
       method: GET
       auth: true
       docs: Returns 200 if successful
@@ -321,7 +327,7 @@ service:
                 number_of_elements: 1
                 empty: true
     get-dataset-version:
-      path: /datasets/version/{id}
+      path: /v0/registry/datasets/version/{id}
       method: GET
       auth: true
       docs: Returns 200 if successful
@@ -347,7 +353,7 @@ service:
               created_on: 1
               is_most_recent_version: true
     list-dataset-version-files:
-      path: /datasets/version/{id}/files
+      path: /v0/registry/datasets/version/{id}/files
       method: GET
       auth: true
       docs: Returns 200 if successful

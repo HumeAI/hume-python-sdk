@@ -1,1 +1,1392 @@
-export: custom-models
+types:
+  AttributeFilter:
+    docs: List of Attributes
+    properties:
+      name:
+        type: string
+        docs: Attribute name (key)
+      value:
+        type: string
+        docs: Attribute description (value)
+  FileInput:
+    docs: File details
+    properties:
+      name:
+        type: string
+        docs: File name
+      uri:
+        type: optional<string>
+        docs: File URI
+      hume_storage:
+        type: boolean
+        docs: Flag which denotes whether the file is stored with Hume
+      data_type:
+        type: string
+        docs: >-
+          File type: video, audio, video_no_audio, image, text, or
+          mediapipe_facemesh
+  FileWithAttributesInput:
+    properties:
+      file: FileInput
+      attributes:
+        type: optional<list<AttributeFilter>>
+        docs: List of Attributes
+  AuthorizedFile:
+    docs: File details
+    properties:
+      id:
+        type: string
+        docs: Hume-generated File ID
+      name:
+        type: optional<string>
+        docs: File name
+      uri:
+        type: optional<string>
+        docs: File URI
+      upload_uri:
+        type: optional<string>
+        docs: File upload URI
+      thumbnail_uri:
+        type: optional<string>
+        docs: File thumbnail URI
+      user_id:
+        type: string
+        docs: Hume-generated User ID
+      data_type:
+        type: string
+        docs: >-
+          File type: video, audio, video_no_audio, image, text, or
+          mediapipe_facemesh
+      created_on:
+        type: optional<integer>
+        docs: Created date and time
+      modified_on:
+        type: optional<integer>
+        docs: Updated date and time
+      metadata:
+        type: optional<map<string, map<string, unknown>>>
+        docs: Additional details as key, value pairs
+      hume_storage:
+        type: optional<boolean>
+        docs: Flag which denotes whether the file is stored with Hume
+      hume_storage_upload_timestamp:
+        type: optional<integer>
+        docs: Timestamp denoting when the file was uploaded to Hume
+      is_sanitized:
+        type: boolean
+        docs: Indicates whether this file has been sanitized for sharing
+      is_owned_by_reader:
+        type: boolean
+        docs: Indicates whether this file is owned by the current file reader
+      is_linked_to_publicly_shared:
+        type: optional<boolean>
+        docs: >-
+          Indicates whether this file is linked to a model that is publicly
+          shared
+      is_linked_to_hume_model:
+        type: optional<boolean>
+        docs: >-
+          Indicates whether this file is linked to a Hume-owned model that is
+          publicly shared
+  FileWithAttributes:
+    properties:
+      file: AuthorizedFile
+      attributes:
+        type: optional<list<AttributeFilter>>
+        docs: List of Attributes
+  Unit: map<string, unknown>
+  DatasetVersionFeatureTypesValue:
+    enum:
+      - CATEGORICAL
+      - NUMERIC
+      - TEXT
+      - DATETIME
+      - UNDEFINED
+    docs: Feature types of label mapped to feature type
+  DatasetVersion:
+    properties:
+      id:
+        type: string
+        docs: Hume-generated Dataset version ID
+      user_id:
+        type: string
+        docs: Hume-generated User ID
+      labels_file_uri:
+        type: string
+        docs: Dataset Labels file URI
+      feature_types:
+        docs: Feature types of label mapped to feature type
+        type: map<string, DatasetVersionFeatureTypesValue>
+      dataset_id:
+        type: string
+        docs: Hume-generated Dataset ID of the parent Dataset
+      dataset_version:
+        type: integer
+        docs: Dataset version number
+      created_on:
+        type: integer
+        docs: Created date and time
+  ReturnDataset:
+    properties:
+      id:
+        type: optional<string>
+        docs: Hume-generated Dataset ID
+      name:
+        type: string
+        docs: Dataset name
+      latest_version: optional<DatasetVersion>
+      modified_on:
+        type: optional<integer>
+        docs: Updated date and time
+      metadata:
+        type: optional<map<string, map<string, unknown>>>
+        docs: Additional details as key, value pairs
+  DatasetLabelsFileUriInputFeatureTypesValue:
+    enum:
+      - CATEGORICAL
+      - NUMERIC
+      - TEXT
+      - DATETIME
+      - UNDEFINED
+    docs: Feature types as key, value pairs
+  DatasetLabelsFileUriInput:
+    properties:
+      name:
+        type: string
+        docs: Dataset name
+      labels_file_uri:
+        type: string
+        docs: URI of a Labels File
+      feature_types:
+        docs: Feature types as key, value pairs
+        type: map<string, DatasetLabelsFileUriInputFeatureTypesValue>
+  ExternalModel:
+    properties:
+      id:
+        type: string
+        docs: Hume-generated Model ID
+      name:
+        type: string
+        docs: Model name
+      created_on:
+        type: integer
+        docs: Created date and time
+      modified_on:
+        type: integer
+        docs: Updated date and time
+      total_stars:
+        type: integer
+        docs: Total stars on this model
+      model_is_starred_by_user:
+        type: boolean
+        docs: Model is starred by this user
+      archived:
+        type: boolean
+        docs: Model is archived.
+      latest_version: optional<ExternalModelVersion>
+      is_publicly_shared:
+        type: boolean
+        docs: Model is shared publicly
+  ExternalModelVersionFileType:
+    enum:
+      - video
+      - audio
+      - video_no_audio
+      - image
+      - text
+      - mediapipe_facemesh
+    docs: >-
+      File type: video, audio, video_no_audio, image, text, or
+      mediapipe_facemesh
+  ExternalModelVersion:
+    docs: Latest Model version number
+    properties:
+      id:
+        type: string
+        docs: Hume-generated Model version ID
+      model_id:
+        type: string
+        docs: Hume-generated Model ID of the parent Model
+      user_id:
+        type: string
+        docs: Hume-generated User ID
+      version:
+        type: string
+        docs: Model version number
+      source_uri:
+        type: string
+        docs: Model version's source file URI
+      dataset_version_id:
+        type: string
+        docs: >-
+          Hume-generated Dataset version ID for the Dataset version the Model
+          version was trained on
+      created_on:
+        type: integer
+        docs: Created date and time
+      metadata:
+        type: optional<map<string, map<string, unknown>>>
+        docs: Additional details as key, value pairs
+      description:
+        type: optional<string>
+        docs: Model version description
+      tags:
+        type: optional<list<ExternalModelVersionTag>>
+        docs: List of Tags associated with the Model version
+      file_type:
+        type: optional<ExternalModelVersionFileType>
+        docs: >-
+          File type: video, audio, video_no_audio, image, text, or
+          mediapipe_facemesh
+      target_feature:
+        type: optional<string>
+        docs: Target feature, the feature the model was trained against
+      task_type:
+        type: optional<string>
+        docs: Type of the task used to train
+      training_job_id:
+        type: optional<string>
+        docs: ID of the batch training job
+  ExternalModelVersionTag:
+    docs: List of Tags associated with the Model version
+    properties:
+      key:
+        type: string
+        docs: Tag name (key)
+      value:
+        type: string
+        docs: Tag description (value)
+  ModelPage:
+    properties:
+      content: optional<list<ExternalModel>>
+      pageable: optional<PageableObject>
+      total: optional<integer>
+      last: optional<boolean>
+      total_elements: optional<integer>
+      total_pages: optional<integer>
+      size: optional<integer>
+      number: optional<integer>
+      sort: optional<SortObject>
+      first: optional<boolean>
+      number_of_elements: optional<integer>
+      empty: optional<boolean>
+  PageableObject:
+    properties:
+      offset: optional<integer>
+      sort: optional<SortObject>
+      paged: optional<boolean>
+      unpaged: optional<boolean>
+      page_number: optional<integer>
+      page_size: optional<integer>
+  SortObject:
+    properties:
+      empty: optional<boolean>
+      sorted: optional<boolean>
+      unsorted: optional<boolean>
+  JsonObject:
+    properties:
+      empty: optional<boolean>
+  FilePage:
+    properties:
+      content: optional<list<FileWithAttributes>>
+      pageable: optional<PageableObject>
+      total: optional<integer>
+      last: optional<boolean>
+      total_elements: optional<integer>
+      total_pages: optional<integer>
+      size: optional<integer>
+      number: optional<integer>
+      sort: optional<SortObject>
+      first: optional<boolean>
+      number_of_elements: optional<integer>
+      empty: optional<boolean>
+  DatasetPage:
+    properties:
+      content: optional<list<ReturnDataset>>
+      pageable: optional<PageableObject>
+      total: optional<integer>
+      last: optional<boolean>
+      total_elements: optional<integer>
+      total_pages: optional<integer>
+      size: optional<integer>
+      number: optional<integer>
+      sort: optional<SortObject>
+      first: optional<boolean>
+      number_of_elements: optional<integer>
+      empty: optional<boolean>
+  DatasetVersionPage:
+    properties:
+      content: optional<list<DatasetVersion>>
+      pageable: optional<PageableObject>
+      total: optional<integer>
+      last: optional<boolean>
+      total_elements: optional<integer>
+      total_pages: optional<integer>
+      size: optional<integer>
+      number: optional<integer>
+      sort: optional<SortObject>
+      first: optional<boolean>
+      number_of_elements: optional<integer>
+      empty: optional<boolean>
+  DatasetLabels:
+    properties:
+      id:
+        type: string
+        docs: Hume-generated Dataset version ID
+      user_id:
+        type: string
+        docs: Hume-generated User ID
+      labels_file_uri:
+        type: string
+        docs: Dataset Labels file URI
+      feature_type_json_uri:
+        type: string
+        docs: Feature types json file URI
+      dataset_id:
+        type: string
+        docs: Hume-generated Dataset ID
+      dataset_version:
+        type: integer
+        docs: Dataset version number
+      created_on:
+        type: integer
+        docs: Created date and time
+      is_most_recent_version:
+        type: boolean
+        docs: Boolean indicating that this is the most recent version
+  Alternative: literal<"language_only">
+  Bcp47Tag:
+    enum:
+      - zh
+      - da
+      - nl
+      - en
+      - value: en-AU
+        name: EnAu
+      - value: en-IN
+        name: EnIn
+      - value: en-NZ
+        name: EnNz
+      - value: en-GB
+        name: EnGb
+      - fr
+      - value: fr-CA
+        name: FrCa
+      - de
+      - hi
+      - value: hi-Latn
+        name: HiLatn
+      - id
+      - it
+      - ja
+      - ko
+      - 'no'
+      - pl
+      - pt
+      - value: pt-BR
+        name: PtBr
+      - value: pt-PT
+        name: PtPt
+      - ru
+      - es
+      - value: es-419
+        name: Es419
+      - sv
+      - ta
+      - tr
+      - uk
+  BoundingBox:
+    docs: A bounding box around a face.
+    properties:
+      x:
+        type: double
+        docs: x-coordinate of bounding box top left corner.
+      'y':
+        type: double
+        docs: y-coordinate of bounding box top left corner.
+      w:
+        type: double
+        docs: Bounding box width.
+      h:
+        type: double
+        docs: Bounding box height.
+  BurstPrediction:
+    properties:
+      time: TimeInterval
+      emotions:
+        docs: A high-dimensional embedding in emotion space.
+        type: list<EmotionScore>
+      descriptions:
+        docs: Modality-specific descriptive features and their scores.
+        type: list<DescriptionsScore>
+  Classification: map<string, unknown>
+  CompletedEmbeddingGeneration:
+    properties:
+      created_timestamp_ms:
+        type: integer
+        docs: When this job was created (Unix timestamp in milliseconds).
+      started_timestamp_ms:
+        type: integer
+        docs: When this job started (Unix timestamp in milliseconds).
+      ended_timestamp_ms:
+        type: integer
+        docs: When this job ended (Unix timestamp in milliseconds).
+  CompletedInference:
+    properties:
+      created_timestamp_ms:
+        type: integer
+        docs: When this job was created (Unix timestamp in milliseconds).
+      started_timestamp_ms:
+        type: integer
+        docs: When this job started (Unix timestamp in milliseconds).
+      ended_timestamp_ms:
+        type: integer
+        docs: When this job ended (Unix timestamp in milliseconds).
+      num_predictions:
+        type: integer
+        docs: The number of predictions that were generated by this job.
+      num_errors:
+        type: integer
+        docs: The number of errors that occurred while running this job.
+  CompletedTlInference:
+    properties:
+      created_timestamp_ms:
+        type: integer
+        docs: When this job was created (Unix timestamp in milliseconds).
+      started_timestamp_ms:
+        type: integer
+        docs: When this job started (Unix timestamp in milliseconds).
+      ended_timestamp_ms:
+        type: integer
+        docs: When this job ended (Unix timestamp in milliseconds).
+      num_predictions:
+        type: integer
+        docs: The number of predictions that were generated by this job.
+      num_errors:
+        type: integer
+        docs: The number of errors that occurred while running this job.
+  CompletedTraining:
+    properties:
+      created_timestamp_ms:
+        type: integer
+        docs: When this job was created (Unix timestamp in milliseconds).
+      started_timestamp_ms:
+        type: integer
+        docs: When this job started (Unix timestamp in milliseconds).
+      ended_timestamp_ms:
+        type: integer
+        docs: When this job ended (Unix timestamp in milliseconds).
+      custom_model: TrainingCustomModel
+      alternatives: optional<map<string, TrainingCustomModel>>
+  CustomModelPrediction:
+    properties:
+      output: map<string, double>
+      error: string
+      task_type: string
+  CustomModelRequest:
+    properties:
+      name: string
+      description: optional<string>
+      tags: optional<list<Tag>>
+  Dataset:
+    discriminated: false
+    union:
+      - DatasetId
+      - DatasetVersionId
+  DatasetId:
+    properties:
+      id:
+        type: string
+        validation:
+          format: uuid
+  DatasetVersionId:
+    properties:
+      version_id:
+        type: string
+        validation:
+          format: uuid
+  DescriptionsScore:
+    properties:
+      name:
+        type: string
+        docs: Name of the descriptive feature being expressed.
+      score:
+        type: string
+        docs: Embedding value for the descriptive feature being expressed.
+  Direction:
+    enum:
+      - asc
+      - desc
+  EmbeddingGenerationBaseRequest:
+    properties:
+      registry_file_details:
+        type: optional<list<RegistryFileDetail>>
+        docs: File ID and File URL pairs for an asset registry file
+  EmotionScore:
+    properties:
+      name:
+        type: string
+        docs: Name of the emotion being expressed.
+      score:
+        type: double
+        docs: Embedding value for the emotion being expressed.
+  Error:
+    properties:
+      message:
+        type: string
+        docs: An error message.
+      file:
+        type: string
+        docs: A file path relative to the top level source URL or file.
+  EvaluationArgs:
+    properties:
+      validation: optional<ValidationArgs>
+  Face:
+    properties:
+      fps_pred:
+        type: optional<double>
+        docs: >-
+          Number of frames per second to process. Other frames will be omitted
+          from the response. Set to `0` to process every frame.
+        default: 3
+      prob_threshold:
+        type: optional<double>
+        docs: >-
+          Face detection probability threshold. Faces detected with a
+          probability less than this threshold will be omitted from the
+          response.
+        default: 0.99
+        validation:
+          min: 0
+          max: 1
+      identify_faces:
+        type: optional<boolean>
+        docs: >-
+          Whether to return identifiers for faces across frames. If `true`,
+          unique identifiers will be assigned to face bounding boxes to
+          differentiate different faces. If `false`, all faces will be tagged
+          with an `unknown` ID.
+      min_face_size:
+        type: optional<integer>
+        docs: >-
+          Minimum bounding box side length in pixels to treat as a face. Faces
+          detected with a bounding box side length in pixels less than this
+          threshold will be omitted from the response.
+        default: 60
+        validation:
+          min: 10
+      facs: optional<Unconfigurable>
+      descriptions: optional<Unconfigurable>
+      save_faces:
+        type: optional<boolean>
+        docs: >-
+          Whether to extract and save the detected faces in the artifacts zip
+          created by each job.
+  FacePrediction:
+    properties:
+      frame:
+        type: integer
+        docs: Frame number
+      time:
+        type: double
+        docs: Time in seconds when face detection occurred.
+      prob:
+        type: double
+        docs: The predicted probability that a detected face was actually a face.
+      box: BoundingBox
+      emotions:
+        docs: A high-dimensional embedding in emotion space.
+        type: list<EmotionScore>
+      facs:
+        type: optional<list<FacsScore>>
+        docs: FACS 2.0 features and their scores.
+      descriptions:
+        type: optional<list<DescriptionsScore>>
+        docs: Modality-specific descriptive features and their scores.
+  FacemeshPrediction:
+    properties:
+      emotions:
+        docs: A high-dimensional embedding in emotion space.
+        type: list<EmotionScore>
+  FacsScore:
+    properties:
+      name:
+        type: string
+        docs: Name of the FACS 2.0 feature being expressed.
+      score:
+        type: string
+        docs: Embedding value for the FACS 2.0 feature being expressed.
+  Failed:
+    properties:
+      created_timestamp_ms:
+        type: integer
+        docs: When this job was created (Unix timestamp in milliseconds).
+      started_timestamp_ms:
+        type: integer
+        docs: When this job started (Unix timestamp in milliseconds).
+      ended_timestamp_ms:
+        type: integer
+        docs: When this job ended (Unix timestamp in milliseconds).
+      message:
+        type: string
+        docs: An error message.
+  File:
+    properties:
+      filename:
+        type: optional<string>
+        docs: The name of the file.
+      content_type:
+        type: optional<string>
+        docs: The content type of the file.
+      md5sum:
+        type: string
+        docs: The MD5 checksum of the file.
+  Granularity:
+    enum:
+      - word
+      - sentence
+      - utterance
+      - conversational_turn
+    docs: >-
+      The granularity at which to generate predictions. `utterance` corresponds
+      to a natural pause or break in conversation, while `conversational_turn`
+      corresponds to a change in speaker.
+  GroupedPredictionsBurstPrediction:
+    properties:
+      id:
+        type: string
+        docs: >-
+          An automatically generated label to identify individuals in your media
+          file. Will be `unknown` if you have chosen to disable identification,
+          or if the model is unable to distinguish between individuals.
+      predictions: list<BurstPrediction>
+  GroupedPredictionsFacePrediction:
+    properties:
+      id:
+        type: string
+        docs: >-
+          An automatically generated label to identify individuals in your media
+          file. Will be `unknown` if you have chosen to disable identification,
+          or if the model is unable to distinguish between individuals.
+      predictions: list<FacePrediction>
+  GroupedPredictionsFacemeshPrediction:
+    properties:
+      id:
+        type: string
+        docs: >-
+          An automatically generated label to identify individuals in your media
+          file. Will be `unknown` if you have chosen to disable identification,
+          or if the model is unable to distinguish between individuals.
+      predictions: list<FacemeshPrediction>
+  GroupedPredictionsLanguagePrediction:
+    properties:
+      id:
+        type: string
+        docs: >-
+          An automatically generated label to identify individuals in your media
+          file. Will be `unknown` if you have chosen to disable identification,
+          or if the model is unable to distinguish between individuals.
+      predictions: list<LanguagePrediction>
+  GroupedPredictionsNerPrediction:
+    properties:
+      id:
+        type: string
+        docs: >-
+          An automatically generated label to identify individuals in your media
+          file. Will be `unknown` if you have chosen to disable identification,
+          or if the model is unable to distinguish between individuals.
+      predictions: list<NerPrediction>
+  GroupedPredictionsProsodyPrediction:
+    properties:
+      id:
+        type: string
+        docs: >-
+          An automatically generated label to identify individuals in your media
+          file. Will be `unknown` if you have chosen to disable identification,
+          or if the model is unable to distinguish between individuals.
+      predictions: list<ProsodyPrediction>
+  InProgress:
+    properties:
+      created_timestamp_ms:
+        type: integer
+        docs: When this job was created (Unix timestamp in milliseconds).
+      started_timestamp_ms:
+        type: integer
+        docs: When this job started (Unix timestamp in milliseconds).
+  InferenceBaseRequest:
+    properties:
+      models: optional<Models>
+      transcription: optional<Transcription>
+      urls:
+        type: optional<list<string>>
+        docs: >-
+          URLs to the media files to be processed. Each must be a valid public
+          URL to a media file (see recommended input filetypes) or an archive
+          (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`) of media files.
+
+
+          If you wish to supply more than 100 URLs, consider providing them as
+          an archive (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`).
+      registry_files:
+        type: optional<list<string>>
+        docs: List of File IDs corresponding to the files in the asset registry.
+      text:
+        type: optional<list<string>>
+        docs: Text to supply directly to our language and NER models.
+      callback_url:
+        type: optional<string>
+        docs: >-
+          If provided, a `POST` request will be made to the URL with the
+          generated predictions on completion or the error message on failure.
+        validation:
+          format: url
+      notify:
+        type: optional<boolean>
+        docs: >-
+          Whether to send an email notification to the user upon job
+          completion/failure.
+  InferencePrediction:
+    properties:
+      file:
+        type: string
+        docs: A file path relative to the top level source URL or file.
+      models: ModelsPredictions
+  InferenceRequest:
+    properties:
+      models: optional<Models>
+      transcription: optional<Transcription>
+      urls:
+        type: optional<list<string>>
+        docs: >-
+          URLs to the media files to be processed. Each must be a valid public
+          URL to a media file (see recommended input filetypes) or an archive
+          (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`) of media files.
+
+
+          If you wish to supply more than 100 URLs, consider providing them as
+          an archive (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`).
+      registry_files:
+        type: optional<list<string>>
+        docs: List of File IDs corresponding to the files in the asset registry.
+      text:
+        type: optional<list<string>>
+        docs: Text to supply directly to our language and NER models.
+      callback_url:
+        type: optional<string>
+        docs: >-
+          If provided, a `POST` request will be made to the URL with the
+          generated predictions on completion or the error message on failure.
+        validation:
+          format: url
+      notify:
+        type: optional<boolean>
+        docs: >-
+          Whether to send an email notification to the user upon job
+          completion/failure.
+      files: list<File>
+  InferenceResults:
+    properties:
+      predictions: list<InferencePrediction>
+      errors: list<Error>
+  InferenceSourcePredictResult:
+    properties:
+      source: Source
+      results: optional<InferenceResults>
+      error:
+        type: optional<string>
+        docs: An error message.
+  JobEmbeddingGeneration:
+    properties:
+      job_id:
+        type: string
+        docs: The ID associated with this job.
+        validation:
+          format: uuid
+      user_id:
+        type: string
+        validation:
+          format: uuid
+      request: EmbeddingGenerationBaseRequest
+      state: StateEmbeddingGeneration
+  JobInference:
+    properties:
+      job_id:
+        type: string
+        docs: The ID associated with this job.
+        validation:
+          format: uuid
+      user_id:
+        type: string
+        validation:
+          format: uuid
+      request: InferenceRequest
+      state: StateInference
+  JobTlInference:
+    properties:
+      job_id:
+        type: string
+        docs: The ID associated with this job.
+        validation:
+          format: uuid
+      user_id:
+        type: string
+        validation:
+          format: uuid
+      request: TlInferenceBaseRequest
+      state: StateTlInference
+  JobTraining:
+    properties:
+      job_id:
+        type: string
+        docs: The ID associated with this job.
+        validation:
+          format: uuid
+      user_id:
+        type: string
+        validation:
+          format: uuid
+      request: TrainingBaseRequest
+      state: StateTraining
+  JobId:
+    properties:
+      job_id:
+        type: string
+        docs: The ID of the started job.
+        validation:
+          format: uuid
+  Language:
+    properties:
+      granularity: optional<Granularity>
+      sentiment: optional<Unconfigurable>
+      toxicity: optional<Unconfigurable>
+      identify_speakers:
+        type: optional<boolean>
+        docs: >-
+          Whether to return identifiers for speakers over time. If `true`,
+          unique identifiers will be assigned to spoken words to differentiate
+          different speakers. If `false`, all speakers will be tagged with an
+          `unknown` ID.
+  LanguagePrediction:
+    properties:
+      text:
+        type: string
+        docs: A segment of text (like a word or a sentence).
+      position: PositionInterval
+      time: optional<TimeInterval>
+      confidence:
+        type: optional<double>
+        docs: >-
+          Value between `0.0` and `1.0` that indicates our transcription model's
+          relative confidence in this text.
+      speaker_confidence:
+        type: optional<double>
+        docs: >-
+          Value between `0.0` and `1.0` that indicates our transcription model's
+          relative confidence that this text was spoken by this speaker.
+      emotions:
+        docs: A high-dimensional embedding in emotion space.
+        type: list<EmotionScore>
+      sentiment:
+        type: optional<list<SentimentScore>>
+        docs: >-
+          Sentiment predictions returned as a distribution. This model predicts
+          the probability that a given text could be interpreted as having each
+          sentiment level from `1` (negative) to `9` (positive).
+
+
+          Compared to returning one estimate of sentiment, this enables a more
+          nuanced analysis of a text's meaning. For example, a text with very
+          neutral sentiment would have an average rating of `5`. But also a text
+          that could be interpreted as having very positive sentiment or very
+          negative sentiment would also have an average rating of `5`. The
+          average sentiment is less informative than the distribution over
+          sentiment, so this API returns a value for each sentiment level.
+      toxicity:
+        type: optional<list<ToxicityScore>>
+        docs: >-
+          Toxicity predictions returned as probabilities that the text can be
+          classified into the following categories: `toxic`, `severe_toxic`,
+          `obscene`, `threat`, `insult`, and `identity_hate`.
+  Models:
+    properties:
+      face: optional<Face>
+      burst: optional<Unconfigurable>
+      prosody: optional<Prosody>
+      language: optional<Language>
+      ner: optional<Ner>
+      facemesh: optional<Unconfigurable>
+  ModelsPredictions:
+    properties:
+      face: optional<PredictionsOptionalNullFacePrediction>
+      burst: optional<PredictionsOptionalNullBurstPrediction>
+      prosody: optional<PredictionsOptionalTranscriptionMetadataProsodyPrediction>
+      language: optional<PredictionsOptionalTranscriptionMetadataLanguagePrediction>
+      ner: optional<PredictionsOptionalTranscriptionMetadataNerPrediction>
+      facemesh: optional<PredictionsOptionalNullFacemeshPrediction>
+  Ner:
+    properties:
+      identify_speakers:
+        type: optional<boolean>
+        docs: >-
+          Whether to return identifiers for speakers over time. If `true`,
+          unique identifiers will be assigned to spoken words to differentiate
+          different speakers. If `false`, all speakers will be tagged with an
+          `unknown` ID.
+  NerPrediction:
+    properties:
+      entity:
+        type: string
+        docs: The recognized topic or entity.
+      position: PositionInterval
+      entity_confidence:
+        type: double
+        docs: Our NER model's relative confidence in the recognized topic or entity.
+      support:
+        type: double
+        docs: A measure of how often the entity is linked to by other entities.
+      uri:
+        type: string
+        docs: >-
+          A URL which provides more information about the recognized topic or
+          entity.
+      link_word:
+        type: string
+        docs: The specific word to which the emotion predictions are linked.
+      time: optional<TimeInterval>
+      confidence:
+        type: optional<double>
+        docs: >-
+          Value between `0.0` and `1.0` that indicates our transcription model's
+          relative confidence in this text.
+      speaker_confidence:
+        type: optional<double>
+        docs: >-
+          Value between `0.0` and `1.0` that indicates our transcription model's
+          relative confidence that this text was spoken by this speaker.
+      emotions:
+        docs: A high-dimensional embedding in emotion space.
+        type: list<EmotionScore>
+  'Null':
+    docs: No associated metadata for this model. Value will be `null`.
+    type: map<string, unknown>
+  PositionInterval:
+    docs: >-
+      Position of a segment of text within a larger document, measured in
+      characters. Uses zero-based indexing. The beginning index is inclusive and
+      the end index is exclusive.
+    properties:
+      begin:
+        type: integer
+        docs: The index of the first character in the text segment, inclusive.
+      end:
+        type: integer
+        docs: The index of the last character in the text segment, exclusive.
+  PredictionsOptionalNullBurstPrediction:
+    properties:
+      metadata: optional<Null>
+      grouped_predictions: list<GroupedPredictionsBurstPrediction>
+  PredictionsOptionalNullFacePrediction:
+    properties:
+      metadata: optional<Null>
+      grouped_predictions: list<GroupedPredictionsFacePrediction>
+  PredictionsOptionalNullFacemeshPrediction:
+    properties:
+      metadata: optional<Null>
+      grouped_predictions: list<GroupedPredictionsFacemeshPrediction>
+  PredictionsOptionalTranscriptionMetadataLanguagePrediction:
+    properties:
+      metadata: optional<TranscriptionMetadata>
+      grouped_predictions: list<GroupedPredictionsLanguagePrediction>
+  PredictionsOptionalTranscriptionMetadataNerPrediction:
+    properties:
+      metadata: optional<TranscriptionMetadata>
+      grouped_predictions: list<GroupedPredictionsNerPrediction>
+  PredictionsOptionalTranscriptionMetadataProsodyPrediction:
+    properties:
+      metadata: optional<TranscriptionMetadata>
+      grouped_predictions: list<GroupedPredictionsProsodyPrediction>
+  Prosody:
+    properties:
+      granularity: optional<Granularity>
+      window: optional<Window>
+      identify_speakers:
+        type: optional<boolean>
+        docs: >-
+          Whether to return identifiers for speakers over time. If `true`,
+          unique identifiers will be assigned to spoken words to differentiate
+          different speakers. If `false`, all speakers will be tagged with an
+          `unknown` ID.
+  ProsodyPrediction:
+    properties:
+      text:
+        type: optional<string>
+        docs: A segment of text (like a word or a sentence).
+      time: TimeInterval
+      confidence:
+        type: optional<double>
+        docs: >-
+          Value between `0.0` and `1.0` that indicates our transcription model's
+          relative confidence in this text.
+      speaker_confidence:
+        type: optional<double>
+        docs: >-
+          Value between `0.0` and `1.0` that indicates our transcription model's
+          relative confidence that this text was spoken by this speaker.
+      emotions:
+        docs: A high-dimensional embedding in emotion space.
+        type: list<EmotionScore>
+  Queued:
+    properties:
+      created_timestamp_ms:
+        type: integer
+        docs: When this job was created (Unix timestamp in milliseconds).
+  RegistryFileDetail:
+    properties:
+      file_id:
+        type: string
+        docs: File ID in the Asset Registry
+      file_url:
+        type: string
+        docs: URL to the file in the Asset Registry
+  Regression: map<string, unknown>
+  SentimentScore:
+    properties:
+      name:
+        type: string
+        docs: Level of sentiment, ranging from `1` (negative) to `9` (positive)
+      score:
+        type: string
+        docs: Prediction for this level of sentiment
+  SortBy:
+    enum:
+      - created
+      - started
+      - ended
+  Source:
+    discriminant: type
+    base-properties: {}
+    union:
+      url: SourceUrl
+      file: SourceFile
+      text: SourceTextSource
+  SourceFile:
+    properties: {}
+    extends:
+      - File
+  SourceTextSource:
+    properties: {}
+  SourceUrl:
+    properties: {}
+    extends:
+      - Url
+  Url:
+    properties:
+      url:
+        type: string
+        docs: The URL of the source media file.
+  StateEmbeddingGeneration:
+    discriminant: status
+    base-properties: {}
+    union:
+      QUEUED: StateEmbeddingGenerationQueued
+      IN_PROGRESS: StateEmbeddingGenerationInProgress
+      COMPLETED: StateEmbeddingGenerationCompletedEmbeddingGeneration
+      FAILED: StateEmbeddingGenerationFailed
+  StateEmbeddingGenerationCompletedEmbeddingGeneration:
+    properties: {}
+    extends:
+      - CompletedEmbeddingGeneration
+  StateEmbeddingGenerationFailed:
+    properties: {}
+    extends:
+      - Failed
+  StateEmbeddingGenerationInProgress:
+    properties: {}
+    extends:
+      - InProgress
+  StateEmbeddingGenerationQueued:
+    properties: {}
+    extends:
+      - Queued
+  StateInference:
+    discriminant: status
+    base-properties: {}
+    union:
+      QUEUED: StateInferenceQueued
+      IN_PROGRESS: StateInferenceInProgress
+      COMPLETED: StateInferenceCompletedInference
+      FAILED: StateInferenceFailed
+  StateInferenceCompletedInference:
+    properties: {}
+    extends:
+      - CompletedInference
+  StateInferenceFailed:
+    properties: {}
+    extends:
+      - Failed
+  StateInferenceInProgress:
+    properties: {}
+    extends:
+      - InProgress
+  StateInferenceQueued:
+    properties: {}
+    extends:
+      - Queued
+  StateTlInference:
+    discriminant: status
+    base-properties: {}
+    union:
+      QUEUED: StateTlInferenceQueued
+      IN_PROGRESS: StateTlInferenceInProgress
+      COMPLETED: StateTlInferenceCompletedTlInference
+      FAILED: StateTlInferenceFailed
+  StateTlInferenceCompletedTlInference:
+    properties: {}
+    extends:
+      - CompletedTlInference
+  StateTlInferenceFailed:
+    properties: {}
+    extends:
+      - Failed
+  StateTlInferenceInProgress:
+    properties: {}
+    extends:
+      - InProgress
+  StateTlInferenceQueued:
+    properties: {}
+    extends:
+      - Queued
+  StateTraining:
+    discriminant: status
+    base-properties: {}
+    union:
+      QUEUED: StateTrainingQueued
+      IN_PROGRESS: StateTrainingInProgress
+      COMPLETED: StateTrainingCompletedTraining
+      FAILED: StateTrainingFailed
+  StateTrainingCompletedTraining:
+    properties: {}
+    extends:
+      - CompletedTraining
+  StateTrainingFailed:
+    properties: {}
+    extends:
+      - Failed
+  StateTrainingInProgress:
+    properties: {}
+    extends:
+      - InProgress
+  StateTrainingQueued:
+    properties: {}
+    extends:
+      - Queued
+  Status:
+    enum:
+      - QUEUED
+      - IN_PROGRESS
+      - COMPLETED
+      - FAILED
+  TlInferencePrediction:
+    properties:
+      file:
+        type: string
+        docs: A file path relative to the top level source URL or file.
+      file_type: string
+      custom_models: map<string, CustomModelPrediction>
+  TlInferenceResults:
+    properties:
+      predictions: list<TlInferencePrediction>
+      errors: list<Error>
+  TlInferenceSourcePredictResult:
+    properties:
+      source: Source
+      results: optional<TlInferenceResults>
+      error:
+        type: optional<string>
+        docs: An error message.
+  Tag:
+    properties:
+      key: string
+      value: string
+  Target:
+    discriminated: false
+    union:
+      - integer
+      - double
+      - string
+  Task:
+    discriminant: type
+    base-properties: {}
+    union:
+      classification: TaskClassification
+      regression: TaskRegression
+  TaskClassification:
+    properties: {}
+  TaskRegression:
+    properties: {}
+  TextSource: map<string, unknown>
+  TimeInterval:
+    docs: A time range with a beginning and end, measured in seconds.
+    properties:
+      begin:
+        type: double
+        docs: Beginning of time range in seconds.
+      end:
+        type: double
+        docs: End of time range in seconds.
+  TlInferenceBaseRequest:
+    properties:
+      custom_model: CustomModel
+      urls:
+        type: optional<list<string>>
+        docs: >-
+          URLs to the media files to be processed. Each must be a valid public
+          URL to a media file (see recommended input filetypes) or an archive
+          (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`) of media files.
+
+
+          If you wish to supply more than 100 URLs, consider providing them as
+          an archive (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`).
+      registry_files:
+        type: optional<list<string>>
+        docs: List of File IDs corresponding to the files in the asset registry.
+      callback_url:
+        type: optional<string>
+        docs: >-
+          If provided, a `POST` request will be made to the URL with the
+          generated predictions on completion or the error message on failure.
+        validation:
+          format: url
+      notify:
+        type: optional<boolean>
+        docs: >-
+          Whether to send an email notification to the user upon job
+          completion/failure.
+  CustomModel:
+    discriminated: false
+    union:
+      - CustomModelId
+      - CustomModelVersionId
+  CustomModelId:
+    properties:
+      id: string
+  CustomModelVersionId:
+    properties:
+      version_id: string
+  ToxicityScore:
+    properties:
+      name:
+        type: string
+        docs: Category of toxicity.
+      score:
+        type: string
+        docs: Prediction for this category of toxicity
+  TrainingBaseRequest:
+    properties:
+      custom_model: CustomModelRequest
+      dataset: Dataset
+      target_feature:
+        type: optional<string>
+        default: label
+      task: optional<Task>
+      evaluation: optional<EvaluationArgs>
+      alternatives: optional<list<Alternative>>
+      callback_url:
+        type: optional<string>
+        validation:
+          format: url
+      notify: optional<boolean>
+  TrainingCustomModel:
+    properties:
+      id: string
+      version_id: optional<string>
+  Transcription:
+    properties:
+      language: optional<Bcp47Tag>
+      identify_speakers:
+        type: optional<boolean>
+        docs: >-
+          Whether to return identifiers for speakers over time. If `true`,
+          unique identifiers will be assigned to spoken words to differentiate
+          different speakers. If `false`, all speakers will be tagged with an
+          `unknown` ID.
+      confidence_threshold:
+        type: optional<double>
+        docs: >-
+          Transcript confidence threshold. Transcripts generated with a
+          confidence less than this threshold will be considered invalid and not
+          used as an input for model inference.
+        default: 0.5
+        validation:
+          min: 0
+          max: 1
+  TranscriptionMetadata:
+    docs: Transcription metadata for your media file.
+    properties:
+      confidence:
+        type: double
+        docs: >-
+          Value between `0.0` and `1.0` indicating our transcription model's
+          relative confidence in the transcription of your media file.
+      detected_language: optional<Bcp47Tag>
+  Type:
+    enum:
+      - EMBEDDING_GENERATION
+      - INFERENCE
+      - TL_INFERENCE
+      - TRAINING
+  Unconfigurable:
+    docs: >-
+      To include predictions for this model type, set this field to `{}`. It is
+      currently not configurable further.
+    type: map<string, unknown>
+  UnionJob:
+    discriminant: type
+    base-properties: {}
+    union:
+      EMBEDDING_GENERATION: UnionJobJobEmbeddingGeneration
+      INFERENCE: UnionJobJobInference
+      TL_INFERENCE: UnionJobJobTlInference
+      TRAINING: UnionJobJobTraining
+  UnionJobJobEmbeddingGeneration:
+    properties: {}
+    extends:
+      - JobEmbeddingGeneration
+  UnionJobJobInference:
+    properties: {}
+    extends:
+      - JobInference
+  UnionJobJobTlInference:
+    properties: {}
+    extends:
+      - JobTlInference
+  UnionJobJobTraining:
+    properties: {}
+    extends:
+      - JobTraining
+  UnionPredictResult:
+    discriminated: false
+    union:
+      - InferenceSourcePredictResult
+      - TlInferenceSourcePredictResult
+  ValidationArgs:
+    properties:
+      positive_label: optional<Target>
+  When:
+    enum:
+      - created_before
+      - created_after
+  Window:
+    properties:
+      length:
+        type: optional<double>
+        docs: The length of the sliding window.
+        default: 4
+        validation:
+          min: 0.5
+      step:
+        type: optional<double>
+        docs: The step size of the sliding window.
+        default: 1
+        validation:
+          min: 0.5

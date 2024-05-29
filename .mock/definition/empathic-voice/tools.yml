@@ -5,9 +5,12 @@ service:
   base-path: ''
   endpoints:
     list-tools:
-      path: /tools
+      path: /v0/evi/tools
       method: GET
       auth: false
+      pagination:
+        offset: $request.page_number
+        results: $response.tools_page
       display-name: List tools
       request:
         name: ToolsListToolsRequest
@@ -69,7 +72,7 @@ service:
                     unit to use. Infer this from the users location." } },
                     "required": ["location", "format"] }
     create-tool:
-      path: /tools
+      path: /v0/evi/tools
       method: POST
       auth: false
       display-name: Create tool
@@ -134,7 +137,7 @@ service:
                 to use. Infer this from the users location." } }, "required":
                 ["location", "format"] }
     list-tool-versions:
-      path: /tools/{id}
+      path: /v0/evi/tools/{id}
       method: GET
       auth: false
       path-parameters:
@@ -185,7 +188,7 @@ service:
                     temperature unit to use. Infer this from the users
                     location." } }, "required": ["location", "format"] }
     create-tool-version:
-      path: /tools/{id}
+      path: /v0/evi/tools/{id}
       method: POST
       auth: false
       path-parameters:
@@ -252,7 +255,7 @@ service:
                 temperature unit to use. Infer this from the users location." }
                 }, "required": ["location", "format"] }
     delete-tool:
-      path: /tools/{id}
+      path: /v0/evi/tools/{id}
       method: DELETE
       auth: false
       path-parameters:
@@ -264,7 +267,7 @@ service:
         - path-parameters:
             id: 00183a3f-79ba-413d-9f3b-609864268bea
     update-tool-name:
-      path: /tools/{id}
+      path: /v0/evi/tools/{id}
       method: PATCH
       auth: false
       path-parameters:
@@ -288,7 +291,7 @@ service:
           request:
             name: get_current_temperature
     get-tool-version:
-      path: /tools/{id}/version/{version}
+      path: /v0/evi/tools/{id}/version/{version}
       method: GET
       auth: false
       path-parameters:
@@ -328,7 +331,7 @@ service:
                 temperature unit to use. Infer this from the users location." }
                 }, "required": ["location", "format"] }
     delete-tool-version:
-      path: /tools/{id}/version/{version}
+      path: /v0/evi/tools/{id}/version/{version}
       method: DELETE
       auth: false
       path-parameters:
@@ -344,7 +347,7 @@ service:
             id: 00183a3f-79ba-413d-9f3b-609864268bea
             version: 1
     update-tool-description:
-      path: /tools/{id}/version/{version}
+      path: /v0/evi/tools/{id}/version/{version}
       method: PATCH
       auth: false
       path-parameters:

@@ -5,10 +5,13 @@ service:
   base-path: ''
   endpoints:
     list-models:
-      path: /models
+      path: /v0/registry/models
       method: GET
       auth: true
       docs: Returns 200 if successful
+      pagination:
+        offset: $request.page_number
+        results: $response.content
       display-name: List models
       request:
         name: ModelsListModelsRequest
@@ -74,7 +77,7 @@ service:
               number_of_elements: 1
               empty: true
     get-model-details:
-      path: /models/{id}
+      path: /v0/registry/models/{id}
       method: GET
       auth: true
       docs: Returns 200 if successful
@@ -118,7 +121,7 @@ service:
                 training_job_id: training_job_id
               is_publicly_shared: true
     update-model-name:
-      path: /models/{id}
+      path: /v0/registry/models/{id}
       method: PATCH
       auth: true
       docs: Returns 200 if successful
@@ -170,7 +173,7 @@ service:
                 training_job_id: training_job_id
               is_publicly_shared: true
     list-model-versions:
-      path: /models/version
+      path: /v0/registry/models/version
       method: GET
       auth: true
       docs: Returns 200 if successful
@@ -217,7 +220,7 @@ service:
                 task_type: task_type
                 training_job_id: training_job_id
     get-model-version:
-      path: /models/version/{id}
+      path: /v0/registry/models/version/{id}
       method: GET
       auth: true
       docs: Returns 200 if successful
@@ -262,7 +265,7 @@ service:
               task_type: task_type
               training_job_id: training_job_id
     update-model-description:
-      path: /models/version/{id}
+      path: /v0/registry/models/version/{id}
       method: PATCH
       auth: true
       docs: Returns 200 if successful

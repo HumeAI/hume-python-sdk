@@ -5,7 +5,7 @@ service:
   base-path: ''
   endpoints:
     list-configs:
-      path: /configs
+      path: /v0/evi/configs
       method: GET
       auth: false
       display-name: List configs
@@ -48,7 +48,7 @@ service:
                     provider: provider
                     name: name
     create-config:
-      path: /configs
+      path: /v0/evi/configs
       method: POST
       auth: false
       display-name: Create config
@@ -118,7 +118,7 @@ service:
                   name: name
                   fallback_content: fallback_content
     list-config-versions:
-      path: /configs/{id}
+      path: /v0/evi/configs/{id}
       method: GET
       auth: false
       path-parameters:
@@ -167,7 +167,7 @@ service:
                     provider: provider
                     name: name
     create-config-version:
-      path: /configs/{id}
+      path: /v0/evi/configs/{id}
       method: POST
       auth: false
       path-parameters:
@@ -239,7 +239,7 @@ service:
                   name: name
                   fallback_content: fallback_content
     delete-config:
-      path: /configs/{id}
+      path: /v0/evi/configs/{id}
       method: DELETE
       auth: false
       path-parameters:
@@ -251,7 +251,7 @@ service:
         - path-parameters:
             id: id
     update-config-name:
-      path: /configs/{id}
+      path: /v0/evi/configs/{id}
       method: PATCH
       auth: false
       path-parameters:
@@ -270,7 +270,7 @@ service:
         docs: Success
         type: text
     get-config-version:
-      path: /configs/{id}/version/{version}
+      path: /v0/evi/configs/{id}/version/{version}
       method: GET
       auth: false
       path-parameters:
@@ -329,7 +329,7 @@ service:
                   name: name
                   fallback_content: fallback_content
     delete-config-version:
-      path: /configs/{id}/version/{version}
+      path: /v0/evi/configs/{id}/version/{version}
       method: DELETE
       auth: false
       path-parameters:
@@ -345,7 +345,7 @@ service:
             id: id
             version: 1
     update-config-description:
-      path: /configs/{id}/version/{version}
+      path: /v0/evi/configs/{id}/version/{version}
       method: PATCH
       auth: false
       path-parameters:

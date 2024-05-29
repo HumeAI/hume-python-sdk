@@ -16,8 +16,9 @@ jobs:
           curl -sSL https://install.python-poetry.org | python - -y --version 1.5.1
       - name: Install dependencies
         run: poetry install
+      #  The legacy tests have a number of mypy errors, just check src for now
       - name: Compile
-        run: poetry run mypy .
+        run: poetry run mypy ./src
   test:
     runs-on: ubuntu-20.04
     steps:

@@ -5,10 +5,13 @@ service:
   base-path: ''
   endpoints:
     list-files:
-      path: /files
+      path: /v0/registry/files
       method: GET
       auth: true
       docs: Returns 200 if successful
+      pagination:
+        offset: $request.page_number
+        results: $response.content
       display-name: List files
       request:
         name: FilesListFilesRequest
@@ -64,7 +67,7 @@ service:
               number_of_elements: 1
               empty: true
     create-files:
-      path: /files
+      path: /v0/registry/files
       method: POST
       auth: true
       docs: Returns 201 if successful
@@ -106,7 +109,7 @@ service:
                   - name: name
                     value: value
     upload-file:
-      path: /files/upload
+      path: /v0/registry/files/upload
       method: POST
       auth: true
       docs: >-
@@ -150,7 +153,7 @@ service:
                 - name: name
                   value: value
     get-file:
-      path: /files/{id}
+      path: /v0/registry/files/{id}
       method: GET
       auth: true
       docs: Returns 200 if successful
@@ -189,7 +192,7 @@ service:
                 - name: name
                   value: value
     delete-file:
-      path: /files/{id}
+      path: /v0/registry/files/{id}
       method: DELETE
       auth: true
       docs: Returns 204 if successful
@@ -202,7 +205,7 @@ service:
         - path-parameters:
             id: id
     update-file-name:
-      path: /files/{id}
+      path: /v0/registry/files/{id}
       method: PATCH
       auth: true
       docs: Returns 200 if successful
@@ -249,7 +252,7 @@ service:
                 - name: name
                   value: value
     get-file-predictions:
-      path: /files/{id}/predictions
+      path: /v0/registry/files/{id}/predictions
       method: GET
       auth: true
       docs: Returns 200 if successful

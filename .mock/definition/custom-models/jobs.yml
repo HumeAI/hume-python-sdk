@@ -5,7 +5,7 @@ service:
   base-path: ''
   endpoints:
     start-training-job:
-      path: /v0/batch/jobs/tl/train
+      path: /v0/registry/v0/batch/jobs/tl/train
       method: POST
       auth: true
       docs: Start a new custom models training job.
@@ -25,7 +25,7 @@ service:
             body:
               job_id: job_id
     start-custom-models-inference-job:
-      path: /v0/batch/jobs/tl/inference
+      path: /v0/registry/v0/batch/jobs/tl/inference
       method: POST
       auth: true
       docs: Start a new custom models inference job.
