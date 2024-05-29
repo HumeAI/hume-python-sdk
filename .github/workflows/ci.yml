@@ -35,7 +35,11 @@ jobs:
         run: poetry install
 
       - name: Install Fern
-        run: npm install -g fern-api
+        run: |
+          sudo apt update
+          sudo apt install libportaudio2
+          npm install -g fern-api
+
       - name: Test
         run: fern test --command "poetry run pytest -rP --ignore=./tests/custom/ ./tests"
 
