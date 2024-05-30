@@ -38,6 +38,7 @@ pydub = "^0.25.1"
 sounddevice = "^0.4.7"
 typing_extensions = ">= 4.0.0"
 websockets = "12"
+simpleaudio = "^1.0.4"
 
 [tool.poetry.dev-dependencies]
 mypy = "1.9.0"

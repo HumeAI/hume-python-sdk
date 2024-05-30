@@ -42,6 +42,7 @@ jobs:
       - name: Test
         env:
           HUME_DEV_API_KEY: ${{ secrets.HUME_DEV_API_KEY }}
+          HUME_CLIENT_SECRET: ${{ secrets.HUME_CLIENT_SECRET }}
         run: fern test --command "poetry run pytest -rP --ignore=./tests/custom/_ignored ./tests"
 
   publish:

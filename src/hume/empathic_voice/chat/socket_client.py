@@ -36,6 +36,9 @@ class AsyncChatConnectOptions(pydantic_v1.BaseModel):
 
 
 class AsyncChatWSSConnection:
+    DEFAULT_NUM_CHANNELS: typing.ClassVar[int] = 1
+    DEFAULT_SAMPLE_RATE: typing.ClassVar[int] = 44_100
+
     def __init__(
         self,
         *,
@@ -46,22 +49,23 @@ class AsyncChatWSSConnection:
         self.websocket = websocket
         self.params = params
 
+        self._num_channels = self.DEFAULT_NUM_CHANNELS
+        self._sample_rate = self.DEFAULT_SAMPLE_RATE
+
     async def __aiter__(self):
         async for message in self.websocket:
             yield message
 
-    # TODO: we can likely coerce the right response model within the union here, if we're
-    # assuming request-response pattern and 1:1 mapping between request and response types
     async def _send(self, data: typing.Any) -> SubscribeEvent:
-        await self.websocket.send(json.dumps(data))
+        if isinstance(data, dict):
+            data = json.dumps(data)
+        await self.websocket.send(data)
         # Mimicing the request-reply pattern and waiting for the
         # response as soon as we send it
         return await self.recv()
 
     async def recv(self) -> SubscribeEvent:
         data = await self.websocket.recv()
-        print("GETTING THAT DATA")
-        print(data)
         return pydantic_v1.parse_obj_as(SubscribeEvent, json.loads(data))  # type: ignore
 
     async def send_audio_input(self, message: AudioInput) -> SubscribeEvent:
@@ -88,6 +92,13 @@ class AsyncChatWSSConnection:
         -------
         SubscribeEvent
         """
+
+        # Update sample rate and channels
+        if message.audio.channels is not None:
+            self._num_channels = message.audio.channels
+        if message.audio.sample_rate is not None:
+            self._sample_rate = message.audio.sample_rate
+
         return await self._send(message.dict())
 
     async def send_text_input(self, message: UserInput) -> SubscribeEvent:
@@ -126,7 +137,7 @@ class AsyncChatWSSConnection:
             segment: AudioSegment = AudioSegment.from_file(f)
             segment = segment.set_frame_rate(self._sample_rate).set_channels(self._num_channels)
             audio_bytes = segment.raw_data
-            await self._protocol.send(audio_bytes)
+            await self._send(audio_bytes)
 
 
 class AsyncChatClientWithWebsocket:
@@ -156,8 +167,15 @@ class AsyncChatClientWithWebsocket:
 
         ws_uri = f"wss://api.hume.ai/v0/evi/chat?{query_params}"
 
-        async with websockets.connect(ws_uri) as protocol:
-            yield AsyncChatWSSConnection(websocket=protocol, params=options)
+        try:
+            async with websockets.connect(ws_uri) as protocol:
+                yield AsyncChatWSSConnection(websocket=protocol, params=options)
+        except websockets.exceptions.InvalidStatusCode as exc:
+            status_code: int = exc.status_code
+            if status_code == 401:
+                raise ApiError(status_code=status_code, body="Websocket initialized with invalid credentials.") from exc
+            raise ApiError(status_code=status_code, body="Unexpected error when initializing websocket connection.") from exc
+
 
     async def _fetch_access_token(self, client_secret: str, api_key: str) -> str:
         auth = f"{api_key}:{client_secret}"

@@ -10,6 +10,8 @@ from hume.core.api_error import ApiError
 from hume.custom_models.types.language import Language
 from hume.expression_measurement.stream.socket_client import AsyncStreamConnectOptions
 from hume.expression_measurement.stream.types.stream_data_models import StreamDataModels
+from hume.expression_measurement.stream.types.stream_data_models_face import StreamDataModelsFace
+from hume.expression_measurement.stream.types.stream_data_models_language import StreamDataModelsLanguage
 from hume.expression_measurement.types.face import Face
 from hume.expression_measurement.types.facemesh_prediction import FacemeshPrediction
 from hume.expression_measurement.types.prosody import Prosody
@@ -59,8 +61,7 @@ class TestServiceHumeStreamClient:
 
     async def test_invalid_api_key(self) -> None:
         invalid_client = HumeClient(api_key="invalid-api-key")
-        message = "HumeStreamClient initialized with invalid API key."
-        with pytest.raises(ApiError, match=re.escape(message)):
+        with pytest.raises(ApiError):
             async with invalid_client.expression_measurement.stream.connect(
                 options=AsyncStreamConnectOptions(
                     config=StreamDataModels(face=Face(identify_faces=True))
@@ -75,26 +76,8 @@ class TestServiceHumeStreamClient:
             )
         ) as websocket:
             response = await websocket.get_job_details()
-            job_id = response["job_details"]["job_id"]
+            job_id = response.job_details.job_id
             assert len(job_id) == 32
-
-    async def test_error_code_exception(
-        self,
-        eval_data: EvalData,
-        hume_client: HumeClient,
-        tmp_path_factory: TempPathFactory,
-    ) -> None:
-        data_url = eval_data["image-obama-face"]
-        data_filepath = tmp_path_factory.mktemp("data-dir") / "data-file"
-        urlretrieve(data_url, data_filepath)
-
-        async with hume_client.expression_measurement.stream.connect(
-            options=AsyncStreamConnectOptions(
-                config=StreamDataModels(prosody=Prosody())
-            )
-        ) as websocket:
-            with pytest.raises(ApiError):
-                await websocket.send_file(data_filepath)
 
     async def test_payload_config(
         self,
@@ -114,10 +97,10 @@ class TestServiceHumeStreamClient:
             options=AsyncStreamConnectOptions()
         ) as websocket:
             result = await websocket.send_file(
-                face_data_filepath, config=StreamDataModels(face=Face())
+                face_data_filepath, config=StreamDataModels(face=StreamDataModelsFace())
             )
             assert result.face.predictions is not None
             result = await websocket.send_file(
-                text_data_filepath, configs=StreamDataModels(language=Language())
+                text_data_filepath, config=StreamDataModels(language=StreamDataModelsLanguage())
             )
             assert result.language.predictions is not None

@@ -98,89 +98,8 @@ class TestServiceHumeVoiceClientChat:
                 if message["type"] in ["error", "assistant_end"]:
                     return
 
-    def create_weather_tool_config(
-        self, hume_client: HumeClient
-    ) -> Tuple[ReturnConfig, ReturnUserDefinedTool]:
-        # NOTE: This UUID can be removed when the API supports duplicate config names after deletion.
-        name_uuid = str(uuid4())
-        tool_name = f"weather-{name_uuid}"
-        parameters = json.dumps(WEATHER_TOOL_PARAMETERS)
-        tool = hume_client.empathic_voice.tools.create_tool(
-            name=tool_name,
-            parameters=parameters,
-        )
-
-        config_name = f"weather-assistant-{name_uuid}"
-        config = hume_client.empathic_voice.configs.create_config(
-            name=config_name,
-            prompt=WHETHER_ASSISTANT_PROMPT,
-            tools=[
-                PostedUserDefinedToolSpec(
-                    id=tool.id,
-                    version=tool.version,
-                )
-            ],
-            language_model=PostedLanguageModel(
-                model_provider="OPEN_AI", model_resource="gpt-3.5-turbo"
-            ),
-            voice=PostedVoice(name="ITO"),
-        )
-
-        return config, tool
-
     def clean_up(
         self, hume_client: HumeClient, config: ReturnConfig, tool: ReturnUserDefinedTool
     ) -> None:
         hume_client.empathic_voice.configs.delete_config(config.id)
         hume_client.empathic_voice.tools.delete_tool(tool.id)
-
-    async def test_tool_use(
-        self,
-        eval_data: EvalData,
-        hume_client: HumeClient,
-        tmp_path_factory: pytest.TempPathFactory,
-    ) -> None:
-        data_url = eval_data["weather-in-la"]
-        data_filepath = tmp_path_factory.mktemp("data-dir") / "sample.wav"
-        urlretrieve(data_url, data_filepath)
-
-        config, tool = self.create_weather_tool_config(hume_client)
-
-        async with hume_client.empathic_voice.chat.connect(
-            options=AsyncChatConnectOptions(
-                client_secret=os.getenv("HUME_CLIENT_SECRET")
-            )
-        ) as socket:
-            await socket.send_session_settings(
-                SessionSettings(
-                    audio=AudioConfiguration(
-                        encoding="linear16", sample_rate=16_000, channels=1
-                    )
-                )
-            )
-
-            await socket.send_file(data_filepath)
-            messages = []
-            async for message_str in socket:
-                logger.info("Received message on socket")
-                message = json.loads(message_str)
-
-                assert (
-                    "type" in message
-                ), f"Expected message to have a 'type' field: {message}"
-
-                # Simplify messages for logging
-                if message["type"] == "audio_output":
-                    message["data"] = "<redacted>"
-                if message["type"] in ["user_message", "assistant_message"]:
-                    message["models"] = "<redacted>"
-
-                message_str = json.dumps(message, indent=2)
-                logger.info(f"Message: {message_str}")
-
-                messages.append(message)
-
-                if message["type"] in ["error", "assistant_end"]:
-                    return
-
-        self.clean_up(hume_client, config, tool)

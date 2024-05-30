@@ -5,6 +5,8 @@ import typing
 import websockets
 import websockets.protocol
 
+from hume.core.api_error import ApiError
+
 from ..stream.types.stream_data_models import StreamDataModels
 from ..stream.types.subscribe_event import SubscribeEvent
 from ...core.pydantic_utilities import pydantic_v1
@@ -12,7 +14,7 @@ from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 
 
 class AsyncStreamConnectOptions(pydantic_v1.BaseModel):
-    config: StreamDataModels
+    config: typing.Optional[StreamDataModels]
     """
     Job config
     """
@@ -57,11 +59,12 @@ class AsyncStreamWSSConnection:
         self, data: str, raw_text: bool, config: typing.Optional[StreamDataModels]
     ) -> SubscribeEvent:
         if config != None:
-            self.config = config
+            self.params.config = config
 
         to_send = {"data": data, "raw_text": raw_text}
-        if self.config is not None:
-            to_send["models"] = self.config.dict()
+        if self.params.config is not None:
+            to_send["models"] = self.params.config.dict()
+
         return await self._send(to_send)
 
     async def get_job_details(self) -> SubscribeEvent:
@@ -159,7 +162,7 @@ class AsyncStreamWSSConnection:
         except:
             # If you cannot open the file, assume you were passed a b64 string, not a file path
             bytes_data = _file
-
+    
         return await self._send_config(data=bytes_data, raw_text=False, config=config)
 
 
@@ -174,9 +177,15 @@ class AsyncStreamClientWithWebsocket:
         api_key = options.api_key or self.client_wrapper.api_key
         if api_key is None:
             raise ValueError("An API key is required to connect to the streaming API.")
-
-        async with websockets.connect(  # type: ignore[attr-defined]
-            "wss://api.hume.ai/v0/stream/models",
-            extra_headers={"X-Hume-Api-Key": api_key},
-        ) as protocol:
-            yield AsyncStreamWSSConnection(websocket=protocol, params=options)
+        
+        try:
+            async with websockets.connect(  # type: ignore[attr-defined]
+                "wss://api.hume.ai/v0/stream/models",
+                extra_headers={"X-Hume-Api-Key": api_key},
+            ) as protocol:
+                yield AsyncStreamWSSConnection(websocket=protocol, params=options)
+        except websockets.exceptions.InvalidStatusCode as exc:
+            status_code: int = exc.status_code
+            if status_code == 401:
+                raise ApiError(status_code=status_code, body="Websocket initialized with invalid credentials.") from exc
+            raise ApiError(status_code=status_code, body="Unexpected error when initializing websocket connection.") from exc

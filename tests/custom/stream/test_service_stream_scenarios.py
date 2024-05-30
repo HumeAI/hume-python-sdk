@@ -5,9 +5,7 @@ from pytest import TempPathFactory
 
 from hume.client import HumeClient
 from hume.expression_measurement.stream.socket_client import AsyncStreamConnectOptions
-from hume.expression_measurement.stream.types.stream_data_models import StreamDataModels
-from hume.expression_measurement.types.face import Face
-from hume.expression_measurement.types.language import Language
+from hume.expression_measurement.stream.types import StreamDataModels, StreamDataModelsLanguage, StreamDataModelsFace
 from utilities.eval_data import EvalData
 
 
@@ -15,7 +13,6 @@ from utilities.eval_data import EvalData
 @pytest.mark.stream
 @pytest.mark.service
 class TestServiceStreamScenarios:
-
     async def test_facs_and_descriptions(
         self,
         eval_data: EvalData,
@@ -28,7 +25,7 @@ class TestServiceStreamScenarios:
 
         async with hume_client.expression_measurement.stream.connect(
             options=AsyncStreamConnectOptions(
-                config=StreamDataModels(face=Face(facs={}, descriptions={}))
+                config=StreamDataModels(face=StreamDataModelsFace(facs={}, descriptions={}))
             )
         ) as websocket:
             result = await websocket.send_file(data_filepath)
@@ -40,7 +37,7 @@ class TestServiceStreamScenarios:
         sample_text = "Hello! I hope this test works!"
         async with hume_client.expression_measurement.stream.connect(
             options=AsyncStreamConnectOptions(
-                config=StreamDataModels(language=Language(sentiment={}, toxicity={}))
+                config=StreamDataModels(language=StreamDataModelsLanguage(sentiment={}, toxicity={}))
             )
         ) as websocket:
             result = await websocket.send_text(sample_text)
