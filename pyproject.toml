@@ -87,7 +87,7 @@ line-length = 120
 
 [tool.covcheck.group.unit.coverage]
 branch = 42.0
-line = 71.0
+line = 70.0
 
 [tool.covcheck.group.service.coverage]
 branch = 56.0

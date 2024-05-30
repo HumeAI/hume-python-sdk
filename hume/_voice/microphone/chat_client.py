@@ -76,6 +76,11 @@ class ChatClient:
                     content = "Let's start over"
                     await self.sender.send_tool_response(socket=socket, tool_call_id=tool_call_id, content=content)
                 continue
+            elif message["type"] == "chat_metadata":
+                message_type = message["type"].upper()
+                chat_id = message["chat_id"]
+                chat_group_id = message["chat_group_id"]
+                text = f"<{message_type}> Chat ID: {chat_id}, Chat Group ID: {chat_group_id}"
             else:
                 message_type = message["type"].upper()
                 text = f"<{message_type}>"
