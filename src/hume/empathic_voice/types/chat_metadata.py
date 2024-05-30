@@ -5,39 +5,27 @@ import typing
 
 from ...core.datetime_utils import serialize_datetime
 from ...core.pydantic_utilities import deep_union_pydantic_dicts, pydantic_v1
-from .chat_message import ChatMessage
-from .inference import Inference
 
 
-class AssistantMessage(pydantic_v1.BaseModel):
+class ChatMetadata(pydantic_v1.BaseModel):
     """
-    When provided, the output is an assistant message.
+    When provided, the output is a chat metadata message.
+    """
+
+    chat_group_id: str = pydantic_v1.Field()
+    """
+    ID of the chat group. Used to resume a chat.
+    """
+
+    chat_id: str = pydantic_v1.Field()
+    """
+    ID of the chat.
     """
 
     custom_session_id: typing.Optional[str] = None
-    from_text: bool = pydantic_v1.Field()
+    type: typing.Literal["chat_metadata"] = pydantic_v1.Field(default="chat_metadata")
     """
-    Indicates if this message was constructed from a text input message.
-    """
-
-    id: typing.Optional[str] = pydantic_v1.Field(default=None)
-    """
-    ID of the assistant message.
-    """
-
-    message: ChatMessage = pydantic_v1.Field()
-    """
-    Transcript of the message.
-    """
-
-    models: Inference = pydantic_v1.Field()
-    """
-    Inference model results.
-    """
-
-    type: typing.Literal["assistant_message"] = pydantic_v1.Field(default="assistant_message")
-    """
-    The type of message sent through the socket; for an Assistant Message, this must be 'assistant_message'.
+    The type of message sent through the socket; for a Chat Metadata message, this must be 'chat_metadata'.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

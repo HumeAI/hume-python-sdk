@@ -11,13 +11,7 @@ async def test_list_jobs(client: HumeClient, async_client: AsyncHumeClient) -> N
             "job_id": "job_id",
             "request": {
                 "callback_url": None,
-                "files": [
-                    {
-                        "filename": "filename",
-                        "md5sum": "md5sum",
-                        "content_type": "content_type",
-                    }
-                ],
+                "files": [{"filename": "filename", "md5sum": "md5sum", "content_type": "content_type"}],
                 "models": {
                     "burst": {},
                     "face": {
@@ -37,11 +31,7 @@ async def test_list_jobs(client: HumeClient, async_client: AsyncHumeClient) -> N
                         "toxicity": None,
                     },
                     "ner": {"identify_speakers": False},
-                    "prosody": {
-                        "granularity": "utterance",
-                        "identify_speakers": False,
-                        "window": None,
-                    },
+                    "prosody": {"granularity": "utterance", "identify_speakers": False, "window": None},
                 },
                 "notify": True,
                 "registry_files": [],
@@ -68,9 +58,7 @@ async def test_list_jobs(client: HumeClient, async_client: AsyncHumeClient) -> N
     validate_response(async_response, expected_response, expected_types)
 
 
-async def test_start_inference_job(
-    client: HumeClient, async_client: AsyncHumeClient
-) -> None:
+async def test_start_inference_job(client: HumeClient, async_client: AsyncHumeClient) -> None:
     expected_response = {"job_id": "job_id"}
     expected_types = {"job_id": None}
     response = client.expression_measurement.batch.start_inference_job(
@@ -78,23 +66,17 @@ async def test_start_inference_job(
     )
     validate_response(response, expected_response, expected_types)
 
-    async_response = (
-        await async_client.expression_measurement.batch.start_inference_job(
-            urls=["https://hume-tutorials.s3.amazonaws.com/faces.zip"], notify=True
-        )
+    async_response = await async_client.expression_measurement.batch.start_inference_job(
+        urls=["https://hume-tutorials.s3.amazonaws.com/faces.zip"], notify=True
     )
     validate_response(async_response, expected_response, expected_types)
 
 
-async def test_get_job_details(
-    client: HumeClient, async_client: AsyncHumeClient
-) -> None:
+async def test_get_job_details(client: HumeClient, async_client: AsyncHumeClient) -> None:
     expected_response = {
         "type": "EMBEDDING_GENERATION",
         "job_id": "string",
-        "request": {
-            "registry_file_details": [{"file_id": "string", "file_url": "string"}]
-        },
+        "request": {"registry_file_details": [{"file_id": "string", "file_url": "string"}]},
         "state": {"status": "QUEUED", "created_timestamp_ms": 0},
         "user_id": "string",
     }
@@ -102,21 +84,14 @@ async def test_get_job_details(
     response = client.expression_measurement.batch.get_job_details(id="job_id")
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.expression_measurement.batch.get_job_details(
-        id="job_id"
-    )
+    async_response = await async_client.expression_measurement.batch.get_job_details(id="job_id")
     validate_response(async_response, expected_response, expected_types)
 
 
-async def test_get_job_predictions(
-    client: HumeClient, async_client: AsyncHumeClient
-) -> None:
+async def test_get_job_predictions(client: HumeClient, async_client: AsyncHumeClient) -> None:
     expected_response = [
         {
-            "source": {
-                "type": "url",
-                "url": "https://hume-tutorials.s3.amazonaws.com/faces.zip",
-            },
+            "source": {"type": "url", "url": "https://hume-tutorials.s3.amazonaws.com/faces.zip"},
             "results": {
                 "predictions": [
                     {
@@ -139,198 +114,54 @@ async def test_get_job_predictions(
                                                     "h": 1961.424560546875,
                                                 },
                                                 "emotions": [
-                                                    {
-                                                        "name": "Admiration",
-                                                        "score": 0.10722749680280685,
-                                                    },
-                                                    {
-                                                        "name": "Adoration",
-                                                        "score": 0.06395940482616425,
-                                                    },
-                                                    {
-                                                        "name": "Aesthetic Appreciation",
-                                                        "score": 0.05811462551355362,
-                                                    },
-                                                    {
-                                                        "name": "Amusement",
-                                                        "score": 0.14187128841876984,
-                                                    },
-                                                    {
-                                                        "name": "Anger",
-                                                        "score": 0.02804684266448021,
-                                                    },
-                                                    {
-                                                        "name": "Anxiety",
-                                                        "score": 0.2713485360145569,
-                                                    },
-                                                    {
-                                                        "name": "Awe",
-                                                        "score": 0.33812594413757324,
-                                                    },
-                                                    {
-                                                        "name": "Awkwardness",
-                                                        "score": 0.1745193600654602,
-                                                    },
-                                                    {
-                                                        "name": "Boredom",
-                                                        "score": 0.23600080609321594,
-                                                    },
-                                                    {
-                                                        "name": "Calmness",
-                                                        "score": 0.18988418579101562,
-                                                    },
-                                                    {
-                                                        "name": "Concentration",
-                                                        "score": 0.44288986921310425,
-                                                    },
-                                                    {
-                                                        "name": "Confusion",
-                                                        "score": 0.39346569776535034,
-                                                    },
-                                                    {
-                                                        "name": "Contemplation",
-                                                        "score": 0.31002455949783325,
-                                                    },
-                                                    {
-                                                        "name": "Contempt",
-                                                        "score": 0.048870109021663666,
-                                                    },
-                                                    {
-                                                        "name": "Contentment",
-                                                        "score": 0.0579497292637825,
-                                                    },
-                                                    {
-                                                        "name": "Craving",
-                                                        "score": 0.06544201076030731,
-                                                    },
-                                                    {
-                                                        "name": "Desire",
-                                                        "score": 0.05526508390903473,
-                                                    },
-                                                    {
-                                                        "name": "Determination",
-                                                        "score": 0.08590991795063019,
-                                                    },
-                                                    {
-                                                        "name": "Disappointment",
-                                                        "score": 0.19508258998394012,
-                                                    },
-                                                    {
-                                                        "name": "Disgust",
-                                                        "score": 0.031529419124126434,
-                                                    },
-                                                    {
-                                                        "name": "Distress",
-                                                        "score": 0.23210826516151428,
-                                                    },
-                                                    {
-                                                        "name": "Doubt",
-                                                        "score": 0.3284550905227661,
-                                                    },
-                                                    {
-                                                        "name": "Ecstasy",
-                                                        "score": 0.040716782212257385,
-                                                    },
-                                                    {
-                                                        "name": "Embarrassment",
-                                                        "score": 0.1467227339744568,
-                                                    },
-                                                    {
-                                                        "name": "Empathic Pain",
-                                                        "score": 0.07633581757545471,
-                                                    },
-                                                    {
-                                                        "name": "Entrancement",
-                                                        "score": 0.16245244443416595,
-                                                    },
-                                                    {
-                                                        "name": "Envy",
-                                                        "score": 0.03267110139131546,
-                                                    },
-                                                    {
-                                                        "name": "Excitement",
-                                                        "score": 0.10656816512346268,
-                                                    },
-                                                    {
-                                                        "name": "Fear",
-                                                        "score": 0.3115977346897125,
-                                                    },
-                                                    {
-                                                        "name": "Guilt",
-                                                        "score": 0.11615975946187973,
-                                                    },
-                                                    {
-                                                        "name": "Horror",
-                                                        "score": 0.19795553386211395,
-                                                    },
-                                                    {
-                                                        "name": "Interest",
-                                                        "score": 0.3136432468891144,
-                                                    },
-                                                    {
-                                                        "name": "Joy",
-                                                        "score": 0.06285581737756729,
-                                                    },
-                                                    {
-                                                        "name": "Love",
-                                                        "score": 0.06339752674102783,
-                                                    },
-                                                    {
-                                                        "name": "Nostalgia",
-                                                        "score": 0.05866732448339462,
-                                                    },
-                                                    {
-                                                        "name": "Pain",
-                                                        "score": 0.07684041559696198,
-                                                    },
-                                                    {
-                                                        "name": "Pride",
-                                                        "score": 0.026822954416275024,
-                                                    },
-                                                    {
-                                                        "name": "Realization",
-                                                        "score": 0.30000734329223633,
-                                                    },
-                                                    {
-                                                        "name": "Relief",
-                                                        "score": 0.04414166510105133,
-                                                    },
-                                                    {
-                                                        "name": "Romance",
-                                                        "score": 0.042728863656520844,
-                                                    },
-                                                    {
-                                                        "name": "Sadness",
-                                                        "score": 0.14773206412792206,
-                                                    },
-                                                    {
-                                                        "name": "Satisfaction",
-                                                        "score": 0.05902980640530586,
-                                                    },
-                                                    {
-                                                        "name": "Shame",
-                                                        "score": 0.08103451132774353,
-                                                    },
-                                                    {
-                                                        "name": "Surprise (negative)",
-                                                        "score": 0.25518184900283813,
-                                                    },
-                                                    {
-                                                        "name": "Surprise (positive)",
-                                                        "score": 0.28845661878585815,
-                                                    },
-                                                    {
-                                                        "name": "Sympathy",
-                                                        "score": 0.062488824129104614,
-                                                    },
-                                                    {
-                                                        "name": "Tiredness",
-                                                        "score": 0.1559651643037796,
-                                                    },
-                                                    {
-                                                        "name": "Triumph",
-                                                        "score": 0.01955239288508892,
-                                                    },
+                                                    {"name": "Admiration", "score": 0.10722749680280685},
+                                                    {"name": "Adoration", "score": 0.06395940482616425},
+                                                    {"name": "Aesthetic Appreciation", "score": 0.05811462551355362},
+                                                    {"name": "Amusement", "score": 0.14187128841876984},
+                                                    {"name": "Anger", "score": 0.02804684266448021},
+                                                    {"name": "Anxiety", "score": 0.2713485360145569},
+                                                    {"name": "Awe", "score": 0.33812594413757324},
+                                                    {"name": "Awkwardness", "score": 0.1745193600654602},
+                                                    {"name": "Boredom", "score": 0.23600080609321594},
+                                                    {"name": "Calmness", "score": 0.18988418579101562},
+                                                    {"name": "Concentration", "score": 0.44288986921310425},
+                                                    {"name": "Confusion", "score": 0.39346569776535034},
+                                                    {"name": "Contemplation", "score": 0.31002455949783325},
+                                                    {"name": "Contempt", "score": 0.048870109021663666},
+                                                    {"name": "Contentment", "score": 0.0579497292637825},
+                                                    {"name": "Craving", "score": 0.06544201076030731},
+                                                    {"name": "Desire", "score": 0.05526508390903473},
+                                                    {"name": "Determination", "score": 0.08590991795063019},
+                                                    {"name": "Disappointment", "score": 0.19508258998394012},
+                                                    {"name": "Disgust", "score": 0.031529419124126434},
+                                                    {"name": "Distress", "score": 0.23210826516151428},
+                                                    {"name": "Doubt", "score": 0.3284550905227661},
+                                                    {"name": "Ecstasy", "score": 0.040716782212257385},
+                                                    {"name": "Embarrassment", "score": 0.1467227339744568},
+                                                    {"name": "Empathic Pain", "score": 0.07633581757545471},
+                                                    {"name": "Entrancement", "score": 0.16245244443416595},
+                                                    {"name": "Envy", "score": 0.03267110139131546},
+                                                    {"name": "Excitement", "score": 0.10656816512346268},
+                                                    {"name": "Fear", "score": 0.3115977346897125},
+                                                    {"name": "Guilt", "score": 0.11615975946187973},
+                                                    {"name": "Horror", "score": 0.19795553386211395},
+                                                    {"name": "Interest", "score": 0.3136432468891144},
+                                                    {"name": "Joy", "score": 0.06285581737756729},
+                                                    {"name": "Love", "score": 0.06339752674102783},
+                                                    {"name": "Nostalgia", "score": 0.05866732448339462},
+                                                    {"name": "Pain", "score": 0.07684041559696198},
+                                                    {"name": "Pride", "score": 0.026822954416275024},
+                                                    {"name": "Realization", "score": 0.30000734329223633},
+                                                    {"name": "Relief", "score": 0.04414166510105133},
+                                                    {"name": "Romance", "score": 0.042728863656520844},
+                                                    {"name": "Sadness", "score": 0.14773206412792206},
+                                                    {"name": "Satisfaction", "score": 0.05902980640530586},
+                                                    {"name": "Shame", "score": 0.08103451132774353},
+                                                    {"name": "Surprise (negative)", "score": 0.25518184900283813},
+                                                    {"name": "Surprise (positive)", "score": 0.28845661878585815},
+                                                    {"name": "Sympathy", "score": 0.062488824129104614},
+                                                    {"name": "Tiredness", "score": 0.1559651643037796},
+                                                    {"name": "Triumph", "score": 0.01955239288508892},
                                                 ],
                                                 "facs": None,
                                                 "descriptions": None,
@@ -372,207 +203,58 @@ async def test_get_job_predictions(
                                                                 "frame": "integer",
                                                                 "time": None,
                                                                 "prob": None,
-                                                                "box": {
-                                                                    "x": None,
-                                                                    "y": None,
-                                                                    "w": None,
-                                                                    "h": None,
-                                                                },
+                                                                "box": {"x": None, "y": None, "w": None, "h": None},
                                                                 "emotions": (
                                                                     "list",
                                                                     {
-                                                                        0: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        1: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        2: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        3: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        4: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        5: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        6: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        7: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        8: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        9: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        10: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        11: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        12: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        13: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        14: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        15: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        16: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        17: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        18: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        19: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        20: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        21: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        22: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        23: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        24: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        25: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        26: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        27: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        28: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        29: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        30: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        31: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        32: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        33: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        34: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        35: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        36: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        37: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        38: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        39: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        40: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        41: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        42: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        43: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        44: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        45: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        46: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
-                                                                        47: {
-                                                                            "name": None,
-                                                                            "score": None,
-                                                                        },
+                                                                        0: {"name": None, "score": None},
+                                                                        1: {"name": None, "score": None},
+                                                                        2: {"name": None, "score": None},
+                                                                        3: {"name": None, "score": None},
+                                                                        4: {"name": None, "score": None},
+                                                                        5: {"name": None, "score": None},
+                                                                        6: {"name": None, "score": None},
+                                                                        7: {"name": None, "score": None},
+                                                                        8: {"name": None, "score": None},
+                                                                        9: {"name": None, "score": None},
+                                                                        10: {"name": None, "score": None},
+                                                                        11: {"name": None, "score": None},
+                                                                        12: {"name": None, "score": None},
+                                                                        13: {"name": None, "score": None},
+                                                                        14: {"name": None, "score": None},
+                                                                        15: {"name": None, "score": None},
+                                                                        16: {"name": None, "score": None},
+                                                                        17: {"name": None, "score": None},
+                                                                        18: {"name": None, "score": None},
+                                                                        19: {"name": None, "score": None},
+                                                                        20: {"name": None, "score": None},
+                                                                        21: {"name": None, "score": None},
+                                                                        22: {"name": None, "score": None},
+                                                                        23: {"name": None, "score": None},
+                                                                        24: {"name": None, "score": None},
+                                                                        25: {"name": None, "score": None},
+                                                                        26: {"name": None, "score": None},
+                                                                        27: {"name": None, "score": None},
+                                                                        28: {"name": None, "score": None},
+                                                                        29: {"name": None, "score": None},
+                                                                        30: {"name": None, "score": None},
+                                                                        31: {"name": None, "score": None},
+                                                                        32: {"name": None, "score": None},
+                                                                        33: {"name": None, "score": None},
+                                                                        34: {"name": None, "score": None},
+                                                                        35: {"name": None, "score": None},
+                                                                        36: {"name": None, "score": None},
+                                                                        37: {"name": None, "score": None},
+                                                                        38: {"name": None, "score": None},
+                                                                        39: {"name": None, "score": None},
+                                                                        40: {"name": None, "score": None},
+                                                                        41: {"name": None, "score": None},
+                                                                        42: {"name": None, "score": None},
+                                                                        43: {"name": None, "score": None},
+                                                                        44: {"name": None, "score": None},
+                                                                        45: {"name": None, "score": None},
+                                                                        46: {"name": None, "score": None},
+                                                                        47: {"name": None, "score": None},
                                                                     },
                                                                 ),
                                                                 "facs": None,
@@ -596,7 +278,5 @@ async def test_get_job_predictions(
     response = client.expression_measurement.batch.get_job_predictions(id="job_id")
     validate_response(response, expected_response, expected_types)
 
-    async_response = (
-        await async_client.expression_measurement.batch.get_job_predictions(id="job_id")
-    )
+    async_response = await async_client.expression_measurement.batch.get_job_predictions(id="job_id")
     validate_response(async_response, expected_response, expected_types)

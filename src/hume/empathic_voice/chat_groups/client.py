@@ -7,28 +7,25 @@ from json.decoder import JSONDecodeError
 from ...core.api_error import ApiError
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.jsonable_encoder import jsonable_encoder
-from ...core.pagination import AsyncPager, SyncPager
 from ...core.pydantic_utilities import pydantic_v1
 from ...core.query_encoder import encode_query
 from ...core.remove_none_from_dict import remove_none_from_dict
 from ...core.request_options import RequestOptions
-from ..types.return_chat import ReturnChat
-from ..types.return_chat_event import ReturnChatEvent
-from ..types.return_chat_paged_events import ReturnChatPagedEvents
-from ..types.return_paged_chats import ReturnPagedChats
+from ..types.return_chat_group_paged_events import ReturnChatGroupPagedEvents
+from ..types.return_paged_chat_groups import ReturnPagedChatGroups
 
 
-class ChatsClient:
+class ChatGroupsClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    def list_chats(
+    def list_chat_groups(
         self,
         *,
         page_number: typing.Optional[int] = None,
         page_size: typing.Optional[int] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[ReturnChat]:
+    ) -> ReturnPagedChatGroups:
         """
         Parameters
         ----------
@@ -43,7 +40,7 @@ class ChatsClient:
 
         Returns
         -------
-        SyncPager[ReturnChat]
+        ReturnPagedChatGroups
             Success
 
         Examples
@@ -53,11 +50,11 @@ class ChatsClient:
         client = HumeClient(
             api_key="YOUR_API_KEY",
         )
-        client.empathic_voice.chats.list_chats()
+        client.empathic_voice.chat_groups.list_chat_groups()
         """
         _response = self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/evi/chats"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/evi/chat_groups"),
             params=encode_query(
                 jsonable_encoder(
                     remove_none_from_dict(
@@ -88,29 +85,22 @@ class ChatsClient:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            _parsed_response = pydantic_v1.parse_obj_as(ReturnPagedChats, _response.json())  # type: ignore
-            _has_next = True
-            _get_next = lambda: self.list_chats(
-                page_number=page_number + 1 if page_number is not None else 1,
-                page_size=page_size,
-                request_options=request_options,
-            )
-            _items = _parsed_response.chats_page
-            return SyncPager(has_next=_has_next, items=_items, get_next=_get_next)
+            return pydantic_v1.parse_obj_as(ReturnPagedChatGroups, _response.json())  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def list_chat_events(
+    def list_chat_group_events(
         self,
         id: str,
         *,
         page_size: typing.Optional[int] = None,
         page_number: typing.Optional[int] = None,
+        ascending_order: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[ReturnChatEvent]:
+    ) -> ReturnChatGroupPagedEvents:
         """
         Parameters
         ----------
@@ -123,12 +113,15 @@ class ChatsClient:
         page_number : typing.Optional[int]
             The page number of the results to return.
 
+        ascending_order : typing.Optional[bool]
+            Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        SyncPager[ReturnChatEvent]
+        ReturnChatGroupPagedEvents
             Success
 
         Examples
@@ -138,19 +131,22 @@ class ChatsClient:
         client = HumeClient(
             api_key="YOUR_API_KEY",
         )
-        client.empathic_voice.chats.list_chat_events(
+        client.empathic_voice.chat_groups.list_chat_group_events(
             id="id",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"v0/evi/chats/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/evi/chat_groups/{jsonable_encoder(id)}/events"
+            ),
             params=encode_query(
                 jsonable_encoder(
                     remove_none_from_dict(
                         {
                             "page_size": page_size,
                             "page_number": page_number,
+                            "ascending_order": ascending_order,
                             **(
                                 request_options.get("additional_query_parameters", {})
                                 if request_options is not None
@@ -175,16 +171,7 @@ class ChatsClient:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            _parsed_response = pydantic_v1.parse_obj_as(ReturnChatPagedEvents, _response.json())  # type: ignore
-            _has_next = True
-            _get_next = lambda: self.list_chat_events(
-                id,
-                page_size=page_size,
-                page_number=page_number + 1 if page_number is not None else 1,
-                request_options=request_options,
-            )
-            _items = _parsed_response.events_page
-            return SyncPager(has_next=_has_next, items=_items, get_next=_get_next)
+            return pydantic_v1.parse_obj_as(ReturnChatGroupPagedEvents, _response.json())  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -192,17 +179,17 @@ class ChatsClient:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
 
-class AsyncChatsClient:
+class AsyncChatGroupsClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    async def list_chats(
+    async def list_chat_groups(
         self,
         *,
         page_number: typing.Optional[int] = None,
         page_size: typing.Optional[int] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[ReturnChat]:
+    ) -> ReturnPagedChatGroups:
         """
         Parameters
         ----------
@@ -217,7 +204,7 @@ class AsyncChatsClient:
 
         Returns
         -------
-        AsyncPager[ReturnChat]
+        ReturnPagedChatGroups
             Success
 
         Examples
@@ -227,11 +214,11 @@ class AsyncChatsClient:
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.empathic_voice.chats.list_chats()
+        await client.empathic_voice.chat_groups.list_chat_groups()
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/evi/chats"),
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/evi/chat_groups"),
             params=encode_query(
                 jsonable_encoder(
                     remove_none_from_dict(
@@ -262,29 +249,22 @@ class AsyncChatsClient:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            _parsed_response = pydantic_v1.parse_obj_as(ReturnPagedChats, _response.json())  # type: ignore
-            _has_next = True
-            _get_next = lambda: self.list_chats(
-                page_number=page_number + 1 if page_number is not None else 1,
-                page_size=page_size,
-                request_options=request_options,
-            )
-            _items = _parsed_response.chats_page
-            return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next)
+            return pydantic_v1.parse_obj_as(ReturnPagedChatGroups, _response.json())  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def list_chat_events(
+    async def list_chat_group_events(
         self,
         id: str,
         *,
         page_size: typing.Optional[int] = None,
         page_number: typing.Optional[int] = None,
+        ascending_order: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[ReturnChatEvent]:
+    ) -> ReturnChatGroupPagedEvents:
         """
         Parameters
         ----------
@@ -297,12 +277,15 @@ class AsyncChatsClient:
         page_number : typing.Optional[int]
             The page number of the results to return.
 
+        ascending_order : typing.Optional[bool]
+            Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        AsyncPager[ReturnChatEvent]
+        ReturnChatGroupPagedEvents
             Success
 
         Examples
@@ -312,19 +295,22 @@ class AsyncChatsClient:
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.empathic_voice.chats.list_chat_events(
+        await client.empathic_voice.chat_groups.list_chat_group_events(
             id="id",
         )
         """
         _response = await self._client_wrapper.httpx_client.request(
             method="GET",
-            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"v0/evi/chats/{jsonable_encoder(id)}"),
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v0/evi/chat_groups/{jsonable_encoder(id)}/events"
+            ),
             params=encode_query(
                 jsonable_encoder(
                     remove_none_from_dict(
                         {
                             "page_size": page_size,
                             "page_number": page_number,
+                            "ascending_order": ascending_order,
                             **(
                                 request_options.get("additional_query_parameters", {})
                                 if request_options is not None
@@ -349,16 +335,7 @@ class AsyncChatsClient:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            _parsed_response = pydantic_v1.parse_obj_as(ReturnChatPagedEvents, _response.json())  # type: ignore
-            _has_next = True
-            _get_next = lambda: self.list_chat_events(
-                id,
-                page_size=page_size,
-                page_number=page_number + 1 if page_number is not None else 1,
-                request_options=request_options,
-            )
-            _items = _parsed_response.events_page
-            return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next)
+            return pydantic_v1.parse_obj_as(ReturnChatGroupPagedEvents, _response.json())  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:

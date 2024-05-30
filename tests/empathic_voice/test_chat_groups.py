@@ -5,61 +5,55 @@ from hume.client import AsyncHumeClient, HumeClient
 from ..utilities import validate_response
 
 
-async def test_list_chats(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_list_chat_groups(client: HumeClient, async_client: AsyncHumeClient) -> None:
     expected_response = {
         "page_number": 1,
         "page_size": 1,
-        "chats_page": [
+        "chat_groups_page": [
             {
                 "id": "id",
-                "tag": "tag",
-                "status": "status",
-                "start_timestamp": 1,
-                "end_timestamp": 1,
-                "event_count": 1,
-                "metadata": "metadata",
-                "config": {"id": "id"},
+                "first_start_timestamp": 1,
+                "most_recent_start_timestamp": 1,
+                "most_recent_chat_id": "most_recent_chat_id",
+                "num_chats": 1,
+                "active": True,
             }
         ],
     }
     expected_types = {
         "page_number": "integer",
         "page_size": "integer",
-        "chats_page": (
+        "chat_groups_page": (
             "list",
             {
                 0: {
                     "id": None,
-                    "tag": None,
-                    "status": None,
-                    "start_timestamp": "integer",
-                    "end_timestamp": "integer",
-                    "event_count": "integer",
-                    "metadata": None,
-                    "config": {"id": None},
+                    "first_start_timestamp": "integer",
+                    "most_recent_start_timestamp": "integer",
+                    "most_recent_chat_id": None,
+                    "num_chats": "integer",
+                    "active": None,
                 }
             },
         ),
     }
-    response = client.empathic_voice.chats.list_chats()
+    response = client.empathic_voice.chat_groups.list_chat_groups()
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.empathic_voice.chats.list_chats()
+    async_response = await async_client.empathic_voice.chat_groups.list_chat_groups()
     validate_response(async_response, expected_response, expected_types)
 
 
-async def test_list_chat_events(
-    client: HumeClient, async_client: AsyncHumeClient
-) -> None:
+async def test_list_chat_group_events(client: HumeClient, async_client: AsyncHumeClient) -> None:
     expected_response = {
         "id": "id",
-        "tag": "tag",
-        "status": "status",
-        "start_timestamp": 1,
-        "end_timestamp": 1,
+        "page_number": 1,
+        "page_size": 1,
+        "pagination_direction": "pagination_direction",
         "events_page": [
             {
                 "id": "id",
+                "chat_id": "chat_id",
                 "timestamp": 1,
                 "role": "role",
                 "type": "type",
@@ -68,22 +62,18 @@ async def test_list_chat_events(
                 "metadata": "metadata",
             }
         ],
-        "metadata": "metadata",
-        "page_number": 1,
-        "page_size": 1,
-        "config": {"id": "id", "version": 1},
     }
     expected_types = {
         "id": None,
-        "tag": None,
-        "status": None,
-        "start_timestamp": "integer",
-        "end_timestamp": "integer",
+        "page_number": "integer",
+        "page_size": "integer",
+        "pagination_direction": None,
         "events_page": (
             "list",
             {
                 0: {
                     "id": None,
+                    "chat_id": None,
                     "timestamp": "integer",
                     "role": None,
                     "type": None,
@@ -93,13 +83,9 @@ async def test_list_chat_events(
                 }
             },
         ),
-        "metadata": None,
-        "page_number": "integer",
-        "page_size": "integer",
-        "config": {"id": None, "version": "integer"},
     }
-    response = client.empathic_voice.chats.list_chat_events(id="id")
+    response = client.empathic_voice.chat_groups.list_chat_group_events(id="id")
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.empathic_voice.chats.list_chat_events(id="id")
+    async_response = await async_client.empathic_voice.chat_groups.list_chat_group_events(id="id")
     validate_response(async_response, expected_response, expected_types)

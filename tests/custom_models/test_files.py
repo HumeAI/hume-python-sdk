@@ -57,20 +57,12 @@ async def test_create_files(client: HumeClient, async_client: AsyncHumeClient) -
         },
     )
     response = client.custom_models.files.create_files(
-        request=[
-            FileWithAttributesInput(
-                file=FileInput(name="name", hume_storage=True, data_type="data_type")
-            )
-        ]
+        request=[FileWithAttributesInput(file=FileInput(name="name", hume_storage=True, data_type="data_type"))]
     )
     validate_response(response, expected_response, expected_types)
 
     async_response = await async_client.custom_models.files.create_files(
-        request=[
-            FileWithAttributesInput(
-                file=FileInput(name="name", hume_storage=True, data_type="data_type")
-            )
-        ]
+        request=[FileWithAttributesInput(file=FileInput(name="name", hume_storage=True, data_type="data_type"))]
     )
     validate_response(async_response, expected_response, expected_types)
 
@@ -132,9 +124,7 @@ async def test_delete_file(client: HumeClient, async_client: AsyncHumeClient) ->
     assert await async_client.custom_models.files.delete_file(id="id") is None  # type: ignore[func-returns-value]
 
 
-async def test_update_file_name(
-    client: HumeClient, async_client: AsyncHumeClient
-) -> None:
+async def test_update_file_name(client: HumeClient, async_client: AsyncHumeClient) -> None:
     expected_response = {
         "file": {
             "id": "id",
@@ -180,15 +170,11 @@ async def test_update_file_name(
     response = client.custom_models.files.update_file_name(id="id", name="name")
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.custom_models.files.update_file_name(
-        id="id", name="name"
-    )
+    async_response = await async_client.custom_models.files.update_file_name(id="id", name="name")
     validate_response(async_response, expected_response, expected_types)
 
 
-async def test_get_file_predictions(
-    client: HumeClient, async_client: AsyncHumeClient
-) -> None:
+async def test_get_file_predictions(client: HumeClient, async_client: AsyncHumeClient) -> None:
     # Type ignore to avoid mypy complaining about the function not being meant to return a value
     assert client.custom_models.files.get_file_predictions(id="id") is None  # type: ignore[func-returns-value]
 

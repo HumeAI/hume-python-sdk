@@ -11,6 +11,7 @@ from .types import (
     BuiltinToolConfig,
     ChatMessage,
     ChatMessageToolResult,
+    ChatMetadata,
     Context,
     ContextType,
     EmotionScores,
@@ -34,10 +35,14 @@ from .types import (
     ReturnBuiltinTool,
     ReturnChat,
     ReturnChatEvent,
+    ReturnChatGroup,
+    ReturnChatGroupPagedChats,
+    ReturnChatGroupPagedEvents,
     ReturnChatPagedEvents,
     ReturnConfig,
     ReturnConfigSpec,
     ReturnLanguageModel,
+    ReturnPagedChatGroups,
     ReturnPagedChats,
     ReturnPagedConfigs,
     ReturnPagedPrompts,
@@ -59,7 +64,7 @@ from .types import (
     UserMessage,
     WebSocketError,
 )
-from . import chat, chats, configs, prompts, tools
+from . import chat, chat_groups, chats, configs, prompts, tools
 from .chat import PublishEvent, SubscribeEvent
 
 __all__ = [
@@ -73,6 +78,7 @@ __all__ = [
     "BuiltinToolConfig",
     "ChatMessage",
     "ChatMessageToolResult",
+    "ChatMetadata",
     "Context",
     "ContextType",
     "EmotionScores",
@@ -97,10 +103,14 @@ __all__ = [
     "ReturnBuiltinTool",
     "ReturnChat",
     "ReturnChatEvent",
+    "ReturnChatGroup",
+    "ReturnChatGroupPagedChats",
+    "ReturnChatGroupPagedEvents",
     "ReturnChatPagedEvents",
     "ReturnConfig",
     "ReturnConfigSpec",
     "ReturnLanguageModel",
+    "ReturnPagedChatGroups",
     "ReturnPagedChats",
     "ReturnPagedConfigs",
     "ReturnPagedPrompts",
@@ -123,6 +133,7 @@ __all__ = [
     "UserMessage",
     "WebSocketError",
     "chat",
+    "chat_groups",
     "chats",
     "configs",
     "prompts",

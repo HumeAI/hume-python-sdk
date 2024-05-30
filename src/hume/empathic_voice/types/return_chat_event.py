@@ -17,6 +17,11 @@ class ReturnChatEvent(pydantic_v1.BaseModel):
     Identifier for a chat event. Formatted as a UUID.
     """
 
+    chat_id: str = pydantic_v1.Field()
+    """
+    Identifier for the chat this event occurred in. Formatted as a UUID.
+    """
+
     timestamp: int = pydantic_v1.Field()
     """
     The timestamp when the chat event occurred, formatted as a Unix epoch milliseconds.

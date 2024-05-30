@@ -43,18 +43,14 @@ async def test_get_dataset(client: HumeClient, async_client: AsyncHumeClient) ->
     validate_response(async_response, expected_response, expected_types)
 
 
-async def test_delete_dataset(
-    client: HumeClient, async_client: AsyncHumeClient
-) -> None:
+async def test_delete_dataset(client: HumeClient, async_client: AsyncHumeClient) -> None:
     # Type ignore to avoid mypy complaining about the function not being meant to return a value
     assert client.custom_models.datasets.delete_dataset(id="id") is None  # type: ignore[func-returns-value]
 
     assert await async_client.custom_models.datasets.delete_dataset(id="id") is None  # type: ignore[func-returns-value]
 
 
-async def test_list_dataset_files(
-    client: HumeClient, async_client: AsyncHumeClient
-) -> None:
+async def test_list_dataset_files(client: HumeClient, async_client: AsyncHumeClient) -> None:
     expected_response = [
         {
             "content": [
@@ -68,13 +64,7 @@ async def test_list_dataset_files(
                     }
                 }
             ],
-            "pageable": {
-                "offset": 1,
-                "paged": True,
-                "unpaged": True,
-                "page_number": 1,
-                "page_size": 1,
-            },
+            "pageable": {"offset": 1, "paged": True, "unpaged": True, "page_number": 1, "page_size": 1},
             "total": 1,
             "last": True,
             "total_elements": 1,
@@ -128,15 +118,11 @@ async def test_list_dataset_files(
     response = client.custom_models.datasets.list_dataset_files(id="id")
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.custom_models.datasets.list_dataset_files(
-        id="id"
-    )
+    async_response = await async_client.custom_models.datasets.list_dataset_files(id="id")
     validate_response(async_response, expected_response, expected_types)
 
 
-async def test_get_dataset_version(
-    client: HumeClient, async_client: AsyncHumeClient
-) -> None:
+async def test_get_dataset_version(client: HumeClient, async_client: AsyncHumeClient) -> None:
     expected_response = {
         "id": "id",
         "user_id": "user_id",
@@ -160,15 +146,11 @@ async def test_get_dataset_version(
     response = client.custom_models.datasets.get_dataset_version(id="id")
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.custom_models.datasets.get_dataset_version(
-        id="id"
-    )
+    async_response = await async_client.custom_models.datasets.get_dataset_version(id="id")
     validate_response(async_response, expected_response, expected_types)
 
 
-async def test_list_dataset_version_files(
-    client: HumeClient, async_client: AsyncHumeClient
-) -> None:
+async def test_list_dataset_version_files(client: HumeClient, async_client: AsyncHumeClient) -> None:
     expected_response = [
         {
             "content": [
@@ -182,13 +164,7 @@ async def test_list_dataset_version_files(
                     }
                 }
             ],
-            "pageable": {
-                "offset": 1,
-                "paged": True,
-                "unpaged": True,
-                "page_number": 1,
-                "page_size": 1,
-            },
+            "pageable": {"offset": 1, "paged": True, "unpaged": True, "page_number": 1, "page_size": 1},
             "total": 1,
             "last": True,
             "total_elements": 1,
@@ -242,7 +218,5 @@ async def test_list_dataset_version_files(
     response = client.custom_models.datasets.list_dataset_version_files(id="id")
     validate_response(response, expected_response, expected_types)
 
-    async_response = (
-        await async_client.custom_models.datasets.list_dataset_version_files(id="id")
-    )
+    async_response = await async_client.custom_models.datasets.list_dataset_version_files(id="id")
     validate_response(async_response, expected_response, expected_types)

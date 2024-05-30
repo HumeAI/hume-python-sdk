@@ -5,55 +5,39 @@ import typing
 
 from ...core.datetime_utils import serialize_datetime
 from ...core.pydantic_utilities import deep_union_pydantic_dicts, pydantic_v1
-from .return_config_spec import ReturnConfigSpec
 
 
-class ReturnChat(pydantic_v1.BaseModel):
+class ReturnChatGroup(pydantic_v1.BaseModel):
     """
-    A description of chat and its status
+    A description of chat_group and its status
     """
 
     id: str = pydantic_v1.Field()
     """
-    Identifier for a chat. Formatted as a UUID.
-    """
-
-    chat_group_id: str = pydantic_v1.Field()
-    """
     Identifier for the chat group. Any chat resumed from this chat will have the same chat_group_id. Formatted as a UUID.
     """
 
-    tag: typing.Optional[str] = pydantic_v1.Field(default=None)
+    first_start_timestamp: int = pydantic_v1.Field()
     """
-    Optional tag applied to this chat used to group chats by user, application, etc.
-    """
-
-    status: str = pydantic_v1.Field()
-    """
-    The status of the chat. Values from the ChatStatus enum.
+    The timestamp when the first chat in this chat group started, formatted as a Unix epoch milliseconds.
     """
 
-    start_timestamp: int = pydantic_v1.Field()
+    most_recent_start_timestamp: int = pydantic_v1.Field()
     """
-    The timestamp when the chat started, formatted as a Unix epoch milliseconds.
-    """
-
-    end_timestamp: typing.Optional[int] = pydantic_v1.Field(default=None)
-    """
-    The timestamp when the chat ended, formatted as a Unix epoch milliseconds.
+    The timestamp when the most recent chat in this chat group started, formatted as a Unix epoch milliseconds.
     """
 
-    event_count: typing.Optional[int] = pydantic_v1.Field(default=None)
+    most_recent_chat_id: typing.Optional[str] = pydantic_v1.Field(default=None)
     """
-    The total number of events currently in this chat.
-    """
-
-    metadata: typing.Optional[str] = pydantic_v1.Field(default=None)
-    """
-    Stringified JSON with additional metadata about the chat.
+    The chat_id of the most recent chat in this chat group. Formatted as a UUID.
     """
 
-    config: typing.Optional[ReturnConfigSpec] = None
+    num_chats: int = pydantic_v1.Field()
+    """
+    The total number of chats in this chat group.
+    """
+
+    active: typing.Optional[bool] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

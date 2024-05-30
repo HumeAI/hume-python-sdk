@@ -10,6 +10,7 @@ from .built_in_tool import BuiltInTool
 from .builtin_tool_config import BuiltinToolConfig
 from .chat_message import ChatMessage
 from .chat_message_tool_result import ChatMessageToolResult
+from .chat_metadata import ChatMetadata
 from .context import Context
 from .context_type import ContextType
 from .emotion_scores import EmotionScores
@@ -33,10 +34,14 @@ from .return_active_chat_count_per_tag import ReturnActiveChatCountPerTag
 from .return_builtin_tool import ReturnBuiltinTool
 from .return_chat import ReturnChat
 from .return_chat_event import ReturnChatEvent
+from .return_chat_group import ReturnChatGroup
+from .return_chat_group_paged_chats import ReturnChatGroupPagedChats
+from .return_chat_group_paged_events import ReturnChatGroupPagedEvents
 from .return_chat_paged_events import ReturnChatPagedEvents
 from .return_config import ReturnConfig
 from .return_config_spec import ReturnConfigSpec
 from .return_language_model import ReturnLanguageModel
+from .return_paged_chat_groups import ReturnPagedChatGroups
 from .return_paged_chats import ReturnPagedChats
 from .return_paged_configs import ReturnPagedConfigs
 from .return_paged_prompts import ReturnPagedPrompts
@@ -69,6 +74,7 @@ __all__ = [
     "BuiltinToolConfig",
     "ChatMessage",
     "ChatMessageToolResult",
+    "ChatMetadata",
     "Context",
     "ContextType",
     "EmotionScores",
@@ -92,10 +98,14 @@ __all__ = [
     "ReturnBuiltinTool",
     "ReturnChat",
     "ReturnChatEvent",
+    "ReturnChatGroup",
+    "ReturnChatGroupPagedChats",
+    "ReturnChatGroupPagedEvents",
     "ReturnChatPagedEvents",
     "ReturnConfig",
     "ReturnConfigSpec",
     "ReturnLanguageModel",
+    "ReturnPagedChatGroups",
     "ReturnPagedChats",
     "ReturnPagedConfigs",
     "ReturnPagedPrompts",

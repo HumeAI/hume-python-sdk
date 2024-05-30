@@ -5,39 +5,27 @@ import typing
 
 from ...core.datetime_utils import serialize_datetime
 from ...core.pydantic_utilities import deep_union_pydantic_dicts, pydantic_v1
-from .chat_message import ChatMessage
-from .inference import Inference
+from .return_chat_group import ReturnChatGroup
 
 
-class AssistantMessage(pydantic_v1.BaseModel):
+class ReturnPagedChatGroups(pydantic_v1.BaseModel):
     """
-    When provided, the output is an assistant message.
-    """
-
-    custom_session_id: typing.Optional[str] = None
-    from_text: bool = pydantic_v1.Field()
-    """
-    Indicates if this message was constructed from a text input message.
+    A paginated list of chat_groups returned from the server
     """
 
-    id: typing.Optional[str] = pydantic_v1.Field(default=None)
+    page_number: int = pydantic_v1.Field()
     """
-    ID of the assistant message.
-    """
-
-    message: ChatMessage = pydantic_v1.Field()
-    """
-    Transcript of the message.
+    The page number of the returned results.
     """
 
-    models: Inference = pydantic_v1.Field()
+    page_size: int = pydantic_v1.Field()
     """
-    Inference model results.
+    The number of results returned per page.
     """
 
-    type: typing.Literal["assistant_message"] = pydantic_v1.Field(default="assistant_message")
+    chat_groups_page: typing.List[ReturnChatGroup] = pydantic_v1.Field()
     """
-    The type of message sent through the socket; for an Assistant Message, this must be 'assistant_message'.
+    List of chat_groups and their metadata returned for the specified page number and page size.
     """
 
     def json(self, **kwargs: typing.Any) -> str:
