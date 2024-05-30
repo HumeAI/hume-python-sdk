@@ -29,6 +29,7 @@ class ChatMixin(ClientBase):
 
         Args:
             config_id (Optional[str]): Config ID.
+            chat_group_id (Optional[str]): Chat group ID.
         """
         uri_base = self._build_endpoint("evi", "chat", Protocol.WS)
 
@@ -42,7 +43,7 @@ class ChatMixin(ClientBase):
         if config_id is not None:
             params["config_id"] = config_id
         if chat_group_id is not None:
-            params["chat_group_id"] = chat_group_id
+            params["resumed_chat_group_id"] = chat_group_id
 
         encoded_params = urllib.parse.urlencode(params)
         uri = f"{uri_base}?{encoded_params}"
