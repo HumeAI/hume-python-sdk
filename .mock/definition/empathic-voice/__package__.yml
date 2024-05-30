@@ -244,6 +244,11 @@ types:
       id:
         type: string
         docs: Identifier for a chat. Formatted as a UUID.
+      chat_group_id:
+        type: string
+        docs: >-
+          Identifier for the chat group. Any chat resumed from this chat will
+          have the same chat_group_id. Formatted as a UUID.
       tag:
         type: optional<string>
         docs: >-
@@ -300,6 +305,9 @@ types:
       id:
         type: string
         docs: Identifier for a chat event. Formatted as a UUID.
+      chat_id:
+        type: string
+        docs: Identifier for the chat this event occurred in. Formatted as a UUID.
       timestamp:
         type: integer
         docs: >-
@@ -334,6 +342,11 @@ types:
       id:
         type: string
         docs: Identifier for a chat. Formatted as a UUID.
+      chat_group_id:
+        type: string
+        docs: >-
+          Identifier for the chat group. Any chat resumed from this chat will
+          have the same chat_group_id. Formatted as a UUID.
       tag:
         type: optional<string>
         docs: >-
@@ -394,6 +407,106 @@ types:
       total_tag_active_chats:
         type: integer
         docs: The total number of active chats for this user with the specified tag.
+  ReturnChatGroupPagedEvents:
+    docs: >-
+      A paginated list of chat events that occurred across chats in this
+      chat_group from the server
+    properties:
+      id:
+        type: string
+        docs: >-
+          Identifier for the chat group. Any chat resumed from this chat will
+          have the same chat_group_id. Formatted as a UUID.
+      page_number:
+        type: integer
+        docs: The page number of the returned results.
+      page_size:
+        type: integer
+        docs: The number of results returned per page.
+      pagination_direction:
+        type: string
+        docs: The direction of the pagination (ASC or DESC).
+      events_page:
+        docs: >-
+          List of chat_events returned for the specified page number and page
+          size.
+        type: list<ReturnChatEvent>
+  ReturnChatGroupPagedChats:
+    docs: >-
+      A description of chat_group and its status with a paginated list of each
+      chat in the chat_group
+    properties:
+      id:
+        type: string
+        docs: >-
+          Identifier for the chat group. Any chat resumed from this chat will
+          have the same chat_group_id. Formatted as a UUID.
+      first_start_timestamp:
+        type: integer
+        docs: >-
+          The timestamp when the first chat in this chat group started,
+          formatted as a Unix epoch milliseconds.
+      most_recent_start_timestamp:
+        type: integer
+        docs: >-
+          The timestamp when the most recent chat in this chat group started,
+          formatted as a Unix epoch milliseconds.
+      num_chats:
+        type: integer
+        docs: The total number of chats in this chat group.
+      page_number:
+        type: integer
+        docs: The page number of the returned results.
+      page_size:
+        type: integer
+        docs: The number of results returned per page.
+      chats_page:
+        docs: >-
+          List of chats and their metadata returned for the specified page
+          number and page size.
+        type: list<ReturnChat>
+      active: optional<boolean>
+  ReturnChatGroup:
+    docs: A description of chat_group and its status
+    properties:
+      id:
+        type: string
+        docs: >-
+          Identifier for the chat group. Any chat resumed from this chat will
+          have the same chat_group_id. Formatted as a UUID.
+      first_start_timestamp:
+        type: integer
+        docs: >-
+          The timestamp when the first chat in this chat group started,
+          formatted as a Unix epoch milliseconds.
+      most_recent_start_timestamp:
+        type: integer
+        docs: >-
+          The timestamp when the most recent chat in this chat group started,
+          formatted as a Unix epoch milliseconds.
+      most_recent_chat_id:
+        type: optional<string>
+        docs: >-
+          The chat_id of the most recent chat in this chat group. Formatted as a
+          UUID.
+      num_chats:
+        type: integer
+        docs: The total number of chats in this chat group.
+      active: optional<boolean>
+  ReturnPagedChatGroups:
+    docs: A paginated list of chat_groups returned from the server
+    properties:
+      page_number:
+        type: integer
+        docs: The page number of the returned results.
+      page_size:
+        type: integer
+        docs: The number of results returned per page.
+      chat_groups_page:
+        docs: >-
+          List of chat_groups and their metadata returned for the specified page
+          number and page size.
+        type: list<ReturnChatGroup>
   AssistantEnd:
     docs: When provided, the output is an assistant end message.
     properties:
@@ -434,8 +547,8 @@ types:
       type:
         type: literal<"assistant_message">
         docs: >-
-          The type of message sent through the socket; for an Assistant Message
-          message, this must be 'assistant_message'.
+          The type of message sent through the socket; for an Assistant Message,
+          this must be 'assistant_message'.
   AudioConfiguration:
     properties:
       channels:
@@ -499,6 +612,21 @@ types:
       tool_result:
         type: optional<ChatMessageToolResult>
         docs: Function call response from client.
+  ChatMetadata:
+    docs: When provided, the output is a chat metadata message.
+    properties:
+      chat_group_id:
+        type: string
+        docs: ID of the chat group. Used to resume a chat.
+      chat_id:
+        type: string
+        docs: ID of the chat.
+      custom_session_id: optional<string>
+      type:
+        type: literal<"chat_metadata">
+        docs: >-
+          The type of message sent through the socket; for a Chat Metadata
+          message, this must be 'chat_metadata'.
   Context:
     properties:
       text:
