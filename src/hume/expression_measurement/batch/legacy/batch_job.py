@@ -2,7 +2,10 @@
 
 import json
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Union
+from typing import TYPE_CHECKING, Any, List, Union
+
+from hume.core import jsonable_encoder
+from hume.custom_models.types.union_predict_result import UnionPredictResult
 
 from .retry_utilities import RetryIterError, retry
 from ...types.status import Status
@@ -39,7 +42,7 @@ class BatchJob:
         """
         return self.get_details().state.status
 
-    def get_predictions(self) -> Any:
+    def get_predictions(self) -> List[UnionPredictResult]:
         """Get `BatchJob` predictions.
 
         Returns:
@@ -55,7 +58,7 @@ class BatchJob:
         """
         predictions = self.get_predictions()
         with Path(filepath).open("w") as f:
-            json.dump(predictions, f)
+            json.dump(jsonable_encoder(predictions), f)
 
     def download_artifacts(self, filepath: Union[str, Path]) -> None:
         """Download `BatchJob` artifacts zip file.

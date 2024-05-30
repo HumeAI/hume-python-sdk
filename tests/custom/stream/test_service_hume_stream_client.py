@@ -1,17 +1,19 @@
 import re
+from typing import Optional
 from urllib.request import urlretrieve
 
 import pytest
 from pytest import TempPathFactory
 
-from hume import HumeClientException, HumeStreamClient
-from hume.models.config import FaceConfig, FacemeshConfig, LanguageConfig, ProsodyConfig
+from hume.client import HumeClient
+from hume.core.api_error import ApiError
+from hume.custom_models.types.language import Language
+from hume.expression_measurement.stream.socket_client import AsyncStreamConnectOptions
+from hume.expression_measurement.stream.types.stream_data_models import StreamDataModels
+from hume.expression_measurement.types.face import Face
+from hume.expression_measurement.types.facemesh_prediction import FacemeshPrediction
+from hume.expression_measurement.types.prosody import Prosody
 from utilities.eval_data import EvalData
-
-
-@pytest.fixture(name="stream_client", scope="module")
-def stream_client_fixture(hume_api_key: str) -> HumeStreamClient:
-    return HumeStreamClient(hume_api_key)
 
 
 @pytest.mark.asyncio
@@ -22,43 +24,56 @@ class TestServiceHumeStreamClient:
     async def test_send_file(
         self,
         eval_data: EvalData,
-        stream_client: HumeStreamClient,
+        hume_client: HumeClient,
         tmp_path_factory: TempPathFactory,
     ) -> None:
         data_url = eval_data["image-obama-face"]
         data_filepath = tmp_path_factory.mktemp("data-dir") / "data-file"
         urlretrieve(data_url, data_filepath)
 
-        configs = [FaceConfig(identify_faces=True)]
-        async with stream_client.connect(configs) as websocket:
+        async with hume_client.expression_measurement.stream.connect(
+            options=AsyncStreamConnectOptions(
+                config=StreamDataModels(face=Face(identify_faces=True))
+            )
+        ) as websocket:
             predictions = await websocket.send_file(data_filepath)
             assert predictions is not None
 
-    async def test_send_text(self, stream_client: HumeStreamClient) -> None:
+    async def test_send_text(self, hume_client: HumeClient) -> None:
         sample_text = "Hello! I hope this test works!"
-        configs = [LanguageConfig()]
-        async with stream_client.connect(configs) as websocket:
+        async with hume_client.expression_measurement.stream.connect(
+            options=AsyncStreamConnectOptions(
+                config=StreamDataModels(language=Language())
+            )
+        ) as websocket:
             predictions = await websocket.send_text(sample_text)
             assert predictions is not None
 
-    async def test_send_facemesh(self, stream_client: HumeStreamClient) -> None:
+    async def test_send_facemesh(self, hume_client: HumeClient) -> None:
         meshes = [[[0, 0, 0]] * 478]
-        configs = [FacemeshConfig()]
-        async with stream_client.connect(configs) as websocket:
+        async with hume_client.expression_measurement.stream.connect(
+            options=AsyncStreamConnectOptions(config=StreamDataModels(facemesh={}))
+        ) as websocket:
             predictions = await websocket.send_facemesh(meshes)
             assert predictions is not None
 
     async def test_invalid_api_key(self) -> None:
-        invalid_client = HumeStreamClient("invalid-api-key")
-        configs = [FaceConfig(identify_faces=True)]
+        invalid_client = HumeClient(api_key="invalid-api-key")
         message = "HumeStreamClient initialized with invalid API key."
-        with pytest.raises(HumeClientException, match=re.escape(message)):
-            async with invalid_client.connect(configs):
+        with pytest.raises(ApiError, match=re.escape(message)):
+            async with invalid_client.expression_measurement.stream.connect(
+                options=AsyncStreamConnectOptions(
+                    config=StreamDataModels(face=Face(identify_faces=True))
+                )
+            ) as websocket:
                 pass
 
-    async def test_get_job_details(self, stream_client: HumeStreamClient) -> None:
-        configs = [ProsodyConfig()]
-        async with stream_client.connect(configs) as websocket:
+    async def test_get_job_details(self, hume_client: HumeClient) -> None:
+        async with hume_client.expression_measurement.stream.connect(
+            options=AsyncStreamConnectOptions(
+                config=StreamDataModels(prosody=Prosody())
+            )
+        ) as websocket:
             response = await websocket.get_job_details()
             job_id = response["job_details"]["job_id"]
             assert len(job_id) == 32
@@ -66,26 +81,25 @@ class TestServiceHumeStreamClient:
     async def test_error_code_exception(
         self,
         eval_data: EvalData,
-        stream_client: HumeStreamClient,
+        hume_client: HumeClient,
         tmp_path_factory: TempPathFactory,
     ) -> None:
         data_url = eval_data["image-obama-face"]
         data_filepath = tmp_path_factory.mktemp("data-dir") / "data-file"
         urlretrieve(data_url, data_filepath)
 
-        configs = [ProsodyConfig()]
-        async with stream_client.connect(configs) as websocket:
-            message = (
-                "hume(E0102): Streaming payload configured with model type 'prosody', "
-                "which is not supported for the detected file type 'image'."
+        async with hume_client.expression_measurement.stream.connect(
+            options=AsyncStreamConnectOptions(
+                config=StreamDataModels(prosody=Prosody())
             )
-            with pytest.raises(HumeClientException, match=re.escape(message)):
+        ) as websocket:
+            with pytest.raises(ApiError):
                 await websocket.send_file(data_filepath)
 
     async def test_payload_config(
         self,
         eval_data: EvalData,
-        stream_client: HumeStreamClient,
+        hume_client: HumeClient,
         tmp_path_factory: TempPathFactory,
     ) -> None:
         data_dirpath = tmp_path_factory.mktemp("data-dir")
@@ -96,11 +110,14 @@ class TestServiceHumeStreamClient:
         text_data_filepath = data_dirpath / "text-data-file"
         urlretrieve(text_data_url, text_data_filepath)
 
-        socket_configs = []
-        async with stream_client.connect(socket_configs) as websocket:
-            payload_configs = [FaceConfig()]
-            result = await websocket.send_file(face_data_filepath, configs=payload_configs)
-            assert "predictions" in result["face"]
-            payload_configs = [LanguageConfig()]
-            result = await websocket.send_file(text_data_filepath, configs=payload_configs)
-            assert "predictions" in result["language"]
+        async with hume_client.expression_measurement.stream.connect(
+            options=AsyncStreamConnectOptions()
+        ) as websocket:
+            result = await websocket.send_file(
+                face_data_filepath, config=StreamDataModels(face=Face())
+            )
+            assert result.face.predictions is not None
+            result = await websocket.send_file(
+                text_data_filepath, configs=StreamDataModels(language=Language())
+            )
+            assert result.language.predictions is not None

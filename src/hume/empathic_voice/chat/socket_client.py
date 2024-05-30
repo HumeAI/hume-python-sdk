@@ -3,9 +3,11 @@ from contextlib import asynccontextmanager
 import json
 import typing
 import httpx
+from pydub import AudioSegment
 import websockets
 import websockets.protocol
 from json.decoder import JSONDecodeError
+from pathlib import Path
 
 from ..chat.types.subscribe_event import SubscribeEvent
 from ..types.assistant_input import AssistantInput
@@ -58,6 +60,8 @@ class AsyncChatWSSConnection:
 
     async def recv(self) -> SubscribeEvent:
         data = await self.websocket.recv()
+        print("GETTING THAT DATA")
+        print(data)
         return pydantic_v1.parse_obj_as(SubscribeEvent, json.loads(data))  # type: ignore
 
     async def send_audio_input(self, message: AudioInput) -> SubscribeEvent:
@@ -109,6 +113,20 @@ class AsyncChatWSSConnection:
         SubscribeEvent
         """
         return await self._send(message.dict())
+    
+    async def send_file(self, filepath: Path) -> None:
+        """Send a file over the voice socket.
+
+        Parameters
+        ----------
+        filepath : Path
+            Filepath to the file to send over the socket.
+        """
+        with filepath.open("rb") as f:
+            segment: AudioSegment = AudioSegment.from_file(f)
+            segment = segment.set_frame_rate(self._sample_rate).set_channels(self._num_channels)
+            audio_bytes = segment.raw_data
+            await self._protocol.send(audio_bytes)
 
 
 class AsyncChatClientWithWebsocket:

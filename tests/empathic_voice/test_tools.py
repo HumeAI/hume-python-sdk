@@ -51,7 +51,9 @@ async def test_create_tool(client: HumeClient, async_client: AsyncHumeClient) ->
     validate_response(async_response, expected_response, expected_types)
 
 
-async def test_list_tool_versions(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_list_tool_versions(
+    client: HumeClient, async_client: AsyncHumeClient
+) -> None:
     expected_response = {
         "page_number": 0,
         "page_size": 10,
@@ -93,7 +95,9 @@ async def test_list_tool_versions(client: HumeClient, async_client: AsyncHumeCli
             },
         ),
     }
-    response = client.empathic_voice.tools.list_tool_versions(id="00183a3f-79ba-413d-9f3b-609864268bea")
+    response = client.empathic_voice.tools.list_tool_versions(
+        id="00183a3f-79ba-413d-9f3b-609864268bea"
+    )
     validate_response(response, expected_response, expected_types)
 
     async_response = await async_client.empathic_voice.tools.list_tool_versions(
@@ -102,7 +106,9 @@ async def test_list_tool_versions(client: HumeClient, async_client: AsyncHumeCli
     validate_response(async_response, expected_response, expected_types)
 
 
-async def test_create_tool_version(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_create_tool_version(
+    client: HumeClient, async_client: AsyncHumeClient
+) -> None:
     expected_response = {
         "tool_type": "FUNCTION",
         "id": "00183a3f-79ba-413d-9f3b-609864268bea",
@@ -155,14 +161,28 @@ async def test_delete_tool(client: HumeClient, async_client: AsyncHumeClient) ->
     assert await async_client.empathic_voice.tools.delete_tool(id="00183a3f-79ba-413d-9f3b-609864268bea") is None  # type: ignore[func-returns-value]
 
 
-async def test_update_tool_name(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_update_tool_name(
+    client: HumeClient, async_client: AsyncHumeClient
+) -> None:
     # Type ignore to avoid mypy complaining about the function not being meant to return a value
-    assert client.empathic_voice.tools.update_tool_name(id="00183a3f-79ba-413d-9f3b-609864268bea", name="get_current_temperature") == ""
+    assert (
+        client.empathic_voice.tools.update_tool_name(
+            id="00183a3f-79ba-413d-9f3b-609864268bea", name="get_current_temperature"
+        )
+        == ""
+    )
 
-    assert await async_client.empathic_voice.tools.update_tool_name(id="00183a3f-79ba-413d-9f3b-609864268bea", name="get_current_temperature") == ""
+    assert (
+        await async_client.empathic_voice.tools.update_tool_name(
+            id="00183a3f-79ba-413d-9f3b-609864268bea", name="get_current_temperature"
+        )
+        == ""
+    )
 
 
-async def test_get_tool_version(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_get_tool_version(
+    client: HumeClient, async_client: AsyncHumeClient
+) -> None:
     expected_response = {
         "tool_type": "FUNCTION",
         "id": "00183a3f-79ba-413d-9f3b-609864268bea",
@@ -189,7 +209,9 @@ async def test_get_tool_version(client: HumeClient, async_client: AsyncHumeClien
         "description": None,
         "parameters": None,
     }
-    response = client.empathic_voice.tools.get_tool_version(id="00183a3f-79ba-413d-9f3b-609864268bea", version=1)
+    response = client.empathic_voice.tools.get_tool_version(
+        id="00183a3f-79ba-413d-9f3b-609864268bea", version=1
+    )
     validate_response(response, expected_response, expected_types)
 
     async_response = await async_client.empathic_voice.tools.get_tool_version(
@@ -198,14 +220,18 @@ async def test_get_tool_version(client: HumeClient, async_client: AsyncHumeClien
     validate_response(async_response, expected_response, expected_types)
 
 
-async def test_delete_tool_version(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_delete_tool_version(
+    client: HumeClient, async_client: AsyncHumeClient
+) -> None:
     # Type ignore to avoid mypy complaining about the function not being meant to return a value
     assert client.empathic_voice.tools.delete_tool_version(id="00183a3f-79ba-413d-9f3b-609864268bea", version=1) is None  # type: ignore[func-returns-value]
 
     assert await async_client.empathic_voice.tools.delete_tool_version(id="00183a3f-79ba-413d-9f3b-609864268bea", version=1) is None  # type: ignore[func-returns-value]
 
 
-async def test_update_tool_description(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_update_tool_description(
+    client: HumeClient, async_client: AsyncHumeClient
+) -> None:
     expected_response = {
         "tool_type": "FUNCTION",
         "id": "00183a3f-79ba-413d-9f3b-609864268bea",

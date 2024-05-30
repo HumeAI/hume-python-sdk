@@ -6,7 +6,9 @@ from hume.client import AsyncHumeClient, HumeClient
 from ..utilities import validate_response
 
 
-async def test_get_model_details(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_get_model_details(
+    client: HumeClient, async_client: AsyncHumeClient
+) -> None:
     expected_response = {
         "id": "id",
         "name": "name",
@@ -66,7 +68,9 @@ async def test_get_model_details(client: HumeClient, async_client: AsyncHumeClie
     validate_response(async_response, expected_response, expected_types)
 
 
-async def test_update_model_name(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_update_model_name(
+    client: HumeClient, async_client: AsyncHumeClient
+) -> None:
     expected_response = {
         "id": "id",
         "name": "name",
@@ -122,12 +126,16 @@ async def test_update_model_name(client: HumeClient, async_client: AsyncHumeClie
     response = client.custom_models.models.update_model_name(id="id", name="name")
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.custom_models.models.update_model_name(id="id", name="name")
+    async_response = await async_client.custom_models.models.update_model_name(
+        id="id", name="name"
+    )
     validate_response(async_response, expected_response, expected_types)
 
 
 @pytest.mark.skip("Fern mock server limitation")
-async def test_list_model_versions(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_list_model_versions(
+    client: HumeClient, async_client: AsyncHumeClient
+) -> None:
     expected_response = [
         {
             "id": "id",
@@ -174,7 +182,9 @@ async def test_list_model_versions(client: HumeClient, async_client: AsyncHumeCl
     validate_response(async_response, expected_response, expected_types)
 
 
-async def test_get_model_version(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_get_model_version(
+    client: HumeClient, async_client: AsyncHumeClient
+) -> None:
     expected_response = {
         "id": "id",
         "model_id": "model_id",
@@ -214,7 +224,9 @@ async def test_get_model_version(client: HumeClient, async_client: AsyncHumeClie
     validate_response(async_response, expected_response, expected_types)
 
 
-async def test_update_model_description(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_update_model_description(
+    client: HumeClient, async_client: AsyncHumeClient
+) -> None:
     expected_response = {
         "id": "id",
         "model_id": "model_id",
@@ -247,8 +259,12 @@ async def test_update_model_description(client: HumeClient, async_client: AsyncH
         "task_type": None,
         "training_job_id": None,
     }
-    response = client.custom_models.models.update_model_description(id="id", request="string")
+    response = client.custom_models.models.update_model_description(
+        id="id", request="string"
+    )
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.custom_models.models.update_model_description(id="id", request="string")
+    async_response = await async_client.custom_models.models.update_model_description(
+        id="id", request="string"
+    )
     validate_response(async_response, expected_response, expected_types)

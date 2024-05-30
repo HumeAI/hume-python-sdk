@@ -7,16 +7,9 @@ import logging
 from typing import AsyncIterator, ClassVar, Iterator, Optional, Any
 
 from .asyncio_utilities import Stream
-from ..core.api_error import ApiError
 
-try:
-    import sounddevice                                      # type: ignore
-    from sounddevice import CallbackFlags, RawInputStream   # type: ignore
-
-    HAS_AUDIO_DEPENDENCIES = True
-except ModuleNotFoundError:
-    HAS_AUDIO_DEPENDENCIES = False
-
+import sounddevice                                   
+from sounddevice import CallbackFlags, RawInputStream, DeviceList
 
 logger = logging.getLogger(__name__)
 
@@ -43,16 +36,45 @@ class Microphone:
         Args:
             device (Optional[int]): Input device ID.
         """
-        if not HAS_AUDIO_DEPENDENCIES:
-            raise ApiError(
-                body='Run `pip install "hume[microphone]"` to install dependencies required to use microphone playback.'
-            )
-
-        if device is None:
-            device = sounddevice.default.device[0]
-        logger.info(f"device: {device}")
-
         sound_device = sounddevice.query_devices(device=device)
+
+        # If you've received a list, then you need to select a device
+        # the logic to do so is:
+        # 1. Get the list of default devices
+        # 2. Check if the default device is in the list of available input devices
+        # 3. If it is, select it
+        # 4. If it is not, select the first available input device
+        if isinstance(sound_device, DeviceList):
+            if len(sound_device) == 0:
+                message = ("No input devices were found.")
+                raise IOError(message)
+
+            # Try to match a default device with the available devices
+            default_devices = sounddevice.default.device
+            default_input_device = None
+
+            available_device_indeces = [item["index"] for item in sound_device]
+            for item in default_devices:
+                if item in available_device_indeces:
+                    # If there are input channels, let's assume it's an input device
+                    default_device = sounddevice.query_devices(device=item)
+                    if default_device["max_input_channels"] > 0:
+                        default_input_device = sounddevice.query_devices(device=item)
+                    break
+
+            # If you cannot match a default device, just select any available one with input channels
+            if default_input_device is None:
+                for device in sound_device:
+                    if device["max_input_channels"] > 0:
+                        sound_device = device
+                        break
+            else:
+                sound_device = default_input_device
+
+        if sound_device is None:
+            message = ("No input devices were found.")
+            raise IOError(message)
+
         logger.info(f"sound_device: {sound_device}")
 
         num_channels = sound_device["max_input_channels"]

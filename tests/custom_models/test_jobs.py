@@ -6,7 +6,9 @@ from hume.custom_models import CustomModelId, CustomModelRequest, DatasetId
 from ..utilities import validate_response
 
 
-async def test_start_training_job(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_start_training_job(
+    client: HumeClient, async_client: AsyncHumeClient
+) -> None:
     expected_response = {"job_id": "job_id"}
     expected_types = {"job_id": None}
     response = client.custom_models.jobs.start_training_job(
@@ -20,13 +22,19 @@ async def test_start_training_job(client: HumeClient, async_client: AsyncHumeCli
     validate_response(async_response, expected_response, expected_types)
 
 
-async def test_start_custom_models_inference_job(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_start_custom_models_inference_job(
+    client: HumeClient, async_client: AsyncHumeClient
+) -> None:
     expected_response = {"job_id": "job_id"}
     expected_types = {"job_id": None}
-    response = client.custom_models.jobs.start_custom_models_inference_job(custom_model=CustomModelId(id="id"))
+    response = client.custom_models.jobs.start_custom_models_inference_job(
+        custom_model=CustomModelId(id="id")
+    )
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.custom_models.jobs.start_custom_models_inference_job(
-        custom_model=CustomModelId(id="id")
+    async_response = (
+        await async_client.custom_models.jobs.start_custom_models_inference_job(
+            custom_model=CustomModelId(id="id")
+        )
     )
     validate_response(async_response, expected_response, expected_types)

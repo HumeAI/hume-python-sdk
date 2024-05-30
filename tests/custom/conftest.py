@@ -2,6 +2,7 @@ import os
 
 import pytest
 
+from hume.client import HumeClient
 from utilities.eval_data import EvalData
 
 
@@ -27,3 +28,8 @@ def hume_api_key() -> str:
     if api_key is None:
         raise ValueError("HUME_DEV_API_KEY environment variable is required.")
     return api_key
+
+
+@pytest.fixture(name="hume_client", scope="module")
+def client(hume_api_key: str) -> HumeClient:
+    return HumeClient(api_key=hume_api_key)

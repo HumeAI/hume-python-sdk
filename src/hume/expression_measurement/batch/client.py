@@ -3,7 +3,7 @@
 import typing
 import urllib.parse
 from json.decoder import JSONDecodeError
-
+import json as jsonlib
 from ... import core
 from ...core.api_error import ApiError
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
@@ -467,10 +467,10 @@ class BatchClient:
                     request_options.get("additional_query_parameters") if request_options is not None else None
                 )
             ),
-            data=jsonable_encoder(remove_none_from_dict({"json": json}))
+            data=jsonable_encoder(remove_none_from_dict({"json": jsonlib.dumps(json.dict())}))
             if request_options is None or request_options.get("additional_body_parameters") is None
             else {
-                **jsonable_encoder(remove_none_from_dict({"json": json})),
+                **jsonable_encoder(remove_none_from_dict({"json": jsonlib.dumps(json.dict())})),
                 **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
             },
             files=core.convert_file_dict_to_httpx_tuples(remove_none_from_dict({"file": file})),
@@ -936,10 +936,10 @@ class AsyncBatchClient:
                     request_options.get("additional_query_parameters") if request_options is not None else None
                 )
             ),
-            data=jsonable_encoder(remove_none_from_dict({"json": json}))
+            data=jsonable_encoder(remove_none_from_dict({"json": jsonlib.dumps(json.dict())}))
             if request_options is None or request_options.get("additional_body_parameters") is None
             else {
-                **jsonable_encoder(remove_none_from_dict({"json": json})),
+                **jsonable_encoder(remove_none_from_dict({"json": jsonlib.dumps(json.dict())})),
                 **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
             },
             files=core.convert_file_dict_to_httpx_tuples(remove_none_from_dict({"file": file})),

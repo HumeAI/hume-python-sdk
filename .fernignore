@@ -3,7 +3,6 @@
 README.md
 
 <!-- Custom client modifications -->
-
 src/hume/client.py
 src/hume/empathic_voice/socket_client.py
 src/hume/empathic_voice/chat/socket_client.py
@@ -14,12 +13,11 @@ src/hume/expression_measurement/stream/socket_client.py
 tests/custom
 
 <!-- Content pulled from legacy SDK -->
-
 .vscode
 src/hume/microphone
 src/hume/expression_measurement/batch/legacy
 
 <!-- Ignoring `ci.yml` while we have the legacy tests in the repo (tests/custom) -->
-
 .github/workflows/ci.yml
 .mock
+src/hume/expression_measurement/batch/client.py

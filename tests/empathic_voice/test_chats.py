@@ -48,7 +48,9 @@ async def test_list_chats(client: HumeClient, async_client: AsyncHumeClient) -> 
     validate_response(async_response, expected_response, expected_types)
 
 
-async def test_list_chat_events(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_list_chat_events(
+    client: HumeClient, async_client: AsyncHumeClient
+) -> None:
     expected_response = {
         "id": "id",
         "tag": "tag",

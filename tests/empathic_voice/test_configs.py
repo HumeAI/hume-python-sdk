@@ -83,7 +83,11 @@ async def test_create_config(client: HumeClient, async_client: AsyncHumeClient) 
             "text": "text",
         },
         "voice": {"provider": "provider", "name": "name"},
-        "language_model": {"model_provider": "model_provider", "model_resource": "model_resource", "temperature": 1.1},
+        "language_model": {
+            "model_provider": "model_provider",
+            "model_resource": "model_resource",
+            "temperature": 1.1,
+        },
         "tools": [
             {
                 "tool_type": "tool_type",
@@ -99,7 +103,13 @@ async def test_create_config(client: HumeClient, async_client: AsyncHumeClient) 
                 "parameters": "parameters",
             }
         ],
-        "builtin_tools": [{"tool_type": "tool_type", "name": "name", "fallback_content": "fallback_content"}],
+        "builtin_tools": [
+            {
+                "tool_type": "tool_type",
+                "name": "name",
+                "fallback_content": "fallback_content",
+            }
+        ],
     }
     expected_types = {
         "id": None,
@@ -119,7 +129,11 @@ async def test_create_config(client: HumeClient, async_client: AsyncHumeClient) 
             "text": None,
         },
         "voice": {"provider": None, "name": None},
-        "language_model": {"model_provider": None, "model_resource": None, "temperature": None},
+        "language_model": {
+            "model_provider": None,
+            "model_resource": None,
+            "temperature": None,
+        },
         "tools": (
             "list",
             {
@@ -138,16 +152,23 @@ async def test_create_config(client: HumeClient, async_client: AsyncHumeClient) 
                 }
             },
         ),
-        "builtin_tools": ("list", {0: {"tool_type": None, "name": None, "fallback_content": None}}),
+        "builtin_tools": (
+            "list",
+            {0: {"tool_type": None, "name": None, "fallback_content": None}},
+        ),
     }
     response = client.empathic_voice.configs.create_config(name="name")
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.empathic_voice.configs.create_config(name="name")
+    async_response = await async_client.empathic_voice.configs.create_config(
+        name="name"
+    )
     validate_response(async_response, expected_response, expected_types)
 
 
-async def test_list_config_versions(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_list_config_versions(
+    client: HumeClient, async_client: AsyncHumeClient
+) -> None:
     expected_response = {
         "page_number": 1,
         "page_size": 1,
@@ -202,11 +223,15 @@ async def test_list_config_versions(client: HumeClient, async_client: AsyncHumeC
     response = client.empathic_voice.configs.list_config_versions(id="id")
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.empathic_voice.configs.list_config_versions(id="id")
+    async_response = await async_client.empathic_voice.configs.list_config_versions(
+        id="id"
+    )
     validate_response(async_response, expected_response, expected_types)
 
 
-async def test_create_config_version(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_create_config_version(
+    client: HumeClient, async_client: AsyncHumeClient
+) -> None:
     expected_response = {
         "id": "id",
         "version": 1,
@@ -225,7 +250,11 @@ async def test_create_config_version(client: HumeClient, async_client: AsyncHume
             "text": "text",
         },
         "voice": {"provider": "provider", "name": "name"},
-        "language_model": {"model_provider": "model_provider", "model_resource": "model_resource", "temperature": 1.1},
+        "language_model": {
+            "model_provider": "model_provider",
+            "model_resource": "model_resource",
+            "temperature": 1.1,
+        },
         "tools": [
             {
                 "tool_type": "tool_type",
@@ -241,7 +270,13 @@ async def test_create_config_version(client: HumeClient, async_client: AsyncHume
                 "parameters": "parameters",
             }
         ],
-        "builtin_tools": [{"tool_type": "tool_type", "name": "name", "fallback_content": "fallback_content"}],
+        "builtin_tools": [
+            {
+                "tool_type": "tool_type",
+                "name": "name",
+                "fallback_content": "fallback_content",
+            }
+        ],
     }
     expected_types = {
         "id": None,
@@ -261,7 +296,11 @@ async def test_create_config_version(client: HumeClient, async_client: AsyncHume
             "text": None,
         },
         "voice": {"provider": None, "name": None},
-        "language_model": {"model_provider": None, "model_resource": None, "temperature": None},
+        "language_model": {
+            "model_provider": None,
+            "model_resource": None,
+            "temperature": None,
+        },
         "tools": (
             "list",
             {
@@ -280,12 +319,17 @@ async def test_create_config_version(client: HumeClient, async_client: AsyncHume
                 }
             },
         ),
-        "builtin_tools": ("list", {0: {"tool_type": None, "name": None, "fallback_content": None}}),
+        "builtin_tools": (
+            "list",
+            {0: {"tool_type": None, "name": None, "fallback_content": None}},
+        ),
     }
     response = client.empathic_voice.configs.create_config_version(id="id")
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.empathic_voice.configs.create_config_version(id="id")
+    async_response = await async_client.empathic_voice.configs.create_config_version(
+        id="id"
+    )
     validate_response(async_response, expected_response, expected_types)
 
 
@@ -296,17 +340,25 @@ async def test_delete_config(client: HumeClient, async_client: AsyncHumeClient) 
     assert await async_client.empathic_voice.configs.delete_config(id="id") is None  # type: ignore[func-returns-value]
 
 
-async def test_update_config_name(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_update_config_name(
+    client: HumeClient, async_client: AsyncHumeClient
+) -> None:
     expected_response = "string"
     expected_types = None
-    response = client.empathic_voice.configs.update_config_name(id="string", name="string")
+    response = client.empathic_voice.configs.update_config_name(
+        id="string", name="string"
+    )
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.empathic_voice.configs.update_config_name(id="string", name="string")
+    async_response = await async_client.empathic_voice.configs.update_config_name(
+        id="string", name="string"
+    )
     validate_response(async_response, expected_response, expected_types)
 
 
-async def test_get_config_version(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_get_config_version(
+    client: HumeClient, async_client: AsyncHumeClient
+) -> None:
     expected_response = {
         "id": "id",
         "version": 1,
@@ -325,7 +377,11 @@ async def test_get_config_version(client: HumeClient, async_client: AsyncHumeCli
             "text": "text",
         },
         "voice": {"provider": "provider", "name": "name"},
-        "language_model": {"model_provider": "model_provider", "model_resource": "model_resource", "temperature": 1.1},
+        "language_model": {
+            "model_provider": "model_provider",
+            "model_resource": "model_resource",
+            "temperature": 1.1,
+        },
         "tools": [
             {
                 "tool_type": "tool_type",
@@ -341,7 +397,13 @@ async def test_get_config_version(client: HumeClient, async_client: AsyncHumeCli
                 "parameters": "parameters",
             }
         ],
-        "builtin_tools": [{"tool_type": "tool_type", "name": "name", "fallback_content": "fallback_content"}],
+        "builtin_tools": [
+            {
+                "tool_type": "tool_type",
+                "name": "name",
+                "fallback_content": "fallback_content",
+            }
+        ],
     }
     expected_types = {
         "id": None,
@@ -361,7 +423,11 @@ async def test_get_config_version(client: HumeClient, async_client: AsyncHumeCli
             "text": None,
         },
         "voice": {"provider": None, "name": None},
-        "language_model": {"model_provider": None, "model_resource": None, "temperature": None},
+        "language_model": {
+            "model_provider": None,
+            "model_resource": None,
+            "temperature": None,
+        },
         "tools": (
             "list",
             {
@@ -380,23 +446,32 @@ async def test_get_config_version(client: HumeClient, async_client: AsyncHumeCli
                 }
             },
         ),
-        "builtin_tools": ("list", {0: {"tool_type": None, "name": None, "fallback_content": None}}),
+        "builtin_tools": (
+            "list",
+            {0: {"tool_type": None, "name": None, "fallback_content": None}},
+        ),
     }
     response = client.empathic_voice.configs.get_config_version(id="id", version=1)
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.empathic_voice.configs.get_config_version(id="id", version=1)
+    async_response = await async_client.empathic_voice.configs.get_config_version(
+        id="id", version=1
+    )
     validate_response(async_response, expected_response, expected_types)
 
 
-async def test_delete_config_version(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_delete_config_version(
+    client: HumeClient, async_client: AsyncHumeClient
+) -> None:
     # Type ignore to avoid mypy complaining about the function not being meant to return a value
     assert client.empathic_voice.configs.delete_config_version(id="id", version=1) is None  # type: ignore[func-returns-value]
 
     assert await async_client.empathic_voice.configs.delete_config_version(id="id", version=1) is None  # type: ignore[func-returns-value]
 
 
-async def test_update_config_description(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_update_config_description(
+    client: HumeClient, async_client: AsyncHumeClient
+) -> None:
     expected_response = {
         "id": "id",
         "version": 1,
@@ -415,7 +490,11 @@ async def test_update_config_description(client: HumeClient, async_client: Async
             "text": "text",
         },
         "voice": {"provider": "provider", "name": "name"},
-        "language_model": {"model_provider": "model_provider", "model_resource": "model_resource", "temperature": 1.1},
+        "language_model": {
+            "model_provider": "model_provider",
+            "model_resource": "model_resource",
+            "temperature": 1.1,
+        },
         "tools": [
             {
                 "tool_type": "tool_type",
@@ -431,7 +510,13 @@ async def test_update_config_description(client: HumeClient, async_client: Async
                 "parameters": "parameters",
             }
         ],
-        "builtin_tools": [{"tool_type": "tool_type", "name": "name", "fallback_content": "fallback_content"}],
+        "builtin_tools": [
+            {
+                "tool_type": "tool_type",
+                "name": "name",
+                "fallback_content": "fallback_content",
+            }
+        ],
     }
     expected_types = {
         "id": None,
@@ -451,7 +536,11 @@ async def test_update_config_description(client: HumeClient, async_client: Async
             "text": None,
         },
         "voice": {"provider": None, "name": None},
-        "language_model": {"model_provider": None, "model_resource": None, "temperature": None},
+        "language_model": {
+            "model_provider": None,
+            "model_resource": None,
+            "temperature": None,
+        },
         "tools": (
             "list",
             {
@@ -470,10 +559,19 @@ async def test_update_config_description(client: HumeClient, async_client: Async
                 }
             },
         ),
-        "builtin_tools": ("list", {0: {"tool_type": None, "name": None, "fallback_content": None}}),
+        "builtin_tools": (
+            "list",
+            {0: {"tool_type": None, "name": None, "fallback_content": None}},
+        ),
     }
-    response = client.empathic_voice.configs.update_config_description(id="id", version=1)
+    response = client.empathic_voice.configs.update_config_description(
+        id="id", version=1
+    )
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.empathic_voice.configs.update_config_description(id="id", version=1)
+    async_response = (
+        await async_client.empathic_voice.configs.update_config_description(
+            id="id", version=1
+        )
+    )
     validate_response(async_response, expected_response, expected_types)

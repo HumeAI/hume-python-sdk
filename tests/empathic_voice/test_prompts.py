@@ -29,11 +29,15 @@ async def test_create_prompt(client: HumeClient, async_client: AsyncHumeClient) 
     response = client.empathic_voice.prompts.create_prompt(name="name", text="text")
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.empathic_voice.prompts.create_prompt(name="name", text="text")
+    async_response = await async_client.empathic_voice.prompts.create_prompt(
+        name="name", text="text"
+    )
     validate_response(async_response, expected_response, expected_types)
 
 
-async def test_list_prompt_versions(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_list_prompt_versions(
+    client: HumeClient, async_client: AsyncHumeClient
+) -> None:
     expected_response = {
         "page_number": 1,
         "page_size": 1,
@@ -72,11 +76,15 @@ async def test_list_prompt_versions(client: HumeClient, async_client: AsyncHumeC
     response = client.empathic_voice.prompts.list_prompt_versions(id="id")
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.empathic_voice.prompts.list_prompt_versions(id="id")
+    async_response = await async_client.empathic_voice.prompts.list_prompt_versions(
+        id="id"
+    )
     validate_response(async_response, expected_response, expected_types)
 
 
-async def test_create_prompt_verison(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_create_prompt_verison(
+    client: HumeClient, async_client: AsyncHumeClient
+) -> None:
     expected_response = {
         "id": "id",
         "version": 1,
@@ -100,7 +108,9 @@ async def test_create_prompt_verison(client: HumeClient, async_client: AsyncHume
     response = client.empathic_voice.prompts.create_prompt_verison(id="id", text="text")
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.empathic_voice.prompts.create_prompt_verison(id="id", text="text")
+    async_response = await async_client.empathic_voice.prompts.create_prompt_verison(
+        id="id", text="text"
+    )
     validate_response(async_response, expected_response, expected_types)
 
 
@@ -111,17 +121,25 @@ async def test_delete_prompt(client: HumeClient, async_client: AsyncHumeClient) 
     assert await async_client.empathic_voice.prompts.delete_prompt(id="id") is None  # type: ignore[func-returns-value]
 
 
-async def test_update_prompt_name(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_update_prompt_name(
+    client: HumeClient, async_client: AsyncHumeClient
+) -> None:
     expected_response = "string"
     expected_types = None
-    response = client.empathic_voice.prompts.update_prompt_name(id="string", name="string")
+    response = client.empathic_voice.prompts.update_prompt_name(
+        id="string", name="string"
+    )
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.empathic_voice.prompts.update_prompt_name(id="string", name="string")
+    async_response = await async_client.empathic_voice.prompts.update_prompt_name(
+        id="string", name="string"
+    )
     validate_response(async_response, expected_response, expected_types)
 
 
-async def test_get_prompt_version(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_get_prompt_version(
+    client: HumeClient, async_client: AsyncHumeClient
+) -> None:
     expected_response = {
         "id": "id",
         "version": 1,
@@ -145,18 +163,24 @@ async def test_get_prompt_version(client: HumeClient, async_client: AsyncHumeCli
     response = client.empathic_voice.prompts.get_prompt_version(id="id", version=1)
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.empathic_voice.prompts.get_prompt_version(id="id", version=1)
+    async_response = await async_client.empathic_voice.prompts.get_prompt_version(
+        id="id", version=1
+    )
     validate_response(async_response, expected_response, expected_types)
 
 
-async def test_delete_prompt_version(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_delete_prompt_version(
+    client: HumeClient, async_client: AsyncHumeClient
+) -> None:
     # Type ignore to avoid mypy complaining about the function not being meant to return a value
     assert client.empathic_voice.prompts.delete_prompt_version(id="id", version=1) is None  # type: ignore[func-returns-value]
 
     assert await async_client.empathic_voice.prompts.delete_prompt_version(id="id", version=1) is None  # type: ignore[func-returns-value]
 
 
-async def test_update_prompt_description(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_update_prompt_description(
+    client: HumeClient, async_client: AsyncHumeClient
+) -> None:
     expected_response = {
         "id": "id",
         "version": 1,
@@ -177,8 +201,14 @@ async def test_update_prompt_description(client: HumeClient, async_client: Async
         "modified_on": "integer",
         "text": None,
     }
-    response = client.empathic_voice.prompts.update_prompt_description(id="id", version=1)
+    response = client.empathic_voice.prompts.update_prompt_description(
+        id="id", version=1
+    )
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.empathic_voice.prompts.update_prompt_description(id="id", version=1)
+    async_response = (
+        await async_client.empathic_voice.prompts.update_prompt_description(
+            id="id", version=1
+        )
+    )
     validate_response(async_response, expected_response, expected_types)

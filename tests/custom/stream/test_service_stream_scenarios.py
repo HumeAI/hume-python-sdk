@@ -3,14 +3,12 @@ from urllib.request import urlretrieve
 import pytest
 from pytest import TempPathFactory
 
-from hume import HumeStreamClient
-from hume.models.config import FaceConfig, LanguageConfig
+from hume.client import HumeClient
+from hume.expression_measurement.stream.socket_client import AsyncStreamConnectOptions
+from hume.expression_measurement.stream.types.stream_data_models import StreamDataModels
+from hume.expression_measurement.types.face import Face
+from hume.expression_measurement.types.language import Language
 from utilities.eval_data import EvalData
-
-
-@pytest.fixture(name="stream_client", scope="module")
-def stream_client_fixture(hume_api_key: str) -> HumeStreamClient:
-    return HumeStreamClient(hume_api_key)
 
 
 @pytest.mark.asyncio
@@ -21,25 +19,31 @@ class TestServiceStreamScenarios:
     async def test_facs_and_descriptions(
         self,
         eval_data: EvalData,
-        stream_client: HumeStreamClient,
+        hume_client: HumeClient,
         tmp_path_factory: TempPathFactory,
     ) -> None:
         data_url = eval_data["image-obama-face"]
         data_filepath = tmp_path_factory.mktemp("data-dir") / "data-file"
         urlretrieve(data_url, data_filepath)
 
-        configs = [FaceConfig(facs={}, descriptions={})]
-        async with stream_client.connect(configs) as websocket:
+        async with hume_client.expression_measurement.stream.connect(
+            options=AsyncStreamConnectOptions(
+                config=StreamDataModels(face=Face(facs={}, descriptions={}))
+            )
+        ) as websocket:
             result = await websocket.send_file(data_filepath)
-            predictions = result["face"]["predictions"]
-            assert "facs" in predictions[0]
-            assert "descriptions" in predictions[0]
+            predictions = result.face.predictions
+            assert predictions[0].facs is not None
+            assert predictions[0].descriptions is not None
 
-    async def test_sentiment_and_toxicity(self, stream_client: HumeStreamClient) -> None:
+    async def test_sentiment_and_toxicity(self, hume_client: HumeClient) -> None:
         sample_text = "Hello! I hope this test works!"
-        configs = [LanguageConfig(sentiment={}, toxicity={})]
-        async with stream_client.connect(configs) as websocket:
+        async with hume_client.expression_measurement.stream.connect(
+            options=AsyncStreamConnectOptions(
+                config=StreamDataModels(language=Language(sentiment={}, toxicity={}))
+            )
+        ) as websocket:
             result = await websocket.send_text(sample_text)
-            predictions = result["language"]["predictions"]
-            assert "sentiment" in predictions[0]
-            assert "toxicity" in predictions[0]
+            predictions = result.language.predictions
+            assert predictions[0].sentiment is not None
+            assert predictions[0].toxicity is not None

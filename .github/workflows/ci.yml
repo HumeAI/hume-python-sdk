@@ -40,7 +40,9 @@ jobs:
           npm install -g fern-api
 
       - name: Test
-        run: fern test --command "poetry run pytest -rP --ignore=./tests/custom/ ./tests"
+        env:
+          HUME_DEV_API_KEY: ${{ secrets.HUME_DEV_API_KEY }}
+        run: fern test --command "poetry run pytest -rP --ignore=./tests/custom/_ignored ./tests"
 
   publish:
     needs: [compile, test]

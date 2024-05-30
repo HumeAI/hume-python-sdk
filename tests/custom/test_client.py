@@ -13,7 +13,9 @@ from hume.expression_measurement.stream.types.stream_data_models import StreamDa
 # Get started with writing tests with pytest at https://docs.pytest.org
 async def test_client() -> None:
     sync_hume = HumeClient()
-    sync_hume.expression_measurement.batch.get_job_details("job_id", request_options=RequestOptions())
+    sync_hume.expression_measurement.batch.get_job_details(
+        "job_id", request_options=RequestOptions()
+    )
 
     for tool in sync_hume.empathic_voice.tools.list_tools():
         print(tool)
@@ -27,10 +29,11 @@ async def test_client() -> None:
     async with hume.empathic_voice.chat.connect(
         options=AsyncChatConnectOptions(client_secret=os.getenv("HUME_CLIENT_SECRET"))
     ) as hwss:
-        print(await hwss.send_text_input(message=UserInput(
-            type="user_input",
-            text="Hello, world!"
-        )))
+        print(
+            await hwss.send_text_input(
+                message=UserInput(type="user_input", text="Hello, world!")
+            )
+        )
 
     job = hume.expression_measurement.batch_legacy.get_job("1")
     job.get_details()

@@ -1,3 +1,5 @@
+import os
+
 import json
 import logging
 from typing import Tuple
@@ -6,23 +8,29 @@ from uuid import uuid4
 
 import pytest
 
-from hume import HumeVoiceClient
-from hume._voice.models.configs_models import LanguageModelConfig, VoiceConfig, VoiceIdentityConfig
-from hume._voice.models.tools_models import VoiceTool
+from hume.client import HumeClient
+from hume.empathic_voice.chat.socket_client import AsyncChatConnectOptions
+from hume.empathic_voice.types.audio_configuration import AudioConfiguration
+from hume.empathic_voice.types.posted_language_model import PostedLanguageModel
+from hume.empathic_voice.types.posted_user_defined_tool_spec import (
+    PostedUserDefinedToolSpec,
+)
+from hume.empathic_voice.types.posted_voice import PostedVoice
+from hume.empathic_voice.types.return_config import ReturnConfig
+from hume.empathic_voice.types.return_user_defined_tool import ReturnUserDefinedTool
+from hume.empathic_voice.types.session_settings import SessionSettings
 from utilities.eval_data import EvalData
 
 logger = logging.getLogger(__name__)
 
 
-@pytest.fixture(name="voice_client", scope="module")
-def voice_client_fixture(hume_api_key: str) -> HumeVoiceClient:
-    return HumeVoiceClient(hume_api_key)
-
-
 WEATHER_TOOL_PARAMETERS = {
     "type": "object",
     "properties": {
-        "location": {"type": "string", "description": "The city and state, e.g. San Francisco, CA"},
+        "location": {
+            "type": "string",
+            "description": "The city and state, e.g. San Francisco, CA",
+        },
         "format": {
             "type": "string",
             "enum": ["celsius", "fahrenheit"],
@@ -46,15 +54,25 @@ class TestServiceHumeVoiceClientChat:
     async def test_chat(
         self,
         eval_data: EvalData,
-        voice_client: HumeVoiceClient,
+        hume_client: HumeClient,
         tmp_path_factory: pytest.TempPathFactory,
     ) -> None:
         data_url = eval_data["know-any-good-jokes"]
         data_filepath = tmp_path_factory.mktemp("data-dir") / "sample.wav"
         urlretrieve(data_url, data_filepath)
 
-        async with voice_client.connect() as socket:
-            await socket.update_session_settings(sample_rate=16_000, num_channels=1)
+        async with hume_client.empathic_voice.chat.connect(
+            options=AsyncChatConnectOptions(
+                client_secret=os.getenv("HUME_CLIENT_SECRET")
+            )
+        ) as socket:
+            await socket.send_session_settings(
+                SessionSettings(
+                    audio=AudioConfiguration(
+                        encoding="linear16", sample_rate=16_000, channels=1
+                    )
+                )
+            )
 
             await socket.send_file(data_filepath)
             messages = []
@@ -62,7 +80,9 @@ class TestServiceHumeVoiceClientChat:
                 logger.info("Received message on socket")
                 message = json.loads(message_str)
 
-                assert "type" in message, f"Expected message to have a 'type' field: {message}"
+                assert (
+                    "type" in message
+                ), f"Expected message to have a 'type' field: {message}"
 
                 # Simplify messages for logging
                 if message["type"] == "audio_output":
@@ -78,45 +98,66 @@ class TestServiceHumeVoiceClientChat:
                 if message["type"] in ["error", "assistant_end"]:
                     return
 
-    def create_weather_tool_config(self, voice_client: HumeVoiceClient) -> Tuple[VoiceConfig, VoiceTool]:
+    def create_weather_tool_config(
+        self, hume_client: HumeClient
+    ) -> Tuple[ReturnConfig, ReturnUserDefinedTool]:
         # NOTE: This UUID can be removed when the API supports duplicate config names after deletion.
         name_uuid = str(uuid4())
         tool_name = f"weather-{name_uuid}"
         parameters = json.dumps(WEATHER_TOOL_PARAMETERS)
-        tool: VoiceTool = voice_client.create_tool(
+        tool = hume_client.empathic_voice.tools.create_tool(
             name=tool_name,
             parameters=parameters,
         )
 
         config_name = f"weather-assistant-{name_uuid}"
-        config: VoiceConfig = voice_client.create_config(
+        config = hume_client.empathic_voice.configs.create_config(
             name=config_name,
             prompt=WHETHER_ASSISTANT_PROMPT,
-            tools=[tool],
-            language_model=LanguageModelConfig(model_provider="OPEN_AI", model_resource="gpt-3.5-turbo"),
-            voice_identity_config=VoiceIdentityConfig(name="ITO"),
+            tools=[
+                PostedUserDefinedToolSpec(
+                    id=tool.id,
+                    version=tool.version,
+                )
+            ],
+            language_model=PostedLanguageModel(
+                model_provider="OPEN_AI", model_resource="gpt-3.5-turbo"
+            ),
+            voice=PostedVoice(name="ITO"),
         )
 
         return config, tool
 
-    def clean_up(self, voice_client: HumeVoiceClient, config: VoiceConfig, tool: VoiceTool) -> None:
-        voice_client.delete_config(config.id)
-        voice_client.delete_tool(tool.id)
+    def clean_up(
+        self, hume_client: HumeClient, config: ReturnConfig, tool: ReturnUserDefinedTool
+    ) -> None:
+        hume_client.empathic_voice.configs.delete_config(config.id)
+        hume_client.empathic_voice.tools.delete_tool(tool.id)
 
     async def test_tool_use(
         self,
         eval_data: EvalData,
-        voice_client: HumeVoiceClient,
+        hume_client: HumeClient,
         tmp_path_factory: pytest.TempPathFactory,
     ) -> None:
         data_url = eval_data["weather-in-la"]
         data_filepath = tmp_path_factory.mktemp("data-dir") / "sample.wav"
         urlretrieve(data_url, data_filepath)
 
-        config, tool = self.create_weather_tool_config(voice_client)
+        config, tool = self.create_weather_tool_config(hume_client)
 
-        async with voice_client.connect(config_id=config.id) as socket:
-            await socket.update_session_settings(sample_rate=16_000, num_channels=1)
+        async with hume_client.empathic_voice.chat.connect(
+            options=AsyncChatConnectOptions(
+                client_secret=os.getenv("HUME_CLIENT_SECRET")
+            )
+        ) as socket:
+            await socket.send_session_settings(
+                SessionSettings(
+                    audio=AudioConfiguration(
+                        encoding="linear16", sample_rate=16_000, channels=1
+                    )
+                )
+            )
 
             await socket.send_file(data_filepath)
             messages = []
@@ -124,7 +165,9 @@ class TestServiceHumeVoiceClientChat:
                 logger.info("Received message on socket")
                 message = json.loads(message_str)
 
-                assert "type" in message, f"Expected message to have a 'type' field: {message}"
+                assert (
+                    "type" in message
+                ), f"Expected message to have a 'type' field: {message}"
 
                 # Simplify messages for logging
                 if message["type"] == "audio_output":
@@ -140,4 +183,4 @@ class TestServiceHumeVoiceClientChat:
                 if message["type"] in ["error", "assistant_end"]:
                     return
 
-        self.clean_up(voice_client, config, tool)
+        self.clean_up(hume_client, config, tool)
