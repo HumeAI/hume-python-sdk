@@ -53,21 +53,20 @@ class ChatEvent(BaseModel):
     type: EventType
     message_text: Optional[str] = None
     function_call: Optional[FunctionCall] = None
-    emotion_features: Optional[JsonObject] = None
-    metadata: Optional[JsonObject] = None
+    emotion_features: Optional[str] = None
+    metadata: Optional[str] = None
 
 
 class ChatEventsResponse(BaseModel):
     """Response model for a page of EVI chat events."""
 
     id: UUID4
-    resumed_from_id: Optional[UUID4] = None
     tag: Optional[str] = None
     status: ChatStatus
     start_timestamp: int
     end_timestamp: Optional[int] = None
     events_page: List[ChatEvent]
-    metadata: Optional[JsonObject] = None
+    metadata: Optional[str] = None
     page_number: int
     page_size: int
     config: ConfigMeta
@@ -81,21 +80,21 @@ class ChatMessage(BaseModel):
     type: EventType
     message_text: Optional[str] = None
     function_call: Optional[FunctionCall] = None
-    emotion_features: Optional[JsonObject] = None
-    metadata: Optional[JsonObject] = None
+    emotion_features: Optional[str] = None
+    metadata: Optional[str] = None
 
 
 class ChatResponse(BaseModel):
     """Response model for an EVI chat."""
 
     id: str
-    resumed_from_id: Optional[UUID4] = None
+    chat_group_id: str
     tag: Optional[str] = None
     status: Optional[ChatStatus]
     start_timestamp: int
     end_timestamp: int
-    metadata: Optional[JsonObject] = None
-    config: ConfigMeta
+    metadata: Optional[str] = None
+    config: Optional[ConfigMeta] = None
 
 
 class ChatsResponse(BaseModel):
@@ -110,3 +109,57 @@ class VoiceChat(BaseModel):
     """Voice chat model."""
 
     id: str
+    chat_group_id: str
+    start_timestamp: int
+    end_timestamp: int
+
+
+class ChatGroupResponse(BaseModel):
+    """Response model for an EVI chat group."""
+
+    id: str
+    first_start_timestamp: int
+    most_recent_start_timestamp: int
+    num_chats: int
+    is_active: bool
+
+
+class ChatGroupsResponse(BaseModel):
+    """Response model for a page of EVI chat groups."""
+
+    chat_groups_page: List[ChatGroupResponse]
+    page_number: int
+    page_size: int
+
+
+class VoiceChatGroup(BaseModel):
+    """Voice chat group model."""
+
+    id: str
+    first_start_timestamp: int
+    most_recent_start_timestamp: int
+    num_chats: int
+    is_active: bool
+
+
+class ChatGroupEvent(BaseModel):
+    """Chat group event model."""
+
+    id: UUID4
+    chat_id: UUID4
+    timestamp: int
+    role: Role
+    type: EventType
+    message_text: Optional[str] = None
+    emotion_features: Optional[str] = None
+    metadata: Optional[str] = None
+
+
+class ChatGroupEventsResponse(BaseModel):
+    """Response model for a page of EVI chat group events."""
+
+    id: UUID4
+    events_page: List[ChatGroupEvent]
+    page_number: int
+    page_size: int
+    pagination_direction: str
