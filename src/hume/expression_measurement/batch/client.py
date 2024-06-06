@@ -459,6 +459,7 @@ class BatchClient:
         )
         client.expression_measurement.batch.start_inference_job_from_local_file()
         """
+        json_data = jsonable_encoder(remove_none_from_dict({"json": jsonlib.dumps(json.dict())})) if json is not None else {}
         _response = self._client_wrapper.httpx_client.request(
             method="POST",
             url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/batch/jobs"),
@@ -467,10 +468,10 @@ class BatchClient:
                     request_options.get("additional_query_parameters") if request_options is not None else None
                 )
             ),
-            data=jsonable_encoder(remove_none_from_dict({"json": jsonlib.dumps(json.dict())}))
+            data=json_data
             if request_options is None or request_options.get("additional_body_parameters") is None
             else {
-                **jsonable_encoder(remove_none_from_dict({"json": jsonlib.dumps(json.dict())})),
+                **json_data,
                 **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
             },
             files=core.convert_file_dict_to_httpx_tuples(remove_none_from_dict({"file": file})),
@@ -928,6 +929,7 @@ class AsyncBatchClient:
         )
         await client.expression_measurement.batch.start_inference_job_from_local_file()
         """
+        json_data = jsonable_encoder(remove_none_from_dict({"json": jsonlib.dumps(json.dict())})) if json is not None else {}
         _response = await self._client_wrapper.httpx_client.request(
             method="POST",
             url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v0/batch/jobs"),
@@ -936,10 +938,10 @@ class AsyncBatchClient:
                     request_options.get("additional_query_parameters") if request_options is not None else None
                 )
             ),
-            data=jsonable_encoder(remove_none_from_dict({"json": jsonlib.dumps(json.dict())}))
+            data=json_data
             if request_options is None or request_options.get("additional_body_parameters") is None
             else {
-                **jsonable_encoder(remove_none_from_dict({"json": jsonlib.dumps(json.dict())})),
+                **json_data,
                 **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
             },
             files=core.convert_file_dict_to_httpx_tuples(remove_none_from_dict({"file": file})),

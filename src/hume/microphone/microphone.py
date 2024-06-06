@@ -8,7 +8,7 @@ from typing import AsyncIterator, ClassVar, Iterator, Optional, Any
 
 from .asyncio_utilities import Stream
 
-import sounddevice                                   
+import sounddevice  # type: ignore                          
 from sounddevice import CallbackFlags, RawInputStream, DeviceList
 
 logger = logging.getLogger(__name__)
@@ -65,7 +65,7 @@ class Microphone:
             # If you cannot match a default device, just select any available one with input channels
             if default_input_device is None:
                 for device in sound_device:
-                    if device["max_input_channels"] > 0:
+                    if device["max_input_channels"] > 0:  # type: ignore
                         sound_device = device
                         break
             else:

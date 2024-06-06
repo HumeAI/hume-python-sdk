@@ -125,7 +125,6 @@ async def test_update_model_name(client: HumeClient, async_client: AsyncHumeClie
     async_response = await async_client.custom_models.models.update_model_name(id="id", name="name")
     validate_response(async_response, expected_response, expected_types)
 
-@pytest.mark.skip(reason="Not implemented")
 async def test_list_model_versions(client: HumeClient, async_client: AsyncHumeClient) -> None:
     expected_response = [
         {

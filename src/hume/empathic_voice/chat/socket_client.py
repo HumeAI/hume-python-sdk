@@ -94,10 +94,11 @@ class AsyncChatWSSConnection:
         """
 
         # Update sample rate and channels
-        if message.audio.channels is not None:
-            self._num_channels = message.audio.channels
-        if message.audio.sample_rate is not None:
-            self._sample_rate = message.audio.sample_rate
+        if message.audio is not None:
+            if message.audio.channels is not None:
+                self._num_channels = message.audio.channels
+            if message.audio.sample_rate is not None:
+                self._sample_rate = message.audio.sample_rate
 
         return await self._send(message.dict())
 
@@ -134,7 +135,7 @@ class AsyncChatWSSConnection:
             Filepath to the file to send over the socket.
         """
         with filepath.open("rb") as f:
-            segment: AudioSegment = AudioSegment.from_file(f)
+            segment: AudioSegment = AudioSegment.from_file(f)  # type: ignore
             segment = segment.set_frame_rate(self._sample_rate).set_channels(self._num_channels)
             audio_bytes = segment.raw_data
             await self._send(audio_bytes)

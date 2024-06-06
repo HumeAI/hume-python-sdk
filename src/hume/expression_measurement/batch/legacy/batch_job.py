@@ -5,11 +5,11 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any, List, Union
 
 from hume.core import jsonable_encoder
-from hume.custom_models.types.union_predict_result import UnionPredictResult
 
 from .retry_utilities import RetryIterError, retry
 from ...types.status import Status
 from ...types.union_job import UnionJob
+from ...types.union_predict_result import UnionPredictResult
 from ....core.api_error import ApiError
 
 if TYPE_CHECKING:

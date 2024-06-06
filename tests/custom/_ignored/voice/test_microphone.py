@@ -4,7 +4,6 @@ import pytest
 
 try:
     # pylint: disable=unused-import
-    import simpleaudio  # noqa: F401
     import sounddevice  # noqa: F401
 
     HAS_AUDIO_DEPENDENCIES = True
