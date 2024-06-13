@@ -59,7 +59,7 @@ class ChatClient:
 
         Args:
             socket (VoiceSocket): EVI socket.
-            handler Optional[Union[Callable[[dict], None], Callable[[dict], Awaitable[None]]]]: Optional handler function, sync or async, for processing messages.
+            handler (Optional[Union[Callable[[dict], None], Callable[[dict], Awaitable[None]]]]): EVI message handler.
         """
 
         async for socket_message in socket:
@@ -117,7 +117,7 @@ class ChatClient:
 
         Args:
             socket (VoiceSocket): EVI socket.
-            handler Optional[Union[Callable[[dict], None], Callable[[dict], Awaitable[None]]]]: Optional handler function, sync or async, for processing messages.
+            handler (Optional[Union[Callable[[dict], None], Callable[[dict], Awaitable[None]]]]): EVI message handler.
         """
 
         recv = self._recv(socket=socket, handler=handler)
