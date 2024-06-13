@@ -56,11 +56,11 @@ class ChatClient:
         handler: Optional[Union[Callable[[dict], None], Callable[[dict], Awaitable[None]]]] = None,
     ) -> None:
         """Receive and process messages from the EVI connection.
+
         Args:
             socket (VoiceSocket): EVI socket.
             handler (Optional[Union[Callable[[dict], None], Callable[[dict], Awaitable[None]]]]): EVI message handler.
         """
-
         async for socket_message in socket:
             message = json.loads(socket_message)
 
@@ -113,11 +113,11 @@ class ChatClient:
         handler: Optional[Union[Callable[[dict], None], Callable[[dict], Awaitable[None]]]] = None,
     ) -> None:
         """Run the chat client.
+
         Args:
             socket (VoiceSocket): EVI socket.
             handler (Optional[Union[Callable[[dict], None], Callable[[dict], Awaitable[None]]]]): EVI message handler.
         """
-
         recv = self._recv(socket=socket, handler=handler)
         send = self.sender.send(socket=socket)
 
