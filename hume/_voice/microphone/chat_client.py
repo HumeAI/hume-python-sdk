@@ -6,7 +6,7 @@ import datetime
 import json
 import logging
 from dataclasses import dataclass
-from typing import Callable, ClassVar, Optional
+from typing import Awaitable, Callable, ClassVar, Optional, Union
 
 from hume._voice.microphone.asyncio_utilities import Stream
 from hume._voice.microphone.audio_utilities import play_audio
@@ -49,18 +49,27 @@ class ChatClient:
         now_str = now.strftime("%H:%M:%S")
         print(f"[{now_str}] {text}")
 
-    async def _recv(self, *, socket: VoiceSocket, handler: Optional[Callable[[dict], None]] = None) -> None:
+    async def _recv(
+        self,
+        *,
+        socket: VoiceSocket,
+        handler: Optional[Union[Callable[[dict], None], Callable[[dict], Awaitable[None]]]] = None,
+    ) -> None:
         """Receive and process messages from the EVI connection.
 
         Args:
             socket (VoiceSocket): EVI socket.
             handler (Optional[Callable[[dict], None]]): Optional handler function for processing messages.
         """
+
         async for socket_message in socket:
             message = json.loads(socket_message)
 
-            if handler:
-                handler(message)
+            if handler is not None:
+                if asyncio.iscoroutinefunction(handler):
+                    await handler(message)
+                else:
+                    handler(message)
 
             if message["type"] in ["user_message", "assistant_message"]:
                 role = self._map_role(message["message"]["role"])
@@ -98,7 +107,12 @@ class ChatClient:
             await play_audio(byte_str)
             await self.sender.on_audio_end()
 
-    async def run(self, *, socket: VoiceSocket, handler: Optional[Callable[[dict], None]] = None) -> None:
+    async def run(
+        self,
+        *,
+        socket: VoiceSocket,
+        handler: Optional[Union[Callable[[dict], None], Callable[[dict], Awaitable[None]]]] = None,
+    ) -> None:
         """Run the chat client.
 
         Args:

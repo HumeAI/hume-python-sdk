@@ -2,7 +2,7 @@
 
 import logging
 from dataclasses import dataclass
-from typing import Callable, ClassVar, Optional
+from typing import Awaitable, Callable, ClassVar, Optional, Union
 
 from hume._voice.microphone.chat_client import ChatClient
 from hume._voice.microphone.microphone import Microphone
@@ -22,7 +22,7 @@ class MicrophoneInterface:
     async def start(
         cls,
         socket: VoiceSocket,
-        handler: Optional[Callable[[dict], None]] = None,
+        handler: Optional[Union[Callable[[dict], None], Callable[[dict], Awaitable[None]]]] = None,
         device: Optional[int] = Microphone.DEFAULT_DEVICE,
         allow_user_interrupt: bool = DEFAULT_ALLOW_USER_INTERRUPT,
     ) -> None:
