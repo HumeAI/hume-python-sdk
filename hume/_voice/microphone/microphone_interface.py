@@ -27,7 +27,6 @@ class MicrophoneInterface:
         allow_user_interrupt: bool = DEFAULT_ALLOW_USER_INTERRUPT,
     ) -> None:
         """Start the microphone interface.
-
         Args:
             socket (VoiceSocket): EVI socket.
             handler (Optional[Union[Callable[[dict], None], Callable[[dict], Awaitable[None]]]]): EVI message handler.

@@ -56,7 +56,6 @@ class ChatClient:
         handler: Optional[Union[Callable[[dict], None], Callable[[dict], Awaitable[None]]]] = None,
     ) -> None:
         """Receive and process messages from the EVI connection.
-
         Args:
             socket (VoiceSocket): EVI socket.
             handler (Optional[Union[Callable[[dict], None], Callable[[dict], Awaitable[None]]]]): EVI message handler.
@@ -114,7 +113,6 @@ class ChatClient:
         handler: Optional[Union[Callable[[dict], None], Callable[[dict], Awaitable[None]]]] = None,
     ) -> None:
         """Run the chat client.
-
         Args:
             socket (VoiceSocket): EVI socket.
             handler (Optional[Union[Callable[[dict], None], Callable[[dict], Awaitable[None]]]]): EVI message handler.
