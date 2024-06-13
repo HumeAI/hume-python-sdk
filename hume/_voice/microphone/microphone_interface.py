@@ -30,8 +30,9 @@ class MicrophoneInterface:
 
         Args:
             socket (VoiceSocket): EVI socket.
-            device (Optional[int]): Device index for the microphone.
-            allow_user_interrupt (bool): Whether to allow the user to interrupt EVI.
+            handler (Optional[Callable[[dict], None]]): Optional handler function for processing messages.
+            device (Optional[int]): Device ID for the microphone. Defaults to the system's default device.
+            allow_user_interrupt (bool): Whether to allow the user to interrupt EVI. Defaults to False.
         """
 
         with Microphone.context(device=device) as microphone:

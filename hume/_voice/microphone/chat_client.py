@@ -50,10 +50,15 @@ class ChatClient:
         print(f"[{now_str}] {text}")
 
     async def _recv(self, *, socket: VoiceSocket, handler: Optional[Callable[[dict], None]] = None) -> None:
+        """Receive and process messages from the EVI connection.
+
+        Args:
+            socket (VoiceSocket): EVI socket.
+            handler (Optional[Callable[[dict], None]]): Optional handler function for processing messages.
+        """
         async for socket_message in socket:
             message = json.loads(socket_message)
 
-            # the handler acts on each received message
             if handler:
                 handler(message)
 
@@ -98,7 +103,7 @@ class ChatClient:
 
         Args:
             socket (VoiceSocket): EVI socket.
-            handler (Callable[[dict], Awaitable[None]]): Handler for processing messages.
+            handler (Optional[Callable[[dict], None]]): Optional handler function for processing messages.
         """
 
         recv = self._recv(socket=socket, handler=handler)
