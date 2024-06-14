@@ -1,6 +1,6 @@
 import re
 from pathlib import Path
-from typing import List
+from typing import Generator
 
 import pytest
 from pytest import FixtureRequest
@@ -8,7 +8,7 @@ from pytest import FixtureRequest
 from tests.examples.example import Example
 
 
-def get_example_dirpaths() -> List[Path]:
+def get_example_dirpaths() -> list[Path]:
     examples_dirpath = Path(__file__).parent.parent.parent / "examples"
     paths = []
     for example_dirpath in examples_dirpath.iterdir():
@@ -18,7 +18,7 @@ def get_example_dirpaths() -> List[Path]:
     return paths
 
 
-def get_examples() -> List[Example]:
+def get_examples() -> list[Example]:
     examples = []
     for dirpath in get_example_dirpaths():
         dirname = dirpath.name
@@ -37,7 +37,7 @@ def get_examples() -> List[Example]:
 
 
 @pytest.fixture(scope="session")
-def examples() -> List[Example]:
+def examples() -> list[Example]:
     return get_examples()
 
 
@@ -46,5 +46,5 @@ def get_example_id(example: Example) -> str:
 
 
 @pytest.fixture(scope="session", params=get_examples(), ids=get_example_id)
-def example(request: FixtureRequest) -> Example:
+def example(request: FixtureRequest) -> Generator[Example, None, None]:
     yield request.param

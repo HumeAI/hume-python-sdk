@@ -1,6 +1,7 @@
 """Model configuration utilities."""
 
-from typing import Any, Dict, List, Type
+from collections.abc import Iterable
+from typing import Any, Type
 
 from hume.error.hume_client_exception import HumeClientException
 from hume.models import ModelType
@@ -39,14 +40,14 @@ def config_from_model_type(model_type: ModelType) -> Type[ModelConfigBase]:
     raise HumeClientException(f"Unknown model type {model_type}")
 
 
-def serialize_configs(configs: List[ModelConfigBase]) -> Dict[str, Dict[str, Any]]:
+def serialize_configs(configs: Iterable[ModelConfigBase]) -> dict[str, dict[str, Any]]:
     """Convert a list of configs into a dict from model name to serialized model config.
 
     Args:
-        configs (List[ModelConfigBase]): List of configuration objects.
+        configs (Iterable[ModelConfigBase]): List of configuration objects.
 
     Returns:
-        Dict[str, Dict[str, Any]]: Dictionary of serialized model configurations.
+        dict[str, dict[str, Any]]: Dictionary of serialized model configurations.
     """
     configs_dict = {}
     for config in configs:
@@ -56,14 +57,14 @@ def serialize_configs(configs: List[ModelConfigBase]) -> Dict[str, Dict[str, Any
     return configs_dict
 
 
-def deserialize_configs(configs_dict: Dict[str, Dict[str, Any]]) -> List[ModelConfigBase]:
+def deserialize_configs(configs_dict: dict[str, dict[str, Any]]) -> list[ModelConfigBase]:
     """Convert a dict of serialized model configs into a list of config objects.
 
     Args:
-        configs_dict (Dict[str, Dict[str, Any]]): Dictionary of serialized model configurations.
+        configs_dict (dict[str, dict[str, Any]]): Dictionary of serialized model configurations.
 
     Returns:
-        List[ModelConfigBase]: List of deserialized configuration objects.
+        list[ModelConfigBase]: list of deserialized configuration objects.
     """
     configs = []
     for model_name, config_dict in configs_dict.items():

@@ -1,3 +1,1 @@
-from typing import Dict
-
-EvalData = Dict[str, str]
+EvalData = dict[str, str]

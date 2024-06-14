@@ -1,3 +1,3 @@
-from typing import Any, Dict
+from typing import Any
 
-JsonObject = Dict[str, Any]
+JsonObject = dict[str, Any]

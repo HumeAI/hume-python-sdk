@@ -7,7 +7,7 @@ from hume.models.config.model_config_base import ModelConfigBase
 
 
 @dataclass
-class FacemeshConfig(ModelConfigBase["FacemeshConfig"]):
+class FacemeshConfig(ModelConfigBase):
     """Configuration for the facemesh model."""
 
     @classmethod
