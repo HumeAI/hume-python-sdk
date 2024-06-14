@@ -84,7 +84,7 @@ jobs:
   build-service:
     runs-on: ubuntu-latest
 
-    if: github.repository_owner == 'HumeAI'
+    if: github.event.pull_request.head.repo.fork == false
 
     strategy:
       matrix:
