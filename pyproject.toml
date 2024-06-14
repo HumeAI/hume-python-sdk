@@ -35,6 +35,7 @@ name = "hume"
 readme = "README.md"
 repository = "https://github.com/HumeAI/hume-python-sdk"
 version = "0.6.0"
+include = ["hume/py.typed"]
 
 [tool.poetry.dependencies]
 httpx = { extras = ["http2"], version = "^0.27.0" }
