@@ -38,8 +38,6 @@ WHETHER_ASSISTANT_PROMPT = (
 @pytest.mark.voice
 @pytest.mark.service
 class TestServiceHumeVoiceClientTools:
-    UUID_REGEX = r"[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}"
-
     def test_tool_operations(self, voice_client: HumeVoiceClient) -> None:
         # NOTE: This UUID can be removed when the API supports duplicate config names after deletion.
         name_uuid = str(uuid4())
@@ -73,7 +71,7 @@ class TestServiceHumeVoiceClientTools:
         listed_tools = list(voice_client.iter_tools())
         assert len(listed_tools) == n_tools - 1
 
-        match = f"Tool not found with ID: {self.UUID_REGEX}"
+        match = f"Tool \(ID: {new_tool.id}"
         with pytest.raises(HumeClientException, match=match):
             voice_client.get_tool(new_tool.id)
 

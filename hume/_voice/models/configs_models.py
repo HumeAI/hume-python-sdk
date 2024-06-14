@@ -2,6 +2,8 @@
 
 from typing import List, Optional
 
+from pydantic import ConfigDict
+
 from hume._common.utilities.model_utilities import BaseModel
 from hume._voice.models.tools_models import ToolMeta
 
@@ -40,6 +42,8 @@ class LanguageModelConfig(BaseModel):
     model_resource: str
     temperature: Optional[float] = None
 
+    model_config = ConfigDict(protected_namespaces=())
+
 
 class PostPromptRequest(BaseModel):
     """Post request model for creating a new EVI prompt."""
@@ -47,6 +51,13 @@ class PostPromptRequest(BaseModel):
     name: str
     version_description: Optional[str]
     text: Optional[str]
+
+
+class VoiceIdentityConfig(BaseModel):
+    """Configuration for changing the voice of EVI."""
+
+    provider: Optional[str] = None
+    name: Optional[str] = None
 
 
 class ConfigResponse(BaseModel):
@@ -59,6 +70,7 @@ class ConfigResponse(BaseModel):
     created_on: int
     modified_on: int
     prompt: Optional[PromptResponse]
+    voice: Optional[VoiceIdentityConfig]
 
 
 class ConfigsResponse(BaseModel):
@@ -67,13 +79,6 @@ class ConfigsResponse(BaseModel):
     page_number: int
     page_size: int
     configs_page: List[ConfigResponse]
-
-
-class VoiceIdentityConfig(BaseModel):
-    """Configuration for changing the voice of EVI."""
-
-    provider: Optional[str] = None
-    name: Optional[str] = None
 
 
 class BuiltinToolConfig(BaseModel):
@@ -112,3 +117,4 @@ class VoiceConfig(BaseModel):
     modified_on: int
     # TODO: Add tool info
     prompt: Optional[str]
+    voice: Optional[VoiceIdentityConfig]

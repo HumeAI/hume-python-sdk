@@ -1,6 +1,7 @@
 name: Package CI
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -83,6 +84,8 @@ jobs:
 
   build-service:
     runs-on: ubuntu-latest
+
+    if: github.event.pull_request.head.repo.fork == false
 
     strategy:
       matrix:
