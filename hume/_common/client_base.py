@@ -1,5 +1,7 @@
 """Base class for Hume clients."""
 
+from __future__ import annotations
+
 import logging
 from importlib.metadata import version
 from typing import ClassVar

@@ -1,5 +1,7 @@
 """Batch job state."""
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 
 from hume._measurement.batch.batch_job_status import BatchJobStatus

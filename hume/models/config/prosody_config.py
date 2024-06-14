@@ -1,5 +1,7 @@
 """Configuration for the speech prosody model."""
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 
 from hume.models import ModelType

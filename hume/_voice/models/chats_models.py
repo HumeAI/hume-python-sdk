@@ -1,5 +1,7 @@
 """API request and response models for EVI chats."""
 
+from __future__ import annotations
+
 from enum import Enum
 
 from pydantic import UUID4, BaseModel

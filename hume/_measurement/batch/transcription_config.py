@@ -1,5 +1,7 @@
 """Configuration for speech transcription."""
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 
 from hume._common.config_base import ConfigBase

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from hume._common.utilities.model_utilities import BaseModel
 
 

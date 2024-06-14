@@ -1,5 +1,7 @@
 """API request and response models for EVI tools."""
 
+from __future__ import annotations
+
 from hume._common.utilities.model_utilities import BaseModel
 
 

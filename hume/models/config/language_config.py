@@ -1,5 +1,7 @@
 """Configuration for the language emotion model."""
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import Any
 

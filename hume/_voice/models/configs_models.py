@@ -1,5 +1,7 @@
 """API request and response models for EVI configurations."""
 
+from __future__ import annotations
+
 from pydantic import ConfigDict
 
 from hume._common.utilities.model_utilities import BaseModel

@@ -1,5 +1,7 @@
 """Streaming API client."""
 
+from __future__ import annotations
+
 from collections.abc import Iterable
 from contextlib import asynccontextmanager
 from typing import Any, AsyncIterator
