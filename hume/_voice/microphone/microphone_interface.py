@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass
-from typing import Awaitable, Callable, ClassVar
+from typing import Awaitable, Callable, ClassVar, Optional, Union
 
 from hume._voice.microphone.chat_client import ChatClient
 from hume._voice.microphone.microphone import Microphone
@@ -24,7 +24,7 @@ class MicrophoneInterface:
     async def start(
         cls,
         socket: VoiceSocket,
-        handler: Callable[[dict], None] | Callable[[dict], Awaitable[None]] | None = None,
+        handler: Optional[Union[Callable[[dict], None], Callable[[dict], Awaitable[None]]]] = None,
         device: int | None = Microphone.DEFAULT_DEVICE,
         allow_user_interrupt: bool = DEFAULT_ALLOW_USER_INTERRUPT,
     ) -> None:
@@ -32,7 +32,7 @@ class MicrophoneInterface:
 
         Args:
             socket (VoiceSocket): EVI socket.
-            handler (Callable[[dict], None] | Callable[[dict], Awaitable[None]] | None): EVI message handler.
+            handler (Optional[Union[Callable[[dict], None], Callable[[dict], Awaitable[None]]]]): EVI message handler.
             device (int | None): Device index for the microphone.
             allow_user_interrupt (bool): Whether to allow the user to interrupt EVI.
         """

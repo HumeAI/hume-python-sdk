@@ -6,7 +6,7 @@ import datetime
 import json
 import logging
 from dataclasses import dataclass
-from typing import Awaitable, Callable, ClassVar
+from typing import Awaitable, Callable, ClassVar, Optional, Union
 
 from hume._voice.microphone.asyncio_utilities import Stream
 from hume._voice.microphone.audio_utilities import play_audio
@@ -53,13 +53,13 @@ class ChatClient:
         self,
         *,
         socket: VoiceSocket,
-        handler: Callable[[dict], None] | Callable[[dict], Awaitable[None]] | None = None,
+        handler: Optional[Union[Callable[[dict], None], Callable[[dict], Awaitable[None]]]] = None,
     ) -> None:
         """Receive and process messages from the EVI connection.
 
         Args:
             socket (VoiceSocket): EVI socket.
-            handler Callable[[dict], None] | Callable[[dict], Awaitable[None]] | None): EVI message handler.
+            handler (Optional[Union[Callable[[dict], None], Callable[[dict], Awaitable[None]]]]): EVI message handler.
         """
         async for socket_message in socket:
             message = json.loads(socket_message)
@@ -110,13 +110,13 @@ class ChatClient:
         self,
         *,
         socket: VoiceSocket,
-        handler: Callable[[dict], None] | Callable[[dict], Awaitable[None]] | None = None,
+        handler: Optional[Union[Callable[[dict], None], Callable[[dict], Awaitable[None]]]] = None,
     ) -> None:
         """Run the chat client.
 
         Args:
             socket (VoiceSocket): EVI socket.
-            handler (Callable[[dict], None] | Callable[[dict], Awaitable[None]] | None): EVI message handler.
+            handler (Optional[Union[Callable[[dict], None], Callable[[dict], Awaitable[None]]]]): EVI message handler.
         """
         recv = self._recv(socket=socket, handler=handler)
         send = self.sender.send(socket=socket)
