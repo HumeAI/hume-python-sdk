@@ -2,7 +2,7 @@
 
 import logging
 from dataclasses import dataclass
-from typing import ClassVar, Optional
+from typing import Awaitable, Callable, ClassVar, Optional, Union
 
 from hume._voice.microphone.chat_client import ChatClient
 from hume._voice.microphone.microphone import Microphone
@@ -22,6 +22,7 @@ class MicrophoneInterface:
     async def start(
         cls,
         socket: VoiceSocket,
+        handler: Optional[Union[Callable[[dict], None], Callable[[dict], Awaitable[None]]]] = None,
         device: Optional[int] = Microphone.DEFAULT_DEVICE,
         allow_user_interrupt: bool = DEFAULT_ALLOW_USER_INTERRUPT,
     ) -> None:
@@ -29,9 +30,11 @@ class MicrophoneInterface:
 
         Args:
             socket (VoiceSocket): EVI socket.
-            device (Optional[int]): Device index for the microphone.
-            allow_user_interrupt (bool): Whether to allow the user to interrupt EVI.
+            handler (Optional[Callable[[dict], None]]): Optional handler function for processing messages.
+            device (Optional[int]): Device ID for the microphone. Defaults to the system's default device.
+            allow_user_interrupt (bool): Whether to allow the user to interrupt EVI. Defaults to False.
         """
+
         with Microphone.context(device=device) as microphone:
             sender = MicrophoneSender.new(microphone=microphone, allow_interrupt=allow_user_interrupt)
             chat_client = ChatClient.new(sender=sender)
@@ -41,4 +44,4 @@ class MicrophoneInterface:
                 num_channels=microphone.num_channels,
             )
             print("Microphone connected. Say something!")
-            await chat_client.run(socket=socket)
+            await chat_client.run(socket=socket, handler=handler)

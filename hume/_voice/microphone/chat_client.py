@@ -6,7 +6,7 @@ import datetime
 import json
 import logging
 from dataclasses import dataclass
-from typing import ClassVar
+from typing import Awaitable, Callable, ClassVar, Optional, Union
 
 from hume._voice.microphone.asyncio_utilities import Stream
 from hume._voice.microphone.audio_utilities import play_audio
@@ -49,9 +49,27 @@ class ChatClient:
         now_str = now.strftime("%H:%M:%S")
         print(f"[{now_str}] {text}")
 
-    async def _recv(self, *, socket: VoiceSocket) -> None:
+    async def _recv(
+        self,
+        *,
+        socket: VoiceSocket,
+        handler: Optional[Union[Callable[[dict], None], Callable[[dict], Awaitable[None]]]] = None,
+    ) -> None:
+        """Receive and process messages from the EVI connection.
+
+        Args:
+            socket (VoiceSocket): EVI socket.
+            handler (Optional[Union[Callable[[dict], None], Callable[[dict], Awaitable[None]]]]): EVI message handler.
+        """
         async for socket_message in socket:
             message = json.loads(socket_message)
+
+            if handler is not None:
+                if asyncio.iscoroutinefunction(handler):
+                    await handler(message)
+                else:
+                    handler(message)
+
             if message["type"] in ["user_message", "assistant_message"]:
                 role = self._map_role(message["message"]["role"])
                 message_text = message["message"]["content"]
@@ -76,11 +94,6 @@ class ChatClient:
                     content = "Let's start over"
                     await self.sender.send_tool_response(socket=socket, tool_call_id=tool_call_id, content=content)
                 continue
-            elif message["type"] == "chat_metadata":
-                message_type = message["type"].upper()
-                chat_id = message["chat_id"]
-                chat_group_id = message["chat_group_id"]
-                text = f"<{message_type}> Chat ID: {chat_id}, Chat Group ID: {chat_group_id}"
             else:
                 message_type = message["type"].upper()
                 text = f"<{message_type}>"
@@ -93,13 +106,19 @@ class ChatClient:
             await play_audio(byte_str)
             await self.sender.on_audio_end()
 
-    async def run(self, *, socket: VoiceSocket) -> None:
+    async def run(
+        self,
+        *,
+        socket: VoiceSocket,
+        handler: Optional[Union[Callable[[dict], None], Callable[[dict], Awaitable[None]]]] = None,
+    ) -> None:
         """Run the chat client.
 
         Args:
             socket (VoiceSocket): EVI socket.
+            handler (Optional[Union[Callable[[dict], None], Callable[[dict], Awaitable[None]]]]): EVI message handler.
         """
-        recv = self._recv(socket=socket)
+        recv = self._recv(socket=socket, handler=handler)
         send = self.sender.send(socket=socket)
 
         await asyncio.gather(recv, self._play(), send)
