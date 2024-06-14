@@ -91,7 +91,7 @@ class HumeBatchClient(ClientBase):
             callback_url (str | None): A URL to which a POST request will be sent upon job completion.
             notify (bool | None): Wether an email notification should be sent upon job completion.
             files (list[Path | str] | None): List of paths to files on the local disk to be processed.
-            filebytes (Optional[list[tuple[str, bytes]]]): List of file bytes (raw file data) to be processed.
+            filebytes (list[tuple[str, bytes]] | None): List of file bytes (raw file data) to be processed.
             text (list[str] | None): List of strings (raw text) to be processed.
 
         Returns:
@@ -257,8 +257,8 @@ class HumeBatchClient(ClientBase):
     def _get_multipart_form_data(
         self,
         request_body: Any,
-        filepaths: Optional[list[Union[str, Path]]],
-        filebytes: Optional[list[tuple[str, bytes]]],
+        filepaths: Optional[Iterable[Union[str, Path]]],
+        filebytes: Optional[Iterable[tuple[str, bytes]]],
     ) -> list[tuple[str, Union[bytes, tuple[str, bytes]]]]:
         """Convert a list of filepaths and/or file bytes into a list of multipart form data.
 
