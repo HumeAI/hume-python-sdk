@@ -1,5 +1,6 @@
 """Model configuration utilities."""
 
+from collections.abc import Iterable
 from typing import Any, Dict, List, Type
 
 from hume.error.hume_client_exception import HumeClientException
@@ -39,7 +40,7 @@ def config_from_model_type(model_type: ModelType) -> Type[ModelConfigBase]:
     raise HumeClientException(f"Unknown model type {model_type}")
 
 
-def serialize_configs(configs: List[ModelConfigBase]) -> Dict[str, Dict[str, Any]]:
+def serialize_configs(configs: Iterable[ModelConfigBase]) -> Dict[str, Dict[str, Any]]:
     """Convert a list of configs into a dict from model name to serialized model config.
 
     Args:
