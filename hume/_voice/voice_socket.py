@@ -3,7 +3,7 @@
 import json
 import logging
 from pathlib import Path
-from typing import Any, AsyncIterator, ClassVar, Optional
+from typing import Any, AsyncIterator, ClassVar
 
 from pydub import AudioSegment
 from websockets.client import WebSocketClientProtocol as WebSocket
@@ -63,8 +63,8 @@ class VoiceSocket:
     async def update_session_settings(
         self,
         *,
-        sample_rate: Optional[int] = None,
-        num_channels: Optional[int] = None,
+        sample_rate: int | None = None,
+        num_channels: int | None = None,
     ) -> None:
         """Update the EVI session settings."""
         if num_channels is not None:

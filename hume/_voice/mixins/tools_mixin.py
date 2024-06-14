@@ -1,7 +1,7 @@
 """Client operations for managing EVI tools."""
 
 import logging
-from typing import Iterator, Optional
+from typing import Iterator
 
 from hume._common.client_base import ClientBase
 from hume._common.utilities.paging_utilities import Paging
@@ -20,16 +20,16 @@ class ToolsMixin(ClientBase):
         *,
         name: str,
         parameters: str,
-        fallback_content: Optional[str] = None,
-        description: Optional[str] = None,
+        fallback_content: str | None = None,
+        description: str | None = None,
     ) -> VoiceTool:
         """Create a new EVI tool.
 
         Args:
             name (str): Tool name.
             parameters (str): Stringified JSON defining the parameters used by the tool.
-            fallback_content (Optional[str]): Text to use if the tool fails to generate content.
-            description (Optional[str]): Tool description.
+            fallback_content (str | None): Text to use if the tool fails to generate content.
+            description (str | None): Tool description.
         """
         post_tool_request = PostToolRequest(
             name=name,
@@ -45,7 +45,7 @@ class ToolsMixin(ClientBase):
 
         return self._tool_from_response(tool_response)
 
-    def get_tool(self, id: str, _version: Optional[int] = None) -> VoiceTool:
+    def get_tool(self, id: str, _version: int | None = None) -> VoiceTool:
         """Get an EVI tool by its ID.
 
         Args:
@@ -94,7 +94,7 @@ class ToolsMixin(ClientBase):
             for res in tools_response.tools_page:
                 yield self._tool_from_response(res)
 
-    def delete_tool(self, id: str, _version: Optional[int] = None) -> None:
+    def delete_tool(self, id: str, _version: int | None = None) -> None:
         """Delete an EVI tool.
 
         Args:

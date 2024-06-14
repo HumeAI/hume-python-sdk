@@ -1,5 +1,4 @@
 import logging
-from typing import Optional
 from uuid import uuid4
 
 import pytest
@@ -43,7 +42,7 @@ class TestServiceHumeVoiceClientConfigs:
         with pytest.raises(HumeClientException, match=match):
             voice_client.get_config(new_config.id)
 
-    def check_config_fields(self, config: VoiceConfig, name: str, prompt: str, description: Optional[str]) -> None:
+    def check_config_fields(self, config: VoiceConfig, name: str, prompt: str, description: str | None) -> None:
         assert config.name == name
         assert config.prompt == prompt
         assert config.description == description

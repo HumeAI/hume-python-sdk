@@ -1,7 +1,5 @@
 """API request and response models for EVI tools."""
 
-from typing import List, Optional
-
 from hume._common.utilities.model_utilities import BaseModel
 
 
@@ -11,12 +9,12 @@ class ToolResponse(BaseModel):
     id: str
     tool_type: str
     version: int
-    version_description: Optional[str]
+    version_description: str | None
     name: str
     created_on: int
     modified_on: int
-    fallback_content: Optional[str]
-    description: Optional[str]
+    fallback_content: str | None
+    description: str | None
     parameters: str
 
 
@@ -25,7 +23,7 @@ class ToolsResponse(BaseModel):
 
     page_number: int
     page_size: int
-    tools_page: List[ToolResponse]
+    tools_page: list[ToolResponse]
 
 
 class ToolMeta(BaseModel):
@@ -39,10 +37,10 @@ class PostToolRequest(BaseModel):
     """Post request model for creating a new EVI tool."""
 
     name: str
-    version_description: Optional[str]
-    description: Optional[str]
+    version_description: str | None
+    description: str | None
     parameters: str
-    fallback_content: Optional[str]
+    fallback_content: str | None
 
 
 class VoiceTool(BaseModel):
@@ -53,5 +51,5 @@ class VoiceTool(BaseModel):
     created_on: int
     modified_on: int
     parameters: str
-    description: Optional[str]
-    fallback_content: Optional[str]
+    description: str | None
+    fallback_content: str | None

@@ -1,7 +1,8 @@
 """Streaming API client."""
 
+from collections.abc import Iterable
 from contextlib import asynccontextmanager
-from typing import Any, AsyncIterator, Optional, Sequence
+from typing import Any, AsyncIterator
 
 import websockets
 
@@ -38,8 +39,8 @@ class HumeStreamClient(ClientBase):
     @asynccontextmanager
     async def connect(
         self,
-        configs: Sequence[ModelConfigBase],
-        stream_window_ms: Optional[int] = None,
+        configs: Iterable[ModelConfigBase],
+        stream_window_ms: int | None = None,
     ) -> AsyncIterator[StreamSocket]:
         """Connect to the streaming API.
 
@@ -47,8 +48,8 @@ class HumeStreamClient(ClientBase):
             If more than one config is passed for a given model type, only the last config will be used.
 
         Args:
-            configs (List[ModelConfigBase]): List of job configs.
-            stream_window_ms (Optional[int]): Length of the sliding window in milliseconds to use when
+            configs (Iterable[ModelConfigBase]): List of job configs.
+            stream_window_ms (int | None): Length of the sliding window in milliseconds to use when
                 aggregating media across streaming payloads within one WebSocket connection.
         """
         endpoint = self._build_endpoint("stream", "models", protocol=Protocol.WS)

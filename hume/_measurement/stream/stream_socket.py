@@ -2,8 +2,9 @@
 
 import base64
 import json
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
+from typing import Any
 
 from websockets.client import WebSocketClientProtocol
 
@@ -22,15 +23,15 @@ class StreamSocket:
     def __init__(
         self,
         protocol: "WebSocketClientProtocol",
-        configs: List[ModelConfigBase],
-        stream_window_ms: Optional[int] = None,
+        configs: Iterable[ModelConfigBase],
+        stream_window_ms: int | None = None,
     ):
         """Construct a `StreamSocket`.
 
         Args:
             protocol (WebSocketClientProtocol): Protocol instance from websockets library.
-            configs (Optional[List[ModelConfigBase]]): List of model configurations.
-            stream_window_ms (Optional[int]): Length of the sliding window in milliseconds to use when
+            configs (Iterable[ModelConfigBase]): Iterable of model configurations.
+            stream_window_ms (int | None): Length of the sliding window in milliseconds to use when
                 aggregating media across streaming payloads within one websocket connection.
 
         Raises:
@@ -45,14 +46,14 @@ class StreamSocket:
 
     async def send_file(
         self,
-        filepath: Union[str, Path],
-        configs: Optional[List[ModelConfigBase]] = None,
+        filepath: Path | str,
+        configs: Iterable[ModelConfigBase] | None = None,
     ) -> Any:
         """Send a file on the `StreamSocket`.
 
         Args:
             filepath (Path): Path to media file to send on socket connection.
-            configs (Optional[List[ModelConfigBase]]): List of model configurations.
+            configs (Iterable[ModelConfigBase] | None): Iterable of model configurations.
                 If set these configurations will overwrite any configurations
                 set when initializing the `StreamSocket`.
 
@@ -66,7 +67,7 @@ class StreamSocket:
     async def send_bytes(
         self,
         bytes_data: bytes,
-        configs: Optional[List[ModelConfigBase]] = None,
+        configs: Iterable[ModelConfigBase] | None = None,
     ) -> Any:
         """Send raw bytes on the `StreamSocket`.
 
@@ -75,7 +76,7 @@ class StreamSocket:
 
         Args:
             bytes_data (bytes): Raw bytes of media to send on socket connection.
-            configs (Optional[List[ModelConfigBase]]): List of model configurations.
+            configs (Iterable[ModelConfigBase] | None): Iterable of model configurations.
                 If set these configurations will overwrite any configurations
                 set when initializing the `StreamSocket`.
 
@@ -88,7 +89,7 @@ class StreamSocket:
     async def send_text(
         self,
         text: str,
-        configs: Optional[List[ModelConfigBase]] = None,
+        configs: Iterable[ModelConfigBase] | None = None,
     ) -> Any:
         """Send text on the `StreamSocket`.
 
@@ -97,7 +98,7 @@ class StreamSocket:
 
         Args:
             text (str): Text to send to the language model.
-            configs (Optional[List[ModelConfigBase]]): List of model configurations.
+            configs (Iterable[ModelConfigBase] | None): Iterable of model configurations.
                 If set these configurations will overwrite any configurations
                 set when initializing the `StreamSocket`.
 
@@ -112,8 +113,8 @@ class StreamSocket:
 
     async def send_facemesh(
         self,
-        landmarks: List[List[List[float]]],
-        configs: Optional[List[ModelConfigBase]] = None,
+        landmarks: list[list[list[float]]],
+        configs: Iterable[ModelConfigBase] | None = None,
     ) -> Any:
         """Send facemesh landmarks on the `StreamSocket`.
 
@@ -121,11 +122,11 @@ class StreamSocket:
             When the socket is configured for other modalities this method will fail.
 
         Args:
-            landmarks (List[List[List[float]]]): List of landmark points for multiple faces.
+            landmarks (list[list[list[float]]]): List of landmark points for multiple faces.
                 The shape of this 3-dimensional list should be (n, 478, 3) where n is the number
                 of faces to be processed, 478 is the number of MediaPipe landmarks per face and 3
                 represents the (x, y, z) coordinates of each landmark.
-            configs (Optional[List[ModelConfigBase]]): List of model configurations.
+            configs (Iterable[ModelConfigBase] | None): Iterable of model configurations.
                 If set these configurations will overwrite any configurations
                 set when initializing the `StreamSocket`.
 
@@ -190,13 +191,13 @@ class StreamSocket:
         data: str,
         *,
         raw_text: bool,
-        configs: Optional[List[ModelConfigBase]] = None,
+        configs: Iterable[ModelConfigBase] | None = None,
     ) -> Any:
         serialized_configs = self._serialized_configs
         if configs is not None:
             serialized_configs = serialize_configs(configs)
 
-        payload: Dict[str, Any] = {
+        payload: dict[str, Any] = {
             "data": data,
             "models": serialized_configs,
             "raw_text": raw_text,
@@ -205,7 +206,7 @@ class StreamSocket:
             payload["stream_window_ms"] = self._stream_window_ms
         return await self._send_payload(payload)
 
-    async def _send_payload(self, payload: Dict[str, Any]) -> Any:
+    async def _send_payload(self, payload: dict[str, Any]) -> Any:
         request_message = json.dumps(payload)
         await self._protocol.send(request_message)
         response_data = await self._protocol.recv()
@@ -228,7 +229,7 @@ class StreamSocket:
         self,
         config_type: Any,
         method_name: str,
-        configs: Optional[List[ModelConfigBase]] = None,
+        configs: Iterable[ModelConfigBase] | None = None,
     ) -> None:
         config_method = "Socket"
         payload_configs = self._configs

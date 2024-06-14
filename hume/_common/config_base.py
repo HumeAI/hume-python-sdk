@@ -3,7 +3,7 @@
 import warnings
 from abc import ABC
 from dataclasses import asdict, dataclass, fields
-from typing import Any, Dict, Generic, TypeVar, cast
+from typing import Any, Generic, TypeVar, cast
 
 T = TypeVar("T")  # Type for subclasses of ConfigBase
 
@@ -12,23 +12,23 @@ T = TypeVar("T")  # Type for subclasses of ConfigBase
 class ConfigBase(ABC, Generic[T]):
     """Abstract base class for configurations."""
 
-    def to_dict(self, skip_none: bool = True) -> Dict[str, Any]:
+    def to_dict(self, skip_none: bool = True) -> dict[str, Any]:
         """Serialize configuration to dictionary.
 
         Args:
             skip_none (bool): Whether None configurations should be skipped during serialization.
 
         Returns:
-            Dict[str, Any]: Serialized configuration object.
+            dict[str, Any]: Serialized configuration object.
         """
         return {k: v for k, v in asdict(self).items() if v is not None or not skip_none}
 
     @classmethod
-    def from_dict(cls, request_dict: Dict[str, Any]) -> T:
+    def from_dict(cls, request_dict: dict[str, Any]) -> T:
         """Deserialize configuration from request JSON.
 
         Args:
-            request_dict (Dict[str, Any]): Request JSON data.
+            request_dict (dict[str, Any]): Request JSON data.
 
         Returns:
             T: Deserialized configuration object.

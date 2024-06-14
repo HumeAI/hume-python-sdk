@@ -5,7 +5,7 @@ import zipfile
 from dataclasses import fields
 from datetime import datetime
 from pathlib import Path
-from typing import List, Optional, Type, Union
+from typing import Type
 from urllib.request import urlretrieve
 
 import pytest
@@ -177,8 +177,8 @@ class TestServiceHumeBatchClient:
     def check_job(
         self,
         job: BatchJob,
-        config: Union[ModelConfigBase, TranscriptionConfig],
-        config_class: Type[Union[ModelConfigBase, TranscriptionConfig]],
+        config: ModelConfigBase | TranscriptionConfig,
+        config_class: Type[ModelConfigBase | TranscriptionConfig],
         job_files_dirpath: Path,
         complete_config: bool = True,
     ) -> None:
@@ -217,9 +217,9 @@ class TestServiceHumeBatchClient:
 
     def check_complete_config(
         self,
-        config: Union[ModelConfigBase, TranscriptionConfig],
-        config_class: Type[Union[ModelConfigBase, TranscriptionConfig]],
-        exceptions: Optional[List[str]] = None,
+        config: ModelConfigBase | TranscriptionConfig,
+        config_class: Type[ModelConfigBase | TranscriptionConfig],
+        exceptions: list[str] | None = None,
     ) -> None:
         exceptions_set = set(exceptions) if exceptions is not None else set()
         class_fields = set([field.name for field in fields(config_class)]) - exceptions_set

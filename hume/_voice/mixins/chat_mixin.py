@@ -1,7 +1,7 @@
 import logging
 import urllib.parse
 from contextlib import asynccontextmanager
-from typing import Any, AsyncIterator, ClassVar, Dict, Optional
+from typing import Any, AsyncIterator, ClassVar
 
 import websockets
 import websockets.client
@@ -22,14 +22,14 @@ class ChatMixin(ClientBase):
     @asynccontextmanager
     async def connect(
         self,
-        config_id: Optional[str] = None,
-        chat_group_id: Optional[str] = None,
+        config_id: str | None = None,
+        chat_group_id: str | None = None,
     ) -> AsyncIterator[VoiceSocket]:
         """Connect to the EVI API.
 
         Args:
-            config_id (Optional[str]): Config ID.
-            chat_group_id (Optional[str]): Chat group ID.
+            config_id (str | None): Config ID.
+            chat_group_id (str | None): Chat group ID.
         """
         uri_base = self._build_endpoint("evi", "chat", Protocol.WS)
 
@@ -39,7 +39,7 @@ class ChatMixin(ClientBase):
                 "The original config for the chat group will be used automatically."
             )
 
-        params: Dict[str, Any] = {}
+        params: dict[str, Any] = {}
         if config_id is not None:
             params["config_id"] = config_id
         if chat_group_id is not None:

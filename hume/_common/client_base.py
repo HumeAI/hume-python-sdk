@@ -2,7 +2,7 @@
 
 import logging
 from importlib.metadata import version
-from typing import ClassVar, Dict, Optional
+from typing import ClassVar
 
 from httpx import Client as HttpClient
 from httpx import HTTPTransport, Response
@@ -85,8 +85,8 @@ class ClientBase:
         endpoint: str,
         *,
         method: str,
-        body_json_str: Optional[str] = None,
-        paging: Optional[Paging] = None,
+        body_json_str: str | None = None,
+        paging: Paging | None = None,
     ) -> Response:
         headers = self._get_client_headers()
 
@@ -122,7 +122,7 @@ class ClientBase:
 
         return response
 
-    def _get_client_headers(self) -> Dict[str, str]:
+    def _get_client_headers(self) -> dict[str, str]:
         return {
             "X-Hume-Api-Key": self._api_key,
             "X-Hume-Client-Name": "python_sdk",

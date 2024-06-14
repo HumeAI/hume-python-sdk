@@ -1,5 +1,5 @@
 from contextlib import asynccontextmanager
-from typing import AsyncContextManager, Dict, Optional
+from typing import AsyncContextManager, AsyncGenerator
 from unittest.mock import Mock
 
 import pytest
@@ -12,9 +12,9 @@ from hume.models.config import FaceConfig, ProsodyConfig
 
 def mock_connect(
     uri: str,
-    extra_headers: Optional[Dict[str, str]] = None,
-    open_timeout: Optional[int] = None,
-    close_timeout: Optional[int] = None,
+    extra_headers: dict[str, str] | None = None,
+    open_timeout: int | None = None,
+    close_timeout: int | None = None,
 ) -> AsyncContextManager[Mock]:
     assert uri == "wss://api.hume.ai/v0/stream/models"
     assert isinstance(extra_headers, dict)
@@ -23,7 +23,7 @@ def mock_connect(
     assert isinstance(extra_headers.get("X-Hume-Client-Version"), str)
 
     @asynccontextmanager
-    async def mock_connection() -> Mock:
+    async def mock_connection() -> AsyncGenerator[Mock, None]:
         yield Mock()
 
     return mock_connection()

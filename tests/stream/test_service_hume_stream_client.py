@@ -6,6 +6,7 @@ from pytest import TempPathFactory
 
 from hume import HumeClientException, HumeStreamClient
 from hume.models.config import FaceConfig, FacemeshConfig, LanguageConfig, ProsodyConfig
+from hume.models.config.model_config_base import ModelConfigBase
 from utilities.eval_data import EvalData
 
 
@@ -42,7 +43,7 @@ class TestServiceHumeStreamClient:
             assert predictions is not None
 
     async def test_send_facemesh(self, stream_client: HumeStreamClient) -> None:
-        meshes = [[[0, 0, 0]] * 478]
+        meshes = [[[0.0, 0.0, 0.0]] * 478]
         configs = [FacemeshConfig()]
         async with stream_client.connect(configs) as websocket:
             predictions = await websocket.send_facemesh(meshes)
@@ -96,11 +97,9 @@ class TestServiceHumeStreamClient:
         text_data_filepath = data_dirpath / "text-data-file"
         urlretrieve(text_data_url, text_data_filepath)
 
-        socket_configs = []
+        socket_configs: list[ModelConfigBase] = []
         async with stream_client.connect(socket_configs) as websocket:
-            payload_configs = [FaceConfig()]
-            result = await websocket.send_file(face_data_filepath, configs=payload_configs)
+            result = await websocket.send_file(face_data_filepath, configs=[FaceConfig()])
             assert "predictions" in result["face"]
-            payload_configs = [LanguageConfig()]
-            result = await websocket.send_file(text_data_filepath, configs=payload_configs)
+            result = await websocket.send_file(text_data_filepath, configs=[LanguageConfig()])
             assert "predictions" in result["language"]

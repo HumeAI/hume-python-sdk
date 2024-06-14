@@ -25,7 +25,7 @@ class TestHumeBatchClient:
         job = batch_client.submit_job([mock_url], [config])
         assert isinstance(job, BatchJob)
         assert job.id == "mock-job-id"
-        batch_client._submit_job.assert_called_once_with(
+        batch_client._submit_job.assert_called_once_with(  # type: ignore
             {
                 "models": {
                     "face": {
@@ -46,7 +46,7 @@ class TestHumeBatchClient:
         job = batch_client.submit_job([mock_url], [config])
         assert isinstance(job, BatchJob)
         assert job.id == "mock-job-id"
-        batch_client._submit_job.assert_called_once_with(
+        batch_client._submit_job.assert_called_once_with(  # type: ignore
             {
                 "models": {
                     "burst": {},
@@ -62,7 +62,7 @@ class TestHumeBatchClient:
         job = batch_client.submit_job([mock_url], [config])
         assert isinstance(job, BatchJob)
         assert job.id == "mock-job-id"
-        batch_client._submit_job.assert_called_once_with(
+        batch_client._submit_job.assert_called_once_with(  # type: ignore
             {
                 "models": {
                     "prosody": {
@@ -80,7 +80,7 @@ class TestHumeBatchClient:
         job = batch_client.submit_job([mock_url], [config])
         assert isinstance(job, BatchJob)
         assert job.id == "mock-job-id"
-        batch_client._submit_job.assert_called_once_with(
+        batch_client._submit_job.assert_called_once_with(  # type: ignore
             {
                 "models": {
                     "language": {
@@ -99,7 +99,7 @@ class TestHumeBatchClient:
         job = batch_client.submit_job([], [config], text=[mock_text])
         assert isinstance(job, BatchJob)
         assert job.id == "mock-job-id"
-        batch_client._submit_job.assert_called_once_with(
+        batch_client._submit_job.assert_called_once_with(  # type: ignore
             {
                 "urls": [],
                 "models": {
@@ -120,12 +120,12 @@ class TestHumeBatchClient:
     def test_files(self, batch_client: HumeBatchClient) -> None:
         mock_filepath = "my-audio.mp3"
         config = ProsodyConfig(identify_speakers=True)
-        job = batch_client.submit_job(None, [config], files=[mock_filepath])
+        job = batch_client.submit_job([], [config], files=[mock_filepath])
         assert isinstance(job, BatchJob)
         assert job.id == "mock-job-id"
-        batch_client._submit_job.assert_called_once_with(
+        batch_client._submit_job.assert_called_once_with(  # type: ignore
             {
-                "urls": None,
+                "urls": [],
                 "models": {
                     "prosody": {
                         "identify_speakers": True,
