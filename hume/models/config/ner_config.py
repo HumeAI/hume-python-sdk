@@ -8,7 +8,7 @@ from hume.models.config.model_config_base import ModelConfigBase
 
 
 @dataclass
-class NerConfig(ModelConfigBase["NerConfig"]):
+class NerConfig(ModelConfigBase):
     """Configuration for the named-entity emotion model.
 
     This model is only available for the batch API.

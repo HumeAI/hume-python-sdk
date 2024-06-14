@@ -8,7 +8,7 @@ from hume.models.config.model_config_base import ModelConfigBase
 
 
 @dataclass
-class LanguageConfig(ModelConfigBase["LanguageConfig"]):
+class LanguageConfig(ModelConfigBase):
     """Configuration for the language emotion model.
 
     Args:
