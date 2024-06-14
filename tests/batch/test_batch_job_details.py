@@ -1,6 +1,7 @@
 import json
 from datetime import datetime
 from pathlib import Path
+from typing import Optional
 
 import pytest
 
@@ -63,6 +64,6 @@ class TestBatchJobDetails:
         assert queued_details.get_ended_time() is None
         assert queued_details.get_run_time_ms() is None
 
-    def check_time(self, date: datetime | None, formatted_date: str) -> None:
+    def check_time(self, date: Optional[datetime], formatted_date: str) -> None:
         assert date is not None
         assert date.strftime("%Y-%m-%d %H:%M:%S") == formatted_date

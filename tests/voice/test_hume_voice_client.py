@@ -1,6 +1,6 @@
 import logging
 from contextlib import asynccontextmanager
-from typing import AsyncContextManager, AsyncIterator
+from typing import AsyncContextManager, AsyncIterator, Optional
 from unittest.mock import Mock
 
 import pytest
@@ -16,10 +16,10 @@ logger = logging.getLogger(__name__)
 # pylint: disable=unused-argument
 def mock_connect(
     uri: str,
-    extra_headers: dict[str, str] | None = None,
-    open_timeout: int | None = None,
-    close_timeout: int | None = None,
-    max_size: int | None = None,
+    extra_headers: Optional[dict[str, str]] = None,
+    open_timeout: Optional[int] = None,
+    close_timeout: Optional[int] = None,
+    max_size: Optional[int] = None,
 ) -> AsyncContextManager[Mock]:
     assert uri.startswith("wss://api.hume.ai/v0/evi/chat")
     assert isinstance(extra_headers, dict)
