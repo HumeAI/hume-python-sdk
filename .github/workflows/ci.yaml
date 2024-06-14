@@ -85,6 +85,8 @@ jobs:
   build-service:
     runs-on: ubuntu-latest
 
+    if: github.event.pull_request.head.repo.fork == false
+
     strategy:
       matrix:
         python-version:
