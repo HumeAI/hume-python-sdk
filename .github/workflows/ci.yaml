@@ -84,6 +84,8 @@ jobs:
   build-service:
     runs-on: ubuntu-latest
 
+    if: github.repository_owner == 'HumeAI'
+
     strategy:
       matrix:
         python-version:
