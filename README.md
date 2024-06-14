@@ -23,19 +23,20 @@ To get started, create an account at [beta.hume.ai](https://beta.hume.ai).
 
 ## Documentation & Examples
 
-For complete documentation check out the [Python SDK docs site](https://humeai.github.io/hume-python-sdk/) or [try some recipes](https://dev.hume.ai/recipes) from our platform documentation.
+For complete documentation check out the [Python SDK docs site](https://humeai.github.io/hume-python-sdk/) or [try our quickstart guide](https://dev.hume.ai/docs/empathic-voice-interface-evi/quickstart/python).
 
 Example notebooks can be found in the [examples folder](./examples/README.md).
 
 ## Other Resources
 
 - [Hume AI Homepage](https://hume.ai)
-- [Platform Documentation](https://help.hume.ai/basics/about-hume-ai)
+- [Platform Documentation](https://dev.hume.ai)
+- [API Reference](https://dev.hume.ai/reference)
 
 ## Citations
 
-Hume's expressive communication platform has been built on top of published scientific research. If you use this SDK in your work please see [our docs](https://dev.hume.ai/docs/published) for the best way to cite Hume's publications.
+Hume's expressive communication platform has been built on top of published scientific research. If you use this SDK in your work please cite one of the relevant papers in [our publications repo](https://github.com/HumeAI/hume-research-publications).
 
 ## Support
 
-If you have questions, require assistance, or wish to engage in discussions pertaining to this SDK, [reach out to us on Discord](https://discord.com/invite/WPRSugvAm6)! For particular issues or feedback, we invite you to [open a new issue on Github](https://github.com/HumeAI/hume-python-sdk/issues/new).
+If you have questions, require assistance, or wish to engage in discussions pertaining to this SDK, [reach out to us on Discord](https://link.hume.ai/discord)! For issues specific to this Python SDK, we invite you to [open a new issue on Github](https://github.com/HumeAI/hume-python-sdk/issues/new).
