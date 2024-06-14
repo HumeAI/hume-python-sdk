@@ -43,10 +43,11 @@ jobs:
           poetry config virtualenvs.path ~/poetryenvs
           poetry install
 
-      - name: Run pylint
+      - name: Run Ruff
         shell: bash
         run: |
-          poetry run pylint hume --rcfile pyproject.toml
+          ruff check .
+          ruff format . --check
 
       - name: Run mypy
         shell: bash

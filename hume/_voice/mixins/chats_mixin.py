@@ -1,5 +1,8 @@
 """Client operations for managing EVI chats."""
 
+from __future__ import annotations
+
+# ruff: noqa: A002
 import logging
 from typing import Iterator
 
@@ -22,7 +25,7 @@ from hume._voice.models.chats_models import (
 logger = logging.getLogger(__name__)
 
 
-# pylint: disable=redefined-builtin
+
 class ChatsMixin(ClientBase):
     """Client operations for managing EVI chats."""
 

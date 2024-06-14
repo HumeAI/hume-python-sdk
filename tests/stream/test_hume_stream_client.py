@@ -1,20 +1,21 @@
+from __future__ import annotations
+
 from contextlib import asynccontextmanager
 from typing import AsyncContextManager, AsyncGenerator, Optional
 from unittest.mock import Mock
 
 import pytest
 import websockets
-from pytest import MonkeyPatch
-
 from hume import HumeStreamClient, StreamSocket
 from hume.models.config import FaceConfig, ProsodyConfig
+from pytest import MonkeyPatch
 
 
 def mock_connect(
     uri: str,
     extra_headers: Optional[dict[str, str]] = None,
-    open_timeout: Optional[int] = None,
-    close_timeout: Optional[int] = None,
+    _open_timeout: Optional[int] = None,
+    _close_timeout: Optional[int] = None,
 ) -> AsyncContextManager[Mock]:
     assert uri == "wss://api.hume.ai/v0/stream/models"
     assert isinstance(extra_headers, dict)
@@ -37,7 +38,6 @@ def stream_client_fixture() -> HumeStreamClient:
 @pytest.mark.asyncio
 @pytest.mark.stream
 class TestHumeStreamClient:
-
     async def test_connect_basic(self, stream_client: HumeStreamClient, monkeypatch: MonkeyPatch) -> None:
         monkeypatch.setattr(websockets, "connect", mock_connect)
         configs = [FaceConfig(identify_faces=True)]

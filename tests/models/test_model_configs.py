@@ -1,11 +1,11 @@
-import pytest
+from __future__ import annotations
 
+import pytest
 from hume._common.utilities.config_utilities import config_from_model_type
 from hume.models import ModelType
 
 
 class TestModelConfigs:
-
     @pytest.mark.parametrize("model_name", ["burst", "face", "facemesh", "language", "prosody"])
     def test_get_model_type(self, model_name: str) -> None:
         model_type = ModelType.from_str(model_name)

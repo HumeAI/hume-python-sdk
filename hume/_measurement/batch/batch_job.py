@@ -100,9 +100,9 @@ class BatchJob:
         if timeout < 1:
             raise ValueError("timeout must be at least 1 second")
 
-        # pylint: disable=unused-argument
+
         @retry(timeout_message=self.TIMEOUT_MESSAGE.format(timeout, self.id))
-        def _await_complete(timeout: int = timeout) -> BatchJobDetails:
+        def _await_complete(timeout: int = timeout) -> BatchJobDetails:  # noqa: ARG001
             details = self._client.get_job_details(self.id)
             if not BatchJobStatus.is_terminal(details.state.status):
                 raise RetryIterError

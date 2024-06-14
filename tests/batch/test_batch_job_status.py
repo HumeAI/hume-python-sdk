@@ -1,13 +1,13 @@
+from __future__ import annotations
+
 import re
 
 import pytest
-
 from hume import BatchJobStatus
 
 
 @pytest.mark.batch
 class TestBatchJobStatus:
-
     def test_update(self) -> None:
         # Note: If another status is added to the enum make sure to update parametrized tests below:
         # - test_continuity

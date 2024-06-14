@@ -54,7 +54,6 @@ class ChatMixin(ClientBase):
 
         max_size = self.DEFAULT_MAX_PAYLOAD_SIZE_BYTES
         try:
-            # pylint: disable=no-member
             async with websockets.connect(  # type: ignore[attr-defined]
                 uri,
                 extra_headers=self._get_client_headers(),

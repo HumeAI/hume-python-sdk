@@ -1,12 +1,12 @@
+from __future__ import annotations
+
 import re
 
 import pytest
-
 from hume.models import ModelType
 
 
 class TestModelType:
-
     @pytest.mark.parametrize("model_name", ["burst", "face", "facemesh", "language", "prosody"])
     def test_from_str(self, model_name: str) -> None:
         ModelType.from_str(model_name)

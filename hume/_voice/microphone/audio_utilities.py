@@ -1,5 +1,7 @@
 """Utilities for audio playback."""
 
+from __future__ import annotations
+
 import asyncio
 from io import BytesIO
 

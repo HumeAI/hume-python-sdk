@@ -16,7 +16,6 @@ from hume.error.hume_client_exception import HumeClientException
 logger = logging.getLogger(__name__)
 
 
-# pylint: disable=too-many-instance-attributes
 class ClientBase:
     """Base class for Hume API clients."""
 
@@ -116,7 +115,7 @@ class ClientBase:
         try:
             response = self._http_client.send(request)
             response.raise_for_status()
-        except Exception as exc:  # pylint: disable=broad-exception-caught
+        except Exception as exc:
             response_body = response.json()
             if "message" in response_body:
                 raise HumeClientException(response_body["message"]) from exc

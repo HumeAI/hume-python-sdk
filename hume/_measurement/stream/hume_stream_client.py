@@ -56,7 +56,6 @@ class HumeStreamClient(ClientBase):
         """
         endpoint = self._build_endpoint("stream", "models", protocol=Protocol.WS)
         try:
-            # pylint: disable=no-member
             async with websockets.connect(  # type: ignore[attr-defined]
                 endpoint,
                 extra_headers=self._get_client_headers(),

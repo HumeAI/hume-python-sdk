@@ -1,5 +1,7 @@
 """Module init."""
 
+from __future__ import annotations
+
 from hume._measurement.batch.batch_job import BatchJob
 from hume._measurement.batch.batch_job_details import BatchJobDetails
 from hume._measurement.batch.batch_job_state import BatchJobState

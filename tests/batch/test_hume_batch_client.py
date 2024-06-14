@@ -1,10 +1,11 @@
+from __future__ import annotations
+
 from unittest.mock import MagicMock
 
 import pytest
-from pytest import MonkeyPatch, TempPathFactory
-
 from hume import BatchJob, HumeBatchClient
 from hume.models.config import BurstConfig, FaceConfig, LanguageConfig, ProsodyConfig
+from pytest import MonkeyPatch, TempPathFactory
 
 
 @pytest.fixture(name="batch_client", scope="function")
@@ -18,7 +19,6 @@ def batch_client_fixture(monkeypatch: MonkeyPatch) -> HumeBatchClient:
 
 @pytest.mark.batch
 class TestHumeBatchClient:
-
     def test_face(self, batch_client: HumeBatchClient) -> None:
         mock_url = "mock-url"
         config = FaceConfig(fps_pred=5, prob_threshold=0.24, identify_faces=True, min_face_size=78)
@@ -143,7 +143,6 @@ class TestHumeBatchClient:
 
         request_body = {"mock": "body"}
         filepaths = [filepath]
-        # pylint: disable=protected-access
         result = batch_client._get_multipart_form_data(request_body, filepaths)
 
         assert result == [

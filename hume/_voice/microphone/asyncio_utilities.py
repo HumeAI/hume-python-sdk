@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import dataclasses
 from asyncio import Queue as BaseQueue
 from typing import AsyncGenerator, AsyncIterator, Generic, TypeVar

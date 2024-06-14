@@ -91,7 +91,6 @@ class BatchJobDetails:
                 callback_url=callback_url,
                 notify=notify,
             )
-        # pylint: disable=broad-except
         except Exception as exc:
             message = cls._get_invalid_response_message(response)
             raise HumeClientException(message) from exc
@@ -160,3 +159,4 @@ class BatchJobDetails:
         if self.state.ended_timestamp_ms is None:
             return None
         return datetime.utcfromtimestamp(self.state.ended_timestamp_ms / 1000)
+

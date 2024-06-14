@@ -50,12 +50,10 @@ websockets = "^12.0"
 eval-type-backport = "^0.2.0"
 
 [tool.poetry.dev-dependencies]
-black = "^24.4.0"
 covcheck = { version = "^0.4.3", extras = ["toml"] }
 ipykernel = "^6.22.0"
 mypy = "^1.0.1"
 pydocstyle = "^6.1.1"
-pylint = "^2.16.2"
 pytest = "^7.2.1"
 pytest-asyncio = "^0.19.0"
 pytest-cov = "^4.0.0"
@@ -65,6 +63,7 @@ semver = "^2.13.0"
 testbook = "^0.4.2"
 types-setuptools = "^57.4.4"
 types-toml = "^0.10.1"
+ruff = "^0.4.8"
 
 [tool.poetry.group.docs]
 optional = true
@@ -84,9 +83,6 @@ stream = []
 build-backend = "poetry.core.masonry.api"
 requires = ["poetry-core>=1.0.0"]
 
-[tool.black]
-line-length = 120
-
 [tool.covcheck.group.unit.coverage]
 branch = 40.0
 line = 60.0
@@ -95,36 +91,29 @@ line = 60.0
 branch = 50.0
 line = 70.0
 
-[tool.isort]
-line_length = 120
-profile = "black"
-src_paths = "*"
-
 [tool.mypy]
 disallow_incomplete_defs = true
 disallow_untyped_calls = true
 disallow_untyped_defs = true
 ignore_missing_imports = true
 
-[tool.pylint.basic]
-good-names = ["id", "f"]
-max-args = 12
-max-attributes = 9
-max-locals = 25
-notes = ["FIXME"]
+[tool.ruff]
+src = ["hume"]
+line-length = 120
 
-[tool.pylint.format]
+[tool.ruff.lint]
+extend-select = ["I", "PL", "SLF", "B", "ARG", "A", "BLE"]
+ignore = ["PLR2004", "PLW2901"]
+
+[tool.ruff.lint.isort]
+required-imports = ["from __future__ import annotations"]
+
+[tool.ruff.lint.pycodestyle]
 max-line-length = 120
 
-[tool.pylint.messages_control]
-disable = [
-  "logging-fstring-interpolation",
-  "unspecified-encoding",
-  "missing-docstring",
-  "wrong-import-order",
-  "duplicate-code",
-  "too-few-public-methods",
-]
+[tool.ruff.lint.pylint]
+max-args = 12
+max-locals = 25
 
-[tool.pylint.reports]
-output-format = "colorized"
+[tool.ruff.lint.extend-per-file-ignores]
+"**/tests/**/*.py" = ["SLF"]

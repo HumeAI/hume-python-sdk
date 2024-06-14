@@ -1,5 +1,7 @@
 """Module init."""
 
+from __future__ import annotations
+
 from importlib.metadata import version
 
 from hume._measurement.batch import (

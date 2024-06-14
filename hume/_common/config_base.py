@@ -1,5 +1,7 @@
 """Abstract base class for model configurations."""
 
+from __future__ import annotations
+
 import warnings
 from abc import ABC
 from dataclasses import asdict, dataclass, fields
@@ -43,7 +45,8 @@ class ConfigBase(ABC, Generic[T]):
                     f"Got an unknown parameter `{param}` when loading `{class_name}`. "
                     "Your installed version of the Python SDK may be out of date "
                     "with the latest Hume APIs. "
-                    "Run `pip install --upgrade hume` to get the latest version of the Python SDK."
+                    "Run `pip install --upgrade hume` to get the latest version of the Python SDK.",
+                    stacklevel=1
                 )
         for removal_param in removal_params:
             request_dict.pop(removal_param)

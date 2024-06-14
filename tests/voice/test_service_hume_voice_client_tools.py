@@ -1,10 +1,17 @@
+from __future__ import annotations
+
 import json
 import logging
 from uuid import uuid4
 
 import pytest
-
-from hume import HumeVoiceClient, LanguageModelConfig, VoiceConfig, VoiceIdentityConfig, VoiceTool
+from hume import (
+    HumeVoiceClient,
+    LanguageModelConfig,
+    VoiceConfig,
+    VoiceIdentityConfig,
+    VoiceTool,
+)
 from hume.error.hume_client_exception import HumeClientException
 
 logger = logging.getLogger(__name__)

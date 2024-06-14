@@ -1,5 +1,7 @@
 """Empathic Voice Interface client."""
 
+from __future__ import annotations
+
 import logging
 
 from hume._voice.mixins.chat_mixin import ChatMixin

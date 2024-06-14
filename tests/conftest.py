@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 import os
 
 import pytest
-
 from utilities.eval_data import EvalData
 
 

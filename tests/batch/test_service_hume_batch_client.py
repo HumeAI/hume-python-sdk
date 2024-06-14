@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import json
 import logging
 import re
@@ -9,11 +11,23 @@ from typing import Optional, Type, Union
 from urllib.request import urlretrieve
 
 import pytest
-from pytest import TempPathFactory
-
-from hume import BatchJob, BatchJobDetails, HumeBatchClient, HumeClientException, TranscriptionConfig
-from hume.models.config import BurstConfig, FaceConfig, FacemeshConfig, LanguageConfig, NerConfig, ProsodyConfig
+from hume import (
+    BatchJob,
+    BatchJobDetails,
+    HumeBatchClient,
+    HumeClientException,
+    TranscriptionConfig,
+)
+from hume.models.config import (
+    BurstConfig,
+    FaceConfig,
+    FacemeshConfig,
+    LanguageConfig,
+    NerConfig,
+    ProsodyConfig,
+)
 from hume.models.config.model_config_base import ModelConfigBase
+from pytest import TempPathFactory
 from utilities.eval_data import EvalData
 
 logger = logging.getLogger(__name__)
@@ -27,7 +41,6 @@ def batch_client_fixture(hume_api_key: str) -> HumeBatchClient:
 @pytest.mark.batch
 @pytest.mark.service
 class TestServiceHumeBatchClient:
-
     def test_face(self, eval_data: EvalData, batch_client: HumeBatchClient, tmp_path_factory: TempPathFactory) -> None:
         data_url = eval_data["image-obama-face"]
         config = FaceConfig(

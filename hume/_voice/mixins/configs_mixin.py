@@ -1,7 +1,9 @@
 """Client operations for managing EVI configurations."""
 
+
 from __future__ import annotations
 
+# ruff: noqa: A002
 import logging
 from typing import Iterator
 
@@ -24,7 +26,8 @@ from hume.error.hume_client_exception import HumeClientException
 logger = logging.getLogger(__name__)
 
 
-# pylint: disable=redefined-builtin
+
+
 class ConfigsMixin(ClientBase):
     """Client operations for managing EVI configurations."""
 

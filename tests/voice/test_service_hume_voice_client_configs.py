@@ -1,9 +1,10 @@
+from __future__ import annotations
+
 import logging
 from typing import Optional
 from uuid import uuid4
 
 import pytest
-
 from hume import HumeVoiceClient, VoiceConfig
 from hume.error.hume_client_exception import HumeClientException
 

@@ -55,7 +55,7 @@ class HumeBatchClient(ClientBase):
             api_key (str): Hume API key.
             timeout (int): Time in seconds before canceling long-running Hume API requests.
         """
-        super().__init__(api_key, http_timeout=timeout, *args, **kwargs)
+        super().__init__(api_key, *args, http_timeout=timeout, **kwargs)
 
     def get_job(self, job_id: str) -> BatchJob:
         """Rehydrate a job based on a Job ID.
@@ -116,8 +116,7 @@ class HumeBatchClient(ClientBase):
         try:
             body = response.json()
         except json.JSONDecodeError:
-            # pylint: disable=raise-missing-from
-            raise HumeClientException("Unexpected error when getting job details")
+            raise HumeClientException("Unexpected error when getting job details") from None
 
         if "message" in body and body["message"] == "job not found":
             raise HumeClientException(f"Could not find a job with ID {job_id}")
@@ -142,8 +141,7 @@ class HumeBatchClient(ClientBase):
         try:
             body = response.json()
         except json.JSONDecodeError:
-            # pylint: disable=raise-missing-from
-            raise HumeClientException("Unexpected error when getting job predictions")
+            raise HumeClientException("Unexpected error when getting job predictions") from None
 
         if "message" in body and body["message"] == "job not found":
             raise HumeClientException(f"Could not find a job with ID {job_id}")
@@ -232,8 +230,7 @@ class HumeBatchClient(ClientBase):
         try:
             body = response.json()
         except json.decoder.JSONDecodeError:
-            # pylint: disable=raise-missing-from
-            raise HumeClientException(f"Failed batch request: {response.text}")
+            raise HumeClientException(f"Failed batch request: {response.text}") from None
 
         if "job_id" not in body:
             if "fault" in body and "faultstring" in body["fault"]:

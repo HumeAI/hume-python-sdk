@@ -1,12 +1,17 @@
+from __future__ import annotations
+
 import json
 import logging
 from urllib.request import urlretrieve
 from uuid import uuid4
 
 import pytest
-
 from hume import HumeVoiceClient
-from hume._voice.models.configs_models import LanguageModelConfig, VoiceConfig, VoiceIdentityConfig
+from hume._voice.models.configs_models import (
+    LanguageModelConfig,
+    VoiceConfig,
+    VoiceIdentityConfig,
+)
 from hume._voice.models.tools_models import VoiceTool
 from utilities.eval_data import EvalData
 

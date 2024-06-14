@@ -1,5 +1,7 @@
 """Hume API client exception."""
 
+from __future__ import annotations
+
 
 class HumeClientException(Exception):
     """Hume API client exception."""

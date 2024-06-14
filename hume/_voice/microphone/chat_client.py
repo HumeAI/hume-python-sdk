@@ -1,5 +1,7 @@
 """Async client for handling messages to and from an EVI connection."""
 
+from __future__ import annotations
+
 import asyncio
 import base64
 import datetime

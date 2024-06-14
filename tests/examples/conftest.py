@@ -1,10 +1,11 @@
+from __future__ import annotations
+
 import re
 from pathlib import Path
 from typing import Generator
 
 import pytest
 from pytest import FixtureRequest
-
 from tests.examples.example import Example
 
 

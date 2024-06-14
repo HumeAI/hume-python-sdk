@@ -1,17 +1,17 @@
+from __future__ import annotations
+
 import re
 from unittest.mock import Mock
 
 import pytest
-from pytest import TempPathFactory
-
 from hume import HumeClientException, StreamSocket
 from hume.models.config import FaceConfig, FacemeshConfig, LanguageConfig, ProsodyConfig
+from pytest import TempPathFactory
 
 
 @pytest.mark.asyncio
 @pytest.mark.stream
 class TestStreamSocket:
-
     async def test_send_bytes_str(self, mock_face_protocol: Mock) -> None:
         configs = [FaceConfig(identify_faces=True)]
         socket = StreamSocket(mock_face_protocol, configs)

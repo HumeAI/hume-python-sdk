@@ -1,9 +1,16 @@
+from __future__ import annotations
+
 import re
 from unittest.mock import Mock
 
 import pytest
-
-from hume import BatchJob, BatchJobDetails, BatchJobState, BatchJobStatus, HumeClientException
+from hume import (
+    BatchJob,
+    BatchJobDetails,
+    BatchJobState,
+    BatchJobStatus,
+    HumeClientException,
+)
 from hume.models import ModelType
 from hume.models.config import FaceConfig
 
@@ -30,7 +37,6 @@ def batch_client_fixture() -> Mock:
 
 @pytest.mark.batch
 class TestBatchJob:
-
     def test_job_id(self, batch_client: Mock) -> None:
         mock_job_id = "mock-job-id"
         job = BatchJob(batch_client, mock_job_id)
