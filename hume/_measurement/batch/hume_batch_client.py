@@ -1,6 +1,7 @@
 """Batch API client."""
 
 import json
+from collections.abc import Iterable
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 
@@ -68,7 +69,7 @@ class HumeBatchClient(ClientBase):
     def submit_job(
         self,
         urls: List[str],
-        configs: List[ModelConfigBase],
+        configs: Iterable[ModelConfigBase],
         transcription_config: Optional[TranscriptionConfig] = None,
         callback_url: Optional[str] = None,
         notify: Optional[bool] = None,
@@ -82,7 +83,7 @@ class HumeBatchClient(ClientBase):
 
         Args:
             urls (List[str]): List of URLs to media files to be processed.
-            configs (List[ModelConfigBase]): List of model config objects to run on each media URL.
+            configs (Iterable[ModelConfigBase]): Iterable of model config objects to run on each media URL.
             transcription_config (Optional[TranscriptionConfig]): A `TranscriptionConfig` object.
             callback_url (Optional[str]): A URL to which a POST request will be sent upon job completion.
             notify (Optional[bool]): Wether an email notification should be sent upon job completion.
@@ -169,7 +170,7 @@ class HumeBatchClient(ClientBase):
     @classmethod
     def _construct_request(
         cls,
-        configs: List[ModelConfigBase],
+        configs: Iterable[ModelConfigBase],
         urls: List[str],
         text: Optional[List[str]],
         transcription_config: Optional[TranscriptionConfig],
