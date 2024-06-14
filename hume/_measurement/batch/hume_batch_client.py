@@ -1,9 +1,11 @@
 """Batch API client."""
 
+from __future__ import annotations
+
 import json
 from collections.abc import Iterable
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any
 
 from hume._common.client_base import ClientBase
 from hume._common.utilities.config_utilities import serialize_configs
@@ -68,13 +70,13 @@ class HumeBatchClient(ClientBase):
 
     def submit_job(
         self,
-        urls: List[str],
+        urls: list[str],
         configs: Iterable[ModelConfigBase],
-        transcription_config: Optional[TranscriptionConfig] = None,
-        callback_url: Optional[str] = None,
-        notify: Optional[bool] = None,
-        files: Optional[List[Union[str, Path]]] = None,
-        text: Optional[List[str]] = None,
+        transcription_config: TranscriptionConfig | None = None,
+        callback_url: str | None = None,
+        notify: bool | None = None,
+        files: list[Path | str] | None = None,
+        text: list[str] | None = None,
     ) -> BatchJob:
         """Submit a job for batch processing.
 
@@ -82,13 +84,13 @@ class HumeBatchClient(ClientBase):
             If more than one config is passed for a given model type, only the last config will be used.
 
         Args:
-            urls (List[str]): List of URLs to media files to be processed.
+            urls (list[str]): List of URLs to media files to be processed.
             configs (Iterable[ModelConfigBase]): Iterable of model config objects to run on each media URL.
-            transcription_config (Optional[TranscriptionConfig]): A `TranscriptionConfig` object.
-            callback_url (Optional[str]): A URL to which a POST request will be sent upon job completion.
-            notify (Optional[bool]): Wether an email notification should be sent upon job completion.
-            files (Optional[List[Union[str, Path]]]): List of paths to files on the local disk to be processed.
-            text (Optional[List[str]]): List of strings (raw text) to be processed.
+            transcription_config (TranscriptionConfig | None): A `TranscriptionConfig` object.
+            callback_url (str | None): A URL to which a POST request will be sent upon job completion.
+            notify (bool | None): Wether an email notification should be sent upon job completion.
+            files (list[Path | str] | None): List of paths to files on the local disk to be processed.
+            text (list[str] | None): List of strings (raw text) to be processed.
 
         Returns:
             BatchJob: The `BatchJob` representing the batch computation.
@@ -148,12 +150,12 @@ class HumeBatchClient(ClientBase):
 
         return body
 
-    def download_job_artifacts(self, job_id: str, filepath: Union[str, Path]) -> None:
+    def download_job_artifacts(self, job_id: str, filepath: Path | str) -> None:
         """Download a batch job's artifacts as a zip file.
 
         Args:
             job_id (str): Job ID.
-            filepath (Optional[Union[str, Path]]): Filepath where artifacts will be downloaded.
+            filepath (Path | str | None): Filepath where artifacts will be downloaded.
 
         Raises:
             HumeClientException: If the job artifacts cannot be loaded.
@@ -171,13 +173,13 @@ class HumeBatchClient(ClientBase):
     def _construct_request(
         cls,
         configs: Iterable[ModelConfigBase],
-        urls: List[str],
-        text: Optional[List[str]],
-        transcription_config: Optional[TranscriptionConfig],
-        callback_url: Optional[str],
-        notify: Optional[bool],
-    ) -> Dict[str, Any]:
-        request: Dict[str, Any] = {
+        urls: list[str],
+        text: list[str] | None,
+        transcription_config: TranscriptionConfig | None,
+        callback_url: str | None,
+        notify: bool | None,
+    ) -> dict[str, Any]:
+        request: dict[str, Any] = {
             "urls": urls,
             "models": serialize_configs(configs),
         }
@@ -194,7 +196,7 @@ class HumeBatchClient(ClientBase):
     def _submit_job(
         self,
         request_body: Any,
-        filepaths: Optional[List[Union[str, Path]]],
+        filepaths: list[Path | str] | None,
     ) -> BatchJob:
         """Start a job for batch processing by passing a JSON request body.
 
@@ -203,7 +205,7 @@ class HumeBatchClient(ClientBase):
 
         Args:
             request_body (Any): JSON request body to be passed to the batch API.
-            filepaths (Optional[List[Union[str, Path]]]): List of paths to files on the local disk to be processed.
+            filepaths (list[Path | str] | None): List of paths to files on the local disk to be processed.
 
         Raises:
             HumeClientException: If the batch job fails to start.
@@ -251,8 +253,8 @@ class HumeBatchClient(ClientBase):
     def _get_multipart_form_data(
         self,
         request_body: Any,
-        filepaths: List[Union[str, Path]],
-    ) -> List[Tuple[str, Union[bytes, Tuple[str, bytes]]]]:
+        filepaths: Iterable[Path | str],
+    ) -> list[tuple[str, bytes | tuple[str, bytes]]]:
         """Convert a list of filepaths into a list of multipart form data.
 
         Multipart form data allows the client to attach files to the POST request,
@@ -260,13 +262,13 @@ class HumeBatchClient(ClientBase):
 
         Args:
             request_body (Any): JSON request body to be passed to the batch API.
-            filepaths (List[Union[str, Path]]): List of paths to files on the local disk to be processed.
+            filepaths (list[Path | str]): List of paths to files on the local disk to be processed.
 
         Returns:
-            List[Tuple[str, Union[bytes, Tuple[str, bytes]]]]: A list of tuples representing
+            list[tuple[str, bytes | tuple[str, bytes]]]: A list of tuples representing
                 the multipart form data for the POST request.
         """
-        form_data: List[Tuple[str, Union[bytes, Tuple[str, bytes]]]] = []
+        form_data: list[tuple[str, bytes | tuple[str, bytes]]] = []
         for filepath in filepaths:
             path = Path(filepath)
             post_file = ("file", (path.name, path.read_bytes()))

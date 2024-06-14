@@ -1,6 +1,5 @@
 import json
 import logging
-from typing import Tuple
 from urllib.request import urlretrieve
 from uuid import uuid4
 
@@ -78,7 +77,7 @@ class TestServiceHumeVoiceClientChat:
                 if message["type"] in ["error", "assistant_end"]:
                     return
 
-    def create_weather_tool_config(self, voice_client: HumeVoiceClient) -> Tuple[VoiceConfig, VoiceTool]:
+    def create_weather_tool_config(self, voice_client: HumeVoiceClient) -> tuple[VoiceConfig, VoiceTool]:
         # NOTE: This UUID can be removed when the API supports duplicate config names after deletion.
         name_uuid = str(uuid4())
         tool_name = f"weather-{name_uuid}"

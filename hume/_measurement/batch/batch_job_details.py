@@ -1,8 +1,10 @@
 """Batch job details."""
 
+from __future__ import annotations
+
 import json
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from hume._common.utilities.config_utilities import config_from_model_type
 from hume._measurement.batch.batch_job_state import BatchJobState
@@ -18,23 +20,23 @@ class BatchJobDetails:
     def __init__(
         self,
         *,
-        configs: Dict[ModelType, ModelConfigBase],
-        urls: List[str],
-        files: List[str],
-        text: Optional[List[str]] = None,
+        configs: dict[ModelType, ModelConfigBase],
+        urls: list[str],
+        files: list[str],
+        text: list[str] | None = None,
         state: BatchJobState,
-        callback_url: Optional[str] = None,
+        callback_url: str | None = None,
         notify: bool = False,
     ):
         """Construct a BatchJobDetails.
 
         Args:
-            configs (Dict[ModelType, ModelConfigBase]): Configurations for the `BatchJob`.
-            urls (List[str]): URLs processed in the `BatchJob`.
-            files (List[str]): Files processed in the `BatchJob`.
-            text (Optional[List[str]]): Raw text processed in the `BatchJob`.
+            configs (dict[ModelType, ModelConfigBase]): Configurations for the `BatchJob`.
+            urls (list[str]): URLs processed in the `BatchJob`.
+            files (list[str]): Files processed in the `BatchJob`.
+            text (list[str] | None): Raw text processed in the `BatchJob`.
             state (BatchJobState): State of `BatchJob`.
-            callback_url (Optional[str]): A URL to which a POST request is sent upon job completion.
+            callback_url (str | None): A URL to which a POST request is sent upon job completion.
             notify (bool): Whether an email notification should be sent upon job completion.
         """
         self.configs = configs
@@ -115,44 +117,44 @@ class BatchJobDetails:
         """
         return self.state.status
 
-    def get_run_time_ms(self) -> Optional[int]:
+    def get_run_time_ms(self) -> int | None:
         """Get the total time in milliseconds it took for the job to run if the job is in a terminal state.
 
         Returns:
-            Optional[int]: Time in milliseconds it took for the job to run. If the job is not in a terminal
+            int | None: Time in milliseconds it took for the job to run. If the job is not in a terminal
                 state then `None` is returned.
         """
         if self.state.started_timestamp_ms is not None and self.state.ended_timestamp_ms is not None:
             return self.state.ended_timestamp_ms - self.state.started_timestamp_ms
         return None
 
-    def get_created_time(self) -> Optional[datetime]:
+    def get_created_time(self) -> datetime | None:
         """Get the time the job was created.
 
         Returns:
-            Optional[datetime]: Datetime when the job was created. If the job has not started
+            datetime | None: Datetime when the job was created. If the job has not started
                 then `None` is returned.
         """
         if self.state.created_timestamp_ms is None:
             return None
         return datetime.utcfromtimestamp(self.state.created_timestamp_ms / 1000)
 
-    def get_started_time(self) -> Optional[datetime]:
+    def get_started_time(self) -> datetime | None:
         """Get the time the job started running.
 
         Returns:
-            Optional[datetime]: Datetime when the job started running. If the job has not started
+            datetime | None: Datetime when the job started running. If the job has not started
                 then `None` is returned.
         """
         if self.state.started_timestamp_ms is None:
             return None
         return datetime.utcfromtimestamp(self.state.started_timestamp_ms / 1000)
 
-    def get_ended_time(self) -> Optional[datetime]:
+    def get_ended_time(self) -> datetime | None:
         """Get the time the job stopped running if the job is in a terminal state.
 
         Returns:
-            Optional[datetime]: Datetime when the job started running. If the job is not in a terminal
+            datetime | None: Datetime when the job started running. If the job is not in a terminal
                 state then `None` is returned.
         """
         if self.state.ended_timestamp_ms is None:

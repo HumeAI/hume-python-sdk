@@ -1,10 +1,12 @@
 """Abstraction for handling microphone input."""
 
+from __future__ import annotations
+
 import asyncio
 import contextlib
 import dataclasses
 import logging
-from typing import AsyncIterator, ClassVar, Iterator, Optional
+from typing import AsyncIterator, ClassVar, Iterator
 
 from hume._voice.microphone.asyncio_utilities import Stream
 from hume.error.hume_client_exception import HumeClientException
@@ -29,7 +31,7 @@ class Microphone:
 
     # NOTE: use int16 for compatibility with deepgram
     DATA_TYPE: ClassVar[str] = "int16"
-    DEFAULT_DEVICE: ClassVar[Optional[int]] = None
+    DEFAULT_DEVICE: ClassVar[int | None] = None
 
     stream: Stream[bytes]
     num_channels: int
@@ -39,11 +41,11 @@ class Microphone:
     # [https://python-sounddevice.readthedocs.io/en/0.4.6/examples.html#creating-an-asyncio-generator-for-audio-blocks]
     @classmethod
     @contextlib.contextmanager
-    def context(cls, *, device: Optional[int] = DEFAULT_DEVICE) -> Iterator["Microphone"]:
+    def context(cls, *, device: int | None = DEFAULT_DEVICE) -> Iterator["Microphone"]:
         """Create a new microphone context.
 
         Args:
-            device (Optional[int]): Input device ID.
+            device (int | None): Input device ID.
         """
         if not HAS_AUDIO_DEPENDENCIES:
             raise HumeClientException(

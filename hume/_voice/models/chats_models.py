@@ -1,7 +1,8 @@
 """API request and response models for EVI chats."""
 
+from __future__ import annotations
+
 from enum import Enum
-from typing import List, Optional
 
 from pydantic import UUID4, BaseModel
 
@@ -39,9 +40,9 @@ class Role(str, Enum):
 class FunctionCall(BaseModel):
     """Function call model."""
 
-    target: Optional[str] = None
-    params: Optional[JsonObject] = None
-    result: Optional[JsonObject] = None
+    target: str | None = None
+    params: JsonObject | None = None
+    result: JsonObject | None = None
 
 
 class ChatEvent(BaseModel):
@@ -51,22 +52,22 @@ class ChatEvent(BaseModel):
     timestamp: int
     role: Role
     type: EventType
-    message_text: Optional[str] = None
-    function_call: Optional[FunctionCall] = None
-    emotion_features: Optional[str] = None
-    metadata: Optional[str] = None
+    message_text: str | None = None
+    function_call: FunctionCall | None = None
+    emotion_features: str | None = None
+    metadata: str | None = None
 
 
 class ChatEventsResponse(BaseModel):
     """Response model for a page of EVI chat events."""
 
     id: UUID4
-    tag: Optional[str] = None
+    tag: str | None = None
     status: ChatStatus
     start_timestamp: int
-    end_timestamp: Optional[int] = None
-    events_page: List[ChatEvent]
-    metadata: Optional[str] = None
+    end_timestamp: int | None = None
+    events_page: list[ChatEvent]
+    metadata: str | None = None
     page_number: int
     page_size: int
     config: ConfigMeta
@@ -78,10 +79,10 @@ class ChatMessage(BaseModel):
     timestamp: int
     role: Role
     type: EventType
-    message_text: Optional[str] = None
-    function_call: Optional[FunctionCall] = None
-    emotion_features: Optional[str] = None
-    metadata: Optional[str] = None
+    message_text: str | None = None
+    function_call: FunctionCall | None = None
+    emotion_features: str | None = None
+    metadata: str | None = None
 
 
 class ChatResponse(BaseModel):
@@ -89,18 +90,18 @@ class ChatResponse(BaseModel):
 
     id: str
     chat_group_id: str
-    tag: Optional[str] = None
-    status: Optional[ChatStatus]
+    tag: str | None = None
+    status: ChatStatus | None
     start_timestamp: int
     end_timestamp: int
-    metadata: Optional[str] = None
-    config: Optional[ConfigMeta] = None
+    metadata: str | None = None
+    config: ConfigMeta | None = None
 
 
 class ChatsResponse(BaseModel):
     """Response model for a page of EVI chats."""
 
-    chats_page: List[ChatResponse]
+    chats_page: list[ChatResponse]
     page_number: int
     page_size: int
 
@@ -127,7 +128,7 @@ class ChatGroupResponse(BaseModel):
 class ChatGroupsResponse(BaseModel):
     """Response model for a page of EVI chat groups."""
 
-    chat_groups_page: List[ChatGroupResponse]
+    chat_groups_page: list[ChatGroupResponse]
     page_number: int
     page_size: int
 
@@ -150,16 +151,16 @@ class ChatGroupEvent(BaseModel):
     timestamp: int
     role: Role
     type: EventType
-    message_text: Optional[str] = None
-    emotion_features: Optional[str] = None
-    metadata: Optional[str] = None
+    message_text: str | None = None
+    emotion_features: str | None = None
+    metadata: str | None = None
 
 
 class ChatGroupEventsResponse(BaseModel):
     """Response model for a page of EVI chat group events."""
 
     id: UUID4
-    events_page: List[ChatGroupEvent]
+    events_page: list[ChatGroupEvent]
     page_number: int
     page_size: int
     pagination_direction: str

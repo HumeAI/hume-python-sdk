@@ -5,7 +5,7 @@ import zipfile
 from dataclasses import fields
 from datetime import datetime
 from pathlib import Path
-from typing import List, Optional, Type, Union
+from typing import Optional, Type, Union
 from urllib.request import urlretrieve
 
 import pytest
@@ -219,7 +219,7 @@ class TestServiceHumeBatchClient:
         self,
         config: Union[ModelConfigBase, TranscriptionConfig],
         config_class: Type[Union[ModelConfigBase, TranscriptionConfig]],
-        exceptions: Optional[List[str]] = None,
+        exceptions: Optional[list[str]] = None,
     ) -> None:
         exceptions_set = set(exceptions) if exceptions is not None else set()
         class_fields = set([field.name for field in fields(config_class)]) - exceptions_set

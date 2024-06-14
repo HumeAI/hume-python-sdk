@@ -1,6 +1,6 @@
 """API request and response models for EVI configurations."""
 
-from typing import List, Optional
+from __future__ import annotations
 
 from pydantic import ConfigDict
 
@@ -13,11 +13,11 @@ class PromptResponse(BaseModel):
 
     id: str
     version: int
-    version_description: Optional[str]
+    version_description: str | None
     name: str
     created_on: int
     modified_on: int
-    text: Optional[str]
+    text: str | None
 
 
 class PromptsResponse(BaseModel):
@@ -25,7 +25,7 @@ class PromptsResponse(BaseModel):
 
     page_number: int
     page_size: int
-    prompts: List[PromptResponse]
+    prompts: list[PromptResponse]
 
 
 class PromptMeta(BaseModel):
@@ -40,7 +40,7 @@ class LanguageModelConfig(BaseModel):
 
     model_provider: str
     model_resource: str
-    temperature: Optional[float] = None
+    temperature: float | None = None
 
     model_config = ConfigDict(protected_namespaces=())
 
@@ -49,15 +49,15 @@ class PostPromptRequest(BaseModel):
     """Post request model for creating a new EVI prompt."""
 
     name: str
-    version_description: Optional[str]
-    text: Optional[str]
+    version_description: str | None
+    text: str | None
 
 
 class VoiceIdentityConfig(BaseModel):
     """Configuration for changing the voice of EVI."""
 
-    provider: Optional[str] = None
-    name: Optional[str] = None
+    provider: str | None = None
+    name: str | None = None
 
 
 class ConfigResponse(BaseModel):
@@ -65,12 +65,12 @@ class ConfigResponse(BaseModel):
 
     id: str
     version: int
-    version_description: Optional[str]
+    version_description: str | None
     name: str
     created_on: int
     modified_on: int
-    prompt: Optional[PromptResponse]
-    voice: Optional[VoiceIdentityConfig]
+    prompt: PromptResponse | None
+    voice: VoiceIdentityConfig | None
 
 
 class ConfigsResponse(BaseModel):
@@ -78,7 +78,7 @@ class ConfigsResponse(BaseModel):
 
     page_number: int
     page_size: int
-    configs_page: List[ConfigResponse]
+    configs_page: list[ConfigResponse]
 
 
 class BuiltinToolConfig(BaseModel):
@@ -86,25 +86,25 @@ class BuiltinToolConfig(BaseModel):
 
     name: str
     tool_type: str
-    fallback_content: Optional[str]
+    fallback_content: str | None
 
 
 class PostConfigRequest(BaseModel):
     """Post request model for creating a new EVI configuration."""
 
     name: str
-    version_description: Optional[str]
+    version_description: str | None
     prompt: PromptMeta
-    voice: Optional[VoiceIdentityConfig]
-    language_model: Optional[LanguageModelConfig]
-    tools: Optional[List[ToolMeta]]
+    voice: VoiceIdentityConfig | None
+    language_model: LanguageModelConfig | None
+    tools: list[ToolMeta] | None
 
 
 class ConfigMeta(BaseModel):
     """EVI configuration metadata."""
 
-    id: Optional[str]
-    version: Optional[int]
+    id: str | None
+    version: int | None
 
 
 class VoiceConfig(BaseModel):
@@ -112,9 +112,9 @@ class VoiceConfig(BaseModel):
 
     id: str
     name: str
-    description: Optional[str]
+    description: str | None
     created_on: int
     modified_on: int
     # TODO: Add tool info
-    prompt: Optional[str]
-    voice: Optional[VoiceIdentityConfig]
+    prompt: str | None
+    voice: VoiceIdentityConfig | None

@@ -1,7 +1,9 @@
 """Client operations for managing EVI configurations."""
 
+from __future__ import annotations
+
 import logging
-from typing import Iterator, List, Optional
+from typing import Iterator
 
 from hume._common.client_base import ClientBase
 from hume._common.utilities.paging_utilities import Paging
@@ -33,17 +35,17 @@ class ConfigsMixin(ClientBase):
         *,
         name: str,
         prompt: str,
-        description: Optional[str] = None,
-        voice_identity_config: Optional[VoiceIdentityConfig] = None,
-        tools: Optional[List[VoiceTool]] = None,
-        language_model: Optional[LanguageModelConfig] = None,
+        description: str | None = None,
+        voice_identity_config: VoiceIdentityConfig | None = None,
+        tools: list[VoiceTool] | None = None,
+        language_model: LanguageModelConfig | None = None,
     ) -> VoiceConfig:
         """Create a new EVI config.
 
         Args:
             name (str): Config name.
             prompt (str): System prompt text.
-            description (Optional[str]): Config description.
+            description (str | None): Config description.
         """
         post_prompt_request = PostPromptRequest(name=name, version_description=description, text=prompt)
         post_prompt_body = post_prompt_request.to_json_str()
@@ -68,7 +70,7 @@ class ConfigsMixin(ClientBase):
 
         return self._config_from_response(config_response)
 
-    def get_config(self, id: str, _version: Optional[int] = None) -> VoiceConfig:
+    def get_config(self, id: str, _version: int | None = None) -> VoiceConfig:
         """Get an EVI config by its ID.
 
         Args:
@@ -120,7 +122,7 @@ class ConfigsMixin(ClientBase):
             for res in configs_response.configs_page:
                 yield self._config_from_response(res)
 
-    def delete_config(self, id: str, _version: Optional[int] = None) -> None:
+    def delete_config(self, id: str, _version: int | None = None) -> None:
         """Delete an EVI config.
 
         Args:

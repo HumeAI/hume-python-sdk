@@ -66,7 +66,7 @@ class TestStreamSocket:
         configs = [FacemeshConfig()]
         socket = StreamSocket(mock_facemesh_protocol, configs)
 
-        sample_facemesh = [[[0, 0, 0]] * 478]
+        sample_facemesh = [[[0.0, 0.0, 0.0]] * 478]
         result = await socket.send_facemesh(sample_facemesh)
         assert result["facemesh"]["predictions"] == "mock-predictions"
 
@@ -74,7 +74,7 @@ class TestStreamSocket:
         configs = [ProsodyConfig()]
         socket = StreamSocket(mock_facemesh_protocol, configs)
 
-        sample_facemesh = [[[0, 0, 0]] * 478]
+        sample_facemesh = [[[0.0, 0.0, 0.0]] * 478]
         message = "Socket configured with ProsodyConfig. send_facemesh is only supported when using a FacemeshConfig."
         with pytest.raises(HumeClientException, match=re.escape(message)):
             await socket.send_facemesh(sample_facemesh)
@@ -89,15 +89,15 @@ class TestStreamSocket:
 
         message = "Number of faces sent in facemesh payload was greater than the limit of 100, found 150."
         with pytest.raises(HumeClientException, match=re.escape(message)):
-            await socket.send_facemesh([0] * 150)
+            await socket.send_facemesh([[[0.0, 0.0, 0.0]]] * 150)
 
         message = "Number of MediaPipe landmarks per face must be exactly 478, found 474."
         with pytest.raises(HumeClientException, match=re.escape(message)):
-            await socket.send_facemesh([[[0, 0, 0]] * 474])
+            await socket.send_facemesh([[[0.0, 0.0, 0.0]] * 474])
 
         message = "Invalid facemesh payload detected. Each facemesh landmark should be an (x, y, z) point."
         with pytest.raises(HumeClientException, match=re.escape(message)):
-            await socket.send_facemesh([[[0, 0]] * 478])
+            await socket.send_facemesh([[[0.0, 0.0]] * 478])
 
     async def test_invalid_payload_configs_send_text(self, mock_language_protocol: Mock) -> None:
         socket_configs = [LanguageConfig()]
