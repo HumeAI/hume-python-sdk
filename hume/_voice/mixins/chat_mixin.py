@@ -58,7 +58,7 @@ class ChatMixin(ClientBase):
                 "The original config for the chat group will be used automatically."
             )
 
-        params: dict[str, Any] = {}
+        params: Dict[str, Any] = {}
         if config_id is not None:
             params["config_id"] = config_id
         if chat_group_id is not None:
@@ -94,6 +94,12 @@ class ChatMixin(ClientBase):
                             # Ensure the message is parsed as JSON
                             message = json.loads(socket_message)
 
+                            if on_message is not None:
+                                if asyncio.iscoroutinefunction(on_message):
+                                    await on_message(message)
+                                else:
+                                    on_message(message)
+
                             if message["type"] == "audio_output":
                                 message_str: str = message["data"]
                                 message_bytes = base64.b64decode(message_str.encode("utf-8"))
@@ -103,12 +109,6 @@ class ChatMixin(ClientBase):
                             if interruptible and message["type"] == "user_interruption":
                                 logger.debug("Received user_interruption message")
                                 await stop_audio()
-
-                            if on_message is not None:
-                                if asyncio.iscoroutinefunction(on_message):
-                                    await on_message(message)
-                                else:
-                                    on_message(message)
                     except Exception as exc:
                         if on_error:
                             if asyncio.iscoroutinefunction(on_error):
@@ -129,8 +129,10 @@ class ChatMixin(ClientBase):
                         await play_audio(byte_str)
                         await sender.on_audio_end()
                 
-                This allowed the user to choose between enabling interruptibility or not.
-                Presently, 
+                This allowed the user, when initializing the MicrophoneInterface,
+                to choose if their MicrophoneSender allowed interruptibility or not.
+                
+                With these changes, interruptibility is entirely decoupled from the microphone.
                 """
 
                 recv_task = asyncio.create_task(handle_messages())
