@@ -3,8 +3,11 @@
 import asyncio
 from io import BytesIO
 
-import pydub.playback
+import simpleaudio
 from pydub import AudioSegment
+
+playback_object = None
+stop_event = asyncio.Event()
 
 
 # NOTE:
@@ -19,5 +22,29 @@ async def play_audio(byte_str: bytes) -> None:
     Args:
         byte_str (bytes): Byte string of audio data.
     """
+    global playback_object, stop_event
+
+    stop_event.clear()  # Reset the stop event
+
     segment = AudioSegment.from_file(BytesIO(byte_str))
-    await asyncio.to_thread(pydub.playback.play, segment)
+
+    def _play_audio_segment() -> None:
+        global playback_object
+        playback_object = simpleaudio.play_buffer(
+            segment.raw_data,
+            num_channels=segment.channels,
+            bytes_per_sample=segment.sample_width,
+            sample_rate=segment.frame_rate,
+        )
+        playback_object.wait_done()
+
+    await asyncio.to_thread(_play_audio_segment)
+
+
+async def stop_audio() -> None:
+    """Stop the current audio playback."""
+    global playback_object, stop_event
+    stop_event.set()  # Set the stop event to signal stopping
+
+    if playback_object and playback_object.is_playing():
+        playback_object.stop()
