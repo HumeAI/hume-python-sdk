@@ -57,14 +57,16 @@ class AssistantInput(BaseModel):
 
 
 class PauseAssistantMessage(BaseModel):
-    """Pause assistant message model. When provided, responses from EVI are paused. Chat history is still saved and sent after resuming."""
+    """Pause assistant message model. When provided, responses from EVI are paused.
+    Chat history is still saved and sent after resuming."""
 
     custom_session_id: Optional[str] = None
     type: str = "pause_assistant_message"
 
 
 class ResumeAssistantMessage(BaseModel):
-    """Resume assistant message model. When provided, responses from EVI are resumed. Chat history sent while paused will now be sent."""
+    """Resume assistant message model. When provided, responses from EVI are resumed.
+    Chat history sent while paused will now be sent."""
 
     custom_session_id: Optional[str] = None
     type: str = "resume_assistant_message"
