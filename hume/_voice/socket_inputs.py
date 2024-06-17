@@ -1,6 +1,6 @@
 """Socket input models."""
 
-from typing import Optional
+from typing import List, Optional
 
 from pydantic import BaseModel
 
@@ -13,12 +13,31 @@ class AudioSettings(BaseModel):
     sample_rate: Optional[int] = None
 
 
+class Tool(BaseModel):
+    description: Optional[str] = None
+    fallback_content: Optional[str] = None
+    name: str
+    parameters: str
+    type: str  # "builtin" or "function"
+
+
+class BuiltinToolConfig(BaseModel):
+    """Built-in Tool Config model."""
+
+    fallback_content: Optional[str] = None
+    name: str = "web_search"
+
+
 class SessionSettings(BaseModel):
     """Session settings model."""
 
+    custom_session_id: Optional[str] = None
     type: str = "session_settings"
     system_prompt: Optional[str] = None
     audio: Optional[AudioSettings] = None
+    language_model_api_key: Optional[str] = None
+    builtin_tools: Optional[List[BuiltinToolConfig]] = None
+    tools: Optional[List[Tool]]
 
 
 class TextUserInput(BaseModel):

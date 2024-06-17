@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 import logging
 from pathlib import Path
-from typing import Any, AsyncIterator, ClassVar, Optional
+from typing import Any, AsyncIterator, ClassVar, List, Optional
 
 from pydub import AudioSegment
 from websockets.client import WebSocketClientProtocol as WebSocket
@@ -14,10 +14,12 @@ from hume._common.utilities.typing_utilities import JsonObject
 from hume._voice.socket_inputs import (
     AssistantInput,
     AudioSettings,
+    BuiltinToolConfig,
     PauseAssistantMessage,
     ResumeAssistantMessage,
     SessionSettings,
     TextUserInput,
+    Tool,
 )
 
 logger = logging.getLogger(__name__)
@@ -74,6 +76,11 @@ class VoiceSocket:
         *,
         sample_rate: Optional[int] = None,
         num_channels: Optional[int] = None,
+        custom_session_id: Optional[str] = None,
+        system_prompt: Optional[str] = None,
+        language_model_api_key: Optional[str] = None,
+        builtin_tools: Optional[List[BuiltinToolConfig]] = None,
+        tools: Optional[List[Tool]] = None,
     ) -> None:
         """Update the EVI session settings."""
         if num_channels is not None:
@@ -82,10 +89,16 @@ class VoiceSocket:
             self._sample_rate = sample_rate
 
         session_settings = SessionSettings(
+            custom_session_id=custom_session_id,
+            type="session_settings",
+            system_prompt=system_prompt,
             audio=AudioSettings(
                 channels=num_channels,
                 sample_rate=sample_rate,
             ),
+            language_model_api_key=language_model_api_key,
+            builtin_tools=builtin_tools,
+            tools=tools,
         )
 
         settings_dict = session_settings.model_dump(exclude_none=True)
