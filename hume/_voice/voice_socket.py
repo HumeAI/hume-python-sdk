@@ -5,13 +5,20 @@ from __future__ import annotations
 import json
 import logging
 from pathlib import Path
-from typing import Any, AsyncIterator, ClassVar
+from typing import Any, AsyncIterator, ClassVar, Optional
 
 from pydub import AudioSegment
 from websockets.client import WebSocketClientProtocol as WebSocket
 
 from hume._common.utilities.typing_utilities import JsonObject
-from hume._voice.session_settings import AudioSettings, SessionSettings
+from hume._voice.socket_inputs import (
+    AssistantInput,
+    AudioSettings,
+    PauseAssistantMessage,
+    ResumeAssistantMessage,
+    SessionSettings,
+    TextUserInput,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -65,8 +72,8 @@ class VoiceSocket:
     async def update_session_settings(
         self,
         *,
-        sample_rate: int | None = None,
-        num_channels: int | None = None,
+        sample_rate: Optional[int] = None,
+        num_channels: Optional[int] = None,
     ) -> None:
         """Update the EVI session settings."""
         if num_channels is not None:
@@ -98,3 +105,53 @@ class VoiceSocket:
             segment = segment.set_frame_rate(self._sample_rate).set_channels(self._num_channels)
             audio_bytes = segment.raw_data
             await self._protocol.send(audio_bytes)
+
+    async def pause_assistant(self, custom_session_id: str | None = None) -> None:
+        """Pause assistant.
+
+        Args:
+            custom_session_id (str, optional): Session ID for managing conversational state.
+        """
+        pause_assistant_message = PauseAssistantMessage(custom_session_id=custom_session_id)
+        pause_assistant_message_dict = pause_assistant_message.model_dump(exclude_none=True)
+        message = json.dumps(pause_assistant_message_dict)
+
+        await self._protocol.send(message)
+
+    async def resume_assistant(self, custom_session_id: str | None = None) -> None:
+        """Resume assistant.
+
+        Args:
+            custom_session_id (str, optional): Session ID for managing conversational state.
+        """
+        resume_assistant_message = ResumeAssistantMessage(custom_session_id=custom_session_id)
+        resume_assistant_message_dict = resume_assistant_message.model_dump(exclude_none=True)
+        message = json.dumps(resume_assistant_message_dict)
+
+        await self._protocol.send(message)
+
+    async def send_assistant_input(self, input_text: str, custom_session_id: str | None = None) -> None:
+        """Send assistant input.
+
+        Args:
+            text (str): Text to be synthesized.
+            custom_session_id (str, optional): Session ID for managing conversational state.
+        """
+        assistant_input = AssistantInput(text=input_text, custom_session_id=custom_session_id)
+        assistant_input_dict = assistant_input.model_dump(exclude_none=True)
+        message = json.dumps(assistant_input_dict)
+
+        await self._protocol.send(message)
+
+    async def send_text_input(self, input_text: str, custom_session_id: str | None = None) -> None:
+        """Send text input.
+
+        Args:
+            text (str): Text input to be sent.
+            custom_session_id (str, optional): Session ID for managing conversational state.
+        """
+        text_user_input = TextUserInput(text=input_text, custom_session_id=custom_session_id)
+        text_user_input_dict = text_user_input.model_dump(exclude_none=True)
+        message = json.dumps(text_user_input_dict)
+
+        await self._protocol.send(message)
