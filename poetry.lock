@@ -3249,6 +3249,20 @@ files = [
 ]
 
 [[package]]
+name = "types-requests"
+version = "2.32.0.20240602"
+description = "Typing stubs for requests"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "types-requests-2.32.0.20240602.tar.gz", hash = "sha256:3f98d7bbd0dd94ebd10ff43a7fbe20c3b8528acace6d8efafef0b6a184793f06"},
+    {file = "types_requests-2.32.0.20240602-py3-none-any.whl", hash = "sha256:ed3946063ea9fbc6b5fc0c44fa279188bae42d582cb63760be6cb4b9d06c3de8"},
+]
+
+[package.dependencies]
+urllib3 = ">=2"
+
+[[package]]
 name = "types-setuptools"
 version = "57.4.18"
 description = "Typing stubs for setuptools"
@@ -3617,4 +3631,4 @@ stream = []
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4"
-content-hash = "3200264ba8e0a95c6b97b9afcc6cd5fa74f51364b6941e02d9b71e7f50e6cd92"
+content-hash = "20b671aaa9b647784311d931c39f65dcf2796341c102c1c29252fb1a22d983a9"

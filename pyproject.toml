@@ -66,6 +66,7 @@ semver = "^2.13.0"
 testbook = "^0.4.2"
 types-setuptools = "^57.4.4"
 types-toml = "^0.10.1"
+types-requests = "^2.32.0"
 
 [tool.poetry.group.docs]
 optional = true
