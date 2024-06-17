@@ -37,7 +37,7 @@ class ChatMixin(ClientBase):
         on_close: Optional[OpenCloseHandlerType] = None,
         on_error: Optional[ErrorHandlerType] = None,
         on_message: Optional[MessageHandlerType] = None,
-        interruptible: bool = False,
+        interruptible: bool = True,
     ) -> AsyncIterator[VoiceSocket]:
         """Connect to the EVI API.
 
@@ -48,7 +48,7 @@ class ChatMixin(ClientBase):
             on_message (Optional[MessageHandlerType]): Handler for when a message is received.
             on_error (Optional[ErrorHandlerType]): Handler for when an error occurs.
             on_close (Optional[OpenCloseHandlerType]): Handler for when the connection is closed.
-            interruptible (bool): Whether to enable interruptibility.
+            interruptible (bool): Whether to enable interruptibility. True by default.
         """
         uri_base = self._build_endpoint("evi", "chat", Protocol.WS)
 
@@ -94,12 +94,6 @@ class ChatMixin(ClientBase):
                             # Ensure the message is parsed as JSON
                             message = json.loads(socket_message)
 
-                            if on_message is not None:
-                                if asyncio.iscoroutinefunction(on_message):
-                                    await on_message(message)
-                                else:
-                                    on_message(message)
-
                             if message["type"] == "audio_output":
                                 message_str: str = message["data"]
                                 message_bytes = base64.b64decode(message_str.encode("utf-8"))
@@ -109,6 +103,12 @@ class ChatMixin(ClientBase):
                             if interruptible and message["type"] == "user_interruption":
                                 logger.debug("Received user_interruption message")
                                 await stop_audio()
+
+                            if on_message is not None:
+                                if asyncio.iscoroutinefunction(on_message):
+                                    await on_message(message)
+                                else:
+                                    on_message(message)
                     except Exception as exc:
                         if on_error:
                             if asyncio.iscoroutinefunction(on_error):
@@ -120,20 +120,6 @@ class ChatMixin(ClientBase):
                 async def audio_playback() -> None:
                     async for byte_str in byte_strs:
                         await play_audio(byte_str)
-
-                """
-                Originally in ChatClient, the audio_playback() method was the following:
-
-                    async for byte_str in byte_strs:
-                        await sender.on_audio_begin()
-                        await play_audio(byte_str)
-                        await sender.on_audio_end()
-                
-                This allowed the user, when initializing the MicrophoneInterface,
-                to choose if their MicrophoneSender allowed interruptibility or not.
-                
-                With these changes, interruptibility is entirely decoupled from the microphone.
-                """
 
                 recv_task = asyncio.create_task(handle_messages())
                 audio_task = asyncio.create_task(audio_playback())

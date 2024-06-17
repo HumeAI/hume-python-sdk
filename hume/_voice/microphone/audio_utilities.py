@@ -16,6 +16,9 @@ stop_event = asyncio.Event()
 #   - [https://stackoverflow.com/a/20746883]
 #   - [https://github.com/jiaaro/pydub#playback]
 #   - [https://github.com/jiaaro/pydub/blob/master/pydub/playback.py]
+# - stop_audio() allows for the decoupling of interruptibility from the MicrophoneSender class.
+
+
 async def play_audio(byte_str: bytes) -> None:
     """Play a byte string of audio data with the system audio output device.
 
