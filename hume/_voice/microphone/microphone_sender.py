@@ -14,14 +14,6 @@ logger = logging.getLogger(__name__)
 class Sender(Protocol):
     """Protocol for sending streaming audio to an EVI connection."""
 
-    async def on_audio_begin(self) -> None:
-        """Handle the start of an audio stream."""
-        raise NotImplementedError()
-
-    async def on_audio_end(self) -> None:
-        """Handle the end of an audio stream."""
-        raise NotImplementedError()
-
     async def send(self, *, socket: VoiceSocket) -> None:
         """Send audio data over an EVI socket.
 

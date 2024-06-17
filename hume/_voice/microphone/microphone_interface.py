@@ -2,7 +2,7 @@
 
 import logging
 from dataclasses import dataclass
-from typing import ClassVar, Optional
+from typing import Optional
 
 from hume._voice.microphone.microphone import Microphone
 from hume._voice.microphone.microphone_sender import MicrophoneSender
