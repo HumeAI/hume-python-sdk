@@ -757,13 +757,13 @@ dev = ["flake8", "markdown", "twine", "wheel"]
 
 [[package]]
 name = "griffe"
-version = "0.46.0"
+version = "0.46.1"
 description = "Signatures for entire Python programs. Extract the structure, the frame, the skeleton of your project, to generate API documentation or find breaking changes in your API."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "griffe-0.46.0-py3-none-any.whl", hash = "sha256:7804a22aa981e442bcb3ff1365268cee590e40c6b68388075d3e1287b7d817ca"},
-    {file = "griffe-0.46.0.tar.gz", hash = "sha256:8b3b913f70cad7dfe410094b180181e00fec282f60e47cf8bcce187139f099e5"},
+    {file = "griffe-0.46.1-py3-none-any.whl", hash = "sha256:e74dd71690a6bc339916f31aec4912fcb29a67294b7a557be7f80c3131f4ec6e"},
+    {file = "griffe-0.46.1.tar.gz", hash = "sha256:cbf12fb5686110b5c1a956520079cd1656e2ea0b80b63f33ad9d9e21545af2a5"},
 ]
 
 [package.dependencies]
@@ -3016,7 +3016,7 @@ testing = ["build[virtualenv] (>=1.0.3)", "filelock (>=3.4.0)", "importlib-metad
 name = "simpleaudio"
 version = "1.0.4"
 description = "Simple, asynchronous audio playback for Python 3."
-optional = true
+optional = false
 python-versions = "*"
 files = [
     {file = "simpleaudio-1.0.4-cp37-cp37m-macosx_10_6_intel.whl", hash = "sha256:05b63da515f5fc7c6f40e4d9673d22239c5e03e2bda200fc09fd21c185d73713"},
@@ -3311,13 +3311,13 @@ dev = ["flake8", "flake8-annotations", "flake8-bandit", "flake8-bugbear", "flake
 
 [[package]]
 name = "urllib3"
-version = "2.2.1"
+version = "2.2.2"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "urllib3-2.2.1-py3-none-any.whl", hash = "sha256:450b20ec296a467077128bff42b73080516e71b56ff59a60a02bef2232c4fa9d"},
-    {file = "urllib3-2.2.1.tar.gz", hash = "sha256:d0570876c61ab9e520d776c38acbbb5b05a776d3f9ff98a5c8fd5162a444cf19"},
+    {file = "urllib3-2.2.2-py3-none-any.whl", hash = "sha256:a448b2f64d686155468037e1ace9f2d2199776e17f0a46610480d311f73e3472"},
+    {file = "urllib3-2.2.2.tar.gz", hash = "sha256:dd505485549a7a552833da5e6063639d0d177c04f23bc3864e41e5dc5f612168"},
 ]
 
 [package.extras]
@@ -3631,4 +3631,4 @@ stream = []
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4"
-content-hash = "20b671aaa9b647784311d931c39f65dcf2796341c102c1c29252fb1a22d983a9"
+content-hash = "1a845911386d72ea7a7aad8a88457a399c6c64f2ddf0b74ca563519aefb2babd"
