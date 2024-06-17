@@ -32,7 +32,7 @@ jobs:
         shell: bash
         run: |
           sudo apt-get --yes update
-          sudo apt-get --yes install ffmpeg
+          sudo apt-get --yes install libasound2-dev libportaudio2 ffmpeg
 
       - name: Install Python dependencies
         shell: bash
@@ -104,7 +104,7 @@ jobs:
         shell: bash
         run: |
           sudo apt-get --yes update
-          sudo apt-get --yes install ffmpeg
+          sudo apt-get --yes install libasound2-dev libportaudio2 ffmpeg
 
       - name: Install Python dependencies
         shell: bash
