@@ -109,7 +109,8 @@ class ChatMixin(ClientBase):
         logger.info("Connecting to EVI API at %s", uri)
 
         try:
-            async with websockets.connect(
+            # pylint: disable=no-member
+            async with websockets.connect(  # type: ignore[attr-defined]
                 uri,
                 extra_headers=self._get_client_headers(),
                 close_timeout=self._close_timeout,
