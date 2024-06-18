@@ -5,7 +5,7 @@ import logging
 from importlib.metadata import version
 from typing import Any, Optional
 
-import requests
+import httpx
 
 from hume._voice.mixins.chat_mixin import ChatMixin
 from hume._voice.mixins.chats_mixin import ChatsMixin
@@ -25,8 +25,6 @@ def generate_client_id(api_key: str, secret_key: str) -> str:
 # References:
 #   - https://datagy.io/python-requests-timeouts/
 #   - https://en.ittrip.xyz/python/http-timeout-guide#index_id3"""
-
-
 def fetch_access_token(client_id: str, host: str = "api.hume.ai", timeout: int = 5) -> str:
     headers = {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -35,8 +33,9 @@ def fetch_access_token(client_id: str, host: str = "api.hume.ai", timeout: int =
     data = {
         "grant_type": "client_credentials",
     }
-    response = requests.post(f"https://{host}/oauth2-cc/token", headers=headers, data=data, timeout=timeout)
-    response_data = response.json()
+    with httpx.Client(timeout=timeout) as client:
+        response = client.post(f"https://{host}/oauth2-cc/token", headers=headers, data=data)
+        response_data = response.json()
     if "access_token" not in response_data:
         raise ValueError("Access token not found in response")
     return response_data["access_token"]

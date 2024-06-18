@@ -3631,4 +3631,4 @@ stream = []
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4"
-content-hash = "b37b8533c31e8e146360ce4005b1a34eee3ac9c02c4f0a286383114ba900ad4b"
+content-hash = "991901648dd3e783c60fcac538da510c25dc08ddd4dc50d889c4edd2920f0f24"
