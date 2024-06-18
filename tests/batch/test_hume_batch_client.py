@@ -1,3 +1,4 @@
+from pathlib import Path
 from unittest.mock import MagicMock
 
 import pytest
@@ -38,6 +39,7 @@ class TestHumeBatchClient:
                 "urls": [mock_url],
             },
             None,
+            None,
         )
 
     def test_burst(self, batch_client: HumeBatchClient) -> None:
@@ -53,6 +55,7 @@ class TestHumeBatchClient:
                 },
                 "urls": [mock_url],
             },
+            None,
             None,
         )
 
@@ -71,6 +74,7 @@ class TestHumeBatchClient:
                 },
                 "urls": [mock_url],
             },
+            None,
             None,
         )
 
@@ -91,6 +95,7 @@ class TestHumeBatchClient:
                 "urls": [mock_url],
             },
             None,
+            None,
         )
 
     def test_language_with_raw_text(self, batch_client: HumeBatchClient) -> None:
@@ -110,6 +115,7 @@ class TestHumeBatchClient:
                 },
                 "text": [mock_text],
             },
+            None,
             None,
         )
 
@@ -133,6 +139,7 @@ class TestHumeBatchClient:
                 },
             },
             ["my-audio.mp3"],
+            None,
         )
 
     def test_get_multipart_form_data(self, batch_client: HumeBatchClient, tmp_path_factory: TempPathFactory) -> None:
@@ -142,9 +149,9 @@ class TestHumeBatchClient:
             f.write("I can't believe this test passed!")
 
         request_body = {"mock": "body"}
-        filepaths = [filepath]
-        # pylint: disable=protected-access
-        result = batch_client._get_multipart_form_data(request_body, filepaths)
+        filepaths: list[Path] = [filepath]
+        filebytes: list[tuple[str, bytes]] = []
+        result = batch_client._get_multipart_form_data(request_body, filepaths, filebytes)
 
         assert result == [
             ("file", ("my-audio.mp3", b"I can't believe this test passed!")),
