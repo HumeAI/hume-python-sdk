@@ -1,13 +1,10 @@
-"""Utilities for audio playback."""
+"""Utility class for audio playback."""
 
 import asyncio
 from io import BytesIO
 
 import pydub.playback
 from pydub import AudioSegment
-
-_playback_object = None
-_stop_event = asyncio.Event()
 
 # NOTE:
 # - expects that byte_str is a valid audio file with the appropriate headers
@@ -18,30 +15,30 @@ _stop_event = asyncio.Event()
 # - stop_audio() allows for the decoupling of interruptibility from the MicrophoneSender class.
 
 
-async def play_audio(byte_str: bytes) -> None:
-    """Play a byte string of audio data with the system audio output device.
+class AudioPlayer:
+    def __init__(self) -> None:
+        self._playback_object = None
+        self._stop_event = asyncio.Event()
 
-    Args:
-        byte_str (bytes): Byte string of audio data.
-    """
-    global _playback_object, _stop_event
+    async def play_audio(self, byte_str: bytes) -> None:
+        """Play a byte string of audio data with the system audio output device.
 
-    _stop_event.clear()  # Reset the stop event
+        Args:
+            byte_str (bytes): Byte string of audio data.
+        """
+        self._stop_event.clear()  # Reset the stop event
 
-    segment = AudioSegment.from_file(BytesIO(byte_str))
+        segment = AudioSegment.from_file(BytesIO(byte_str))
 
-    def _play_audio_segment() -> None:
-        global _playback_object
-        _playback_object = pydub.playback.play(segment)
+        def _play_audio_segment() -> None:
+            self._playback_object = pydub.playback.play(segment)
 
-    await asyncio.to_thread(_play_audio_segment)
+        await asyncio.to_thread(_play_audio_segment)
 
+    def stop_audio(self) -> None:
+        """Stop the current audio playback."""
+        self._stop_event.set()  # Set the stop event to signal stopping
 
-def stop_audio() -> None:
-    """Stop the current audio playback."""
-    global _playback_object, _stop_event
-    _stop_event.set()  # Set the stop event to signal stopping
-
-    if _playback_object:
-        _playback_object.stop()
-        _playback_object = None
+        if self._playback_object:
+            self._playback_object.stop()
+            self._playback_object = None

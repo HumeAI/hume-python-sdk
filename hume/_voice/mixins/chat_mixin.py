@@ -12,7 +12,7 @@ import websockets.client
 from hume._common.client_base import ClientBase
 from hume._common.protocol import Protocol
 from hume._voice.microphone.asyncio_utilities import Stream
-from hume._voice.microphone.audio_utilities import play_audio, stop_audio
+from hume._voice.microphone.audio_utilities import AudioPlayer
 from hume._voice.voice_socket import VoiceSocket
 from hume.error.hume_client_exception import HumeClientException
 
@@ -27,6 +27,10 @@ class ChatMixin(ClientBase):
     """Client operations for EVI WebSocket connections."""
 
     DEFAULT_MAX_PAYLOAD_SIZE_BYTES: ClassVar[int] = 2**24
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+        self.audio_player: AudioPlayer = AudioPlayer()
 
     async def _handle_messages(
         self,
@@ -53,7 +57,7 @@ class ChatMixin(ClientBase):
             await byte_strs.put(message_bytes)
         elif interruptible and message["type"] == "user_interruption":
             logger.debug("Received user_interruption message")
-            await stop_audio()
+            self.audio_player.stop_audio()
         elif on_message is not None:
             if asyncio.iscoroutinefunction(on_message):
                 await on_message(message)
@@ -62,14 +66,14 @@ class ChatMixin(ClientBase):
 
     async def _audio_playback(self, byte_strs: Stream) -> None:
         async for byte_str in byte_strs:
-            await play_audio(byte_str)
+            await self.audio_player.play_audio(byte_str)
 
-    async def _handle_error(self, exc: Exception, error_handler: Optional[ErrorHandlerType]) -> None:
-        if error_handler is not None:
-            if asyncio.iscoroutinefunction(error_handler):
-                await error_handler(exc)
+    async def _handle_error(self, exc: Exception, on_error: Optional[ErrorHandlerType]) -> None:
+        if on_error:
+            if asyncio.iscoroutinefunction(on_error):
+                await on_error(exc)
             else:
-                error_handler(exc)
+                on_error(exc)
 
     async def _handle_open_close(self, handler: Optional[OpenCloseHandlerType]) -> None:
         if handler is not None:
