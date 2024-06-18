@@ -1,6 +1,6 @@
 import logging
 from contextlib import asynccontextmanager
-from typing import Any, AsyncContextManager, AsyncIterator, Optional
+from typing import AsyncContextManager, AsyncIterator, Optional
 from unittest.mock import Mock
 
 import pytest
@@ -11,18 +11,6 @@ from hume import HumeVoiceClient
 from hume._voice.voice_socket import VoiceSocket
 
 logger = logging.getLogger(__name__)
-
-
-# Custom async iterator mock class
-class AsyncIteratorMock:
-    def __init__(self, return_value: Any):
-        self._return_value = return_value
-
-    def __aiter__(self) -> AsyncIterator[Any]:
-        return self
-
-    async def __anext__(self) -> Any:
-        return self._return_value
 
 
 # pylint: disable=unused-argument
@@ -42,9 +30,7 @@ def mock_connect(
 
     @asynccontextmanager
     async def mock_connection() -> AsyncIterator[Mock]:
-        mock_protocol = Mock()
-        mock_protocol.__aiter__ = lambda: AsyncIteratorMock(Mock())
-        yield mock_protocol
+        yield Mock()
 
     return mock_connection()
 
