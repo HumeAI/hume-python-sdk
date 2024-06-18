@@ -757,13 +757,13 @@ dev = ["flake8", "markdown", "twine", "wheel"]
 
 [[package]]
 name = "griffe"
-version = "0.46.1"
+version = "0.47.0"
 description = "Signatures for entire Python programs. Extract the structure, the frame, the skeleton of your project, to generate API documentation or find breaking changes in your API."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "griffe-0.46.1-py3-none-any.whl", hash = "sha256:e74dd71690a6bc339916f31aec4912fcb29a67294b7a557be7f80c3131f4ec6e"},
-    {file = "griffe-0.46.1.tar.gz", hash = "sha256:cbf12fb5686110b5c1a956520079cd1656e2ea0b80b63f33ad9d9e21545af2a5"},
+    {file = "griffe-0.47.0-py3-none-any.whl", hash = "sha256:07a2fd6a8c3d21d0bbb0decf701d62042ccc8a576645c7f8799fe1f10de2b2de"},
+    {file = "griffe-0.47.0.tar.gz", hash = "sha256:95119a440a3c932b13293538bdbc405bee4c36428547553dc6b327e7e7d35e5a"},
 ]
 
 [package.dependencies]
@@ -3065,7 +3065,7 @@ files = [
 name = "sounddevice"
 version = "0.4.7"
 description = "Play and Record Sound with Python"
-optional = true
+optional = false
 python-versions = ">=3.7"
 files = [
     {file = "sounddevice-0.4.7-py3-none-any.whl", hash = "sha256:1c3f18bfa4d9a257f5715f2ab83f2c0eb412a09f3e6a9fa73720886ca88f6bc7"},
@@ -3631,4 +3631,4 @@ stream = []
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4"
-content-hash = "1a845911386d72ea7a7aad8a88457a399c6c64f2ddf0b74ca563519aefb2babd"
+content-hash = "b37b8533c31e8e146360ce4005b1a34eee3ac9c02c4f0a286383114ba900ad4b"
