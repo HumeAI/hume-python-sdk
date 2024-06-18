@@ -3016,7 +3016,7 @@ testing = ["build[virtualenv] (>=1.0.3)", "filelock (>=3.4.0)", "importlib-metad
 name = "simpleaudio"
 version = "1.0.4"
 description = "Simple, asynchronous audio playback for Python 3."
-optional = true
+optional = false
 python-versions = "*"
 files = [
     {file = "simpleaudio-1.0.4-cp37-cp37m-macosx_10_6_intel.whl", hash = "sha256:05b63da515f5fc7c6f40e4d9673d22239c5e03e2bda200fc09fd21c185d73713"},
@@ -3631,4 +3631,4 @@ stream = []
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4"
-content-hash = "20b671aaa9b647784311d931c39f65dcf2796341c102c1c29252fb1a22d983a9"
+content-hash = "1a845911386d72ea7a7aad8a88457a399c6c64f2ddf0b74ca563519aefb2babd"
