@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import logging
 import urllib.parse
 from contextlib import asynccontextmanager
@@ -62,7 +63,28 @@ class ChatMixin(ClientBase):
                 open_timeout=self._open_timeout,
                 max_size=max_size,
             ) as protocol:
-                yield VoiceSocket(protocol)
+
+                # await self._handle_open_close(on_open)
+                # voice_socket = VoiceSocket(protocol)
+                # byte_strs: Stream = Stream.new()
+                # recv_task = asyncio.create_task(self._handle_messages(voice_socket, byte_strs, on_message, on_error))
+                # self._audio_task = asyncio.create_task(self._audio_playback(byte_strs))
+                # yield voice_socket
+                # await asyncio.gather(recv_task, self._audio_task)
+
+                async def do_nothing() -> None:
+                    pass
+
+                await do_nothing()
+
+                voice_socket = VoiceSocket(protocol)
+
+                do_nothing_task = asyncio.create_task(do_nothing())
+
+                yield voice_socket
+
+                await asyncio.gather(do_nothing_task)
+
         except websockets.exceptions.InvalidStatusCode as exc:
             status_code: int = exc.status_code
             if status_code == 401:  # Unauthorized
