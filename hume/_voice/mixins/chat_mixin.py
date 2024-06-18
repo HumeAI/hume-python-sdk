@@ -28,6 +28,56 @@ class ChatMixin(ClientBase):
 
     DEFAULT_MAX_PAYLOAD_SIZE_BYTES: ClassVar[int] = 2**24
 
+    async def _handle_messages(
+        self,
+        voice_socket: VoiceSocket,
+        byte_strs: Stream,
+        on_message: Optional[MessageHandlerType],
+        interruptible: bool,
+        on_error: Optional[ErrorHandlerType],
+    ) -> None:
+        try:
+            async for socket_message in voice_socket:
+                message = json.loads(socket_message)
+                await self._process_message(message, byte_strs, on_message, interruptible)
+        except Exception as exc:
+            await self._handle_error(exc, on_error)
+            raise
+
+    async def _process_message(
+        self, message: dict, byte_strs: Stream, on_message: Optional[MessageHandlerType], interruptible: bool
+    ) -> None:
+        if message["type"] == "audio_output":
+            message_str: str = message["data"]
+            message_bytes = base64.b64decode(message_str.encode("utf-8"))
+            await byte_strs.put(message_bytes)
+        elif interruptible and message["type"] == "user_interruption":
+            logger.debug("Received user_interruption message")
+            await stop_audio()
+        elif on_message is not None:
+            if asyncio.iscoroutinefunction(on_message):
+                await on_message(message)
+            else:
+                on_message(message)
+
+    async def _audio_playback(self, byte_strs: Stream) -> None:
+        async for byte_str in byte_strs:
+            await play_audio(byte_str)
+
+    async def _handle_error(self, exc: Exception, error_handler: Optional[ErrorHandlerType]) -> None:
+        if error_handler is not None:
+            if asyncio.iscoroutinefunction(error_handler):
+                await error_handler(exc)
+            else:
+                error_handler(exc)
+
+    async def _handle_open_close(self, handler: Optional[OpenCloseHandlerType]) -> None:
+        if handler is not None:
+            if asyncio.iscoroutinefunction(handler):
+                await handler()
+            else:
+                handler()
+
     @asynccontextmanager
     async def connect(
         self,
@@ -50,105 +100,53 @@ class ChatMixin(ClientBase):
             on_close (Optional[OpenCloseHandlerType]): Handler for when the connection is closed.
             interruptible (bool): Whether to enable interruptibility.
         """
-        uri_base = self._build_endpoint("evi", "chat", Protocol.WS)
-
-        if config_id is not None and chat_group_id is not None:
-            raise HumeClientException(
-                "If resuming from a chat_group_id you must not provide a config_id. "
-                "The original config for the chat group will be used automatically."
-            )
-
-        params: Dict[str, Any] = {}
-        if config_id is not None:
-            params["config_id"] = config_id
-        if chat_group_id is not None:
-            params["resumed_chat_group_id"] = chat_group_id
-
-        encoded_params = urllib.parse.urlencode(params)
-        uri = f"{uri_base}?{encoded_params}"
-
+        uri = self._build_uri(config_id, chat_group_id)
         logger.info("Connecting to EVI API at %s", uri)
 
-        max_size = self.DEFAULT_MAX_PAYLOAD_SIZE_BYTES
         try:
-            # pylint: disable=no-member
-            async with websockets.connect(  # type: ignore[attr-defined]
+            async with websockets.connect(
                 uri,
                 extra_headers=self._get_client_headers(),
                 close_timeout=self._close_timeout,
                 open_timeout=self._open_timeout,
-                max_size=max_size,
+                max_size=self.DEFAULT_MAX_PAYLOAD_SIZE_BYTES,
             ) as protocol:
-                if on_open is not None:
-                    if asyncio.iscoroutinefunction(on_open):
-                        await on_open()
-                    else:
-                        on_open()
+                await self._handle_open_close(on_open)
 
                 voice_socket = VoiceSocket(protocol)
                 byte_strs: Stream = Stream.new()
 
-                async def handle_messages() -> None:
-                    try:
-                        async for socket_message in voice_socket:
-                            # Ensure the message is parsed as JSON
-                            message = json.loads(socket_message)
-
-                            if message["type"] == "audio_output":
-                                message_str: str = message["data"]
-                                message_bytes = base64.b64decode(message_str.encode("utf-8"))
-                                await byte_strs.put(message_bytes)
-                                continue  # Skip calling the on_message handler for audio_output
-
-                            if interruptible and message["type"] == "user_interruption":
-                                logger.debug("Received user_interruption message")
-                                await stop_audio()
-
-                            if on_message is not None:
-                                if asyncio.iscoroutinefunction(on_message):
-                                    await on_message(message)
-                                else:
-                                    on_message(message)
-                    except Exception as exc:
-                        if on_error:
-                            if asyncio.iscoroutinefunction(on_error):
-                                await on_error(exc)
-                            else:
-                                on_error(exc)
-                        raise
-
-                async def audio_playback() -> None:
-                    async for byte_str in byte_strs:
-                        await play_audio(byte_str)
-
-                recv_task = asyncio.create_task(handle_messages())
-                audio_task = asyncio.create_task(audio_playback())
+                recv_task = asyncio.create_task(
+                    self._handle_messages(voice_socket, byte_strs, on_message, interruptible, on_error)
+                )
+                audio_task = asyncio.create_task(self._audio_playback(byte_strs))
 
                 yield voice_socket
 
                 await asyncio.gather(recv_task, audio_task)
 
         except websockets.exceptions.InvalidStatusCode as exc:
-            if on_error is not None:
-                if asyncio.iscoroutinefunction(on_error):
-                    await on_error(exc)
-                else:
-                    on_error(exc)
-            status_code: int = exc.status_code
-            if status_code == 401:  # Unauthorized
-                message = "HumeVoiceClient initialized with invalid API key."
-                raise HumeClientException(message) from exc
+            await self._handle_error(exc, on_error)
+            if exc.status_code == 401:  # Unauthorized
+                raise HumeClientException("HumeVoiceClient initialized with invalid API key.") from exc
             raise HumeClientException("Unexpected error when creating EVI API connection") from exc
         except Exception as exc:
-            if on_error is not None:
-                if asyncio.iscoroutinefunction(on_error):
-                    await on_error(exc)
-                else:
-                    on_error(exc)
+            await self._handle_error(exc, on_error)
             raise
         finally:
-            if on_close is not None:
-                if asyncio.iscoroutinefunction(on_close):
-                    await on_close()
-                else:
-                    on_close()
+            await self._handle_open_close(on_close)
+
+    def _build_uri(self, config_id: Optional[str], chat_group_id: Optional[str]) -> str:
+        uri_base = self._build_endpoint("evi", "chat", Protocol.WS)
+        if config_id and chat_group_id:
+            raise HumeClientException(
+                "If resuming from a chat_group_id you must not provide a config_id. "
+                "The original config for the chat group will be used automatically."
+            )
+        params: Dict[str, Any] = {}
+        if config_id:
+            params["config_id"] = config_id
+        if chat_group_id:
+            params["resumed_chat_group_id"] = chat_group_id
+        encoded_params = urllib.parse.urlencode(params)
+        return f"{uri_base}?{encoded_params}"
