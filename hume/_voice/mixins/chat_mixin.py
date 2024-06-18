@@ -11,8 +11,8 @@ import websockets.client
 
 from hume._common.client_base import ClientBase
 from hume._common.protocol import Protocol
-from hume._voice.microphone.asyncio_utilities import Stream
-from hume._voice.microphone.audio_utilities import AudioPlayer
+from hume._voice.asyncio_utilities import Stream
+from hume._voice.audio_player import AudioPlayer
 from hume._voice.voice_socket import VoiceSocket
 from hume.error.hume_client_exception import HumeClientException
 
