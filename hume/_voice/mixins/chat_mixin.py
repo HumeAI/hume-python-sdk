@@ -48,7 +48,7 @@ class ChatMixin(ClientBase):
             on_message (Optional[MessageHandlerType]): Handler for when a message is received.
             on_error (Optional[ErrorHandlerType]): Handler for when an error occurs.
             on_close (Optional[OpenCloseHandlerType]): Handler for when the connection is closed.
-            interruptible (bool): Whether to enable interruptibility. True by default.
+            interruptible (bool): Whether to enable interruptibility.
         """
         uri_base = self._build_endpoint("evi", "chat", Protocol.WS)
 

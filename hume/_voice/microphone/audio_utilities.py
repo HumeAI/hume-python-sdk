@@ -6,9 +6,8 @@ from io import BytesIO
 import pydub.playback
 from pydub import AudioSegment
 
-# Use appropriate naming conventions for constants and module-level variables
-PLAYBACK_OBJECT = None
-STOP_EVENT = asyncio.Event()
+_playback_object = None
+_stop_event = asyncio.Event()
 
 # NOTE:
 # - expects that byte_str is a valid audio file with the appropriate headers
@@ -25,24 +24,24 @@ async def play_audio(byte_str: bytes) -> None:
     Args:
         byte_str (bytes): Byte string of audio data.
     """
-    global PLAYBACK_OBJECT
+    global _playback_object, _stop_event
 
-    STOP_EVENT.clear()  # Reset the stop event
+    _stop_event.clear()  # Reset the stop event
 
     segment = AudioSegment.from_file(BytesIO(byte_str))
 
     def _play_audio_segment() -> None:
-        nonlocal segment
-        PLAYBACK_OBJECT = pydub.playback.play(segment)
+        global _playback_object
+        _playback_object = pydub.playback.play(segment)
 
     await asyncio.to_thread(_play_audio_segment)
 
 
 def stop_audio() -> None:
     """Stop the current audio playback."""
-    global PLAYBACK_OBJECT
-    STOP_EVENT.set()  # Set the stop event to signal stopping
+    global _playback_object, _stop_event
+    _stop_event.set()  # Set the stop event to signal stopping
 
-    if PLAYBACK_OBJECT:
-        PLAYBACK_OBJECT.stop()
-        PLAYBACK_OBJECT = None
+    if _playback_object:
+        _playback_object.stop()
+        _playback_object = None
