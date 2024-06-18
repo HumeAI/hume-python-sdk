@@ -31,6 +31,7 @@ class ChatMixin(ClientBase):
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         self.audio_player: AudioPlayer = AudioPlayer()
+        self._audio_task: Optional[asyncio.Task] = None
 
     async def _handle_messages(
         self,
@@ -69,7 +70,7 @@ class ChatMixin(ClientBase):
             await self.audio_player.play_audio(byte_str)
 
     async def _handle_error(self, exc: Exception, on_error: Optional[ErrorHandlerType]) -> None:
-        if on_error:
+        if on_error is not None:
             if asyncio.iscoroutinefunction(on_error):
                 await on_error(exc)
             else:
@@ -86,7 +87,7 @@ class ChatMixin(ClientBase):
     async def connect(
         self,
         config_id: Optional[str] = None,
-        chat_group_id: Optional[str] = None,
+        resumed_chat_group_id: Optional[str] = None,
         on_open: Optional[OpenCloseHandlerType] = None,
         on_close: Optional[OpenCloseHandlerType] = None,
         on_error: Optional[ErrorHandlerType] = None,
@@ -104,12 +105,11 @@ class ChatMixin(ClientBase):
             on_close (Optional[OpenCloseHandlerType]): Handler for when the connection is closed.
             interruptible (bool): Whether to enable interruptibility.
         """
-        uri = self._build_uri(config_id, chat_group_id)
+        uri = self._build_uri(config_id, resumed_chat_group_id)
         logger.info("Connecting to EVI API at %s", uri)
 
         try:
-            # pylint: disable=no-member
-            async with websockets.connect(  # type: ignore[attr-defined]
+            async with websockets.connect(
                 uri,
                 extra_headers=self._get_client_headers(),
                 close_timeout=self._close_timeout,
@@ -124,11 +124,11 @@ class ChatMixin(ClientBase):
                 recv_task = asyncio.create_task(
                     self._handle_messages(voice_socket, byte_strs, on_message, interruptible, on_error)
                 )
-                audio_task = asyncio.create_task(self._audio_playback(byte_strs))
+                self._audio_task = asyncio.create_task(self._audio_playback(byte_strs))
 
                 yield voice_socket
 
-                await asyncio.gather(recv_task, audio_task)
+                await asyncio.gather(recv_task, self._audio_task)
 
         except websockets.exceptions.InvalidStatusCode as exc:
             await self._handle_error(exc, on_error)
@@ -139,6 +139,12 @@ class ChatMixin(ClientBase):
             await self._handle_error(exc, on_error)
             raise
         finally:
+            if self._audio_task is not None:
+                self._audio_task.cancel()
+                try:
+                    await self._audio_task
+                except asyncio.CancelledError:
+                    pass
             await self._handle_open_close(on_close)
 
     def _build_uri(self, config_id: Optional[str], chat_group_id: Optional[str]) -> str:
