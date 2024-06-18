@@ -44,7 +44,7 @@ pydantic = "^2.6.4"
 pydub = "^0.25.1"
 python = ">=3.9,<4"
 requests = "^2.32.3"
-simpleaudio = "^1.0.4"
+simpleaudio = { version = "^1.0.4", optional = true }
 sounddevice = { version = "^0.4.6", optional = true }
 typing-extensions = "^4.3.0"
 websockets = "^12.0"
