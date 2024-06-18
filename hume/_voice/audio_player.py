@@ -16,6 +16,7 @@ class AudioPlayer:
     def __init__(self) -> None:
         self._playback_object: Optional[sa.PlayObject] = None
         self._stop_event = asyncio.Event()
+        self._play_lock = asyncio.Lock()
 
     async def play_audio(self, byte_str: bytes) -> None:
         """Play a byte string of audio data with the system audio output device.
@@ -23,19 +24,23 @@ class AudioPlayer:
         Args:
             byte_str (bytes): Byte string of audio data.
         """
-        self._stop_event.clear()  # Reset the stop event
+        async with self._play_lock:
+            if self._playback_object is not None:
+                self._playback_object.wait_done()
 
-        segment = AudioSegment.from_file(BytesIO(byte_str))
-        audio_data = segment.raw_data
-        num_channels = segment.channels
-        bytes_per_sample = segment.sample_width
-        sample_rate = segment.frame_rate
+            self._stop_event.clear()  # Reset the stop event
 
-        def _play_audio_segment() -> None:
-            wave_obj = sa.WaveObject(audio_data, num_channels, bytes_per_sample, sample_rate)
-            self._playback_object = wave_obj.play()
+            segment = AudioSegment.from_file(BytesIO(byte_str))
+            audio_data = segment.raw_data
+            num_channels = segment.channels
+            bytes_per_sample = segment.sample_width
+            sample_rate = segment.frame_rate
 
-        await asyncio.to_thread(_play_audio_segment)
+            def _play_audio_segment() -> None:
+                wave_obj = sa.WaveObject(audio_data, num_channels, bytes_per_sample, sample_rate)
+                self._playback_object = wave_obj.play()
+
+            await asyncio.to_thread(_play_audio_segment)
 
     def stop_audio(self) -> None:
         """Stop the current audio playback."""
