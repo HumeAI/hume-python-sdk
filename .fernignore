@@ -19,4 +19,3 @@ src/hume/expression_measurement/batch/legacy
 
 <!-- Ignoring `ci.yml` while we have the legacy tests in the repo (tests/custom) -->
 .github/workflows/ci.yml
-src/hume/expression_measurement/batch/client.py
