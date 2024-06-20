@@ -28,9 +28,10 @@ class ChatMixin(ClientBase):
 
     DEFAULT_MAX_PAYLOAD_SIZE_BYTES: ClassVar[int] = 2**24
 
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
+    def __init__(self, *args: Any, enable_audio: bool = True, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
-        self.audio_player: AudioPlayer = AudioPlayer()
+        self.enable_audio = enable_audio
+        self.audio_player: Optional[AudioPlayer] = AudioPlayer() if enable_audio else None
         self._audio_task: Optional[asyncio.Task] = None
 
     async def _handle_messages(
@@ -56,17 +57,20 @@ class ChatMixin(ClientBase):
                 await on_message(message)
             else:
                 on_message(message)
-        if message["type"] == "user_interruption":
-            logger.debug("Received user_interruption message")
-            self.audio_player.stop_audio()
-        elif message["type"] == "audio_output":
-            message_str: str = message["data"]
-            message_bytes = base64.b64decode(message_str.encode("utf-8"))
-            await byte_strs.put(message_bytes)
+        if self.enable_audio:
+            if message["type"] == "user_interruption":
+                logger.debug("Received user_interruption message")
+                if self.audio_player:
+                    self.audio_player.stop_audio()
+            elif message["type"] == "audio_output":
+                message_str: str = message["data"]
+                message_bytes = base64.b64decode(message_str.encode("utf-8"))
+                await byte_strs.put(message_bytes)
 
     async def _audio_playback(self, byte_strs: Stream) -> None:
-        async for byte_str in byte_strs:
-            await self.audio_player.play_audio(byte_str)
+        if self.enable_audio and self.audio_player:
+            async for byte_str in byte_strs:
+                await self.audio_player.play_audio(byte_str)
 
     async def _handle_error(self, exc: Exception, on_error: Optional[ErrorHandlerType]) -> None:
         if on_error is not None:
@@ -106,8 +110,7 @@ class ChatMixin(ClientBase):
         logger.info("Connecting to EVI API at %s", uri)
 
         try:
-            # pylint: disable=no-member
-            async with websockets.connect(  # type: ignore[attr-defined]
+            async with websockets.connect(
                 uri,
                 extra_headers=self._get_client_headers(),
                 close_timeout=self._close_timeout,
@@ -120,11 +123,15 @@ class ChatMixin(ClientBase):
                 byte_strs: Stream = Stream.new()
 
                 recv_task = asyncio.create_task(self._handle_messages(voice_socket, byte_strs, on_message, on_error))
-                self._audio_task = asyncio.create_task(self._audio_playback(byte_strs))
+                if self.enable_audio:
+                    self._audio_task = asyncio.create_task(self._audio_playback(byte_strs))
 
                 yield voice_socket
 
-                await asyncio.gather(recv_task, self._audio_task)
+                if self.enable_audio and self._audio_task:
+                    await asyncio.gather(recv_task, self._audio_task)
+                else:
+                    await recv_task
 
         except websockets.exceptions.InvalidStatusCode as exc:
             await self._handle_error(exc, on_error)

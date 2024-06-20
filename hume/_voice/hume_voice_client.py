@@ -20,11 +20,6 @@ def generate_client_id(api_key: str, secret_key: str) -> str:
     return base64.b64encode(auth_string.encode()).decode()
 
 
-# NOTE:
-# - The timeout value for the POST HTTP request is set to 5 seconds.
-# References:
-#   - https://datagy.io/python-requests-timeouts/
-#   - https://en.ittrip.xyz/python/http-timeout-guide#index_id3"""
 def fetch_access_token(client_id: str, host: str = "api.hume.ai", timeout: int = 5) -> str:
     headers = {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -44,8 +39,8 @@ def fetch_access_token(client_id: str, host: str = "api.hume.ai", timeout: int =
 class HumeVoiceClient(ChatMixin, ChatsMixin, ConfigsMixin, ToolsMixin):
     """Empathic Voice Interface client."""
 
-    def __init__(self, api_key: str, secret_key: Optional[str] = None, **kwargs: Any):
-        super().__init__(api_key, **kwargs)
+    def __init__(self, api_key: str, secret_key: Optional[str] = None, enable_audio: bool = True, **kwargs: Any):
+        super().__init__(api_key, enable_audio=enable_audio, **kwargs)
         self._token = None
         if secret_key:
             client_id = generate_client_id(api_key, secret_key)
