@@ -20,6 +20,8 @@ from hume._voice.socket_inputs import (
     SessionSettings,
     TextUserInput,
     Tool,
+    ToolErrorMessage,
+    ToolResponseMessage,
 )
 
 logger = logging.getLogger(__name__)
@@ -166,6 +168,70 @@ class VoiceSocket:
         text_user_input = TextUserInput(text=input_text, custom_session_id=custom_session_id)
         text_user_input_dict = text_user_input.model_dump(exclude_none=True)
         message = json.dumps(text_user_input_dict)
+
+        await self._protocol.send(message)
+
+    async def send_tool_response(
+        self,
+        content: str,
+        tool_call_id: str,
+        tool_type: str,
+        custom_session_id: Optional[str] = None,
+        tool_name: Optional[str] = None,
+    ) -> None:
+        """Send tool response.
+
+        Args:
+            content (str): Content of the tool response.
+            tool_call_id (str): ID of the tool call.
+            tool_type (str): Type of the tool, either 'builtin' or 'function'.
+            custom_session_id (str, optional): Session ID for managing conversational state.
+            tool_name (str, optional): Name of the tool.
+        """
+        tool_response = ToolResponseMessage(
+            content=content,
+            tool_call_id=tool_call_id,
+            tool_type=tool_type,
+            custom_session_id=custom_session_id,
+            tool_name=tool_name,
+        )
+        tool_response_dict = tool_response.model_dump(exclude_none=True)
+        message = json.dumps(tool_response_dict)
+
+        await self._protocol.send(message)
+
+    async def send_tool_error(
+        self,
+        error: str,
+        tool_call_id: str,
+        tool_type: str,
+        custom_session_id: Optional[str] = None,
+        code: Optional[str] = None,
+        content: Optional[str] = None,
+        level: Optional[str] = "warn",
+    ) -> None:
+        """Send tool error.
+
+        Args:
+            error (str): Error message.
+            tool_call_id (str): ID of the tool call.
+            tool_type (str): Type of the tool, either 'builtin' or 'function'.
+            custom_session_id (str, optional): Session ID for managing conversational state.
+            code (str, optional): Error code.
+            content (str, optional): Content of the error message.
+            level (str, optional): Error level.
+        """
+        tool_error = ToolErrorMessage(
+            error=error,
+            tool_call_id=tool_call_id,
+            tool_type=tool_type,
+            custom_session_id=custom_session_id,
+            code=code,
+            content=content,
+            level=level,
+        )
+        tool_error_dict = tool_error.model_dump(exclude_none=True)
+        message = json.dumps(tool_error_dict)
 
         await self._protocol.send(message)
 

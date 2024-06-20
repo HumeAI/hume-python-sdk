@@ -77,7 +77,6 @@ mkdocstrings = { version = "^0.21.2", extras = ["python"] }
 
 [tool.poetry.extras]
 examples = ["jupyter"]
-microphone = ["simpleaudio", "sounddevice"]
 stream = []
 
 [build-system]

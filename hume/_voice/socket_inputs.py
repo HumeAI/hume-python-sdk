@@ -70,3 +70,28 @@ class ResumeAssistantMessage(BaseModel):
 
     custom_session_id: Optional[str] = None
     type: str = "resume_assistant_message"
+
+
+class ToolErrorMessage(BaseModel):
+    """Tool error message model. When provided, the output is a function call error."""
+
+    code: Optional[str] = None
+    content: Optional[str] = None
+    custom_session_id: Optional[str] = None
+    error: str
+    level: Optional[str] = "warn"
+    tool_call_id: str
+    # The type of message sent through the socket; for a Tool Error message, this must be 'tool_error'.
+    tool_type: str  # "builtin" or "function"
+    type: str = "tool_error"
+
+
+class ToolResponseMessage(BaseModel):
+    """Tool response message model. When provided, the output is a function call response."""
+
+    content: str
+    custom_session_id: Optional[str] = None
+    tool_call_id: str
+    tool_name: Optional[str]
+    tool_type: str  # "builtin" or "function"
+    type: str = "tool_response"
