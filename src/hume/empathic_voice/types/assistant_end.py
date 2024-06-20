@@ -12,7 +12,11 @@ class AssistantEnd(pydantic_v1.BaseModel):
     When provided, the output is an assistant end message.
     """
 
-    custom_session_id: typing.Optional[str] = None
+    custom_session_id: typing.Optional[str] = pydantic_v1.Field(default=None)
+    """
+    Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
+    """
+
     type: typing.Literal["assistant_end"] = pydantic_v1.Field(default="assistant_end")
     """
     The type of message sent through the socket; for an Assistant End message, this must be 'assistant_end'.

@@ -15,12 +15,36 @@ class SessionSettings(pydantic_v1.BaseModel):
     Settings for this chat session.
     """
 
-    audio: typing.Optional[AudioConfiguration] = None
-    builtin_tools: typing.Optional[typing.List[BuiltinToolConfig]] = None
-    custom_session_id: typing.Optional[str] = None
-    language_model_api_key: typing.Optional[str] = None
-    system_prompt: typing.Optional[str] = None
-    tools: typing.Optional[typing.List[Tool]] = None
+    audio: typing.Optional[AudioConfiguration] = pydantic_v1.Field(default=None)
+    """
+    Audio configuration.
+    """
+
+    builtin_tools: typing.Optional[typing.List[BuiltinToolConfig]] = pydantic_v1.Field(default=None)
+    """
+    List of builtin tools to enable.
+    """
+
+    custom_session_id: typing.Optional[str] = pydantic_v1.Field(default=None)
+    """
+    Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
+    """
+
+    language_model_api_key: typing.Optional[str] = pydantic_v1.Field(default=None)
+    """
+    Third party API key for the language model used for non-Hume models.
+    """
+
+    system_prompt: typing.Optional[str] = pydantic_v1.Field(default=None)
+    """
+    Instructions for how the system should respond to the user. Set to null to use the default system prompt.
+    """
+
+    tools: typing.Optional[typing.List[Tool]] = pydantic_v1.Field(default=None)
+    """
+    List of tools to enable.
+    """
+
     type: typing.Literal["session_settings"] = pydantic_v1.Field(default="session_settings")
     """
     The type of message sent through the socket; for a Session Settings message, this must be 'session_settings'.

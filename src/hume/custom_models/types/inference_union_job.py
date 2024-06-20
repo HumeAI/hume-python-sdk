@@ -8,7 +8,9 @@ from ...core.pydantic_utilities import deep_union_pydantic_dicts, pydantic_v1
 from .job_inference import JobInference
 
 
-class UnionJobJobInference(JobInference):
+class InferenceUnionJob(JobInference):
+    type: typing.Literal["INFERENCE"] = "INFERENCE"
+
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
         return super().json(**kwargs_with_defaults)

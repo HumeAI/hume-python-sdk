@@ -9,6 +9,8 @@ from .queued import Queued
 
 
 class StateTlInferenceQueued(Queued):
+    status: typing.Literal["QUEUED"] = "QUEUED"
+
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
         return super().json(**kwargs_with_defaults)

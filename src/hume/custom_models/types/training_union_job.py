@@ -5,10 +5,12 @@ import typing
 
 from ...core.datetime_utils import serialize_datetime
 from ...core.pydantic_utilities import deep_union_pydantic_dicts, pydantic_v1
-from .job_tl_inference import JobTlInference
+from .job_training import JobTraining
 
 
-class UnionJobJobTlInference(JobTlInference):
+class TrainingUnionJob(JobTraining):
+    type: typing.Literal["TRAINING"] = "TRAINING"
+
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
         return super().json(**kwargs_with_defaults)

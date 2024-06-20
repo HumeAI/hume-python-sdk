@@ -22,7 +22,11 @@ class ChatMetadata(pydantic_v1.BaseModel):
     ID of the chat.
     """
 
-    custom_session_id: typing.Optional[str] = None
+    custom_session_id: typing.Optional[str] = pydantic_v1.Field(default=None)
+    """
+    Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
+    """
+
     type: typing.Literal["chat_metadata"] = pydantic_v1.Field(default="chat_metadata")
     """
     The type of message sent through the socket; for a Chat Metadata message, this must be 'chat_metadata'.

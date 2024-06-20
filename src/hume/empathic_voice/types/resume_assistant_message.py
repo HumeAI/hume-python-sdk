@@ -12,7 +12,11 @@ class ResumeAssistantMessage(pydantic_v1.BaseModel):
     Resume responses from EVI. Chat history sent while paused will now be sent.
     """
 
-    custom_session_id: typing.Optional[str] = None
+    custom_session_id: typing.Optional[str] = pydantic_v1.Field(default=None)
+    """
+    Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
+    """
+
     type: typing.Optional[typing.Literal["resume_assistant_message"]] = pydantic_v1.Field(default=None)
     """
     The type of message sent through the socket; for a Resume Assistant message, this must be 'resume_assistant_message'.

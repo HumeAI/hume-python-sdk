@@ -13,7 +13,11 @@ class ToolCallMessage(pydantic_v1.BaseModel):
     When provided, the output is a tool call.
     """
 
-    custom_session_id: typing.Optional[str] = None
+    custom_session_id: typing.Optional[str] = pydantic_v1.Field(default=None)
+    """
+    Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
+    """
+
     name: str = pydantic_v1.Field()
     """
     Name of the tool called.

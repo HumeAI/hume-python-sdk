@@ -9,7 +9,10 @@ from .prosody_inference import ProsodyInference
 
 
 class Inference(pydantic_v1.BaseModel):
-    prosody: typing.Optional[ProsodyInference] = None
+    prosody: typing.Optional[ProsodyInference] = pydantic_v1.Field(default=None)
+    """
+    Prosody model inference results.
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

@@ -18,7 +18,11 @@ class ToolResponseMessage(pydantic_v1.BaseModel):
     Return value of the tool call.
     """
 
-    custom_session_id: typing.Optional[str] = None
+    custom_session_id: typing.Optional[str] = pydantic_v1.Field(default=None)
+    """
+    Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
+    """
+
     tool_call_id: str = pydantic_v1.Field()
     """
     ID of the tool call.

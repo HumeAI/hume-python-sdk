@@ -17,7 +17,11 @@ class WebSocketError(pydantic_v1.BaseModel):
     Error code.
     """
 
-    custom_session_id: typing.Optional[str] = None
+    custom_session_id: typing.Optional[str] = pydantic_v1.Field(default=None)
+    """
+    Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
+    """
+
     message: str = pydantic_v1.Field()
     """
     Error message.

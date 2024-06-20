@@ -716,121 +716,130 @@ types:
       - started
       - ended
   Source:
-    discriminant: type
-    base-properties: {}
+    discriminated: false
     union:
-      url: SourceUrl
-      file: SourceFile
-      text: SourceTextSource
+      - SourceUrl
+      - SourceFile
+      - SourceTextSource
   SourceFile:
-    properties: {}
+    properties:
+      type: literal<"file">
     extends:
       - File
   SourceTextSource:
-    properties: {}
+    properties:
+      type: literal<"text">
   SourceUrl:
-    properties: {}
+    properties:
+      type: literal<"url">
     extends:
       - Url
-  Url:
-    properties:
-      url:
-        type: string
-        docs: The URL of the source media file.
   StateEmbeddingGeneration:
-    discriminant: status
-    base-properties: {}
+    discriminated: false
     union:
-      QUEUED: StateEmbeddingGenerationQueued
-      IN_PROGRESS: StateEmbeddingGenerationInProgress
-      COMPLETED: StateEmbeddingGenerationCompletedEmbeddingGeneration
-      FAILED: StateEmbeddingGenerationFailed
+      - StateEmbeddingGenerationQueued
+      - StateEmbeddingGenerationInProgress
+      - StateEmbeddingGenerationCompletedEmbeddingGeneration
+      - StateEmbeddingGenerationFailed
   StateEmbeddingGenerationCompletedEmbeddingGeneration:
-    properties: {}
+    properties:
+      status: literal<"COMPLETED">
     extends:
       - CompletedEmbeddingGeneration
   StateEmbeddingGenerationFailed:
-    properties: {}
+    properties:
+      status: literal<"FAILED">
     extends:
       - Failed
   StateEmbeddingGenerationInProgress:
-    properties: {}
+    properties:
+      status: literal<"IN_PROGRESS">
     extends:
       - InProgress
   StateEmbeddingGenerationQueued:
-    properties: {}
+    properties:
+      status: literal<"QUEUED">
     extends:
       - Queued
   StateInference:
-    discriminant: status
-    base-properties: {}
+    discriminated: false
     union:
-      QUEUED: StateInferenceQueued
-      IN_PROGRESS: StateInferenceInProgress
-      COMPLETED: StateInferenceCompletedInference
-      FAILED: StateInferenceFailed
+      - StateInferenceQueued
+      - StateInferenceInProgress
+      - StateInferenceCompletedInference
+      - StateInferenceFailed
   StateInferenceCompletedInference:
-    properties: {}
+    properties:
+      status: literal<"COMPLETED">
     extends:
       - CompletedInference
   StateInferenceFailed:
-    properties: {}
+    properties:
+      status: literal<"FAILED">
     extends:
       - Failed
   StateInferenceInProgress:
-    properties: {}
+    properties:
+      status: literal<"IN_PROGRESS">
     extends:
       - InProgress
   StateInferenceQueued:
-    properties: {}
+    properties:
+      status: literal<"QUEUED">
     extends:
       - Queued
   StateTlInference:
-    discriminant: status
-    base-properties: {}
+    discriminated: false
     union:
-      QUEUED: StateTlInferenceQueued
-      IN_PROGRESS: StateTlInferenceInProgress
-      COMPLETED: StateTlInferenceCompletedTlInference
-      FAILED: StateTlInferenceFailed
+      - StateTlInferenceQueued
+      - StateTlInferenceInProgress
+      - StateTlInferenceCompletedTlInference
+      - StateTlInferenceFailed
   StateTlInferenceCompletedTlInference:
-    properties: {}
+    properties:
+      status: literal<"COMPLETED">
     extends:
       - CompletedTlInference
   StateTlInferenceFailed:
-    properties: {}
+    properties:
+      status: literal<"FAILED">
     extends:
       - Failed
   StateTlInferenceInProgress:
-    properties: {}
+    properties:
+      status: literal<"IN_PROGRESS">
     extends:
       - InProgress
   StateTlInferenceQueued:
-    properties: {}
+    properties:
+      status: literal<"QUEUED">
     extends:
       - Queued
   StateTraining:
-    discriminant: status
-    base-properties: {}
+    discriminated: false
     union:
-      QUEUED: StateTrainingQueued
-      IN_PROGRESS: StateTrainingInProgress
-      COMPLETED: StateTrainingCompletedTraining
-      FAILED: StateTrainingFailed
+      - StateTrainingQueued
+      - StateTrainingInProgress
+      - StateTrainingCompletedTraining
+      - StateTrainingFailed
   StateTrainingCompletedTraining:
-    properties: {}
+    properties:
+      status: literal<"COMPLETED">
     extends:
       - CompletedTraining
   StateTrainingFailed:
-    properties: {}
+    properties:
+      status: literal<"FAILED">
     extends:
       - Failed
   StateTrainingInProgress:
-    properties: {}
+    properties:
+      status: literal<"IN_PROGRESS">
     extends:
       - InProgress
   StateTrainingQueued:
-    properties: {}
+    properties:
+      status: literal<"QUEUED">
     extends:
       - Queued
   Status:
@@ -868,15 +877,16 @@ types:
       - double
       - string
   Task:
-    discriminant: type
-    base-properties: {}
+    discriminated: false
     union:
-      classification: TaskClassification
-      regression: TaskRegression
+      - TaskClassification
+      - TaskRegression
   TaskClassification:
-    properties: {}
+    properties:
+      type: literal<"classification">
   TaskRegression:
-    properties: {}
+    properties:
+      type: literal<"regression">
   TextSource: map<string, unknown>
   TimeInterval:
     docs: A time range with a beginning and end, measured in seconds.
@@ -994,27 +1004,30 @@ types:
       currently not configurable further.
     type: map<string, unknown>
   UnionJob:
-    discriminant: type
-    base-properties: {}
+    discriminated: false
     union:
-      EMBEDDING_GENERATION: UnionJobJobEmbeddingGeneration
-      INFERENCE: UnionJobJobInference
-      TL_INFERENCE: UnionJobJobTlInference
-      TRAINING: UnionJobJobTraining
-  UnionJobJobEmbeddingGeneration:
-    properties: {}
+      - EmbeddingGenerationUnionJob
+      - InferenceUnionJob
+      - TLInferenceUnionJob
+      - TrainingUnionJob
+  EmbeddingGenerationUnionJob:
+    properties:
+      type: literal<"EMBEDDING_GENERATION">
     extends:
       - JobEmbeddingGeneration
-  UnionJobJobInference:
-    properties: {}
+  InferenceUnionJob:
+    properties:
+      type: literal<"INFERENCE">
     extends:
       - JobInference
-  UnionJobJobTlInference:
-    properties: {}
+  TLInferenceUnionJob:
+    properties:
+      type: literal<"TL_INFERENCE">
     extends:
       - JobTlInference
-  UnionJobJobTraining:
-    properties: {}
+  TrainingUnionJob:
+    properties:
+      type: literal<"TRAINING">
     extends:
       - JobTraining
   UnionPredictResult:
@@ -1022,6 +1035,11 @@ types:
     union:
       - InferenceSourcePredictResult
       - TlInferenceSourcePredictResult
+  Url:
+    properties:
+      url:
+        type: string
+        docs: The URL of the source media file.
   ValidationArgs:
     properties:
       positive_label: optional<Target>

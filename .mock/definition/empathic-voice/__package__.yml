@@ -510,7 +510,11 @@ types:
   AssistantEnd:
     docs: When provided, the output is an assistant end message.
     properties:
-      custom_session_id: optional<string>
+      custom_session_id:
+        type: optional<string>
+        docs: >-
+          Used to manage conversational state, correlate frontend and backend
+          data, and persist conversations across EVI sessions.
       type:
         type: literal<"assistant_end">
         docs: >-
@@ -519,7 +523,11 @@ types:
   AssistantInput:
     docs: When provided, the input is spoken by EVI.
     properties:
-      custom_session_id: optional<string>
+      custom_session_id:
+        type: optional<string>
+        docs: >-
+          Used to manage conversational state, correlate frontend and backend
+          data, and persist conversations across EVI sessions.
       text:
         type: string
         docs: Text to be synthesized.
@@ -531,7 +539,11 @@ types:
   AssistantMessage:
     docs: When provided, the output is an assistant message.
     properties:
-      custom_session_id: optional<string>
+      custom_session_id:
+        type: optional<string>
+        docs: >-
+          Used to manage conversational state, correlate frontend and backend
+          data, and persist conversations across EVI sessions.
       from_text:
         type: boolean
         docs: Indicates if this message was constructed from a text input message.
@@ -563,7 +575,11 @@ types:
   AudioInput:
     docs: When provided, the input is audio.
     properties:
-      custom_session_id: optional<string>
+      custom_session_id:
+        type: optional<string>
+        docs: >-
+          Used to manage conversational state, correlate frontend and backend
+          data, and persist conversations across EVI sessions.
       data:
         type: string
         docs: Base64 encoded audio input.
@@ -577,7 +593,11 @@ types:
   AudioOutput:
     docs: When provided, the output is audio.
     properties:
-      custom_session_id: optional<string>
+      custom_session_id:
+        type: optional<string>
+        docs: >-
+          Used to manage conversational state, correlate frontend and backend
+          data, and persist conversations across EVI sessions.
       data:
         type: string
         docs: Base64 encoded audio output.
@@ -604,11 +624,15 @@ types:
       - ToolErrorMessage
   ChatMessage:
     properties:
-      content: optional<string>
+      content:
+        type: optional<string>
+        docs: Transcript of the message.
       role:
         type: Role
         docs: Role of who is providing the message.
-      tool_call: optional<ToolCallMessage>
+      tool_call:
+        type: optional<ToolCallMessage>
+        docs: Function call name and arguments.
       tool_result:
         type: optional<ChatMessageToolResult>
         docs: Function call response from client.
@@ -621,7 +645,11 @@ types:
       chat_id:
         type: string
         docs: ID of the chat.
-      custom_session_id: optional<string>
+      custom_session_id:
+        type: optional<string>
+        docs: >-
+          Used to manage conversational state, correlate frontend and backend
+          data, and persist conversations across EVI sessions.
       type:
         type: literal<"chat_metadata">
         docs: >-
@@ -697,7 +725,11 @@ types:
       code:
         type: string
         docs: Error code.
-      custom_session_id: optional<string>
+      custom_session_id:
+        type: optional<string>
+        docs: >-
+          Used to manage conversational state, correlate frontend and backend
+          data, and persist conversations across EVI sessions.
       message:
         type: string
         docs: Error message.
@@ -712,7 +744,9 @@ types:
   ErrorLevel: literal<"warn">
   Inference:
     properties:
-      prosody: optional<ProsodyInference>
+      prosody:
+        type: optional<ProsodyInference>
+        docs: Prosody model inference results.
   MillisecondInterval:
     properties:
       begin:
@@ -726,7 +760,11 @@ types:
       Pause responses from EVI. Chat history is still saved and sent after
       resuming. 
     properties:
-      custom_session_id: optional<string>
+      custom_session_id:
+        type: optional<string>
+        docs: >-
+          Used to manage conversational state, correlate frontend and backend
+          data, and persist conversations across EVI sessions.
       type:
         type: optional<literal<"pause_assistant_message">>
         docs: >-
@@ -740,7 +778,11 @@ types:
       Resume responses from EVI. Chat history sent while paused will now be
       sent. 
     properties:
-      custom_session_id: optional<string>
+      custom_session_id:
+        type: optional<string>
+        docs: >-
+          Used to manage conversational state, correlate frontend and backend
+          data, and persist conversations across EVI sessions.
       type:
         type: optional<literal<"resume_assistant_message">>
         docs: >-
@@ -756,12 +798,28 @@ types:
   SessionSettings:
     docs: Settings for this chat session.
     properties:
-      audio: optional<AudioConfiguration>
-      builtin_tools: optional<list<BuiltinToolConfig>>
-      custom_session_id: optional<string>
-      language_model_api_key: optional<string>
-      system_prompt: optional<string>
-      tools: optional<list<Tool>>
+      audio:
+        type: optional<AudioConfiguration>
+        docs: Audio configuration.
+      builtin_tools:
+        type: optional<list<BuiltinToolConfig>>
+        docs: List of builtin tools to enable.
+      custom_session_id:
+        type: optional<string>
+        docs: >-
+          Used to manage conversational state, correlate frontend and backend
+          data, and persist conversations across EVI sessions.
+      language_model_api_key:
+        type: optional<string>
+        docs: Third party API key for the language model used for non-Hume models.
+      system_prompt:
+        type: optional<string>
+        docs: >-
+          Instructions for how the system should respond to the user. Set to
+          null to use the default system prompt.
+      tools:
+        type: optional<list<Tool>>
+        docs: List of tools to enable.
       type:
         type: literal<"session_settings">
         docs: >-
@@ -769,8 +827,14 @@ types:
           message, this must be 'session_settings'.
   Tool:
     properties:
-      description: optional<string>
-      fallback_content: optional<string>
+      description:
+        type: optional<string>
+        docs: Description of the function.
+      fallback_content:
+        type: optional<string>
+        docs: >-
+          Fallback content of the tool, passed to the LLM if the function call
+          response fails.
       name:
         type: string
         docs: Name of the tool.
@@ -783,7 +847,11 @@ types:
   ToolCallMessage:
     docs: When provided, the output is a tool call.
     properties:
-      custom_session_id: optional<string>
+      custom_session_id:
+        type: optional<string>
+        docs: >-
+          Used to manage conversational state, correlate frontend and backend
+          data, and persist conversations across EVI sessions.
       name:
         type: string
         docs: Name of the tool called.
@@ -807,17 +875,29 @@ types:
   ToolErrorMessage:
     docs: When provided, the output is a function call error.
     properties:
-      code: optional<string>
-      content: optional<string>
-      custom_session_id: optional<string>
+      code:
+        type: optional<string>
+        docs: Error code.
+      content:
+        type: optional<string>
+        docs: The content passed to the LLM in place of the tool response.
+      custom_session_id:
+        type: optional<string>
+        docs: >-
+          Used to manage conversational state, correlate frontend and backend
+          data, and persist conversations across EVI sessions.
       error:
         type: string
         docs: Error message from the tool call, not exposed to the LLM or user.
-      level: optional<ErrorLevel>
+      level:
+        type: optional<ErrorLevel>
+        docs: Error level.
       tool_call_id:
         type: string
         docs: ID of the tool call.
-      tool_type: optional<ToolType>
+      tool_type:
+        type: optional<ToolType>
+        docs: Type of tool called, either 'builtin' or 'function'.
       type:
         type: optional<literal<"tool_error">>
         docs: >-
@@ -829,7 +909,11 @@ types:
       content:
         type: string
         docs: Return value of the tool call.
-      custom_session_id: optional<string>
+      custom_session_id:
+        type: optional<string>
+        docs: >-
+          Used to manage conversational state, correlate frontend and backend
+          data, and persist conversations across EVI sessions.
       tool_call_id:
         type: string
         docs: ID of the tool call.
@@ -847,7 +931,11 @@ types:
   UserInput:
     docs: User text to insert into the conversation.
     properties:
-      custom_session_id: optional<string>
+      custom_session_id:
+        type: optional<string>
+        docs: >-
+          Used to manage conversational state, correlate frontend and backend
+          data, and persist conversations across EVI sessions.
       text:
         type: string
         docs: User text to insert into the conversation.
@@ -859,7 +947,11 @@ types:
   UserInterruption:
     docs: When provided, the output is an interruption.
     properties:
-      custom_session_id: optional<string>
+      custom_session_id:
+        type: optional<string>
+        docs: >-
+          Used to manage conversational state, correlate frontend and backend
+          data, and persist conversations across EVI sessions.
       time:
         type: integer
         docs: Unix timestamp of the detected user interruption.
@@ -871,7 +963,11 @@ types:
   UserMessage:
     docs: When provided, the output is a user message.
     properties:
-      custom_session_id: optional<string>
+      custom_session_id:
+        type: optional<string>
+        docs: >-
+          Used to manage conversational state, correlate frontend and backend
+          data, and persist conversations across EVI sessions.
       from_text:
         type: boolean
         docs: Indicates if this message was constructed from a text input message.

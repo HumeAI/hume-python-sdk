@@ -12,7 +12,11 @@ class AssistantInput(pydantic_v1.BaseModel):
     When provided, the input is spoken by EVI.
     """
 
-    custom_session_id: typing.Optional[str] = None
+    custom_session_id: typing.Optional[str] = pydantic_v1.Field(default=None)
+    """
+    Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
+    """
+
     text: str = pydantic_v1.Field()
     """
     Text to be synthesized.

@@ -15,7 +15,11 @@ class UserMessage(pydantic_v1.BaseModel):
     When provided, the output is a user message.
     """
 
-    custom_session_id: typing.Optional[str] = None
+    custom_session_id: typing.Optional[str] = pydantic_v1.Field(default=None)
+    """
+    Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
+    """
+
     from_text: bool = pydantic_v1.Field()
     """
     Indicates if this message was constructed from a text input message.

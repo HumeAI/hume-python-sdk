@@ -9,8 +9,16 @@ from .tool_type import ToolType
 
 
 class Tool(pydantic_v1.BaseModel):
-    description: typing.Optional[str] = None
-    fallback_content: typing.Optional[str] = None
+    description: typing.Optional[str] = pydantic_v1.Field(default=None)
+    """
+    Description of the function.
+    """
+
+    fallback_content: typing.Optional[str] = pydantic_v1.Field(default=None)
+    """
+    Fallback content of the tool, passed to the LLM if the function call response fails.
+    """
+
     name: str = pydantic_v1.Field()
     """
     Name of the tool.

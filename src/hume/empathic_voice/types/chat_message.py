@@ -11,13 +11,21 @@ from .tool_call_message import ToolCallMessage
 
 
 class ChatMessage(pydantic_v1.BaseModel):
-    content: typing.Optional[str] = None
+    content: typing.Optional[str] = pydantic_v1.Field(default=None)
+    """
+    Transcript of the message.
+    """
+
     role: Role = pydantic_v1.Field()
     """
     Role of who is providing the message.
     """
 
-    tool_call: typing.Optional[ToolCallMessage] = None
+    tool_call: typing.Optional[ToolCallMessage] = pydantic_v1.Field(default=None)
+    """
+    Function call name and arguments.
+    """
+
     tool_result: typing.Optional[ChatMessageToolResult] = pydantic_v1.Field(default=None)
     """
     Function call response from client.

@@ -12,7 +12,11 @@ class PauseAssistantMessage(pydantic_v1.BaseModel):
     Pause responses from EVI. Chat history is still saved and sent after resuming.
     """
 
-    custom_session_id: typing.Optional[str] = None
+    custom_session_id: typing.Optional[str] = pydantic_v1.Field(default=None)
+    """
+    Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
+    """
+
     type: typing.Optional[typing.Literal["pause_assistant_message"]] = pydantic_v1.Field(default=None)
     """
     The type of message sent through the socket; for a Pause Assistant message, this must be 'pause_assistant_message'.

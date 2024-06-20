@@ -12,7 +12,11 @@ class AudioOutput(pydantic_v1.BaseModel):
     When provided, the output is audio.
     """
 
-    custom_session_id: typing.Optional[str] = None
+    custom_session_id: typing.Optional[str] = pydantic_v1.Field(default=None)
+    """
+    Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
+    """
+
     data: str = pydantic_v1.Field()
     """
     Base64 encoded audio output.

@@ -10,13 +10,10 @@ async def test_list_jobs(client: HumeClient, async_client: AsyncHumeClient) -> N
         {
             "job_id": "job_id",
             "request": {
-                "callback_url": None,
                 "files": [{"filename": "filename", "md5sum": "md5sum", "content_type": "content_type"}],
                 "models": {
                     "burst": {},
                     "face": {
-                        "descriptions": None,
-                        "facs": None,
                         "fps_pred": 3,
                         "identify_faces": False,
                         "min_face_size": 60,
@@ -24,14 +21,9 @@ async def test_list_jobs(client: HumeClient, async_client: AsyncHumeClient) -> N
                         "save_faces": False,
                     },
                     "facemesh": {},
-                    "language": {
-                        "granularity": "word",
-                        "identify_speakers": False,
-                        "sentiment": None,
-                        "toxicity": None,
-                    },
+                    "language": {"granularity": "word", "identify_speakers": False},
                     "ner": {"identify_speakers": False},
-                    "prosody": {"granularity": "utterance", "identify_speakers": False, "window": None},
+                    "prosody": {"granularity": "utterance", "identify_speakers": False},
                 },
                 "notify": True,
                 "registry_files": [],
@@ -50,7 +42,45 @@ async def test_list_jobs(client: HumeClient, async_client: AsyncHumeClient) -> N
             "user_id": "user_id",
         }
     ]
-    expected_types = ("list", {0: "no_validate"})
+    expected_types = (
+        "list",
+        {
+            0: {
+                "job_id": None,
+                "request": {
+                    "files": ("list", {0: {"filename": None, "md5sum": None, "content_type": None}}),
+                    "models": {
+                        "burst": ("dict", {}),
+                        "face": {
+                            "fps_pred": None,
+                            "identify_faces": None,
+                            "min_face_size": "integer",
+                            "prob_threshold": None,
+                            "save_faces": None,
+                        },
+                        "facemesh": ("dict", {}),
+                        "language": {"granularity": None, "identify_speakers": None},
+                        "ner": {"identify_speakers": None},
+                        "prosody": {"granularity": None, "identify_speakers": None},
+                    },
+                    "notify": None,
+                    "registry_files": ("list", {}),
+                    "text": ("list", {}),
+                    "urls": ("list", {0: None}),
+                },
+                "state": {
+                    "created_timestamp_ms": "integer",
+                    "ended_timestamp_ms": "integer",
+                    "num_errors": "integer",
+                    "num_predictions": "integer",
+                    "started_timestamp_ms": "integer",
+                    "status": None,
+                },
+                "type": None,
+                "user_id": None,
+            }
+        },
+    )
     response = client.expression_measurement.batch.list_jobs()
     validate_response(response, expected_response, expected_types)
 
@@ -80,7 +110,13 @@ async def test_get_job_details(client: HumeClient, async_client: AsyncHumeClient
         "state": {"status": "QUEUED", "created_timestamp_ms": 0},
         "user_id": "string",
     }
-    expected_types = "no_validate"
+    expected_types = {
+        "type": None,
+        "job_id": None,
+        "request": {"registry_file_details": ("list", {0: {"file_id": None, "file_url": None}})},
+        "state": {"status": None, "created_timestamp_ms": "integer"},
+        "user_id": None,
+    }
     response = client.expression_measurement.batch.get_job_details(id="job_id")
     validate_response(response, expected_response, expected_types)
 
@@ -98,7 +134,6 @@ async def test_get_job_predictions(client: HumeClient, async_client: AsyncHumeCl
                         "file": "faces/100.jpg",
                         "models": {
                             "face": {
-                                "metadata": None,
                                 "grouped_predictions": [
                                     {
                                         "id": "unknown",
@@ -163,12 +198,10 @@ async def test_get_job_predictions(client: HumeClient, async_client: AsyncHumeCl
                                                     {"name": "Tiredness", "score": 0.1559651643037796},
                                                     {"name": "Triumph", "score": 0.01955239288508892},
                                                 ],
-                                                "facs": None,
-                                                "descriptions": None,
                                             }
                                         ],
                                     }
-                                ],
+                                ]
                             }
                         },
                     }
@@ -181,7 +214,7 @@ async def test_get_job_predictions(client: HumeClient, async_client: AsyncHumeCl
         "list",
         {
             0: {
-                "source": "no_validate",
+                "source": {"type": None, "url": None},
                 "results": {
                     "predictions": (
                         "list",
@@ -190,7 +223,6 @@ async def test_get_job_predictions(client: HumeClient, async_client: AsyncHumeCl
                                 "file": None,
                                 "models": {
                                     "face": {
-                                        "metadata": None,
                                         "grouped_predictions": (
                                             "list",
                                             {
@@ -257,14 +289,12 @@ async def test_get_job_predictions(client: HumeClient, async_client: AsyncHumeCl
                                                                         47: {"name": None, "score": None},
                                                                     },
                                                                 ),
-                                                                "facs": None,
-                                                                "descriptions": None,
                                                             }
                                                         },
                                                     ),
                                                 }
                                             },
-                                        ),
+                                        )
                                     }
                                 },
                             }

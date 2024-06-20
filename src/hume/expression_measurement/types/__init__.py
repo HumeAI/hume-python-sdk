@@ -20,6 +20,7 @@ from .dataset_version_id import DatasetVersionId
 from .descriptions_score import DescriptionsScore
 from .direction import Direction
 from .embedding_generation_base_request import EmbeddingGenerationBaseRequest
+from .embedding_generation_union_job import EmbeddingGenerationUnionJob
 from .emotion_embedding import EmotionEmbedding
 from .emotion_embedding_item import EmotionEmbeddingItem
 from .emotion_score import EmotionScore
@@ -44,6 +45,7 @@ from .inference_prediction import InferencePrediction
 from .inference_request import InferenceRequest
 from .inference_results import InferenceResults
 from .inference_source_predict_result import InferenceSourcePredictResult
+from .inference_union_job import InferenceUnionJob
 from .job_embedding_generation import JobEmbeddingGeneration
 from .job_id import JobId
 from .job_inference import JobInference
@@ -78,52 +80,28 @@ from .sentiment import Sentiment
 from .sentiment_item import SentimentItem
 from .sentiment_score import SentimentScore
 from .sort_by import SortBy
-from .source import Source, Source_File, Source_Text, Source_Url
+from .source import Source
 from .source_file import SourceFile
 from .source_text_source import SourceTextSource
 from .source_url import SourceUrl
-from .state_embedding_generation import (
-    StateEmbeddingGeneration,
-    StateEmbeddingGeneration_Completed,
-    StateEmbeddingGeneration_Failed,
-    StateEmbeddingGeneration_InProgress,
-    StateEmbeddingGeneration_Queued,
-)
+from .state_embedding_generation import StateEmbeddingGeneration
 from .state_embedding_generation_completed_embedding_generation import (
     StateEmbeddingGenerationCompletedEmbeddingGeneration,
 )
 from .state_embedding_generation_failed import StateEmbeddingGenerationFailed
 from .state_embedding_generation_in_progress import StateEmbeddingGenerationInProgress
 from .state_embedding_generation_queued import StateEmbeddingGenerationQueued
-from .state_inference import (
-    StateInference,
-    StateInference_Completed,
-    StateInference_Failed,
-    StateInference_InProgress,
-    StateInference_Queued,
-)
+from .state_inference import StateInference
 from .state_inference_completed_inference import StateInferenceCompletedInference
 from .state_inference_failed import StateInferenceFailed
 from .state_inference_in_progress import StateInferenceInProgress
 from .state_inference_queued import StateInferenceQueued
-from .state_tl_inference import (
-    StateTlInference,
-    StateTlInference_Completed,
-    StateTlInference_Failed,
-    StateTlInference_InProgress,
-    StateTlInference_Queued,
-)
+from .state_tl_inference import StateTlInference
 from .state_tl_inference_completed_tl_inference import StateTlInferenceCompletedTlInference
 from .state_tl_inference_failed import StateTlInferenceFailed
 from .state_tl_inference_in_progress import StateTlInferenceInProgress
 from .state_tl_inference_queued import StateTlInferenceQueued
-from .state_training import (
-    StateTraining,
-    StateTraining_Completed,
-    StateTraining_Failed,
-    StateTraining_InProgress,
-    StateTraining_Queued,
-)
+from .state_training import StateTraining
 from .state_training_completed_training import StateTrainingCompletedTraining
 from .state_training_failed import StateTrainingFailed
 from .state_training_in_progress import StateTrainingInProgress
@@ -131,7 +109,7 @@ from .state_training_queued import StateTrainingQueued
 from .status import Status
 from .tag import Tag
 from .target import Target
-from .task import Task, Task_Classification, Task_Regression
+from .task import Task
 from .task_classification import TaskClassification
 from .task_regression import TaskRegression
 from .text_position import TextPosition
@@ -142,26 +120,18 @@ from .tl_inference_base_request import TlInferenceBaseRequest
 from .tl_inference_prediction import TlInferencePrediction
 from .tl_inference_results import TlInferenceResults
 from .tl_inference_source_predict_result import TlInferenceSourcePredictResult
+from .tl_inference_union_job import TlInferenceUnionJob
 from .toxicity import Toxicity
 from .toxicity_item import ToxicityItem
 from .toxicity_score import ToxicityScore
 from .training_base_request import TrainingBaseRequest
 from .training_custom_model import TrainingCustomModel
+from .training_union_job import TrainingUnionJob
 from .transcription import Transcription
 from .transcription_metadata import TranscriptionMetadata
 from .type import Type
 from .unconfigurable import Unconfigurable
-from .union_job import (
-    UnionJob,
-    UnionJob_EmbeddingGeneration,
-    UnionJob_Inference,
-    UnionJob_TlInference,
-    UnionJob_Training,
-)
-from .union_job_job_embedding_generation import UnionJobJobEmbeddingGeneration
-from .union_job_job_inference import UnionJobJobInference
-from .union_job_job_tl_inference import UnionJobJobTlInference
-from .union_job_job_training import UnionJobJobTraining
+from .union_job import UnionJob
 from .union_predict_result import UnionPredictResult
 from .url import Url
 from .validation_args import ValidationArgs
@@ -189,6 +159,7 @@ __all__ = [
     "DescriptionsScore",
     "Direction",
     "EmbeddingGenerationBaseRequest",
+    "EmbeddingGenerationUnionJob",
     "EmotionEmbedding",
     "EmotionEmbeddingItem",
     "EmotionScore",
@@ -213,6 +184,7 @@ __all__ = [
     "InferenceRequest",
     "InferenceResults",
     "InferenceSourcePredictResult",
+    "InferenceUnionJob",
     "JobEmbeddingGeneration",
     "JobId",
     "JobInference",
@@ -245,53 +217,32 @@ __all__ = [
     "SourceFile",
     "SourceTextSource",
     "SourceUrl",
-    "Source_File",
-    "Source_Text",
-    "Source_Url",
     "StateEmbeddingGeneration",
     "StateEmbeddingGenerationCompletedEmbeddingGeneration",
     "StateEmbeddingGenerationFailed",
     "StateEmbeddingGenerationInProgress",
     "StateEmbeddingGenerationQueued",
-    "StateEmbeddingGeneration_Completed",
-    "StateEmbeddingGeneration_Failed",
-    "StateEmbeddingGeneration_InProgress",
-    "StateEmbeddingGeneration_Queued",
     "StateInference",
     "StateInferenceCompletedInference",
     "StateInferenceFailed",
     "StateInferenceInProgress",
     "StateInferenceQueued",
-    "StateInference_Completed",
-    "StateInference_Failed",
-    "StateInference_InProgress",
-    "StateInference_Queued",
     "StateTlInference",
     "StateTlInferenceCompletedTlInference",
     "StateTlInferenceFailed",
     "StateTlInferenceInProgress",
     "StateTlInferenceQueued",
-    "StateTlInference_Completed",
-    "StateTlInference_Failed",
-    "StateTlInference_InProgress",
-    "StateTlInference_Queued",
     "StateTraining",
     "StateTrainingCompletedTraining",
     "StateTrainingFailed",
     "StateTrainingInProgress",
     "StateTrainingQueued",
-    "StateTraining_Completed",
-    "StateTraining_Failed",
-    "StateTraining_InProgress",
-    "StateTraining_Queued",
     "Status",
     "Tag",
     "Target",
     "Task",
     "TaskClassification",
     "TaskRegression",
-    "Task_Classification",
-    "Task_Regression",
     "TextPosition",
     "TextSource",
     "TimeInterval",
@@ -300,24 +251,18 @@ __all__ = [
     "TlInferencePrediction",
     "TlInferenceResults",
     "TlInferenceSourcePredictResult",
+    "TlInferenceUnionJob",
     "Toxicity",
     "ToxicityItem",
     "ToxicityScore",
     "TrainingBaseRequest",
     "TrainingCustomModel",
+    "TrainingUnionJob",
     "Transcription",
     "TranscriptionMetadata",
     "Type",
     "Unconfigurable",
     "UnionJob",
-    "UnionJobJobEmbeddingGeneration",
-    "UnionJobJobInference",
-    "UnionJobJobTlInference",
-    "UnionJobJobTraining",
-    "UnionJob_EmbeddingGeneration",
-    "UnionJob_Inference",
-    "UnionJob_TlInference",
-    "UnionJob_Training",
     "UnionPredictResult",
     "Url",
     "ValidationArgs",

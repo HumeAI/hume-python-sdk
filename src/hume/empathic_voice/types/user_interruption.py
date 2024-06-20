@@ -12,7 +12,11 @@ class UserInterruption(pydantic_v1.BaseModel):
     When provided, the output is an interruption.
     """
 
-    custom_session_id: typing.Optional[str] = None
+    custom_session_id: typing.Optional[str] = pydantic_v1.Field(default=None)
+    """
+    Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
+    """
+
     time: int = pydantic_v1.Field()
     """
     Unix timestamp of the detected user interruption.

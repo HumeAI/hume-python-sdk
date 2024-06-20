@@ -12,7 +12,11 @@ class UserInput(pydantic_v1.BaseModel):
     User text to insert into the conversation.
     """
 
-    custom_session_id: typing.Optional[str] = None
+    custom_session_id: typing.Optional[str] = pydantic_v1.Field(default=None)
+    """
+    Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
+    """
+
     text: str = pydantic_v1.Field()
     """
     User text to insert into the conversation.

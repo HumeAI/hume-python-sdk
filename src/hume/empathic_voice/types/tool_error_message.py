@@ -14,21 +14,41 @@ class ToolErrorMessage(pydantic_v1.BaseModel):
     When provided, the output is a function call error.
     """
 
-    code: typing.Optional[str] = None
-    content: typing.Optional[str] = None
-    custom_session_id: typing.Optional[str] = None
+    code: typing.Optional[str] = pydantic_v1.Field(default=None)
+    """
+    Error code.
+    """
+
+    content: typing.Optional[str] = pydantic_v1.Field(default=None)
+    """
+    The content passed to the LLM in place of the tool response.
+    """
+
+    custom_session_id: typing.Optional[str] = pydantic_v1.Field(default=None)
+    """
+    Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
+    """
+
     error: str = pydantic_v1.Field()
     """
     Error message from the tool call, not exposed to the LLM or user.
     """
 
-    level: typing.Optional[ErrorLevel] = None
+    level: typing.Optional[ErrorLevel] = pydantic_v1.Field(default=None)
+    """
+    Error level.
+    """
+
     tool_call_id: str = pydantic_v1.Field()
     """
     ID of the tool call.
     """
 
-    tool_type: typing.Optional[ToolType] = None
+    tool_type: typing.Optional[ToolType] = pydantic_v1.Field(default=None)
+    """
+    Type of tool called, either 'builtin' or 'function'.
+    """
+
     type: typing.Optional[typing.Literal["tool_error"]] = pydantic_v1.Field(default=None)
     """
     The type of message sent through the socket; for a Tool Error message, this must be 'tool_error'.

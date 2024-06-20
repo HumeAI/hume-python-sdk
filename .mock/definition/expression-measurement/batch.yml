@@ -46,7 +46,6 @@ service:
             body:
               - job_id: job_id
                 request:
-                  callback_url: null
                   files:
                     - filename: filename
                       md5sum: md5sum
@@ -54,8 +53,6 @@ service:
                   models:
                     burst: {}
                     face:
-                      descriptions: null
-                      facs: null
                       fps_pred: 3
                       identify_faces: false
                       min_face_size: 60
@@ -65,14 +62,11 @@ service:
                     language:
                       granularity: word
                       identify_speakers: false
-                      sentiment: null
-                      toxicity: null
                     ner:
                       identify_speakers: false
                     prosody:
                       granularity: utterance
                       identify_speakers: false
-                      window: null
                   notify: true
                   registry_files: []
                   text: []
@@ -141,13 +135,10 @@ service:
               type: INFERENCE
               job_id: job_id
               request:
-                callback_url: null
                 files: []
                 models:
                   burst: {}
                   face:
-                    descriptions: null
-                    facs: null
                     fps_pred: 3
                     identify_faces: false
                     min_face_size: 60
@@ -157,14 +148,11 @@ service:
                   language:
                     granularity: word
                     identify_speakers: false
-                    sentiment: null
-                    toxicity: null
                   ner:
                     identify_speakers: false
                   prosody:
                     granularity: utterance
                     identify_speakers: false
-                    window: null
                 notify: true
                 registry_files: []
                 text: []
@@ -204,7 +192,6 @@ service:
                     - file: faces/100.jpg
                       models:
                         face:
-                          metadata: null
                           grouped_predictions:
                             - id: unknown
                               predictions:
@@ -313,8 +300,6 @@ service:
                                       score: 0.1559651643037796
                                     - name: Triumph
                                       score: 0.01955239288508892
-                                  facs: null
-                                  descriptions: null
                   errors: []
     get-job-artifacts:
       path: /v0/batch/jobs/{id}/artifacts
