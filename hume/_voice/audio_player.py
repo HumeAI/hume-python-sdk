@@ -1,4 +1,7 @@
-"""Utilities for audio playback."""
+"""Utilities for audio playback.
+
+This module provides the AudioPlayer class for playing audio byte streams using the system's audio output device.
+"""
 
 import asyncio
 from io import BytesIO
@@ -13,7 +16,13 @@ from pydub import AudioSegment
 
 
 class AudioPlayer:
+    """Audio player for playing audio byte streams using the system's audio output device.
+
+    This class uses simpleaudio for audio playback and pydub for handling audio data.
+    """
+
     def __init__(self) -> None:
+        """Initialize the AudioPlayer."""
         self._playback_object: Optional[sa.PlayObject] = None
         self._stop_event = asyncio.Event()
         self._play_lock = asyncio.Lock()
@@ -25,11 +34,14 @@ class AudioPlayer:
             byte_str (bytes): Byte string of audio data.
         """
         async with self._play_lock:
+            # Wait for any existing playback to complete
             if self._playback_object is not None:
                 self._playback_object.wait_done()
 
-            self._stop_event.clear()  # Reset the stop event
+            # Reset the stop event for new playback
+            self._stop_event.clear()
 
+            # Convert byte string to an AudioSegment
             segment = AudioSegment.from_file(BytesIO(byte_str))
             audio_data = segment.raw_data
             num_channels = segment.channels
@@ -37,14 +49,17 @@ class AudioPlayer:
             sample_rate = segment.frame_rate
 
             def _play_audio_segment() -> None:
+                """Play the audio segment using simpleaudio."""
                 wave_obj = sa.WaveObject(audio_data, num_channels, bytes_per_sample, sample_rate)
                 self._playback_object = wave_obj.play()
 
+            # Offload the playback to a separate thread
             await asyncio.to_thread(_play_audio_segment)
 
     def stop_audio(self) -> None:
         """Stop the current audio playback."""
-        self._stop_event.set()  # Set the stop event to signal stopping
+        # Signal to stop playback
+        self._stop_event.set()
 
         if self._playback_object:
             self._playback_object.stop()
