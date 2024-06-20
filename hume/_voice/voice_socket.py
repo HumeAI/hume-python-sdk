@@ -168,3 +168,7 @@ class VoiceSocket:
         message = json.dumps(text_user_input_dict)
 
         await self._protocol.send(message)
+
+    async def close(self) -> None:
+        """Closes the underlying socket."""
+        await self._protocol.close()
