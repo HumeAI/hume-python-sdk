@@ -31,7 +31,7 @@ class BaseHumeClient:
 
     api_key : typing.Optional[str]
     timeout : typing.Optional[float]
-        The timeout to be used, in seconds, for requests by default the timeout is 60 seconds, unless a custom httpx client is used, in which case a default is not set.
+        The timeout to be used, in seconds, for requests. By default the timeout is 60 seconds, unless a custom httpx client is used, in which case this default is not enforced.
 
     follow_redirects : typing.Optional[bool]
         Whether the default httpx client follows redirects or not, this is irrelevant if a custom httpx client is passed in.
@@ -69,8 +69,8 @@ class BaseHumeClient:
             else httpx.Client(timeout=_defaulted_timeout),
             timeout=_defaulted_timeout,
         )
-        self.custom_models = CustomModelsClient(client_wrapper=self._client_wrapper)
         self.empathic_voice = EmpathicVoiceClient(client_wrapper=self._client_wrapper)
+        self.custom_models = CustomModelsClient(client_wrapper=self._client_wrapper)
         self.expression_measurement = ExpressionMeasurementClient(client_wrapper=self._client_wrapper)
 
 
@@ -94,7 +94,7 @@ class AsyncBaseHumeClient:
 
     api_key : typing.Optional[str]
     timeout : typing.Optional[float]
-        The timeout to be used, in seconds, for requests by default the timeout is 60 seconds, unless a custom httpx client is used, in which case a default is not set.
+        The timeout to be used, in seconds, for requests. By default the timeout is 60 seconds, unless a custom httpx client is used, in which case this default is not enforced.
 
     follow_redirects : typing.Optional[bool]
         Whether the default httpx client follows redirects or not, this is irrelevant if a custom httpx client is passed in.
@@ -132,8 +132,8 @@ class AsyncBaseHumeClient:
             else httpx.AsyncClient(timeout=_defaulted_timeout),
             timeout=_defaulted_timeout,
         )
-        self.custom_models = AsyncCustomModelsClient(client_wrapper=self._client_wrapper)
         self.empathic_voice = AsyncEmpathicVoiceClient(client_wrapper=self._client_wrapper)
+        self.custom_models = AsyncCustomModelsClient(client_wrapper=self._client_wrapper)
         self.expression_measurement = AsyncExpressionMeasurementClient(client_wrapper=self._client_wrapper)
 
 
