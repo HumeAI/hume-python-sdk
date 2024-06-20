@@ -1,6 +1,7 @@
 import base64
 from contextlib import asynccontextmanager
 import json
+from pathlib import Path
 import typing
 import websockets
 import websockets.protocol
@@ -14,7 +15,7 @@ from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 
 
 class AsyncStreamConnectOptions(pydantic_v1.BaseModel):
-    config: typing.Optional[StreamDataModels]
+    config: typing.Optional[StreamDataModels] = None
     """
     Job config
     """
@@ -139,7 +140,7 @@ class AsyncStreamWSSConnection:
         return await self._send_config(data=text, raw_text=True, config=config)
 
     async def send_file(
-        self, _file: str, config: typing.Optional[StreamDataModels] = None
+        self, _file: typing.Union[str, Path], config: typing.Optional[StreamDataModels] = None
     ) -> SubscribeEvent:
         """
         Parameters
@@ -160,6 +161,8 @@ class AsyncStreamWSSConnection:
             with open(_file, "rb") as f:
                 bytes_data = base64.b64encode(f.read()).decode()
         except:
+            if isinstance(_file, Path): 
+                raise ApiError(body=f"Failed to open file: {_file}")
             # If you cannot open the file, assume you were passed a b64 string, not a file path
             bytes_data = _file
     

@@ -101,5 +101,5 @@ class TestServiceHumeVoiceClientChat:
     def clean_up(
         self, hume_client: HumeClient, config: ReturnConfig, tool: ReturnUserDefinedTool
     ) -> None:
-        hume_client.empathic_voice.configs.delete_config(config.id)
+        hume_client.empathic_voice.configs.delete_config(config.id) # type: ignore
         hume_client.empathic_voice.tools.delete_tool(tool.id)

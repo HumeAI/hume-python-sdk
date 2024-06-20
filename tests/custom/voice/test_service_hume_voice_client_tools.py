@@ -47,13 +47,13 @@ class TestServiceHumeVoiceClientTools:
             name=tool_name,
             parameters=parameters,
         )
-        self.check_tool_fields(new_tool, tool_name, parameters)
+        self.check_tool_fields(new_tool, tool_name, parameters) # type: ignore
 
         listed_tools = list(hume_client.empathic_voice.tools.list_tools())
         n_tools = len(listed_tools)
         assert n_tools >= 1
 
-        hume_client.empathic_voice.tools.delete_tool(new_tool.id)
+        hume_client.empathic_voice.tools.delete_tool(new_tool.id) # type: ignore
 
         listed_tools = list(hume_client.empathic_voice.tools.list_tools())
         assert len(listed_tools) == n_tools - 1

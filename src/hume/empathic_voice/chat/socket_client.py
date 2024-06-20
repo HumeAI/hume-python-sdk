@@ -189,7 +189,7 @@ class AsyncChatClientWithWebsocket:
                 data={"grant_type": "client_credentials"},
             )
         else:
-            _response = self.client_wrapper.httpx_client.request(   # type: ignore
+            _response = await self.client_wrapper.httpx_client.request(   # type: ignore
                 method="POST",
                 url="https://api.hume.ai/oauth2-cc/token",
                 headers={"Authorization": f"Basic {encoded_auth}"},

@@ -78,7 +78,7 @@ class TestServiceHumeBatchClient:
             prosody=Prosody(
                 identify_speakers=True,
                 granularity="word",
-                window={"length": 4.0, "step": 1.0},
+                window={"length": 4.0, "step": 1.0}, # type: ignore
             )
         )
         job_files_dirpath = tmp_path_factory.mktemp("job-files")
@@ -180,7 +180,7 @@ class TestServiceHumeBatchClient:
         self.check_job(job, job_files_dirpath)
 
         predictions = job.get_predictions()
-        assert predictions[0].source.filename == "obama.png"
+        assert predictions[0].source.filename == "obama.png" # type: ignore
 
     def test_data_as_raw_text(
         self, hume_client: HumeClient, tmp_path_factory: TempPathFactory
@@ -194,10 +194,10 @@ class TestServiceHumeBatchClient:
         self.check_job(job, job_files_dirpath)
 
         predictions = job.get_predictions()
-        language_predictions = predictions[0].results.predictions[0].models.language
+        language_predictions = predictions[0].results.predictions[0].models.language # type: ignore
         assert predictions[0].source.type == "text"
         assert (
-            language_predictions.grouped_predictions[0].predictions[0].text
+            language_predictions.grouped_predictions[0].predictions[0].text # type: ignore
             == "Test!"
         )
 
@@ -222,8 +222,8 @@ class TestServiceHumeBatchClient:
         assert len(predictions) == 1
         assert predictions[0].results
         assert len(predictions[0].results.predictions) == 1
-        language_results = predictions[0].results.predictions[0].models.language
-        grouped_predictions = language_results.grouped_predictions
+        language_results = predictions[0].results.predictions[0].models.language # type: ignore
+        grouped_predictions = language_results.grouped_predictions # type: ignore
         assert len(grouped_predictions) == 1
 
         # Configuring 'sentence' granularity should give us only one prediction
@@ -245,8 +245,8 @@ class TestServiceHumeBatchClient:
         self, job: BatchJob, details: UnionJob, job_files_dirpath: Path
     ) -> None:
         assert isinstance(details.state.created_timestamp_ms, int)
-        assert isinstance(details.state.started_timestamp_ms, int)
-        assert isinstance(details.state.ended_timestamp_ms, int)
+        assert isinstance(details.state.started_timestamp_ms, int) # type: ignore
+        assert isinstance(details.state.ended_timestamp_ms, int) # type: ignore
 
         predictions_filepath = job_files_dirpath / "predictions.json"
         job.download_predictions(predictions_filepath)

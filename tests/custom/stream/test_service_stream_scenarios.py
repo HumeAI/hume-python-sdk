@@ -29,9 +29,9 @@ class TestServiceStreamScenarios:
             )
         ) as websocket:
             result = await websocket.send_file(data_filepath)
-            predictions = result.face.predictions
-            assert predictions[0].facs is not None
-            assert predictions[0].descriptions is not None
+            predictions = result.face.predictions # type: ignore
+            assert predictions[0].facs is not None # type: ignore
+            assert predictions[0].descriptions is not None # type: ignore
 
     async def test_sentiment_and_toxicity(self, hume_client: HumeClient) -> None:
         sample_text = "Hello! I hope this test works!"
@@ -41,6 +41,6 @@ class TestServiceStreamScenarios:
             )
         ) as websocket:
             result = await websocket.send_text(sample_text)
-            predictions = result.language.predictions
-            assert predictions[0].sentiment is not None
-            assert predictions[0].toxicity is not None
+            predictions = result.language.predictions # type: ignore
+            assert predictions[0].sentiment is not None # type: ignore
+            assert predictions[0].toxicity is not None # type: ignore

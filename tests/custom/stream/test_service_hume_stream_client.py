@@ -35,7 +35,7 @@ class TestServiceHumeStreamClient:
 
         async with hume_client.expression_measurement.stream.connect(
             options=AsyncStreamConnectOptions(
-                config=StreamDataModels(face=Face(identify_faces=True))
+                config=StreamDataModels(face=StreamDataModelsFace(identify_faces=True))
             )
         ) as websocket:
             predictions = await websocket.send_file(data_filepath)
@@ -45,18 +45,18 @@ class TestServiceHumeStreamClient:
         sample_text = "Hello! I hope this test works!"
         async with hume_client.expression_measurement.stream.connect(
             options=AsyncStreamConnectOptions(
-                config=StreamDataModels(language=Language())
+                config=StreamDataModels(language=StreamDataModelsLanguage())
             )
         ) as websocket:
             predictions = await websocket.send_text(sample_text)
             assert predictions is not None
 
     async def test_send_facemesh(self, hume_client: HumeClient) -> None:
-        meshes = [[[0, 0, 0]] * 478]
+        meshes = [[[0.0, 0.0, 0.0]] * 478]
         async with hume_client.expression_measurement.stream.connect(
             options=AsyncStreamConnectOptions(config=StreamDataModels(facemesh={}))
         ) as websocket:
-            predictions = await websocket.send_facemesh(meshes)
+            predictions = await websocket.send_facemesh(landmarks=meshes)
             assert predictions is not None
 
     async def test_invalid_api_key(self) -> None:
@@ -64,7 +64,7 @@ class TestServiceHumeStreamClient:
         with pytest.raises(ApiError):
             async with invalid_client.expression_measurement.stream.connect(
                 options=AsyncStreamConnectOptions(
-                    config=StreamDataModels(face=Face(identify_faces=True))
+                    config=StreamDataModels(face=StreamDataModelsFace(identify_faces=True))
                 )
             ) as websocket:
                 pass
@@ -72,12 +72,14 @@ class TestServiceHumeStreamClient:
     async def test_get_job_details(self, hume_client: HumeClient) -> None:
         async with hume_client.expression_measurement.stream.connect(
             options=AsyncStreamConnectOptions(
-                config=StreamDataModels(prosody=Prosody())
+                config=StreamDataModels(prosody={})
             )
         ) as websocket:
             response = await websocket.get_job_details()
-            job_id = response.job_details.job_id
-            assert len(job_id) == 32
+            job_id = response.job_details.job_id if response.job_details is not None else None
+            assert job_id is not None
+            if job_id is not None:
+                assert len(job_id) == 32
 
     async def test_payload_config(
         self,
@@ -99,8 +101,8 @@ class TestServiceHumeStreamClient:
             result = await websocket.send_file(
                 face_data_filepath, config=StreamDataModels(face=StreamDataModelsFace())
             )
-            assert result.face.predictions is not None
+            assert result.face.predictions is not None # type: ignore
             result = await websocket.send_file(
                 text_data_filepath, config=StreamDataModels(language=StreamDataModelsLanguage())
             )
-            assert result.language.predictions is not None
+            assert result.language.predictions is not None # type: ignore
