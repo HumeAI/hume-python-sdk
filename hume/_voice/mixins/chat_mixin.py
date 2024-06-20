@@ -24,15 +24,27 @@ ErrorHandlerType = Union[Callable[[Exception], None], Callable[[Exception], Awai
 
 
 class ChatMixin(ClientBase):
-    """Client operations for EVI WebSocket connections."""
+    """Client operations for EVI WebSocket connections.
+
+    This mixin provides methods to handle WebSocket connections, messages, and errors for the
+    Empathic Voice Interface (EVI) API.
+    """
 
     DEFAULT_MAX_PAYLOAD_SIZE_BYTES: ClassVar[int] = 2**24
 
     def __init__(self, *args: Any, enable_audio: bool = True, **kwargs: Any) -> None:
+        """
+        Initialize the ChatMixin.
+
+        Args:
+            enable_audio (bool): Flag indicating whether audio playback is enabled. Defaults to True.
+            *args: Additional positional arguments for the parent class.
+            **kwargs: Additional keyword arguments for the parent class.
+        """
         super().__init__(*args, **kwargs)
         self.enable_audio = enable_audio
         self.audio_player: Optional[AudioPlayer] = AudioPlayer() if enable_audio else None
-        self._audio_task: Optional[asyncio.Task] = None
+        self._audio_task: Optional[asyncio.Task[None]] = None
 
     async def _handle_messages(
         self,
@@ -41,6 +53,14 @@ class ChatMixin(ClientBase):
         on_message: Optional[MessageHandlerType],
         on_error: Optional[ErrorHandlerType],
     ) -> None:
+        """Handle incoming messages from the WebSocket.
+
+        Args:
+            voice_socket (VoiceSocket): The WebSocket connection.
+            byte_strs (Stream): Stream to handle audio bytes.
+            on_message (Optional[MessageHandlerType]): Handler for incoming messages.
+            on_error (Optional[ErrorHandlerType]): Handler for errors.
+        """
         try:
             async for socket_message in voice_socket:
                 message = json.loads(socket_message)
@@ -52,6 +72,13 @@ class ChatMixin(ClientBase):
     async def _process_message(
         self, message: dict, byte_strs: Stream, on_message: Optional[MessageHandlerType]
     ) -> None:
+        """Process an individual message from the WebSocket.
+
+        Args:
+            message (dict): The message received from the WebSocket.
+            byte_strs (Stream): Stream to handle audio bytes.
+            on_message (Optional[MessageHandlerType]): Handler for incoming messages.
+        """
         if on_message is not None:
             if asyncio.iscoroutinefunction(on_message):
                 await on_message(message)
@@ -68,11 +95,22 @@ class ChatMixin(ClientBase):
                 await byte_strs.put(message_bytes)
 
     async def _audio_playback(self, byte_strs: Stream) -> None:
+        """Play audio from the stream of bytes.
+
+        Args:
+            byte_strs (Stream): Stream to handle audio bytes.
+        """
         if self.enable_audio and self.audio_player:
             async for byte_str in byte_strs:
                 await self.audio_player.play_audio(byte_str)
 
     async def _handle_error(self, exc: Exception, on_error: Optional[ErrorHandlerType]) -> None:
+        """Handle an error that occurs during WebSocket communication.
+
+        Args:
+            exc (Exception): The exception that occurred.
+            on_error (Optional[ErrorHandlerType]): Handler for errors.
+        """
         if on_error is not None:
             if asyncio.iscoroutinefunction(on_error):
                 await on_error(exc)
@@ -80,6 +118,11 @@ class ChatMixin(ClientBase):
                 on_error(exc)
 
     async def _handle_open_close(self, handler: Optional[OpenCloseHandlerType]) -> None:
+        """Handle the opening or closing of the WebSocket connection.
+
+        Args:
+            handler (Optional[OpenCloseHandlerType]): Handler for open/close events.
+        """
         if handler is not None:
             if asyncio.iscoroutinefunction(handler):
                 await handler()
@@ -105,6 +148,9 @@ class ChatMixin(ClientBase):
             on_message (Optional[MessageHandlerType]): Handler for when a message is received.
             on_error (Optional[ErrorHandlerType]): Handler for when an error occurs.
             on_close (Optional[OpenCloseHandlerType]): Handler for when the connection is closed.
+
+        Yields:
+            AsyncIterator[VoiceSocket]: The WebSocket connection.
         """
         uri = self._build_uri(config_id, resumed_chat_group_id)
         logger.info("Connecting to EVI API at %s", uri)
@@ -151,6 +197,18 @@ class ChatMixin(ClientBase):
             await self._handle_open_close(on_close)
 
     def _build_uri(self, config_id: Optional[str], chat_group_id: Optional[str]) -> str:
+        """Build the URI for connecting to the EVI API.
+
+        Args:
+            config_id (Optional[str]): Config ID.
+            chat_group_id (Optional[str]): Chat group ID.
+
+        Returns:
+            str: The constructed URI.
+
+        Raises:
+            HumeClientException: If both config_id and chat_group_id are provided.
+        """
         uri_base = self._build_endpoint("evi", "chat", Protocol.WS)
         if config_id and chat_group_id:
             raise HumeClientException(
