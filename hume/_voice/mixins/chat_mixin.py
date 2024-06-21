@@ -44,6 +44,35 @@ class ChatMixin(ClientBase):
         self.audio_player: Optional[AudioPlayer] = None
         self._audio_task: Optional[asyncio.Task[None]] = None
 
+    @asynccontextmanager
+    async def connect(
+        self,
+        config_id: Optional[str] = None,
+        resumed_chat_group_id: Optional[str] = None,
+    ) -> AsyncIterator[VoiceSocket]:
+        """Connect to the EVI API.
+
+        Args:
+            config_id (Optional[str]): Config ID.
+            chat_group_id (Optional[str]): Chat group ID.
+        """
+        uri = self._build_uri(config_id, resumed_chat_group_id)
+        logger.info("Connecting to EVI API at %s", uri)
+
+        try:
+            async with websockets.connect(
+                uri,
+                extra_headers=self._get_client_headers(),
+                close_timeout=self._close_timeout,
+                open_timeout=self._open_timeout,
+                max_size=self.DEFAULT_MAX_PAYLOAD_SIZE_BYTES,
+            ) as protocol:
+                yield VoiceSocket(protocol)
+        except websockets.exceptions.InvalidStatusCode as exc:
+            if exc.status_code == 401:  # Unauthorized
+                raise HumeClientException("HumeVoiceClient initialized with invalid API key.") from exc
+            raise HumeClientException("Unexpected error when creating EVI API connection") from exc
+
     async def _handle_messages(
         self,
         voice_socket: VoiceSocket,
@@ -132,7 +161,7 @@ class ChatMixin(ClientBase):
                 handler()
 
     @asynccontextmanager
-    async def connect(
+    async def connect_with_handlers(
         self,
         config_id: Optional[str] = None,
         resumed_chat_group_id: Optional[str] = None,
