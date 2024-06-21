@@ -69,17 +69,16 @@ class HumeVoiceClient(ChatMixin, ChatsMixin, ConfigsMixin, ToolsMixin):
         enable_audio (bool): Flag indicating whether audio playback is enabled.
     """
 
-    def __init__(self, api_key: str, secret_key: Optional[str] = None, enable_audio: bool = True, **kwargs: Any):
+    def __init__(self, api_key: str, secret_key: Optional[str] = None, **kwargs: Any):
         """
         Initialize the HumeVoiceClient.
 
         Args:
             api_key (str): The API key provided by Hume.
             secret_key (Optional[str]): The secret key provided by Hume. Required for token-based authentication.
-            enable_audio (bool): Flag indicating whether audio playback is enabled. Defaults to True.
             **kwargs: Additional arguments to pass to the parent class initializer.
         """
-        super().__init__(api_key, enable_audio=enable_audio, **kwargs)
+        super().__init__(api_key, **kwargs)
         self._token: Optional[str] = None
         if secret_key:
             client_id = generate_client_id(api_key, secret_key)

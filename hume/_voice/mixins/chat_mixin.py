@@ -32,18 +32,16 @@ class ChatMixin(ClientBase):
 
     DEFAULT_MAX_PAYLOAD_SIZE_BYTES: ClassVar[int] = 2**24
 
-    def __init__(self, *args: Any, enable_audio: bool = True, **kwargs: Any) -> None:
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         """
         Initialize the ChatMixin.
 
         Args:
-            enable_audio (bool): Flag indicating whether audio playback is enabled. Defaults to True.
             *args: Additional positional arguments for the parent class.
             **kwargs: Additional keyword arguments for the parent class.
         """
         super().__init__(*args, **kwargs)
-        self.enable_audio = enable_audio
-        self.audio_player: Optional[AudioPlayer] = AudioPlayer() if enable_audio else None
+        self.audio_player: Optional[AudioPlayer] = None
         self._audio_task: Optional[asyncio.Task[None]] = None
 
     async def _handle_messages(
@@ -52,6 +50,7 @@ class ChatMixin(ClientBase):
         byte_strs: Stream,
         on_message: Optional[MessageHandlerType],
         on_error: Optional[ErrorHandlerType],
+        enable_audio: bool,
     ) -> None:
         """Handle incoming messages from the WebSocket.
 
@@ -60,17 +59,18 @@ class ChatMixin(ClientBase):
             byte_strs (Stream): Stream to handle audio bytes.
             on_message (Optional[MessageHandlerType]): Handler for incoming messages.
             on_error (Optional[ErrorHandlerType]): Handler for errors.
+            enable_audio (bool): Flag indicating whether audio playback is enabled.
         """
         try:
             async for socket_message in voice_socket:
                 message = json.loads(socket_message)
-                await self._process_message(message, byte_strs, on_message)
+                await self._process_message(message, byte_strs, on_message, enable_audio)
         except Exception as exc:
             await self._handle_error(exc, on_error)
             raise
 
     async def _process_message(
-        self, message: dict, byte_strs: Stream, on_message: Optional[MessageHandlerType]
+        self, message: dict, byte_strs: Stream, on_message: Optional[MessageHandlerType], enable_audio: bool
     ) -> None:
         """Process an individual message from the WebSocket.
 
@@ -78,13 +78,14 @@ class ChatMixin(ClientBase):
             message (dict): The message received from the WebSocket.
             byte_strs (Stream): Stream to handle audio bytes.
             on_message (Optional[MessageHandlerType]): Handler for incoming messages.
+            enable_audio (bool): Flag indicating whether audio playback is enabled.
         """
         if on_message is not None:
             if asyncio.iscoroutinefunction(on_message):
                 await on_message(message)
             else:
                 on_message(message)
-        if self.enable_audio:
+        if enable_audio:
             if message["type"] == "user_interruption":
                 logger.debug("Received user_interruption message")
                 if self.audio_player:
@@ -94,13 +95,14 @@ class ChatMixin(ClientBase):
                 message_bytes = base64.b64decode(message_str.encode("utf-8"))
                 await byte_strs.put(message_bytes)
 
-    async def _audio_playback(self, byte_strs: Stream) -> None:
+    async def _audio_playback(self, byte_strs: Stream, enable_audio: bool) -> None:
         """Play audio from the stream of bytes.
 
         Args:
             byte_strs (Stream): Stream to handle audio bytes.
+            enable_audio (bool): Flag indicating whether audio playback is enabled.
         """
-        if self.enable_audio and self.audio_player:
+        if enable_audio and self.audio_player:
             async for byte_str in byte_strs:
                 await self.audio_player.play_audio(byte_str)
 
@@ -138,6 +140,7 @@ class ChatMixin(ClientBase):
         on_close: Optional[OpenCloseHandlerType] = None,
         on_error: Optional[ErrorHandlerType] = None,
         on_message: Optional[MessageHandlerType] = None,
+        enable_audio: bool = True,
     ) -> AsyncIterator[VoiceSocket]:
         """Connect to the EVI API.
 
@@ -148,12 +151,15 @@ class ChatMixin(ClientBase):
             on_message (Optional[MessageHandlerType]): Handler for when a message is received.
             on_error (Optional[ErrorHandlerType]): Handler for when an error occurs.
             on_close (Optional[OpenCloseHandlerType]): Handler for when the connection is closed.
+            enable_audio (bool): Flag indicating whether audio playback is enabled. Defaults to True.
 
         Yields:
             AsyncIterator[VoiceSocket]: The WebSocket connection.
         """
         uri = self._build_uri(config_id, resumed_chat_group_id)
         logger.info("Connecting to EVI API at %s", uri)
+
+        self.audio_player = AudioPlayer() if enable_audio else None
 
         try:
             async with websockets.connect(
@@ -168,13 +174,15 @@ class ChatMixin(ClientBase):
                 voice_socket = VoiceSocket(protocol)
                 byte_strs: Stream = Stream.new()
 
-                recv_task = asyncio.create_task(self._handle_messages(voice_socket, byte_strs, on_message, on_error))
-                if self.enable_audio:
-                    self._audio_task = asyncio.create_task(self._audio_playback(byte_strs))
+                recv_task = asyncio.create_task(
+                    self._handle_messages(voice_socket, byte_strs, on_message, on_error, enable_audio)
+                )
+                if enable_audio:
+                    self._audio_task = asyncio.create_task(self._audio_playback(byte_strs, enable_audio))
 
                 yield voice_socket
 
-                if self.enable_audio and self._audio_task:
+                if enable_audio and self._audio_task:
                     await asyncio.gather(recv_task, self._audio_task)
                 else:
                     await recv_task
