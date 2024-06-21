@@ -140,13 +140,16 @@ class VoiceSocket:
         message = json.dumps(settings_dict)
         await self._protocol.send(message)
 
-    async def send_file(self, filepath: Path) -> None:
+    async def send_file(self, filepath: str) -> None:
         """Send a file over the voice socket.
 
         Args:
-            filepath (Path): Filepath to the file to send over the socket.
+            filepath (str): Filepath to the file to send over the socket.
         """
-        with filepath.open("rb") as f:
+        # Create a Path object from the filepath string
+        path_object = Path(filepath)
+
+        with path_object.open("rb") as f:
             segment: AudioSegment = AudioSegment.from_file(f)
             segment = segment.set_frame_rate(self._sample_rate).set_channels(self._num_channels)
             audio_bytes = segment.raw_data
@@ -267,5 +270,5 @@ class VoiceSocket:
         await self._protocol.send(message)
 
     async def close(self) -> None:
-        """Closes the underlying socket."""
+        """Close the underlying socket."""
         await self._protocol.close()

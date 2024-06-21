@@ -28,6 +28,8 @@ class Tool(BaseModel):
 
 
 class Context(BaseModel):
+    """Context model."""
+
     text: str
     type: Optional[str]  # editable, persistent, temporary
 
