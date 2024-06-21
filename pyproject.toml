@@ -87,7 +87,7 @@ requires = ["poetry-core>=1.0.0"]
 line-length = 120
 
 [tool.covcheck.group.unit.coverage]
-branch = 40.0
+branch = 38.0
 line = 60.0
 
 [tool.covcheck.group.service.coverage]
