@@ -8,7 +8,7 @@ import dataclasses
 import logging
 from typing import AsyncIterator, ClassVar, Iterator
 
-from hume._voice.microphone.asyncio_utilities import Stream
+from hume._voice.asyncio_utilities import Stream
 from hume.error.hume_client_exception import HumeClientException
 
 try:
