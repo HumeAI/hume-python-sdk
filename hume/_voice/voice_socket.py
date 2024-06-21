@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 import logging
 from pathlib import Path
-from typing import Any, AsyncIterator, ClassVar, List, Optional
+from typing import Any, AsyncIterator, ClassVar, List, Optional, Union
 
 from pydub import AudioSegment
 from websockets.client import WebSocketClientProtocol as WebSocket
@@ -140,11 +140,11 @@ class VoiceSocket:
         message = json.dumps(settings_dict)
         await self._protocol.send(message)
 
-    async def send_file(self, filepath: str) -> None:
+    async def send_file(self, filepath: Union[str, Path]) -> None:
         """Send a file over the voice socket.
 
         Args:
-            filepath (str): Filepath to the file to send over the socket.
+            filepath (str | Path): Filepath to the file to send over the socket.
         """
         # Create a Path object from the filepath string
         path_object = Path(filepath)
