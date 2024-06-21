@@ -15,6 +15,7 @@ from hume._voice.socket_inputs import (
     AssistantInput,
     AudioSettings,
     BuiltinToolConfig,
+    Context,
     PauseAssistantMessage,
     ResumeAssistantMessage,
     SessionSettings,
@@ -83,12 +84,41 @@ class VoiceSocket:
         language_model_api_key: Optional[str] = None,
         builtin_tools: Optional[List[BuiltinToolConfig]] = None,
         tools: Optional[List[Tool]] = None,
+        context_text: Optional[str] = None,
+        context_type: Optional[str] = None,
     ) -> None:
-        """Update the EVI session settings."""
+        """
+        Update the EVI session settings.
+
+        This method allows updating various settings of the EVI session such as
+        audio configurations, session ID, system prompt, API key for the language model,
+        and tools configurations. If the number of channels or sample rate is specified,
+        it updates the instance variables `_num_channels` and `_sample_rate` accordingly.
+
+        Args:
+            sample_rate (Optional[int]): The sample rate for audio data; updates session state variable if provided.
+            num_channels (Optional[int]): The number of audio channels; updates session state variable if provided.
+            custom_session_id (Optional[str]): A custom session ID to manage conversational state.
+            context_text (Optional[str]): User context to inject.
+            context_type (Optional[str]): The persistence level of the injected context. Allowed values include
+            "editable", "persistent", and "temporary".
+            system_prompt (Optional[str]): Instructions for how the system should respond to the user.
+            Set to null to use the default system prompt.
+            language_model_api_key (Optional[str]): Third party API key for the language model used for non-Hume models.
+            builtin_tools (Optional[List[BuiltinToolConfig]]): List of built-in tool configurations session use.
+            tools (Optional[List[Tool]]): List of custom tools configurations to be used in the session.
+
+        Raises:
+            HumeClientException: If there is an error processing media over the socket connection.
+        """
         if num_channels is not None:
             self._num_channels = num_channels
         if sample_rate is not None:
             self._sample_rate = sample_rate
+
+        context = None
+        if context_text and context_type:
+            context = Context(text=context_text, type=context_type)
 
         session_settings = SessionSettings(
             custom_session_id=custom_session_id,
@@ -98,6 +128,7 @@ class VoiceSocket:
                 channels=num_channels,
                 sample_rate=sample_rate,
             ),
+            context=context,
             language_model_api_key=language_model_api_key,
             builtin_tools=builtin_tools,
             tools=tools,

@@ -171,7 +171,7 @@ class ChatMixin(ClientBase):
         on_message: Optional[MessageHandlerType] = None,
         enable_audio: bool = True,
     ) -> AsyncIterator[VoiceSocket]:
-        """Connect to the EVI API.
+        """Connect to the EVI API with socket handlers and optional audio playback.
 
         Args:
             config_id (Optional[str]): Config ID.

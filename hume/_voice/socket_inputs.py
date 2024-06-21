@@ -1,5 +1,9 @@
 """Socket input models."""
 
+# NOTE:
+# - reference API definition for updated query parameter descriptions:
+#   https://dev.hume.ai/reference/empathic-voice-interface-evi/chat/chat
+
 from typing import List, Optional
 
 from pydantic import BaseModel
@@ -8,17 +12,24 @@ from pydantic import BaseModel
 class AudioSettings(BaseModel):
     """Audio settings model."""
 
-    encoding: Optional[str] = "linear16"
+    encoding: str = "linear16"  # linear16 is required
     channels: Optional[int] = None
     sample_rate: Optional[int] = None
 
 
 class Tool(BaseModel):
+    """Tool model."""
+
     description: Optional[str] = None
     fallback_content: Optional[str] = None
     name: str
     parameters: str
     type: str  # "builtin" or "function"
+
+
+class Context(BaseModel):
+    text: str
+    type: Optional[str]  # editable, persistent, temporary
 
 
 class BuiltinToolConfig(BaseModel):
@@ -31,6 +42,7 @@ class BuiltinToolConfig(BaseModel):
 class SessionSettings(BaseModel):
     """Session settings model."""
 
+    context: Optional[Context] = None
     custom_session_id: Optional[str] = None
     type: str = "session_settings"
     system_prompt: Optional[str] = None
@@ -81,7 +93,6 @@ class ToolErrorMessage(BaseModel):
     error: str
     level: Optional[str] = "warn"
     tool_call_id: str
-    # The type of message sent through the socket; for a Tool Error message, this must be 'tool_error'.
     tool_type: str  # "builtin" or "function"
     type: str = "tool_error"
 
