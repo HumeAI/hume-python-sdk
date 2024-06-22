@@ -25,7 +25,6 @@ from hume._voice.models.chats_models import (
 logger = logging.getLogger(__name__)
 
 
-
 class ChatsMixin(ClientBase):
     """Client operations for managing EVI chats."""
 

@@ -159,4 +159,3 @@ class BatchJobDetails:
         if self.state.ended_timestamp_ms is None:
             return None
         return datetime.utcfromtimestamp(self.state.ended_timestamp_ms / 1000)
-

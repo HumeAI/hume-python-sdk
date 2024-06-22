@@ -46,7 +46,7 @@ class ConfigBase(ABC, Generic[T]):
                     "Your installed version of the Python SDK may be out of date "
                     "with the latest Hume APIs. "
                     "Run `pip install --upgrade hume` to get the latest version of the Python SDK.",
-                    stacklevel=1
+                    stacklevel=1,
                 )
         for removal_param in removal_params:
             request_dict.pop(removal_param)

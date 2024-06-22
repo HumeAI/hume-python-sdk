@@ -1,6 +1,5 @@
 """Client operations for managing EVI configurations."""
 
-
 from __future__ import annotations
 
 # ruff: noqa: A002
@@ -24,8 +23,6 @@ from hume._voice.models.tools_models import ToolMeta, VoiceTool
 from hume.error.hume_client_exception import HumeClientException
 
 logger = logging.getLogger(__name__)
-
-
 
 
 class ConfigsMixin(ClientBase):
