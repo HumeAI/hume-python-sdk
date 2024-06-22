@@ -14,7 +14,9 @@ from hume.error.hume_client_exception import HumeClientException
 try:
     import _cffi_backend as cffi_backend
     import sounddevice
-    from _cffi_backend import _CDataBase as CDataBase  # pylint: disable=no-name-in-module
+    from _cffi_backend import (
+        _CDataBase as CDataBase,  # pylint: disable=no-name-in-module
+    )
     from sounddevice import CallbackFlags, RawInputStream
 
     HAS_AUDIO_DEPENDENCIES = True

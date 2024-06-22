@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import json
 from unittest.mock import Mock
 
@@ -6,7 +8,6 @@ import pytest
 
 @pytest.fixture(scope="function")
 def mock_face_protocol() -> Mock:
-
     async def mock_send(message: str) -> None:
         assert json.loads(message) == {
             "data": "bW9jay1tZWRpYS1maWxl",
@@ -35,7 +36,6 @@ def mock_face_protocol() -> Mock:
 
 @pytest.fixture(scope="function")
 def mock_language_protocol() -> Mock:
-
     async def mock_send(message: str) -> None:
         assert json.loads(message) == {
             "data": "mock-text",
@@ -62,7 +62,6 @@ def mock_language_protocol() -> Mock:
 
 @pytest.fixture(scope="function")
 def mock_facemesh_protocol() -> Mock:
-
     async def mock_send(message: str) -> None:
         message_json = json.loads(message)
         assert message_json == {

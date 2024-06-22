@@ -1,12 +1,13 @@
+from __future__ import annotations
+
 import re
 from urllib.request import urlretrieve
 
 import pytest
-from pytest import TempPathFactory
-
 from hume import HumeClientException, HumeStreamClient
 from hume.models.config import FaceConfig, FacemeshConfig, LanguageConfig, ProsodyConfig
 from hume.models.config.model_config_base import ModelConfigBase
+from pytest import TempPathFactory
 from utilities.eval_data import EvalData
 
 
@@ -19,7 +20,6 @@ def stream_client_fixture(hume_api_key: str) -> HumeStreamClient:
 @pytest.mark.stream
 @pytest.mark.service
 class TestServiceHumeStreamClient:
-
     async def test_send_file(
         self,
         eval_data: EvalData,

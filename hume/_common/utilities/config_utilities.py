@@ -1,5 +1,7 @@
 """Model configuration utilities."""
 
+from __future__ import annotations
+
 from collections.abc import Iterable
 from typing import Any, Type
 

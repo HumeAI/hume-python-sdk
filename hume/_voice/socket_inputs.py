@@ -3,6 +3,7 @@
 # NOTE:
 # - reference API definition for updated query parameter descriptions:
 #   https://dev.hume.ai/reference/empathic-voice-interface-evi/chat/chat
+from __future__ import annotations
 
 from typing import List, Optional
 

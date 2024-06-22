@@ -1,10 +1,11 @@
+from __future__ import annotations
+
 import json
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
 import pytest
-
 from hume import BatchJobDetails, BatchJobStatus
 
 
@@ -34,7 +35,6 @@ def failed_details_fixture() -> BatchJobDetails:
 
 @pytest.mark.batch
 class TestBatchJobDetails:
-
     def test_queued_status(self, queued_details: BatchJobDetails) -> None:
         assert queued_details.get_status() == BatchJobStatus.QUEUED
 

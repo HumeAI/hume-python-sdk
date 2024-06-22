@@ -1,11 +1,11 @@
-import pytest
+from __future__ import annotations
 
+import pytest
 from hume import BatchJobState, BatchJobStatus
 
 
 @pytest.mark.batch
 class TestBatchJobState:
-
     def test_create(self) -> None:
         state = BatchJobState(
             status=BatchJobStatus.COMPLETED,

@@ -3,6 +3,8 @@
 This module provides the AudioPlayer class for playing audio byte streams using the system's audio output device.
 """
 
+from __future__ import annotations
+
 import asyncio
 from io import BytesIO
 from typing import Optional

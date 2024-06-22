@@ -1,9 +1,10 @@
+from __future__ import annotations
+
 import logging
 
 import pytest
 from pytest import TempPathFactory
 from testbook import testbook
-
 from tests.examples.example import Example
 
 logger = logging.getLogger(__name__)
@@ -12,7 +13,6 @@ logger = logging.getLogger(__name__)
 @pytest.mark.notebook
 @pytest.mark.service
 class TestNotebooks:
-
     @pytest.mark.skip("Notebook environment not activated")
     def test_example_notebook(
         self,

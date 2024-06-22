@@ -91,7 +91,6 @@ class BatchJobDetails:
                 callback_url=callback_url,
                 notify=notify,
             )
-        # pylint: disable=broad-except
         except Exception as exc:
             message = cls._get_invalid_response_message(response)
             raise HumeClientException(message) from exc

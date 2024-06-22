@@ -1,10 +1,11 @@
+from __future__ import annotations
+
 from urllib.request import urlretrieve
 
 import pytest
-from pytest import TempPathFactory
-
 from hume import HumeStreamClient
 from hume.models.config import FaceConfig, LanguageConfig
+from pytest import TempPathFactory
 from utilities.eval_data import EvalData
 
 
@@ -17,7 +18,6 @@ def stream_client_fixture(hume_api_key: str) -> HumeStreamClient:
 @pytest.mark.stream
 @pytest.mark.service
 class TestServiceStreamScenarios:
-
     async def test_facs_and_descriptions(
         self,
         eval_data: EvalData,

@@ -1,5 +1,7 @@
 """Configuration for the facial expression model."""
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 
 from hume.models import ModelType

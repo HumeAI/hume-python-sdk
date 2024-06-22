@@ -1,5 +1,7 @@
 """Module init."""
 
+from __future__ import annotations
+
 from hume.models.config.burst_config import BurstConfig
 from hume.models.config.face_config import FaceConfig
 from hume.models.config.facemesh_config import FacemeshConfig

@@ -1,5 +1,6 @@
-import semver
+from __future__ import annotations
 
+import semver
 from hume import __version__
 
 

@@ -2,18 +2,23 @@
 
 from __future__ import annotations
 
+# ruff: noqa: A002
 import logging
 from typing import Iterator
 
 from hume._common.client_base import ClientBase
 from hume._common.utilities.paging_utilities import Paging
-from hume._voice.models.tools_models import PostToolRequest, ToolResponse, ToolsResponse, VoiceTool
+from hume._voice.models.tools_models import (
+    PostToolRequest,
+    ToolResponse,
+    ToolsResponse,
+    VoiceTool,
+)
 from hume.error.hume_client_exception import HumeClientException
 
 logger = logging.getLogger(__name__)
 
 
-# pylint: disable=redefined-builtin
 class ToolsMixin(ClientBase):
     """Client operations for managing EVI tools."""
 
