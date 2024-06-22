@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from collections.abc import Iterable
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional, Union
 
 from hume._common.client_base import ClientBase
 from hume._common.utilities.config_utilities import serialize_configs
@@ -76,6 +76,7 @@ class HumeBatchClient(ClientBase):
         callback_url: str | None = None,
         notify: bool | None = None,
         files: list[Path | str] | None = None,
+        filebytes: Optional[list[tuple[str, bytes]]] = None,
         text: list[str] | None = None,
     ) -> BatchJob:
         """Submit a job for batch processing.
@@ -90,13 +91,14 @@ class HumeBatchClient(ClientBase):
             callback_url (str | None): A URL to which a POST request will be sent upon job completion.
             notify (bool | None): Wether an email notification should be sent upon job completion.
             files (list[Path | str] | None): List of paths to files on the local disk to be processed.
+            filebytes (list[tuple[str, bytes]] | None): List of file bytes (raw file data) to be processed.
             text (list[str] | None): List of strings (raw text) to be processed.
 
         Returns:
             BatchJob: The `BatchJob` representing the batch computation.
         """
         request = self._construct_request(configs, urls, text, transcription_config, callback_url, notify)
-        return self._submit_job(request, files)
+        return self._submit_job(request, files, filebytes)
 
     def get_job_details(self, job_id: str) -> BatchJobDetails:
         """Get details for the batch job.
@@ -195,6 +197,7 @@ class HumeBatchClient(ClientBase):
         self,
         request_body: Any,
         filepaths: list[Path | str] | None,
+        filebytes: Optional[list[tuple[str, bytes]]],
     ) -> BatchJob:
         """Start a job for batch processing by passing a JSON request body.
 
@@ -204,6 +207,7 @@ class HumeBatchClient(ClientBase):
         Args:
             request_body (Any): JSON request body to be passed to the batch API.
             filepaths (list[Path | str] | None): List of paths to files on the local disk to be processed.
+            filebytes (list[tuple[str, bytes]]] | None): List of bytes (raw file data) to be processed.
 
         Raises:
             HumeClientException: If the batch job fails to start.
@@ -213,14 +217,14 @@ class HumeBatchClient(ClientBase):
         """
         endpoint = self._build_endpoint("batch", "jobs")
 
-        if filepaths is None:
+        if filepaths is None and filebytes is None:
             response = self._http_client.post(
                 endpoint,
                 json=request_body,
                 headers=self._get_client_headers(),
             )
         else:
-            form_data = self._get_multipart_form_data(request_body, filepaths)
+            form_data = self._get_multipart_form_data(request_body, filepaths, filebytes)
             response = self._http_client.post(
                 endpoint,
                 headers=self._get_client_headers(),
@@ -250,26 +254,33 @@ class HumeBatchClient(ClientBase):
     def _get_multipart_form_data(
         self,
         request_body: Any,
-        filepaths: Iterable[Path | str],
-    ) -> list[tuple[str, bytes | tuple[str, bytes]]]:
-        """Convert a list of filepaths into a list of multipart form data.
+        filepaths: Optional[Iterable[Union[str, Path]]],
+        filebytes: Optional[Iterable[tuple[str, bytes]]],
+    ) -> list[tuple[str, Union[bytes, tuple[str, bytes]]]]:
+        """Convert a list of filepaths and/or file bytes into a list of multipart form data.
 
         Multipart form data allows the client to attach files to the POST request,
         including both the raw file bytes and the filename.
 
         Args:
             request_body (Any): JSON request body to be passed to the batch API.
-            filepaths (list[Path | str]): List of paths to files on the local disk to be processed.
+            filepaths (list[Path | str] | None): List of paths to files on the local disk to be processed.
+            filebytes (list[str | bytes] | None): List of bytes (raw file data) to be processed.
 
         Returns:
             list[tuple[str, bytes | tuple[str, bytes]]]: A list of tuples representing
                 the multipart form data for the POST request.
         """
-        form_data: list[tuple[str, bytes | tuple[str, bytes]]] = []
-        for filepath in filepaths:
-            path = Path(filepath)
-            post_file = ("file", (path.name, path.read_bytes()))
-            form_data.append(post_file)
+        form_data: list[tuple[str, Union[bytes, tuple[str, bytes]]]] = []
+        if filepaths is not None:
+            for filepath in filepaths:
+                path = Path(filepath)
+                post_file = ("file", (path.name, path.read_bytes()))
+                form_data.append(post_file)
+        if filebytes is not None:
+            for filebyte in filebytes:
+                post_file = ("file", filebyte)
+                form_data.append(post_file)
 
         form_data.append(("json", json.dumps(request_body).encode("utf-8")))
         return form_data
