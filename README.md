@@ -19,7 +19,7 @@
 To get started, create an account at [beta.hume.ai](https://beta.hume.ai).
 
 > **Note:**
-> Our APIs might undergo breaking changes that are necessary for us to improve our tooling and ensure a more reliable release in the future. Early versions of this SDK may have partial support or support may be fully discontinued. We encourage you to [join our Discord](https://link.hume.ai/discord) to to stay up to date with the latest changes.
+> Our APIs might undergo breaking changes that are necessary for us to improve our tooling and ensure a more reliable release in the future. Early versions of this SDK may have partial support or support may be fully discontinued. We encourage you to [join our Discord](https://link.hume.ai/discord) to stay up to date with the latest changes.
 
 ## Documentation & Examples
 
