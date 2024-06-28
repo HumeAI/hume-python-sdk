@@ -28,25 +28,52 @@ poetry add hume
 
 ## Usage
 
+Simply import `HumeClient` and start making calls to our API.  
+
 ```python
 from hume.client import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY", # Defaults to HUME_API_KEY
 )
+client.empathic_voice.configs.list_configs()
 ```
 
-### Async Client
+## Async Client
+The SDK also exports an async client so that you can make non-blocking calls to our API.
 
 ```python
+import asyncio
+
 from hume.client import AsyncHumeClient
 
 client = AsyncHumeClient(
     api_key="YOUR_API_KEY",
 )
+
+async def main() -> None:
+    await client.query(
+        query="Am I allowed to bring pets to work?",
+        search=SearchCorporaParameters(
+            offset=10,
+            limit=10
+        ),
+    )
+asyncio.run(main())
 ```
 
-### Namespaces
+## Legacy SDK
+If you want to continue using the legacy SDKs, simply import them from 
+the `hume.legacy` module. 
+
+```python
+from hume import HumeVoiceClient, VoiceConfig
+
+client = HumeVoiceClient("<your-api-key>")
+config = client.get_config(config_id)
+```
+
+## Namespaces
 
 This SDK contains the APIs for expression measurement, empathic voice and custom models. Even
 if you do not plan on using more than one API to start, the SDK provides easy access in
@@ -66,7 +93,7 @@ client.expression_measurement. # APIs specific to Expression Measurement
 client.emapthic_voice.         # APIs specific to Empathic Voice
 ```
 
-### Exception Handling
+## Exception Handling
 
 All errors thrown by the SDK will be subclasses of [`ApiError`](./src/hume/core/api_error.py).
 
@@ -80,7 +107,7 @@ except hume.core.ApiError as e: # Handle all errors
   print(e.body)
 ```
 
-### Pagination
+## Pagination
 
 Paginated requests will return a `SyncPager` or `AsyncPager`, which can be used as generators for the underlying object. For example, `list_tools` will return a generator over `ReturnUserDefinedTool` and handle the pagination behind the scenes:
 
@@ -113,7 +140,7 @@ pager = pager.next_page()
 print(pager.items)
 ```
 
-### Websockets
+## WebSockets
 
 We expose a websocket client for interacting with the EVI API as well as Expression Measurement.
 
