@@ -1,0 +1,413 @@
+imports:
+  root: __package__.yml
+service:
+  auth: false
+  base-path: ''
+  endpoints:
+    list-configs:
+      path: /v0/evi/configs
+      method: GET
+      auth: false
+      display-name: List configs
+      request:
+        name: ConfigsListConfigsRequest
+        query-parameters:
+          page_number:
+            type: optional<integer>
+            docs: The page number of the results to return.
+          page_size:
+            type: optional<integer>
+            docs: The maximum number of results to include per page.
+          restrict_to_most_recent:
+            type: optional<boolean>
+            docs: Only include the most recent version of each config in the list.
+      response:
+        docs: Success
+        type: root.ReturnPagedConfigs
+      examples:
+        - response:
+            body:
+              page_number: 1
+              page_size: 1
+              configs_page:
+                - id: id
+                  version: 1
+                  version_description: version_description
+                  name: name
+                  created_on: 1
+                  modified_on: 1
+                  prompt:
+                    id: id
+                    version: 1
+                    version_type: version_type
+                    name: name
+                    created_on: 1
+                    modified_on: 1
+                    text: text
+                  voice:
+                    provider: provider
+                    name: name
+    create-config:
+      path: /v0/evi/configs
+      method: POST
+      auth: false
+      display-name: Create config
+      request:
+        name: PostedConfig
+        body:
+          properties:
+            name:
+              type: string
+              docs: Name applied to all versions of a particular Config.
+            version_description:
+              type: optional<string>
+              docs: Description that is appended to a specific version of a Config.
+            prompt: optional<root.PostedPromptSpec>
+            voice: optional<root.PostedVoice>
+            language_model: optional<root.PostedLanguageModel>
+            tools:
+              type: optional<list<optional<root.PostedUserDefinedToolSpec>>>
+              docs: Tool specification for a Config.
+            builtin_tools:
+              type: optional<list<optional<root.PostedBuiltinTool>>>
+              docs: Built-in tool specification for a Config.
+      response:
+        docs: Success
+        type: root.ReturnConfig
+      examples:
+        - request:
+            name: name
+          response:
+            body:
+              id: id
+              version: 1
+              version_description: version_description
+              name: name
+              created_on: 1
+              modified_on: 1
+              prompt:
+                id: id
+                version: 1
+                version_type: version_type
+                version_description: version_description
+                name: name
+                created_on: 1
+                modified_on: 1
+                text: text
+              voice:
+                provider: provider
+                name: name
+              language_model:
+                model_provider: model_provider
+                model_resource: model_resource
+                temperature: 1.1
+              tools:
+                - tool_type: tool_type
+                  id: id
+                  version: 1
+                  version_type: version_type
+                  version_description: version_description
+                  name: name
+                  created_on: 1
+                  modified_on: 1
+                  fallback_content: fallback_content
+                  description: description
+                  parameters: parameters
+              builtin_tools:
+                - tool_type: tool_type
+                  name: name
+                  fallback_content: fallback_content
+    list-config-versions:
+      path: /v0/evi/configs/{id}
+      method: GET
+      auth: false
+      path-parameters:
+        id:
+          type: string
+          docs: Identifier for a config. Formatted as a UUID.
+      display-name: List config versions
+      request:
+        name: ConfigsListConfigVersionsRequest
+        query-parameters:
+          page_number:
+            type: optional<integer>
+            docs: The page number of the results to return.
+          page_size:
+            type: optional<integer>
+            docs: The maximum number of results to include per page.
+          restrict_to_most_recent:
+            type: optional<boolean>
+            docs: Only include the most recent version of each config in the list.
+      response:
+        docs: Success
+        type: root.ReturnPagedConfigs
+      examples:
+        - path-parameters:
+            id: id
+          response:
+            body:
+              page_number: 1
+              page_size: 1
+              configs_page:
+                - id: id
+                  version: 1
+                  version_description: version_description
+                  name: name
+                  created_on: 1
+                  modified_on: 1
+                  prompt:
+                    id: id
+                    version: 1
+                    version_type: version_type
+                    name: name
+                    created_on: 1
+                    modified_on: 1
+                    text: text
+                  voice:
+                    provider: provider
+                    name: name
+    create-config-version:
+      path: /v0/evi/configs/{id}
+      method: POST
+      auth: false
+      path-parameters:
+        id:
+          type: string
+          docs: Identifier for a config. Formatted as a UUID.
+      display-name: Create config version
+      request:
+        name: PostedConfigVersion
+        body:
+          properties:
+            version_description:
+              type: optional<string>
+              docs: Description that is appended to a specific version of a Config.
+            prompt: optional<root.PostedPromptSpec>
+            voice: optional<root.PostedVoice>
+            language_model: optional<root.PostedLanguageModel>
+            tools:
+              type: optional<list<optional<root.PostedUserDefinedToolSpec>>>
+              docs: Tool specification for a Config.
+            builtin_tools:
+              type: optional<list<optional<root.PostedBuiltinTool>>>
+              docs: Built-in tool specification for a Config.
+      response:
+        docs: Success
+        type: root.ReturnConfig
+      examples:
+        - path-parameters:
+            id: id
+          request: {}
+          response:
+            body:
+              id: id
+              version: 1
+              version_description: version_description
+              name: name
+              created_on: 1
+              modified_on: 1
+              prompt:
+                id: id
+                version: 1
+                version_type: version_type
+                version_description: version_description
+                name: name
+                created_on: 1
+                modified_on: 1
+                text: text
+              voice:
+                provider: provider
+                name: name
+              language_model:
+                model_provider: model_provider
+                model_resource: model_resource
+                temperature: 1.1
+              tools:
+                - tool_type: tool_type
+                  id: id
+                  version: 1
+                  version_type: version_type
+                  version_description: version_description
+                  name: name
+                  created_on: 1
+                  modified_on: 1
+                  fallback_content: fallback_content
+                  description: description
+                  parameters: parameters
+              builtin_tools:
+                - tool_type: tool_type
+                  name: name
+                  fallback_content: fallback_content
+    delete-config:
+      path: /v0/evi/configs/{id}
+      method: DELETE
+      auth: false
+      path-parameters:
+        id:
+          type: string
+          docs: Identifier for a config. Formatted as a UUID.
+      display-name: Delete config
+      examples:
+        - path-parameters:
+            id: id
+    update-config-name:
+      path: /v0/evi/configs/{id}
+      method: PATCH
+      auth: false
+      path-parameters:
+        id:
+          type: string
+          docs: Identifier for a config. Formatted as a UUID.
+      display-name: Update config name
+      request:
+        name: PostedConfigName
+        body:
+          properties:
+            name:
+              type: string
+              docs: Name applied to all versions of a particular Config.
+      response:
+        docs: Success
+        type: text
+    get-config-version:
+      path: /v0/evi/configs/{id}/version/{version}
+      method: GET
+      auth: false
+      path-parameters:
+        id:
+          type: string
+          docs: Identifier for a config. Formatted as a UUID.
+        version:
+          type: integer
+          docs: Version number for a config. Version numbers should be integers.
+      display-name: Get config version
+      response:
+        docs: Success
+        type: root.ReturnConfig
+      examples:
+        - path-parameters:
+            id: id
+            version: 1
+          response:
+            body:
+              id: id
+              version: 1
+              version_description: version_description
+              name: name
+              created_on: 1
+              modified_on: 1
+              prompt:
+                id: id
+                version: 1
+                version_type: version_type
+                version_description: version_description
+                name: name
+                created_on: 1
+                modified_on: 1
+                text: text
+              voice:
+                provider: provider
+                name: name
+              language_model:
+                model_provider: model_provider
+                model_resource: model_resource
+                temperature: 1.1
+              tools:
+                - tool_type: tool_type
+                  id: id
+                  version: 1
+                  version_type: version_type
+                  version_description: version_description
+                  name: name
+                  created_on: 1
+                  modified_on: 1
+                  fallback_content: fallback_content
+                  description: description
+                  parameters: parameters
+              builtin_tools:
+                - tool_type: tool_type
+                  name: name
+                  fallback_content: fallback_content
+    delete-config-version:
+      path: /v0/evi/configs/{id}/version/{version}
+      method: DELETE
+      auth: false
+      path-parameters:
+        id:
+          type: string
+          docs: Identifier for a config. Formatted as a UUID.
+        version:
+          type: integer
+          docs: Version number for a config. Version numbers should be integers.
+      display-name: Delete config version
+      examples:
+        - path-parameters:
+            id: id
+            version: 1
+    update-config-description:
+      path: /v0/evi/configs/{id}/version/{version}
+      method: PATCH
+      auth: false
+      path-parameters:
+        id:
+          type: string
+          docs: Identifier for a config. Formatted as a UUID.
+        version:
+          type: integer
+          docs: Version number for a config. Version numbers should be integers.
+      display-name: Update config description
+      request:
+        name: PostedConfigVersionDescription
+        body:
+          properties:
+            version_description:
+              type: optional<string>
+              docs: Description that is appended to a specific version of a Config.
+      response:
+        docs: Success
+        type: root.ReturnConfig
+      examples:
+        - path-parameters:
+            id: id
+            version: 1
+          request: {}
+          response:
+            body:
+              id: id
+              version: 1
+              version_description: version_description
+              name: name
+              created_on: 1
+              modified_on: 1
+              prompt:
+                id: id
+                version: 1
+                version_type: version_type
+                version_description: version_description
+                name: name
+                created_on: 1
+                modified_on: 1
+                text: text
+              voice:
+                provider: provider
+                name: name
+              language_model:
+                model_provider: model_provider
+                model_resource: model_resource
+                temperature: 1.1
+              tools:
+                - tool_type: tool_type
+                  id: id
+                  version: 1
+                  version_type: version_type
+                  version_description: version_description
+                  name: name
+                  created_on: 1
+                  modified_on: 1
+                  fallback_content: fallback_content
+                  description: description
+                  parameters: parameters
+              builtin_tools:
+                - tool_type: tool_type
+                  name: name
+                  fallback_content: fallback_content

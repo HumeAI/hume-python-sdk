@@ -1,0 +1,306 @@
+imports:
+  root: __package__.yml
+service:
+  auth: false
+  base-path: ''
+  endpoints:
+    list-models:
+      path: /v0/registry/models
+      method: GET
+      auth: true
+      docs: Returns 200 if successful
+      pagination:
+        offset: $request.page_number
+        results: $response.content
+      display-name: List models
+      request:
+        name: ModelsListModelsRequest
+        query-parameters:
+          name:
+            type: optional<string>
+            docs: Model name to be queried
+          page_number:
+            type: optional<integer>
+            docs: Index of the first result
+          page_size:
+            type: optional<integer>
+            docs: Maximum number of results
+          shared_assets:
+            type: optional<boolean>
+            docs: >-
+              `True` Will show all assets owned by you and shared with you.
+              `False` Will show only your assets. Default: `False`
+      response:
+        docs: Success
+        type: root.ModelPage
+      examples:
+        - response:
+            body:
+              content:
+                - id: id
+                  name: name
+                  created_on: 1
+                  modified_on: 1
+                  total_stars: 1
+                  model_is_starred_by_user: true
+                  archived: true
+                  latest_version:
+                    id: id
+                    model_id: model_id
+                    user_id: user_id
+                    version: version
+                    source_uri: source_uri
+                    dataset_version_id: dataset_version_id
+                    created_on: 1
+                  is_publicly_shared: true
+              pageable:
+                offset: 1
+                sort:
+                  empty: true
+                  sorted: true
+                  unsorted: true
+                paged: true
+                unpaged: true
+                page_number: 1
+                page_size: 1
+              total: 1
+              last: true
+              total_elements: 1
+              total_pages: 1
+              size: 1
+              number: 1
+              sort:
+                empty: true
+                sorted: true
+                unsorted: true
+              first: true
+              number_of_elements: 1
+              empty: true
+    get-model-details:
+      path: /v0/registry/models/{id}
+      method: GET
+      auth: true
+      docs: Returns 200 if successful
+      path-parameters:
+        id:
+          type: string
+          docs: Hume-generated ID of a Model
+      display-name: Get model details
+      response:
+        docs: Success
+        type: root.ExternalModel
+      examples:
+        - path-parameters:
+            id: id
+          response:
+            body:
+              id: id
+              name: name
+              created_on: 1
+              modified_on: 1
+              total_stars: 1
+              model_is_starred_by_user: true
+              archived: true
+              latest_version:
+                id: id
+                model_id: model_id
+                user_id: user_id
+                version: version
+                source_uri: source_uri
+                dataset_version_id: dataset_version_id
+                created_on: 1
+                metadata:
+                  metadata: {}
+                description: description
+                tags:
+                  - key: key
+                    value: value
+                file_type: video
+                target_feature: target_feature
+                task_type: task_type
+                training_job_id: training_job_id
+              is_publicly_shared: true
+    update-model-name:
+      path: /v0/registry/models/{id}
+      method: PATCH
+      auth: true
+      docs: Returns 200 if successful
+      path-parameters:
+        id:
+          type: string
+          docs: Hume-generated ID of a Model
+      display-name: Update model name
+      request:
+        name: ModelsUpdateModelNameRequest
+        query-parameters:
+          name:
+            type: string
+            docs: New Model name
+      response:
+        docs: Success
+        type: root.ExternalModel
+      examples:
+        - path-parameters:
+            id: id
+          query-parameters:
+            name: name
+          response:
+            body:
+              id: id
+              name: name
+              created_on: 1
+              modified_on: 1
+              total_stars: 1
+              model_is_starred_by_user: true
+              archived: true
+              latest_version:
+                id: id
+                model_id: model_id
+                user_id: user_id
+                version: version
+                source_uri: source_uri
+                dataset_version_id: dataset_version_id
+                created_on: 1
+                metadata:
+                  metadata: {}
+                description: description
+                tags:
+                  - key: key
+                    value: value
+                file_type: video
+                target_feature: target_feature
+                task_type: task_type
+                training_job_id: training_job_id
+              is_publicly_shared: true
+    list-model-versions:
+      path: /v0/registry/models/version
+      method: GET
+      auth: true
+      docs: Returns 200 if successful
+      display-name: List model versions
+      request:
+        name: ModelsListModelVersionsRequest
+        query-parameters:
+          id:
+            type: optional<string>
+            allow-multiple: true
+            docs: Hume-generated Model Version IDs to be queried
+          name:
+            type: optional<string>
+            docs: Model version name to be queried
+          version:
+            type: optional<string>
+            docs: Model version number to be queried
+          shared_assets:
+            type: optional<boolean>
+            docs: >-
+              `True` Will show all assets owned by you and shared with you.
+              `False` Will show only your assets. Default: `False`
+      response:
+        docs: Success
+        type: list<root.ExternalModelVersion>
+      examples:
+        - response:
+            body:
+              - id: id
+                model_id: model_id
+                user_id: user_id
+                version: version
+                source_uri: source_uri
+                dataset_version_id: dataset_version_id
+                created_on: 1
+                metadata:
+                  metadata: {}
+                description: description
+                tags:
+                  - key: key
+                    value: value
+                file_type: video
+                target_feature: target_feature
+                task_type: task_type
+                training_job_id: training_job_id
+    get-model-version:
+      path: /v0/registry/models/version/{id}
+      method: GET
+      auth: true
+      docs: Returns 200 if successful
+      path-parameters:
+        id:
+          type: string
+          docs: Hume-generated ID of a Model version
+      display-name: Get model version
+      request:
+        name: ModelsGetModelVersionRequest
+        query-parameters:
+          shared_assets:
+            type: optional<boolean>
+            docs: >-
+              `True` Will show all assets owned by you and shared with you.
+              `False` Will show only your assets. Default: `False`
+      response:
+        docs: Success
+        type: root.ExternalModelVersion
+      examples:
+        - path-parameters:
+            id: id
+          response:
+            body:
+              id: id
+              model_id: model_id
+              user_id: user_id
+              version: version
+              source_uri: source_uri
+              dataset_version_id: dataset_version_id
+              created_on: 1
+              metadata:
+                metadata:
+                  metadata:
+                    key: value
+              description: description
+              tags:
+                - key: key
+                  value: value
+              file_type: video
+              target_feature: target_feature
+              task_type: task_type
+              training_job_id: training_job_id
+    update-model-description:
+      path: /v0/registry/models/version/{id}
+      method: PATCH
+      auth: true
+      docs: Returns 200 if successful
+      path-parameters:
+        id:
+          type: string
+          docs: Hume-generated ID of a Model Version
+      display-name: Update model description
+      request:
+        body: string
+      response:
+        docs: Success
+        type: root.ExternalModelVersion
+      examples:
+        - path-parameters:
+            id: id
+          request: string
+          response:
+            body:
+              id: id
+              model_id: model_id
+              user_id: user_id
+              version: version
+              source_uri: source_uri
+              dataset_version_id: dataset_version_id
+              created_on: 1
+              metadata:
+                metadata:
+                  metadata:
+                    key: value
+              description: description
+              tags:
+                - key: key
+                  value: value
+              file_type: video
+              target_feature: target_feature
+              task_type: task_type
+              training_job_id: training_job_id
