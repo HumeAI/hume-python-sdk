@@ -113,8 +113,8 @@ class ClientBase:
             headers=headers,
         )
 
+        response = self._http_client.send(request)
         try:
-            response = self._http_client.send(request)
             response.raise_for_status()
         except Exception as exc:  # pylint: disable=broad-exception-caught
             response_body = response.json()

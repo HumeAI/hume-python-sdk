@@ -17,6 +17,7 @@ tests/empathic_voice/test_tools.py
 
 # Legacy SDK
 mypy.ini
+pytest.ini
 src/hume/legacy
 .github/workflows/legacy_ci.yaml
 pylintrc
