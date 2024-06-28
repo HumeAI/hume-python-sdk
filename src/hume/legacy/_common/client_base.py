@@ -75,7 +75,7 @@ class ClientBase:
         self._api_http_base_url = _api_http_base_url
         self._api_ws_base_uri = _api_ws_base_uri
 
-        transport = HTTPTransport(http2=True, retries=self._http_retries)
+        transport = HTTPTransport(retries=self._http_retries)
         self._http_client = HttpClient(
             follow_redirects=True,
             timeout=http_timeout,
