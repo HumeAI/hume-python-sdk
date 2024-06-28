@@ -55,6 +55,8 @@ pylint = "^2.16.2"
 pytest-cov = "^4.0.0"
 semver = "^2.13.0"
 testbook = "^0.4.2"
+toml = "^0.10.2"
+types-toml = "^0.10.1"
 
 [tool.pytest.ini_options]
 testpaths = [ "tests" ]
