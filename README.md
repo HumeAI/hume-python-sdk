@@ -1,27 +1,3 @@
-<<<<<<< Updated upstream
-# Hume Python Library
-
-[![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-SDK%20generated%20by%20Fern-brightgreen)](https://github.com/fern-api/fern)
-[![pypi](https://img.shields.io/pypi/v/hume)](https://pypi.python.org/pypi/hume)
-
-The Hume Python library provides convenient access to the Hume API from Python.
-
-## Documentation & Examples
-
-For complete documentation check out the [Python SDK docs site](https://humeai.github.io/hume-python-sdk/) or [try our quickstart guide](https://dev.hume.ai/docs/empathic-voice-interface-evi/quickstart/python).
-
-Example notebooks can be found in the [examples folder](./examples/README.md).
-
-## Other Resources
-
-- [Hume AI Homepage](https://hume.ai)
-- [Platform Documentation](https://dev.hume.ai)
-- [API Reference](https://dev.hume.ai/reference)
-
-## Citations
-
-Hume's expressive communication platform has been built on top of published scientific research. If you use this SDK in your work please cite one of the relevant papers in [our publications repo](https://github.com/HumeAI/hume-research-publications).
-=======
 <div align="center">
   <img src="https://storage.googleapis.com/hume-public-logos/hume/hume-banner.png">
   <h1>Hume AI Python SDK</h1>
@@ -41,86 +17,33 @@ Hume's expressive communication platform has been built on top of published scie
 ## Documentation
 
 API reference documentation is available [here](https://dev.hume.ai/reference/).
->>>>>>> Stashed changes
 
 ## Installation
 
 ```sh
 pip install hume
-<<<<<<< Updated upstream
-=======
 # or
 poetry add hume
->>>>>>> Stashed changes
 ```
 
 ## Usage
 
-<<<<<<< Updated upstream
-Instantiate and use the client with the following:
-
 ```python
 from hume.client import HumeClient
-from hume.custom_models import FileInput, FileWithAttributesInput
-=======
-```python
-from hume.client import HumeClient
->>>>>>> Stashed changes
 
 client = HumeClient(
-    api_key="YOUR_API_KEY",
+    api_key="YOUR_API_KEY", # Defaults to HUME_API_KEY
 )
-<<<<<<< Updated upstream
-client.custom_models.files.create_files(
-    request=[
-        FileWithAttributesInput(
-            file=FileInput(
-                name="name",
-                hume_storage=True,
-                data_type="data_type",
-            ),
-        )
-    ],
-)
-```
-
-## Async Client
-
-The SDK also exports an `async` client so that you can make non-blocking calls to our API.
-
-```python
-from hume.client import AsyncHumeClient
-from hume.custom_models import FileInput, FileWithAttributesInput
-=======
 ```
 
 ### Async Client
 
 ```python
 from hume.client import AsyncHumeClient
->>>>>>> Stashed changes
 
 client = AsyncHumeClient(
     api_key="YOUR_API_KEY",
 )
-<<<<<<< Updated upstream
-await client.custom_models.files.create_files(
-    request=[
-        FileWithAttributesInput(
-            file=FileInput(
-                name="name",
-                hume_storage=True,
-                data_type="data_type",
-            ),
-        )
-    ],
-)
-```
-
-## Pagination
-
-Paginated requests will return a `SyncPager` or `AsyncPager`, which can be used as generators for the underlying object.
-=======
 ```
 
 ### Namespaces
@@ -130,7 +53,6 @@ if you do not plan on using more than one API to start, the SDK provides easy ac
 case you find additional APIs in the future.
 
 Each API is namespaced accordingly:
->>>>>>> Stashed changes
 
 ```python
 from hume.client import HumeClient
@@ -138,16 +60,6 @@ from hume.client import HumeClient
 client = HumeClient(
     api_key="YOUR_API_KEY",
 )
-<<<<<<< Updated upstream
-response = client.custom_models.files.list_files()
-for item in response:
-    yield item
-# alternatively, you can paginate page-by-page
-for page in response.iter_pages():
-    yield page
-```
-
-=======
 
 client.expression_measurement. # APIs specific to Expression Measurement
 
@@ -289,7 +201,6 @@ This SDK is in beta, and there may be breaking changes between versions without 
 version update. Therefore, we recommend pinning the package version to a specific version.
 This way, you can install the same version each time without breaking changes.
 
->>>>>>> Stashed changes
 ## Contributing
 
 While we value open-source contributions to this SDK, this library is generated programmatically.
@@ -299,7 +210,4 @@ a proof of concept, but know that we will not be able to merge it as-is. We sugg
 an issue first to discuss with us!
 
 On the other hand, contributions to the README are always very welcome!
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
