@@ -1,0 +1,80 @@
+imports:
+  root: __package__.yml
+service:
+  auth: false
+  base-path: ''
+  endpoints:
+    list-chat-groups:
+      path: /v0/evi/chat_groups
+      method: GET
+      auth: false
+      display-name: List chat_groups
+      request:
+        name: ChatGroupsListChatGroupsRequest
+        query-parameters:
+          page_number:
+            type: optional<integer>
+            docs: The page number of the results to return.
+          page_size:
+            type: optional<integer>
+            docs: The maximum number of results to include per page.
+      response:
+        docs: Success
+        type: root.ReturnPagedChatGroups
+      examples:
+        - response:
+            body:
+              page_number: 1
+              page_size: 1
+              chat_groups_page:
+                - id: id
+                  first_start_timestamp: 1
+                  most_recent_start_timestamp: 1
+                  most_recent_chat_id: most_recent_chat_id
+                  num_chats: 1
+                  active: true
+    list-chat-group-events:
+      path: /v0/evi/chat_groups/{id}/events
+      method: GET
+      auth: false
+      path-parameters:
+        id:
+          type: string
+          docs: Identifier for a chat. Formatted as a UUID.
+      display-name: List chat events from a specific chat_group
+      request:
+        name: ChatGroupsListChatGroupEventsRequest
+        query-parameters:
+          page_size:
+            type: optional<integer>
+            docs: The maximum number of results to include per page.
+          page_number:
+            type: optional<integer>
+            docs: The page number of the results to return.
+          ascending_order:
+            type: optional<boolean>
+            docs: >-
+              Boolean to indicate if the results should be paginated in
+              chronological order or reverse-chronological order. Defaults to
+              true.
+      response:
+        docs: Success
+        type: root.ReturnChatGroupPagedEvents
+      examples:
+        - path-parameters:
+            id: id
+          response:
+            body:
+              id: id
+              page_number: 1
+              page_size: 1
+              pagination_direction: pagination_direction
+              events_page:
+                - id: id
+                  chat_id: chat_id
+                  timestamp: 1
+                  role: role
+                  type: type
+                  message_text: message_text
+                  emotion_features: emotion_features
+                  metadata: metadata

@@ -1,0 +1,266 @@
+imports:
+  root: __package__.yml
+service:
+  auth: false
+  base-path: ''
+  endpoints:
+    list-files:
+      path: /v0/registry/files
+      method: GET
+      auth: true
+      docs: Returns 200 if successful
+      pagination:
+        offset: $request.page_number
+        results: $response.content
+      display-name: List files
+      request:
+        name: FilesListFilesRequest
+        query-parameters:
+          page_number:
+            type: optional<integer>
+            docs: Index of the first result
+          page_size:
+            type: optional<integer>
+            docs: Maximum number of results
+          shared_assets:
+            type: optional<boolean>
+            docs: >-
+              `True` Will show all assets owned by you and shared with you.
+              `False` Will show only your assets. Default: `False`
+      response:
+        docs: Success
+        type: root.FilePage
+      examples:
+        - response:
+            body:
+              content:
+                - file:
+                    id: id
+                    user_id: user_id
+                    data_type: data_type
+                    is_sanitized: true
+                    is_owned_by_reader: true
+                  attributes:
+                    - name: name
+                      value: value
+              pageable:
+                offset: 1
+                sort:
+                  empty: true
+                  sorted: true
+                  unsorted: true
+                paged: true
+                unpaged: true
+                page_number: 1
+                page_size: 1
+              total: 1
+              last: true
+              total_elements: 1
+              total_pages: 1
+              size: 1
+              number: 1
+              sort:
+                empty: true
+                sorted: true
+                unsorted: true
+              first: true
+              number_of_elements: 1
+              empty: true
+    create-files:
+      path: /v0/registry/files
+      method: POST
+      auth: true
+      docs: Returns 201 if successful
+      display-name: Create files
+      request:
+        body:
+          docs: List of Files with Attributes to be created
+          type: list<root.FileWithAttributesInput>
+      response:
+        docs: Success
+        type: list<root.FileWithAttributes>
+      examples:
+        - request:
+            - file:
+                name: name
+                hume_storage: true
+                data_type: data_type
+          response:
+            body:
+              - file:
+                  id: id
+                  name: name
+                  uri: uri
+                  upload_uri: upload_uri
+                  thumbnail_uri: thumbnail_uri
+                  user_id: user_id
+                  data_type: data_type
+                  created_on: 1
+                  modified_on: 1
+                  metadata:
+                    metadata: {}
+                  hume_storage: true
+                  hume_storage_upload_timestamp: 1
+                  is_sanitized: true
+                  is_owned_by_reader: true
+                  is_linked_to_publicly_shared: true
+                  is_linked_to_hume_model: true
+                attributes:
+                  - name: name
+                    value: value
+    upload-file:
+      path: /v0/registry/files/upload
+      method: POST
+      auth: true
+      docs: >-
+        Upload a file synchronously. Returns 201 if successful. Files must have
+        a name. Files must specify Content-Type. Request bodies, and therefore
+        files, are limited to 100MB
+      display-name: Upload file
+      request:
+        name: FilesUploadFileRequest
+        body:
+          properties:
+            file: file
+            attributes: optional<file>
+        content-type: multipart/form-data
+      response:
+        docs: Success
+        type: root.FileWithAttributes
+      examples:
+        - request: {}
+          response:
+            body:
+              file:
+                id: id
+                name: name
+                uri: uri
+                upload_uri: upload_uri
+                thumbnail_uri: thumbnail_uri
+                user_id: user_id
+                data_type: data_type
+                created_on: 1
+                modified_on: 1
+                metadata:
+                  metadata: {}
+                hume_storage: true
+                hume_storage_upload_timestamp: 1
+                is_sanitized: true
+                is_owned_by_reader: true
+                is_linked_to_publicly_shared: true
+                is_linked_to_hume_model: true
+              attributes:
+                - name: name
+                  value: value
+    get-file:
+      path: /v0/registry/files/{id}
+      method: GET
+      auth: true
+      docs: Returns 200 if successful
+      path-parameters:
+        id:
+          type: string
+          docs: Hume-generated ID of a File
+      display-name: Get file
+      response:
+        docs: Success
+        type: root.FileWithAttributes
+      examples:
+        - path-parameters:
+            id: id
+          response:
+            body:
+              file:
+                id: id
+                name: name
+                uri: uri
+                upload_uri: upload_uri
+                thumbnail_uri: thumbnail_uri
+                user_id: user_id
+                data_type: data_type
+                created_on: 1
+                modified_on: 1
+                metadata:
+                  metadata: {}
+                hume_storage: true
+                hume_storage_upload_timestamp: 1
+                is_sanitized: true
+                is_owned_by_reader: true
+                is_linked_to_publicly_shared: true
+                is_linked_to_hume_model: true
+              attributes:
+                - name: name
+                  value: value
+    delete-file:
+      path: /v0/registry/files/{id}
+      method: DELETE
+      auth: true
+      docs: Returns 204 if successful
+      path-parameters:
+        id:
+          type: string
+          docs: Hume-generated ID of a File
+      display-name: Delete file
+      examples:
+        - path-parameters:
+            id: id
+    update-file-name:
+      path: /v0/registry/files/{id}
+      method: PATCH
+      auth: true
+      docs: Returns 200 if successful
+      path-parameters:
+        id:
+          type: string
+          docs: Hume-generated ID of a File
+      display-name: Update file name
+      request:
+        name: FilesUpdateFileNameRequest
+        query-parameters:
+          name:
+            type: string
+            docs: New File name
+      response:
+        docs: Success
+        type: root.FileWithAttributes
+      examples:
+        - path-parameters:
+            id: id
+          query-parameters:
+            name: name
+          response:
+            body:
+              file:
+                id: id
+                name: name
+                uri: uri
+                upload_uri: upload_uri
+                thumbnail_uri: thumbnail_uri
+                user_id: user_id
+                data_type: data_type
+                created_on: 1
+                modified_on: 1
+                metadata:
+                  metadata: {}
+                hume_storage: true
+                hume_storage_upload_timestamp: 1
+                is_sanitized: true
+                is_owned_by_reader: true
+                is_linked_to_publicly_shared: true
+                is_linked_to_hume_model: true
+              attributes:
+                - name: name
+                  value: value
+    get-file-predictions:
+      path: /v0/registry/files/{id}/predictions
+      method: GET
+      auth: true
+      docs: Returns 200 if successful
+      path-parameters:
+        id:
+          type: string
+          docs: Hume-generated ID of a File
+      display-name: Get file predictions
+      examples:
+        - path-parameters:
+            id: id

@@ -1,20 +1,4 @@
-## Editor
-.idea/
-
-## Operating System
-.DS_Store
-.cache
-
-## Directories
-__pycache__/
-.ipynb_checkpoints/
-*.egg-info/
 dist/
-
-## Coverage
-.coverage
-coverage.xml
-htmlcov
-
-## Docs
-site
+.mypy_cache/
+__pycache__/
+poetry.toml
