@@ -1,11 +1,32 @@
 [tool.poetry]
 name = "hume"
-version = "1.0.0"
-description = ""
+version = "0.6.1"
+description = "A Python SDK for Sayari"
 readme = "README.md"
 authors = []
-keywords = []
-
+keywords = [
+    "hume",
+    "ai",
+    "evi",
+    "empathic",
+    "multimodal",
+    "expression",
+    "analysis",
+    "sentiment",
+    "voice",
+    "recognition",
+    "detection",
+    "emotion",
+    "interface",
+    "speech",
+    "audio",
+    "vision",
+    "expressive",
+    "embeddings",
+    "communication",
+    "learning"
+]
+license = "MIT"
 classifiers = [
     "Intended Audience :: Developers",
     "Programming Language :: Python",
@@ -21,13 +42,16 @@ classifiers = [
     "Operating System :: POSIX :: Linux",
     "Operating System :: Microsoft :: Windows",
     "Topic :: Software Development :: Libraries :: Python Modules",
-    "Typing :: Typed"
+    "Typing :: Typed",
+    "License :: OSI Approved :: MIT License"
 ]
 packages = [
     { include = "hume", from = "src"}
 ]
 
 [project.urls]
+Documentation = 'hhttps://dev.hume.ai/reference'
+Homepage = 'https://www.hume.ai/'
 Repository = 'https://github.com/HumeAI/hume-python-sdk'
 
 [tool.poetry.dependencies]
@@ -55,8 +79,6 @@ pylint = "^2.16.2"
 pytest-cov = "^4.0.0"
 semver = "^2.13.0"
 testbook = "^0.4.2"
-toml = "^0.10.2"
-types-toml = "^0.10.1"
 
 [tool.pytest.ini_options]
 testpaths = [ "tests" ]
