@@ -2,7 +2,7 @@
 
 from . import custom_models, empathic_voice, expression_measurement
 from .environment import HumeClientEnvironment
-from .legacy._voice.microphone import MicrophoneInterface
+from .legacy._voice.microphone.microphone_interface import MicrophoneInterface
 from .version import __version__
 
 __all__ = [
