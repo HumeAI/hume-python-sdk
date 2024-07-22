@@ -219,6 +219,7 @@ types:
           unique identifiers will be assigned to face bounding boxes to
           differentiate different faces. If `false`, all faces will be tagged
           with an `unknown` ID.
+        default: false
       min_face_size:
         type: optional<integer>
         docs: >-
@@ -235,6 +236,7 @@ types:
         docs: >-
           Whether to extract and save the detected faces in the artifacts zip
           created by each job.
+        default: false
   FacePrediction:
     properties:
       frame:
@@ -391,13 +393,12 @@ types:
         docs: >-
           If provided, a `POST` request will be made to the URL with the
           generated predictions on completion or the error message on failure.
-        validation:
-          format: url
       notify:
         type: optional<boolean>
         docs: >-
           Whether to send an email notification to the user upon job
           completion/failure.
+        default: false
   InferencePrediction:
     properties:
       file:
@@ -429,13 +430,12 @@ types:
         docs: >-
           If provided, a `POST` request will be made to the URL with the
           generated predictions on completion or the error message on failure.
-        validation:
-          format: url
       notify:
         type: optional<boolean>
         docs: >-
           Whether to send an email notification to the user upon job
           completion/failure.
+        default: false
       files: list<File>
   InferenceResults:
     properties:
@@ -519,6 +519,7 @@ types:
           unique identifiers will be assigned to spoken words to differentiate
           different speakers. If `false`, all speakers will be tagged with an
           `unknown` ID.
+        default: false
   LanguagePrediction:
     properties:
       text:
@@ -585,6 +586,7 @@ types:
           unique identifiers will be assigned to spoken words to differentiate
           different speakers. If `false`, all speakers will be tagged with an
           `unknown` ID.
+        default: false
   NerPrediction:
     properties:
       entity:
@@ -669,6 +671,7 @@ types:
           unique identifiers will be assigned to spoken words to differentiate
           different speakers. If `false`, all speakers will be tagged with an
           `unknown` ID.
+        default: false
   ProsodyPrediction:
     properties:
       text:
@@ -918,13 +921,12 @@ types:
         docs: >-
           If provided, a `POST` request will be made to the URL with the
           generated predictions on completion or the error message on failure.
-        validation:
-          format: url
       notify:
         type: optional<boolean>
         docs: >-
           Whether to send an email notification to the user upon job
           completion/failure.
+        default: false
   CustomModel:
     discriminated: false
     union:
@@ -954,11 +956,10 @@ types:
       task: optional<Task>
       evaluation: optional<EvaluationArgs>
       alternatives: optional<list<Alternative>>
-      callback_url:
-        type: optional<string>
-        validation:
-          format: url
-      notify: optional<boolean>
+      callback_url: optional<string>
+      notify:
+        type: optional<boolean>
+        default: false
   TrainingCustomModel:
     properties:
       id: string
@@ -973,6 +974,7 @@ types:
           unique identifiers will be assigned to spoken words to differentiate
           different speakers. If `false`, all speakers will be tagged with an
           `unknown` ID.
+        default: false
       confidence_threshold:
         type: optional<double>
         docs: >-

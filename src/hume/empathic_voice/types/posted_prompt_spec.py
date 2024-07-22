@@ -9,7 +9,7 @@ from ...core.pydantic_utilities import deep_union_pydantic_dicts, pydantic_v1
 
 class PostedPromptSpec(pydantic_v1.BaseModel):
     """
-    A specific prompt identifier to be posted to the server
+    A Prompt associated with this Config.
     """
 
     id: str = pydantic_v1.Field()
@@ -19,7 +19,11 @@ class PostedPromptSpec(pydantic_v1.BaseModel):
 
     version: typing.Optional[int] = pydantic_v1.Field(default=None)
     """
-    Version number for a Prompt. Version numbers should be integers. The combination of configId and version number is unique.
+    Version number for a Prompt.
+    
+    Prompts, as well as Configs and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
+    
+    Version numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

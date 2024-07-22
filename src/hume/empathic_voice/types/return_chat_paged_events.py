@@ -6,6 +6,8 @@ import typing
 from ...core.datetime_utils import serialize_datetime
 from ...core.pydantic_utilities import deep_union_pydantic_dicts, pydantic_v1
 from .return_chat_event import ReturnChatEvent
+from .return_chat_paged_events_pagination_direction import ReturnChatPagedEventsPaginationDirection
+from .return_chat_paged_events_status import ReturnChatPagedEventsStatus
 from .return_config_spec import ReturnConfigSpec
 
 
@@ -16,37 +18,51 @@ class ReturnChatPagedEvents(pydantic_v1.BaseModel):
 
     id: str = pydantic_v1.Field()
     """
-    Identifier for a chat. Formatted as a UUID.
+    Identifier for a Chat. Formatted as a UUID.
     """
 
     chat_group_id: str = pydantic_v1.Field()
     """
-    Identifier for the chat group. Any chat resumed from this chat will have the same chat_group_id. Formatted as a UUID.
+    Identifier for the Chat Group. Any chat resumed from this Chat will have the same `chat_group_id`. Formatted as a UUID.
     """
 
-    tag: typing.Optional[str] = pydantic_v1.Field(default=None)
+    status: ReturnChatPagedEventsStatus = pydantic_v1.Field()
     """
-    Optional tag applied to this chat used to group chats by user, application, etc.
-    """
-
-    status: str = pydantic_v1.Field()
-    """
-    The status of the chat. Values from the ChatStatus enum.
+    Indicates the current state of the chat. There are six possible statuses:
+    
+    - `ACTIVE`: The chat is currently active and ongoing.
+    
+    - `USER_ENDED`: The chat was manually ended by the user.
+    
+    - `USER_TIMEOUT`: The chat ended due to a user-defined timeout.
+    
+    - `MAX_DURATION_TIMEOUT`: The chat ended because it reached the maximum allowed duration.
+    
+    - `INACTIVITY_TIMEOUT`: The chat ended due to an inactivity timeout.
+    
+    - `ERROR`: The chat ended unexpectedly due to an error.
     """
 
     start_timestamp: int = pydantic_v1.Field()
     """
-    The timestamp when the chat started, formatted as a Unix epoch milliseconds.
+    Time at which the Chat started. Measured in seconds since the Unix epoch.
     """
 
     end_timestamp: typing.Optional[int] = pydantic_v1.Field(default=None)
     """
-    The timestamp when the chat ended, formatted as a Unix epoch milliseconds.
+    Time at which the Chat ended. Measured in seconds since the Unix epoch.
+    """
+
+    pagination_direction: ReturnChatPagedEventsPaginationDirection = pydantic_v1.Field()
+    """
+    Indicates the order in which the paginated results are presented, based on their creation date.
+    
+    It shows `ASC` for ascending order (chronological, with the oldest records first) or `DESC` for descending order (reverse-chronological, with the newest records first). This value corresponds to the `ascending_order` query parameter used in the request.
     """
 
     events_page: typing.List[ReturnChatEvent] = pydantic_v1.Field()
     """
-    List of chat events with the specified page number and page size.
+    List of Chat Events for the specified `page_number` and `page_size`.
     """
 
     metadata: typing.Optional[str] = pydantic_v1.Field(default=None)
@@ -56,12 +72,21 @@ class ReturnChatPagedEvents(pydantic_v1.BaseModel):
 
     page_number: int = pydantic_v1.Field()
     """
-    The page number of the returned results.
+    The page number of the returned list.
+    
+    This value corresponds to the `page_number` parameter specified in the request. Pagination uses zero-based indexing.
     """
 
     page_size: int = pydantic_v1.Field()
     """
-    The number of results returned per page.
+    The maximum number of items returned per page.
+    
+    This value corresponds to the `page_size` parameter specified in the request.
+    """
+
+    total_pages: int = pydantic_v1.Field()
+    """
+    The total number of pages in the collection.
     """
 
     config: typing.Optional[ReturnConfigSpec] = None

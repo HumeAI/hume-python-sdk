@@ -14,19 +14,21 @@ class AssistantMessage(pydantic_v1.BaseModel):
     When provided, the output is an assistant message.
     """
 
+    type: typing.Literal["assistant_message"] = pydantic_v1.Field(default="assistant_message")
+    """
+    The type of message sent through the socket; for an Assistant Message, this must be `assistant_message`.
+    
+    This message contains both a transcript of the assistant’s response and the expression measurement predictions of the assistant’s audio output.
+    """
+
     custom_session_id: typing.Optional[str] = pydantic_v1.Field(default=None)
     """
     Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
     """
 
-    from_text: bool = pydantic_v1.Field()
-    """
-    Indicates if this message was constructed from a text input message.
-    """
-
     id: typing.Optional[str] = pydantic_v1.Field(default=None)
     """
-    ID of the assistant message.
+    ID of the assistant message. Allows the Assistant Message to be tracked and referenced.
     """
 
     message: ChatMessage = pydantic_v1.Field()
@@ -39,9 +41,9 @@ class AssistantMessage(pydantic_v1.BaseModel):
     Inference model results.
     """
 
-    type: typing.Literal["assistant_message"] = pydantic_v1.Field(default="assistant_message")
+    from_text: bool = pydantic_v1.Field()
     """
-    The type of message sent through the socket; for an Assistant Message, this must be 'assistant_message'.
+    Indicates if this message was inserted into the conversation as text from an [Assistant Input message](/reference/empathic-voice-interface-evi/chat/chat#send.Assistant%20Input.text).
     """
 
     def json(self, **kwargs: typing.Any) -> str:

@@ -12,14 +12,11 @@ class ChatMetadata(pydantic_v1.BaseModel):
     When provided, the output is a chat metadata message.
     """
 
-    chat_group_id: str = pydantic_v1.Field()
+    type: typing.Literal["chat_metadata"] = pydantic_v1.Field(default="chat_metadata")
     """
-    ID of the chat group. Used to resume a chat.
-    """
-
-    chat_id: str = pydantic_v1.Field()
-    """
-    ID of the chat.
+    The type of message sent through the socket; for a Chat Metadata message, this must be `chat_metadata`.
+    
+    The Chat Metadata message is the first message you receive after establishing a connection with EVI and contains important identifiers for the current Chat session.
     """
 
     custom_session_id: typing.Optional[str] = pydantic_v1.Field(default=None)
@@ -27,9 +24,23 @@ class ChatMetadata(pydantic_v1.BaseModel):
     Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
     """
 
-    type: typing.Literal["chat_metadata"] = pydantic_v1.Field(default="chat_metadata")
+    chat_group_id: str = pydantic_v1.Field()
     """
-    The type of message sent through the socket; for a Chat Metadata message, this must be 'chat_metadata'.
+    ID of the Chat Group.
+    
+    Used to resume a Chat when passed in the [resumed_chat_group_id](/reference/empathic-voice-interface-evi/chat/chat#request.query.resumed_chat_group_id) query parameter of a subsequent connection request. This allows EVI to continue the conversation from where it left off within the Chat Group.
+    
+    Learn more about [supporting chat resumability](/docs/empathic-voice-interface-evi/faq#does-evi-support-chat-resumability) from the EVI FAQ.
+    """
+
+    chat_id: str = pydantic_v1.Field()
+    """
+    ID of the Chat session. Allows the Chat session to be tracked and referenced.
+    """
+
+    request_id: typing.Optional[str] = pydantic_v1.Field(default=None)
+    """
+    ID of the initiating request.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

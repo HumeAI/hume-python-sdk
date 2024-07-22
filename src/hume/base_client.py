@@ -5,7 +5,6 @@ import typing
 import httpx
 
 from .core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
-from .custom_models.client import AsyncCustomModelsClient, CustomModelsClient
 from .empathic_voice.client import AsyncEmpathicVoiceClient, EmpathicVoiceClient
 from .environment import HumeClientEnvironment
 from .expression_measurement.client import AsyncExpressionMeasurementClient, ExpressionMeasurementClient
@@ -69,9 +68,8 @@ class BaseHumeClient:
             else httpx.Client(timeout=_defaulted_timeout),
             timeout=_defaulted_timeout,
         )
-        self.custom_models = CustomModelsClient(client_wrapper=self._client_wrapper)
-        self.empathic_voice = EmpathicVoiceClient(client_wrapper=self._client_wrapper)
         self.expression_measurement = ExpressionMeasurementClient(client_wrapper=self._client_wrapper)
+        self.empathic_voice = EmpathicVoiceClient(client_wrapper=self._client_wrapper)
 
 
 class AsyncBaseHumeClient:
@@ -132,9 +130,8 @@ class AsyncBaseHumeClient:
             else httpx.AsyncClient(timeout=_defaulted_timeout),
             timeout=_defaulted_timeout,
         )
-        self.custom_models = AsyncCustomModelsClient(client_wrapper=self._client_wrapper)
-        self.empathic_voice = AsyncEmpathicVoiceClient(client_wrapper=self._client_wrapper)
         self.expression_measurement = AsyncExpressionMeasurementClient(client_wrapper=self._client_wrapper)
+        self.empathic_voice = AsyncEmpathicVoiceClient(client_wrapper=self._client_wrapper)
 
 
 def _get_base_url(*, base_url: typing.Optional[str] = None, environment: HumeClientEnvironment) -> str:

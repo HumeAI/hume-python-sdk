@@ -8,10 +8,10 @@ from ..utilities import validate_response
 
 
 async def test_create_prompt(client: HumeClient, async_client: AsyncHumeClient) -> None:
-    expected_response = {
+    expected_response: typing.Any = {
         "id": "id",
         "version": 1,
-        "version_type": "version_type",
+        "version_type": "FIXED",
         "version_description": "version_description",
         "name": "name",
         "created_on": 1,
@@ -36,14 +36,15 @@ async def test_create_prompt(client: HumeClient, async_client: AsyncHumeClient) 
 
 
 async def test_list_prompt_versions(client: HumeClient, async_client: AsyncHumeClient) -> None:
-    expected_response = {
+    expected_response: typing.Any = {
         "page_number": 1,
         "page_size": 1,
+        "total_pages": 1,
         "prompts_page": [
             {
                 "id": "id",
                 "version": 1,
-                "version_type": "version_type",
+                "version_type": "FIXED",
                 "version_description": "version_description",
                 "name": "name",
                 "created_on": 1,
@@ -55,6 +56,7 @@ async def test_list_prompt_versions(client: HumeClient, async_client: AsyncHumeC
     expected_types: typing.Any = {
         "page_number": "integer",
         "page_size": "integer",
+        "total_pages": "integer",
         "prompts_page": (
             "list",
             {
@@ -79,10 +81,10 @@ async def test_list_prompt_versions(client: HumeClient, async_client: AsyncHumeC
 
 
 async def test_create_prompt_verison(client: HumeClient, async_client: AsyncHumeClient) -> None:
-    expected_response = {
+    expected_response: typing.Any = {
         "id": "id",
         "version": 1,
-        "version_type": "version_type",
+        "version_type": "FIXED",
         "version_description": "version_description",
         "name": "name",
         "created_on": 1,
@@ -114,7 +116,7 @@ async def test_delete_prompt(client: HumeClient, async_client: AsyncHumeClient) 
 
 
 async def test_update_prompt_name(client: HumeClient, async_client: AsyncHumeClient) -> None:
-    expected_response = "string"
+    expected_response: typing.Any = "string"
     expected_types: typing.Any = None
     response = client.empathic_voice.prompts.update_prompt_name(id="string", name="string")
     validate_response(response, expected_response, expected_types)
@@ -124,10 +126,10 @@ async def test_update_prompt_name(client: HumeClient, async_client: AsyncHumeCli
 
 
 async def test_get_prompt_version(client: HumeClient, async_client: AsyncHumeClient) -> None:
-    expected_response = {
+    expected_response: typing.Any = {
         "id": "id",
         "version": 1,
-        "version_type": "version_type",
+        "version_type": "FIXED",
         "version_description": "version_description",
         "name": "name",
         "created_on": 1,
@@ -159,10 +161,10 @@ async def test_delete_prompt_version(client: HumeClient, async_client: AsyncHume
 
 
 async def test_update_prompt_description(client: HumeClient, async_client: AsyncHumeClient) -> None:
-    expected_response = {
+    expected_response: typing.Any = {
         "id": "id",
         "version": 1,
-        "version_type": "version_type",
+        "version_type": "FIXED",
         "version_description": "version_description",
         "name": "name",
         "created_on": 1,

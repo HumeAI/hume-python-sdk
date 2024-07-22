@@ -13,14 +13,14 @@ class PostedVoice(pydantic_v1.BaseModel):
     A Voice specification posted to the server
     """
 
-    provider: typing.Optional[typing.Literal["HUME_AI"]] = pydantic_v1.Field(default=None)
+    provider: typing.Literal["HUME_AI"] = pydantic_v1.Field(default="HUME_AI")
     """
-    The provider of the voice to use.
+    The provider of the voice to use. Currently, only `HUME_AI` is supported as the voice provider.
     """
 
-    name: PostedVoiceName = pydantic_v1.Field()
+    name: typing.Optional[PostedVoiceName] = pydantic_v1.Field(default=None)
     """
-    String with the name of the voice to use.
+    String with the name of the voice to use. Maximum length of 75 characters. Will be converted to all-uppercase.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "hume"
-version = "0.6.1"
+version = "1.0.0"
 description = "A Python SDK for Hume AI"
 readme = "README.md"
 authors = []
@@ -67,7 +67,7 @@ typing_extensions = ">= 4.0.0"
 websockets = "12"
 
 [tool.poetry.dev-dependencies]
-mypy = "1.9.0"
+mypy = "1.0.1"
 pytest = "^7.4.0"
 pytest-asyncio = "^0.23.5"
 python-dateutil = "^2.9.0"

@@ -9,19 +9,19 @@ from .encoding import Encoding
 
 
 class AudioConfiguration(pydantic_v1.BaseModel):
-    channels: int = pydantic_v1.Field()
-    """
-    Number of channels.
-    """
-
     encoding: Encoding = pydantic_v1.Field()
     """
-    Audio encoding.
+    Encoding format of the audio input, such as `linear16`.
+    """
+
+    channels: int = pydantic_v1.Field()
+    """
+    Number of audio channels.
     """
 
     sample_rate: int = pydantic_v1.Field()
     """
-    Audio sample rate.
+    Audio sample rate. Number of samples per second in the audio input, measured in Hertz.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

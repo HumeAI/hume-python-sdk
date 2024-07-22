@@ -2,4 +2,4 @@
 
 import typing
 
-PostedVoiceName = typing.Union[typing.Literal["ITO", "DACHER"], typing.Any]
+PostedVoiceName = typing.Union[typing.Literal["ITO", "DACHER", "KORA"], typing.Any]

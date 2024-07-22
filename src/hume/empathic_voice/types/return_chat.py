@@ -5,6 +5,7 @@ import typing
 
 from ...core.datetime_utils import serialize_datetime
 from ...core.pydantic_utilities import deep_union_pydantic_dicts, pydantic_v1
+from .return_chat_status import ReturnChatStatus
 from .return_config_spec import ReturnConfigSpec
 
 
@@ -15,32 +16,39 @@ class ReturnChat(pydantic_v1.BaseModel):
 
     id: str = pydantic_v1.Field()
     """
-    Identifier for a chat. Formatted as a UUID.
+    Identifier for a Chat. Formatted as a UUID.
     """
 
     chat_group_id: str = pydantic_v1.Field()
     """
-    Identifier for the chat group. Any chat resumed from this chat will have the same chat_group_id. Formatted as a UUID.
+    Identifier for the Chat Group. Any chat resumed from this Chat will have the same `chat_group_id`. Formatted as a UUID.
     """
 
-    tag: typing.Optional[str] = pydantic_v1.Field(default=None)
+    status: ReturnChatStatus = pydantic_v1.Field()
     """
-    Optional tag applied to this chat used to group chats by user, application, etc.
-    """
-
-    status: str = pydantic_v1.Field()
-    """
-    The status of the chat. Values from the ChatStatus enum.
+    Indicates the current state of the chat. There are six possible statuses:
+    
+    - `ACTIVE`: The chat is currently active and ongoing.
+    
+    - `USER_ENDED`: The chat was manually ended by the user.
+    
+    - `USER_TIMEOUT`: The chat ended due to a user-defined timeout.
+    
+    - `MAX_DURATION_TIMEOUT`: The chat ended because it reached the maximum allowed duration.
+    
+    - `INACTIVITY_TIMEOUT`: The chat ended due to an inactivity timeout.
+    
+    - `ERROR`: The chat ended unexpectedly due to an error.
     """
 
     start_timestamp: int = pydantic_v1.Field()
     """
-    The timestamp when the chat started, formatted as a Unix epoch milliseconds.
+    Time at which the Chat started. Measured in seconds since the Unix epoch.
     """
 
     end_timestamp: typing.Optional[int] = pydantic_v1.Field(default=None)
     """
-    The timestamp when the chat ended, formatted as a Unix epoch milliseconds.
+    Time at which the Chat ended. Measured in seconds since the Unix epoch.
     """
 
     event_count: typing.Optional[int] = pydantic_v1.Field(default=None)

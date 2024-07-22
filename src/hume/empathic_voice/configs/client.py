@@ -9,8 +9,11 @@ from ...core.jsonable_encoder import jsonable_encoder
 from ...core.pydantic_utilities import pydantic_v1
 from ...core.request_options import RequestOptions
 from ..types.posted_builtin_tool import PostedBuiltinTool
+from ..types.posted_ellm_model import PostedEllmModel
+from ..types.posted_event_message_specs import PostedEventMessageSpecs
 from ..types.posted_language_model import PostedLanguageModel
 from ..types.posted_prompt_spec import PostedPromptSpec
+from ..types.posted_timeout_specs import PostedTimeoutSpecs
 from ..types.posted_user_defined_tool_spec import PostedUserDefinedToolSpec
 from ..types.posted_voice import PostedVoice
 from ..types.return_config import ReturnConfig
@@ -30,19 +33,27 @@ class ConfigsClient:
         page_number: typing.Optional[int] = None,
         page_size: typing.Optional[int] = None,
         restrict_to_most_recent: typing.Optional[bool] = None,
+        name: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnPagedConfigs:
         """
         Parameters
         ----------
         page_number : typing.Optional[int]
-            The page number of the results to return.
+            Specifies the page number to retrieve, enabling pagination.
+
+            This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
 
         page_size : typing.Optional[int]
-            The maximum number of results to include per page.
+            Specifies the maximum number of results to include per page, enabling pagination.
+
+            The value must be greater than or equal to 1. For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         restrict_to_most_recent : typing.Optional[bool]
-            Only include the most recent version of each config in the list.
+            By default, `restrict_to_most_recent` is set to true, returning only the latest version of each config. To include all versions of each config in the list, set `restrict_to_most_recent` to false.
+
+        name : typing.Optional[str]
+            Filter to only include configs with this name.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -68,12 +79,13 @@ class ConfigsClient:
                 "page_number": page_number,
                 "page_size": page_size,
                 "restrict_to_most_recent": restrict_to_most_recent,
+                "name": name,
             },
             request_options=request_options,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(ReturnPagedConfigs, _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(ReturnPagedConfigs, _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -87,8 +99,11 @@ class ConfigsClient:
         prompt: typing.Optional[PostedPromptSpec] = OMIT,
         voice: typing.Optional[PostedVoice] = OMIT,
         language_model: typing.Optional[PostedLanguageModel] = OMIT,
+        ellm_model: typing.Optional[PostedEllmModel] = OMIT,
         tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
+        event_messages: typing.Optional[PostedEventMessageSpecs] = OMIT,
+        timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnConfig:
         """
@@ -98,19 +113,32 @@ class ConfigsClient:
             Name applied to all versions of a particular Config.
 
         version_description : typing.Optional[str]
-            Description that is appended to a specific version of a Config.
+            An optional description of the Config version.
 
         prompt : typing.Optional[PostedPromptSpec]
 
         voice : typing.Optional[PostedVoice]
+            A voice specification associated with this Config.
 
         language_model : typing.Optional[PostedLanguageModel]
+            The supplemental language model associated with this Config.
+
+            This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
+
+        ellm_model : typing.Optional[PostedEllmModel]
+            The eLLM setup associated with this Config.
+
+            Hume's eLLM (empathic Large Language Model) is a multimodal language model that takes into account both expression measures and language. The eLLM generates short, empathic language responses and guides text-to-speech (TTS) prosody.
 
         tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
-            Tool specification for a Config.
+            List of user-defined tools associated with this Config.
 
         builtin_tools : typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]
-            Built-in tool specification for a Config.
+            List of built-in tools associated with this Config.
+
+        event_messages : typing.Optional[PostedEventMessageSpecs]
+
+        timeouts : typing.Optional[PostedTimeoutSpecs]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -118,7 +146,7 @@ class ConfigsClient:
         Returns
         -------
         ReturnConfig
-            Success
+            Created
 
         Examples
         --------
@@ -140,15 +168,18 @@ class ConfigsClient:
                 "prompt": prompt,
                 "voice": voice,
                 "language_model": language_model,
+                "ellm_model": ellm_model,
                 "tools": tools,
                 "builtin_tools": builtin_tools,
+                "event_messages": event_messages,
+                "timeouts": timeouts,
             },
             request_options=request_options,
             omit=OMIT,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(ReturnConfig, _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(ReturnConfig, _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -167,16 +198,20 @@ class ConfigsClient:
         Parameters
         ----------
         id : str
-            Identifier for a config. Formatted as a UUID.
+            Identifier for a Config. Formatted as a UUID.
 
         page_number : typing.Optional[int]
-            The page number of the results to return.
+            Specifies the page number to retrieve, enabling pagination.
+
+            This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
 
         page_size : typing.Optional[int]
-            The maximum number of results to include per page.
+            Specifies the maximum number of results to include per page, enabling pagination.
+
+            The value must be greater than or equal to 1. For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         restrict_to_most_recent : typing.Optional[bool]
-            Only include the most recent version of each config in the list.
+            By default, `restrict_to_most_recent` is set to true, returning only the latest version of each config. To include all versions of each config in the list, set `restrict_to_most_recent` to false.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -207,9 +242,9 @@ class ConfigsClient:
             },
             request_options=request_options,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(ReturnPagedConfigs, _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(ReturnPagedConfigs, _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -223,30 +258,46 @@ class ConfigsClient:
         prompt: typing.Optional[PostedPromptSpec] = OMIT,
         voice: typing.Optional[PostedVoice] = OMIT,
         language_model: typing.Optional[PostedLanguageModel] = OMIT,
+        ellm_model: typing.Optional[PostedEllmModel] = OMIT,
         tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
+        event_messages: typing.Optional[PostedEventMessageSpecs] = OMIT,
+        timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnConfig:
         """
         Parameters
         ----------
         id : str
-            Identifier for a config. Formatted as a UUID.
+            Identifier for a Config. Formatted as a UUID.
 
         version_description : typing.Optional[str]
-            Description that is appended to a specific version of a Config.
+            An optional description of the Config version.
 
         prompt : typing.Optional[PostedPromptSpec]
 
         voice : typing.Optional[PostedVoice]
+            A voice specification associated with this Config version.
 
         language_model : typing.Optional[PostedLanguageModel]
+            The supplemental language model associated with this Config version.
+
+            This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
+
+        ellm_model : typing.Optional[PostedEllmModel]
+            The eLLM setup associated with this Config version.
+
+            Hume's eLLM (empathic Large Language Model) is a multimodal language model that takes into account both expression measures and language. The eLLM generates short, empathic language responses and guides text-to-speech (TTS) prosody.
 
         tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
-            Tool specification for a Config.
+            List of user-defined tools associated with this Config version.
 
         builtin_tools : typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]
-            Built-in tool specification for a Config.
+            List of built-in tools associated with this Config version.
+
+        event_messages : typing.Optional[PostedEventMessageSpecs]
+
+        timeouts : typing.Optional[PostedTimeoutSpecs]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -254,7 +305,7 @@ class ConfigsClient:
         Returns
         -------
         ReturnConfig
-            Success
+            Created
 
         Examples
         --------
@@ -275,15 +326,18 @@ class ConfigsClient:
                 "prompt": prompt,
                 "voice": voice,
                 "language_model": language_model,
+                "ellm_model": ellm_model,
                 "tools": tools,
                 "builtin_tools": builtin_tools,
+                "event_messages": event_messages,
+                "timeouts": timeouts,
             },
             request_options=request_options,
             omit=OMIT,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(ReturnConfig, _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(ReturnConfig, _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -294,7 +348,7 @@ class ConfigsClient:
         Parameters
         ----------
         id : str
-            Identifier for a config. Formatted as a UUID.
+            Identifier for a Config. Formatted as a UUID.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -317,9 +371,9 @@ class ConfigsClient:
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/configs/{jsonable_encoder(id)}", method="DELETE", request_options=request_options
         )
-        if 200 <= _response.status_code < 300:
-            return
         try:
+            if 200 <= _response.status_code < 300:
+                return
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -330,7 +384,7 @@ class ConfigsClient:
         Parameters
         ----------
         id : str
-            Identifier for a config. Formatted as a UUID.
+            Identifier for a Config. Formatted as a UUID.
 
         name : str
             Name applied to all versions of a particular Config.
@@ -362,9 +416,9 @@ class ConfigsClient:
             request_options=request_options,
             omit=OMIT,
         )
-        if 200 <= _response.status_code < 300:
-            return _response.text  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return _response.text  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -377,10 +431,14 @@ class ConfigsClient:
         Parameters
         ----------
         id : str
-            Identifier for a config. Formatted as a UUID.
+            Identifier for a Config. Formatted as a UUID.
 
         version : int
-            Version number for a config. Version numbers should be integers.
+            Version number for a Config.
+
+            Configs, as well as Prompts and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+
+            Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -407,9 +465,9 @@ class ConfigsClient:
             method="GET",
             request_options=request_options,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(ReturnConfig, _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(ReturnConfig, _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -422,10 +480,14 @@ class ConfigsClient:
         Parameters
         ----------
         id : str
-            Identifier for a config. Formatted as a UUID.
+            Identifier for a Config. Formatted as a UUID.
 
         version : int
-            Version number for a config. Version numbers should be integers.
+            Version number for a Config.
+
+            Configs, as well as Prompts and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+
+            Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -451,9 +513,9 @@ class ConfigsClient:
             method="DELETE",
             request_options=request_options,
         )
-        if 200 <= _response.status_code < 300:
-            return
         try:
+            if 200 <= _response.status_code < 300:
+                return
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -471,13 +533,17 @@ class ConfigsClient:
         Parameters
         ----------
         id : str
-            Identifier for a config. Formatted as a UUID.
+            Identifier for a Config. Formatted as a UUID.
 
         version : int
-            Version number for a config. Version numbers should be integers.
+            Version number for a Config.
+
+            Configs, as well as Prompts and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+
+            Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
 
         version_description : typing.Optional[str]
-            Description that is appended to a specific version of a Config.
+            An optional description of the Config version.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -506,9 +572,9 @@ class ConfigsClient:
             request_options=request_options,
             omit=OMIT,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(ReturnConfig, _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(ReturnConfig, _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -525,19 +591,27 @@ class AsyncConfigsClient:
         page_number: typing.Optional[int] = None,
         page_size: typing.Optional[int] = None,
         restrict_to_most_recent: typing.Optional[bool] = None,
+        name: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnPagedConfigs:
         """
         Parameters
         ----------
         page_number : typing.Optional[int]
-            The page number of the results to return.
+            Specifies the page number to retrieve, enabling pagination.
+
+            This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
 
         page_size : typing.Optional[int]
-            The maximum number of results to include per page.
+            Specifies the maximum number of results to include per page, enabling pagination.
+
+            The value must be greater than or equal to 1. For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         restrict_to_most_recent : typing.Optional[bool]
-            Only include the most recent version of each config in the list.
+            By default, `restrict_to_most_recent` is set to true, returning only the latest version of each config. To include all versions of each config in the list, set `restrict_to_most_recent` to false.
+
+        name : typing.Optional[str]
+            Filter to only include configs with this name.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -549,12 +623,20 @@ class AsyncConfigsClient:
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.empathic_voice.configs.list_configs()
+
+
+        async def main() -> None:
+            await client.empathic_voice.configs.list_configs()
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             "v0/evi/configs",
@@ -563,12 +645,13 @@ class AsyncConfigsClient:
                 "page_number": page_number,
                 "page_size": page_size,
                 "restrict_to_most_recent": restrict_to_most_recent,
+                "name": name,
             },
             request_options=request_options,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(ReturnPagedConfigs, _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(ReturnPagedConfigs, _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -582,8 +665,11 @@ class AsyncConfigsClient:
         prompt: typing.Optional[PostedPromptSpec] = OMIT,
         voice: typing.Optional[PostedVoice] = OMIT,
         language_model: typing.Optional[PostedLanguageModel] = OMIT,
+        ellm_model: typing.Optional[PostedEllmModel] = OMIT,
         tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
+        event_messages: typing.Optional[PostedEventMessageSpecs] = OMIT,
+        timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnConfig:
         """
@@ -593,19 +679,32 @@ class AsyncConfigsClient:
             Name applied to all versions of a particular Config.
 
         version_description : typing.Optional[str]
-            Description that is appended to a specific version of a Config.
+            An optional description of the Config version.
 
         prompt : typing.Optional[PostedPromptSpec]
 
         voice : typing.Optional[PostedVoice]
+            A voice specification associated with this Config.
 
         language_model : typing.Optional[PostedLanguageModel]
+            The supplemental language model associated with this Config.
+
+            This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
+
+        ellm_model : typing.Optional[PostedEllmModel]
+            The eLLM setup associated with this Config.
+
+            Hume's eLLM (empathic Large Language Model) is a multimodal language model that takes into account both expression measures and language. The eLLM generates short, empathic language responses and guides text-to-speech (TTS) prosody.
 
         tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
-            Tool specification for a Config.
+            List of user-defined tools associated with this Config.
 
         builtin_tools : typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]
-            Built-in tool specification for a Config.
+            List of built-in tools associated with this Config.
+
+        event_messages : typing.Optional[PostedEventMessageSpecs]
+
+        timeouts : typing.Optional[PostedTimeoutSpecs]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -613,18 +712,26 @@ class AsyncConfigsClient:
         Returns
         -------
         ReturnConfig
-            Success
+            Created
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.empathic_voice.configs.create_config(
-            name="name",
-        )
+
+
+        async def main() -> None:
+            await client.empathic_voice.configs.create_config(
+                name="name",
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             "v0/evi/configs",
@@ -635,15 +742,18 @@ class AsyncConfigsClient:
                 "prompt": prompt,
                 "voice": voice,
                 "language_model": language_model,
+                "ellm_model": ellm_model,
                 "tools": tools,
                 "builtin_tools": builtin_tools,
+                "event_messages": event_messages,
+                "timeouts": timeouts,
             },
             request_options=request_options,
             omit=OMIT,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(ReturnConfig, _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(ReturnConfig, _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -662,16 +772,20 @@ class AsyncConfigsClient:
         Parameters
         ----------
         id : str
-            Identifier for a config. Formatted as a UUID.
+            Identifier for a Config. Formatted as a UUID.
 
         page_number : typing.Optional[int]
-            The page number of the results to return.
+            Specifies the page number to retrieve, enabling pagination.
+
+            This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
 
         page_size : typing.Optional[int]
-            The maximum number of results to include per page.
+            Specifies the maximum number of results to include per page, enabling pagination.
+
+            The value must be greater than or equal to 1. For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         restrict_to_most_recent : typing.Optional[bool]
-            Only include the most recent version of each config in the list.
+            By default, `restrict_to_most_recent` is set to true, returning only the latest version of each config. To include all versions of each config in the list, set `restrict_to_most_recent` to false.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -683,14 +797,22 @@ class AsyncConfigsClient:
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.empathic_voice.configs.list_config_versions(
-            id="id",
-        )
+
+
+        async def main() -> None:
+            await client.empathic_voice.configs.list_config_versions(
+                id="id",
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/configs/{jsonable_encoder(id)}",
@@ -702,9 +824,9 @@ class AsyncConfigsClient:
             },
             request_options=request_options,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(ReturnPagedConfigs, _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(ReturnPagedConfigs, _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -718,30 +840,46 @@ class AsyncConfigsClient:
         prompt: typing.Optional[PostedPromptSpec] = OMIT,
         voice: typing.Optional[PostedVoice] = OMIT,
         language_model: typing.Optional[PostedLanguageModel] = OMIT,
+        ellm_model: typing.Optional[PostedEllmModel] = OMIT,
         tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
+        event_messages: typing.Optional[PostedEventMessageSpecs] = OMIT,
+        timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnConfig:
         """
         Parameters
         ----------
         id : str
-            Identifier for a config. Formatted as a UUID.
+            Identifier for a Config. Formatted as a UUID.
 
         version_description : typing.Optional[str]
-            Description that is appended to a specific version of a Config.
+            An optional description of the Config version.
 
         prompt : typing.Optional[PostedPromptSpec]
 
         voice : typing.Optional[PostedVoice]
+            A voice specification associated with this Config version.
 
         language_model : typing.Optional[PostedLanguageModel]
+            The supplemental language model associated with this Config version.
+
+            This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
+
+        ellm_model : typing.Optional[PostedEllmModel]
+            The eLLM setup associated with this Config version.
+
+            Hume's eLLM (empathic Large Language Model) is a multimodal language model that takes into account both expression measures and language. The eLLM generates short, empathic language responses and guides text-to-speech (TTS) prosody.
 
         tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
-            Tool specification for a Config.
+            List of user-defined tools associated with this Config version.
 
         builtin_tools : typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]
-            Built-in tool specification for a Config.
+            List of built-in tools associated with this Config version.
+
+        event_messages : typing.Optional[PostedEventMessageSpecs]
+
+        timeouts : typing.Optional[PostedTimeoutSpecs]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -749,18 +887,26 @@ class AsyncConfigsClient:
         Returns
         -------
         ReturnConfig
-            Success
+            Created
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.empathic_voice.configs.create_config_version(
-            id="id",
-        )
+
+
+        async def main() -> None:
+            await client.empathic_voice.configs.create_config_version(
+                id="id",
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/configs/{jsonable_encoder(id)}",
@@ -770,15 +916,18 @@ class AsyncConfigsClient:
                 "prompt": prompt,
                 "voice": voice,
                 "language_model": language_model,
+                "ellm_model": ellm_model,
                 "tools": tools,
                 "builtin_tools": builtin_tools,
+                "event_messages": event_messages,
+                "timeouts": timeouts,
             },
             request_options=request_options,
             omit=OMIT,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(ReturnConfig, _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(ReturnConfig, _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -789,7 +938,7 @@ class AsyncConfigsClient:
         Parameters
         ----------
         id : str
-            Identifier for a config. Formatted as a UUID.
+            Identifier for a Config. Formatted as a UUID.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -800,21 +949,29 @@ class AsyncConfigsClient:
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.empathic_voice.configs.delete_config(
-            id="id",
-        )
+
+
+        async def main() -> None:
+            await client.empathic_voice.configs.delete_config(
+                id="id",
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/configs/{jsonable_encoder(id)}", method="DELETE", request_options=request_options
         )
-        if 200 <= _response.status_code < 300:
-            return
         try:
+            if 200 <= _response.status_code < 300:
+                return
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -827,7 +984,7 @@ class AsyncConfigsClient:
         Parameters
         ----------
         id : str
-            Identifier for a config. Formatted as a UUID.
+            Identifier for a Config. Formatted as a UUID.
 
         name : str
             Name applied to all versions of a particular Config.
@@ -842,15 +999,23 @@ class AsyncConfigsClient:
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.empathic_voice.configs.update_config_name(
-            id="string",
-            name="string",
-        )
+
+
+        async def main() -> None:
+            await client.empathic_voice.configs.update_config_name(
+                id="string",
+                name="string",
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/configs/{jsonable_encoder(id)}",
@@ -859,9 +1024,9 @@ class AsyncConfigsClient:
             request_options=request_options,
             omit=OMIT,
         )
-        if 200 <= _response.status_code < 300:
-            return _response.text  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return _response.text  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -874,10 +1039,14 @@ class AsyncConfigsClient:
         Parameters
         ----------
         id : str
-            Identifier for a config. Formatted as a UUID.
+            Identifier for a Config. Formatted as a UUID.
 
         version : int
-            Version number for a config. Version numbers should be integers.
+            Version number for a Config.
+
+            Configs, as well as Prompts and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+
+            Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -889,24 +1058,32 @@ class AsyncConfigsClient:
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.empathic_voice.configs.get_config_version(
-            id="id",
-            version=1,
-        )
+
+
+        async def main() -> None:
+            await client.empathic_voice.configs.get_config_version(
+                id="id",
+                version=1,
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/configs/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
             method="GET",
             request_options=request_options,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(ReturnConfig, _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(ReturnConfig, _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -919,10 +1096,14 @@ class AsyncConfigsClient:
         Parameters
         ----------
         id : str
-            Identifier for a config. Formatted as a UUID.
+            Identifier for a Config. Formatted as a UUID.
 
         version : int
-            Version number for a config. Version numbers should be integers.
+            Version number for a Config.
+
+            Configs, as well as Prompts and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+
+            Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -933,24 +1114,32 @@ class AsyncConfigsClient:
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.empathic_voice.configs.delete_config_version(
-            id="id",
-            version=1,
-        )
+
+
+        async def main() -> None:
+            await client.empathic_voice.configs.delete_config_version(
+                id="id",
+                version=1,
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/configs/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
             method="DELETE",
             request_options=request_options,
         )
-        if 200 <= _response.status_code < 300:
-            return
         try:
+            if 200 <= _response.status_code < 300:
+                return
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -968,13 +1157,17 @@ class AsyncConfigsClient:
         Parameters
         ----------
         id : str
-            Identifier for a config. Formatted as a UUID.
+            Identifier for a Config. Formatted as a UUID.
 
         version : int
-            Version number for a config. Version numbers should be integers.
+            Version number for a Config.
+
+            Configs, as well as Prompts and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+
+            Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
 
         version_description : typing.Optional[str]
-            Description that is appended to a specific version of a Config.
+            An optional description of the Config version.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -986,15 +1179,23 @@ class AsyncConfigsClient:
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.empathic_voice.configs.update_config_description(
-            id="id",
-            version=1,
-        )
+
+
+        async def main() -> None:
+            await client.empathic_voice.configs.update_config_description(
+                id="id",
+                version=1,
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/configs/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
@@ -1003,9 +1204,9 @@ class AsyncConfigsClient:
             request_options=request_options,
             omit=OMIT,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(ReturnConfig, _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(ReturnConfig, _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)

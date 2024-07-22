@@ -5,6 +5,7 @@ import typing
 
 from ...core.datetime_utils import serialize_datetime
 from ...core.pydantic_utilities import deep_union_pydantic_dicts, pydantic_v1
+from .return_voice_name import ReturnVoiceName
 
 
 class ReturnVoice(pydantic_v1.BaseModel):
@@ -12,14 +13,14 @@ class ReturnVoice(pydantic_v1.BaseModel):
     A specific voice specification
     """
 
-    provider: str = pydantic_v1.Field()
+    provider: typing.Literal["HUME_AI"] = pydantic_v1.Field(default="HUME_AI")
     """
-    The provider of the voice to use. Based on the enum VoiceProvider.
+    The provider of the voice to use. Currently, only `HUME_AI` is supported as the voice provider.
     """
 
-    name: str = pydantic_v1.Field()
+    name: typing.Optional[ReturnVoiceName] = pydantic_v1.Field(default=None)
     """
-    String with the name of the voice to use.
+    String with the name of the voice to use. Maximum length of 75 characters. Will be converted to all-uppercase.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

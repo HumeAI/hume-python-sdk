@@ -19,7 +19,11 @@ class PostedUserDefinedToolSpec(pydantic_v1.BaseModel):
 
     version: typing.Optional[int] = pydantic_v1.Field(default=None)
     """
-    Version number for a Tool. Version numbers should be integers. The combination of configId and version number is unique.
+    Version number for a Tool.
+    
+    Tools, as well as Configs and Prompts, are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.
+    
+    Version numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

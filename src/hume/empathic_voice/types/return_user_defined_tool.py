@@ -5,6 +5,8 @@ import typing
 
 from ...core.datetime_utils import serialize_datetime
 from ...core.pydantic_utilities import deep_union_pydantic_dicts, pydantic_v1
+from .return_user_defined_tool_tool_type import ReturnUserDefinedToolToolType
+from .return_user_defined_tool_version_type import ReturnUserDefinedToolVersionType
 
 
 class ReturnUserDefinedTool(pydantic_v1.BaseModel):
@@ -12,9 +14,9 @@ class ReturnUserDefinedTool(pydantic_v1.BaseModel):
     A specific tool version returned from the server
     """
 
-    tool_type: str = pydantic_v1.Field()
+    tool_type: ReturnUserDefinedToolToolType = pydantic_v1.Field()
     """
-    Type of Tool. Values from the ToolType enum.
+    Type of Tool. Either `BUILTIN` for natively implemented tools, like web search, or `FUNCTION` for user-defined tools.
     """
 
     id: str = pydantic_v1.Field()
@@ -24,17 +26,21 @@ class ReturnUserDefinedTool(pydantic_v1.BaseModel):
 
     version: int = pydantic_v1.Field()
     """
-    Version number for a Tool. Version numbers should be integers. The combination of configId and version number is unique.
+    Version number for a Tool.
+    
+    Tools, as well as Configs and Prompts, are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.
+    
+    Version numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number.
     """
 
-    version_type: str = pydantic_v1.Field()
+    version_type: ReturnUserDefinedToolVersionType = pydantic_v1.Field()
     """
-    Inidicates whether this tool is using a fixed version number or auto-updating to the latest version. Values from the VersionType enum.
+    Versioning method for a Tool. Either `FIXED` for using a fixed version number or `LATEST` for auto-updating to the latest version.
     """
 
     version_description: typing.Optional[str] = pydantic_v1.Field(default=None)
     """
-    Description that is appended to a specific version of a Tool.
+    An optional description of the Tool version.
     """
 
     name: str = pydantic_v1.Field()
@@ -44,27 +50,29 @@ class ReturnUserDefinedTool(pydantic_v1.BaseModel):
 
     created_on: int = pydantic_v1.Field()
     """
-    The timestamp when the first version of this tool was created.
+    Time at which the Tool was created. Measured in seconds since the Unix epoch.
     """
 
     modified_on: int = pydantic_v1.Field()
     """
-    The timestamp when this version of the tool was created.
+    Time at which the Tool was last modified. Measured in seconds since the Unix epoch.
     """
 
     fallback_content: typing.Optional[str] = pydantic_v1.Field(default=None)
     """
-    Text to use if the tool fails to generate content.
+    Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
     """
 
     description: typing.Optional[str] = pydantic_v1.Field(default=None)
     """
-    Text describing what the tool does.
+    An optional description of what the Tool does, used by the supplemental LLM to choose when and how to call the function.
     """
 
     parameters: str = pydantic_v1.Field()
     """
     Stringified JSON defining the parameters used by this version of the Tool.
+    
+    These parameters define the inputs needed for the Tool’s execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the tool receives data in the expected format.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

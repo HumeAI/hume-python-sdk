@@ -9,7 +9,12 @@ from .emotion_scores import EmotionScores
 
 
 class ProsodyInference(pydantic_v1.BaseModel):
-    scores: EmotionScores
+    scores: EmotionScores = pydantic_v1.Field()
+    """
+    The confidence levels of 48 expressions in a given audio sample.
+    
+    Scores typically range from 0 to 1, with higher values indicating a stronger confidence level in the measured attribute.
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

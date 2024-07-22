@@ -26,19 +26,27 @@ class ToolsClient:
         page_number: typing.Optional[int] = None,
         page_size: typing.Optional[int] = None,
         restrict_to_most_recent: typing.Optional[bool] = None,
+        name: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[typing.Optional[ReturnUserDefinedTool]]:
         """
         Parameters
         ----------
         page_number : typing.Optional[int]
-            The page number of the results to return.
+            Specifies the page number to retrieve, enabling pagination.
+
+            This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
 
         page_size : typing.Optional[int]
-            The maximum number of results to include per page.
+            Specifies the maximum number of results to include per page, enabling pagination.
+
+            The value must be greater than or equal to 1. For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         restrict_to_most_recent : typing.Optional[bool]
-            Only include the most recent version of each tool in the list.
+            By default, `restrict_to_most_recent` is set to true, returning only the latest version of each tool. To include all versions of each tool in the list, set `restrict_to_most_recent` to false.
+
+        name : typing.Optional[str]
+            Filter to only include tools with this name.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -55,11 +63,17 @@ class ToolsClient:
         client = HumeClient(
             api_key="YOUR_API_KEY",
         )
-        client.empathic_voice.tools.list_tools(
+        response = client.empathic_voice.tools.list_tools(
             page_number=0,
             page_size=2,
         )
+        for item in response:
+            yield item
+        # alternatively, you can paginate page-by-page
+        for page in response.iter_pages():
+            yield page
         """
+        page_number = page_number if page_number is not None else 1
         _response = self._client_wrapper.httpx_client.request(
             "v0/evi/tools",
             method="GET",
@@ -67,21 +81,23 @@ class ToolsClient:
                 "page_number": page_number,
                 "page_size": page_size,
                 "restrict_to_most_recent": restrict_to_most_recent,
+                "name": name,
             },
             request_options=request_options,
         )
-        if 200 <= _response.status_code < 300:
-            _parsed_response = pydantic_v1.parse_obj_as(ReturnPagedUserDefinedTools, _response.json())  # type: ignore
-            _has_next = True
-            _get_next = lambda: self.list_tools(
-                page_number=page_number + 1 if page_number is not None else 1,
-                page_size=page_size,
-                restrict_to_most_recent=restrict_to_most_recent,
-                request_options=request_options,
-            )
-            _items = _parsed_response.tools_page
-            return SyncPager(has_next=_has_next, items=_items, get_next=_get_next)
         try:
+            if 200 <= _response.status_code < 300:
+                _parsed_response = pydantic_v1.parse_obj_as(ReturnPagedUserDefinedTools, _response.json())  # type: ignore
+                _has_next = True
+                _get_next = lambda: self.list_tools(
+                    page_number=page_number + 1,
+                    page_size=page_size,
+                    restrict_to_most_recent=restrict_to_most_recent,
+                    name=name,
+                    request_options=request_options,
+                )
+                _items = _parsed_response.tools_page
+                return SyncPager(has_next=_has_next, items=_items, get_next=_get_next)
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -106,14 +122,16 @@ class ToolsClient:
         parameters : str
             Stringified JSON defining the parameters used by this version of the Tool.
 
+            These parameters define the inputs needed for the Tool’s execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.
+
         version_description : typing.Optional[str]
-            Description that is appended to a specific version of a Tool.
+            An optional description of the Tool version.
 
         description : typing.Optional[str]
-            Text describing what the tool does.
+            An optional description of what the Tool does, used by the supplemental LLM to choose when and how to call the function.
 
         fallback_content : typing.Optional[str]
-            Text to use if the tool fails to generate content.
+            Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -121,7 +139,7 @@ class ToolsClient:
         Returns
         -------
         typing.Optional[ReturnUserDefinedTool]
-            Success
+            Created
 
         Examples
         --------
@@ -151,9 +169,9 @@ class ToolsClient:
             request_options=request_options,
             omit=OMIT,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(typing.Optional[ReturnUserDefinedTool], _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(typing.Optional[ReturnUserDefinedTool], _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -172,16 +190,20 @@ class ToolsClient:
         Parameters
         ----------
         id : str
-            Identifier for a tool. Formatted as a UUID.
+            Identifier for a Tool. Formatted as a UUID.
 
         page_number : typing.Optional[int]
-            The page number of the results to return.
+            Specifies the page number to retrieve, enabling pagination.
+
+            This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
 
         page_size : typing.Optional[int]
-            The maximum number of results to include per page.
+            Specifies the maximum number of results to include per page, enabling pagination.
+
+            The value must be greater than or equal to 1. For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         restrict_to_most_recent : typing.Optional[bool]
-            Only include the most recent version of each tool in the list.
+            By default, `restrict_to_most_recent` is set to true, returning only the latest version of each tool. To include all versions of each tool in the list, set `restrict_to_most_recent` to false.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -212,9 +234,9 @@ class ToolsClient:
             },
             request_options=request_options,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(ReturnPagedUserDefinedTools, _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(ReturnPagedUserDefinedTools, _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -234,19 +256,21 @@ class ToolsClient:
         Parameters
         ----------
         id : str
-            Identifier for a tool. Formatted as a UUID.
+            Identifier for a Tool. Formatted as a UUID.
 
         parameters : str
             Stringified JSON defining the parameters used by this version of the Tool.
 
+            These parameters define the inputs needed for the Tool’s execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.
+
         version_description : typing.Optional[str]
-            Description that is appended to a specific version of a Tool.
+            An optional description of the Tool version.
 
         description : typing.Optional[str]
-            Text describing what the tool does.
+            An optional description of what the Tool does, used by the supplemental LLM to choose when and how to call the function.
 
         fallback_content : typing.Optional[str]
-            Text to use if the tool fails to generate content.
+            Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -254,7 +278,7 @@ class ToolsClient:
         Returns
         -------
         typing.Optional[ReturnUserDefinedTool]
-            Success
+            Created
 
         Examples
         --------
@@ -283,9 +307,9 @@ class ToolsClient:
             request_options=request_options,
             omit=OMIT,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(typing.Optional[ReturnUserDefinedTool], _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(typing.Optional[ReturnUserDefinedTool], _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -296,7 +320,7 @@ class ToolsClient:
         Parameters
         ----------
         id : str
-            Identifier for a tool. Formatted as a UUID.
+            Identifier for a Tool. Formatted as a UUID.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -319,9 +343,9 @@ class ToolsClient:
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/tools/{jsonable_encoder(id)}", method="DELETE", request_options=request_options
         )
-        if 200 <= _response.status_code < 300:
-            return
         try:
+            if 200 <= _response.status_code < 300:
+                return
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -332,7 +356,7 @@ class ToolsClient:
         Parameters
         ----------
         id : str
-            Identifier for a tool. Formatted as a UUID.
+            Identifier for a Tool. Formatted as a UUID.
 
         name : str
             Name applied to all versions of a particular Tool.
@@ -364,9 +388,9 @@ class ToolsClient:
             request_options=request_options,
             omit=OMIT,
         )
-        if 200 <= _response.status_code < 300:
-            return _response.text  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return _response.text  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -379,10 +403,14 @@ class ToolsClient:
         Parameters
         ----------
         id : str
-            Identifier for a tool. Formatted as a UUID.
+            Identifier for a Tool. Formatted as a UUID.
 
         version : int
-            Version number for a tool. Version numbers should be integers.
+            Version number for a Tool.
+
+            Tools, as well as Configs and Prompts, are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.
+
+            Version numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -409,9 +437,9 @@ class ToolsClient:
             method="GET",
             request_options=request_options,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(typing.Optional[ReturnUserDefinedTool], _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(typing.Optional[ReturnUserDefinedTool], _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -424,10 +452,14 @@ class ToolsClient:
         Parameters
         ----------
         id : str
-            Identifier for a tool. Formatted as a UUID.
+            Identifier for a Tool. Formatted as a UUID.
 
         version : int
-            Version number for a tool. Version numbers should be integers.
+            Version number for a Tool.
+
+            Tools, as well as Configs and Prompts, are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.
+
+            Version numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -453,9 +485,9 @@ class ToolsClient:
             method="DELETE",
             request_options=request_options,
         )
-        if 200 <= _response.status_code < 300:
-            return
         try:
+            if 200 <= _response.status_code < 300:
+                return
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -473,13 +505,17 @@ class ToolsClient:
         Parameters
         ----------
         id : str
-            Identifier for a tool. Formatted as a UUID.
+            Identifier for a Tool. Formatted as a UUID.
 
         version : int
-            Version number for a tool. Version numbers should be integers.
+            Version number for a Tool.
+
+            Tools, as well as Configs and Prompts, are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.
+
+            Version numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number.
 
         version_description : typing.Optional[str]
-            Description that is appended to a specific version of a Tool.
+            An optional description of the Tool version.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -509,9 +545,9 @@ class ToolsClient:
             request_options=request_options,
             omit=OMIT,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(typing.Optional[ReturnUserDefinedTool], _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(typing.Optional[ReturnUserDefinedTool], _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -528,19 +564,27 @@ class AsyncToolsClient:
         page_number: typing.Optional[int] = None,
         page_size: typing.Optional[int] = None,
         restrict_to_most_recent: typing.Optional[bool] = None,
+        name: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[typing.Optional[ReturnUserDefinedTool]]:
         """
         Parameters
         ----------
         page_number : typing.Optional[int]
-            The page number of the results to return.
+            Specifies the page number to retrieve, enabling pagination.
+
+            This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
 
         page_size : typing.Optional[int]
-            The maximum number of results to include per page.
+            Specifies the maximum number of results to include per page, enabling pagination.
+
+            The value must be greater than or equal to 1. For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         restrict_to_most_recent : typing.Optional[bool]
-            Only include the most recent version of each tool in the list.
+            By default, `restrict_to_most_recent` is set to true, returning only the latest version of each tool. To include all versions of each tool in the list, set `restrict_to_most_recent` to false.
+
+        name : typing.Optional[str]
+            Filter to only include tools with this name.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -552,16 +596,30 @@ class AsyncToolsClient:
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.empathic_voice.tools.list_tools(
-            page_number=0,
-            page_size=2,
-        )
+
+
+        async def main() -> None:
+            response = await client.empathic_voice.tools.list_tools(
+                page_number=0,
+                page_size=2,
+            )
+            async for item in response:
+                yield item
+            # alternatively, you can paginate page-by-page
+            async for page in response.iter_pages():
+                yield page
+
+
+        asyncio.run(main())
         """
+        page_number = page_number if page_number is not None else 1
         _response = await self._client_wrapper.httpx_client.request(
             "v0/evi/tools",
             method="GET",
@@ -569,21 +627,23 @@ class AsyncToolsClient:
                 "page_number": page_number,
                 "page_size": page_size,
                 "restrict_to_most_recent": restrict_to_most_recent,
+                "name": name,
             },
             request_options=request_options,
         )
-        if 200 <= _response.status_code < 300:
-            _parsed_response = pydantic_v1.parse_obj_as(ReturnPagedUserDefinedTools, _response.json())  # type: ignore
-            _has_next = True
-            _get_next = lambda: self.list_tools(
-                page_number=page_number + 1 if page_number is not None else 1,
-                page_size=page_size,
-                restrict_to_most_recent=restrict_to_most_recent,
-                request_options=request_options,
-            )
-            _items = _parsed_response.tools_page
-            return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next)
         try:
+            if 200 <= _response.status_code < 300:
+                _parsed_response = pydantic_v1.parse_obj_as(ReturnPagedUserDefinedTools, _response.json())  # type: ignore
+                _has_next = True
+                _get_next = lambda: self.list_tools(
+                    page_number=page_number + 1,
+                    page_size=page_size,
+                    restrict_to_most_recent=restrict_to_most_recent,
+                    name=name,
+                    request_options=request_options,
+                )
+                _items = _parsed_response.tools_page
+                return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next)
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -608,14 +668,16 @@ class AsyncToolsClient:
         parameters : str
             Stringified JSON defining the parameters used by this version of the Tool.
 
+            These parameters define the inputs needed for the Tool’s execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.
+
         version_description : typing.Optional[str]
-            Description that is appended to a specific version of a Tool.
+            An optional description of the Tool version.
 
         description : typing.Optional[str]
-            Text describing what the tool does.
+            An optional description of what the Tool does, used by the supplemental LLM to choose when and how to call the function.
 
         fallback_content : typing.Optional[str]
-            Text to use if the tool fails to generate content.
+            Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -623,22 +685,30 @@ class AsyncToolsClient:
         Returns
         -------
         typing.Optional[ReturnUserDefinedTool]
-            Success
+            Created
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.empathic_voice.tools.create_tool(
-            name="get_current_weather",
-            parameters='{ "type": "object", "properties": { "location": { "type": "string", "description": "The city and state, e.g. San Francisco, CA" }, "format": { "type": "string", "enum": ["celsius", "fahrenheit"], "description": "The temperature unit to use. Infer this from the users location." } }, "required": ["location", "format"] }',
-            version_description="Fetches current weather and uses celsius or fahrenheit based on location of user.",
-            description="This tool is for getting the current weather.",
-            fallback_content="Unable to fetch current weather.",
-        )
+
+
+        async def main() -> None:
+            await client.empathic_voice.tools.create_tool(
+                name="get_current_weather",
+                parameters='{ "type": "object", "properties": { "location": { "type": "string", "description": "The city and state, e.g. San Francisco, CA" }, "format": { "type": "string", "enum": ["celsius", "fahrenheit"], "description": "The temperature unit to use. Infer this from the users location." } }, "required": ["location", "format"] }',
+                version_description="Fetches current weather and uses celsius or fahrenheit based on location of user.",
+                description="This tool is for getting the current weather.",
+                fallback_content="Unable to fetch current weather.",
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             "v0/evi/tools",
@@ -653,9 +723,9 @@ class AsyncToolsClient:
             request_options=request_options,
             omit=OMIT,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(typing.Optional[ReturnUserDefinedTool], _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(typing.Optional[ReturnUserDefinedTool], _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -674,16 +744,20 @@ class AsyncToolsClient:
         Parameters
         ----------
         id : str
-            Identifier for a tool. Formatted as a UUID.
+            Identifier for a Tool. Formatted as a UUID.
 
         page_number : typing.Optional[int]
-            The page number of the results to return.
+            Specifies the page number to retrieve, enabling pagination.
+
+            This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
 
         page_size : typing.Optional[int]
-            The maximum number of results to include per page.
+            Specifies the maximum number of results to include per page, enabling pagination.
+
+            The value must be greater than or equal to 1. For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         restrict_to_most_recent : typing.Optional[bool]
-            Only include the most recent version of each tool in the list.
+            By default, `restrict_to_most_recent` is set to true, returning only the latest version of each tool. To include all versions of each tool in the list, set `restrict_to_most_recent` to false.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -695,14 +769,22 @@ class AsyncToolsClient:
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.empathic_voice.tools.list_tool_versions(
-            id="00183a3f-79ba-413d-9f3b-609864268bea",
-        )
+
+
+        async def main() -> None:
+            await client.empathic_voice.tools.list_tool_versions(
+                id="00183a3f-79ba-413d-9f3b-609864268bea",
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/tools/{jsonable_encoder(id)}",
@@ -714,9 +796,9 @@ class AsyncToolsClient:
             },
             request_options=request_options,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(ReturnPagedUserDefinedTools, _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(ReturnPagedUserDefinedTools, _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -736,19 +818,21 @@ class AsyncToolsClient:
         Parameters
         ----------
         id : str
-            Identifier for a tool. Formatted as a UUID.
+            Identifier for a Tool. Formatted as a UUID.
 
         parameters : str
             Stringified JSON defining the parameters used by this version of the Tool.
 
+            These parameters define the inputs needed for the Tool’s execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.
+
         version_description : typing.Optional[str]
-            Description that is appended to a specific version of a Tool.
+            An optional description of the Tool version.
 
         description : typing.Optional[str]
-            Text describing what the tool does.
+            An optional description of what the Tool does, used by the supplemental LLM to choose when and how to call the function.
 
         fallback_content : typing.Optional[str]
-            Text to use if the tool fails to generate content.
+            Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -756,22 +840,30 @@ class AsyncToolsClient:
         Returns
         -------
         typing.Optional[ReturnUserDefinedTool]
-            Success
+            Created
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.empathic_voice.tools.create_tool_version(
-            id="00183a3f-79ba-413d-9f3b-609864268bea",
-            parameters='{ "type": "object", "properties": { "location": { "type": "string", "description": "The city and state, e.g. San Francisco, CA" }, "format": { "type": "string", "enum": ["celsius", "fahrenheit", "kelvin"], "description": "The temperature unit to use. Infer this from the users location." } }, "required": ["location", "format"] }',
-            version_description="Fetches current weather and uses celsius, fahrenheit, or kelvin based on location of user.",
-            fallback_content="Unable to fetch current weather.",
-            description="This tool is for getting the current weather.",
-        )
+
+
+        async def main() -> None:
+            await client.empathic_voice.tools.create_tool_version(
+                id="00183a3f-79ba-413d-9f3b-609864268bea",
+                parameters='{ "type": "object", "properties": { "location": { "type": "string", "description": "The city and state, e.g. San Francisco, CA" }, "format": { "type": "string", "enum": ["celsius", "fahrenheit", "kelvin"], "description": "The temperature unit to use. Infer this from the users location." } }, "required": ["location", "format"] }',
+                version_description="Fetches current weather and uses celsius, fahrenheit, or kelvin based on location of user.",
+                fallback_content="Unable to fetch current weather.",
+                description="This tool is for getting the current weather.",
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/tools/{jsonable_encoder(id)}",
@@ -785,9 +877,9 @@ class AsyncToolsClient:
             request_options=request_options,
             omit=OMIT,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(typing.Optional[ReturnUserDefinedTool], _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(typing.Optional[ReturnUserDefinedTool], _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -798,7 +890,7 @@ class AsyncToolsClient:
         Parameters
         ----------
         id : str
-            Identifier for a tool. Formatted as a UUID.
+            Identifier for a Tool. Formatted as a UUID.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -809,21 +901,29 @@ class AsyncToolsClient:
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.empathic_voice.tools.delete_tool(
-            id="00183a3f-79ba-413d-9f3b-609864268bea",
-        )
+
+
+        async def main() -> None:
+            await client.empathic_voice.tools.delete_tool(
+                id="00183a3f-79ba-413d-9f3b-609864268bea",
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/tools/{jsonable_encoder(id)}", method="DELETE", request_options=request_options
         )
-        if 200 <= _response.status_code < 300:
-            return
         try:
+            if 200 <= _response.status_code < 300:
+                return
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -836,7 +936,7 @@ class AsyncToolsClient:
         Parameters
         ----------
         id : str
-            Identifier for a tool. Formatted as a UUID.
+            Identifier for a Tool. Formatted as a UUID.
 
         name : str
             Name applied to all versions of a particular Tool.
@@ -851,15 +951,23 @@ class AsyncToolsClient:
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.empathic_voice.tools.update_tool_name(
-            id="00183a3f-79ba-413d-9f3b-609864268bea",
-            name="get_current_temperature",
-        )
+
+
+        async def main() -> None:
+            await client.empathic_voice.tools.update_tool_name(
+                id="00183a3f-79ba-413d-9f3b-609864268bea",
+                name="get_current_temperature",
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/tools/{jsonable_encoder(id)}",
@@ -868,9 +976,9 @@ class AsyncToolsClient:
             request_options=request_options,
             omit=OMIT,
         )
-        if 200 <= _response.status_code < 300:
-            return _response.text  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return _response.text  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -883,10 +991,14 @@ class AsyncToolsClient:
         Parameters
         ----------
         id : str
-            Identifier for a tool. Formatted as a UUID.
+            Identifier for a Tool. Formatted as a UUID.
 
         version : int
-            Version number for a tool. Version numbers should be integers.
+            Version number for a Tool.
+
+            Tools, as well as Configs and Prompts, are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.
+
+            Version numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -898,24 +1010,32 @@ class AsyncToolsClient:
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.empathic_voice.tools.get_tool_version(
-            id="00183a3f-79ba-413d-9f3b-609864268bea",
-            version=1,
-        )
+
+
+        async def main() -> None:
+            await client.empathic_voice.tools.get_tool_version(
+                id="00183a3f-79ba-413d-9f3b-609864268bea",
+                version=1,
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/tools/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
             method="GET",
             request_options=request_options,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(typing.Optional[ReturnUserDefinedTool], _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(typing.Optional[ReturnUserDefinedTool], _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -928,10 +1048,14 @@ class AsyncToolsClient:
         Parameters
         ----------
         id : str
-            Identifier for a tool. Formatted as a UUID.
+            Identifier for a Tool. Formatted as a UUID.
 
         version : int
-            Version number for a tool. Version numbers should be integers.
+            Version number for a Tool.
+
+            Tools, as well as Configs and Prompts, are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.
+
+            Version numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -942,24 +1066,32 @@ class AsyncToolsClient:
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.empathic_voice.tools.delete_tool_version(
-            id="00183a3f-79ba-413d-9f3b-609864268bea",
-            version=1,
-        )
+
+
+        async def main() -> None:
+            await client.empathic_voice.tools.delete_tool_version(
+                id="00183a3f-79ba-413d-9f3b-609864268bea",
+                version=1,
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/tools/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
             method="DELETE",
             request_options=request_options,
         )
-        if 200 <= _response.status_code < 300:
-            return
         try:
+            if 200 <= _response.status_code < 300:
+                return
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -977,13 +1109,17 @@ class AsyncToolsClient:
         Parameters
         ----------
         id : str
-            Identifier for a tool. Formatted as a UUID.
+            Identifier for a Tool. Formatted as a UUID.
 
         version : int
-            Version number for a tool. Version numbers should be integers.
+            Version number for a Tool.
+
+            Tools, as well as Configs and Prompts, are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.
+
+            Version numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number.
 
         version_description : typing.Optional[str]
-            Description that is appended to a specific version of a Tool.
+            An optional description of the Tool version.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -995,16 +1131,24 @@ class AsyncToolsClient:
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.empathic_voice.tools.update_tool_description(
-            id="00183a3f-79ba-413d-9f3b-609864268bea",
-            version=1,
-            version_description="Fetches current temperature, precipitation, wind speed, AQI, and other weather conditions. Uses Celsius, Fahrenheit, or kelvin depending on user's region.",
-        )
+
+
+        async def main() -> None:
+            await client.empathic_voice.tools.update_tool_description(
+                id="00183a3f-79ba-413d-9f3b-609864268bea",
+                version=1,
+                version_description="Fetches current temperature, precipitation, wind speed, AQI, and other weather conditions. Uses Celsius, Fahrenheit, or kelvin depending on user's region.",
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/tools/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
@@ -1013,9 +1157,9 @@ class AsyncToolsClient:
             request_options=request_options,
             omit=OMIT,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(typing.Optional[ReturnUserDefinedTool], _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(typing.Optional[ReturnUserDefinedTool], _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)

@@ -15,17 +15,26 @@ class ReturnPagedConfigs(pydantic_v1.BaseModel):
 
     page_number: typing.Optional[int] = pydantic_v1.Field(default=None)
     """
-    The page number of the returned results.
+    The page number of the returned list.
+    
+    This value corresponds to the `page_number` parameter specified in the request. Pagination uses zero-based indexing.
     """
 
     page_size: typing.Optional[int] = pydantic_v1.Field(default=None)
     """
-    The number of results returned per page.
+    The maximum number of items returned per page.
+    
+    This value corresponds to the `page_size` parameter specified in the request.
+    """
+
+    total_pages: int = pydantic_v1.Field()
+    """
+    The total number of pages in the collection.
     """
 
     configs_page: typing.Optional[typing.List[ReturnConfig]] = pydantic_v1.Field(default=None)
     """
-    List of prompts returned for the specified page number and page size.
+    List of configs returned for the specified `page_number` and `page_size`.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

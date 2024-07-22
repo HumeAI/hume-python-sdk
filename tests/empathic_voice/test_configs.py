@@ -8,9 +8,10 @@ from ..utilities import validate_response
 
 
 async def test_list_configs(client: HumeClient, async_client: AsyncHumeClient) -> None:
-    expected_response = {
+    expected_response: typing.Any = {
         "page_number": 1,
         "page_size": 1,
+        "total_pages": 1,
         "configs_page": [
             {
                 "id": "id",
@@ -22,19 +23,22 @@ async def test_list_configs(client: HumeClient, async_client: AsyncHumeClient) -
                 "prompt": {
                     "id": "id",
                     "version": 1,
-                    "version_type": "version_type",
+                    "version_type": "FIXED",
                     "name": "name",
                     "created_on": 1,
                     "modified_on": 1,
                     "text": "text",
                 },
-                "voice": {"provider": "provider", "name": "name"},
+                "voice": {"provider": "HUME_AI"},
+                "ellm_model": {"allow_short_responses": True},
+                "timeouts": {"inactivity": {"enabled": True}, "max_duration": {"enabled": True}},
             }
         ],
     }
     expected_types: typing.Any = {
         "page_number": "integer",
         "page_size": "integer",
+        "total_pages": "integer",
         "configs_page": (
             "list",
             {
@@ -54,7 +58,9 @@ async def test_list_configs(client: HumeClient, async_client: AsyncHumeClient) -
                         "modified_on": "integer",
                         "text": None,
                     },
-                    "voice": {"provider": None, "name": None},
+                    "voice": {"provider": None},
+                    "ellm_model": {"allow_short_responses": None},
+                    "timeouts": {"inactivity": {"enabled": None}, "max_duration": {"enabled": None}},
                 }
             },
         ),
@@ -67,7 +73,7 @@ async def test_list_configs(client: HumeClient, async_client: AsyncHumeClient) -
 
 
 async def test_create_config(client: HumeClient, async_client: AsyncHumeClient) -> None:
-    expected_response = {
+    expected_response: typing.Any = {
         "id": "id",
         "version": 1,
         "version_description": "version_description",
@@ -77,21 +83,22 @@ async def test_create_config(client: HumeClient, async_client: AsyncHumeClient) 
         "prompt": {
             "id": "id",
             "version": 1,
-            "version_type": "version_type",
+            "version_type": "FIXED",
             "version_description": "version_description",
             "name": "name",
             "created_on": 1,
             "modified_on": 1,
             "text": "text",
         },
-        "voice": {"provider": "provider", "name": "name"},
-        "language_model": {"model_provider": "model_provider", "model_resource": "model_resource", "temperature": 1.1},
+        "voice": {"provider": "HUME_AI", "name": "ITO"},
+        "language_model": {"model_provider": "OPEN_AI", "model_resource": "model_resource", "temperature": 1.1},
+        "ellm_model": {"allow_short_responses": True},
         "tools": [
             {
-                "tool_type": "tool_type",
+                "tool_type": "BUILTIN",
                 "id": "id",
                 "version": 1,
-                "version_type": "version_type",
+                "version_type": "FIXED",
                 "version_description": "version_description",
                 "name": "name",
                 "created_on": 1,
@@ -101,7 +108,16 @@ async def test_create_config(client: HumeClient, async_client: AsyncHumeClient) 
                 "parameters": "parameters",
             }
         ],
-        "builtin_tools": [{"tool_type": "tool_type", "name": "name", "fallback_content": "fallback_content"}],
+        "builtin_tools": [{"tool_type": "BUILTIN", "name": "name", "fallback_content": "fallback_content"}],
+        "event_messages": {
+            "on_new_chat": {"enabled": True, "text": "text"},
+            "on_inactivity_timeout": {"enabled": True, "text": "text"},
+            "on_max_duration_timeout": {"enabled": True, "text": "text"},
+        },
+        "timeouts": {
+            "inactivity": {"enabled": True, "duration_secs": 1},
+            "max_duration": {"enabled": True, "duration_secs": 1},
+        },
     }
     expected_types: typing.Any = {
         "id": None,
@@ -122,6 +138,7 @@ async def test_create_config(client: HumeClient, async_client: AsyncHumeClient) 
         },
         "voice": {"provider": None, "name": None},
         "language_model": {"model_provider": None, "model_resource": None, "temperature": None},
+        "ellm_model": {"allow_short_responses": None},
         "tools": (
             "list",
             {
@@ -141,6 +158,15 @@ async def test_create_config(client: HumeClient, async_client: AsyncHumeClient) 
             },
         ),
         "builtin_tools": ("list", {0: {"tool_type": None, "name": None, "fallback_content": None}}),
+        "event_messages": {
+            "on_new_chat": {"enabled": None, "text": None},
+            "on_inactivity_timeout": {"enabled": None, "text": None},
+            "on_max_duration_timeout": {"enabled": None, "text": None},
+        },
+        "timeouts": {
+            "inactivity": {"enabled": None, "duration_secs": "integer"},
+            "max_duration": {"enabled": None, "duration_secs": "integer"},
+        },
     }
     response = client.empathic_voice.configs.create_config(name="name")
     validate_response(response, expected_response, expected_types)
@@ -150,9 +176,10 @@ async def test_create_config(client: HumeClient, async_client: AsyncHumeClient) 
 
 
 async def test_list_config_versions(client: HumeClient, async_client: AsyncHumeClient) -> None:
-    expected_response = {
+    expected_response: typing.Any = {
         "page_number": 1,
         "page_size": 1,
+        "total_pages": 1,
         "configs_page": [
             {
                 "id": "id",
@@ -164,19 +191,22 @@ async def test_list_config_versions(client: HumeClient, async_client: AsyncHumeC
                 "prompt": {
                     "id": "id",
                     "version": 1,
-                    "version_type": "version_type",
+                    "version_type": "FIXED",
                     "name": "name",
                     "created_on": 1,
                     "modified_on": 1,
                     "text": "text",
                 },
-                "voice": {"provider": "provider", "name": "name"},
+                "voice": {"provider": "HUME_AI"},
+                "ellm_model": {"allow_short_responses": True},
+                "timeouts": {"inactivity": {"enabled": True}, "max_duration": {"enabled": True}},
             }
         ],
     }
     expected_types: typing.Any = {
         "page_number": "integer",
         "page_size": "integer",
+        "total_pages": "integer",
         "configs_page": (
             "list",
             {
@@ -196,7 +226,9 @@ async def test_list_config_versions(client: HumeClient, async_client: AsyncHumeC
                         "modified_on": "integer",
                         "text": None,
                     },
-                    "voice": {"provider": None, "name": None},
+                    "voice": {"provider": None},
+                    "ellm_model": {"allow_short_responses": None},
+                    "timeouts": {"inactivity": {"enabled": None}, "max_duration": {"enabled": None}},
                 }
             },
         ),
@@ -209,7 +241,7 @@ async def test_list_config_versions(client: HumeClient, async_client: AsyncHumeC
 
 
 async def test_create_config_version(client: HumeClient, async_client: AsyncHumeClient) -> None:
-    expected_response = {
+    expected_response: typing.Any = {
         "id": "id",
         "version": 1,
         "version_description": "version_description",
@@ -219,21 +251,22 @@ async def test_create_config_version(client: HumeClient, async_client: AsyncHume
         "prompt": {
             "id": "id",
             "version": 1,
-            "version_type": "version_type",
+            "version_type": "FIXED",
             "version_description": "version_description",
             "name": "name",
             "created_on": 1,
             "modified_on": 1,
             "text": "text",
         },
-        "voice": {"provider": "provider", "name": "name"},
-        "language_model": {"model_provider": "model_provider", "model_resource": "model_resource", "temperature": 1.1},
+        "voice": {"provider": "HUME_AI", "name": "ITO"},
+        "language_model": {"model_provider": "OPEN_AI", "model_resource": "model_resource", "temperature": 1.1},
+        "ellm_model": {"allow_short_responses": True},
         "tools": [
             {
-                "tool_type": "tool_type",
+                "tool_type": "BUILTIN",
                 "id": "id",
                 "version": 1,
-                "version_type": "version_type",
+                "version_type": "FIXED",
                 "version_description": "version_description",
                 "name": "name",
                 "created_on": 1,
@@ -243,7 +276,16 @@ async def test_create_config_version(client: HumeClient, async_client: AsyncHume
                 "parameters": "parameters",
             }
         ],
-        "builtin_tools": [{"tool_type": "tool_type", "name": "name", "fallback_content": "fallback_content"}],
+        "builtin_tools": [{"tool_type": "BUILTIN", "name": "name", "fallback_content": "fallback_content"}],
+        "event_messages": {
+            "on_new_chat": {"enabled": True, "text": "text"},
+            "on_inactivity_timeout": {"enabled": True, "text": "text"},
+            "on_max_duration_timeout": {"enabled": True, "text": "text"},
+        },
+        "timeouts": {
+            "inactivity": {"enabled": True, "duration_secs": 1},
+            "max_duration": {"enabled": True, "duration_secs": 1},
+        },
     }
     expected_types: typing.Any = {
         "id": None,
@@ -264,6 +306,7 @@ async def test_create_config_version(client: HumeClient, async_client: AsyncHume
         },
         "voice": {"provider": None, "name": None},
         "language_model": {"model_provider": None, "model_resource": None, "temperature": None},
+        "ellm_model": {"allow_short_responses": None},
         "tools": (
             "list",
             {
@@ -283,6 +326,15 @@ async def test_create_config_version(client: HumeClient, async_client: AsyncHume
             },
         ),
         "builtin_tools": ("list", {0: {"tool_type": None, "name": None, "fallback_content": None}}),
+        "event_messages": {
+            "on_new_chat": {"enabled": None, "text": None},
+            "on_inactivity_timeout": {"enabled": None, "text": None},
+            "on_max_duration_timeout": {"enabled": None, "text": None},
+        },
+        "timeouts": {
+            "inactivity": {"enabled": None, "duration_secs": "integer"},
+            "max_duration": {"enabled": None, "duration_secs": "integer"},
+        },
     }
     response = client.empathic_voice.configs.create_config_version(id="id")
     validate_response(response, expected_response, expected_types)
@@ -299,7 +351,7 @@ async def test_delete_config(client: HumeClient, async_client: AsyncHumeClient) 
 
 
 async def test_update_config_name(client: HumeClient, async_client: AsyncHumeClient) -> None:
-    expected_response = "string"
+    expected_response: typing.Any = "string"
     expected_types: typing.Any = None
     response = client.empathic_voice.configs.update_config_name(id="string", name="string")
     validate_response(response, expected_response, expected_types)
@@ -309,7 +361,7 @@ async def test_update_config_name(client: HumeClient, async_client: AsyncHumeCli
 
 
 async def test_get_config_version(client: HumeClient, async_client: AsyncHumeClient) -> None:
-    expected_response = {
+    expected_response: typing.Any = {
         "id": "id",
         "version": 1,
         "version_description": "version_description",
@@ -319,21 +371,22 @@ async def test_get_config_version(client: HumeClient, async_client: AsyncHumeCli
         "prompt": {
             "id": "id",
             "version": 1,
-            "version_type": "version_type",
+            "version_type": "FIXED",
             "version_description": "version_description",
             "name": "name",
             "created_on": 1,
             "modified_on": 1,
             "text": "text",
         },
-        "voice": {"provider": "provider", "name": "name"},
-        "language_model": {"model_provider": "model_provider", "model_resource": "model_resource", "temperature": 1.1},
+        "voice": {"provider": "HUME_AI", "name": "ITO"},
+        "language_model": {"model_provider": "OPEN_AI", "model_resource": "model_resource", "temperature": 1.1},
+        "ellm_model": {"allow_short_responses": True},
         "tools": [
             {
-                "tool_type": "tool_type",
+                "tool_type": "BUILTIN",
                 "id": "id",
                 "version": 1,
-                "version_type": "version_type",
+                "version_type": "FIXED",
                 "version_description": "version_description",
                 "name": "name",
                 "created_on": 1,
@@ -343,7 +396,16 @@ async def test_get_config_version(client: HumeClient, async_client: AsyncHumeCli
                 "parameters": "parameters",
             }
         ],
-        "builtin_tools": [{"tool_type": "tool_type", "name": "name", "fallback_content": "fallback_content"}],
+        "builtin_tools": [{"tool_type": "BUILTIN", "name": "name", "fallback_content": "fallback_content"}],
+        "event_messages": {
+            "on_new_chat": {"enabled": True, "text": "text"},
+            "on_inactivity_timeout": {"enabled": True, "text": "text"},
+            "on_max_duration_timeout": {"enabled": True, "text": "text"},
+        },
+        "timeouts": {
+            "inactivity": {"enabled": True, "duration_secs": 1},
+            "max_duration": {"enabled": True, "duration_secs": 1},
+        },
     }
     expected_types: typing.Any = {
         "id": None,
@@ -364,6 +426,7 @@ async def test_get_config_version(client: HumeClient, async_client: AsyncHumeCli
         },
         "voice": {"provider": None, "name": None},
         "language_model": {"model_provider": None, "model_resource": None, "temperature": None},
+        "ellm_model": {"allow_short_responses": None},
         "tools": (
             "list",
             {
@@ -383,6 +446,15 @@ async def test_get_config_version(client: HumeClient, async_client: AsyncHumeCli
             },
         ),
         "builtin_tools": ("list", {0: {"tool_type": None, "name": None, "fallback_content": None}}),
+        "event_messages": {
+            "on_new_chat": {"enabled": None, "text": None},
+            "on_inactivity_timeout": {"enabled": None, "text": None},
+            "on_max_duration_timeout": {"enabled": None, "text": None},
+        },
+        "timeouts": {
+            "inactivity": {"enabled": None, "duration_secs": "integer"},
+            "max_duration": {"enabled": None, "duration_secs": "integer"},
+        },
     }
     response = client.empathic_voice.configs.get_config_version(id="id", version=1)
     validate_response(response, expected_response, expected_types)
@@ -399,7 +471,7 @@ async def test_delete_config_version(client: HumeClient, async_client: AsyncHume
 
 
 async def test_update_config_description(client: HumeClient, async_client: AsyncHumeClient) -> None:
-    expected_response = {
+    expected_response: typing.Any = {
         "id": "id",
         "version": 1,
         "version_description": "version_description",
@@ -409,21 +481,22 @@ async def test_update_config_description(client: HumeClient, async_client: Async
         "prompt": {
             "id": "id",
             "version": 1,
-            "version_type": "version_type",
+            "version_type": "FIXED",
             "version_description": "version_description",
             "name": "name",
             "created_on": 1,
             "modified_on": 1,
             "text": "text",
         },
-        "voice": {"provider": "provider", "name": "name"},
-        "language_model": {"model_provider": "model_provider", "model_resource": "model_resource", "temperature": 1.1},
+        "voice": {"provider": "HUME_AI", "name": "ITO"},
+        "language_model": {"model_provider": "OPEN_AI", "model_resource": "model_resource", "temperature": 1.1},
+        "ellm_model": {"allow_short_responses": True},
         "tools": [
             {
-                "tool_type": "tool_type",
+                "tool_type": "BUILTIN",
                 "id": "id",
                 "version": 1,
-                "version_type": "version_type",
+                "version_type": "FIXED",
                 "version_description": "version_description",
                 "name": "name",
                 "created_on": 1,
@@ -433,7 +506,16 @@ async def test_update_config_description(client: HumeClient, async_client: Async
                 "parameters": "parameters",
             }
         ],
-        "builtin_tools": [{"tool_type": "tool_type", "name": "name", "fallback_content": "fallback_content"}],
+        "builtin_tools": [{"tool_type": "BUILTIN", "name": "name", "fallback_content": "fallback_content"}],
+        "event_messages": {
+            "on_new_chat": {"enabled": True, "text": "text"},
+            "on_inactivity_timeout": {"enabled": True, "text": "text"},
+            "on_max_duration_timeout": {"enabled": True, "text": "text"},
+        },
+        "timeouts": {
+            "inactivity": {"enabled": True, "duration_secs": 1},
+            "max_duration": {"enabled": True, "duration_secs": 1},
+        },
     }
     expected_types: typing.Any = {
         "id": None,
@@ -454,6 +536,7 @@ async def test_update_config_description(client: HumeClient, async_client: Async
         },
         "voice": {"provider": None, "name": None},
         "language_model": {"model_provider": None, "model_resource": None, "temperature": None},
+        "ellm_model": {"allow_short_responses": None},
         "tools": (
             "list",
             {
@@ -473,6 +556,15 @@ async def test_update_config_description(client: HumeClient, async_client: Async
             },
         ),
         "builtin_tools": ("list", {0: {"tool_type": None, "name": None, "fallback_content": None}}),
+        "event_messages": {
+            "on_new_chat": {"enabled": None, "text": None},
+            "on_inactivity_timeout": {"enabled": None, "text": None},
+            "on_max_duration_timeout": {"enabled": None, "text": None},
+        },
+        "timeouts": {
+            "inactivity": {"enabled": None, "duration_secs": "integer"},
+            "max_duration": {"enabled": None, "duration_secs": "integer"},
+        },
     }
     response = client.empathic_voice.configs.update_config_description(id="id", version=1)
     validate_response(response, expected_response, expected_types)

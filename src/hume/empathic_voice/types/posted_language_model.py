@@ -15,17 +15,19 @@ class PostedLanguageModel(pydantic_v1.BaseModel):
 
     model_provider: typing.Optional[PostedLanguageModelModelProvider] = pydantic_v1.Field(default=None)
     """
-    The provider of this model. Based on the enum modelProvider.
+    The provider of the supplemental language model.
     """
 
     model_resource: typing.Optional[str] = pydantic_v1.Field(default=None)
     """
-    String that specifies the model to use with modelProvider.
+    String that specifies the language model to use with `model_provider`.
     """
 
     temperature: typing.Optional[float] = pydantic_v1.Field(default=None)
     """
-    Model temperature.
+    The model temperature, with values between 0 to 1 (inclusive).
+    
+    Controls the randomness of the LLM’s output, with values closer to 0 yielding focused, deterministic responses and values closer to 1 producing more creative, diverse responses.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

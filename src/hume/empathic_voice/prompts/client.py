@@ -26,19 +26,27 @@ class PromptsClient:
         page_number: typing.Optional[int] = None,
         page_size: typing.Optional[int] = None,
         restrict_to_most_recent: typing.Optional[bool] = None,
+        name: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[typing.Optional[ReturnPrompt]]:
         """
         Parameters
         ----------
         page_number : typing.Optional[int]
-            The page number of the results to return.
+            Specifies the page number to retrieve, enabling pagination.
+
+            This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
 
         page_size : typing.Optional[int]
-            The maximum number of results to include per page.
+            Specifies the maximum number of results to include per page, enabling pagination.
+
+            The value must be greater than or equal to 1. For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         restrict_to_most_recent : typing.Optional[bool]
-            Only include the most recent version of each prompt in the list.
+            By default, `restrict_to_most_recent` is set to true, returning only the latest version of each prompt. To include all versions of each prompt in the list, set `restrict_to_most_recent` to false.
+
+        name : typing.Optional[str]
+            Filter to only include prompts with this name.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -55,8 +63,14 @@ class PromptsClient:
         client = HumeClient(
             api_key="YOUR_API_KEY",
         )
-        client.empathic_voice.prompts.list_prompts()
+        response = client.empathic_voice.prompts.list_prompts()
+        for item in response:
+            yield item
+        # alternatively, you can paginate page-by-page
+        for page in response.iter_pages():
+            yield page
         """
+        page_number = page_number if page_number is not None else 1
         _response = self._client_wrapper.httpx_client.request(
             "v0/evi/prompts",
             method="GET",
@@ -64,21 +78,23 @@ class PromptsClient:
                 "page_number": page_number,
                 "page_size": page_size,
                 "restrict_to_most_recent": restrict_to_most_recent,
+                "name": name,
             },
             request_options=request_options,
         )
-        if 200 <= _response.status_code < 300:
-            _parsed_response = pydantic_v1.parse_obj_as(ReturnPagedPrompts, _response.json())  # type: ignore
-            _has_next = True
-            _get_next = lambda: self.list_prompts(
-                page_number=page_number + 1 if page_number is not None else 1,
-                page_size=page_size,
-                restrict_to_most_recent=restrict_to_most_recent,
-                request_options=request_options,
-            )
-            _items = _parsed_response.prompts_page
-            return SyncPager(has_next=_has_next, items=_items, get_next=_get_next)
         try:
+            if 200 <= _response.status_code < 300:
+                _parsed_response = pydantic_v1.parse_obj_as(ReturnPagedPrompts, _response.json())  # type: ignore
+                _has_next = True
+                _get_next = lambda: self.list_prompts(
+                    page_number=page_number + 1,
+                    page_size=page_size,
+                    restrict_to_most_recent=restrict_to_most_recent,
+                    name=name,
+                    request_options=request_options,
+                )
+                _items = _parsed_response.prompts_page
+                return SyncPager(has_next=_has_next, items=_items, get_next=_get_next)
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -99,10 +115,14 @@ class PromptsClient:
             Name applied to all versions of a particular Prompt.
 
         text : str
-            Text used for this version of the Prompt.
+            Instructions used to shape EVI’s behavior, responses, and style.
+
+            You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles.
+
+            For help writing a system prompt, see our [Prompting Guide](/docs/empathic-voice-interface-evi/prompting).
 
         version_description : typing.Optional[str]
-            Description that is appended to a specific version of a Prompt.
+            An optional description of the Prompt version.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -110,7 +130,7 @@ class PromptsClient:
         Returns
         -------
         typing.Optional[ReturnPrompt]
-            Success
+            Created
 
         Examples
         --------
@@ -131,9 +151,9 @@ class PromptsClient:
             request_options=request_options,
             omit=OMIT,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(typing.Optional[ReturnPrompt], _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(typing.Optional[ReturnPrompt], _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -152,16 +172,20 @@ class PromptsClient:
         Parameters
         ----------
         id : str
-            Identifier for a tool. Formatted as a UUID.
+            Identifier for a Prompt. Formatted as a UUID.
 
         page_number : typing.Optional[int]
-            The page number of the results to return.
+            Specifies the page number to retrieve, enabling pagination.
+
+            This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
 
         page_size : typing.Optional[int]
-            The maximum number of results to include per page.
+            Specifies the maximum number of results to include per page, enabling pagination.
+
+            The value must be greater than or equal to 1. For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         restrict_to_most_recent : typing.Optional[bool]
-            Only include the most recent version of each prompt in the list.
+            By default, `restrict_to_most_recent` is set to true, returning only the latest version of each prompt. To include all versions of each prompt in the list, set `restrict_to_most_recent` to false.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -192,9 +216,9 @@ class PromptsClient:
             },
             request_options=request_options,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(ReturnPagedPrompts, _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(ReturnPagedPrompts, _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -212,13 +236,17 @@ class PromptsClient:
         Parameters
         ----------
         id : str
-            Identifier for a prompt. Formatted as a UUID.
+            Identifier for a Prompt. Formatted as a UUID.
 
         text : str
-            Text used for this version of the Prompt.
+            Instructions used to shape EVI’s behavior, responses, and style for this version of the Prompt.
+
+            You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles.
+
+            For help writing a system prompt, see our [Prompting Guide](/docs/empathic-voice-interface-evi/prompting).
 
         version_description : typing.Optional[str]
-            Description that is appended to a specific version of a Prompt.
+            An optional description of the Prompt version.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -226,7 +254,7 @@ class PromptsClient:
         Returns
         -------
         typing.Optional[ReturnPrompt]
-            Success
+            Created
 
         Examples
         --------
@@ -247,9 +275,9 @@ class PromptsClient:
             request_options=request_options,
             omit=OMIT,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(typing.Optional[ReturnPrompt], _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(typing.Optional[ReturnPrompt], _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -260,7 +288,7 @@ class PromptsClient:
         Parameters
         ----------
         id : str
-            Identifier for a prompt. Formatted as a UUID.
+            Identifier for a Prompt. Formatted as a UUID.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -283,9 +311,9 @@ class PromptsClient:
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/prompts/{jsonable_encoder(id)}", method="DELETE", request_options=request_options
         )
-        if 200 <= _response.status_code < 300:
-            return
         try:
+            if 200 <= _response.status_code < 300:
+                return
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -296,7 +324,7 @@ class PromptsClient:
         Parameters
         ----------
         id : str
-            Identifier for a prompt. Formatted as a UUID.
+            Identifier for a Prompt. Formatted as a UUID.
 
         name : str
             Name applied to all versions of a particular Prompt.
@@ -328,9 +356,9 @@ class PromptsClient:
             request_options=request_options,
             omit=OMIT,
         )
-        if 200 <= _response.status_code < 300:
-            return _response.text  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return _response.text  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -343,10 +371,14 @@ class PromptsClient:
         Parameters
         ----------
         id : str
-            Identifier for a prompt. Formatted as a UUID.
+            Identifier for a Prompt. Formatted as a UUID.
 
         version : int
-            Version number for a prompt. Version numbers should be integers.
+            Version number for a Prompt.
+
+            Prompts, as well as Configs and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
+
+            Version numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -373,9 +405,9 @@ class PromptsClient:
             method="GET",
             request_options=request_options,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(typing.Optional[ReturnPrompt], _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(typing.Optional[ReturnPrompt], _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -388,10 +420,14 @@ class PromptsClient:
         Parameters
         ----------
         id : str
-            Identifier for a prompt. Formatted as a UUID.
+            Identifier for a Prompt. Formatted as a UUID.
 
         version : int
-            Version number for a prompt. Version numbers should be integers.
+            Version number for a Prompt.
+
+            Prompts, as well as Configs and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
+
+            Version numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -417,9 +453,9 @@ class PromptsClient:
             method="DELETE",
             request_options=request_options,
         )
-        if 200 <= _response.status_code < 300:
-            return
         try:
+            if 200 <= _response.status_code < 300:
+                return
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -437,13 +473,17 @@ class PromptsClient:
         Parameters
         ----------
         id : str
-            Identifier for a prompt. Formatted as a UUID.
+            Identifier for a Prompt. Formatted as a UUID.
 
         version : int
-            Version number for a prompt. Version numbers should be integers.
+            Version number for a Prompt.
+
+            Prompts, as well as Configs and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
+
+            Version numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number.
 
         version_description : typing.Optional[str]
-            Description that is appended to a specific version of a Prompt.
+            An optional description of the Prompt version.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -472,9 +512,9 @@ class PromptsClient:
             request_options=request_options,
             omit=OMIT,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(typing.Optional[ReturnPrompt], _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(typing.Optional[ReturnPrompt], _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -491,19 +531,27 @@ class AsyncPromptsClient:
         page_number: typing.Optional[int] = None,
         page_size: typing.Optional[int] = None,
         restrict_to_most_recent: typing.Optional[bool] = None,
+        name: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[typing.Optional[ReturnPrompt]]:
         """
         Parameters
         ----------
         page_number : typing.Optional[int]
-            The page number of the results to return.
+            Specifies the page number to retrieve, enabling pagination.
+
+            This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
 
         page_size : typing.Optional[int]
-            The maximum number of results to include per page.
+            Specifies the maximum number of results to include per page, enabling pagination.
+
+            The value must be greater than or equal to 1. For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         restrict_to_most_recent : typing.Optional[bool]
-            Only include the most recent version of each prompt in the list.
+            By default, `restrict_to_most_recent` is set to true, returning only the latest version of each prompt. To include all versions of each prompt in the list, set `restrict_to_most_recent` to false.
+
+        name : typing.Optional[str]
+            Filter to only include prompts with this name.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -515,13 +563,27 @@ class AsyncPromptsClient:
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.empathic_voice.prompts.list_prompts()
+
+
+        async def main() -> None:
+            response = await client.empathic_voice.prompts.list_prompts()
+            async for item in response:
+                yield item
+            # alternatively, you can paginate page-by-page
+            async for page in response.iter_pages():
+                yield page
+
+
+        asyncio.run(main())
         """
+        page_number = page_number if page_number is not None else 1
         _response = await self._client_wrapper.httpx_client.request(
             "v0/evi/prompts",
             method="GET",
@@ -529,21 +591,23 @@ class AsyncPromptsClient:
                 "page_number": page_number,
                 "page_size": page_size,
                 "restrict_to_most_recent": restrict_to_most_recent,
+                "name": name,
             },
             request_options=request_options,
         )
-        if 200 <= _response.status_code < 300:
-            _parsed_response = pydantic_v1.parse_obj_as(ReturnPagedPrompts, _response.json())  # type: ignore
-            _has_next = True
-            _get_next = lambda: self.list_prompts(
-                page_number=page_number + 1 if page_number is not None else 1,
-                page_size=page_size,
-                restrict_to_most_recent=restrict_to_most_recent,
-                request_options=request_options,
-            )
-            _items = _parsed_response.prompts_page
-            return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next)
         try:
+            if 200 <= _response.status_code < 300:
+                _parsed_response = pydantic_v1.parse_obj_as(ReturnPagedPrompts, _response.json())  # type: ignore
+                _has_next = True
+                _get_next = lambda: self.list_prompts(
+                    page_number=page_number + 1,
+                    page_size=page_size,
+                    restrict_to_most_recent=restrict_to_most_recent,
+                    name=name,
+                    request_options=request_options,
+                )
+                _items = _parsed_response.prompts_page
+                return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next)
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -564,10 +628,14 @@ class AsyncPromptsClient:
             Name applied to all versions of a particular Prompt.
 
         text : str
-            Text used for this version of the Prompt.
+            Instructions used to shape EVI’s behavior, responses, and style.
+
+            You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles.
+
+            For help writing a system prompt, see our [Prompting Guide](/docs/empathic-voice-interface-evi/prompting).
 
         version_description : typing.Optional[str]
-            Description that is appended to a specific version of a Prompt.
+            An optional description of the Prompt version.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -575,19 +643,27 @@ class AsyncPromptsClient:
         Returns
         -------
         typing.Optional[ReturnPrompt]
-            Success
+            Created
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.empathic_voice.prompts.create_prompt(
-            name="name",
-            text="text",
-        )
+
+
+        async def main() -> None:
+            await client.empathic_voice.prompts.create_prompt(
+                name="name",
+                text="text",
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             "v0/evi/prompts",
@@ -596,9 +672,9 @@ class AsyncPromptsClient:
             request_options=request_options,
             omit=OMIT,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(typing.Optional[ReturnPrompt], _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(typing.Optional[ReturnPrompt], _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -617,16 +693,20 @@ class AsyncPromptsClient:
         Parameters
         ----------
         id : str
-            Identifier for a tool. Formatted as a UUID.
+            Identifier for a Prompt. Formatted as a UUID.
 
         page_number : typing.Optional[int]
-            The page number of the results to return.
+            Specifies the page number to retrieve, enabling pagination.
+
+            This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
 
         page_size : typing.Optional[int]
-            The maximum number of results to include per page.
+            Specifies the maximum number of results to include per page, enabling pagination.
+
+            The value must be greater than or equal to 1. For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         restrict_to_most_recent : typing.Optional[bool]
-            Only include the most recent version of each prompt in the list.
+            By default, `restrict_to_most_recent` is set to true, returning only the latest version of each prompt. To include all versions of each prompt in the list, set `restrict_to_most_recent` to false.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -638,14 +718,22 @@ class AsyncPromptsClient:
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.empathic_voice.prompts.list_prompt_versions(
-            id="id",
-        )
+
+
+        async def main() -> None:
+            await client.empathic_voice.prompts.list_prompt_versions(
+                id="id",
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/prompts/{jsonable_encoder(id)}",
@@ -657,9 +745,9 @@ class AsyncPromptsClient:
             },
             request_options=request_options,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(ReturnPagedPrompts, _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(ReturnPagedPrompts, _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -677,13 +765,17 @@ class AsyncPromptsClient:
         Parameters
         ----------
         id : str
-            Identifier for a prompt. Formatted as a UUID.
+            Identifier for a Prompt. Formatted as a UUID.
 
         text : str
-            Text used for this version of the Prompt.
+            Instructions used to shape EVI’s behavior, responses, and style for this version of the Prompt.
+
+            You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles.
+
+            For help writing a system prompt, see our [Prompting Guide](/docs/empathic-voice-interface-evi/prompting).
 
         version_description : typing.Optional[str]
-            Description that is appended to a specific version of a Prompt.
+            An optional description of the Prompt version.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -691,19 +783,27 @@ class AsyncPromptsClient:
         Returns
         -------
         typing.Optional[ReturnPrompt]
-            Success
+            Created
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.empathic_voice.prompts.create_prompt_verison(
-            id="id",
-            text="text",
-        )
+
+
+        async def main() -> None:
+            await client.empathic_voice.prompts.create_prompt_verison(
+                id="id",
+                text="text",
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/prompts/{jsonable_encoder(id)}",
@@ -712,9 +812,9 @@ class AsyncPromptsClient:
             request_options=request_options,
             omit=OMIT,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(typing.Optional[ReturnPrompt], _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(typing.Optional[ReturnPrompt], _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -725,7 +825,7 @@ class AsyncPromptsClient:
         Parameters
         ----------
         id : str
-            Identifier for a prompt. Formatted as a UUID.
+            Identifier for a Prompt. Formatted as a UUID.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -736,21 +836,29 @@ class AsyncPromptsClient:
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.empathic_voice.prompts.delete_prompt(
-            id="id",
-        )
+
+
+        async def main() -> None:
+            await client.empathic_voice.prompts.delete_prompt(
+                id="id",
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/prompts/{jsonable_encoder(id)}", method="DELETE", request_options=request_options
         )
-        if 200 <= _response.status_code < 300:
-            return
         try:
+            if 200 <= _response.status_code < 300:
+                return
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -763,7 +871,7 @@ class AsyncPromptsClient:
         Parameters
         ----------
         id : str
-            Identifier for a prompt. Formatted as a UUID.
+            Identifier for a Prompt. Formatted as a UUID.
 
         name : str
             Name applied to all versions of a particular Prompt.
@@ -778,15 +886,23 @@ class AsyncPromptsClient:
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.empathic_voice.prompts.update_prompt_name(
-            id="string",
-            name="string",
-        )
+
+
+        async def main() -> None:
+            await client.empathic_voice.prompts.update_prompt_name(
+                id="string",
+                name="string",
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/prompts/{jsonable_encoder(id)}",
@@ -795,9 +911,9 @@ class AsyncPromptsClient:
             request_options=request_options,
             omit=OMIT,
         )
-        if 200 <= _response.status_code < 300:
-            return _response.text  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return _response.text  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -810,10 +926,14 @@ class AsyncPromptsClient:
         Parameters
         ----------
         id : str
-            Identifier for a prompt. Formatted as a UUID.
+            Identifier for a Prompt. Formatted as a UUID.
 
         version : int
-            Version number for a prompt. Version numbers should be integers.
+            Version number for a Prompt.
+
+            Prompts, as well as Configs and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
+
+            Version numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -825,24 +945,32 @@ class AsyncPromptsClient:
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.empathic_voice.prompts.get_prompt_version(
-            id="id",
-            version=1,
-        )
+
+
+        async def main() -> None:
+            await client.empathic_voice.prompts.get_prompt_version(
+                id="id",
+                version=1,
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/prompts/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
             method="GET",
             request_options=request_options,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(typing.Optional[ReturnPrompt], _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(typing.Optional[ReturnPrompt], _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -855,10 +983,14 @@ class AsyncPromptsClient:
         Parameters
         ----------
         id : str
-            Identifier for a prompt. Formatted as a UUID.
+            Identifier for a Prompt. Formatted as a UUID.
 
         version : int
-            Version number for a prompt. Version numbers should be integers.
+            Version number for a Prompt.
+
+            Prompts, as well as Configs and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
+
+            Version numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -869,24 +1001,32 @@ class AsyncPromptsClient:
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.empathic_voice.prompts.delete_prompt_version(
-            id="id",
-            version=1,
-        )
+
+
+        async def main() -> None:
+            await client.empathic_voice.prompts.delete_prompt_version(
+                id="id",
+                version=1,
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/prompts/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
             method="DELETE",
             request_options=request_options,
         )
-        if 200 <= _response.status_code < 300:
-            return
         try:
+            if 200 <= _response.status_code < 300:
+                return
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -904,13 +1044,17 @@ class AsyncPromptsClient:
         Parameters
         ----------
         id : str
-            Identifier for a prompt. Formatted as a UUID.
+            Identifier for a Prompt. Formatted as a UUID.
 
         version : int
-            Version number for a prompt. Version numbers should be integers.
+            Version number for a Prompt.
+
+            Prompts, as well as Configs and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
+
+            Version numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number.
 
         version_description : typing.Optional[str]
-            Description that is appended to a specific version of a Prompt.
+            An optional description of the Prompt version.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -922,15 +1066,23 @@ class AsyncPromptsClient:
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.empathic_voice.prompts.update_prompt_description(
-            id="id",
-            version=1,
-        )
+
+
+        async def main() -> None:
+            await client.empathic_voice.prompts.update_prompt_description(
+                id="id",
+                version=1,
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/prompts/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
@@ -939,9 +1091,9 @@ class AsyncPromptsClient:
             request_options=request_options,
             omit=OMIT,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(typing.Optional[ReturnPrompt], _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(typing.Optional[ReturnPrompt], _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)

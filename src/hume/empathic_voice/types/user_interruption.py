@@ -12,6 +12,13 @@ class UserInterruption(pydantic_v1.BaseModel):
     When provided, the output is an interruption.
     """
 
+    type: typing.Literal["user_interruption"] = pydantic_v1.Field(default="user_interruption")
+    """
+    The type of message sent through the socket; for a User Interruption message, this must be `user_interruption`.
+    
+    This message indicates the user has interrupted the assistant’s response. EVI detects the interruption in real-time and sends this message to signal the interruption event. This message allows the system to stop the current audio playback, clear the audio queue, and prepare to handle new user input.
+    """
+
     custom_session_id: typing.Optional[str] = pydantic_v1.Field(default=None)
     """
     Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
@@ -20,11 +27,6 @@ class UserInterruption(pydantic_v1.BaseModel):
     time: int = pydantic_v1.Field()
     """
     Unix timestamp of the detected user interruption.
-    """
-
-    type: typing.Literal["user_interruption"] = pydantic_v1.Field(default="user_interruption")
-    """
-    The type of message sent through the socket; for a User Interruption message, this must be 'user_interruption'.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

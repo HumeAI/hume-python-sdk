@@ -12,6 +12,13 @@ class AudioInput(pydantic_v1.BaseModel):
     When provided, the input is audio.
     """
 
+    type: typing.Literal["audio_input"] = pydantic_v1.Field(default="audio_input")
+    """
+    The type of message sent through the socket; must be `audio_input` for our server to correctly identify and process it as an Audio Input message.
+    
+    This message is used for sending audio input data to EVI for processing and expression measurement. Audio data should be sent as a continuous stream, encoded in Base64.
+    """
+
     custom_session_id: typing.Optional[str] = pydantic_v1.Field(default=None)
     """
     Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
@@ -19,12 +26,11 @@ class AudioInput(pydantic_v1.BaseModel):
 
     data: str = pydantic_v1.Field()
     """
-    Base64 encoded audio input.
-    """
-
-    type: typing.Literal["audio_input"] = pydantic_v1.Field(default="audio_input")
-    """
-    The type of message sent through the socket; for an Audio Input message, this must be 'audio_input'.
+    Base64 encoded audio input to insert into the conversation.
+    
+    The audio input must be captured and transmitted to EVI as a continuous stream, with the audio data sent in small chunks for better transcription quality. When capturing audio through the browser, we recommend recording the audio in 100ms intervals and adjusting from there to determine if smaller or larger chunks are needed. These chunks should be continuously sent to EVI as Audio Input messages.
+    
+    The content of an Audio Input message is treated as the user’s speech to EVI. EVI processes the audio, conducts expression measurement using the prosody model, and responds accordingly.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

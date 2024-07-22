@@ -98,9 +98,9 @@ class BatchClient:
             },
             request_options=request_options,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(typing.List[UnionJob], _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(typing.List[UnionJob], _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -179,9 +179,9 @@ class BatchClient:
             request_options=request_options,
             omit=OMIT,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(JobId, _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(JobId, _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -217,9 +217,9 @@ class BatchClient:
         _response = self._client_wrapper.httpx_client.request(
             f"v0/batch/jobs/{jsonable_encoder(id)}", method="GET", request_options=request_options
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(UnionJob, _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(UnionJob, _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -257,9 +257,9 @@ class BatchClient:
         _response = self._client_wrapper.httpx_client.request(
             f"v0/batch/jobs/{jsonable_encoder(id)}/predictions", method="GET", request_options=request_options
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(typing.List[UnionPredictResult], _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(typing.List[UnionPredictResult], _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -297,12 +297,12 @@ class BatchClient:
         with self._client_wrapper.httpx_client.stream(
             f"v0/batch/jobs/{jsonable_encoder(id)}/artifacts", method="GET", request_options=request_options
         ) as _response:
-            if 200 <= _response.status_code < 300:
-                for _chunk in _response.iter_bytes():
-                    yield _chunk
-                return
-            _response.read()
             try:
+                if 200 <= _response.status_code < 300:
+                    for _chunk in _response.iter_bytes():
+                        yield _chunk
+                    return
+                _response.read()
                 _response_json = _response.json()
             except JSONDecodeError:
                 raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -350,9 +350,9 @@ class BatchClient:
             request_options=request_options,
             omit=OMIT,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(JobId, _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(JobId, _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -411,12 +411,20 @@ class AsyncBatchClient:
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.expression_measurement.batch.list_jobs()
+
+
+        async def main() -> None:
+            await client.expression_measurement.batch.list_jobs()
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             "v0/batch/jobs",
@@ -432,9 +440,9 @@ class AsyncBatchClient:
             },
             request_options=request_options,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(typing.List[UnionJob], _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(typing.List[UnionJob], _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -488,15 +496,23 @@ class AsyncBatchClient:
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.expression_measurement.batch.start_inference_job(
-            urls=["https://hume-tutorials.s3.amazonaws.com/faces.zip"],
-            notify=True,
-        )
+
+
+        async def main() -> None:
+            await client.expression_measurement.batch.start_inference_job(
+                urls=["https://hume-tutorials.s3.amazonaws.com/faces.zip"],
+                notify=True,
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             "v0/batch/jobs",
@@ -513,9 +529,9 @@ class AsyncBatchClient:
             request_options=request_options,
             omit=OMIT,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(JobId, _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(JobId, _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -539,21 +555,29 @@ class AsyncBatchClient:
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.expression_measurement.batch.get_job_details(
-            id="job_id",
-        )
+
+
+        async def main() -> None:
+            await client.expression_measurement.batch.get_job_details(
+                id="job_id",
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/batch/jobs/{jsonable_encoder(id)}", method="GET", request_options=request_options
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(UnionJob, _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(UnionJob, _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -579,21 +603,29 @@ class AsyncBatchClient:
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.expression_measurement.batch.get_job_predictions(
-            id="job_id",
-        )
+
+
+        async def main() -> None:
+            await client.expression_measurement.batch.get_job_predictions(
+                id="job_id",
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/batch/jobs/{jsonable_encoder(id)}/predictions", method="GET", request_options=request_options
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(typing.List[UnionPredictResult], _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(typing.List[UnionPredictResult], _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -619,24 +651,32 @@ class AsyncBatchClient:
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.expression_measurement.batch.get_job_artifacts(
-            id="string",
-        )
+
+
+        async def main() -> None:
+            await client.expression_measurement.batch.get_job_artifacts(
+                id="string",
+            )
+
+
+        asyncio.run(main())
         """
         async with self._client_wrapper.httpx_client.stream(
             f"v0/batch/jobs/{jsonable_encoder(id)}/artifacts", method="GET", request_options=request_options
         ) as _response:
-            if 200 <= _response.status_code < 300:
-                async for _chunk in _response.aiter_bytes():
-                    yield _chunk
-                return
-            await _response.aread()
             try:
+                if 200 <= _response.status_code < 300:
+                    async for _chunk in _response.aiter_bytes():
+                        yield _chunk
+                    return
+                await _response.aread()
                 _response_json = _response.json()
             except JSONDecodeError:
                 raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -669,12 +709,20 @@ class AsyncBatchClient:
 
         Examples
         --------
+        import asyncio
+
         from hume.client import AsyncHumeClient
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
         )
-        await client.expression_measurement.batch.start_inference_job_from_local_file()
+
+
+        async def main() -> None:
+            await client.expression_measurement.batch.start_inference_job_from_local_file()
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             "v0/batch/jobs",
@@ -684,9 +732,9 @@ class AsyncBatchClient:
             request_options=request_options,
             omit=OMIT,
         )
-        if 200 <= _response.status_code < 300:
-            return pydantic_v1.parse_obj_as(JobId, _response.json())  # type: ignore
         try:
+            if 200 <= _response.status_code < 300:
+                return pydantic_v1.parse_obj_as(JobId, _response.json())  # type: ignore
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)

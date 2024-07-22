@@ -5,11 +5,12 @@ import typing
 
 from ...core.datetime_utils import serialize_datetime
 from ...core.pydantic_utilities import deep_union_pydantic_dicts, pydantic_v1
+from .return_prompt_version_type import ReturnPromptVersionType
 
 
 class ReturnPrompt(pydantic_v1.BaseModel):
     """
-    A specific prompt version returned from the server
+    A Prompt associated with this Config.
     """
 
     id: str = pydantic_v1.Field()
@@ -19,17 +20,21 @@ class ReturnPrompt(pydantic_v1.BaseModel):
 
     version: int = pydantic_v1.Field()
     """
-    Version number for a Prompt. Version numbers should be integers. The combination of configId and version number is unique.
+    Version number for a Prompt.
+    
+    Prompts, as well as Configs and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
+    
+    Version numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number.
     """
 
-    version_type: str = pydantic_v1.Field()
+    version_type: ReturnPromptVersionType = pydantic_v1.Field()
     """
-    Inidicates whether this prompt is using a fixed version number or auto-updating to the latest version. Values from the VersionType enum.
+    Versioning method for a Prompt. Either `FIXED` for using a fixed version number or `LATEST` for auto-updating to the latest version.
     """
 
     version_description: typing.Optional[str] = pydantic_v1.Field(default=None)
     """
-    Description that is appended to a specific version of a Prompt.
+    An optional description of the Prompt version.
     """
 
     name: str = pydantic_v1.Field()
@@ -39,17 +44,21 @@ class ReturnPrompt(pydantic_v1.BaseModel):
 
     created_on: int = pydantic_v1.Field()
     """
-    The timestamp when the first version of this prompt was created.
+    Time at which the Prompt was created. Measured in seconds since the Unix epoch.
     """
 
     modified_on: int = pydantic_v1.Field()
     """
-    The timestamp when this version of the prompt was created.
+    Time at which the Prompt was last modified. Measured in seconds since the Unix epoch.
     """
 
     text: str = pydantic_v1.Field()
     """
-    Text used for this version of the Prompt.
+    Instructions used to shape EVI’s behavior, responses, and style.
+    
+    You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles.
+    
+    For help writing a system prompt, see our [Prompting Guide](/docs/empathic-voice-interface-evi/prompting).
     """
 
     def json(self, **kwargs: typing.Any) -> str:

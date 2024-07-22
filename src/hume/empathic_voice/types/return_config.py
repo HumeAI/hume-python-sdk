@@ -6,8 +6,11 @@ import typing
 from ...core.datetime_utils import serialize_datetime
 from ...core.pydantic_utilities import deep_union_pydantic_dicts, pydantic_v1
 from .return_builtin_tool import ReturnBuiltinTool
+from .return_ellm_model import ReturnEllmModel
+from .return_event_message_specs import ReturnEventMessageSpecs
 from .return_language_model import ReturnLanguageModel
 from .return_prompt import ReturnPrompt
+from .return_timeout_specs import ReturnTimeoutSpecs
 from .return_user_defined_tool import ReturnUserDefinedTool
 from .return_voice import ReturnVoice
 
@@ -24,12 +27,16 @@ class ReturnConfig(pydantic_v1.BaseModel):
 
     version: typing.Optional[int] = pydantic_v1.Field(default=None)
     """
-    Version number for a Config. Version numbers should be integers. The combination of configId and version number is unique.
+    Version number for a Config.
+    
+    Configs, as well as Prompts and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+    
+    Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
     """
 
     version_description: typing.Optional[str] = pydantic_v1.Field(default=None)
     """
-    Description that is appended to a specific version of a Config.
+    An optional description of the Config version.
     """
 
     name: typing.Optional[str] = pydantic_v1.Field(default=None)
@@ -39,26 +46,46 @@ class ReturnConfig(pydantic_v1.BaseModel):
 
     created_on: typing.Optional[int] = pydantic_v1.Field(default=None)
     """
-    The timestamp when the first version of this config was created.
+    Time at which the Config was created. Measured in seconds since the Unix epoch.
     """
 
     modified_on: typing.Optional[int] = pydantic_v1.Field(default=None)
     """
-    The timestamp when this version of the config was created.
+    Time at which the Config was last modified. Measured in seconds since the Unix epoch.
     """
 
     prompt: typing.Optional[ReturnPrompt] = None
-    voice: typing.Optional[ReturnVoice] = None
-    language_model: typing.Optional[ReturnLanguageModel] = None
+    voice: typing.Optional[ReturnVoice] = pydantic_v1.Field(default=None)
+    """
+    A voice specification associated with this Config.
+    """
+
+    language_model: typing.Optional[ReturnLanguageModel] = pydantic_v1.Field(default=None)
+    """
+    The supplemental language model associated with this Config.
+    
+    This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
+    """
+
+    ellm_model: typing.Optional[ReturnEllmModel] = pydantic_v1.Field(default=None)
+    """
+    The eLLM setup associated with this Config.
+    
+    Hume's eLLM (empathic Large Language Model) is a multimodal language model that takes into account both expression measures and language. The eLLM generates short, empathic language responses and guides text-to-speech (TTS) prosody.
+    """
+
     tools: typing.Optional[typing.List[typing.Optional[ReturnUserDefinedTool]]] = pydantic_v1.Field(default=None)
     """
-    List of user-defined tools associated with this config.
+    List of user-defined tools associated with this Config.
     """
 
     builtin_tools: typing.Optional[typing.List[typing.Optional[ReturnBuiltinTool]]] = pydantic_v1.Field(default=None)
     """
-    List of built-in tools associated with this config
+    List of built-in tools associated with this Config.
     """
+
+    event_messages: typing.Optional[ReturnEventMessageSpecs] = None
+    timeouts: typing.Optional[ReturnTimeoutSpecs] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

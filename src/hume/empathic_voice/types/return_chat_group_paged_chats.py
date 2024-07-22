@@ -43,6 +43,16 @@ class ReturnChatGroupPagedChats(pydantic_v1.BaseModel):
     The number of results returned per page.
     """
 
+    total_pages: int = pydantic_v1.Field()
+    """
+    The total number of pages in the collection
+    """
+
+    pagination_direction: str = pydantic_v1.Field()
+    """
+    The direction of the pagination (ASC or DESC).
+    """
+
     chats_page: typing.List[ReturnChat] = pydantic_v1.Field()
     """
     List of chats and their metadata returned for the specified page number and page size.

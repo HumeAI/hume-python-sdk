@@ -19,7 +19,7 @@ class PostedBuiltinTool(pydantic_v1.BaseModel):
 
     fallback_content: typing.Optional[str] = pydantic_v1.Field(default=None)
     """
-    Text to use if the tool fails to generate content.
+    Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

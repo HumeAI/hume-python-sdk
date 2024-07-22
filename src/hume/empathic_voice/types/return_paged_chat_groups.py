@@ -6,6 +6,7 @@ import typing
 from ...core.datetime_utils import serialize_datetime
 from ...core.pydantic_utilities import deep_union_pydantic_dicts, pydantic_v1
 from .return_chat_group import ReturnChatGroup
+from .return_paged_chat_groups_pagination_direction import ReturnPagedChatGroupsPaginationDirection
 
 
 class ReturnPagedChatGroups(pydantic_v1.BaseModel):
@@ -15,17 +16,33 @@ class ReturnPagedChatGroups(pydantic_v1.BaseModel):
 
     page_number: int = pydantic_v1.Field()
     """
-    The page number of the returned results.
+    The page number of the returned list.
+    
+    This value corresponds to the `page_number` parameter specified in the request. Pagination uses zero-based indexing.
     """
 
     page_size: int = pydantic_v1.Field()
     """
-    The number of results returned per page.
+    The maximum number of items returned per page.
+    
+    This value corresponds to the `page_size` parameter specified in the request.
+    """
+
+    total_pages: int = pydantic_v1.Field()
+    """
+    The total number of pages in the collection.
+    """
+
+    pagination_direction: ReturnPagedChatGroupsPaginationDirection = pydantic_v1.Field()
+    """
+    Indicates the order in which the paginated results are presented, based on their creation date.
+    
+    It shows `ASC` for ascending order (chronological, with the oldest records first) or `DESC` for descending order (reverse-chronological, with the newest records first). This value corresponds to the `ascending_order` query parameter used in the request.
     """
 
     chat_groups_page: typing.List[ReturnChatGroup] = pydantic_v1.Field()
     """
-    List of chat_groups and their metadata returned for the specified page number and page size.
+    List of Chat Groups and their metadata returned for the specified `page_number` and `page_size`.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

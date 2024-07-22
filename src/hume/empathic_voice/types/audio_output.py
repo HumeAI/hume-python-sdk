@@ -12,24 +12,24 @@ class AudioOutput(pydantic_v1.BaseModel):
     When provided, the output is audio.
     """
 
+    type: typing.Literal["audio_output"] = pydantic_v1.Field(default="audio_output")
+    """
+    The type of message sent through the socket; for an Audio Output message, this must be `audio_output`.
+    """
+
     custom_session_id: typing.Optional[str] = pydantic_v1.Field(default=None)
     """
     Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
     """
 
-    data: str = pydantic_v1.Field()
-    """
-    Base64 encoded audio output.
-    """
-
     id: str = pydantic_v1.Field()
     """
-    ID of the audio output.
+    ID of the audio output. Allows the Audio Output message to be tracked and referenced.
     """
 
-    type: typing.Literal["audio_output"] = pydantic_v1.Field(default="audio_output")
+    data: str = pydantic_v1.Field()
     """
-    The type of message sent through the socket; for an Audio Output message, this must be 'audio_output'.
+    Base64 encoded audio output. This encoded audio is transmitted to the client, where it can be decoded and played back as part of the user interaction.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

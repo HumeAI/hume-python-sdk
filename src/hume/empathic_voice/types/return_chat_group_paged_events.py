@@ -6,6 +6,7 @@ import typing
 from ...core.datetime_utils import serialize_datetime
 from ...core.pydantic_utilities import deep_union_pydantic_dicts, pydantic_v1
 from .return_chat_event import ReturnChatEvent
+from .return_chat_group_paged_events_pagination_direction import ReturnChatGroupPagedEventsPaginationDirection
 
 
 class ReturnChatGroupPagedEvents(pydantic_v1.BaseModel):
@@ -15,27 +16,38 @@ class ReturnChatGroupPagedEvents(pydantic_v1.BaseModel):
 
     id: str = pydantic_v1.Field()
     """
-    Identifier for the chat group. Any chat resumed from this chat will have the same chat_group_id. Formatted as a UUID.
+    Identifier for the Chat Group. Any Chat resumed from this Chat Group will have the same `chat_group_id`. Formatted as a UUID.
     """
 
     page_number: int = pydantic_v1.Field()
     """
-    The page number of the returned results.
+    The page number of the returned list.
+    
+    This value corresponds to the `page_number` parameter specified in the request. Pagination uses zero-based indexing.
     """
 
     page_size: int = pydantic_v1.Field()
     """
-    The number of results returned per page.
+    The maximum number of items returned per page.
+    
+    This value corresponds to the `page_size` parameter specified in the request.
     """
 
-    pagination_direction: str = pydantic_v1.Field()
+    total_pages: int = pydantic_v1.Field()
     """
-    The direction of the pagination (ASC or DESC).
+    The total number of pages in the collection.
+    """
+
+    pagination_direction: ReturnChatGroupPagedEventsPaginationDirection = pydantic_v1.Field()
+    """
+    Indicates the order in which the paginated results are presented, based on their creation date.
+    
+    It shows `ASC` for ascending order (chronological, with the oldest records first) or `DESC` for descending order (reverse-chronological, with the newest records first). This value corresponds to the `ascending_order` query parameter used in the request.
     """
 
     events_page: typing.List[ReturnChatEvent] = pydantic_v1.Field()
     """
-    List of chat_events returned for the specified page number and page size.
+    List of Chat Events for the specified `page_number` and `page_size`.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

@@ -9,7 +9,7 @@ from ...core.pydantic_utilities import deep_union_pydantic_dicts, pydantic_v1
 
 class ReturnConfigSpec(pydantic_v1.BaseModel):
     """
-    An id/version number for a specific config version
+    The Config associated with this Chat.
     """
 
     id: str = pydantic_v1.Field()
@@ -19,7 +19,11 @@ class ReturnConfigSpec(pydantic_v1.BaseModel):
 
     version: typing.Optional[int] = pydantic_v1.Field(default=None)
     """
-    Version number for a Config. Version numbers should be integers. The combination of configId and version number is unique.
+    Version number for a Config.
+    
+    Configs, as well as Prompts and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+    
+    Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

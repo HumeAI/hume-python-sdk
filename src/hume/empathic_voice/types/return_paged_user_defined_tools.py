@@ -15,17 +15,26 @@ class ReturnPagedUserDefinedTools(pydantic_v1.BaseModel):
 
     page_number: int = pydantic_v1.Field()
     """
-    The page number of the returned results.
+    The page number of the returned list.
+    
+    This value corresponds to the `page_number` parameter specified in the request. Pagination uses zero-based indexing.
     """
 
     page_size: int = pydantic_v1.Field()
     """
-    The number of results returned per page.
+    The maximum number of items returned per page.
+    
+    This value corresponds to the `page_size` parameter specified in the request.
+    """
+
+    total_pages: int = pydantic_v1.Field()
+    """
+    The total number of pages in the collection.
     """
 
     tools_page: typing.List[typing.Optional[ReturnUserDefinedTool]] = pydantic_v1.Field()
     """
-    List of tools returned for the specified page number and page size.
+    List of tools returned for the specified `page_number` and `page_size`.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

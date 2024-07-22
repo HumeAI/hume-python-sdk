@@ -198,6 +198,7 @@ types:
           identifiers will be assigned to face bounding boxes to differentiate
           different faces. If false, all faces will be tagged with an "unknown"
           ID.
+        default: false
       fps_pred:
         type: optional<double>
         docs: >
@@ -327,6 +328,7 @@ types:
 
           Use reset_stream when one audio file is done being processed and you
           do not want context to leak across files.
+        default: false
       raw_text:
         type: optional<boolean>
         docs: >
@@ -336,6 +338,7 @@ types:
           This parameter is useful if you want to send text to be processed by
           the language model, but it cannot be used with other file types like
           audio, image, or video.
+        default: false
       job_details:
         type: optional<boolean>
         docs: >
@@ -348,6 +351,7 @@ types:
 
 
           This parameter is useful to get the unique job ID.
+        default: false
       payload_id:
         type: optional<string>
         docs: >

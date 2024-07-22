@@ -12,6 +12,11 @@ class UserInput(pydantic_v1.BaseModel):
     User text to insert into the conversation.
     """
 
+    type: typing.Literal["user_input"] = pydantic_v1.Field(default="user_input")
+    """
+    The type of message sent through the socket; must be `user_input` for our server to correctly identify and process it as a User Input message.
+    """
+
     custom_session_id: typing.Optional[str] = pydantic_v1.Field(default=None)
     """
     Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
@@ -19,12 +24,9 @@ class UserInput(pydantic_v1.BaseModel):
 
     text: str = pydantic_v1.Field()
     """
-    User text to insert into the conversation.
-    """
-
-    type: typing.Literal["user_input"] = pydantic_v1.Field(default="user_input")
-    """
-    The type of message sent through the socket; for a User Input message, this must be ‘user_input’.
+    User text to insert into the conversation. Text sent through a User Input message is treated as the user’s speech to EVI. EVI processes this input and provides a corresponding response.
+    
+    Expression measurement results are not available for User Input messages, as the prosody model relies on audio input and cannot process text alone.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

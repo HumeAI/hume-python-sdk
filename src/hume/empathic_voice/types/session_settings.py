@@ -7,6 +7,7 @@ from ...core.datetime_utils import serialize_datetime
 from ...core.pydantic_utilities import deep_union_pydantic_dicts, pydantic_v1
 from .audio_configuration import AudioConfiguration
 from .builtin_tool_config import BuiltinToolConfig
+from .context import Context
 from .tool import Tool
 
 
@@ -15,39 +16,78 @@ class SessionSettings(pydantic_v1.BaseModel):
     Settings for this chat session.
     """
 
-    audio: typing.Optional[AudioConfiguration] = pydantic_v1.Field(default=None)
+    type: typing.Literal["session_settings"] = pydantic_v1.Field(default="session_settings")
     """
-    Audio configuration.
-    """
-
-    builtin_tools: typing.Optional[typing.List[BuiltinToolConfig]] = pydantic_v1.Field(default=None)
-    """
-    List of builtin tools to enable.
+    The type of message sent through the socket; must be `session_settings` for our server to correctly identify and process it as a Session Settings message.
+    
+    Session settings are temporary and apply only to the current Chat session. These settings can be adjusted dynamically based on the requirements of each session to ensure optimal performance and user experience.
+    
+    For more information, please refer to the [Session Settings section](/docs/empathic-voice-interface-evi/configuration#session-settings) on the EVI Configuration page.
     """
 
     custom_session_id: typing.Optional[str] = pydantic_v1.Field(default=None)
     """
-    Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
-    """
-
-    language_model_api_key: typing.Optional[str] = pydantic_v1.Field(default=None)
-    """
-    Third party API key for the language model used for non-Hume models.
+    Unique identifier for the session. Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
+    
+    If included, the response sent from Hume to your backend will include this ID. This allows you to correlate frontend users with their incoming messages.
+    
+    It is recommended to pass a `custom_session_id` if you are using a Custom Language Model. Please see our guide to [using a custom language model](/docs/empathic-voice-interface-evi/custom-language-model) with EVI to learn more.
     """
 
     system_prompt: typing.Optional[str] = pydantic_v1.Field(default=None)
     """
-    Instructions for how the system should respond to the user. Set to null to use the default system prompt.
+    Instructions used to shape EVI’s behavior, responses, and style for the session.
+    
+    When included in a Session Settings message, the provided Prompt overrides the existing one specified in the EVI configuration. If no Prompt was defined in the configuration, this Prompt will be the one used for the session.
+    
+    You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles.
+    
+    For help writing a system prompt, see our [Prompting Guide](/docs/empathic-voice-interface-evi/prompting).
+    """
+
+    context: typing.Optional[Context] = pydantic_v1.Field(default=None)
+    """
+    Allows developers to inject additional context into the conversation, which is appended to the end of user messages for the session.
+    
+    When included in a Session Settings message, the provided context can be used to remind the LLM of its role in every user message, prevent it from forgetting important details, or add new relevant information to the conversation.
+    
+    Set to `null` to disable context injection.
+    """
+
+    audio: typing.Optional[AudioConfiguration] = pydantic_v1.Field(default=None)
+    """
+    Configuration details for the audio input used during the session. Ensures the audio is being correctly set up for processing.
+    
+    This optional field is only required when the audio input is encoded in PCM Linear 16 (16-bit, little-endian, signed PCM WAV data). For detailed instructions on how to configure session settings for PCM Linear 16 audio, please refer to the [Session Settings section](/docs/empathic-voice-interface-evi/configuration#session-settings) on the EVI Configuration page.
+    """
+
+    language_model_api_key: typing.Optional[str] = pydantic_v1.Field(default=None)
+    """
+    Third party API key for the supplemental language model.
+    
+    When provided, EVI will use this key instead of Hume’s API key for the supplemental LLM. This allows you to bypass rate limits and utilize your own API key as needed.
     """
 
     tools: typing.Optional[typing.List[Tool]] = pydantic_v1.Field(default=None)
     """
-    List of tools to enable.
+    List of user-defined tools to enable for the session.
+    
+    Tools are resources used by EVI to perform various tasks, such as searching the web or calling external APIs. Built-in tools, like web search, are natively integrated, while user-defined tools are created and invoked by the user. To learn more, see our [Tool Use Guide](/docs/empathic-voice-interface-evi/tool-use).
     """
 
-    type: typing.Literal["session_settings"] = pydantic_v1.Field(default="session_settings")
+    builtin_tools: typing.Optional[typing.List[BuiltinToolConfig]] = pydantic_v1.Field(default=None)
     """
-    The type of message sent through the socket; for a Session Settings message, this must be 'session_settings'.
+    List of built-in tools to enable for the session.
+    
+    Tools are resources used by EVI to perform various tasks, such as searching the web or calling external APIs. Built-in tools, like web search, are natively integrated, while user-defined tools are created and invoked by the user. To learn more, see our [Tool Use Guide](/docs/empathic-voice-interface-evi/tool-use).
+    
+    Currently, the only built-in tool Hume provides is **Web Search**. When enabled, Web Search equips EVI with the ability to search the web for up-to-date information.
+    """
+
+    metadata: typing.Optional[typing.Dict[str, typing.Any]] = None
+    variables: typing.Optional[typing.Dict[str, str]] = pydantic_v1.Field(default=None)
+    """
+    Dynamic values that can be used to populate EVI prompts.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

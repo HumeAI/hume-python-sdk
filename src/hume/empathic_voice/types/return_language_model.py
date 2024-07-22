@@ -5,6 +5,7 @@ import typing
 
 from ...core.datetime_utils import serialize_datetime
 from ...core.pydantic_utilities import deep_union_pydantic_dicts, pydantic_v1
+from .return_language_model_model_provider import ReturnLanguageModelModelProvider
 
 
 class ReturnLanguageModel(pydantic_v1.BaseModel):
@@ -12,19 +13,21 @@ class ReturnLanguageModel(pydantic_v1.BaseModel):
     A specific LanguageModel
     """
 
-    model_provider: typing.Optional[str] = pydantic_v1.Field(default=None)
+    model_provider: typing.Optional[ReturnLanguageModelModelProvider] = pydantic_v1.Field(default=None)
     """
-    The provider of this model. Based on the enum modelProvider.
+    The provider of the supplemental language model.
     """
 
     model_resource: typing.Optional[str] = pydantic_v1.Field(default=None)
     """
-    String that specifies the model to use with modelProvider.
+    String that specifies the language model to use with `model_provider`.
     """
 
     temperature: typing.Optional[float] = pydantic_v1.Field(default=None)
     """
-    Model temperature.
+    The model temperature, with values between 0 to 1 (inclusive).
+    
+    Controls the randomness of the LLM’s output, with values closer to 0 yielding focused, deterministic responses and values closer to 1 producing more creative, diverse responses.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

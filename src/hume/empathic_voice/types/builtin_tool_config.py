@@ -9,8 +9,11 @@ from .built_in_tool import BuiltInTool
 
 
 class BuiltinToolConfig(pydantic_v1.BaseModel):
-    fallback_content: typing.Optional[str] = None
     name: BuiltInTool
+    fallback_content: typing.Optional[str] = pydantic_v1.Field(default=None)
+    """
+    Optional text passed to the supplemental LLM if the tool call fails. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation.
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

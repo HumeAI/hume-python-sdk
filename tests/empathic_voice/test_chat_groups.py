@@ -8,9 +8,11 @@ from ..utilities import validate_response
 
 
 async def test_list_chat_groups(client: HumeClient, async_client: AsyncHumeClient) -> None:
-    expected_response = {
+    expected_response: typing.Any = {
         "page_number": 1,
         "page_size": 1,
+        "total_pages": 1,
+        "pagination_direction": "ASC",
         "chat_groups_page": [
             {
                 "id": "id",
@@ -25,6 +27,8 @@ async def test_list_chat_groups(client: HumeClient, async_client: AsyncHumeClien
     expected_types: typing.Any = {
         "page_number": "integer",
         "page_size": "integer",
+        "total_pages": "integer",
+        "pagination_direction": None,
         "chat_groups_page": (
             "list",
             {
@@ -47,18 +51,19 @@ async def test_list_chat_groups(client: HumeClient, async_client: AsyncHumeClien
 
 
 async def test_list_chat_group_events(client: HumeClient, async_client: AsyncHumeClient) -> None:
-    expected_response = {
+    expected_response: typing.Any = {
         "id": "id",
         "page_number": 1,
         "page_size": 1,
-        "pagination_direction": "pagination_direction",
+        "total_pages": 1,
+        "pagination_direction": "ASC",
         "events_page": [
             {
                 "id": "id",
                 "chat_id": "chat_id",
                 "timestamp": 1,
-                "role": "role",
-                "type": "type",
+                "role": "USER",
+                "type": "SYSTEM_PROMPT",
                 "message_text": "message_text",
                 "emotion_features": "emotion_features",
                 "metadata": "metadata",
@@ -69,6 +74,7 @@ async def test_list_chat_group_events(client: HumeClient, async_client: AsyncHum
         "id": None,
         "page_number": "integer",
         "page_size": "integer",
+        "total_pages": "integer",
         "pagination_direction": None,
         "events_page": (
             "list",

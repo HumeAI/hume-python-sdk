@@ -5,6 +5,7 @@ import typing
 
 from ...core.datetime_utils import serialize_datetime
 from ...core.pydantic_utilities import deep_union_pydantic_dicts, pydantic_v1
+from .return_builtin_tool_tool_type import ReturnBuiltinToolToolType
 
 
 class ReturnBuiltinTool(pydantic_v1.BaseModel):
@@ -12,9 +13,9 @@ class ReturnBuiltinTool(pydantic_v1.BaseModel):
     A specific builtin tool version returned from the server
     """
 
-    tool_type: str = pydantic_v1.Field()
+    tool_type: ReturnBuiltinToolToolType = pydantic_v1.Field()
     """
-    Type of Tool. Values from the ToolType enum.
+    Type of Tool. Either `BUILTIN` for natively implemented tools, like web search, or `FUNCTION` for user-defined tools.
     """
 
     name: str = pydantic_v1.Field()
@@ -24,7 +25,7 @@ class ReturnBuiltinTool(pydantic_v1.BaseModel):
 
     fallback_content: typing.Optional[str] = pydantic_v1.Field(default=None)
     """
-    Text to use if the tool fails to generate content.
+    Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
     """
 
     def json(self, **kwargs: typing.Any) -> str:
