@@ -34,7 +34,7 @@ class AsyncStreamWSSConnection:
         self,
         *,
         websocket: websockets.WebSocketClientProtocol,
-        params: StreamConnectOptions
+        params: typing.Optional[StreamConnectOptions] = None
     ):
         super().__init__()
         self.websocket = websocket
@@ -60,10 +60,15 @@ class AsyncStreamWSSConnection:
         self, data: str, raw_text: bool, config: typing.Optional[StreamDataModels]
     ) -> SubscribeEvent:
         if config != None:
-            self.params.config = config
+            if self.params is not None:
+                self.params.config = config
+            else:
+                self.params = StreamConnectOptions(
+                    config=config
+                )
 
         to_send = {"data": data, "raw_text": raw_text}
-        if self.params.config is not None:
+        if self.params is not None and self.params.config is not None:
             to_send["models"] = self.params.config.dict()
 
         return await self._send(to_send)
