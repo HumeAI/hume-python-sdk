@@ -73,6 +73,7 @@ async def test_list_tool_versions(client: HumeClient, async_client: AsyncHumeCli
                 "parameters": '{ "type": "object", "properties": { "location": { "type": "string", "description": "The city and state, e.g. San Francisco, CA" }, "format": { "type": "string", "enum": ["celsius", "fahrenheit", "kelvin"], "description": "The temperature unit to use. Infer this from the users location." } }, "required": ["location", "format"] }',
             }
         ],
+        "total_pages": 1,
     }
     expected_types: typing.Any = {
         "page_number": "integer",
@@ -95,6 +96,7 @@ async def test_list_tool_versions(client: HumeClient, async_client: AsyncHumeCli
                 }
             },
         ),
+        "total_pages": "integer",
     }
     response = client.empathic_voice.tools.list_tool_versions(id="00183a3f-79ba-413d-9f3b-609864268bea")
     validate_response(response, expected_response, expected_types)

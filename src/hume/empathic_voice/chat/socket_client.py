@@ -3,11 +3,9 @@ from contextlib import asynccontextmanager
 import json
 import typing
 import httpx
-from pydub import AudioSegment
 import websockets
 import websockets.protocol
 from json.decoder import JSONDecodeError
-from pathlib import Path
 
 from hume.empathic_voice.chat.types.publish_event import PublishEvent
 from hume.empathic_voice.types.pause_assistant_message import PauseAssistantMessage
@@ -132,20 +130,6 @@ class AsyncChatWSSConnection:
         """
         await self._send_model(message)
     
-    async def send_file(self, filepath: Path) -> None:
-        """Send a file over the voice socket.
-
-        Parameters
-        ----------
-        filepath : Path
-            Filepath to the file to send over the socket.
-        """
-        with filepath.open("rb") as f:
-            segment: AudioSegment = AudioSegment.from_file(f)  # type: ignore
-            segment = segment.set_frame_rate(self._sample_rate).set_channels(self._num_channels)
-            audio_bytes = segment.raw_data
-            await self._send(audio_bytes)
-
     async def send_tool_response(self, message: ToolResponseMessage) -> None:
         """
         Parameters

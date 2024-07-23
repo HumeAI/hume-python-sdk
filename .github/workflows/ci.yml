@@ -36,7 +36,7 @@ jobs:
       - name: Install Fern
         run: npm install -g fern-api
       - name: Test
-        run: fern test --command "poetry run pytest -rP tests/custom_models tests/empathic_voice tests/expression_measurement"
+        run: fern test --command "poetry run pytest -rP tests/empathic_voice tests/expression_measurement"
 
   publish:
     needs: [compile, test]

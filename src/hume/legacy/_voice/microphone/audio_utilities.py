@@ -2,9 +2,14 @@
 
 import asyncio
 from io import BytesIO
+from hume.legacy.error.hume_client_exception import HumeClientException
 
-import pydub.playback
-from pydub import AudioSegment
+try:
+    import pydub.playback
+    from pydub import AudioSegment
+    HAS_AUDIO_DEPENDENCIES = True
+except ModuleNotFoundError:
+    HAS_AUDIO_DEPENDENCIES = False
 
 
 # NOTE:
@@ -19,5 +24,9 @@ async def play_audio(byte_str: bytes) -> None:
     Args:
         byte_str (bytes): Byte string of audio data.
     """
+    if not HAS_AUDIO_DEPENDENCIES:
+        raise HumeClientException(
+            'Run `pip install "hume[legacy]"` to install dependencies required to use audio playback.'
+        )
     segment = AudioSegment.from_file(BytesIO(byte_str))
     await asyncio.to_thread(pydub.playback.play, segment)

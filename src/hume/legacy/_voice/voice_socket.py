@@ -6,8 +6,14 @@ import json
 import logging
 from pathlib import Path
 from typing import Any, AsyncIterator, ClassVar
+from hume.legacy.error.hume_client_exception import HumeClientException
 
-from pydub import AudioSegment
+try:
+    from pydub import AudioSegment
+    HAS_AUDIO_DEPENDENCIES = True
+except ModuleNotFoundError:
+    HAS_AUDIO_DEPENDENCIES = False
+
 from websockets.client import WebSocketClientProtocol as WebSocket
 
 from hume.legacy._common.utilities.typing_utilities import JsonObject
@@ -93,6 +99,10 @@ class VoiceSocket:
         Args:
             filepath (Path): Filepath to the file to send over the socket.
         """
+        if not HAS_AUDIO_DEPENDENCIES:
+            raise HumeClientException(
+                'Run `pip install "hume[legacy]"` to install dependencies required to use send_file.'
+            )
         with filepath.open("rb") as f:
             segment: AudioSegment = AudioSegment.from_file(f)
             segment = segment.set_frame_rate(self._sample_rate).set_channels(self._num_channels)

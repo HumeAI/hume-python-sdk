@@ -1,5 +1,4 @@
 # Specify files that shouldn't be modified by Fern
-
 README.md
 
 # Custom Client Modifications
@@ -12,14 +11,14 @@ src/hume/expression_measurement/stream/socket_client.py
 tests/expression_measurement/test_batch.py
 tests/empathic_voice/test_tools.py
 
-# Customize the GitHub workflow to run Fern tests
+# Customize the GitHub workflow to run only Fern tests (not legacy)
 .github/workflows/ci.yml
 
 # Legacy SDK
 mypy.ini
 pytest.ini
 src/hume/legacy
-.github/workflows/legacy_ci.yaml
+.github/workflows/legacy_ci.yml
 pylintrc
 tests/_legacy
 examples/

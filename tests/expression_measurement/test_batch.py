@@ -44,7 +44,7 @@ async def test_list_jobs(client: HumeClient, async_client: AsyncHumeClient) -> N
             "user_id": "user_id",
         }
     ]
-    expected_types: typing.Any = (
+    expected_types: typing.Tuple[typing.Any, typing.Any] = (
         "list",
         {
             0: {
@@ -211,7 +211,7 @@ async def test_get_job_predictions(client: HumeClient, async_client: AsyncHumeCl
             },
         }
     ]
-    expected_types: typing.Any = (
+    expected_types: typing.Tuple[typing.Any, typing.Any] = (
         "list",
         {
             0: {
