@@ -179,6 +179,8 @@ class AsyncChatWSSConnection:
         await self._send_model(message)
 
 class AsyncChatClientWithWebsocket:
+    DEFAULT_MAX_PAYLOAD_SIZE_BYTES: typing.ClassVar[int] = 2**24
+
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self.client_wrapper = client_wrapper
 
@@ -207,7 +209,11 @@ class AsyncChatClientWithWebsocket:
         ws_uri = f"wss://api.hume.ai/v0/evi/chat?{query_params}"
 
         try:
-            async with websockets.connect(ws_uri) as protocol:
+            async with websockets.connect(
+                ws_uri,
+                extra_headers=self.client_wrapper.get_headers(),
+                max_size=self.DEFAULT_MAX_PAYLOAD_SIZE_BYTES,
+            ) as protocol:
                 yield AsyncChatWSSConnection(websocket=protocol, params=options)
         except websockets.exceptions.InvalidStatusCode as exc:
             status_code: int = exc.status_code

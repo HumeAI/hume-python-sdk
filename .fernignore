@@ -1,5 +1,4 @@
 # Specify files that shouldn't be modified by Fern
-README.md
 
 # Custom Client Modifications
 src/hume/client.py
@@ -22,4 +21,4 @@ src/hume/legacy
 pylintrc
 tests/_legacy
 examples/
-
+.vscode/

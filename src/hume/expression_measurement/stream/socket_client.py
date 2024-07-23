@@ -14,7 +14,7 @@ from ...core.pydantic_utilities import pydantic_v1
 from ...core.client_wrapper import AsyncClientWrapper
 
 
-class AsyncStreamConnectOptions(pydantic_v1.BaseModel):
+class StreamConnectOptions(pydantic_v1.BaseModel):
     config: typing.Optional[StreamDataModels] = None
     """
     Job config
@@ -34,7 +34,7 @@ class AsyncStreamWSSConnection:
         self,
         *,
         websocket: websockets.WebSocketClientProtocol,
-        params: AsyncStreamConnectOptions
+        params: StreamConnectOptions
     ):
         super().__init__()
         self.websocket = websocket
@@ -175,16 +175,19 @@ class AsyncStreamClientWithWebsocket:
 
     @asynccontextmanager
     async def connect(
-        self, options: AsyncStreamConnectOptions
+        self, options: typing.Optional[StreamConnectOptions] = None
     ) -> typing.AsyncIterator[AsyncStreamWSSConnection]:
-        api_key = options.api_key or self.client_wrapper.api_key
+        api_key = options.api_key if options is not None and options.api_key else self.client_wrapper.api_key
         if api_key is None:
             raise ValueError("An API key is required to connect to the streaming API.")
         
         try:
             async with websockets.connect(  # type: ignore[attr-defined]
                 "wss://api.hume.ai/v0/stream/models",
-                extra_headers={"X-Hume-Api-Key": api_key},
+                extra_headers={
+                    **self.client_wrapper.get_headers(),
+                    "X-Hume-Api-Key": api_key,
+                },
             ) as protocol:
                 yield AsyncStreamWSSConnection(websocket=protocol, params=options)
         except websockets.exceptions.InvalidStatusCode as exc:
