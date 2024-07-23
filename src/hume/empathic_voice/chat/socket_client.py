@@ -25,7 +25,7 @@ from ...core.client_wrapper import AsyncClientWrapper
 from ...core.api_error import ApiError
 
 
-class AsyncChatConnectOptions(pydantic_v1.BaseModel):
+class ChatConnectOptions(pydantic_v1.BaseModel):
     config_id: typing.Optional[str] = None
     """
     The ID of the configuration.
@@ -49,7 +49,7 @@ class AsyncChatWSSConnection:
         self,
         *,
         websocket: websockets.WebSocketClientProtocol,
-        params: typing.Optional[AsyncChatConnectOptions] = None,
+        params: typing.Optional[ChatConnectOptions] = None,
     ):
         super().__init__()
         self.websocket = websocket
@@ -200,7 +200,7 @@ class AsyncChatClientWithWebsocket:
 
     @asynccontextmanager
     async def connect(
-        self, options: typing.Optional[AsyncChatConnectOptions] = None
+        self, options: typing.Optional[ChatConnectOptions] = None
     ) -> typing.AsyncIterator[AsyncChatWSSConnection]:
         query_params = httpx.QueryParams()
 
@@ -237,7 +237,8 @@ class AsyncChatClientWithWebsocket:
         encoded_auth = base64.b64encode(auth.encode()).decode()
         _response = await self.client_wrapper.httpx_client.request(
             method="POST",
-            base_url="https://api.hume.ai/oauth2-cc/token",
+            base_url="https://api.hume.ai/",
+            path="oauth2-cc/token",
             headers={"Authorization": f"Basic {encoded_auth}"},
             data={"grant_type": "client_credentials"},
         )
