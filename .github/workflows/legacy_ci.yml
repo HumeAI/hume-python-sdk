@@ -109,6 +109,7 @@ jobs:
           if [ -d /poetryenvs ]; then rm -rf ~/poetryenvs; fi
           poetry config virtualenvs.path ~/poetryenvs
           poetry install
+          poetry install -E legacy
 
       - name: Run pytest
         shell: bash

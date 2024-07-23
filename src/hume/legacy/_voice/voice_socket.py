@@ -6,7 +6,6 @@ import json
 import logging
 from pathlib import Path
 from typing import Any, AsyncIterator, ClassVar
-from hume.legacy.error.hume_client_exception import HumeClientException
 
 try:
     from pydub import AudioSegment
@@ -16,6 +15,7 @@ except ModuleNotFoundError:
 
 from websockets.client import WebSocketClientProtocol as WebSocket
 
+from hume.legacy.error.hume_client_exception import HumeClientException
 from hume.legacy._common.utilities.typing_utilities import JsonObject
 from hume.legacy._voice.session_settings import AudioSettings, SessionSettings
 
