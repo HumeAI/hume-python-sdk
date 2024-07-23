@@ -93,7 +93,7 @@ class TestServiceHumeVoiceClientChat:
             prompt=WHETHER_ASSISTANT_PROMPT,
             tools=[tool],
             language_model=LanguageModelConfig(model_provider="OPEN_AI", model_resource="gpt-3.5-turbo"),
-            voice_identity_config=VoiceIdentityConfig(name="ITO"),
+            voice_identity_config=VoiceIdentityConfig(name="ITO", provider="HUME_AI"),
         )
 
         return config, tool

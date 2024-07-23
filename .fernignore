@@ -1,4 +1,5 @@
 # Specify files that shouldn't be modified by Fern
+README.md
 
 # Custom Client Modifications
 src/hume/client.py

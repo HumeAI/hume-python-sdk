@@ -55,7 +55,7 @@ class TestServiceHumeVoiceClientTools:
             prompt=WHETHER_ASSISTANT_PROMPT,
             tools=[new_tool],
             language_model=LanguageModelConfig(model_provider="OPEN_AI", model_resource="gpt-3.5-turbo"),
-            voice_identity_config=VoiceIdentityConfig(name="ITO"),
+            voice_identity_config=VoiceIdentityConfig(name="ITO", provider="HUME_AI"),
         )
 
         fetched_tool = voice_client.get_tool(new_tool.id)
