@@ -64,6 +64,8 @@ class ConfigsMixin(ClientBase):
             language_model=language_model,
         )
         post_config_body = post_config_request.to_json_str()
+        print("------------------------------------------------------")
+        print(post_config_body)
         endpoint = self._build_endpoint("evi", "configs")
         response = self._request(endpoint, method="POST", body_json_str=post_config_body)
         config_response = ConfigResponse.model_validate_json(response.text)
