@@ -56,7 +56,7 @@ class PostPromptRequest(BaseModel):
 class VoiceIdentityConfig(BaseModel):
     """Configuration for changing the voice of EVI."""
 
-    provider: str | None = None
+    provider: str
     name: str | None = None
 
 
