@@ -1,15 +1,16 @@
 # Specify files that shouldn't be modified by Fern
 README.md
 
+src/hume/expression_measurement/socket_client.py
+src/hume/expression_measurement/stream/socket_client.py
+src/hume/core/client_wrapper.py
+tests/expression_measurement/test_batch.py
+tests/empathic_voice/test_tools.py
+
 # Custom Client Modifications
 src/hume/client.py
 src/hume/empathic_voice/socket_client.py
 src/hume/empathic_voice/chat/socket_client.py
-
-src/hume/expression_measurement/socket_client.py
-src/hume/expression_measurement/stream/socket_client.py
-tests/expression_measurement/test_batch.py
-tests/empathic_voice/test_tools.py
 
 # Customize the GitHub workflow to run only Fern tests (not legacy)
 .github/workflows/ci.yml

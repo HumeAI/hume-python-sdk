@@ -190,7 +190,7 @@ class AsyncStreamClientWithWebsocket:
             async with websockets.connect(  # type: ignore[attr-defined]
                 "wss://api.hume.ai/v0/stream/models",
                 extra_headers={
-                    **self.client_wrapper.get_headers(),
+                    **self.client_wrapper.get_headers(include_auth=False),
                     "X-Hume-Api-Key": api_key,
                 },
             ) as protocol:

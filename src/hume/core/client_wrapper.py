@@ -13,13 +13,13 @@ class BaseClientWrapper:
         self._base_url = base_url
         self._timeout = timeout
 
-    def get_headers(self) -> typing.Dict[str, str]:
+    def get_headers(self, include_auth: bool = True) -> typing.Dict[str, str]:
         headers: typing.Dict[str, str] = {
             "X-Fern-Language": "Python",
             "X-Fern-SDK-Name": "hume",
             "X-Fern-SDK-Version": "1.0.0",
         }
-        if self.api_key is not None:
+        if self.api_key is not None and include_auth:
             headers["X-Hume-Api-Key"] = self.api_key
         return headers
 
