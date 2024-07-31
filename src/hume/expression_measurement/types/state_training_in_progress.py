@@ -9,8 +9,6 @@ from .in_progress import InProgress
 
 
 class StateTrainingInProgress(InProgress):
-    status: typing.Literal["IN_PROGRESS"] = "IN_PROGRESS"
-
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
         return super().json(**kwargs_with_defaults)

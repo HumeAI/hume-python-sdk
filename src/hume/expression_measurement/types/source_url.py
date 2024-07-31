@@ -9,8 +9,6 @@ from .url import Url
 
 
 class SourceUrl(Url):
-    type: typing.Literal["url"] = "url"
-
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
         return super().json(**kwargs_with_defaults)

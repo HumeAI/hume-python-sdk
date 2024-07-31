@@ -10,7 +10,13 @@ from .transcription import Transcription
 
 
 class InferenceBaseRequest(pydantic_v1.BaseModel):
-    models: typing.Optional[Models] = None
+    models: typing.Optional[Models] = pydantic_v1.Field(default=None)
+    """
+    Specify the models to use for inference.
+    
+    If this field is not explicitly set, then all models will run by default.
+    """
+
     transcription: typing.Optional[Transcription] = None
     urls: typing.Optional[typing.List[str]] = pydantic_v1.Field(default=None)
     """
@@ -26,7 +32,7 @@ class InferenceBaseRequest(pydantic_v1.BaseModel):
 
     text: typing.Optional[typing.List[str]] = pydantic_v1.Field(default=None)
     """
-    Text to supply directly to our language and NER models.
+    Text supplied directly to our Emotional Language and NER models for analysis.
     """
 
     callback_url: typing.Optional[str] = pydantic_v1.Field(default=None)
