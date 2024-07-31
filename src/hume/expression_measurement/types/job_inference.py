@@ -15,20 +15,9 @@ class JobInference(pydantic_v1.BaseModel):
     The ID associated with this job.
     """
 
-    user_id: str = pydantic_v1.Field()
-    """
-    The unique identifier for the user who initiated the job.
-    """
-
-    request: InferenceRequest = pydantic_v1.Field()
-    """
-    The request that initiated the job.
-    """
-
-    state: StateInference = pydantic_v1.Field()
-    """
-    The current state of the job.
-    """
+    user_id: str
+    request: InferenceRequest
+    state: StateInference
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

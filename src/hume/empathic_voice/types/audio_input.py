@@ -28,11 +28,9 @@ class AudioInput(pydantic_v1.BaseModel):
     """
     Base64 encoded audio input to insert into the conversation.
     
-    The content of an Audio Input message is treated as the user’s speech to EVI and must be streamed continuously. Pre-recorded audio files are not supported.
+    The audio input must be captured and transmitted to EVI as a continuous stream, with the audio data sent in small chunks for better transcription quality. When capturing audio through the browser, we recommend recording the audio in 100ms intervals and adjusting from there to determine if smaller or larger chunks are needed. These chunks should be continuously sent to EVI as Audio Input messages.
     
-    For optimal transcription quality, the audio data should be transmitted in small chunks.
-    
-    Hume recommends streaming audio with a buffer window of 20 milliseconds (ms), or 100 milliseconds (ms) for web applications.
+    The content of an Audio Input message is treated as the user’s speech to EVI. EVI processes the audio, conducts expression measurement using the prosody model, and responds accordingly.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

@@ -38,9 +38,9 @@ class PromptsClient:
             This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
 
         page_size : typing.Optional[int]
-            Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+            Specifies the maximum number of results to include per page, enabling pagination.
 
-            For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+            The value must be greater than or equal to 1. For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         restrict_to_most_recent : typing.Optional[bool]
             By default, `restrict_to_most_recent` is set to true, returning only the latest version of each prompt. To include all versions of each prompt in the list, set `restrict_to_most_recent` to false.
@@ -180,9 +180,9 @@ class PromptsClient:
             This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
 
         page_size : typing.Optional[int]
-            Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+            Specifies the maximum number of results to include per page, enabling pagination.
 
-            For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+            The value must be greater than or equal to 1. For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         restrict_to_most_recent : typing.Optional[bool]
             By default, `restrict_to_most_recent` is set to true, returning only the latest version of each prompt. To include all versions of each prompt in the list, set `restrict_to_most_recent` to false.
@@ -543,9 +543,9 @@ class AsyncPromptsClient:
             This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
 
         page_size : typing.Optional[int]
-            Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+            Specifies the maximum number of results to include per page, enabling pagination.
 
-            For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+            The value must be greater than or equal to 1. For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         restrict_to_most_recent : typing.Optional[bool]
             By default, `restrict_to_most_recent` is set to true, returning only the latest version of each prompt. To include all versions of each prompt in the list, set `restrict_to_most_recent` to false.
@@ -701,9 +701,9 @@ class AsyncPromptsClient:
             This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
 
         page_size : typing.Optional[int]
-            Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+            Specifies the maximum number of results to include per page, enabling pagination.
 
-            For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+            The value must be greater than or equal to 1. For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         restrict_to_most_recent : typing.Optional[bool]
             By default, `restrict_to_most_recent` is set to true, returning only the latest version of each prompt. To include all versions of each prompt in the list, set `restrict_to_most_recent` to false.

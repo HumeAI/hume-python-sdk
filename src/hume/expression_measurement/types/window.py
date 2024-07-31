@@ -8,12 +8,6 @@ from ...core.pydantic_utilities import deep_union_pydantic_dicts, pydantic_v1
 
 
 class Window(pydantic_v1.BaseModel):
-    """
-    Generate predictions based on time.
-
-    Setting the `window` field allows for a 'sliding window' approach, where a fixed-size window moves across the audio or video file in defined steps. This enables continuous analysis of prosody within subsets of the file, providing dynamic and localized insights into emotional expression.
-    """
-
     length: typing.Optional[float] = pydantic_v1.Field(default=None)
     """
     The length of the sliding window.
