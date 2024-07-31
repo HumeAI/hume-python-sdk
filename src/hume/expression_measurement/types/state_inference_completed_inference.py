@@ -9,8 +9,6 @@ from .completed_inference import CompletedInference
 
 
 class StateInferenceCompletedInference(CompletedInference):
-    status: typing.Literal["COMPLETED"] = "COMPLETED"
-
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
         return super().json(**kwargs_with_defaults)

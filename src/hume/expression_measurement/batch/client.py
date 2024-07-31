@@ -16,7 +16,6 @@ from ..types.models import Models
 from ..types.sort_by import SortBy
 from ..types.status import Status
 from ..types.transcription import Transcription
-from ..types.type import Type
 from ..types.union_job import UnionJob
 from ..types.union_predict_result import UnionPredictResult
 from ..types.when import When
@@ -38,7 +37,6 @@ class BatchClient:
         timestamp_ms: typing.Optional[int] = None,
         sort_by: typing.Optional[SortBy] = None,
         direction: typing.Optional[Direction] = None,
-        type: typing.Optional[typing.Union[Type, typing.Sequence[Type]]] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.List[UnionJob]:
         """
@@ -50,22 +48,39 @@ class BatchClient:
             The maximum number of jobs to include in the response.
 
         status : typing.Optional[typing.Union[Status, typing.Sequence[Status]]]
-            Include only jobs with these statuses.
+            Include only jobs of this status in the response. There are four possible statuses:
+
+            - `QUEUED`: The job has been received and is waiting to be processed.
+
+            - `IN_PROGRESS`: The job is currently being processed.
+
+            - `COMPLETED`: The job has finished processing.
+
+            - `FAILED`: The job encountered an error and could not be completed successfully.
 
         when : typing.Optional[When]
-            Include only jobs that were created before or after `timestamp_ms`.
+            Specify whether to include jobs created before or after a given `timestamp_ms`.
 
         timestamp_ms : typing.Optional[int]
-            Defaults to the current date and time. See `when`.
+            Provide a timestamp in milliseconds to filter jobs.
+
+            When combined with the `when` parameter, you can filter jobs before or after the given timestamp. Defaults to the current Unix timestamp if one is not provided.
 
         sort_by : typing.Optional[SortBy]
-            The job timestamp to sort by.
+            Specify which timestamp to sort the jobs by.
+
+            - `created`: Sort jobs by the time of creation, indicated by `created_timestamp_ms`.
+
+            - `started`: Sort jobs by the time processing started, indicated by `started_timestamp_ms`.
+
+            - `ended`: Sort jobs by the time processing ended, indicated by `ended_timestamp_ms`.
 
         direction : typing.Optional[Direction]
-            The sort direction.
+            Specify the order in which to sort the jobs. Defaults to descending order.
 
-        type : typing.Optional[typing.Union[Type, typing.Sequence[Type]]]
-            Include only jobs of these types.
+            - `asc`: Sort in ascending order (chronological, with the oldest records first).
+
+            - `desc`: Sort in descending order (reverse-chronological, with the newest records first).
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -91,10 +106,9 @@ class BatchClient:
                 "limit": limit,
                 "status": status,
                 "when": when,
-                "timestamp_ms": timestamp_ms,
+                "timestamp_ms": jsonable_encoder(timestamp_ms),
                 "sort_by": sort_by,
                 "direction": direction,
-                "type": type,
             },
             request_options=request_options,
         )
@@ -124,6 +138,9 @@ class BatchClient:
         Parameters
         ----------
         models : typing.Optional[Models]
+            Specify the models to use for inference.
+
+            If this field is not explicitly set, then all models will run by default.
 
         transcription : typing.Optional[Transcription]
 
@@ -136,7 +153,7 @@ class BatchClient:
             List of File IDs corresponding to the files in the asset registry.
 
         text : typing.Optional[typing.Sequence[str]]
-            Text to supply directly to our language and NER models.
+            Text supplied directly to our Emotional Language and NER models for analysis.
 
         callback_url : typing.Optional[str]
             If provided, a `POST` request will be made to the URL with the generated predictions on completion or the error message on failure.
@@ -194,6 +211,7 @@ class BatchClient:
         Parameters
         ----------
         id : str
+            The unique identifier for the job.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -229,11 +247,12 @@ class BatchClient:
         self, id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.List[UnionPredictResult]:
         """
-        Get the JSON predictions of a completed measurement or custom models inference job.
+        Get the JSON predictions of a completed inference job.
 
         Parameters
         ----------
         id : str
+            The unique identifier for the job.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -269,11 +288,12 @@ class BatchClient:
         self, id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.Iterator[bytes]:
         """
-        Get the artifacts ZIP of a completed measurement or custom models inference job.
+        Get the artifacts ZIP of a completed inference job.
 
         Parameters
         ----------
         id : str
+            The unique identifier for the job.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -324,6 +344,7 @@ class BatchClient:
             See core.File for more documentation
 
         json : typing.Optional[InferenceBaseRequest]
+            Stringified JSON object containing the inference job configuration.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -372,7 +393,6 @@ class AsyncBatchClient:
         timestamp_ms: typing.Optional[int] = None,
         sort_by: typing.Optional[SortBy] = None,
         direction: typing.Optional[Direction] = None,
-        type: typing.Optional[typing.Union[Type, typing.Sequence[Type]]] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.List[UnionJob]:
         """
@@ -384,22 +404,39 @@ class AsyncBatchClient:
             The maximum number of jobs to include in the response.
 
         status : typing.Optional[typing.Union[Status, typing.Sequence[Status]]]
-            Include only jobs with these statuses.
+            Include only jobs of this status in the response. There are four possible statuses:
+
+            - `QUEUED`: The job has been received and is waiting to be processed.
+
+            - `IN_PROGRESS`: The job is currently being processed.
+
+            - `COMPLETED`: The job has finished processing.
+
+            - `FAILED`: The job encountered an error and could not be completed successfully.
 
         when : typing.Optional[When]
-            Include only jobs that were created before or after `timestamp_ms`.
+            Specify whether to include jobs created before or after a given `timestamp_ms`.
 
         timestamp_ms : typing.Optional[int]
-            Defaults to the current date and time. See `when`.
+            Provide a timestamp in milliseconds to filter jobs.
+
+            When combined with the `when` parameter, you can filter jobs before or after the given timestamp. Defaults to the current Unix timestamp if one is not provided.
 
         sort_by : typing.Optional[SortBy]
-            The job timestamp to sort by.
+            Specify which timestamp to sort the jobs by.
+
+            - `created`: Sort jobs by the time of creation, indicated by `created_timestamp_ms`.
+
+            - `started`: Sort jobs by the time processing started, indicated by `started_timestamp_ms`.
+
+            - `ended`: Sort jobs by the time processing ended, indicated by `ended_timestamp_ms`.
 
         direction : typing.Optional[Direction]
-            The sort direction.
+            Specify the order in which to sort the jobs. Defaults to descending order.
 
-        type : typing.Optional[typing.Union[Type, typing.Sequence[Type]]]
-            Include only jobs of these types.
+            - `asc`: Sort in ascending order (chronological, with the oldest records first).
+
+            - `desc`: Sort in descending order (reverse-chronological, with the newest records first).
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -433,10 +470,9 @@ class AsyncBatchClient:
                 "limit": limit,
                 "status": status,
                 "when": when,
-                "timestamp_ms": timestamp_ms,
+                "timestamp_ms": jsonable_encoder(timestamp_ms),
                 "sort_by": sort_by,
                 "direction": direction,
-                "type": type,
             },
             request_options=request_options,
         )
@@ -466,6 +502,9 @@ class AsyncBatchClient:
         Parameters
         ----------
         models : typing.Optional[Models]
+            Specify the models to use for inference.
+
+            If this field is not explicitly set, then all models will run by default.
 
         transcription : typing.Optional[Transcription]
 
@@ -478,7 +517,7 @@ class AsyncBatchClient:
             List of File IDs corresponding to the files in the asset registry.
 
         text : typing.Optional[typing.Sequence[str]]
-            Text to supply directly to our language and NER models.
+            Text supplied directly to our Emotional Language and NER models for analysis.
 
         callback_url : typing.Optional[str]
             If provided, a `POST` request will be made to the URL with the generated predictions on completion or the error message on failure.
@@ -544,6 +583,7 @@ class AsyncBatchClient:
         Parameters
         ----------
         id : str
+            The unique identifier for the job.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -587,11 +627,12 @@ class AsyncBatchClient:
         self, id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.List[UnionPredictResult]:
         """
-        Get the JSON predictions of a completed measurement or custom models inference job.
+        Get the JSON predictions of a completed inference job.
 
         Parameters
         ----------
         id : str
+            The unique identifier for the job.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -635,11 +676,12 @@ class AsyncBatchClient:
         self, id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.AsyncIterator[bytes]:
         """
-        Get the artifacts ZIP of a completed measurement or custom models inference job.
+        Get the artifacts ZIP of a completed inference job.
 
         Parameters
         ----------
         id : str
+            The unique identifier for the job.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -698,6 +740,7 @@ class AsyncBatchClient:
             See core.File for more documentation
 
         json : typing.Optional[InferenceBaseRequest]
+            Stringified JSON object containing the inference job configuration.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.

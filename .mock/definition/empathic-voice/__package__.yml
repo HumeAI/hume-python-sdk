@@ -49,12 +49,12 @@ types:
         type: string
         docs: Name applied to all versions of a particular Tool.
       created_on:
-        type: integer
+        type: long
         docs: >-
           Time at which the Tool was created. Measured in seconds since the Unix
           epoch.
       modified_on:
-        type: integer
+        type: long
         docs: >-
           Time at which the Tool was last modified. Measured in seconds since
           the Unix epoch.
@@ -119,12 +119,12 @@ types:
         type: string
         docs: Name applied to all versions of a particular Prompt.
       created_on:
-        type: integer
+        type: long
         docs: >-
           Time at which the Prompt was created. Measured in seconds since the
           Unix epoch.
       modified_on:
-        type: integer
+        type: long
         docs: >-
           Time at which the Prompt was last modified. Measured in seconds since
           the Unix epoch.
@@ -155,7 +155,7 @@ types:
         type: string
         docs: The voice the custom voice is based off of.
       speech_rate_multiplier:
-        type: optional<double>
+        type: optional<float>
         docs: The speech rate multiplier for this custom voice.
       parameter_model:
         type: string
@@ -163,7 +163,7 @@ types:
           The name of the parameter model used to define which attributes are
           used by `parameters`.
       parameters:
-        type: optional<map<string, optional<double>>>
+        type: optional<map<string, optional<float>>>
         docs: Voice specification for a Config.
   ReturnCustomVoice:
     docs: A custom voice specification returned from the server
@@ -182,16 +182,16 @@ types:
           String with the name of the voice to use. Maximum length of 75
           characters. Will be converted to all-uppercase.
       created_on:
-        type: integer
+        type: long
         docs: The timestamp when the first version of this prompt was created.
       modified_on:
-        type: integer
+        type: long
         docs: The timestamp when this version of the prompt was created.
       base_voice:
         type: string
         docs: The voice the custom voice is based off of.
       speech_rate_multiplier:
-        type: optional<double>
+        type: optional<float>
         docs: The speech rate multiplier for this custom voice.
       parameter_model:
         type: string
@@ -200,7 +200,7 @@ types:
           used by `parameters`.
       parameters:
         docs: Voice specification for a Config.
-        type: map<string, double>
+        type: map<string, float>
   PostedBuiltinTool:
     docs: A configuration of a built-in tool to be posted to the server
     properties:
@@ -299,7 +299,7 @@ types:
         type: optional<string>
         docs: String that specifies the language model to use with `model_provider`.
       temperature:
-        type: optional<double>
+        type: optional<float>
         docs: >-
           The model temperature, with values between 0 to 1 (inclusive).
 
@@ -505,12 +505,12 @@ types:
         type: optional<string>
         docs: Name applied to all versions of a particular Config.
       created_on:
-        type: optional<integer>
+        type: optional<long>
         docs: >-
           Time at which the Config was created. Measured in seconds since the
           Unix epoch.
       modified_on:
-        type: optional<integer>
+        type: optional<long>
         docs: >-
           Time at which the Config was last modified. Measured in seconds since
           the Unix epoch.
@@ -631,7 +631,7 @@ types:
         type: optional<string>
         docs: String that specifies the language model to use with `model_provider`.
       temperature:
-        type: optional<double>
+        type: optional<float>
         docs: >-
           The model temperature, with values between 0 to 1 (inclusive).
 
@@ -879,17 +879,17 @@ types:
 
           - `ERROR`: The chat ended unexpectedly due to an error.
       start_timestamp:
-        type: integer
+        type: long
         docs: >-
           Time at which the Chat started. Measured in seconds since the Unix
           epoch.
       end_timestamp:
-        type: optional<integer>
+        type: optional<long>
         docs: >-
           Time at which the Chat ended. Measured in seconds since the Unix
           epoch.
       event_count:
-        type: optional<integer>
+        type: optional<long>
         docs: The total number of events currently in this chat.
       metadata:
         type: optional<string>
@@ -1027,7 +1027,7 @@ types:
         type: string
         docs: Identifier for the Chat this event occurred in. Formatted as a UUID.
       timestamp:
-        type: integer
+        type: long
         docs: >-
           Time at which the Chat Event occurred. Measured in seconds since the
           Unix epoch.
@@ -1172,12 +1172,12 @@ types:
 
           - `ERROR`: The chat ended unexpectedly due to an error.
       start_timestamp:
-        type: integer
+        type: long
         docs: >-
           Time at which the Chat started. Measured in seconds since the Unix
           epoch.
       end_timestamp:
-        type: optional<integer>
+        type: optional<long>
         docs: >-
           Time at which the Chat ended. Measured in seconds since the Unix
           epoch.
@@ -1222,7 +1222,7 @@ types:
     docs: A description of current chat chat sessions for a user
     properties:
       timestamp:
-        type: integer
+        type: long
         docs: >-
           The timestamp for when chat status was measured. Formatted as a Unix
           epoch milliseconds.
@@ -1256,12 +1256,12 @@ types:
           Identifier for the Chat Group. Any Chat resumed from this Chat Group
           will have the same `chat_group_id`. Formatted as a UUID.
       first_start_timestamp:
-        type: integer
+        type: long
         docs: >-
           Time at which the first Chat in this Chat Group was created. Measured
           in seconds since the Unix epoch.
       most_recent_start_timestamp:
-        type: integer
+        type: long
         docs: >-
           Time at which the most recent Chat in this Chat Group was created.
           Measured in seconds since the Unix epoch.
@@ -1336,12 +1336,12 @@ types:
           Identifier for the chat group. Any chat resumed from this chat will
           have the same chat_group_id. Formatted as a UUID.
       first_start_timestamp:
-        type: integer
+        type: long
         docs: >-
           The timestamp when the first chat in this chat group started,
           formatted as a Unix epoch milliseconds.
       most_recent_start_timestamp:
-        type: integer
+        type: long
         docs: >-
           The timestamp when the most recent chat in this chat group started,
           formatted as a Unix epoch milliseconds.
@@ -1487,17 +1487,17 @@ types:
           Base64 encoded audio input to insert into the conversation.
 
 
-          The audio input must be captured and transmitted to EVI as a
-          continuous stream, with the audio data sent in small chunks for better
-          transcription quality. When capturing audio through the browser, we
-          recommend recording the audio in 100ms intervals and adjusting from
-          there to determine if smaller or larger chunks are needed. These
-          chunks should be continuously sent to EVI as Audio Input messages.
-
-
           The content of an Audio Input message is treated as the user’s speech
-          to EVI. EVI processes the audio, conducts expression measurement using
-          the prosody model, and responds accordingly.
+          to EVI and must be streamed continuously. Pre-recorded audio files are
+          not supported.
+
+
+          For optimal transcription quality, the audio data should be
+          transmitted in small chunks.
+
+
+          Hume recommends streaming audio with a buffer window of 20
+          milliseconds (ms), or 100 milliseconds (ms) for web applications.
   BuiltInTool:
     type: literal<"web_search">
     docs: >-
@@ -2113,9 +2113,8 @@ types:
           Prosody model inference results.
 
 
-          EVI uses the prosody model to measure 48 expressions related to speech
-          and vocal characteristics. These results contain a detailed emotional
-          and tonal analysis of the audio.
+          EVI uses the prosody model to measure 48 emotions related to speech
+          and vocal characteristics within a given expression.
   MillisecondInterval:
     properties:
       begin:
@@ -2129,11 +2128,17 @@ types:
       scores:
         type: EmotionScores
         docs: >-
-          The confidence levels of 48 expressions in a given audio sample.
+          The confidence scores for 48 emotions within the detected expression
+          of an audio sample.
 
 
           Scores typically range from 0 to 1, with higher values indicating a
           stronger confidence level in the measured attribute.
+
+
+          See our guide on [interpreting expression measurement
+          results](/docs/expression-measurement/faq#how-do-i-interpret-my-results)
+          to learn more.
   Role:
     enum:
       - assistant

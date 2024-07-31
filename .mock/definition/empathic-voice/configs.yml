@@ -27,12 +27,12 @@ service:
             type: optional<integer>
             docs: >-
               Specifies the maximum number of results to include per page,
-              enabling pagination.
+              enabling pagination. The value must be between 1 and 100,
+              inclusive.
 
 
-              The value must be greater than or equal to 1. For example, if
-              `page_size` is set to 10, each page will include up to 10 items.
-              Defaults to 10.
+              For example, if `page_size` is set to 10, each page will include
+              up to 10 items. Defaults to 10.
           restrict_to_most_recent:
             type: optional<boolean>
             docs: >-
@@ -56,15 +56,15 @@ service:
                   version: 1
                   version_description: version_description
                   name: name
-                  created_on: 1
-                  modified_on: 1
+                  created_on: 1000000
+                  modified_on: 1000000
                   prompt:
                     id: id
                     version: 1
                     version_type: FIXED
                     name: name
-                    created_on: 1
-                    modified_on: 1
+                    created_on: 1000000
+                    modified_on: 1000000
                     text: text
                   voice:
                     provider: HUME_AI
@@ -134,16 +134,16 @@ service:
               version: 1
               version_description: version_description
               name: name
-              created_on: 1
-              modified_on: 1
+              created_on: 1000000
+              modified_on: 1000000
               prompt:
                 id: id
                 version: 1
                 version_type: FIXED
                 version_description: version_description
                 name: name
-                created_on: 1
-                modified_on: 1
+                created_on: 1000000
+                modified_on: 1000000
                 text: text
               voice:
                 provider: HUME_AI
@@ -161,8 +161,8 @@ service:
                   version_type: FIXED
                   version_description: version_description
                   name: name
-                  created_on: 1
-                  modified_on: 1
+                  created_on: 1000000
+                  modified_on: 1000000
                   fallback_content: fallback_content
                   description: description
                   parameters: parameters
@@ -214,12 +214,12 @@ service:
             type: optional<integer>
             docs: >-
               Specifies the maximum number of results to include per page,
-              enabling pagination.
+              enabling pagination. The value must be between 1 and 100,
+              inclusive.
 
 
-              The value must be greater than or equal to 1. For example, if
-              `page_size` is set to 10, each page will include up to 10 items.
-              Defaults to 10.
+              For example, if `page_size` is set to 10, each page will include
+              up to 10 items. Defaults to 10.
           restrict_to_most_recent:
             type: optional<boolean>
             docs: >-
@@ -242,15 +242,15 @@ service:
                   version: 1
                   version_description: version_description
                   name: name
-                  created_on: 1
-                  modified_on: 1
+                  created_on: 1000000
+                  modified_on: 1000000
                   prompt:
                     id: id
                     version: 1
                     version_type: FIXED
                     name: name
-                    created_on: 1
-                    modified_on: 1
+                    created_on: 1000000
+                    modified_on: 1000000
                     text: text
                   voice:
                     provider: HUME_AI
@@ -323,16 +323,16 @@ service:
               version: 1
               version_description: version_description
               name: name
-              created_on: 1
-              modified_on: 1
+              created_on: 1000000
+              modified_on: 1000000
               prompt:
                 id: id
                 version: 1
                 version_type: FIXED
                 version_description: version_description
                 name: name
-                created_on: 1
-                modified_on: 1
+                created_on: 1000000
+                modified_on: 1000000
                 text: text
               voice:
                 provider: HUME_AI
@@ -350,8 +350,8 @@ service:
                   version_type: FIXED
                   version_description: version_description
                   name: name
-                  created_on: 1
-                  modified_on: 1
+                  created_on: 1000000
+                  modified_on: 1000000
                   fallback_content: fallback_content
                   description: description
                   parameters: parameters
@@ -444,16 +444,16 @@ service:
               version: 1
               version_description: version_description
               name: name
-              created_on: 1
-              modified_on: 1
+              created_on: 1000000
+              modified_on: 1000000
               prompt:
                 id: id
                 version: 1
                 version_type: FIXED
                 version_description: version_description
                 name: name
-                created_on: 1
-                modified_on: 1
+                created_on: 1000000
+                modified_on: 1000000
                 text: text
               voice:
                 provider: HUME_AI
@@ -471,8 +471,8 @@ service:
                   version_type: FIXED
                   version_description: version_description
                   name: name
-                  created_on: 1
-                  modified_on: 1
+                  created_on: 1000000
+                  modified_on: 1000000
                   fallback_content: fallback_content
                   description: description
                   parameters: parameters
@@ -570,16 +570,16 @@ service:
               version: 1
               version_description: version_description
               name: name
-              created_on: 1
-              modified_on: 1
+              created_on: 1000000
+              modified_on: 1000000
               prompt:
                 id: id
                 version: 1
                 version_type: FIXED
                 version_description: version_description
                 name: name
-                created_on: 1
-                modified_on: 1
+                created_on: 1000000
+                modified_on: 1000000
                 text: text
               voice:
                 provider: HUME_AI
@@ -597,8 +597,8 @@ service:
                   version_type: FIXED
                   version_description: version_description
                   name: name
-                  created_on: 1
-                  modified_on: 1
+                  created_on: 1000000
+                  modified_on: 1000000
                   fallback_content: fallback_content
                   description: description
                   parameters: parameters
