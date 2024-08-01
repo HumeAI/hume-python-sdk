@@ -14,8 +14,8 @@ async def test_create_prompt(client: HumeClient, async_client: AsyncHumeClient) 
         "version_type": "FIXED",
         "version_description": "version_description",
         "name": "name",
-        "created_on": 1000000,
-        "modified_on": 1000000,
+        "created_on": 1,
+        "modified_on": 1,
         "text": "text",
     }
     expected_types: typing.Any = {
@@ -24,8 +24,8 @@ async def test_create_prompt(client: HumeClient, async_client: AsyncHumeClient) 
         "version_type": None,
         "version_description": None,
         "name": None,
-        "created_on": None,
-        "modified_on": None,
+        "created_on": "integer",
+        "modified_on": "integer",
         "text": None,
     }
     response = client.empathic_voice.prompts.create_prompt(name="name", text="text")
@@ -47,8 +47,8 @@ async def test_list_prompt_versions(client: HumeClient, async_client: AsyncHumeC
                 "version_type": "FIXED",
                 "version_description": "version_description",
                 "name": "name",
-                "created_on": 1000000,
-                "modified_on": 1000000,
+                "created_on": 1,
+                "modified_on": 1,
                 "text": "text",
             }
         ],
@@ -66,8 +66,8 @@ async def test_list_prompt_versions(client: HumeClient, async_client: AsyncHumeC
                     "version_type": None,
                     "version_description": None,
                     "name": None,
-                    "created_on": None,
-                    "modified_on": None,
+                    "created_on": "integer",
+                    "modified_on": "integer",
                     "text": None,
                 }
             },
@@ -87,8 +87,8 @@ async def test_create_prompt_verison(client: HumeClient, async_client: AsyncHume
         "version_type": "FIXED",
         "version_description": "version_description",
         "name": "name",
-        "created_on": 1000000,
-        "modified_on": 1000000,
+        "created_on": 1,
+        "modified_on": 1,
         "text": "text",
     }
     expected_types: typing.Any = {
@@ -97,8 +97,8 @@ async def test_create_prompt_verison(client: HumeClient, async_client: AsyncHume
         "version_type": None,
         "version_description": None,
         "name": None,
-        "created_on": None,
-        "modified_on": None,
+        "created_on": "integer",
+        "modified_on": "integer",
         "text": None,
     }
     response = client.empathic_voice.prompts.create_prompt_verison(id="id", text="text")
@@ -132,8 +132,8 @@ async def test_get_prompt_version(client: HumeClient, async_client: AsyncHumeCli
         "version_type": "FIXED",
         "version_description": "version_description",
         "name": "name",
-        "created_on": 1000000,
-        "modified_on": 1000000,
+        "created_on": 1,
+        "modified_on": 1,
         "text": "text",
     }
     expected_types: typing.Any = {
@@ -142,8 +142,8 @@ async def test_get_prompt_version(client: HumeClient, async_client: AsyncHumeCli
         "version_type": None,
         "version_description": None,
         "name": None,
-        "created_on": None,
-        "modified_on": None,
+        "created_on": "integer",
+        "modified_on": "integer",
         "text": None,
     }
     response = client.empathic_voice.prompts.get_prompt_version(id="id", version=1)
@@ -167,8 +167,8 @@ async def test_update_prompt_description(client: HumeClient, async_client: Async
         "version_type": "FIXED",
         "version_description": "version_description",
         "name": "name",
-        "created_on": 1000000,
-        "modified_on": 1000000,
+        "created_on": 1,
+        "modified_on": 1,
         "text": "text",
     }
     expected_types: typing.Any = {
@@ -177,8 +177,8 @@ async def test_update_prompt_description(client: HumeClient, async_client: Async
         "version_type": None,
         "version_description": None,
         "name": None,
-        "created_on": None,
-        "modified_on": None,
+        "created_on": "integer",
+        "modified_on": "integer",
         "text": None,
     }
     response = client.empathic_voice.prompts.update_prompt_description(id="id", version=1)

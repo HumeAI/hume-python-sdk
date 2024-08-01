@@ -16,8 +16,8 @@ async def test_list_chat_groups(client: HumeClient, async_client: AsyncHumeClien
         "chat_groups_page": [
             {
                 "id": "id",
-                "first_start_timestamp": 1000000,
-                "most_recent_start_timestamp": 1000000,
+                "first_start_timestamp": 1,
+                "most_recent_start_timestamp": 1,
                 "most_recent_chat_id": "most_recent_chat_id",
                 "num_chats": 1,
                 "active": True,
@@ -34,8 +34,8 @@ async def test_list_chat_groups(client: HumeClient, async_client: AsyncHumeClien
             {
                 0: {
                     "id": None,
-                    "first_start_timestamp": None,
-                    "most_recent_start_timestamp": None,
+                    "first_start_timestamp": "integer",
+                    "most_recent_start_timestamp": "integer",
                     "most_recent_chat_id": None,
                     "num_chats": "integer",
                     "active": None,
@@ -61,7 +61,7 @@ async def test_list_chat_group_events(client: HumeClient, async_client: AsyncHum
             {
                 "id": "id",
                 "chat_id": "chat_id",
-                "timestamp": 1000000,
+                "timestamp": 1,
                 "role": "USER",
                 "type": "SYSTEM_PROMPT",
                 "message_text": "message_text",
@@ -82,7 +82,7 @@ async def test_list_chat_group_events(client: HumeClient, async_client: AsyncHum
                 0: {
                     "id": None,
                     "chat_id": None,
-                    "timestamp": None,
+                    "timestamp": "integer",
                     "role": None,
                     "type": None,
                     "message_text": None,

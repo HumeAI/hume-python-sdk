@@ -8,13 +8,8 @@ from ...core.pydantic_utilities import deep_union_pydantic_dicts, pydantic_v1
 from .job_inference import JobInference
 
 
-class InferenceJob(JobInference):
-    type: str = pydantic_v1.Field()
-    """
-    Denotes the job type.
-    
-    Jobs created with the Expression Measurement API will have this field set to `INFERENCE`.
-    """
+class UnionJobJobInference(JobInference):
+    type: typing.Literal["INFERENCE"] = "INFERENCE"
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

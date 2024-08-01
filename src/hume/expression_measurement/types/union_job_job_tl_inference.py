@@ -5,11 +5,11 @@ import typing
 
 from ...core.datetime_utils import serialize_datetime
 from ...core.pydantic_utilities import deep_union_pydantic_dicts, pydantic_v1
-from .job_embedding_generation import JobEmbeddingGeneration
+from .job_tl_inference import JobTlInference
 
 
-class EmbeddingGenerationJob(JobEmbeddingGeneration):
-    type: str
+class UnionJobJobTlInference(JobTlInference):
+    type: typing.Literal["TL_INFERENCE"] = "TL_INFERENCE"
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

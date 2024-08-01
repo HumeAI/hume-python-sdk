@@ -13,7 +13,7 @@ class Inference(pydantic_v1.BaseModel):
     """
     Prosody model inference results.
     
-    EVI uses the prosody model to measure 48 emotions related to speech and vocal characteristics within a given expression.
+    EVI uses the prosody model to measure 48 expressions related to speech and vocal characteristics. These results contain a detailed emotional and tonal analysis of the audio.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

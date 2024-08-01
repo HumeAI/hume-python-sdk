@@ -56,9 +56,9 @@ This parameter uses zero-based indexing. For example, setting `page_number` to 0
 
 **page_size:** `typing.Optional[int]` 
 
-Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+Specifies the maximum number of results to include per page, enabling pagination.
 
-For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+The value must be greater than or equal to 1. For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
     
 </dd>
 </dl>
@@ -248,9 +248,9 @@ This parameter uses zero-based indexing. For example, setting `page_number` to 0
 
 **page_size:** `typing.Optional[int]` 
 
-Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+Specifies the maximum number of results to include per page, enabling pagination.
 
-For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+The value must be greater than or equal to 1. For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
     
 </dd>
 </dl>
@@ -771,9 +771,9 @@ This parameter uses zero-based indexing. For example, setting `page_number` to 0
 
 **page_size:** `typing.Optional[int]` 
 
-Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+Specifies the maximum number of results to include per page, enabling pagination.
 
-For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+The value must be greater than or equal to 1. For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
     
 </dd>
 </dl>
@@ -946,9 +946,9 @@ This parameter uses zero-based indexing. For example, setting `page_number` to 0
 
 **page_size:** `typing.Optional[int]` 
 
-Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+Specifies the maximum number of results to include per page, enabling pagination.
 
-For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+The value must be greater than or equal to 1. For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
     
 </dd>
 </dl>
@@ -1446,9 +1446,9 @@ This parameter uses zero-based indexing. For example, setting `page_number` to 0
 
 **page_size:** `typing.Optional[int]` 
 
-Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+Specifies the maximum number of results to include per page, enabling pagination.
 
-For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+The value must be greater than or equal to 1. For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
     
 </dd>
 </dl>
@@ -1678,9 +1678,9 @@ This parameter uses zero-based indexing. For example, setting `page_number` to 0
 
 **page_size:** `typing.Optional[int]` 
 
-Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+Specifies the maximum number of results to include per page, enabling pagination.
 
-For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+The value must be greater than or equal to 1. For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
     
 </dd>
 </dl>
@@ -2240,9 +2240,9 @@ This parameter uses zero-based indexing. For example, setting `page_number` to 0
 
 **page_size:** `typing.Optional[int]` 
 
-Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+Specifies the maximum number of results to include per page, enabling pagination.
 
-For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+The value must be greater than or equal to 1. For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
     
 </dd>
 </dl>
@@ -2321,9 +2321,9 @@ for page in response.iter_pages():
 
 **page_size:** `typing.Optional[int]` 
 
-Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+Specifies the maximum number of results to include per page, enabling pagination.
 
-For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+The value must be greater than or equal to 1. For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
     
 </dd>
 </dl>
@@ -2412,9 +2412,9 @@ This parameter uses zero-based indexing. For example, setting `page_number` to 0
 
 **page_size:** `typing.Optional[int]` 
 
-Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+Specifies the maximum number of results to include per page, enabling pagination.
 
-For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+The value must be greater than or equal to 1. For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
     
 </dd>
 </dl>
@@ -2500,9 +2500,9 @@ client.empathic_voice.chat_groups.list_chat_group_events(
 
 **page_size:** `typing.Optional[int]` 
 
-Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+Specifies the maximum number of results to include per page, enabling pagination.
 
-For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+The value must be greater than or equal to 1. For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
     
 </dd>
 </dl>
@@ -2599,17 +2599,7 @@ client.expression_measurement.batch.list_jobs()
 <dl>
 <dd>
 
-**status:** `typing.Optional[typing.Union[Status, typing.Sequence[Status]]]` 
-
-Include only jobs of this status in the response. There are four possible statuses:
-
-- `QUEUED`: The job has been received and is waiting to be processed.
-
-- `IN_PROGRESS`: The job is currently being processed.
-
-- `COMPLETED`: The job has finished processing.
-
-- `FAILED`: The job encountered an error and could not be completed successfully.
+**status:** `typing.Optional[typing.Union[Status, typing.Sequence[Status]]]` — Include only jobs with these statuses.
     
 </dd>
 </dl>
@@ -2617,7 +2607,7 @@ Include only jobs of this status in the response. There are four possible status
 <dl>
 <dd>
 
-**when:** `typing.Optional[When]` — Specify whether to include jobs created before or after a given `timestamp_ms`.
+**when:** `typing.Optional[When]` — Include only jobs that were created before or after `timestamp_ms`.
     
 </dd>
 </dl>
@@ -2625,11 +2615,7 @@ Include only jobs of this status in the response. There are four possible status
 <dl>
 <dd>
 
-**timestamp_ms:** `typing.Optional[int]` 
-
-Provide a timestamp in milliseconds to filter jobs.
-
-When combined with the `when` parameter, you can filter jobs before or after the given timestamp. Defaults to the current Unix timestamp if one is not provided.
+**timestamp_ms:** `typing.Optional[int]` — Defaults to the current date and time. See `when`.
     
 </dd>
 </dl>
@@ -2637,15 +2623,7 @@ When combined with the `when` parameter, you can filter jobs before or after the
 <dl>
 <dd>
 
-**sort_by:** `typing.Optional[SortBy]` 
-
-Specify which timestamp to sort the jobs by.
-
-- `created`: Sort jobs by the time of creation, indicated by `created_timestamp_ms`.
-
-- `started`: Sort jobs by the time processing started, indicated by `started_timestamp_ms`.
-
-- `ended`: Sort jobs by the time processing ended, indicated by `ended_timestamp_ms`.
+**sort_by:** `typing.Optional[SortBy]` — The job timestamp to sort by.
     
 </dd>
 </dl>
@@ -2653,13 +2631,15 @@ Specify which timestamp to sort the jobs by.
 <dl>
 <dd>
 
-**direction:** `typing.Optional[Direction]` 
+**direction:** `typing.Optional[Direction]` — The sort direction.
+    
+</dd>
+</dl>
 
-Specify the order in which to sort the jobs. Defaults to descending order.
+<dl>
+<dd>
 
-- `asc`: Sort in ascending order (chronological, with the oldest records first).
-
-- `desc`: Sort in descending order (reverse-chronological, with the newest records first).
+**type:** `typing.Optional[typing.Union[Type, typing.Sequence[Type]]]` — Include only jobs of these types.
     
 </dd>
 </dl>
@@ -2731,10 +2711,6 @@ client.expression_measurement.batch.start_inference_job(
 <dd>
 
 **models:** `typing.Optional[Models]` 
-
-Specify the models to use for inference.
-
-If this field is not explicitly set, then all models will run by default.
     
 </dd>
 </dl>
@@ -2770,7 +2746,7 @@ If you wish to supply more than 100 URLs, consider providing them as an archive 
 <dl>
 <dd>
 
-**text:** `typing.Optional[typing.Sequence[str]]` — Text supplied directly to our Emotional Language and NER models for analysis.
+**text:** `typing.Optional[typing.Sequence[str]]` — Text to supply directly to our language and NER models.
     
 </dd>
 </dl>
@@ -2856,7 +2832,7 @@ client.expression_measurement.batch.get_job_details(
 <dl>
 <dd>
 
-**id:** `str` — The unique identifier for the job.
+**id:** `str` 
     
 </dd>
 </dl>
@@ -2888,7 +2864,7 @@ client.expression_measurement.batch.get_job_details(
 <dl>
 <dd>
 
-Get the JSON predictions of a completed inference job.
+Get the JSON predictions of a completed measurement or custom models inference job.
 </dd>
 </dl>
 </dd>
@@ -2926,7 +2902,7 @@ client.expression_measurement.batch.get_job_predictions(
 <dl>
 <dd>
 
-**id:** `str` — The unique identifier for the job.
+**id:** `str` 
     
 </dd>
 </dl>
@@ -2958,7 +2934,7 @@ client.expression_measurement.batch.get_job_predictions(
 <dl>
 <dd>
 
-Get the artifacts ZIP of a completed inference job.
+Get the artifacts ZIP of a completed measurement or custom models inference job.
 </dd>
 </dl>
 </dd>
@@ -2996,7 +2972,7 @@ client.expression_measurement.batch.get_job_artifacts(
 <dl>
 <dd>
 
-**id:** `str` — The unique identifier for the job.
+**id:** `str` 
     
 </dd>
 </dl>
@@ -3074,7 +3050,7 @@ typing.List[core.File]` — See core.File for more documentation
 <dl>
 <dd>
 
-**json:** `typing.Optional[InferenceBaseRequest]` — Stringified JSON object containing the inference job configuration.
+**json:** `typing.Optional[InferenceBaseRequest]` 
     
 </dd>
 </dl>

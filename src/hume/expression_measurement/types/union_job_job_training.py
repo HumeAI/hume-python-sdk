@@ -8,8 +8,8 @@ from ...core.pydantic_utilities import deep_union_pydantic_dicts, pydantic_v1
 from .job_training import JobTraining
 
 
-class CustomModelsTrainingJob(JobTraining):
-    type: str
+class UnionJobJobTraining(JobTraining):
+    type: typing.Literal["TRAINING"] = "TRAINING"
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

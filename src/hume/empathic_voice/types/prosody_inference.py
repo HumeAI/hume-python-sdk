@@ -11,11 +11,9 @@ from .emotion_scores import EmotionScores
 class ProsodyInference(pydantic_v1.BaseModel):
     scores: EmotionScores = pydantic_v1.Field()
     """
-    The confidence scores for 48 emotions within the detected expression of an audio sample.
+    The confidence levels of 48 expressions in a given audio sample.
     
     Scores typically range from 0 to 1, with higher values indicating a stronger confidence level in the measured attribute.
-    
-    See our guide on [interpreting expression measurement results](/docs/expression-measurement/faq#how-do-i-interpret-my-results) to learn more.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

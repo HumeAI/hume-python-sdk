@@ -10,12 +10,6 @@ from .window import Window
 
 
 class Prosody(pydantic_v1.BaseModel):
-    """
-    The Speech Prosody model analyzes the intonation, stress, and rhythm of spoken word.
-
-    Recommended input file types: `.wav`, `.mp3`, `.mp4`
-    """
-
     granularity: typing.Optional[Granularity] = None
     window: typing.Optional[Window] = None
     identify_speakers: typing.Optional[bool] = pydantic_v1.Field(default=None)
