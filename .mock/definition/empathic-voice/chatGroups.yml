@@ -27,12 +27,12 @@ service:
             type: optional<integer>
             docs: >-
               Specifies the maximum number of results to include per page,
-              enabling pagination.
+              enabling pagination. The value must be between 1 and 100,
+              inclusive.
 
 
-              The value must be greater than or equal to 1. For example, if
-              `page_size` is set to 10, each page will include up to 10 items.
-              Defaults to 10.
+              For example, if `page_size` is set to 10, each page will include
+              up to 10 items. Defaults to 10.
           ascending_order:
             type: optional<boolean>
             docs: >-
@@ -61,8 +61,8 @@ service:
               pagination_direction: ASC
               chat_groups_page:
                 - id: id
-                  first_start_timestamp: 1
-                  most_recent_start_timestamp: 1
+                  first_start_timestamp: 1000000
+                  most_recent_start_timestamp: 1000000
                   most_recent_chat_id: most_recent_chat_id
                   num_chats: 1
                   active: true
@@ -82,12 +82,12 @@ service:
             type: optional<integer>
             docs: >-
               Specifies the maximum number of results to include per page,
-              enabling pagination.
+              enabling pagination. The value must be between 1 and 100,
+              inclusive.
 
 
-              The value must be greater than or equal to 1. For example, if
-              `page_size` is set to 10, each page will include up to 10 items.
-              Defaults to 10.
+              For example, if `page_size` is set to 10, each page will include
+              up to 10 items. Defaults to 10.
           page_number:
             type: optional<integer>
             docs: >-
@@ -123,7 +123,7 @@ service:
               events_page:
                 - id: id
                   chat_id: chat_id
-                  timestamp: 1
+                  timestamp: 1000000
                   role: USER
                   type: SYSTEM_PROMPT
                   message_text: message_text

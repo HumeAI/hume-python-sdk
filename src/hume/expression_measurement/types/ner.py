@@ -8,6 +8,12 @@ from ...core.pydantic_utilities import deep_union_pydantic_dicts, pydantic_v1
 
 
 class Ner(pydantic_v1.BaseModel):
+    """
+    The NER (Named-entity Recognition) model identifies real-world objects and concepts in passages of text. This also supports audio and video files by transcribing and then directly analyzing the transcribed text.
+
+    Recommended input filetypes: `.txt`, `.mp3`, `.wav`, `.mp4`
+    """
+
     identify_speakers: typing.Optional[bool] = pydantic_v1.Field(default=None)
     """
     Whether to return identifiers for speakers over time. If `true`, unique identifiers will be assigned to spoken words to differentiate different speakers. If `false`, all speakers will be tagged with an `unknown` ID.

@@ -14,12 +14,15 @@ from .custom_model_id import CustomModelId
 from .custom_model_prediction import CustomModelPrediction
 from .custom_model_request import CustomModelRequest
 from .custom_model_version_id import CustomModelVersionId
+from .custom_models_inference_job import CustomModelsInferenceJob
+from .custom_models_training_job import CustomModelsTrainingJob
 from .dataset import Dataset
 from .dataset_id import DatasetId
 from .dataset_version_id import DatasetVersionId
 from .descriptions_score import DescriptionsScore
 from .direction import Direction
 from .embedding_generation_base_request import EmbeddingGenerationBaseRequest
+from .embedding_generation_job import EmbeddingGenerationJob
 from .emotion_embedding import EmotionEmbedding
 from .emotion_embedding_item import EmotionEmbeddingItem
 from .emotion_score import EmotionScore
@@ -40,6 +43,7 @@ from .grouped_predictions_ner_prediction import GroupedPredictionsNerPrediction
 from .grouped_predictions_prosody_prediction import GroupedPredictionsProsodyPrediction
 from .in_progress import InProgress
 from .inference_base_request import InferenceBaseRequest
+from .inference_job import InferenceJob
 from .inference_prediction import InferencePrediction
 from .inference_request import InferenceRequest
 from .inference_results import InferenceResults
@@ -128,10 +132,6 @@ from .transcription_metadata import TranscriptionMetadata
 from .type import Type
 from .unconfigurable import Unconfigurable
 from .union_job import UnionJob
-from .union_job_job_embedding_generation import UnionJobJobEmbeddingGeneration
-from .union_job_job_inference import UnionJobJobInference
-from .union_job_job_tl_inference import UnionJobJobTlInference
-from .union_job_job_training import UnionJobJobTraining
 from .union_predict_result import UnionPredictResult
 from .url import Url
 from .validation_args import ValidationArgs
@@ -153,12 +153,15 @@ __all__ = [
     "CustomModelPrediction",
     "CustomModelRequest",
     "CustomModelVersionId",
+    "CustomModelsInferenceJob",
+    "CustomModelsTrainingJob",
     "Dataset",
     "DatasetId",
     "DatasetVersionId",
     "DescriptionsScore",
     "Direction",
     "EmbeddingGenerationBaseRequest",
+    "EmbeddingGenerationJob",
     "EmotionEmbedding",
     "EmotionEmbeddingItem",
     "EmotionScore",
@@ -179,6 +182,7 @@ __all__ = [
     "GroupedPredictionsProsodyPrediction",
     "InProgress",
     "InferenceBaseRequest",
+    "InferenceJob",
     "InferencePrediction",
     "InferenceRequest",
     "InferenceResults",
@@ -259,10 +263,6 @@ __all__ = [
     "Type",
     "Unconfigurable",
     "UnionJob",
-    "UnionJobJobEmbeddingGeneration",
-    "UnionJobJobInference",
-    "UnionJobJobTlInference",
-    "UnionJobJobTraining",
     "UnionPredictResult",
     "Url",
     "ValidationArgs",

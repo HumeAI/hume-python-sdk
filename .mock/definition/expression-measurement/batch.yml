@@ -19,25 +19,63 @@ service:
           status:
             type: optional<root.Status>
             allow-multiple: true
-            docs: Include only jobs with these statuses.
+            docs: >-
+              Include only jobs of this status in the response. There are four
+              possible statuses:
+
+
+              - `QUEUED`: The job has been received and is waiting to be
+              processed.
+
+
+              - `IN_PROGRESS`: The job is currently being processed. 
+
+
+              - `COMPLETED`: The job has finished processing.
+
+
+              - `FAILED`: The job encountered an error and could not be
+              completed successfully.
           when:
             type: optional<root.When>
             docs: >-
-              Include only jobs that were created before or after
+              Specify whether to include jobs created before or after a given
               `timestamp_ms`.
           timestamp_ms:
-            type: optional<integer>
-            docs: Defaults to the current date and time. See `when`.
+            type: optional<long>
+            docs: |-
+              Provide a timestamp in milliseconds to filter jobs.
+
+               When combined with the `when` parameter, you can filter jobs before or after the given timestamp. Defaults to the current Unix timestamp if one is not provided.
           sort_by:
             type: optional<root.SortBy>
-            docs: The job timestamp to sort by.
+            docs: >-
+              Specify which timestamp to sort the jobs by.
+
+
+              - `created`: Sort jobs by the time of creation, indicated by
+              `created_timestamp_ms`.
+
+
+              - `started`: Sort jobs by the time processing started, indicated
+              by `started_timestamp_ms`.
+
+
+              - `ended`: Sort jobs by the time processing ended, indicated by
+              `ended_timestamp_ms`.
           direction:
             type: optional<root.Direction>
-            docs: The sort direction.
-          type:
-            type: optional<root.Type>
-            allow-multiple: true
-            docs: Include only jobs of these types.
+            docs: >-
+              Specify the order in which to sort the jobs. Defaults to
+              descending order.
+
+
+              - `asc`: Sort in ascending order (chronological, with the oldest
+              records first).
+
+
+              - `desc`: Sort in descending order (reverse-chronological, with
+              the newest records first).
       response:
         docs: ''
         type: list<root.UnionJob>
@@ -106,27 +144,14 @@ service:
       auth: true
       docs: Get the request details and state of a given job.
       path-parameters:
-        id: string
+        id:
+          type: string
+          docs: The unique identifier for the job.
       display-name: Get job details
       response:
         docs: ''
         type: root.UnionJob
       examples:
-        - name: Embedding Generation
-          path-parameters:
-            id: job_id
-          response:
-            body:
-              type: EMBEDDING_GENERATION
-              job_id: string
-              request:
-                registry_file_details:
-                  - file_id: string
-                    file_url: string
-              state:
-                status: QUEUED
-                created_timestamp_ms: 0
-              user_id: string
         - name: Inference
           path-parameters:
             id: job_id
@@ -170,11 +195,11 @@ service:
       path: /v0/batch/jobs/{id}/predictions
       method: GET
       auth: true
-      docs: >-
-        Get the JSON predictions of a completed measurement or custom models
-        inference job.
+      docs: Get the JSON predictions of a completed inference job.
       path-parameters:
-        id: string
+        id:
+          type: string
+          docs: The unique identifier for the job.
       display-name: Get job predictions
       response:
         docs: ''
@@ -305,11 +330,11 @@ service:
       path: /v0/batch/jobs/{id}/artifacts
       method: GET
       auth: true
-      docs: >-
-        Get the artifacts ZIP of a completed measurement or custom models
-        inference job.
+      docs: Get the artifacts ZIP of a completed inference job.
       path-parameters:
-        id: string
+        id:
+          type: string
+          docs: The unique identifier for the job.
       display-name: Get job artifacts
       response:
         docs: ''
@@ -324,7 +349,11 @@ service:
         name: BatchStartInferenceJobFromLocalFileRequest
         body:
           properties:
-            json: optional<root.InferenceBaseRequest>
+            json:
+              type: optional<root.InferenceBaseRequest>
+              docs: >-
+                Stringified JSON object containing the inference job
+                configuration.
             file: list<file>
         content-type: multipart/form-data
       response:

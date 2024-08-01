@@ -13,6 +13,10 @@ from .unconfigurable import Unconfigurable
 
 
 class Models(pydantic_v1.BaseModel):
+    """
+    The models used for inference.
+    """
+
     face: typing.Optional[Face] = None
     burst: typing.Optional[Unconfigurable] = None
     prosody: typing.Optional[Prosody] = None

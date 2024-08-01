@@ -44,12 +44,13 @@ async def test_list_jobs(client: HumeClient, async_client: AsyncHumeClient) -> N
             "user_id": "user_id",
         }
     ]
-    expected_types: typing.Tuple[typing.Any, typing.Any] = (
+    expected_types: typing.Any = (
         "list",
         {
             0: {
                 "job_id": None,
                 "request": {
+                    "files": ("list", {0: {"filename": None, "md5sum": None, "content_type": None}}),
                     "models": {
                         "burst": ("dict", {}),
                         "face": {
@@ -70,11 +71,11 @@ async def test_list_jobs(client: HumeClient, async_client: AsyncHumeClient) -> N
                     "urls": ("list", {0: None}),
                 },
                 "state": {
-                    "created_timestamp_ms": "integer",
-                    "ended_timestamp_ms": "integer",
+                    "created_timestamp_ms": None,
+                    "ended_timestamp_ms": None,
                     "num_errors": "integer",
                     "num_predictions": "integer",
-                    "started_timestamp_ms": "integer",
+                    "started_timestamp_ms": None,
                     "status": None,
                 },
                 "type": None,
@@ -105,17 +106,71 @@ async def test_start_inference_job(client: HumeClient, async_client: AsyncHumeCl
 
 async def test_get_job_details(client: HumeClient, async_client: AsyncHumeClient) -> None:
     expected_response: typing.Any = {
-        "type": "EMBEDDING_GENERATION",
-        "job_id": "string",
-        "request": {"registry_file_details": [{"file_id": "string", "file_url": "string"}]},
-        "state": {"status": "QUEUED", "created_timestamp_ms": 0},
-        "user_id": "string",
+        "type": "INFERENCE",
+        "job_id": "job_id",
+        "request": {
+            "files": [],
+            "models": {
+                "burst": {},
+                "face": {
+                    "fps_pred": 3,
+                    "identify_faces": False,
+                    "min_face_size": 60,
+                    "prob_threshold": 0.99,
+                    "save_faces": False,
+                },
+                "facemesh": {},
+                "language": {"granularity": "word", "identify_speakers": False},
+                "ner": {"identify_speakers": False},
+                "prosody": {"granularity": "utterance", "identify_speakers": False},
+            },
+            "notify": True,
+            "registry_files": [],
+            "text": [],
+            "urls": ["https://hume-tutorials.s3.amazonaws.com/faces.zip"],
+        },
+        "state": {
+            "created_timestamp_ms": 1712590457884,
+            "ended_timestamp_ms": 1712590462252,
+            "num_errors": 0,
+            "num_predictions": 10,
+            "started_timestamp_ms": 1712590457995,
+            "status": "COMPLETED",
+        },
+        "user_id": "user_id",
     }
     expected_types: typing.Any = {
         "type": None,
         "job_id": None,
-        "request": {"registry_file_details": ("list", {0: {"file_id": None, "file_url": None}})},
-        "state": {"status": None, "created_timestamp_ms": "integer"},
+        "request": {
+            "files": ("list", {}),
+            "models": {
+                "burst": ("dict", {}),
+                "face": {
+                    "fps_pred": None,
+                    "identify_faces": None,
+                    "min_face_size": "integer",
+                    "prob_threshold": None,
+                    "save_faces": None,
+                },
+                "facemesh": ("dict", {}),
+                "language": {"granularity": None, "identify_speakers": None},
+                "ner": {"identify_speakers": None},
+                "prosody": {"granularity": None, "identify_speakers": None},
+            },
+            "notify": None,
+            "registry_files": ("list", {}),
+            "text": ("list", {}),
+            "urls": ("list", {0: None}),
+        },
+        "state": {
+            "created_timestamp_ms": None,
+            "ended_timestamp_ms": None,
+            "num_errors": "integer",
+            "num_predictions": "integer",
+            "started_timestamp_ms": None,
+            "status": None,
+        },
         "user_id": None,
     }
     response = client.expression_measurement.batch.get_job_details(id="job_id")
@@ -211,7 +266,7 @@ async def test_get_job_predictions(client: HumeClient, async_client: AsyncHumeCl
             },
         }
     ]
-    expected_types: typing.Tuple[typing.Any, typing.Any] = (
+    expected_types: typing.Any = (
         "list",
         {
             0: {
