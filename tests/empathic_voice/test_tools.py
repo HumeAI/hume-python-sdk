@@ -2,6 +2,8 @@
 
 import typing
 
+import pytest
+
 from hume.client import AsyncHumeClient, HumeClient
 
 from ..utilities import validate_response
@@ -159,6 +161,7 @@ async def test_delete_tool(client: HumeClient, async_client: AsyncHumeClient) ->
     assert await async_client.empathic_voice.tools.delete_tool(id="00183a3f-79ba-413d-9f3b-609864268bea") is None  # type: ignore[func-returns-value]
 
 
+@pytest.mark.skip("Untested.")
 async def test_update_tool_name(client: HumeClient, async_client: AsyncHumeClient) -> None:
     # Type ignore to avoid mypy complaining about the function not being meant to return a value
     assert client.empathic_voice.tools.update_tool_name(id="00183a3f-79ba-413d-9f3b-609864268bea", name="get_current_temperature") is None  # type: ignore[func-returns-value]

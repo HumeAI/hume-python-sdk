@@ -3,6 +3,7 @@
 README.md
 
 src/hume/core/client_wrapper.py
+tests/empathic_voice/test_tools.py
 
 # Custom Client Modifications
 
