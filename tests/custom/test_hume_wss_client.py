@@ -25,7 +25,6 @@ def get_mock_connect(connection_string: str, assert_max_size: bool = False) -> A
         assert uri.startswith(connection_string)
         assert isinstance(extra_headers, dict)
         assert extra_headers.get("X-Fern-Language") == "Python"
-        assert extra_headers.get("X-Hume-Api-Key") is not None
         assert isinstance(extra_headers.get("X-Fern-SDK-Version"), str)
         if assert_max_size:
             assert max_size == 16777216

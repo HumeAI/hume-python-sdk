@@ -58,7 +58,7 @@ jobs:
         env:
           HUME_DEV_API_KEY: ${{ secrets.HUME_DEV_API_KEY }}
         run: |
-          poetry run pytest tests/_legacy -m "(not service) and (not microphone)"
+          poetry run pytest tests/custom/_legacy -m "(not service) and (not microphone)"
 
       - name: Run pydocstyle
         shell: bash
@@ -116,7 +116,7 @@ jobs:
         env:
           HUME_DEV_API_KEY: ${{ secrets.HUME_DEV_API_KEY }}
         run: |
-          poetry run pytest tests/_legacy -m service
+          poetry run pytest tests/custom/_legacy -m service
 
       - name: Upload HTML Coverage
         uses: actions/upload-artifact@v2
@@ -165,4 +165,4 @@ jobs:
         env:
           HUME_DEV_API_KEY: ${{ secrets.HUME_DEV_API_KEY }}
         run: |
-          poetry run pytest tests/_legacy -m microphone
+          poetry run pytest tests/custom/_legacy -m microphone
