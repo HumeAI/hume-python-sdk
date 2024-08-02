@@ -42,7 +42,7 @@ class ChatConnectOptions(pydantic_v1.BaseModel):
 
     api_key: typing.Optional[str] = None
 
-    client_secret: typing.Optional[str] = None
+    secret_key: typing.Optional[str] = None
 
 
 class AsyncChatWSSConnection:
@@ -63,9 +63,8 @@ class AsyncChatWSSConnection:
         self._sample_rate = self.DEFAULT_SAMPLE_RATE
 
     async def __aiter__(self):
-        async for data in self.websocket:
-            data = await self.websocket.recv()
-            yield pydantic_v1.parse_obj_as(SubscribeEvent, json.loads(data))  # type: ignore
+        async for message in self.websocket:
+            yield message
 
     async def _send(self, data: typing.Any) -> None:
         if isinstance(data, dict):
@@ -197,7 +196,7 @@ class AsyncChatClientWithWebsocket:
 
         api_key = (
             options.api_key
-            if options is not None and options.api_key
+            if options is not None and options.api_key is not None
             else self.client_wrapper.api_key
         )
 
@@ -209,11 +208,13 @@ class AsyncChatClientWithWebsocket:
                     "config_version", options.config_version
                 )
 
-            if options.client_secret is not None and api_key is not None:
+            if options.secret_key is not None and api_key is not None:
                 query_params = query_params.add(
                     "accessToken",
-                    await self._fetch_access_token(options.client_secret, api_key),
+                    await self._fetch_access_token(options.secret_key, api_key),
                 )
+            elif api_key is not None:
+                query_params = query_params.add("apiKey", api_key)
         elif api_key is not None:
             query_params = query_params.add("apiKey", api_key)
 
@@ -359,8 +360,8 @@ class AsyncChatClientWithWebsocket:
                     pass
             await self._wrap_on_open_close(on_close)
 
-    async def _fetch_access_token(self, client_secret: str, api_key: str) -> str:
-        auth = f"{api_key}:{client_secret}"
+    async def _fetch_access_token(self, secret_key: str, api_key: str) -> str:
+        auth = f"{api_key}:{secret_key}"
         encoded_auth = base64.b64encode(auth.encode()).decode()
         _response = await self.client_wrapper.httpx_client.request(
             method="POST",
