@@ -45,7 +45,7 @@ class ChatConnectOptions(pydantic_v1.BaseModel):
     secret_key: typing.Optional[str] = None
 
 
-class AsyncChatWSSConnection:
+class ChatWebsocketConnection:
     DEFAULT_NUM_CHANNELS: typing.ClassVar[int] = 1
     DEFAULT_SAMPLE_RATE: typing.ClassVar[int] = 44_100
 
@@ -223,7 +223,7 @@ class AsyncChatClientWithWebsocket:
     @asynccontextmanager
     async def connect(
         self, options: typing.Optional[ChatConnectOptions] = None
-    ) -> typing.AsyncIterator[AsyncChatWSSConnection]:
+    ) -> typing.AsyncIterator[ChatWebsocketConnection]:
         ws_uri = await self._construct_ws_uri(options)
 
         try:
@@ -232,7 +232,7 @@ class AsyncChatClientWithWebsocket:
                 extra_headers=self.client_wrapper.get_headers(include_auth=False),
                 max_size=self.DEFAULT_MAX_PAYLOAD_SIZE_BYTES,
             ) as protocol:
-                yield AsyncChatWSSConnection(websocket=protocol, params=options)
+                yield ChatWebsocketConnection(websocket=protocol, params=options)
         except websockets.exceptions.InvalidStatusCode as exc:
             status_code: int = exc.status_code
             if status_code == 401:
@@ -276,7 +276,7 @@ class AsyncChatClientWithWebsocket:
 
     async def _process_connection(
         self,
-        connection: AsyncChatWSSConnection,
+        connection: ChatWebsocketConnection,
         on_message: typing.Optional[OnMessageHandlerType],
         on_error: typing.Optional[OnErrorHandlerType],
     ) -> None:
@@ -294,7 +294,7 @@ class AsyncChatClientWithWebsocket:
         on_message: typing.Optional[OnMessageHandlerType[SubscribeEvent]] = None,
         on_close: typing.Optional[OnOpenCloseHandlerType] = None,
         on_error: typing.Optional[OnErrorHandlerType] = None,
-    ) -> typing.AsyncIterator[AsyncChatWSSConnection]:
+    ) -> typing.AsyncIterator[ChatWebsocketConnection]:
         """
         Parameters
         ----------
@@ -312,7 +312,7 @@ class AsyncChatClientWithWebsocket:
 
         Yields
         -------
-        AsyncIterator[AsyncChatWSSConnection]
+        AsyncIterator[ChatWebsocketConnection]
         """
 
         ws_uri = await self._construct_ws_uri(options)
@@ -325,7 +325,7 @@ class AsyncChatClientWithWebsocket:
                 max_size=self.DEFAULT_MAX_PAYLOAD_SIZE_BYTES,
             ) as protocol:
                 await self._wrap_on_open_close(on_open)
-                connection = AsyncChatWSSConnection(websocket=protocol, params=options)
+                connection = ChatWebsocketConnection(websocket=protocol, params=options)
                 background_task = asyncio.create_task(
                     self._process_connection(connection, on_message, on_error)
                 )

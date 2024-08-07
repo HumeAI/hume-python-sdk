@@ -28,7 +28,7 @@ poetry add hume
 
 ## Usage
 
-Simply import `HumeClient` and start making calls to our API.  
+Simply import `HumeClient` and start making calls to our API.
 
 ```python
 from hume.client import HumeClient
@@ -40,6 +40,7 @@ client.empathic_voice.configs.list_configs()
 ```
 
 ## Async Client
+
 The SDK also exports an async client so that you can make non-blocking calls to our API.
 
 ```python
@@ -52,25 +53,24 @@ client = AsyncHumeClient(
 )
 
 async def main() -> None:
-    await client.query(
-        query="Am I allowed to bring pets to work?",
-        search=SearchCorporaParameters(
-            offset=10,
-            limit=10
-        ),
-    )
+    await client.empathic_voice.configs.list_configs()
+
 asyncio.run(main())
 ```
 
 ## Legacy SDK
-If you want to continue using the legacy SDKs, simply import them from 
-the `hume.legacy` module. 
+
+If you want to continue using the legacy SDKs, simply import them from
+the `hume.legacy` module.
 
 ```python
 from hume import HumeVoiceClient, VoiceConfig
 
 client = HumeVoiceClient("<your-api-key>")
-config = client.get_config(config_id)
+config = client.empathic_voice.configs.get_config_version(
+    id="id",
+    version=1,
+)
 ```
 
 ## Namespaces
@@ -147,10 +147,12 @@ We expose a websocket client for interacting with the EVI API as well as Express
 When interacting with these clients, you can use them very similarly to how you'd use the common `websockets` library:
 
 ```python
+from hume import StreamConnectOptions
+
 client = AsyncHumeClient(api_key=os.getenv("HUME_API_KEY"))
 
 async with client.expression_measurement.stream.connect(
-    options=AsyncStreamConnectOptions(config=StreamDataModels())
+    options=StreamConnectOptions(config=StreamDataModels())
 ) as hume_socket:
     print(await hume_socket.get_job_details())
 ```
@@ -237,4 +239,3 @@ a proof of concept, but know that we will not be able to merge it as-is. We sugg
 an issue first to discuss with us!
 
 On the other hand, contributions to the README are always very welcome!
-

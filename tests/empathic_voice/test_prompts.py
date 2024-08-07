@@ -131,9 +131,9 @@ async def test_delete_prompt(client: HumeClient, async_client: AsyncHumeClient) 
 
 async def test_update_prompt_name(client: HumeClient, async_client: AsyncHumeClient) -> None:
     # Type ignore to avoid mypy complaining about the function not being meant to return a value
-    assert client.empathic_voice.prompts.update_prompt_name(id="af699d45-2985-42cc-91b9-af9e5da3bac5", name="Updated Weather Assistant Prompt Name") is None  # type: ignore[func-returns-value]
+    assert client.empathic_voice.prompts.update_prompt_name(id="af699d45-2985-42cc-91b9-af9e5da3bac5", name="Updated Weather Assistant Prompt Name") is ''  # type: ignore[func-returns-value]
 
-    assert await async_client.empathic_voice.prompts.update_prompt_name(id="af699d45-2985-42cc-91b9-af9e5da3bac5", name="Updated Weather Assistant Prompt Name") is None  # type: ignore[func-returns-value]
+    assert await async_client.empathic_voice.prompts.update_prompt_name(id="af699d45-2985-42cc-91b9-af9e5da3bac5", name="Updated Weather Assistant Prompt Name") is ''  # type: ignore[func-returns-value]
 
 
 async def test_get_prompt_version(client: HumeClient, async_client: AsyncHumeClient) -> None:

@@ -7,8 +7,8 @@ import websockets
 from pytest import MonkeyPatch
 
 from hume.client import AsyncHumeClient
-from hume.empathic_voice.chat.socket_client import AsyncChatWSSConnection
-from hume.expression_measurement.stream.socket_client import AsyncStreamWSSConnection
+from hume.empathic_voice.chat.socket_client import ChatWebsocketConnection
+from hume.expression_measurement.stream.socket_client import StreamWebsocketConnection
 
 logger = logging.getLogger(__name__)
 
@@ -42,10 +42,10 @@ async def test_chat_connect_basic(monkeypatch: MonkeyPatch) -> None:
     hu = AsyncHumeClient(api_key="0000-0000-0000-0000")
     monkeypatch.setattr(websockets, "connect", get_mock_connect("wss://api.hume.ai/v0/evi/chat", assert_max_size=True))
     async with hu.empathic_voice.chat.connect() as socket:
-        assert isinstance(socket, AsyncChatWSSConnection)
+        assert isinstance(socket, ChatWebsocketConnection)
 
 async def test_stream_models_connect_basic(monkeypatch: MonkeyPatch) -> None:
     hu = AsyncHumeClient(api_key="0000-0000-0000-0000")
     monkeypatch.setattr(websockets, "connect", get_mock_connect("wss://api.hume.ai/v0/stream/models"))
     async with hu.expression_measurement.stream.connect() as socket:
-        assert isinstance(socket, AsyncStreamWSSConnection)
+        assert isinstance(socket, StreamWebsocketConnection)

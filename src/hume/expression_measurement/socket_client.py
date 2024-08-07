@@ -7,7 +7,7 @@ class ExpressionMeasurementClientWithWebsocket(ExpressionMeasurementClient):
         super().__init__(client_wrapper=client_wrapper)
     
     @property
-    def stream(self):
+    def stream(self) -> None:
         raise NotImplementedError("The websocket at `.stream` is only available on the `AsyncHumeClient`, not this synchronous client (`HumeClient`).")
 
 class AsyncExpressionMeasurementClientWithWebsocket(AsyncExpressionMeasurementClient):

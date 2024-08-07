@@ -7,7 +7,7 @@ class EmpathicVoiceClientWithWebsocket(EmpathicVoiceClient):
         super().__init__(client_wrapper=client_wrapper)
 
     @property
-    def chat(self):
+    def chat(self) -> None:
         raise NotImplementedError("The websocket at `.chat` is only available on the `AsyncHumeClient`, not this synchronous client (`HumeClient`).")
 
 

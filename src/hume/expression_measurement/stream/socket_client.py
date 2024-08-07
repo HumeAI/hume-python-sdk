@@ -20,16 +20,10 @@ class StreamConnectOptions(pydantic_v1.BaseModel):
     Job config
     """
 
-    config_version: typing.Optional[int] = None
-    """
-    Length of the sliding window in milliseconds to use when 
-    aggregating media across streaming payloads within one WebSocket connection
-    """
-
     api_key: typing.Optional[str] = None
 
 
-class AsyncStreamWSSConnection:
+class StreamWebsocketConnection:
     def __init__(
         self,
         *,
@@ -96,7 +90,7 @@ class AsyncStreamWSSConnection:
         -------
         SubscribeEvent
         """
-        return await self._send({"rese_stream": True})
+        return await self._send({"reset_stream": True})
 
     async def send_facemesh(
         self,
@@ -145,12 +139,12 @@ class AsyncStreamWSSConnection:
         return await self._send_config(data=text, raw_text=True, config=config)
 
     async def send_file(
-        self, _file: typing.Union[str, Path], config: typing.Optional[StreamDataModels] = None
+        self, file_: typing.Union[str, Path], config: typing.Optional[StreamDataModels] = None
     ) -> SubscribeEvent:
         """
         Parameters
         ----------
-        _file : str
+        file_ : str
             The path to the file to upload, or the Base64 encoded string of the file to upload.
 
         config: typing.Optional[StreamDataModels]
@@ -163,13 +157,13 @@ class AsyncStreamWSSConnection:
         """
 
         try:
-            with open(_file, "rb") as f:
+            with open(file_, "rb") as f:
                 bytes_data = base64.b64encode(f.read()).decode()
         except:
-            if isinstance(_file, Path): 
-                raise ApiError(body=f"Failed to open file: {_file}")
+            if isinstance(file_, Path): 
+                raise ApiError(body=f"Failed to open file: {file_}")
             # If you cannot open the file, assume you were passed a b64 string, not a file path
-            bytes_data = _file
+            bytes_data = file_
     
         return await self._send_config(data=bytes_data, raw_text=False, config=config)
 
@@ -181,7 +175,7 @@ class AsyncStreamClientWithWebsocket:
     @asynccontextmanager
     async def connect(
         self, options: typing.Optional[StreamConnectOptions] = None
-    ) -> typing.AsyncIterator[AsyncStreamWSSConnection]:
+    ) -> typing.AsyncIterator[StreamWebsocketConnection]:
         api_key = options.api_key if options is not None and options.api_key else self.client_wrapper.api_key
         if api_key is None:
             raise ValueError("An API key is required to connect to the streaming API.")
@@ -194,7 +188,7 @@ class AsyncStreamClientWithWebsocket:
                     "X-Hume-Api-Key": api_key,
                 },
             ) as protocol:
-                yield AsyncStreamWSSConnection(websocket=protocol, params=options)
+                yield StreamWebsocketConnection(websocket=protocol, params=options)
         except websockets.exceptions.InvalidStatusCode as exc:
             status_code: int = exc.status_code
             if status_code == 401:

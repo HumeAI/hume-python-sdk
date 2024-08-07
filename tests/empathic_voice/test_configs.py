@@ -416,9 +416,9 @@ async def test_delete_config(client: HumeClient, async_client: AsyncHumeClient) 
 
 async def test_update_config_name(client: HumeClient, async_client: AsyncHumeClient) -> None:
     # Type ignore to avoid mypy complaining about the function not being meant to return a value
-    assert client.empathic_voice.configs.update_config_name(id="1b60e1a0-cc59-424a-8d2c-189d354db3f3", name="Updated Weather Assistant Config Name") is None  # type: ignore[func-returns-value]
+    assert client.empathic_voice.configs.update_config_name(id="1b60e1a0-cc59-424a-8d2c-189d354db3f3", name="Updated Weather Assistant Config Name") is ''  # type: ignore[func-returns-value]
 
-    assert await async_client.empathic_voice.configs.update_config_name(id="1b60e1a0-cc59-424a-8d2c-189d354db3f3", name="Updated Weather Assistant Config Name") is None  # type: ignore[func-returns-value]
+    assert await async_client.empathic_voice.configs.update_config_name(id="1b60e1a0-cc59-424a-8d2c-189d354db3f3", name="Updated Weather Assistant Config Name") is ''  # type: ignore[func-returns-value]
 
 
 async def test_get_config_version(client: HumeClient, async_client: AsyncHumeClient) -> None:

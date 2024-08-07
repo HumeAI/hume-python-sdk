@@ -1,11 +1,15 @@
 # Specify files that shouldn't be modified by Fern
 
-README.md
-
 # Accommodate custom auth scheme
 
 src/hume/core/client_wrapper.py
+
+# Pending generator upgrade
+
+README.md
 tests/empathic_voice/test_tools.py
+tests/empathic_voice/test_configs.py
+tests/empathic_voice/test_prompts.py
 
 # Custom Client Modifications
 
