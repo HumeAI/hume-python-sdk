@@ -61,7 +61,12 @@ class ChatGroupsClient:
         client = HumeClient(
             api_key="YOUR_API_KEY",
         )
-        client.empathic_voice.chat_groups.list_chat_groups()
+        client.empathic_voice.chat_groups.list_chat_groups(
+            page_number=0,
+            page_size=1,
+            ascending_order=True,
+            config_id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             "v0/evi/chat_groups",
@@ -126,7 +131,10 @@ class ChatGroupsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.chat_groups.list_chat_group_events(
-            id="id",
+            id="697056f0-6c7e-487d-9bd8-9c19df79f05f",
+            page_number=0,
+            page_size=3,
+            ascending_order=True,
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -198,7 +206,12 @@ class AsyncChatGroupsClient:
 
 
         async def main() -> None:
-            await client.empathic_voice.chat_groups.list_chat_groups()
+            await client.empathic_voice.chat_groups.list_chat_groups(
+                page_number=0,
+                page_size=1,
+                ascending_order=True,
+                config_id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+            )
 
 
         asyncio.run(main())
@@ -271,7 +284,10 @@ class AsyncChatGroupsClient:
 
         async def main() -> None:
             await client.empathic_voice.chat_groups.list_chat_group_events(
-                id="id",
+                id="697056f0-6c7e-487d-9bd8-9c19df79f05f",
+                page_number=0,
+                page_size=3,
+                ascending_order=True,
             )
 
 

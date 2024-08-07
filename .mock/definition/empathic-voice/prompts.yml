@@ -49,20 +49,45 @@ service:
         docs: Success
         type: root.ReturnPagedPrompts
       examples:
-        - response:
+        - query-parameters:
+            page_number: 0
+            page_size: 2
+          response:
             body:
-              page_number: 1
-              page_size: 1
+              page_number: 0
+              page_size: 2
               total_pages: 1
               prompts_page:
-                - id: id
-                  version: 1
+                - id: af699d45-2985-42cc-91b9-af9e5da3bac5
+                  version: 0
                   version_type: FIXED
-                  version_description: version_description
-                  name: name
-                  created_on: 1000000
-                  modified_on: 1000000
-                  text: text
+                  version_description: ''
+                  name: Weather Assistant Prompt
+                  created_on: 1715267200693
+                  modified_on: 1715267200693
+                  text: >-
+                    <role>You are an AI weather assistant providing users with
+                    accurate and up-to-date weather information. Respond to user
+                    queries concisely and clearly. Use simple language and avoid
+                    technical jargon. Provide temperature, precipitation, wind
+                    conditions, and any weather alerts. Include helpful tips if
+                    severe weather is expected.</role>
+                - id: 616b2b4c-a096-4445-9c23-64058b564fc2
+                  version: 0
+                  version_type: FIXED
+                  version_description: ''
+                  name: Web Search Assistant Prompt
+                  created_on: 1715267200693
+                  modified_on: 1715267200693
+                  text: >-
+                    <role>You are an AI web search assistant designed to help
+                    users find accurate and relevant information on the web.
+                    Respond to user queries promptly, using the built-in web
+                    search tool to retrieve up-to-date results. Present
+                    information clearly and concisely, summarizing key points
+                    where necessary. Use simple language and avoid technical
+                    jargon. If needed, provide helpful tips for refining search
+                    queries to obtain better results.</role>
     create-prompt:
       path: /v0/evi/prompts
       method: POST
@@ -99,18 +124,29 @@ service:
         type: optional<root.ReturnPrompt>
       examples:
         - request:
-            name: name
-            text: text
+            name: Weather Assistant Prompt
+            text: >-
+              <role>You are an AI weather assistant providing users with
+              accurate and up-to-date weather information. Respond to user
+              queries concisely and clearly. Use simple language and avoid
+              technical jargon. Provide temperature, precipitation, wind
+              conditions, and any weather alerts. Include helpful tips if severe
+              weather is expected.</role>
           response:
             body:
-              id: id
-              version: 1
+              id: af699d45-2985-42cc-91b9-af9e5da3bac5
+              version: 0
               version_type: FIXED
-              version_description: version_description
-              name: name
-              created_on: 1000000
-              modified_on: 1000000
-              text: text
+              name: Weather Assistant Prompt
+              created_on: 1722633247488
+              modified_on: 1722633247488
+              text: >-
+                <role>You are an AI weather assistant providing users with
+                accurate and up-to-date weather information. Respond to user
+                queries concisely and clearly. Use simple language and avoid
+                technical jargon. Provide temperature, precipitation, wind
+                conditions, and any weather alerts. Include helpful tips if
+                severe weather is expected.</role>
     list-prompt-versions:
       path: /v0/evi/prompts/{id}
       method: GET
@@ -155,21 +191,27 @@ service:
         type: root.ReturnPagedPrompts
       examples:
         - path-parameters:
-            id: id
+            id: af699d45-2985-42cc-91b9-af9e5da3bac5
           response:
             body:
-              page_number: 1
-              page_size: 1
+              page_number: 0
+              page_size: 10
               total_pages: 1
               prompts_page:
-                - id: id
-                  version: 1
+                - id: af699d45-2985-42cc-91b9-af9e5da3bac5
+                  version: 0
                   version_type: FIXED
-                  version_description: version_description
-                  name: name
-                  created_on: 1000000
-                  modified_on: 1000000
-                  text: text
+                  version_description: ''
+                  name: Weather Assistant Prompt
+                  created_on: 1722633247488
+                  modified_on: 1722633247488
+                  text: >-
+                    <role>You are an AI weather assistant providing users with
+                    accurate and up-to-date weather information. Respond to user
+                    queries concisely and clearly. Use simple language and avoid
+                    technical jargon. Provide temperature, precipitation, wind
+                    conditions, and any weather alerts. Include helpful tips if
+                    severe weather is expected.</role>
     create-prompt-verison:
       path: /v0/evi/prompts/{id}
       method: POST
@@ -208,19 +250,32 @@ service:
         type: optional<root.ReturnPrompt>
       examples:
         - path-parameters:
-            id: id
+            id: af699d45-2985-42cc-91b9-af9e5da3bac5
           request:
-            text: text
+            text: >-
+              <role>You are an updated version of an AI weather assistant
+              providing users with accurate and up-to-date weather information.
+              Respond to user queries concisely and clearly. Use simple language
+              and avoid technical jargon. Provide temperature, precipitation,
+              wind conditions, and any weather alerts. Include helpful tips if
+              severe weather is expected.</role>
+            version_description: This is an updated version of the Weather Assistant Prompt.
           response:
             body:
-              id: id
+              id: af699d45-2985-42cc-91b9-af9e5da3bac5
               version: 1
               version_type: FIXED
-              version_description: version_description
-              name: name
-              created_on: 1000000
-              modified_on: 1000000
-              text: text
+              version_description: This is an updated version of the Weather Assistant Prompt.
+              name: Weather Assistant Prompt
+              created_on: 1722633247488
+              modified_on: 1722635140150
+              text: >-
+                <role>You are an updated version of an AI weather assistant
+                providing users with accurate and up-to-date weather
+                information. Respond to user queries concisely and clearly. Use
+                simple language and avoid technical jargon. Provide temperature,
+                precipitation, wind conditions, and any weather alerts. Include
+                helpful tips if severe weather is expected.</role>
     delete-prompt:
       path: /v0/evi/prompts/{id}
       method: DELETE
@@ -232,7 +287,7 @@ service:
       display-name: Delete prompt
       examples:
         - path-parameters:
-            id: id
+            id: af699d45-2985-42cc-91b9-af9e5da3bac5
     update-prompt-name:
       path: /v0/evi/prompts/{id}
       method: PATCH
@@ -252,6 +307,11 @@ service:
       response:
         docs: Success
         type: text
+      examples:
+        - path-parameters:
+            id: af699d45-2985-42cc-91b9-af9e5da3bac5
+          request:
+            name: Updated Weather Assistant Prompt Name
     get-prompt-version:
       path: /v0/evi/prompts/{id}/version/{version}
       method: GET
@@ -281,18 +341,24 @@ service:
         type: optional<root.ReturnPrompt>
       examples:
         - path-parameters:
-            id: id
-            version: 1
+            id: af699d45-2985-42cc-91b9-af9e5da3bac5
+            version: 0
           response:
             body:
-              id: id
-              version: 1
+              id: af699d45-2985-42cc-91b9-af9e5da3bac5
+              version: 0
               version_type: FIXED
-              version_description: version_description
-              name: name
-              created_on: 1000000
-              modified_on: 1000000
-              text: text
+              version_description: ''
+              name: Weather Assistant Prompt
+              created_on: 1722633247488
+              modified_on: 1722633247488
+              text: >-
+                <role>You are an AI weather assistant providing users with
+                accurate and up-to-date weather information. Respond to user
+                queries concisely and clearly. Use simple language and avoid
+                technical jargon. Provide temperature, precipitation, wind
+                conditions, and any weather alerts. Include helpful tips if
+                severe weather is expected.</role>
     delete-prompt-version:
       path: /v0/evi/prompts/{id}/version/{version}
       method: DELETE
@@ -319,7 +385,7 @@ service:
       display-name: Delete prompt version
       examples:
         - path-parameters:
-            id: id
+            id: af699d45-2985-42cc-91b9-af9e5da3bac5
             version: 1
     update-prompt-description:
       path: /v0/evi/prompts/{id}/version/{version}
@@ -357,16 +423,23 @@ service:
         type: optional<root.ReturnPrompt>
       examples:
         - path-parameters:
-            id: id
+            id: af699d45-2985-42cc-91b9-af9e5da3bac5
             version: 1
-          request: {}
+          request:
+            version_description: This is an updated version_description.
           response:
             body:
-              id: id
+              id: af699d45-2985-42cc-91b9-af9e5da3bac5
               version: 1
               version_type: FIXED
-              version_description: version_description
-              name: name
-              created_on: 1000000
-              modified_on: 1000000
-              text: text
+              version_description: This is an updated version_description.
+              name: string
+              created_on: 1722633247488
+              modified_on: 1722634770585
+              text: >-
+                <role>You are an AI weather assistant providing users with
+                accurate and up-to-date weather information. Respond to user
+                queries concisely and clearly. Use simple language and avoid
+                technical jargon. Provide temperature, precipitation, wind
+                conditions, and any weather alerts. Include helpful tips if
+                severe weather is expected.</role>

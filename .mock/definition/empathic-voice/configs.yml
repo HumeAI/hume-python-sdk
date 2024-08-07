@@ -46,35 +46,64 @@ service:
         docs: Success
         type: root.ReturnPagedConfigs
       examples:
-        - response:
+        - query-parameters:
+            page_number: 0
+            page_size: 1
+          response:
             body:
-              page_number: 1
+              page_number: 0
               page_size: 1
               total_pages: 1
               configs_page:
-                - id: id
-                  version: 1
-                  version_description: version_description
-                  name: name
-                  created_on: 1000000
-                  modified_on: 1000000
+                - id: 1b60e1a0-cc59-424a-8d2c-189d354db3f3
+                  version: 0
+                  version_description: ''
+                  name: Weather Assistant Config
+                  created_on: 1715267200693
+                  modified_on: 1715267200693
                   prompt:
-                    id: id
-                    version: 1
+                    id: af699d45-2985-42cc-91b9-af9e5da3bac5
+                    version: 0
                     version_type: FIXED
-                    name: name
-                    created_on: 1000000
-                    modified_on: 1000000
-                    text: text
+                    version_description: ''
+                    name: Weather Assistant Prompt
+                    created_on: 1715267200693
+                    modified_on: 1715267200693
+                    text: >-
+                      <role>You are an AI weather assistant providing users with
+                      accurate and up-to-date weather information. Respond to
+                      user queries concisely and clearly. Use simple language
+                      and avoid technical jargon. Provide temperature,
+                      precipitation, wind conditions, and any weather alerts.
+                      Include helpful tips if severe weather is expected.</role>
                   voice:
                     provider: HUME_AI
+                    name: KORA
+                  language_model:
+                    model_provider: ANTHROPIC
+                    model_resource: claude-3-5-sonnet-20240620
+                    temperature: 1
                   ellm_model:
-                    allow_short_responses: true
+                    allow_short_responses: false
+                  tools: []
+                  builtin_tools: []
+                  event_messages:
+                    on_new_chat:
+                      enabled: false
+                      text: ''
+                    on_inactivity_timeout:
+                      enabled: false
+                      text: ''
+                    on_max_duration_timeout:
+                      enabled: false
+                      text: ''
                   timeouts:
                     inactivity:
                       enabled: true
+                      duration_secs: 600
                     max_duration:
                       enabled: true
+                      duration_secs: 1800
     create-config:
       path: /v0/evi/configs
       method: POST
@@ -127,66 +156,78 @@ service:
         type: root.ReturnConfig
       examples:
         - request:
-            name: name
+            name: Weather Assistant Config
+            prompt:
+              id: af699d45-2985-42cc-91b9-af9e5da3bac5
+              version: 0
+            voice:
+              provider: HUME_AI
+              name: KORA
+            language_model:
+              model_provider: ANTHROPIC
+              model_resource: claude-3-5-sonnet-20240620
+              temperature: 1
+            event_messages:
+              on_new_chat:
+                enabled: false
+                text: ''
+              on_inactivity_timeout:
+                enabled: false
+                text: ''
+              on_max_duration_timeout:
+                enabled: false
+                text: ''
           response:
             body:
-              id: id
-              version: 1
-              version_description: version_description
-              name: name
-              created_on: 1000000
-              modified_on: 1000000
+              id: 1b60e1a0-cc59-424a-8d2c-189d354db3f3
+              version: 0
+              version_description: ''
+              name: Weather Assistant Config
+              created_on: 1715275452390
+              modified_on: 1715275452390
               prompt:
-                id: id
-                version: 1
+                id: af699d45-2985-42cc-91b9-af9e5da3bac5
+                version: 0
                 version_type: FIXED
-                version_description: version_description
-                name: name
-                created_on: 1000000
-                modified_on: 1000000
-                text: text
+                version_description: ''
+                name: Weather Assistant Prompt
+                created_on: 1715267200693
+                modified_on: 1715267200693
+                text: >-
+                  <role>You are an AI weather assistant providing users with
+                  accurate and up-to-date weather information. Respond to user
+                  queries concisely and clearly. Use simple language and avoid
+                  technical jargon. Provide temperature, precipitation, wind
+                  conditions, and any weather alerts. Include helpful tips if
+                  severe weather is expected.</role>
               voice:
                 provider: HUME_AI
-                name: ITO
+                name: KORA
               language_model:
-                model_provider: OPEN_AI
-                model_resource: model_resource
-                temperature: 1.1
+                model_provider: ANTHROPIC
+                model_resource: claude-3-5-sonnet-20240620
+                temperature: 1
               ellm_model:
-                allow_short_responses: true
-              tools:
-                - tool_type: BUILTIN
-                  id: id
-                  version: 1
-                  version_type: FIXED
-                  version_description: version_description
-                  name: name
-                  created_on: 1000000
-                  modified_on: 1000000
-                  fallback_content: fallback_content
-                  description: description
-                  parameters: parameters
-              builtin_tools:
-                - tool_type: BUILTIN
-                  name: name
-                  fallback_content: fallback_content
+                allow_short_responses: false
+              tools: []
+              builtin_tools: []
               event_messages:
                 on_new_chat:
-                  enabled: true
-                  text: text
+                  enabled: false
+                  text: ''
                 on_inactivity_timeout:
-                  enabled: true
-                  text: text
+                  enabled: false
+                  text: ''
                 on_max_duration_timeout:
-                  enabled: true
-                  text: text
+                  enabled: false
+                  text: ''
               timeouts:
                 inactivity:
                   enabled: true
-                  duration_secs: 1
+                  duration_secs: 600
                 max_duration:
                   enabled: true
-                  duration_secs: 1
+                  duration_secs: 1800
     list-config-versions:
       path: /v0/evi/configs/{id}
       method: GET
@@ -231,36 +272,62 @@ service:
         type: root.ReturnPagedConfigs
       examples:
         - path-parameters:
-            id: id
+            id: 1b60e1a0-cc59-424a-8d2c-189d354db3f3
           response:
             body:
-              page_number: 1
-              page_size: 1
+              page_number: 0
+              page_size: 10
               total_pages: 1
               configs_page:
-                - id: id
-                  version: 1
-                  version_description: version_description
-                  name: name
-                  created_on: 1000000
-                  modified_on: 1000000
+                - id: 1b60e1a0-cc59-424a-8d2c-189d354db3f3
+                  version: 0
+                  version_description: ''
+                  name: Weather Assistant Config
+                  created_on: 1715275452390
+                  modified_on: 1715275452390
                   prompt:
-                    id: id
-                    version: 1
+                    id: af699d45-2985-42cc-91b9-af9e5da3bac5
+                    version: 0
                     version_type: FIXED
-                    name: name
-                    created_on: 1000000
-                    modified_on: 1000000
-                    text: text
+                    version_description: ''
+                    name: Weather Assistant Prompt
+                    created_on: 1715267200693
+                    modified_on: 1715267200693
+                    text: >-
+                      <role>You are an AI weather assistant providing users with
+                      accurate and up-to-date weather information. Respond to
+                      user queries concisely and clearly. Use simple language
+                      and avoid technical jargon. Provide temperature,
+                      precipitation, wind conditions, and any weather alerts.
+                      Include helpful tips if severe weather is expected.</role>
                   voice:
                     provider: HUME_AI
+                    name: KORA
+                  language_model:
+                    model_provider: ANTHROPIC
+                    model_resource: claude-3-5-sonnet-20240620
+                    temperature: 1
                   ellm_model:
-                    allow_short_responses: true
+                    allow_short_responses: false
+                  tools: []
+                  builtin_tools: []
+                  event_messages:
+                    on_new_chat:
+                      enabled: false
+                      text: ''
+                    on_inactivity_timeout:
+                      enabled: false
+                      text: ''
+                    on_max_duration_timeout:
+                      enabled: false
+                      text: ''
                   timeouts:
                     inactivity:
                       enabled: true
+                      duration_secs: 600
                     max_duration:
                       enabled: true
+                      duration_secs: 1800
     create-config-version:
       path: /v0/evi/configs/{id}
       method: POST
@@ -315,67 +382,82 @@ service:
         type: root.ReturnConfig
       examples:
         - path-parameters:
-            id: id
-          request: {}
+            id: 1b60e1a0-cc59-424a-8d2c-189d354db3f3
+          request:
+            version_description: This is an updated version of the Weather Assistant Config.
+            prompt:
+              id: af699d45-2985-42cc-91b9-af9e5da3bac5
+              version: 0
+            voice:
+              provider: HUME_AI
+              name: ITO
+            language_model:
+              model_provider: ANTHROPIC
+              model_resource: claude-3-5-sonnet-20240620
+              temperature: 1
+            ellm_model:
+              allow_short_responses: true
+            event_messages:
+              on_new_chat:
+                enabled: false
+                text: ''
+              on_inactivity_timeout:
+                enabled: false
+                text: ''
+              on_max_duration_timeout:
+                enabled: false
+                text: ''
           response:
             body:
-              id: id
+              id: 1b60e1a0-cc59-424a-8d2c-189d354db3f3
               version: 1
-              version_description: version_description
-              name: name
-              created_on: 1000000
-              modified_on: 1000000
+              version_description: This is an updated version of the Weather Assistant Config.
+              name: Weather Assistant Config
+              created_on: 1715275452390
+              modified_on: 1722642242998
               prompt:
-                id: id
-                version: 1
+                id: af699d45-2985-42cc-91b9-af9e5da3bac5
+                version: 0
                 version_type: FIXED
-                version_description: version_description
-                name: name
-                created_on: 1000000
-                modified_on: 1000000
-                text: text
+                version_description: ''
+                name: Weather Assistant Prompt
+                created_on: 1715267200693
+                modified_on: 1715267200693
+                text: >-
+                  <role>You are an AI weather assistant providing users with
+                  accurate and up-to-date weather information. Respond to user
+                  queries concisely and clearly. Use simple language and avoid
+                  technical jargon. Provide temperature, precipitation, wind
+                  conditions, and any weather alerts. Include helpful tips if
+                  severe weather is expected.</role>
               voice:
                 provider: HUME_AI
                 name: ITO
               language_model:
-                model_provider: OPEN_AI
-                model_resource: model_resource
-                temperature: 1.1
+                model_provider: ANTHROPIC
+                model_resource: claude-3-5-sonnet-20240620
+                temperature: 1
               ellm_model:
                 allow_short_responses: true
-              tools:
-                - tool_type: BUILTIN
-                  id: id
-                  version: 1
-                  version_type: FIXED
-                  version_description: version_description
-                  name: name
-                  created_on: 1000000
-                  modified_on: 1000000
-                  fallback_content: fallback_content
-                  description: description
-                  parameters: parameters
-              builtin_tools:
-                - tool_type: BUILTIN
-                  name: name
-                  fallback_content: fallback_content
+              tools: []
+              builtin_tools: []
               event_messages:
                 on_new_chat:
-                  enabled: true
-                  text: text
+                  enabled: false
+                  text: ''
                 on_inactivity_timeout:
-                  enabled: true
-                  text: text
+                  enabled: false
+                  text: ''
                 on_max_duration_timeout:
-                  enabled: true
-                  text: text
+                  enabled: false
+                  text: ''
               timeouts:
                 inactivity:
                   enabled: true
-                  duration_secs: 1
+                  duration_secs: 600
                 max_duration:
                   enabled: true
-                  duration_secs: 1
+                  duration_secs: 1800
     delete-config:
       path: /v0/evi/configs/{id}
       method: DELETE
@@ -387,7 +469,7 @@ service:
       display-name: Delete config
       examples:
         - path-parameters:
-            id: id
+            id: 1b60e1a0-cc59-424a-8d2c-189d354db3f3
     update-config-name:
       path: /v0/evi/configs/{id}
       method: PATCH
@@ -407,6 +489,11 @@ service:
       response:
         docs: Success
         type: text
+      examples:
+        - path-parameters:
+            id: 1b60e1a0-cc59-424a-8d2c-189d354db3f3
+          request:
+            name: Updated Weather Assistant Config Name
     get-config-version:
       path: /v0/evi/configs/{id}/version/{version}
       method: GET
@@ -436,67 +523,59 @@ service:
         type: root.ReturnConfig
       examples:
         - path-parameters:
-            id: id
+            id: 1b60e1a0-cc59-424a-8d2c-189d354db3f3
             version: 1
           response:
             body:
-              id: id
+              id: 1b60e1a0-cc59-424a-8d2c-189d354db3f3
               version: 1
-              version_description: version_description
-              name: name
-              created_on: 1000000
-              modified_on: 1000000
+              version_description: ''
+              name: Weather Assistant Config
+              created_on: 1715275452390
+              modified_on: 1715275452390
               prompt:
-                id: id
-                version: 1
+                id: af699d45-2985-42cc-91b9-af9e5da3bac5
+                version: 0
                 version_type: FIXED
-                version_description: version_description
-                name: name
-                created_on: 1000000
-                modified_on: 1000000
-                text: text
+                version_description: ''
+                name: Weather Assistant Prompt
+                created_on: 1715267200693
+                modified_on: 1715267200693
+                text: >-
+                  <role>You are an AI weather assistant providing users with
+                  accurate and up-to-date weather information. Respond to user
+                  queries concisely and clearly. Use simple language and avoid
+                  technical jargon. Provide temperature, precipitation, wind
+                  conditions, and any weather alerts. Include helpful tips if
+                  severe weather is expected.</role>
               voice:
                 provider: HUME_AI
-                name: ITO
+                name: KORA
               language_model:
-                model_provider: OPEN_AI
-                model_resource: model_resource
-                temperature: 1.1
+                model_provider: ANTHROPIC
+                model_resource: claude-3-5-sonnet-20240620
+                temperature: 1
               ellm_model:
-                allow_short_responses: true
-              tools:
-                - tool_type: BUILTIN
-                  id: id
-                  version: 1
-                  version_type: FIXED
-                  version_description: version_description
-                  name: name
-                  created_on: 1000000
-                  modified_on: 1000000
-                  fallback_content: fallback_content
-                  description: description
-                  parameters: parameters
-              builtin_tools:
-                - tool_type: BUILTIN
-                  name: name
-                  fallback_content: fallback_content
+                allow_short_responses: false
+              tools: []
+              builtin_tools: []
               event_messages:
                 on_new_chat:
-                  enabled: true
-                  text: text
+                  enabled: false
+                  text: ''
                 on_inactivity_timeout:
-                  enabled: true
-                  text: text
+                  enabled: false
+                  text: ''
                 on_max_duration_timeout:
-                  enabled: true
-                  text: text
+                  enabled: false
+                  text: ''
               timeouts:
                 inactivity:
                   enabled: true
-                  duration_secs: 1
+                  duration_secs: 600
                 max_duration:
                   enabled: true
-                  duration_secs: 1
+                  duration_secs: 1800
     delete-config-version:
       path: /v0/evi/configs/{id}/version/{version}
       method: DELETE
@@ -523,7 +602,7 @@ service:
       display-name: Delete config version
       examples:
         - path-parameters:
-            id: id
+            id: 1b60e1a0-cc59-424a-8d2c-189d354db3f3
             version: 1
     update-config-description:
       path: /v0/evi/configs/{id}/version/{version}
@@ -561,65 +640,58 @@ service:
         type: root.ReturnConfig
       examples:
         - path-parameters:
-            id: id
+            id: 1b60e1a0-cc59-424a-8d2c-189d354db3f3
             version: 1
-          request: {}
+          request:
+            version_description: This is an updated version_description.
           response:
             body:
-              id: id
+              id: 1b60e1a0-cc59-424a-8d2c-189d354db3f3
               version: 1
-              version_description: version_description
-              name: name
-              created_on: 1000000
-              modified_on: 1000000
+              version_description: This is an updated version_description.
+              name: Weather Assistant Config
+              created_on: 1715275452390
+              modified_on: 1715275452390
               prompt:
-                id: id
-                version: 1
+                id: af699d45-2985-42cc-91b9-af9e5da3bac5
+                version: 0
                 version_type: FIXED
-                version_description: version_description
-                name: name
-                created_on: 1000000
-                modified_on: 1000000
-                text: text
+                version_description: ''
+                name: Weather Assistant Prompt
+                created_on: 1715267200693
+                modified_on: 1715267200693
+                text: >-
+                  <role>You are an AI weather assistant providing users with
+                  accurate and up-to-date weather information. Respond to user
+                  queries concisely and clearly. Use simple language and avoid
+                  technical jargon. Provide temperature, precipitation, wind
+                  conditions, and any weather alerts. Include helpful tips if
+                  severe weather is expected.</role>
               voice:
                 provider: HUME_AI
-                name: ITO
+                name: KORA
               language_model:
-                model_provider: OPEN_AI
-                model_resource: model_resource
-                temperature: 1.1
+                model_provider: ANTHROPIC
+                model_resource: claude-3-5-sonnet-20240620
+                temperature: 1
               ellm_model:
-                allow_short_responses: true
-              tools:
-                - tool_type: BUILTIN
-                  id: id
-                  version: 1
-                  version_type: FIXED
-                  version_description: version_description
-                  name: name
-                  created_on: 1000000
-                  modified_on: 1000000
-                  fallback_content: fallback_content
-                  description: description
-                  parameters: parameters
-              builtin_tools:
-                - tool_type: BUILTIN
-                  name: name
-                  fallback_content: fallback_content
+                allow_short_responses: false
+              tools: []
+              builtin_tools: []
               event_messages:
                 on_new_chat:
-                  enabled: true
-                  text: text
+                  enabled: false
+                  text: ''
                 on_inactivity_timeout:
-                  enabled: true
-                  text: text
+                  enabled: false
+                  text: ''
                 on_max_duration_timeout:
-                  enabled: true
-                  text: text
+                  enabled: false
+                  text: ''
               timeouts:
                 inactivity:
                   enabled: true
-                  duration_secs: 1
+                  duration_secs: 600
                 max_duration:
                   enabled: true
-                  duration_secs: 1
+                  duration_secs: 1800

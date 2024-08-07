@@ -1288,7 +1288,10 @@ from hume.client import HumeClient
 client = HumeClient(
     api_key="YOUR_API_KEY",
 )
-response = client.empathic_voice.prompts.list_prompts()
+response = client.empathic_voice.prompts.list_prompts(
+    page_number=0,
+    page_size=2,
+)
 for item in response:
     yield item
 # alternatively, you can paginate page-by-page
@@ -1380,8 +1383,8 @@ client = HumeClient(
     api_key="YOUR_API_KEY",
 )
 client.empathic_voice.prompts.create_prompt(
-    name="name",
-    text="text",
+    name="Weather Assistant Prompt",
+    text="<role>You are an AI weather assistant providing users with accurate and up-to-date weather information. Respond to user queries concisely and clearly. Use simple language and avoid technical jargon. Provide temperature, precipitation, wind conditions, and any weather alerts. Include helpful tips if severe weather is expected.</role>",
 )
 
 ```
@@ -1459,7 +1462,7 @@ client = HumeClient(
     api_key="YOUR_API_KEY",
 )
 client.empathic_voice.prompts.list_prompt_versions(
-    id="id",
+    id="af699d45-2985-42cc-91b9-af9e5da3bac5",
 )
 
 ```
@@ -1547,8 +1550,9 @@ client = HumeClient(
     api_key="YOUR_API_KEY",
 )
 client.empathic_voice.prompts.create_prompt_verison(
-    id="id",
-    text="text",
+    id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+    text="<role>You are an updated version of an AI weather assistant providing users with accurate and up-to-date weather information. Respond to user queries concisely and clearly. Use simple language and avoid technical jargon. Provide temperature, precipitation, wind conditions, and any weather alerts. Include helpful tips if severe weather is expected.</role>",
+    version_description="This is an updated version of the Weather Assistant Prompt.",
 )
 
 ```
@@ -1626,7 +1630,7 @@ client = HumeClient(
     api_key="YOUR_API_KEY",
 )
 client.empathic_voice.prompts.delete_prompt(
-    id="id",
+    id="af699d45-2985-42cc-91b9-af9e5da3bac5",
 )
 
 ```
@@ -1682,8 +1686,8 @@ client = HumeClient(
     api_key="YOUR_API_KEY",
 )
 client.empathic_voice.prompts.update_prompt_name(
-    id="string",
-    name="string",
+    id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+    name="Updated Weather Assistant Prompt Name",
 )
 
 ```
@@ -1747,8 +1751,8 @@ client = HumeClient(
     api_key="YOUR_API_KEY",
 )
 client.empathic_voice.prompts.get_prompt_version(
-    id="id",
-    version=1,
+    id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+    version=0,
 )
 
 ```
@@ -1818,7 +1822,7 @@ client = HumeClient(
     api_key="YOUR_API_KEY",
 )
 client.empathic_voice.prompts.delete_prompt_version(
-    id="id",
+    id="af699d45-2985-42cc-91b9-af9e5da3bac5",
     version=1,
 )
 
@@ -1889,8 +1893,9 @@ client = HumeClient(
     api_key="YOUR_API_KEY",
 )
 client.empathic_voice.prompts.update_prompt_description(
-    id="id",
+    id="af699d45-2985-42cc-91b9-af9e5da3bac5",
     version=1,
+    version_description="This is an updated version_description.",
 )
 
 ```
@@ -1968,7 +1973,10 @@ from hume.client import HumeClient
 client = HumeClient(
     api_key="YOUR_API_KEY",
 )
-client.empathic_voice.configs.list_configs()
+client.empathic_voice.configs.list_configs(
+    page_number=0,
+    page_size=1,
+)
 
 ```
 </dd>
@@ -2050,12 +2058,45 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 
 ```python
 from hume.client import HumeClient
+from hume.empathic_voice import (
+    PostedEventMessageSpec,
+    PostedEventMessageSpecs,
+    PostedLanguageModel,
+    PostedPromptSpec,
+    PostedVoice,
+)
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
 )
 client.empathic_voice.configs.create_config(
-    name="name",
+    name="Weather Assistant Config",
+    prompt=PostedPromptSpec(
+        id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+        version=0,
+    ),
+    voice=PostedVoice(
+        name="KORA",
+    ),
+    language_model=PostedLanguageModel(
+        model_provider="ANTHROPIC",
+        model_resource="claude-3-5-sonnet-20240620",
+        temperature=1.0,
+    ),
+    event_messages=PostedEventMessageSpecs(
+        on_new_chat=PostedEventMessageSpec(
+            enabled=False,
+            text="",
+        ),
+        on_inactivity_timeout=PostedEventMessageSpec(
+            enabled=False,
+            text="",
+        ),
+        on_max_duration_timeout=PostedEventMessageSpec(
+            enabled=False,
+            text="",
+        ),
+    ),
 )
 
 ```
@@ -2191,7 +2232,7 @@ client = HumeClient(
     api_key="YOUR_API_KEY",
 )
 client.empathic_voice.configs.list_config_versions(
-    id="id",
+    id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
 )
 
 ```
@@ -2274,12 +2315,50 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 
 ```python
 from hume.client import HumeClient
+from hume.empathic_voice import (
+    PostedEllmModel,
+    PostedEventMessageSpec,
+    PostedEventMessageSpecs,
+    PostedLanguageModel,
+    PostedPromptSpec,
+    PostedVoice,
+)
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
 )
 client.empathic_voice.configs.create_config_version(
-    id="id",
+    id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+    version_description="This is an updated version of the Weather Assistant Config.",
+    prompt=PostedPromptSpec(
+        id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+        version=0,
+    ),
+    voice=PostedVoice(
+        name="ITO",
+    ),
+    language_model=PostedLanguageModel(
+        model_provider="ANTHROPIC",
+        model_resource="claude-3-5-sonnet-20240620",
+        temperature=1.0,
+    ),
+    ellm_model=PostedEllmModel(
+        allow_short_responses=True,
+    ),
+    event_messages=PostedEventMessageSpecs(
+        on_new_chat=PostedEventMessageSpec(
+            enabled=False,
+            text="",
+        ),
+        on_inactivity_timeout=PostedEventMessageSpec(
+            enabled=False,
+            text="",
+        ),
+        on_max_duration_timeout=PostedEventMessageSpec(
+            enabled=False,
+            text="",
+        ),
+    ),
 )
 
 ```
@@ -2415,7 +2494,7 @@ client = HumeClient(
     api_key="YOUR_API_KEY",
 )
 client.empathic_voice.configs.delete_config(
-    id="id",
+    id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
 )
 
 ```
@@ -2471,8 +2550,8 @@ client = HumeClient(
     api_key="YOUR_API_KEY",
 )
 client.empathic_voice.configs.update_config_name(
-    id="string",
-    name="string",
+    id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+    name="Updated Weather Assistant Config Name",
 )
 
 ```
@@ -2536,7 +2615,7 @@ client = HumeClient(
     api_key="YOUR_API_KEY",
 )
 client.empathic_voice.configs.get_config_version(
-    id="id",
+    id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
     version=1,
 )
 
@@ -2607,7 +2686,7 @@ client = HumeClient(
     api_key="YOUR_API_KEY",
 )
 client.empathic_voice.configs.delete_config_version(
-    id="id",
+    id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
     version=1,
 )
 
@@ -2678,8 +2757,9 @@ client = HumeClient(
     api_key="YOUR_API_KEY",
 )
 client.empathic_voice.configs.update_config_description(
-    id="id",
+    id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
     version=1,
+    version_description="This is an updated version_description.",
 )
 
 ```
@@ -2757,7 +2837,11 @@ from hume.client import HumeClient
 client = HumeClient(
     api_key="YOUR_API_KEY",
 )
-response = client.empathic_voice.chats.list_chats()
+response = client.empathic_voice.chats.list_chats(
+    page_number=0,
+    page_size=1,
+    ascending_order=True,
+)
 for item in response:
     yield item
 # alternatively, you can paginate page-by-page
@@ -2841,7 +2925,10 @@ client = HumeClient(
     api_key="YOUR_API_KEY",
 )
 response = client.empathic_voice.chats.list_chat_events(
-    id="id",
+    id="470a49f6-1dec-4afe-8b61-035d3b2d63b0",
+    page_number=0,
+    page_size=3,
+    ascending_order=True,
 )
 for item in response:
     yield item
@@ -2934,7 +3021,12 @@ from hume.client import HumeClient
 client = HumeClient(
     api_key="YOUR_API_KEY",
 )
-client.empathic_voice.chat_groups.list_chat_groups()
+client.empathic_voice.chat_groups.list_chat_groups(
+    page_number=0,
+    page_size=1,
+    ascending_order=True,
+    config_id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+)
 
 ```
 </dd>
@@ -3025,7 +3117,10 @@ client = HumeClient(
     api_key="YOUR_API_KEY",
 )
 client.empathic_voice.chat_groups.list_chat_group_events(
-    id="id",
+    id="697056f0-6c7e-487d-9bd8-9c19df79f05f",
+    page_number=0,
+    page_size=3,
+    ascending_order=True,
 )
 
 ```

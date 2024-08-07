@@ -3,35 +3,59 @@
 import typing
 
 from hume.client import AsyncHumeClient, HumeClient
+from hume.empathic_voice import (
+    PostedEllmModel,
+    PostedEventMessageSpec,
+    PostedEventMessageSpecs,
+    PostedLanguageModel,
+    PostedPromptSpec,
+    PostedVoice,
+)
 
 from ..utilities import validate_response
 
 
 async def test_list_configs(client: HumeClient, async_client: AsyncHumeClient) -> None:
     expected_response: typing.Any = {
-        "page_number": 1,
+        "page_number": 0,
         "page_size": 1,
         "total_pages": 1,
         "configs_page": [
             {
-                "id": "id",
-                "version": 1,
-                "version_description": "version_description",
-                "name": "name",
-                "created_on": 1000000,
-                "modified_on": 1000000,
+                "id": "1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+                "version": 0,
+                "version_description": "",
+                "name": "Weather Assistant Config",
+                "created_on": 1715267200693,
+                "modified_on": 1715267200693,
                 "prompt": {
-                    "id": "id",
-                    "version": 1,
+                    "id": "af699d45-2985-42cc-91b9-af9e5da3bac5",
+                    "version": 0,
                     "version_type": "FIXED",
-                    "name": "name",
-                    "created_on": 1000000,
-                    "modified_on": 1000000,
-                    "text": "text",
+                    "version_description": "",
+                    "name": "Weather Assistant Prompt",
+                    "created_on": 1715267200693,
+                    "modified_on": 1715267200693,
+                    "text": "<role>You are an AI weather assistant providing users with accurate and up-to-date weather information. Respond to user queries concisely and clearly. Use simple language and avoid technical jargon. Provide temperature, precipitation, wind conditions, and any weather alerts. Include helpful tips if severe weather is expected.</role>",
                 },
-                "voice": {"provider": "HUME_AI"},
-                "ellm_model": {"allow_short_responses": True},
-                "timeouts": {"inactivity": {"enabled": True}, "max_duration": {"enabled": True}},
+                "voice": {"provider": "HUME_AI", "name": "KORA"},
+                "language_model": {
+                    "model_provider": "ANTHROPIC",
+                    "model_resource": "claude-3-5-sonnet-20240620",
+                    "temperature": 1,
+                },
+                "ellm_model": {"allow_short_responses": False},
+                "tools": [],
+                "builtin_tools": [],
+                "event_messages": {
+                    "on_new_chat": {"enabled": False, "text": ""},
+                    "on_inactivity_timeout": {"enabled": False, "text": ""},
+                    "on_max_duration_timeout": {"enabled": False, "text": ""},
+                },
+                "timeouts": {
+                    "inactivity": {"enabled": True, "duration_secs": 600},
+                    "max_duration": {"enabled": True, "duration_secs": 1800},
+                },
             }
         ],
     }
@@ -53,70 +77,72 @@ async def test_list_configs(client: HumeClient, async_client: AsyncHumeClient) -
                         "id": None,
                         "version": "integer",
                         "version_type": None,
+                        "version_description": None,
                         "name": None,
                         "created_on": None,
                         "modified_on": None,
                         "text": None,
                     },
-                    "voice": {"provider": None},
+                    "voice": {"provider": None, "name": None},
+                    "language_model": {"model_provider": None, "model_resource": None, "temperature": None},
                     "ellm_model": {"allow_short_responses": None},
-                    "timeouts": {"inactivity": {"enabled": None}, "max_duration": {"enabled": None}},
+                    "tools": ("list", {}),
+                    "builtin_tools": ("list", {}),
+                    "event_messages": {
+                        "on_new_chat": {"enabled": None, "text": None},
+                        "on_inactivity_timeout": {"enabled": None, "text": None},
+                        "on_max_duration_timeout": {"enabled": None, "text": None},
+                    },
+                    "timeouts": {
+                        "inactivity": {"enabled": None, "duration_secs": "integer"},
+                        "max_duration": {"enabled": None, "duration_secs": "integer"},
+                    },
                 }
             },
         ),
     }
-    response = client.empathic_voice.configs.list_configs()
+    response = client.empathic_voice.configs.list_configs(page_number=0, page_size=1)
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.empathic_voice.configs.list_configs()
+    async_response = await async_client.empathic_voice.configs.list_configs(page_number=0, page_size=1)
     validate_response(async_response, expected_response, expected_types)
 
 
 async def test_create_config(client: HumeClient, async_client: AsyncHumeClient) -> None:
     expected_response: typing.Any = {
-        "id": "id",
-        "version": 1,
-        "version_description": "version_description",
-        "name": "name",
-        "created_on": 1000000,
-        "modified_on": 1000000,
+        "id": "1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+        "version": 0,
+        "version_description": "",
+        "name": "Weather Assistant Config",
+        "created_on": 1715275452390,
+        "modified_on": 1715275452390,
         "prompt": {
-            "id": "id",
-            "version": 1,
+            "id": "af699d45-2985-42cc-91b9-af9e5da3bac5",
+            "version": 0,
             "version_type": "FIXED",
-            "version_description": "version_description",
-            "name": "name",
-            "created_on": 1000000,
-            "modified_on": 1000000,
-            "text": "text",
+            "version_description": "",
+            "name": "Weather Assistant Prompt",
+            "created_on": 1715267200693,
+            "modified_on": 1715267200693,
+            "text": "<role>You are an AI weather assistant providing users with accurate and up-to-date weather information. Respond to user queries concisely and clearly. Use simple language and avoid technical jargon. Provide temperature, precipitation, wind conditions, and any weather alerts. Include helpful tips if severe weather is expected.</role>",
         },
-        "voice": {"provider": "HUME_AI", "name": "ITO"},
-        "language_model": {"model_provider": "OPEN_AI", "model_resource": "model_resource", "temperature": 1.1},
-        "ellm_model": {"allow_short_responses": True},
-        "tools": [
-            {
-                "tool_type": "BUILTIN",
-                "id": "id",
-                "version": 1,
-                "version_type": "FIXED",
-                "version_description": "version_description",
-                "name": "name",
-                "created_on": 1000000,
-                "modified_on": 1000000,
-                "fallback_content": "fallback_content",
-                "description": "description",
-                "parameters": "parameters",
-            }
-        ],
-        "builtin_tools": [{"tool_type": "BUILTIN", "name": "name", "fallback_content": "fallback_content"}],
+        "voice": {"provider": "HUME_AI", "name": "KORA"},
+        "language_model": {
+            "model_provider": "ANTHROPIC",
+            "model_resource": "claude-3-5-sonnet-20240620",
+            "temperature": 1,
+        },
+        "ellm_model": {"allow_short_responses": False},
+        "tools": [],
+        "builtin_tools": [],
         "event_messages": {
-            "on_new_chat": {"enabled": True, "text": "text"},
-            "on_inactivity_timeout": {"enabled": True, "text": "text"},
-            "on_max_duration_timeout": {"enabled": True, "text": "text"},
+            "on_new_chat": {"enabled": False, "text": ""},
+            "on_inactivity_timeout": {"enabled": False, "text": ""},
+            "on_max_duration_timeout": {"enabled": False, "text": ""},
         },
         "timeouts": {
-            "inactivity": {"enabled": True, "duration_secs": 1},
-            "max_duration": {"enabled": True, "duration_secs": 1},
+            "inactivity": {"enabled": True, "duration_secs": 600},
+            "max_duration": {"enabled": True, "duration_secs": 1800},
         },
     }
     expected_types: typing.Any = {
@@ -139,25 +165,8 @@ async def test_create_config(client: HumeClient, async_client: AsyncHumeClient) 
         "voice": {"provider": None, "name": None},
         "language_model": {"model_provider": None, "model_resource": None, "temperature": None},
         "ellm_model": {"allow_short_responses": None},
-        "tools": (
-            "list",
-            {
-                0: {
-                    "tool_type": None,
-                    "id": None,
-                    "version": "integer",
-                    "version_type": None,
-                    "version_description": None,
-                    "name": None,
-                    "created_on": None,
-                    "modified_on": None,
-                    "fallback_content": None,
-                    "description": None,
-                    "parameters": None,
-                }
-            },
-        ),
-        "builtin_tools": ("list", {0: {"tool_type": None, "name": None, "fallback_content": None}}),
+        "tools": ("list", {}),
+        "builtin_tools": ("list", {}),
         "event_messages": {
             "on_new_chat": {"enabled": None, "text": None},
             "on_inactivity_timeout": {"enabled": None, "text": None},
@@ -168,38 +177,78 @@ async def test_create_config(client: HumeClient, async_client: AsyncHumeClient) 
             "max_duration": {"enabled": None, "duration_secs": "integer"},
         },
     }
-    response = client.empathic_voice.configs.create_config(name="name")
+    response = client.empathic_voice.configs.create_config(
+        name="Weather Assistant Config",
+        prompt=PostedPromptSpec(id="af699d45-2985-42cc-91b9-af9e5da3bac5", version=0),
+        voice=PostedVoice(name="KORA"),
+        language_model=PostedLanguageModel(
+            model_provider="ANTHROPIC", model_resource="claude-3-5-sonnet-20240620", temperature=1.0
+        ),
+        event_messages=PostedEventMessageSpecs(
+            on_new_chat=PostedEventMessageSpec(enabled=False, text=""),
+            on_inactivity_timeout=PostedEventMessageSpec(enabled=False, text=""),
+            on_max_duration_timeout=PostedEventMessageSpec(enabled=False, text=""),
+        ),
+    )
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.empathic_voice.configs.create_config(name="name")
+    async_response = await async_client.empathic_voice.configs.create_config(
+        name="Weather Assistant Config",
+        prompt=PostedPromptSpec(id="af699d45-2985-42cc-91b9-af9e5da3bac5", version=0),
+        voice=PostedVoice(name="KORA"),
+        language_model=PostedLanguageModel(
+            model_provider="ANTHROPIC", model_resource="claude-3-5-sonnet-20240620", temperature=1.0
+        ),
+        event_messages=PostedEventMessageSpecs(
+            on_new_chat=PostedEventMessageSpec(enabled=False, text=""),
+            on_inactivity_timeout=PostedEventMessageSpec(enabled=False, text=""),
+            on_max_duration_timeout=PostedEventMessageSpec(enabled=False, text=""),
+        ),
+    )
     validate_response(async_response, expected_response, expected_types)
 
 
 async def test_list_config_versions(client: HumeClient, async_client: AsyncHumeClient) -> None:
     expected_response: typing.Any = {
-        "page_number": 1,
-        "page_size": 1,
+        "page_number": 0,
+        "page_size": 10,
         "total_pages": 1,
         "configs_page": [
             {
-                "id": "id",
-                "version": 1,
-                "version_description": "version_description",
-                "name": "name",
-                "created_on": 1000000,
-                "modified_on": 1000000,
+                "id": "1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+                "version": 0,
+                "version_description": "",
+                "name": "Weather Assistant Config",
+                "created_on": 1715275452390,
+                "modified_on": 1715275452390,
                 "prompt": {
-                    "id": "id",
-                    "version": 1,
+                    "id": "af699d45-2985-42cc-91b9-af9e5da3bac5",
+                    "version": 0,
                     "version_type": "FIXED",
-                    "name": "name",
-                    "created_on": 1000000,
-                    "modified_on": 1000000,
-                    "text": "text",
+                    "version_description": "",
+                    "name": "Weather Assistant Prompt",
+                    "created_on": 1715267200693,
+                    "modified_on": 1715267200693,
+                    "text": "<role>You are an AI weather assistant providing users with accurate and up-to-date weather information. Respond to user queries concisely and clearly. Use simple language and avoid technical jargon. Provide temperature, precipitation, wind conditions, and any weather alerts. Include helpful tips if severe weather is expected.</role>",
                 },
-                "voice": {"provider": "HUME_AI"},
-                "ellm_model": {"allow_short_responses": True},
-                "timeouts": {"inactivity": {"enabled": True}, "max_duration": {"enabled": True}},
+                "voice": {"provider": "HUME_AI", "name": "KORA"},
+                "language_model": {
+                    "model_provider": "ANTHROPIC",
+                    "model_resource": "claude-3-5-sonnet-20240620",
+                    "temperature": 1,
+                },
+                "ellm_model": {"allow_short_responses": False},
+                "tools": [],
+                "builtin_tools": [],
+                "event_messages": {
+                    "on_new_chat": {"enabled": False, "text": ""},
+                    "on_inactivity_timeout": {"enabled": False, "text": ""},
+                    "on_max_duration_timeout": {"enabled": False, "text": ""},
+                },
+                "timeouts": {
+                    "inactivity": {"enabled": True, "duration_secs": 600},
+                    "max_duration": {"enabled": True, "duration_secs": 1800},
+                },
             }
         ],
     }
@@ -221,70 +270,74 @@ async def test_list_config_versions(client: HumeClient, async_client: AsyncHumeC
                         "id": None,
                         "version": "integer",
                         "version_type": None,
+                        "version_description": None,
                         "name": None,
                         "created_on": None,
                         "modified_on": None,
                         "text": None,
                     },
-                    "voice": {"provider": None},
+                    "voice": {"provider": None, "name": None},
+                    "language_model": {"model_provider": None, "model_resource": None, "temperature": None},
                     "ellm_model": {"allow_short_responses": None},
-                    "timeouts": {"inactivity": {"enabled": None}, "max_duration": {"enabled": None}},
+                    "tools": ("list", {}),
+                    "builtin_tools": ("list", {}),
+                    "event_messages": {
+                        "on_new_chat": {"enabled": None, "text": None},
+                        "on_inactivity_timeout": {"enabled": None, "text": None},
+                        "on_max_duration_timeout": {"enabled": None, "text": None},
+                    },
+                    "timeouts": {
+                        "inactivity": {"enabled": None, "duration_secs": "integer"},
+                        "max_duration": {"enabled": None, "duration_secs": "integer"},
+                    },
                 }
             },
         ),
     }
-    response = client.empathic_voice.configs.list_config_versions(id="id")
+    response = client.empathic_voice.configs.list_config_versions(id="1b60e1a0-cc59-424a-8d2c-189d354db3f3")
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.empathic_voice.configs.list_config_versions(id="id")
+    async_response = await async_client.empathic_voice.configs.list_config_versions(
+        id="1b60e1a0-cc59-424a-8d2c-189d354db3f3"
+    )
     validate_response(async_response, expected_response, expected_types)
 
 
 async def test_create_config_version(client: HumeClient, async_client: AsyncHumeClient) -> None:
     expected_response: typing.Any = {
-        "id": "id",
+        "id": "1b60e1a0-cc59-424a-8d2c-189d354db3f3",
         "version": 1,
-        "version_description": "version_description",
-        "name": "name",
-        "created_on": 1000000,
-        "modified_on": 1000000,
+        "version_description": "This is an updated version of the Weather Assistant Config.",
+        "name": "Weather Assistant Config",
+        "created_on": 1715275452390,
+        "modified_on": 1722642242998,
         "prompt": {
-            "id": "id",
-            "version": 1,
+            "id": "af699d45-2985-42cc-91b9-af9e5da3bac5",
+            "version": 0,
             "version_type": "FIXED",
-            "version_description": "version_description",
-            "name": "name",
-            "created_on": 1000000,
-            "modified_on": 1000000,
-            "text": "text",
+            "version_description": "",
+            "name": "Weather Assistant Prompt",
+            "created_on": 1715267200693,
+            "modified_on": 1715267200693,
+            "text": "<role>You are an AI weather assistant providing users with accurate and up-to-date weather information. Respond to user queries concisely and clearly. Use simple language and avoid technical jargon. Provide temperature, precipitation, wind conditions, and any weather alerts. Include helpful tips if severe weather is expected.</role>",
         },
         "voice": {"provider": "HUME_AI", "name": "ITO"},
-        "language_model": {"model_provider": "OPEN_AI", "model_resource": "model_resource", "temperature": 1.1},
+        "language_model": {
+            "model_provider": "ANTHROPIC",
+            "model_resource": "claude-3-5-sonnet-20240620",
+            "temperature": 1,
+        },
         "ellm_model": {"allow_short_responses": True},
-        "tools": [
-            {
-                "tool_type": "BUILTIN",
-                "id": "id",
-                "version": 1,
-                "version_type": "FIXED",
-                "version_description": "version_description",
-                "name": "name",
-                "created_on": 1000000,
-                "modified_on": 1000000,
-                "fallback_content": "fallback_content",
-                "description": "description",
-                "parameters": "parameters",
-            }
-        ],
-        "builtin_tools": [{"tool_type": "BUILTIN", "name": "name", "fallback_content": "fallback_content"}],
+        "tools": [],
+        "builtin_tools": [],
         "event_messages": {
-            "on_new_chat": {"enabled": True, "text": "text"},
-            "on_inactivity_timeout": {"enabled": True, "text": "text"},
-            "on_max_duration_timeout": {"enabled": True, "text": "text"},
+            "on_new_chat": {"enabled": False, "text": ""},
+            "on_inactivity_timeout": {"enabled": False, "text": ""},
+            "on_max_duration_timeout": {"enabled": False, "text": ""},
         },
         "timeouts": {
-            "inactivity": {"enabled": True, "duration_secs": 1},
-            "max_duration": {"enabled": True, "duration_secs": 1},
+            "inactivity": {"enabled": True, "duration_secs": 600},
+            "max_duration": {"enabled": True, "duration_secs": 1800},
         },
     }
     expected_types: typing.Any = {
@@ -307,25 +360,8 @@ async def test_create_config_version(client: HumeClient, async_client: AsyncHume
         "voice": {"provider": None, "name": None},
         "language_model": {"model_provider": None, "model_resource": None, "temperature": None},
         "ellm_model": {"allow_short_responses": None},
-        "tools": (
-            "list",
-            {
-                0: {
-                    "tool_type": None,
-                    "id": None,
-                    "version": "integer",
-                    "version_type": None,
-                    "version_description": None,
-                    "name": None,
-                    "created_on": None,
-                    "modified_on": None,
-                    "fallback_content": None,
-                    "description": None,
-                    "parameters": None,
-                }
-            },
-        ),
-        "builtin_tools": ("list", {0: {"tool_type": None, "name": None, "fallback_content": None}}),
+        "tools": ("list", {}),
+        "builtin_tools": ("list", {}),
         "event_messages": {
             "on_new_chat": {"enabled": None, "text": None},
             "on_inactivity_timeout": {"enabled": None, "text": None},
@@ -336,75 +372,90 @@ async def test_create_config_version(client: HumeClient, async_client: AsyncHume
             "max_duration": {"enabled": None, "duration_secs": "integer"},
         },
     }
-    response = client.empathic_voice.configs.create_config_version(id="id")
+    response = client.empathic_voice.configs.create_config_version(
+        id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+        version_description="This is an updated version of the Weather Assistant Config.",
+        prompt=PostedPromptSpec(id="af699d45-2985-42cc-91b9-af9e5da3bac5", version=0),
+        voice=PostedVoice(name="ITO"),
+        language_model=PostedLanguageModel(
+            model_provider="ANTHROPIC", model_resource="claude-3-5-sonnet-20240620", temperature=1.0
+        ),
+        ellm_model=PostedEllmModel(allow_short_responses=True),
+        event_messages=PostedEventMessageSpecs(
+            on_new_chat=PostedEventMessageSpec(enabled=False, text=""),
+            on_inactivity_timeout=PostedEventMessageSpec(enabled=False, text=""),
+            on_max_duration_timeout=PostedEventMessageSpec(enabled=False, text=""),
+        ),
+    )
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.empathic_voice.configs.create_config_version(id="id")
+    async_response = await async_client.empathic_voice.configs.create_config_version(
+        id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+        version_description="This is an updated version of the Weather Assistant Config.",
+        prompt=PostedPromptSpec(id="af699d45-2985-42cc-91b9-af9e5da3bac5", version=0),
+        voice=PostedVoice(name="ITO"),
+        language_model=PostedLanguageModel(
+            model_provider="ANTHROPIC", model_resource="claude-3-5-sonnet-20240620", temperature=1.0
+        ),
+        ellm_model=PostedEllmModel(allow_short_responses=True),
+        event_messages=PostedEventMessageSpecs(
+            on_new_chat=PostedEventMessageSpec(enabled=False, text=""),
+            on_inactivity_timeout=PostedEventMessageSpec(enabled=False, text=""),
+            on_max_duration_timeout=PostedEventMessageSpec(enabled=False, text=""),
+        ),
+    )
     validate_response(async_response, expected_response, expected_types)
 
 
 async def test_delete_config(client: HumeClient, async_client: AsyncHumeClient) -> None:
     # Type ignore to avoid mypy complaining about the function not being meant to return a value
-    assert client.empathic_voice.configs.delete_config(id="id") is None  # type: ignore[func-returns-value]
+    assert client.empathic_voice.configs.delete_config(id="1b60e1a0-cc59-424a-8d2c-189d354db3f3") is None  # type: ignore[func-returns-value]
 
-    assert await async_client.empathic_voice.configs.delete_config(id="id") is None  # type: ignore[func-returns-value]
+    assert await async_client.empathic_voice.configs.delete_config(id="1b60e1a0-cc59-424a-8d2c-189d354db3f3") is None  # type: ignore[func-returns-value]
 
 
 async def test_update_config_name(client: HumeClient, async_client: AsyncHumeClient) -> None:
-    expected_response: typing.Any = "string"
-    expected_types: typing.Any = None
-    response = client.empathic_voice.configs.update_config_name(id="string", name="string")
-    validate_response(response, expected_response, expected_types)
+    # Type ignore to avoid mypy complaining about the function not being meant to return a value
+    assert client.empathic_voice.configs.update_config_name(id="1b60e1a0-cc59-424a-8d2c-189d354db3f3", name="Updated Weather Assistant Config Name") is None  # type: ignore[func-returns-value]
 
-    async_response = await async_client.empathic_voice.configs.update_config_name(id="string", name="string")
-    validate_response(async_response, expected_response, expected_types)
+    assert await async_client.empathic_voice.configs.update_config_name(id="1b60e1a0-cc59-424a-8d2c-189d354db3f3", name="Updated Weather Assistant Config Name") is None  # type: ignore[func-returns-value]
 
 
 async def test_get_config_version(client: HumeClient, async_client: AsyncHumeClient) -> None:
     expected_response: typing.Any = {
-        "id": "id",
+        "id": "1b60e1a0-cc59-424a-8d2c-189d354db3f3",
         "version": 1,
-        "version_description": "version_description",
-        "name": "name",
-        "created_on": 1000000,
-        "modified_on": 1000000,
+        "version_description": "",
+        "name": "Weather Assistant Config",
+        "created_on": 1715275452390,
+        "modified_on": 1715275452390,
         "prompt": {
-            "id": "id",
-            "version": 1,
+            "id": "af699d45-2985-42cc-91b9-af9e5da3bac5",
+            "version": 0,
             "version_type": "FIXED",
-            "version_description": "version_description",
-            "name": "name",
-            "created_on": 1000000,
-            "modified_on": 1000000,
-            "text": "text",
+            "version_description": "",
+            "name": "Weather Assistant Prompt",
+            "created_on": 1715267200693,
+            "modified_on": 1715267200693,
+            "text": "<role>You are an AI weather assistant providing users with accurate and up-to-date weather information. Respond to user queries concisely and clearly. Use simple language and avoid technical jargon. Provide temperature, precipitation, wind conditions, and any weather alerts. Include helpful tips if severe weather is expected.</role>",
         },
-        "voice": {"provider": "HUME_AI", "name": "ITO"},
-        "language_model": {"model_provider": "OPEN_AI", "model_resource": "model_resource", "temperature": 1.1},
-        "ellm_model": {"allow_short_responses": True},
-        "tools": [
-            {
-                "tool_type": "BUILTIN",
-                "id": "id",
-                "version": 1,
-                "version_type": "FIXED",
-                "version_description": "version_description",
-                "name": "name",
-                "created_on": 1000000,
-                "modified_on": 1000000,
-                "fallback_content": "fallback_content",
-                "description": "description",
-                "parameters": "parameters",
-            }
-        ],
-        "builtin_tools": [{"tool_type": "BUILTIN", "name": "name", "fallback_content": "fallback_content"}],
+        "voice": {"provider": "HUME_AI", "name": "KORA"},
+        "language_model": {
+            "model_provider": "ANTHROPIC",
+            "model_resource": "claude-3-5-sonnet-20240620",
+            "temperature": 1,
+        },
+        "ellm_model": {"allow_short_responses": False},
+        "tools": [],
+        "builtin_tools": [],
         "event_messages": {
-            "on_new_chat": {"enabled": True, "text": "text"},
-            "on_inactivity_timeout": {"enabled": True, "text": "text"},
-            "on_max_duration_timeout": {"enabled": True, "text": "text"},
+            "on_new_chat": {"enabled": False, "text": ""},
+            "on_inactivity_timeout": {"enabled": False, "text": ""},
+            "on_max_duration_timeout": {"enabled": False, "text": ""},
         },
         "timeouts": {
-            "inactivity": {"enabled": True, "duration_secs": 1},
-            "max_duration": {"enabled": True, "duration_secs": 1},
+            "inactivity": {"enabled": True, "duration_secs": 600},
+            "max_duration": {"enabled": True, "duration_secs": 1800},
         },
     }
     expected_types: typing.Any = {
@@ -427,25 +478,8 @@ async def test_get_config_version(client: HumeClient, async_client: AsyncHumeCli
         "voice": {"provider": None, "name": None},
         "language_model": {"model_provider": None, "model_resource": None, "temperature": None},
         "ellm_model": {"allow_short_responses": None},
-        "tools": (
-            "list",
-            {
-                0: {
-                    "tool_type": None,
-                    "id": None,
-                    "version": "integer",
-                    "version_type": None,
-                    "version_description": None,
-                    "name": None,
-                    "created_on": None,
-                    "modified_on": None,
-                    "fallback_content": None,
-                    "description": None,
-                    "parameters": None,
-                }
-            },
-        ),
-        "builtin_tools": ("list", {0: {"tool_type": None, "name": None, "fallback_content": None}}),
+        "tools": ("list", {}),
+        "builtin_tools": ("list", {}),
         "event_messages": {
             "on_new_chat": {"enabled": None, "text": None},
             "on_inactivity_timeout": {"enabled": None, "text": None},
@@ -456,65 +490,57 @@ async def test_get_config_version(client: HumeClient, async_client: AsyncHumeCli
             "max_duration": {"enabled": None, "duration_secs": "integer"},
         },
     }
-    response = client.empathic_voice.configs.get_config_version(id="id", version=1)
+    response = client.empathic_voice.configs.get_config_version(id="1b60e1a0-cc59-424a-8d2c-189d354db3f3", version=1)
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.empathic_voice.configs.get_config_version(id="id", version=1)
+    async_response = await async_client.empathic_voice.configs.get_config_version(
+        id="1b60e1a0-cc59-424a-8d2c-189d354db3f3", version=1
+    )
     validate_response(async_response, expected_response, expected_types)
 
 
 async def test_delete_config_version(client: HumeClient, async_client: AsyncHumeClient) -> None:
     # Type ignore to avoid mypy complaining about the function not being meant to return a value
-    assert client.empathic_voice.configs.delete_config_version(id="id", version=1) is None  # type: ignore[func-returns-value]
+    assert client.empathic_voice.configs.delete_config_version(id="1b60e1a0-cc59-424a-8d2c-189d354db3f3", version=1) is None  # type: ignore[func-returns-value]
 
-    assert await async_client.empathic_voice.configs.delete_config_version(id="id", version=1) is None  # type: ignore[func-returns-value]
+    assert await async_client.empathic_voice.configs.delete_config_version(id="1b60e1a0-cc59-424a-8d2c-189d354db3f3", version=1) is None  # type: ignore[func-returns-value]
 
 
 async def test_update_config_description(client: HumeClient, async_client: AsyncHumeClient) -> None:
     expected_response: typing.Any = {
-        "id": "id",
+        "id": "1b60e1a0-cc59-424a-8d2c-189d354db3f3",
         "version": 1,
-        "version_description": "version_description",
-        "name": "name",
-        "created_on": 1000000,
-        "modified_on": 1000000,
+        "version_description": "This is an updated version_description.",
+        "name": "Weather Assistant Config",
+        "created_on": 1715275452390,
+        "modified_on": 1715275452390,
         "prompt": {
-            "id": "id",
-            "version": 1,
+            "id": "af699d45-2985-42cc-91b9-af9e5da3bac5",
+            "version": 0,
             "version_type": "FIXED",
-            "version_description": "version_description",
-            "name": "name",
-            "created_on": 1000000,
-            "modified_on": 1000000,
-            "text": "text",
+            "version_description": "",
+            "name": "Weather Assistant Prompt",
+            "created_on": 1715267200693,
+            "modified_on": 1715267200693,
+            "text": "<role>You are an AI weather assistant providing users with accurate and up-to-date weather information. Respond to user queries concisely and clearly. Use simple language and avoid technical jargon. Provide temperature, precipitation, wind conditions, and any weather alerts. Include helpful tips if severe weather is expected.</role>",
         },
-        "voice": {"provider": "HUME_AI", "name": "ITO"},
-        "language_model": {"model_provider": "OPEN_AI", "model_resource": "model_resource", "temperature": 1.1},
-        "ellm_model": {"allow_short_responses": True},
-        "tools": [
-            {
-                "tool_type": "BUILTIN",
-                "id": "id",
-                "version": 1,
-                "version_type": "FIXED",
-                "version_description": "version_description",
-                "name": "name",
-                "created_on": 1000000,
-                "modified_on": 1000000,
-                "fallback_content": "fallback_content",
-                "description": "description",
-                "parameters": "parameters",
-            }
-        ],
-        "builtin_tools": [{"tool_type": "BUILTIN", "name": "name", "fallback_content": "fallback_content"}],
+        "voice": {"provider": "HUME_AI", "name": "KORA"},
+        "language_model": {
+            "model_provider": "ANTHROPIC",
+            "model_resource": "claude-3-5-sonnet-20240620",
+            "temperature": 1,
+        },
+        "ellm_model": {"allow_short_responses": False},
+        "tools": [],
+        "builtin_tools": [],
         "event_messages": {
-            "on_new_chat": {"enabled": True, "text": "text"},
-            "on_inactivity_timeout": {"enabled": True, "text": "text"},
-            "on_max_duration_timeout": {"enabled": True, "text": "text"},
+            "on_new_chat": {"enabled": False, "text": ""},
+            "on_inactivity_timeout": {"enabled": False, "text": ""},
+            "on_max_duration_timeout": {"enabled": False, "text": ""},
         },
         "timeouts": {
-            "inactivity": {"enabled": True, "duration_secs": 1},
-            "max_duration": {"enabled": True, "duration_secs": 1},
+            "inactivity": {"enabled": True, "duration_secs": 600},
+            "max_duration": {"enabled": True, "duration_secs": 1800},
         },
     }
     expected_types: typing.Any = {
@@ -537,25 +563,8 @@ async def test_update_config_description(client: HumeClient, async_client: Async
         "voice": {"provider": None, "name": None},
         "language_model": {"model_provider": None, "model_resource": None, "temperature": None},
         "ellm_model": {"allow_short_responses": None},
-        "tools": (
-            "list",
-            {
-                0: {
-                    "tool_type": None,
-                    "id": None,
-                    "version": "integer",
-                    "version_type": None,
-                    "version_description": None,
-                    "name": None,
-                    "created_on": None,
-                    "modified_on": None,
-                    "fallback_content": None,
-                    "description": None,
-                    "parameters": None,
-                }
-            },
-        ),
-        "builtin_tools": ("list", {0: {"tool_type": None, "name": None, "fallback_content": None}}),
+        "tools": ("list", {}),
+        "builtin_tools": ("list", {}),
         "event_messages": {
             "on_new_chat": {"enabled": None, "text": None},
             "on_inactivity_timeout": {"enabled": None, "text": None},
@@ -566,8 +575,16 @@ async def test_update_config_description(client: HumeClient, async_client: Async
             "max_duration": {"enabled": None, "duration_secs": "integer"},
         },
     }
-    response = client.empathic_voice.configs.update_config_description(id="id", version=1)
+    response = client.empathic_voice.configs.update_config_description(
+        id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+        version=1,
+        version_description="This is an updated version_description.",
+    )
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.empathic_voice.configs.update_config_description(id="id", version=1)
+    async_response = await async_client.empathic_voice.configs.update_config_description(
+        id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+        version=1,
+        version_description="This is an updated version_description.",
+    )
     validate_response(async_response, expected_response, expected_types)

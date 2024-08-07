@@ -58,7 +58,11 @@ class ChatsClient:
         client = HumeClient(
             api_key="YOUR_API_KEY",
         )
-        response = client.empathic_voice.chats.list_chats()
+        response = client.empathic_voice.chats.list_chats(
+            page_number=0,
+            page_size=1,
+            ascending_order=True,
+        )
         for item in response:
             yield item
         # alternatively, you can paginate page-by-page
@@ -133,7 +137,10 @@ class ChatsClient:
             api_key="YOUR_API_KEY",
         )
         response = client.empathic_voice.chats.list_chat_events(
-            id="id",
+            id="470a49f6-1dec-4afe-8b61-035d3b2d63b0",
+            page_number=0,
+            page_size=3,
+            ascending_order=True,
         )
         for item in response:
             yield item
@@ -215,7 +222,11 @@ class AsyncChatsClient:
 
 
         async def main() -> None:
-            response = await client.empathic_voice.chats.list_chats()
+            response = await client.empathic_voice.chats.list_chats(
+                page_number=0,
+                page_size=1,
+                ascending_order=True,
+            )
             async for item in response:
                 yield item
             # alternatively, you can paginate page-by-page
@@ -298,7 +309,10 @@ class AsyncChatsClient:
 
         async def main() -> None:
             response = await client.empathic_voice.chats.list_chat_events(
-                id="id",
+                id="470a49f6-1dec-4afe-8b61-035d3b2d63b0",
+                page_number=0,
+                page_size=3,
+                ascending_order=True,
             )
             async for item in response:
                 yield item

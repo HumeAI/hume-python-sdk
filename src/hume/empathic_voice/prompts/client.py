@@ -63,7 +63,10 @@ class PromptsClient:
         client = HumeClient(
             api_key="YOUR_API_KEY",
         )
-        response = client.empathic_voice.prompts.list_prompts()
+        response = client.empathic_voice.prompts.list_prompts(
+            page_number=0,
+            page_size=2,
+        )
         for item in response:
             yield item
         # alternatively, you can paginate page-by-page
@@ -140,8 +143,8 @@ class PromptsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.prompts.create_prompt(
-            name="name",
-            text="text",
+            name="Weather Assistant Prompt",
+            text="<role>You are an AI weather assistant providing users with accurate and up-to-date weather information. Respond to user queries concisely and clearly. Use simple language and avoid technical jargon. Provide temperature, precipitation, wind conditions, and any weather alerts. Include helpful tips if severe weather is expected.</role>",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -203,7 +206,7 @@ class PromptsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.prompts.list_prompt_versions(
-            id="id",
+            id="af699d45-2985-42cc-91b9-af9e5da3bac5",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -264,8 +267,9 @@ class PromptsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.prompts.create_prompt_verison(
-            id="id",
-            text="text",
+            id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+            text="<role>You are an updated version of an AI weather assistant providing users with accurate and up-to-date weather information. Respond to user queries concisely and clearly. Use simple language and avoid technical jargon. Provide temperature, precipitation, wind conditions, and any weather alerts. Include helpful tips if severe weather is expected.</role>",
+            version_description="This is an updated version of the Weather Assistant Prompt.",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -305,7 +309,7 @@ class PromptsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.prompts.delete_prompt(
-            id="id",
+            id="af699d45-2985-42cc-91b9-af9e5da3bac5",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -345,8 +349,8 @@ class PromptsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.prompts.update_prompt_name(
-            id="string",
-            name="string",
+            id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+            name="Updated Weather Assistant Prompt Name",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -396,8 +400,8 @@ class PromptsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.prompts.get_prompt_version(
-            id="id",
-            version=1,
+            id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+            version=0,
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -444,7 +448,7 @@ class PromptsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.prompts.delete_prompt_version(
-            id="id",
+            id="af699d45-2985-42cc-91b9-af9e5da3bac5",
             version=1,
         )
         """
@@ -501,8 +505,9 @@ class PromptsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.prompts.update_prompt_description(
-            id="id",
+            id="af699d45-2985-42cc-91b9-af9e5da3bac5",
             version=1,
+            version_description="This is an updated version_description.",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -573,7 +578,10 @@ class AsyncPromptsClient:
 
 
         async def main() -> None:
-            response = await client.empathic_voice.prompts.list_prompts()
+            response = await client.empathic_voice.prompts.list_prompts(
+                page_number=0,
+                page_size=2,
+            )
             async for item in response:
                 yield item
             # alternatively, you can paginate page-by-page
@@ -658,8 +666,8 @@ class AsyncPromptsClient:
 
         async def main() -> None:
             await client.empathic_voice.prompts.create_prompt(
-                name="name",
-                text="text",
+                name="Weather Assistant Prompt",
+                text="<role>You are an AI weather assistant providing users with accurate and up-to-date weather information. Respond to user queries concisely and clearly. Use simple language and avoid technical jargon. Provide temperature, precipitation, wind conditions, and any weather alerts. Include helpful tips if severe weather is expected.</role>",
             )
 
 
@@ -729,7 +737,7 @@ class AsyncPromptsClient:
 
         async def main() -> None:
             await client.empathic_voice.prompts.list_prompt_versions(
-                id="id",
+                id="af699d45-2985-42cc-91b9-af9e5da3bac5",
             )
 
 
@@ -798,8 +806,9 @@ class AsyncPromptsClient:
 
         async def main() -> None:
             await client.empathic_voice.prompts.create_prompt_verison(
-                id="id",
-                text="text",
+                id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+                text="<role>You are an updated version of an AI weather assistant providing users with accurate and up-to-date weather information. Respond to user queries concisely and clearly. Use simple language and avoid technical jargon. Provide temperature, precipitation, wind conditions, and any weather alerts. Include helpful tips if severe weather is expected.</role>",
+                version_description="This is an updated version of the Weather Assistant Prompt.",
             )
 
 
@@ -847,7 +856,7 @@ class AsyncPromptsClient:
 
         async def main() -> None:
             await client.empathic_voice.prompts.delete_prompt(
-                id="id",
+                id="af699d45-2985-42cc-91b9-af9e5da3bac5",
             )
 
 
@@ -897,8 +906,8 @@ class AsyncPromptsClient:
 
         async def main() -> None:
             await client.empathic_voice.prompts.update_prompt_name(
-                id="string",
-                name="string",
+                id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+                name="Updated Weather Assistant Prompt Name",
             )
 
 
@@ -956,8 +965,8 @@ class AsyncPromptsClient:
 
         async def main() -> None:
             await client.empathic_voice.prompts.get_prompt_version(
-                id="id",
-                version=1,
+                id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+                version=0,
             )
 
 
@@ -1012,7 +1021,7 @@ class AsyncPromptsClient:
 
         async def main() -> None:
             await client.empathic_voice.prompts.delete_prompt_version(
-                id="id",
+                id="af699d45-2985-42cc-91b9-af9e5da3bac5",
                 version=1,
             )
 
@@ -1077,8 +1086,9 @@ class AsyncPromptsClient:
 
         async def main() -> None:
             await client.empathic_voice.prompts.update_prompt_description(
-                id="id",
+                id="af699d45-2985-42cc-91b9-af9e5da3bac5",
                 version=1,
+                version_description="This is an updated version_description.",
             )
 
 
