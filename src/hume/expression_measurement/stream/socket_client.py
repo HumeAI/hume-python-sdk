@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 import json
 from pathlib import Path
 import typing
+import uuid
 import websockets
 import websockets.protocol
 
@@ -14,13 +15,26 @@ from ...core.pydantic_utilities import pydantic_v1
 from ...core.client_wrapper import AsyncClientWrapper
 
 
-class StreamConnectOptions(pydantic_v1.BaseModel):
-    config: typing.Optional[StreamDataModels] = None
+class StreamConnectOptions(typing.TypedDict, total=False):
+    api_key: typing.Optional[str]
+
+    config: typing.Optional[StreamDataModels]
     """
-    Job config
+    Configuration used to specify which models should be used and with what settings.
     """
 
-    api_key: typing.Optional[str] = None
+    stream_window_ms: typing.Optional[float]
+    """
+    Length in milliseconds of streaming sliding window.
+    
+    Extending the length of this window will prepend media context from past payloads into the current payload.
+    
+    For example, if on the first payload you send 500ms of data and on the second payload you send an additional 500ms of data, a window of at least 1000ms will allow the model to process all 1000ms of stream data.
+    
+    A window of 600ms would append the full 500ms of the second payload to the last 100ms of the first payload.
+    
+    Note: This feature is currently only supported for audio data and audio models. For other file types and models this parameter will be ignored.
+    """
 
 
 class StreamWebsocketConnection:
@@ -28,11 +42,12 @@ class StreamWebsocketConnection:
         self,
         *,
         websocket: websockets.WebSocketClientProtocol,
-        params: typing.Optional[StreamConnectOptions] = None
+        params: typing.Optional[StreamConnectOptions] = None,
+        stream_window_ms: typing.Optional[float] = None,
     ):
-        super().__init__()
         self.websocket = websocket
         self.params = params
+        self.stream_window_ms = stream_window_ms
 
     async def __aiter__(self):
         async for message in self.websocket:
@@ -55,15 +70,19 @@ class StreamWebsocketConnection:
     ) -> SubscribeEvent:
         if config != None:
             if self.params is not None:
-                self.params.config = config
+                self.params["config"] = config
             else:
                 self.params = StreamConnectOptions(
                     config=config
                 )
 
-        to_send = {"data": data, "raw_text": raw_text}
-        if self.params is not None and self.params.config is not None:
-            to_send["models"] = self.params.config.dict()
+        to_send = {"payload_id": uuid.uuid4(), "data": data, "raw_text": raw_text}
+        if self.params is not None:
+            config = self.params.get("config")
+            if config is not None:
+                to_send["models"] = config.dict()
+        if self.stream_window_ms is not None:
+            to_send["stream_window_ms"] = self.stream_window_ms
 
         return await self._send(to_send)
 

@@ -6,6 +6,7 @@ import pytest
 
 from hume.client import AsyncHumeClient, HumeClient
 
+
 from ..utilities import validate_response
 
 

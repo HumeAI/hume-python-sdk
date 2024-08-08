@@ -29,20 +29,20 @@ from ...core.client_wrapper import AsyncClientWrapper
 from ...core.api_error import ApiError
 
 
-class ChatConnectOptions(pydantic_v1.BaseModel):
-    config_id: typing.Optional[str] = None
+class ChatConnectOptions(typing.TypedDict, total=False):
+    config_id: typing.Optional[str]
     """
     The ID of the configuration.
     """
 
-    config_version: typing.Optional[str] = None
+    config_version: typing.Optional[str]
     """
     The version of the configuration.
     """
 
-    api_key: typing.Optional[str] = None
+    api_key: typing.Optional[str]
 
-    secret_key: typing.Optional[str] = None
+    secret_key: typing.Optional[str]
 
 
 class ChatWebsocketConnection:
@@ -53,11 +53,8 @@ class ChatWebsocketConnection:
         self,
         *,
         websocket: websockets.WebSocketClientProtocol,
-        params: typing.Optional[ChatConnectOptions] = None,
     ):
-        super().__init__()
         self.websocket = websocket
-        self.params = params
 
         self._num_channels = self.DEFAULT_NUM_CHANNELS
         self._sample_rate = self.DEFAULT_SAMPLE_RATE
@@ -194,24 +191,24 @@ class AsyncChatClientWithWebsocket:
     async def _construct_ws_uri(self, options: typing.Optional[ChatConnectOptions]):
         query_params = httpx.QueryParams()
 
-        api_key = (
-            options.api_key
-            if options is not None and options.api_key is not None
-            else self.client_wrapper.api_key
-        )
-
+        api_key = self.client_wrapper.api_key
         if options is not None:
-            if options.config_id is not None:
-                query_params = query_params.add("config_id", options.config_id)
-            if options.config_version is not None:
+            maybe_api_key = options.get("api_key")
+            if maybe_api_key is not None:
+                api_key = maybe_api_key
+            maybe_config_id = options.get("config_id")
+            if maybe_config_id is not None:
+                query_params = query_params.add("config_id", maybe_config_id)
+            maybe_config_version = options.get("config_version")
+            if maybe_config_version is not None:
                 query_params = query_params.add(
-                    "config_version", options.config_version
+                    "config_version", maybe_config_version
                 )
-
-            if options.secret_key is not None and api_key is not None:
+            maybe_secret_key = options.get("secret_key")
+            if maybe_secret_key is not None and api_key is not None:
                 query_params = query_params.add(
                     "accessToken",
-                    await self._fetch_access_token(options.secret_key, api_key),
+                    await self._fetch_access_token(maybe_secret_key, api_key),
                 )
             elif api_key is not None:
                 query_params = query_params.add("apiKey", api_key)
@@ -232,7 +229,7 @@ class AsyncChatClientWithWebsocket:
                 extra_headers=self.client_wrapper.get_headers(include_auth=False),
                 max_size=self.DEFAULT_MAX_PAYLOAD_SIZE_BYTES,
             ) as protocol:
-                yield ChatWebsocketConnection(websocket=protocol, params=options)
+                yield ChatWebsocketConnection(websocket=protocol)
         except websockets.exceptions.InvalidStatusCode as exc:
             status_code: int = exc.status_code
             if status_code == 401:
@@ -325,7 +322,7 @@ class AsyncChatClientWithWebsocket:
                 max_size=self.DEFAULT_MAX_PAYLOAD_SIZE_BYTES,
             ) as protocol:
                 await self._wrap_on_open_close(on_open)
-                connection = ChatWebsocketConnection(websocket=protocol, params=options)
+                connection = ChatWebsocketConnection(websocket=protocol)
                 background_task = asyncio.create_task(
                     self._process_connection(connection, on_message, on_error)
                 )

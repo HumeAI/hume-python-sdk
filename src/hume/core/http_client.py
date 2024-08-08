@@ -219,8 +219,8 @@ class HttpClient:
                     )
                 )
             ),
-            json=json_body,
-            data=data_body,
+            json=json_body if json_body != {} else None,
+            data=data_body if data_body != {} else None,
             content=content,
             files=convert_file_dict_to_httpx_tuples(remove_none_from_dict(files)) if files is not None else None,
             timeout=timeout,
@@ -301,8 +301,8 @@ class HttpClient:
                     )
                 )
             ),
-            json=json_body,
-            data=data_body,
+            json=json_body if json_body != {} else None,
+            data=data_body if data_body != {} else None,
             content=content,
             files=convert_file_dict_to_httpx_tuples(remove_none_from_dict(files)) if files is not None else None,
             timeout=timeout,
@@ -353,7 +353,7 @@ class AsyncHttpClient:
             else self.base_timeout
         )
 
-        json_body, data_body = get_request_body(json=json, data=data, request_options=request_options, omit=omit)
+        json_body, data_body = get_request_body(json=json, data=data, request_options=request_options, omit=omit)        
 
         # Add the input to each of these and do None-safety checks
         response = await self.httpx_client.request(
@@ -385,8 +385,8 @@ class AsyncHttpClient:
                     )
                 )
             ),
-            json=json_body,
-            data=data_body,
+            json=json_body if json_body != {} else None,
+            data=data_body if data_body != {} else None,
             content=content,
             files=convert_file_dict_to_httpx_tuples(remove_none_from_dict(files)) if files is not None else None,
             timeout=timeout,
@@ -466,8 +466,8 @@ class AsyncHttpClient:
                     )
                 )
             ),
-            json=json_body,
-            data=data_body,
+            json=json_body if json_body != {} else None,
+            data=data_body if data_body != {} else None,
             content=content,
             files=convert_file_dict_to_httpx_tuples(remove_none_from_dict(files)) if files is not None else None,
             timeout=timeout,

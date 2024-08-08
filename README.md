@@ -58,6 +58,22 @@ async def main() -> None:
 asyncio.run(main())
 ```
 
+### Writing File
+
+Writing files with an async stream of bytes can be tricky in Python! `aiofiles` can simplify this some. For example,
+you can download your job artifacts like so:
+
+```python
+import aiofiles
+
+from hume import AsyncHumeClient
+
+client = AsyncHumeClient()
+async with aiofiles.open('artifacts.zip', mode='wb') as file:
+    async for chunk in client.expression_measurement.batch.get_job_artifacts(id="my-job-id"):
+        await file.write(chunk)
+```
+
 ## Legacy SDK
 
 If you want to continue using the legacy SDKs, simply import them from
@@ -147,12 +163,12 @@ We expose a websocket client for interacting with the EVI API as well as Express
 When interacting with these clients, you can use them very similarly to how you'd use the common `websockets` library:
 
 ```python
-from hume import StreamConnectOptions
+from hume import StreamDataModels
 
 client = AsyncHumeClient(api_key=os.getenv("HUME_API_KEY"))
 
 async with client.expression_measurement.stream.connect(
-    options=StreamConnectOptions(config=StreamDataModels())
+    options={"config": StreamDataModels(...)}
 ) as hume_socket:
     print(await hume_socket.get_job_details())
 ```
