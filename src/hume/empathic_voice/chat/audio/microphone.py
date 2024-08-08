@@ -49,9 +49,7 @@ class Microphone:
             device (int | None): Input device ID.
         """
         if not HAS_AUDIO_DEPENDENCIES:
-            raise ApiError(
-                'Run `pip install "hume[microphone]"` to install dependencies required to use microphone playback.'
-            )
+            raise ApiError(body='Run `pip install "hume[microphone]"` to install dependencies required to use microphone playback.')
 
         if device is None:
             device = sounddevice.default.device[0]
