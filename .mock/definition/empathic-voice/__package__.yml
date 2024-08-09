@@ -2263,6 +2263,7 @@ types:
   JsonMessage:
     discriminated: false
     union:
+      - AssistantEnd
       - AssistantMessage
       - ChatMetadata
       - WebSocketError

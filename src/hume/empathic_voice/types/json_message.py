@@ -2,6 +2,7 @@
 
 import typing
 
+from .assistant_end import AssistantEnd
 from .assistant_message import AssistantMessage
 from .chat_metadata import ChatMetadata
 from .tool_call_message import ToolCallMessage
@@ -12,6 +13,7 @@ from .user_message import UserMessage
 from .web_socket_error import WebSocketError
 
 JsonMessage = typing.Union[
+    AssistantEnd,
     AssistantMessage,
     ChatMetadata,
     WebSocketError,
