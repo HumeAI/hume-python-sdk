@@ -21,6 +21,7 @@ src/hume/expression_measurement/socket_client.py
 src/hume/expression_measurement/stream/socket_client.py
 src/hume/empathic_voice/socket_client.py
 src/hume/empathic_voice/chat/socket_client.py
+src/hume/expression_measurement/batch/client_with_utils.py
 
 # Customize the GitHub workflow to run only Fern tests (not legacy)
 
