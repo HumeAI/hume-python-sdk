@@ -195,7 +195,7 @@ class AsyncStreamClientWithWebsocket:
     async def connect(
         self, options: typing.Optional[StreamConnectOptions] = None
     ) -> typing.AsyncIterator[StreamWebsocketConnection]:
-        api_key = options.api_key if options is not None and options.api_key else self.client_wrapper.api_key
+        api_key = options.get("api_key") if options is not None and options.get("api_key") else self.client_wrapper.api_key
         if api_key is None:
             raise ValueError("An API key is required to connect to the streaming API.")
         

@@ -49,6 +49,9 @@ packages = [
     { include = "hume", from = "src"}
 ]
 
+[tool.poetry.group.dev.dependencies]
+aiofiles = "^24.1.0"
+
 [project.urls]
 Documentation = 'hhttps://dev.hume.ai/reference'
 Homepage = 'https://www.hume.ai/'
