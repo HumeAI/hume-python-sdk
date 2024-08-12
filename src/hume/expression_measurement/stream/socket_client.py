@@ -23,20 +23,6 @@ class StreamConnectOptions(typing.TypedDict, total=False):
     Configuration used to specify which models should be used and with what settings.
     """
 
-    stream_window_ms: typing.Optional[float]
-    """
-    Length in milliseconds of streaming sliding window.
-    
-    Extending the length of this window will prepend media context from past payloads into the current payload.
-    
-    For example, if on the first payload you send 500ms of data and on the second payload you send an additional 500ms of data, a window of at least 1000ms will allow the model to process all 1000ms of stream data.
-    
-    A window of 600ms would append the full 500ms of the second payload to the last 100ms of the first payload.
-    
-    Note: This feature is currently only supported for audio data and audio models. For other file types and models this parameter will be ignored.
-    """
-
-
 class StreamWebsocketConnection:
     def __init__(
         self,
@@ -193,7 +179,7 @@ class AsyncStreamClientWithWebsocket:
 
     @asynccontextmanager
     async def connect(
-        self, options: typing.Optional[StreamConnectOptions] = None
+        self, options: typing.Optional[StreamConnectOptions] = None, stream_window_ms: typing.Optional[float] = None
     ) -> typing.AsyncIterator[StreamWebsocketConnection]:
         api_key = options.get("api_key") if options is not None and options.get("api_key") else self.client_wrapper.api_key
         if api_key is None:
@@ -207,7 +193,7 @@ class AsyncStreamClientWithWebsocket:
                     "X-Hume-Api-Key": api_key,
                 },
             ) as protocol:
-                yield StreamWebsocketConnection(websocket=protocol, params=options)
+                yield StreamWebsocketConnection(websocket=protocol, params=options, stream_window_ms=stream_window_ms)
         except websockets.exceptions.InvalidStatusCode as exc:
             status_code: int = exc.status_code
             if status_code == 401:
