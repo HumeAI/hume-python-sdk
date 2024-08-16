@@ -24,6 +24,7 @@ from .json_message import JsonMessage
 from .millisecond_interval import MillisecondInterval
 from .pause_assistant_message import PauseAssistantMessage
 from .posted_builtin_tool import PostedBuiltinTool
+from .posted_builtin_tool_name import PostedBuiltinToolName
 from .posted_custom_voice import PostedCustomVoice
 from .posted_custom_voice_name import PostedCustomVoiceName
 from .posted_ellm_model import PostedEllmModel
@@ -125,6 +126,7 @@ __all__ = [
     "MillisecondInterval",
     "PauseAssistantMessage",
     "PostedBuiltinTool",
+    "PostedBuiltinToolName",
     "PostedCustomVoice",
     "PostedCustomVoiceName",
     "PostedEllmModel",

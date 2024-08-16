@@ -5,6 +5,7 @@ import typing
 
 from ...core.datetime_utils import serialize_datetime
 from ...core.pydantic_utilities import deep_union_pydantic_dicts, pydantic_v1
+from .posted_builtin_tool_name import PostedBuiltinToolName
 
 
 class PostedBuiltinTool(pydantic_v1.BaseModel):
@@ -12,9 +13,14 @@ class PostedBuiltinTool(pydantic_v1.BaseModel):
     A configuration of a built-in tool to be posted to the server
     """
 
-    name: str = pydantic_v1.Field()
+    name: PostedBuiltinToolName = pydantic_v1.Field()
     """
-    Name applied to all versions of a particular Tool.
+    Name of the built-in tool to use. Hume supports the following built-in tools:
+    
+    - **web_search:** enables EVI to search the web for up-to-date information when applicable.
+    - **hang_up:** closes the WebSocket connection when appropriate (e.g., after detecting a farewell in the conversation).
+    
+    For more information, see our guide on [using built-in tools](/docs/empathic-voice-interface-evi/tool-use#using-built-in-tools).
     """
 
     fallback_content: typing.Optional[str] = pydantic_v1.Field(default=None)
