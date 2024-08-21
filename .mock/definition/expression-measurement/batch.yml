@@ -364,3 +364,5 @@ service:
           response:
             body:
               job_id: job_id
+  source:
+    openapi: ../expression-measurement/batch-files-openapi.yml

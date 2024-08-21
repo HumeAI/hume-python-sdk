@@ -443,3 +443,5 @@ service:
                 technical jargon. Provide temperature, precipitation, wind
                 conditions, and any weather alerts. Include helpful tips if
                 severe weather is expected.</role>
+  source:
+    openapi: ../empathic-voice-interface/stenographer-openapi.json

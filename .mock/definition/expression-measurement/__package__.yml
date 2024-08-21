@@ -40,6 +40,8 @@ types:
       - ta
       - tr
       - uk
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   BoundingBox:
     docs: A bounding box around a face.
     properties:
@@ -63,6 +65,8 @@ types:
         docs: Bounding box height.
         validation:
           min: 0
+    source:
+      openapi: ../expression-measurement/streaming-asyncapi.yml
   BurstPrediction:
     properties:
       time: TimeInterval
@@ -72,6 +76,8 @@ types:
       descriptions:
         docs: Modality-specific descriptive features and their scores.
         type: list<DescriptionsScore>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   Classification: map<string, unknown>
   CompletedEmbeddingGeneration:
     properties:
@@ -84,6 +90,8 @@ types:
       ended_timestamp_ms:
         type: long
         docs: When this job ended (Unix timestamp in milliseconds).
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   CompletedInference:
     properties:
       created_timestamp_ms:
@@ -101,6 +109,8 @@ types:
       num_errors:
         type: uint64
         docs: The number of errors that occurred while running this job.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   CompletedTlInference:
     properties:
       created_timestamp_ms:
@@ -118,6 +128,8 @@ types:
       num_errors:
         type: uint64
         docs: The number of errors that occurred while running this job.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   CompletedTraining:
     properties:
       created_timestamp_ms:
@@ -131,33 +143,45 @@ types:
         docs: When this job ended (Unix timestamp in milliseconds).
       custom_model: TrainingCustomModel
       alternatives: optional<map<string, TrainingCustomModel>>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   CustomModelPrediction:
     properties:
       output: map<string, double>
       error: string
       task_type: string
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   CustomModelRequest:
     properties:
       name: string
       description: optional<string>
       tags: optional<list<Tag>>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   Dataset:
     discriminated: false
     union:
       - DatasetId
       - DatasetVersionId
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   DatasetId:
     properties:
       id:
         type: string
         validation:
           format: uuid
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   DatasetVersionId:
     properties:
       version_id:
         type: string
         validation:
           format: uuid
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   DescriptionsScore:
     properties:
       name:
@@ -166,15 +190,21 @@ types:
       score:
         type: string
         docs: Embedding value for the descriptive feature being expressed.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   Direction:
     enum:
       - asc
       - desc
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   EmbeddingGenerationBaseRequest:
     properties:
       registry_file_details:
         type: optional<list<RegistryFileDetail>>
         docs: File ID and File URL pairs for an asset registry file
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   EmotionScore:
     properties:
       name:
@@ -183,6 +213,8 @@ types:
       score:
         type: double
         docs: Embedding value for the emotion being expressed.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   Error:
     properties:
       message:
@@ -191,9 +223,13 @@ types:
       file:
         type: string
         docs: A file path relative to the top level source URL or file.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   EvaluationArgs:
     properties:
       validation: optional<ValidationArgs>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   Face:
     docs: >-
       The Facial Emotional Expression model analyzes human facial expressions in
@@ -240,6 +276,8 @@ types:
           Whether to extract and save the detected faces in the artifacts zip
           created by each job.
         default: false
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   FacePrediction:
     properties:
       frame:
@@ -261,11 +299,15 @@ types:
       descriptions:
         type: optional<list<DescriptionsScore>>
         docs: Modality-specific descriptive features and their scores.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   FacemeshPrediction:
     properties:
       emotions:
         docs: A high-dimensional embedding in emotion space.
         type: list<EmotionScore>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   FacsScore:
     properties:
       name:
@@ -274,6 +316,8 @@ types:
       score:
         type: string
         docs: Embedding value for the FACS 2.0 feature being expressed.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   Failed:
     properties:
       created_timestamp_ms:
@@ -288,6 +332,8 @@ types:
       message:
         type: string
         docs: An error message.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   File:
     docs: The list of files submitted for analysis.
     properties:
@@ -300,6 +346,8 @@ types:
       md5sum:
         type: string
         docs: The MD5 checksum of the file.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   Granularity:
     enum:
       - word
@@ -336,6 +384,8 @@ types:
       multi-participant dialogue. For text inputs, specifying conversational
       turn-level granularity for our Emotional Language model will produce
       results for the entire passage.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   GroupedPredictionsBurstPrediction:
     properties:
       id:
@@ -345,6 +395,8 @@ types:
           file. Will be `unknown` if you have chosen to disable identification,
           or if the model is unable to distinguish between individuals.
       predictions: list<BurstPrediction>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   GroupedPredictionsFacePrediction:
     properties:
       id:
@@ -354,6 +406,8 @@ types:
           file. Will be `unknown` if you have chosen to disable identification,
           or if the model is unable to distinguish between individuals.
       predictions: list<FacePrediction>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   GroupedPredictionsFacemeshPrediction:
     properties:
       id:
@@ -363,6 +417,8 @@ types:
           file. Will be `unknown` if you have chosen to disable identification,
           or if the model is unable to distinguish between individuals.
       predictions: list<FacemeshPrediction>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   GroupedPredictionsLanguagePrediction:
     properties:
       id:
@@ -372,6 +428,8 @@ types:
           file. Will be `unknown` if you have chosen to disable identification,
           or if the model is unable to distinguish between individuals.
       predictions: list<LanguagePrediction>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   GroupedPredictionsNerPrediction:
     properties:
       id:
@@ -381,6 +439,8 @@ types:
           file. Will be `unknown` if you have chosen to disable identification,
           or if the model is unable to distinguish between individuals.
       predictions: list<NerPrediction>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   GroupedPredictionsProsodyPrediction:
     properties:
       id:
@@ -390,6 +450,8 @@ types:
           file. Will be `unknown` if you have chosen to disable identification,
           or if the model is unable to distinguish between individuals.
       predictions: list<ProsodyPrediction>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   InProgress:
     properties:
       created_timestamp_ms:
@@ -398,6 +460,8 @@ types:
       started_timestamp_ms:
         type: long
         docs: When this job started (Unix timestamp in milliseconds).
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   InferenceBaseRequest:
     properties:
       models:
@@ -438,12 +502,16 @@ types:
           Whether to send an email notification to the user upon job
           completion/failure.
         default: false
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   InferencePrediction:
     properties:
       file:
         type: string
         docs: A file path relative to the top level source URL or file.
       models: ModelsPredictions
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   InferenceRequest:
     properties:
       models: optional<Models>
@@ -476,10 +544,14 @@ types:
           completion/failure.
         default: false
       files: list<File>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   InferenceResults:
     properties:
       predictions: list<InferencePrediction>
       errors: list<Error>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   InferenceSourcePredictResult:
     properties:
       source: Source
@@ -487,6 +559,8 @@ types:
       error:
         type: optional<string>
         docs: An error message.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   JobEmbeddingGeneration:
     properties:
       job_id:
@@ -500,6 +574,8 @@ types:
           format: uuid
       request: EmbeddingGenerationBaseRequest
       state: StateEmbeddingGeneration
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   JobInference:
     properties:
       job_id:
@@ -518,6 +594,8 @@ types:
       state:
         type: StateInference
         docs: The current state of the job.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   JobTlInference:
     properties:
       job_id:
@@ -531,6 +609,8 @@ types:
           format: uuid
       request: TlInferenceBaseRequest
       state: StateTlInference
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   JobTraining:
     properties:
       job_id:
@@ -544,6 +624,8 @@ types:
           format: uuid
       request: TrainingBaseRequest
       state: StateTraining
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   JobId:
     properties:
       job_id:
@@ -551,6 +633,8 @@ types:
         docs: The ID of the started job.
         validation:
           format: uuid
+    source:
+      openapi: ../expression-measurement/batch-files-openapi.yml
   Language:
     docs: >-
       The Emotional Language model analyzes passages of text. This also supports
@@ -571,6 +655,8 @@ types:
           different speakers. If `false`, all speakers will be tagged with an
           `unknown` ID.
         default: false
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   LanguagePrediction:
     properties:
       text:
@@ -612,6 +698,8 @@ types:
           Toxicity predictions returned as probabilities that the text can be
           classified into the following categories: `toxic`, `severe_toxic`,
           `obscene`, `threat`, `insult`, and `identity_hate`.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   Models:
     docs: The models used for inference.
     properties:
@@ -621,6 +709,8 @@ types:
       language: optional<Language>
       ner: optional<Ner>
       facemesh: optional<Unconfigurable>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   ModelsPredictions:
     properties:
       face: optional<PredictionsOptionalNullFacePrediction>
@@ -629,6 +719,8 @@ types:
       language: optional<PredictionsOptionalTranscriptionMetadataLanguagePrediction>
       ner: optional<PredictionsOptionalTranscriptionMetadataNerPrediction>
       facemesh: optional<PredictionsOptionalNullFacemeshPrediction>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   Ner:
     docs: >-
       The NER (Named-entity Recognition) model identifies real-world objects and
@@ -646,6 +738,8 @@ types:
           different speakers. If `false`, all speakers will be tagged with an
           `unknown` ID.
         default: false
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   NerPrediction:
     properties:
       entity:
@@ -680,9 +774,11 @@ types:
       emotions:
         docs: A high-dimensional embedding in emotion space.
         type: list<EmotionScore>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   'Null':
-    docs: No associated metadata for this model. Value will be `null`.
     type: map<string, unknown>
+    docs: No associated metadata for this model. Value will be `null`.
   PositionInterval:
     docs: >-
       Position of a segment of text within a larger document, measured in
@@ -695,30 +791,44 @@ types:
       end:
         type: uint64
         docs: The index of the last character in the text segment, exclusive.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   PredictionsOptionalNullBurstPrediction:
     properties:
       metadata: optional<Null>
       grouped_predictions: list<GroupedPredictionsBurstPrediction>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   PredictionsOptionalNullFacePrediction:
     properties:
       metadata: optional<Null>
       grouped_predictions: list<GroupedPredictionsFacePrediction>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   PredictionsOptionalNullFacemeshPrediction:
     properties:
       metadata: optional<Null>
       grouped_predictions: list<GroupedPredictionsFacemeshPrediction>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   PredictionsOptionalTranscriptionMetadataLanguagePrediction:
     properties:
       metadata: optional<TranscriptionMetadata>
       grouped_predictions: list<GroupedPredictionsLanguagePrediction>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   PredictionsOptionalTranscriptionMetadataNerPrediction:
     properties:
       metadata: optional<TranscriptionMetadata>
       grouped_predictions: list<GroupedPredictionsNerPrediction>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   PredictionsOptionalTranscriptionMetadataProsodyPrediction:
     properties:
       metadata: optional<TranscriptionMetadata>
       grouped_predictions: list<GroupedPredictionsProsodyPrediction>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   Prosody:
     docs: >-
       The Speech Prosody model analyzes the intonation, stress, and rhythm of
@@ -737,6 +847,8 @@ types:
           different speakers. If `false`, all speakers will be tagged with an
           `unknown` ID.
         default: false
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   ProsodyPrediction:
     properties:
       text:
@@ -756,11 +868,15 @@ types:
       emotions:
         docs: A high-dimensional embedding in emotion space.
         type: list<EmotionScore>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   Queued:
     properties:
       created_timestamp_ms:
         type: long
         docs: When this job was created (Unix timestamp in milliseconds).
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   RegistryFileDetail:
     properties:
       file_id:
@@ -769,6 +885,8 @@ types:
       file_url:
         type: string
         docs: URL to the file in the Asset Registry
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   Regression: map<string, unknown>
   SentimentScore:
     properties:
@@ -778,30 +896,42 @@ types:
       score:
         type: string
         docs: Prediction for this level of sentiment
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   SortBy:
     enum:
       - created
       - started
       - ended
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   Source:
     discriminated: false
     union:
       - SourceUrl
       - SourceFile
       - SourceTextSource
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   SourceFile:
     properties:
       type: literal<"file">
     extends:
       - File
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   SourceTextSource:
     properties:
       type: literal<"text">
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   SourceUrl:
     properties:
       type: literal<"url">
     extends:
       - Url
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   StateEmbeddingGeneration:
     discriminated: false
     union:
@@ -809,26 +939,36 @@ types:
       - StateEmbeddingGenerationInProgress
       - StateEmbeddingGenerationCompletedEmbeddingGeneration
       - StateEmbeddingGenerationFailed
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   StateEmbeddingGenerationCompletedEmbeddingGeneration:
     properties:
       status: literal<"COMPLETED">
     extends:
       - CompletedEmbeddingGeneration
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   StateEmbeddingGenerationFailed:
     properties:
       status: literal<"FAILED">
     extends:
       - Failed
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   StateEmbeddingGenerationInProgress:
     properties:
       status: literal<"IN_PROGRESS">
     extends:
       - InProgress
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   StateEmbeddingGenerationQueued:
     properties:
       status: literal<"QUEUED">
     extends:
       - Queued
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   StateInference:
     discriminated: false
     union:
@@ -836,26 +976,36 @@ types:
       - StateInferenceInProgress
       - StateInferenceCompletedInference
       - StateInferenceFailed
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   StateInferenceCompletedInference:
     properties:
       status: literal<"COMPLETED">
     extends:
       - CompletedInference
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   StateInferenceFailed:
     properties:
       status: literal<"FAILED">
     extends:
       - Failed
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   StateInferenceInProgress:
     properties:
       status: literal<"IN_PROGRESS">
     extends:
       - InProgress
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   StateInferenceQueued:
     properties:
       status: literal<"QUEUED">
     extends:
       - Queued
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   StateTlInference:
     discriminated: false
     union:
@@ -863,26 +1013,36 @@ types:
       - StateTlInferenceInProgress
       - StateTlInferenceCompletedTlInference
       - StateTlInferenceFailed
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   StateTlInferenceCompletedTlInference:
     properties:
       status: literal<"COMPLETED">
     extends:
       - CompletedTlInference
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   StateTlInferenceFailed:
     properties:
       status: literal<"FAILED">
     extends:
       - Failed
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   StateTlInferenceInProgress:
     properties:
       status: literal<"IN_PROGRESS">
     extends:
       - InProgress
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   StateTlInferenceQueued:
     properties:
       status: literal<"QUEUED">
     extends:
       - Queued
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   StateTraining:
     discriminated: false
     union:
@@ -890,32 +1050,44 @@ types:
       - StateTrainingInProgress
       - StateTrainingCompletedTraining
       - StateTrainingFailed
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   StateTrainingCompletedTraining:
     properties:
       status: literal<"COMPLETED">
     extends:
       - CompletedTraining
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   StateTrainingFailed:
     properties:
       status: literal<"FAILED">
     extends:
       - Failed
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   StateTrainingInProgress:
     properties:
       status: literal<"IN_PROGRESS">
     extends:
       - InProgress
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   StateTrainingQueued:
     properties:
       status: literal<"QUEUED">
     extends:
       - Queued
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   Status:
     enum:
       - QUEUED
       - IN_PROGRESS
       - COMPLETED
       - FAILED
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   TlInferencePrediction:
     properties:
       file:
@@ -923,10 +1095,14 @@ types:
         docs: A file path relative to the top level source URL or file.
       file_type: string
       custom_models: map<string, CustomModelPrediction>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   TlInferenceResults:
     properties:
       predictions: list<TlInferencePrediction>
       errors: list<Error>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   TlInferenceSourcePredictResult:
     properties:
       source: Source
@@ -934,27 +1110,39 @@ types:
       error:
         type: optional<string>
         docs: An error message.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   Tag:
     properties:
       key: string
       value: string
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   Target:
     discriminated: false
     union:
       - long
       - double
       - string
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   Task:
     discriminated: false
     union:
       - TaskClassification
       - TaskRegression
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   TaskClassification:
     properties:
       type: literal<"classification">
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   TaskRegression:
     properties:
       type: literal<"regression">
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   TextSource: map<string, unknown>
   TimeInterval:
     docs: A time range with a beginning and end, measured in seconds.
@@ -965,6 +1153,8 @@ types:
       end:
         type: double
         docs: End of time range in seconds.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   TlInferenceBaseRequest:
     properties:
       custom_model: CustomModel
@@ -992,17 +1182,25 @@ types:
           Whether to send an email notification to the user upon job
           completion/failure.
         default: false
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   CustomModel:
     discriminated: false
     union:
       - CustomModelId
       - CustomModelVersionId
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   CustomModelId:
     properties:
       id: string
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   CustomModelVersionId:
     properties:
       version_id: string
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   ToxicityScore:
     properties:
       name:
@@ -1011,6 +1209,8 @@ types:
       score:
         type: string
         docs: Prediction for this category of toxicity
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   TrainingBaseRequest:
     properties:
       custom_model: CustomModelRequest
@@ -1025,10 +1225,14 @@ types:
       notify:
         type: optional<boolean>
         default: false
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   TrainingCustomModel:
     properties:
       id: string
       version_id: optional<string>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   Transcription:
     docs: |-
       Transcription-related configuration options.
@@ -1121,6 +1325,8 @@ types:
         validation:
           min: 0
           max: 1
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   TranscriptionMetadata:
     docs: Transcription metadata for your media file.
     properties:
@@ -1130,23 +1336,29 @@ types:
           Value between `0.0` and `1.0` indicating our transcription model's
           relative confidence in the transcription of your media file.
       detected_language: optional<Bcp47Tag>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   Type:
     enum:
       - EMBEDDING_GENERATION
       - INFERENCE
       - TL_INFERENCE
       - TRAINING
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   Unconfigurable:
+    type: map<string, unknown>
     docs: >-
       To include predictions for this model type, set this field to `{}`. It is
       currently not configurable further.
-    type: map<string, unknown>
   UnionJob: InferenceJob
   EmbeddingGenerationJob:
     properties:
       type: string
     extends:
       - JobEmbeddingGeneration
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   InferenceJob:
     properties:
       type:
@@ -1159,29 +1371,41 @@ types:
           set to `INFERENCE`.
     extends:
       - JobInference
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   CustomModelsInferenceJob:
     properties:
       type: string
     extends:
       - JobTlInference
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   CustomModelsTrainingJob:
     properties:
       type: string
     extends:
       - JobTraining
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   UnionPredictResult: InferenceSourcePredictResult
   Url:
     properties:
       url:
         type: string
         docs: The URL of the source media file.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   ValidationArgs:
     properties:
       positive_label: optional<Target>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   When:
     enum:
       - created_before
       - created_after
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   Window:
     docs: >-
       Generate predictions based on time.
@@ -1204,6 +1428,8 @@ types:
         default: 1
         validation:
           min: 0.5
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
   EmotionEmbeddingItem:
     properties:
       name:
@@ -1212,6 +1438,8 @@ types:
       score:
         type: optional<double>
         docs: Embedding value for the emotion being expressed.
+    source:
+      openapi: ../expression-measurement/streaming-asyncapi.yml
   EmotionEmbedding:
     docs: A high-dimensional embedding in emotion space.
     type: list<EmotionEmbeddingItem>
@@ -1228,6 +1456,8 @@ types:
         docs: End of time range in seconds.
         validation:
           min: 0
+    source:
+      openapi: ../expression-measurement/streaming-asyncapi.yml
   TextPosition:
     docs: >
       Position of a segment of text within a larger document, measured in
@@ -1244,6 +1474,8 @@ types:
         docs: The index of the last character in the text segment, exclusive.
         validation:
           min: 0
+    source:
+      openapi: ../expression-measurement/streaming-asyncapi.yml
   SentimentItem:
     properties:
       name:
@@ -1252,6 +1484,8 @@ types:
       score:
         type: optional<double>
         docs: Prediction for this level of sentiment
+    source:
+      openapi: ../expression-measurement/streaming-asyncapi.yml
   Sentiment:
     docs: >-
       Sentiment predictions returned as a distribution. This model predicts the
@@ -1275,6 +1509,8 @@ types:
       score:
         type: optional<double>
         docs: Prediction for this category of toxicity
+    source:
+      openapi: ../expression-measurement/streaming-asyncapi.yml
   Toxicity:
     docs: >-
       Toxicity predictions returned as probabilities that the text can be

@@ -449,3 +449,5 @@ service:
               config:
                 id: 1b60e1a0-cc59-424a-8d2c-189d354db3f3
                 version: 0
+  source:
+    openapi: ../empathic-voice-interface/stenographer-openapi.json

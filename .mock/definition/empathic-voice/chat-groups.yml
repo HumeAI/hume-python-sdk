@@ -440,3 +440,5 @@ service:
                     0.022247314453125, "Tiredness": 0.0194549560546875,
                     "Triumph": 0.04107666015625}
                   metadata: ''
+  source:
+    openapi: ../empathic-voice-interface/stenographer-openapi.json

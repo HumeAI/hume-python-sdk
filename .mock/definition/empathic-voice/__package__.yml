@@ -6,6 +6,8 @@ types:
     docs: >-
       Type of Tool. Either `BUILTIN` for natively implemented tools, like web
       search, or `FUNCTION` for user-defined tools.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnUserDefinedToolVersionType:
     enum:
       - FIXED
@@ -13,6 +15,8 @@ types:
     docs: >-
       Versioning method for a Tool. Either `FIXED` for using a fixed version
       number or `LATEST` for auto-updating to the latest version.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnUserDefinedTool:
     docs: A specific tool version returned from the server
     properties:
@@ -80,6 +84,8 @@ types:
           including the expected data type and description for each input field.
           Structured as a stringified JSON schema, this format ensures the tool
           receives data in the expected format.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnPromptVersionType:
     enum:
       - FIXED
@@ -87,6 +93,8 @@ types:
     docs: >-
       Versioning method for a Prompt. Either `FIXED` for using a fixed version
       number or `LATEST` for auto-updating to the latest version.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnPrompt:
     docs: A Prompt associated with this Config.
     properties:
@@ -143,6 +151,8 @@ types:
 
           For help writing a system prompt, see our [Prompting
           Guide](/docs/empathic-voice-interface-evi/prompting).
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   PostedCustomVoice:
     docs: A custom voice specifications posted to the server
     properties:
@@ -165,6 +175,8 @@ types:
       parameters:
         type: optional<map<string, optional<float>>>
         docs: Voice specification for a Config.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnCustomVoice:
     docs: A custom voice specification returned from the server
     properties:
@@ -199,8 +211,10 @@ types:
           The name of the parameter model used to define which attributes are
           used by `parameters`.
       parameters:
-        docs: Voice specification for a Config.
         type: map<string, float>
+        docs: Voice specification for a Config.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   PostedBuiltinToolName:
     enum:
       - web_search
@@ -219,6 +233,8 @@ types:
 
       For more information, see our guide on [using built-in
       tools](/docs/empathic-voice-interface-evi/tool-use#using-built-in-tools).
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   PostedBuiltinTool:
     docs: A configuration of a built-in tool to be posted to the server
     properties:
@@ -244,6 +260,8 @@ types:
           Optional text passed to the supplemental LLM in place of the tool call
           result. The LLM then uses this text to generate a response back to the
           user, ensuring continuity in the conversation if the Tool errors.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   PostedEllmModel:
     docs: A eLLM model configuration to be posted to the server
     properties:
@@ -253,6 +271,8 @@ types:
           Boolean indicating if the eLLM is allowed to generate short responses.
 
           If omitted, short responses from the eLLM are enabled by default.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   PostedEventMessageSpec:
     docs: Settings for a specific event_message to be posted to the server
     properties:
@@ -270,6 +290,8 @@ types:
           Text to use as the event message when the corresponding event occurs.
           If no text is specified, EVI will generate an appropriate message
           based on its current context and the system prompt.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   PostedEventMessageSpecs:
     docs: >-
       Collection of event messages returned by the server.
@@ -311,6 +333,8 @@ types:
           Specifies the message EVI provides when the chat is disconnected due
           to reaching the maximum chat duration, such as a message mentioning
           the time limit for the chat has been reached.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   PostedLanguageModelModelProvider:
     enum:
       - OPEN_AI
@@ -320,6 +344,8 @@ types:
       - GROQ
       - GOOGLE
     docs: The provider of the supplemental language model.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   PostedLanguageModel:
     docs: A LanguageModel to be posted to the server
     properties:
@@ -338,6 +364,8 @@ types:
           Controls the randomness of the LLM’s output, with values closer to 0
           yielding focused, deterministic responses and values closer to 1
           producing more creative, diverse responses.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   PostedPromptSpec:
     docs: A Prompt associated with this Config.
     properties:
@@ -358,6 +386,8 @@ types:
           Version numbers are integer values representing different iterations
           of the Prompt. Each update to the Prompt increments its version
           number.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   PostedTimeoutSpec:
     docs: Settings for a specific timeout to be posted to the server
     properties:
@@ -367,6 +397,8 @@ types:
       duration_secs:
         type: optional<integer>
         docs: Duration in seconds for the timeout.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   PostedTimeoutSpecsInactivity:
     docs: >-
       Specifies the duration of user inactivity (in seconds) after which the EVI
@@ -391,6 +423,8 @@ types:
         docs: >-
           Duration in seconds for the timeout (e.g. 600 seconds represents 10
           minutes).
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   PostedTimeoutSpecsMaxDuration:
     docs: >-
       Specifies the maximum allowed duration (in seconds) for an EVI WebSocket
@@ -415,6 +449,8 @@ types:
         docs: >-
           Duration in seconds for the timeout (e.g. 600 seconds represents 10
           minutes).
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   PostedTimeoutSpecs:
     docs: >-
       Collection of timeout specifications returned by the server.
@@ -445,6 +481,8 @@ types:
 
           Accepts a minimum value of 1 second and a maximum value of 1,800
           seconds.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   PostedUserDefinedToolSpec:
     docs: A specific tool identifier to be posted to the server
     properties:
@@ -464,6 +502,8 @@ types:
 
           Version numbers are integer values representing different iterations
           of the Tool. Each update to the Tool increments its version number.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   PostedVoiceName:
     enum:
       - ITO
@@ -472,6 +512,8 @@ types:
     docs: >-
       String with the name of the voice to use. Maximum length of 75 characters.
       Will be converted to all-uppercase.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   PostedVoice:
     docs: A Voice specification posted to the server
     properties:
@@ -485,6 +527,8 @@ types:
         docs: >-
           String with the name of the voice to use. Maximum length of 75
           characters. Will be converted to all-uppercase.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnBuiltinToolToolType:
     enum:
       - BUILTIN
@@ -492,6 +536,8 @@ types:
     docs: >-
       Type of Tool. Either `BUILTIN` for natively implemented tools, like web
       search, or `FUNCTION` for user-defined tools.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnBuiltinTool:
     docs: A specific builtin tool version returned from the server
     properties:
@@ -509,6 +555,8 @@ types:
           Optional text passed to the supplemental LLM in place of the tool call
           result. The LLM then uses this text to generate a response back to the
           user, ensuring continuity in the conversation if the Tool errors.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnConfig:
     docs: A specific config version returned from the server
     properties:
@@ -576,6 +624,8 @@ types:
         docs: List of built-in tools associated with this Config.
       event_messages: optional<ReturnEventMessageSpecs>
       timeouts: optional<ReturnTimeoutSpecs>
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnEllmModel:
     docs: A specific eLLM Model configuration
     properties:
@@ -585,6 +635,8 @@ types:
           Boolean indicating if the eLLM is allowed to generate short responses.
 
           If omitted, short responses from the eLLM are enabled by default.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnEventMessageSpec:
     docs: A specific event message configuration to be returned from the server
     properties:
@@ -602,6 +654,8 @@ types:
           Text to use as the event message when the corresponding event occurs.
           If no text is specified, EVI will generate an appropriate message
           based on its current context and the system prompt.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnEventMessageSpecs:
     docs: >-
       Collection of event messages returned by the server.
@@ -643,6 +697,8 @@ types:
           Specifies the message EVI provides when the chat is disconnected due
           to reaching the maximum chat duration, such as a message mentioning
           the time limit for the chat has been reached.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnLanguageModelModelProvider:
     enum:
       - OPEN_AI
@@ -652,6 +708,8 @@ types:
       - GROQ
       - GOOGLE
     docs: The provider of the supplemental language model.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnLanguageModel:
     docs: A specific LanguageModel
     properties:
@@ -670,6 +728,8 @@ types:
           Controls the randomness of the LLM’s output, with values closer to 0
           yielding focused, deterministic responses and values closer to 1
           producing more creative, diverse responses.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnTimeoutSpec:
     docs: A specific timeout configuration to be returned from the server
     properties:
@@ -688,6 +748,8 @@ types:
         docs: >-
           Duration in seconds for the timeout (e.g. 600 seconds represents 10
           minutes).
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnTimeoutSpecs:
     docs: >-
       Collection of timeout specifications returned by the server.
@@ -718,6 +780,8 @@ types:
 
           Accepts a minimum value of 1 second and a maximum value of 1,800
           seconds.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnVoiceName:
     enum:
       - ITO
@@ -726,6 +790,8 @@ types:
     docs: >-
       String with the name of the voice to use. Maximum length of 75 characters.
       Will be converted to all-uppercase.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnVoice:
     docs: A specific voice specification
     properties:
@@ -739,6 +805,8 @@ types:
         docs: >-
           String with the name of the voice to use. Maximum length of 75
           characters. Will be converted to all-uppercase.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   PostedCustomVoiceName:
     docs: A custom voice name change to be posted to the server
     properties:
@@ -747,6 +815,8 @@ types:
         docs: >-
           String with the name of the voice to use. Maximum length of 75
           characters. Will be converted to all-uppercase.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnPagedUserDefinedTools:
     docs: A paginated list of user defined tool versions returned from the server
     properties:
@@ -774,6 +844,8 @@ types:
           List of tools returned for the specified `page_number` and
           `page_size`.
         type: list<optional<ReturnUserDefinedTool>>
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnPagedPrompts:
     docs: A paginated list of prompt versions returned from the server
     properties:
@@ -801,6 +873,8 @@ types:
           List of prompts returned for the specified `page_number` and
           `page_size`.
         type: list<optional<ReturnPrompt>>
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnPagedCustomVoices:
     docs: A paginated list of custom voices returned from the server
     properties:
@@ -818,6 +892,8 @@ types:
           List of custom voices returned for the specified page number and page
           size.
         type: list<ReturnCustomVoice>
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnPagedConfigs:
     docs: A paginated list of config versions returned from the server
     properties:
@@ -845,6 +921,8 @@ types:
         docs: >-
           List of configs returned for the specified `page_number` and
           `page_size`.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnChatStatus:
     enum:
       - ACTIVE
@@ -874,6 +952,8 @@ types:
 
 
       - `ERROR`: The chat ended unexpectedly due to an error.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnChat:
     docs: A description of chat and its status
     properties:
@@ -926,6 +1006,8 @@ types:
         type: optional<string>
         docs: Stringified JSON with additional metadata about the chat.
       config: optional<ReturnConfigSpec>
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnConfigSpec:
     docs: The Config associated with this Chat.
     properties:
@@ -946,6 +1028,8 @@ types:
           Version numbers are integer values representing different iterations
           of the Config. Each update to the Config increments its version
           number.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnPagedChatsPaginationDirection:
     enum:
       - ASC
@@ -959,6 +1043,8 @@ types:
       first) or `DESC` for descending order (reverse-chronological, with the
       newest records first). This value corresponds to the `ascending_order`
       query parameter used in the request.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnPagedChats:
     docs: A paginated list of chats returned from the server
     properties:
@@ -997,6 +1083,8 @@ types:
           List of Chats and their metadata returned for the specified
           `page_number` and `page_size`.
         type: list<ReturnChat>
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnChatEventRole:
     enum:
       - USER
@@ -1018,6 +1106,8 @@ types:
 
 
       - `TOOL`: The function calling mechanism.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnChatEventType:
     enum:
       - SYSTEM_PROMPT
@@ -1048,6 +1138,8 @@ types:
 
 
       - `FUNCTION_CALL_RESPONSE`: Contains the tool response.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnChatEvent:
     docs: A description of a single event in a chat returned from the server
     properties:
@@ -1123,6 +1215,8 @@ types:
       metadata:
         type: optional<string>
         docs: Stringified JSON with additional metadata about the chat event.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnChatPagedEventsStatus:
     enum:
       - ACTIVE
@@ -1152,6 +1246,8 @@ types:
 
 
       - `ERROR`: The chat ended unexpectedly due to an error.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnChatPagedEventsPaginationDirection:
     enum:
       - ASC
@@ -1165,6 +1261,8 @@ types:
       first) or `DESC` for descending order (reverse-chronological, with the
       newest records first). This value corresponds to the `ascending_order`
       query parameter used in the request.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnChatPagedEvents:
     docs: >-
       A description of chat status with a paginated list of chat events returned
@@ -1249,6 +1347,8 @@ types:
         type: integer
         docs: The total number of pages in the collection.
       config: optional<ReturnConfigSpec>
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnActiveChatCount:
     docs: A description of current chat chat sessions for a user
     properties:
@@ -1269,6 +1369,8 @@ types:
       per_tag:
         type: optional<list<optional<ReturnActiveChatCountPerTag>>>
         docs: Optional List of chat counts per tag.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnActiveChatCountPerTag:
     docs: A description of current chat chat sessions per tag
     properties:
@@ -1278,6 +1380,8 @@ types:
       total_tag_active_chats:
         type: integer
         docs: The total number of active chats for this user with the specified tag.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnChatGroup:
     docs: A description of chat_group and its status
     properties:
@@ -1305,6 +1409,8 @@ types:
         type: integer
         docs: The total number of Chats in this Chat Group.
       active: optional<boolean>
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnPagedChatGroupsPaginationDirection:
     enum:
       - ASC
@@ -1318,6 +1424,8 @@ types:
       first) or `DESC` for descending order (reverse-chronological, with the
       newest records first). This value corresponds to the `ascending_order`
       query parameter used in the request.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnPagedChatGroups:
     docs: A paginated list of chat_groups returned from the server
     properties:
@@ -1356,6 +1464,8 @@ types:
           List of Chat Groups and their metadata returned for the specified
           `page_number` and `page_size`.
         type: list<ReturnChatGroup>
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnChatGroupPagedChats:
     docs: >-
       A description of chat_group and its status with a paginated list of each
@@ -1397,6 +1507,8 @@ types:
           number and page size.
         type: list<ReturnChat>
       active: optional<boolean>
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnChatGroupPagedEventsPaginationDirection:
     enum:
       - ASC
@@ -1410,6 +1522,8 @@ types:
       first) or `DESC` for descending order (reverse-chronological, with the
       newest records first). This value corresponds to the `ascending_order`
       query parameter used in the request.
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   ReturnChatGroupPagedEvents:
     docs: >-
       A paginated list of chat events that occurred across chats in this
@@ -1453,6 +1567,8 @@ types:
       events_page:
         docs: List of Chat Events for the specified `page_number` and `page_size`.
         type: list<ReturnChatEvent>
+    source:
+      openapi: ../empathic-voice-interface/stenographer-openapi.json
   AssistantInput:
     docs: When provided, the input is spoken by EVI.
     properties:
@@ -1480,6 +1596,8 @@ types:
           the context of the conversation. The synthesized audio is streamed
           back to the user as an [Assistant
           Message](/reference/empathic-voice-interface-evi/chat/chat#receive.Assistant%20Message.type).
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   AudioConfiguration:
     properties:
       encoding:
@@ -1493,6 +1611,8 @@ types:
         docs: >-
           Audio sample rate. Number of samples per second in the audio input,
           measured in Hertz.
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   AudioInput:
     docs: When provided, the input is audio.
     properties:
@@ -1529,6 +1649,8 @@ types:
 
           Hume recommends streaming audio with a buffer window of 20
           milliseconds (ms), or 100 milliseconds (ms) for web applications.
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   BuiltInTool:
     type: literal<"web_search">
     docs: >-
@@ -1543,6 +1665,8 @@ types:
           Optional text passed to the supplemental LLM if the tool call fails.
           The LLM then uses this text to generate a response back to the user,
           ensuring continuity in the conversation.
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   Context:
     properties:
       type:
@@ -1576,11 +1700,15 @@ types:
           its role as a helpful weather assistant, the context you insert will
           be appended to the end of user messages as `{Context: You are a
           helpful weather assistant}`.
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   ContextType:
     enum:
       - editable
       - persistent
       - temporary
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   Encoding: literal<"linear16">
   ErrorLevel: literal<"warn">
   PauseAssistantMessage:
@@ -1606,6 +1734,8 @@ types:
         docs: >-
           Used to manage conversational state, correlate frontend and backend
           data, and persist conversations across EVI sessions.
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   ResumeAssistantMessage:
     docs: >-
       Resume responses from EVI. Chat history sent while paused will now be
@@ -1630,6 +1760,8 @@ types:
         docs: >-
           Used to manage conversational state, correlate frontend and backend
           data, and persist conversations across EVI sessions.
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   SessionSettings:
     docs: Settings for this chat session.
     properties:
@@ -1757,6 +1889,8 @@ types:
       variables:
         type: optional<map<string, string>>
         docs: Dynamic values that can be used to populate EVI prompts.
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   Tool:
     properties:
       type:
@@ -1786,6 +1920,8 @@ types:
           Optional text passed to the supplemental LLM if the tool call fails.
           The LLM then uses this text to generate a response back to the user,
           ensuring continuity in the conversation.
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   ToolErrorMessage:
     docs: When provided, the output is a function call error.
     properties:
@@ -1838,6 +1974,8 @@ types:
         docs: >-
           Indicates the severity of an error; for a Tool Error message, this
           must be `warn` to signal an unexpected event.
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   ToolResponseMessage:
     docs: When provided, the output is a function call response.
     properties:
@@ -1888,10 +2026,14 @@ types:
         docs: >-
           Type of tool called. Either `builtin` for natively implemented tools,
           like web search, or `function` for user-defined tools.
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   ToolType:
     enum:
       - builtin
       - function
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   UserInput:
     docs: User text to insert into the conversation.
     properties:
@@ -1917,6 +2059,8 @@ types:
           Expression measurement results are not available for User Input
           messages, as the prosody model relies on audio input and cannot
           process text alone.
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   AssistantEnd:
     docs: When provided, the output is an assistant end message.
     properties:
@@ -1935,6 +2079,8 @@ types:
         docs: >-
           Used to manage conversational state, correlate frontend and backend
           data, and persist conversations across EVI sessions.
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   AssistantMessage:
     docs: When provided, the output is an assistant message.
     properties:
@@ -1970,6 +2116,8 @@ types:
           Indicates if this message was inserted into the conversation as text
           from an [Assistant Input
           message](/reference/empathic-voice-interface-evi/chat/chat#send.Assistant%20Input.text).
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   AudioOutput:
     docs: When provided, the output is audio.
     properties:
@@ -1994,12 +2142,16 @@ types:
           Base64 encoded audio output. This encoded audio is transmitted to the
           client, where it can be decoded and played back as part of the user
           interaction.
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   ChatMessageToolResult:
     discriminated: false
     docs: Function call response from client.
     union:
       - ToolResponseMessage
       - ToolErrorMessage
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   ChatMessage:
     properties:
       role:
@@ -2014,6 +2166,8 @@ types:
       tool_result:
         type: optional<ChatMessageToolResult>
         docs: Function call response from client.
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   ChatMetadata:
     docs: When provided, the output is a chat metadata message.
     properties:
@@ -2056,6 +2210,8 @@ types:
       request_id:
         type: optional<string>
         docs: ID of the initiating request.
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   EmotionScores:
     properties:
       Admiration: double
@@ -2106,6 +2262,8 @@ types:
       Sympathy: double
       Tiredness: double
       Triumph: double
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   WebSocketError:
     docs: When provided, the output is an error message.
     properties:
@@ -2136,6 +2294,8 @@ types:
       message:
         type: string
         docs: Detailed description of the error.
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   Inference:
     properties:
       prosody:
@@ -2146,6 +2306,8 @@ types:
 
           EVI uses the prosody model to measure 48 emotions related to speech
           and vocal characteristics within a given expression.
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   MillisecondInterval:
     properties:
       begin:
@@ -2154,6 +2316,8 @@ types:
       end:
         type: integer
         docs: End time of the interval in milliseconds.
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   ProsodyInference:
     properties:
       scores:
@@ -2170,6 +2334,8 @@ types:
           See our guide on [interpreting expression measurement
           results](/docs/expression-measurement/faq#how-do-i-interpret-my-results)
           to learn more.
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   Role:
     enum:
       - assistant
@@ -2177,6 +2343,8 @@ types:
       - user
       - all
       - tool
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   ToolCallMessage:
     docs: When provided, the output is a tool call.
     properties:
@@ -2229,6 +2397,8 @@ types:
           message](/reference/empathic-voice-interface-evi/chat/chat#send.Tool%20Response%20Message.type)
           or a [Tool Error
           message](/reference/empathic-voice-interface-evi/chat/chat#send.Tool%20Error%20Message.type).
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   UserInterruption:
     docs: When provided, the output is an interruption.
     properties:
@@ -2252,6 +2422,8 @@ types:
       time:
         type: integer
         docs: Unix timestamp of the detected user interruption.
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   UserMessage:
     docs: When provided, the output is a user message.
     properties:
@@ -2291,6 +2463,8 @@ types:
           from a [User
           Input](/reference/empathic-voice-interface-evi/chat/chat#send.User%20Input.text)
           message.
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   JsonMessage:
     discriminated: false
     union:
@@ -2303,32 +2477,48 @@ types:
       - ToolCallMessage
       - ToolResponseMessage
       - ToolErrorMessage
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   TtsInput:
     properties:
       type: optional<literal<"tts">>
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   TextInput:
     properties:
       type: optional<literal<"text_input">>
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   FunctionCallResponseInput:
     properties:
       type: optional<literal<"function_call_response">>
+    source:
+      openapi: ../empathic-voice-interface/assistant-asyncapi.json
   ExtendedVoiceArgs:
     properties:
       text: string
       voice_args: VoiceArgs
+    source:
+      openapi: ../empathic-voice-interface/assistant-openapi.json
   HTTPValidationError:
     properties:
       detail: optional<list<ValidationError>>
+    source:
+      openapi: ../empathic-voice-interface/assistant-openapi.json
   ValidationErrorLocItem:
     discriminated: false
     union:
       - string
       - integer
+    source:
+      openapi: ../empathic-voice-interface/assistant-openapi.json
   ValidationError:
     properties:
       loc: list<ValidationErrorLocItem>
       msg: string
       type: string
+    source:
+      openapi: ../empathic-voice-interface/assistant-openapi.json
   VoiceArgs:
     properties:
       voice: optional<VoiceNameEnum>
@@ -2338,8 +2528,12 @@ types:
       reconstruct:
         type: optional<boolean>
         default: false
+    source:
+      openapi: ../empathic-voice-interface/assistant-openapi.json
   VoiceNameEnum:
     enum:
       - ITO
       - KORA
       - DACHER
+    source:
+      openapi: ../empathic-voice-interface/assistant-openapi.json

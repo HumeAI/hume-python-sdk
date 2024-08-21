@@ -695,3 +695,5 @@ service:
                 max_duration:
                   enabled: true
                   duration_secs: 1800
+  source:
+    openapi: ../empathic-voice-interface/stenographer-openapi.json
