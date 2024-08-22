@@ -24,7 +24,7 @@ from ..types.assistant_input import AssistantInput
 from ..types.session_settings import SessionSettings
 from ..types.audio_input import AudioInput
 from ..types.user_input import UserInput
-from ...core.pydantic_utilities import pydantic_v1
+from ...core.pydantic_utilities import parse_obj_as
 from ...core.client_wrapper import AsyncClientWrapper
 from ...core.api_error import ApiError
 
@@ -70,7 +70,7 @@ class ChatWebsocketConnection:
 
     async def recv(self) -> SubscribeEvent:
         data = await self.websocket.recv()
-        return pydantic_v1.parse_obj_as(SubscribeEvent, json.loads(data))  # type: ignore
+        return parse_obj_as(SubscribeEvent, json.loads(data))  # type: ignore
 
     async def _send_model(self, data: PublishEvent) -> None:
         await self._send(data.dict())

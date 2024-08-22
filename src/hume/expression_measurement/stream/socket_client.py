@@ -9,16 +9,16 @@ import websockets.protocol
 
 from hume.core.api_error import ApiError
 
-from ..stream.types.stream_data_models import StreamDataModels
+from ..stream.types.config import Config
 from ..stream.types.subscribe_event import SubscribeEvent
-from ...core.pydantic_utilities import pydantic_v1
+from ...core.pydantic_utilities import parse_obj_as
 from ...core.client_wrapper import AsyncClientWrapper
 
 
 class StreamConnectOptions(typing.TypedDict, total=False):
     api_key: typing.Optional[str]
 
-    config: typing.Optional[StreamDataModels]
+    config: typing.Optional[Config]
     """
     Configuration used to specify which models should be used and with what settings.
     """
@@ -49,10 +49,10 @@ class StreamWebsocketConnection:
 
     async def recv(self) -> SubscribeEvent:
         data = await self.websocket.recv()
-        return pydantic_v1.parse_obj_as(SubscribeEvent, json.loads(data))  # type: ignore
+        return parse_obj_as(SubscribeEvent, json.loads(data))  # type: ignore
 
     async def _send_config(
-        self, data: str, raw_text: bool, config: typing.Optional[StreamDataModels]
+        self, data: str, raw_text: bool, config: typing.Optional[Config]
     ) -> SubscribeEvent:
         if config != None:
             if self.params is not None:
@@ -100,7 +100,7 @@ class StreamWebsocketConnection:
     async def send_facemesh(
         self,
         landmarks: typing.List[typing.List[typing.List[float]]],
-        config: typing.Optional[StreamDataModels] = None,
+        config: typing.Optional[Config] = None,
     ) -> SubscribeEvent:
         """
         Parameters
@@ -111,7 +111,7 @@ class StreamWebsocketConnection:
             478 is the number of MediaPipe landmarks per face and 3 represents the
             (x, y, z) coordinates of each landmark.
 
-        config: typing.Optional[StreamDataModels]
+        config: typing.Optional[Config]
             Model configurations. If set these configurations will overwrite any
             configurations set when initializing the StreamSocket.
 
@@ -125,7 +125,7 @@ class StreamWebsocketConnection:
         )
 
     async def send_text(
-        self, text: str, config: typing.Optional[StreamDataModels] = None
+        self, text: str, config: typing.Optional[Config] = None
     ) -> SubscribeEvent:
         """
         Parameters
@@ -133,7 +133,7 @@ class StreamWebsocketConnection:
         text : str
             Text to send to the language model.
 
-        config: typing.Optional[StreamDataModels]
+        config: typing.Optional[Config]
             Model configurations. If set these configurations will overwrite any
             configurations set when initializing the StreamSocket.
 
@@ -144,7 +144,7 @@ class StreamWebsocketConnection:
         return await self._send_config(data=text, raw_text=True, config=config)
 
     async def send_file(
-        self, file_: typing.Union[str, Path], config: typing.Optional[StreamDataModels] = None
+        self, file_: typing.Union[str, Path], config: typing.Optional[Config] = None
     ) -> SubscribeEvent:
         """
         Parameters
@@ -152,7 +152,7 @@ class StreamWebsocketConnection:
         file_ : str
             The path to the file to upload, or the Base64 encoded string of the file to upload.
 
-        config: typing.Optional[StreamDataModels]
+        config: typing.Optional[Config]
             Model configurations. If set these configurations will overwrite any
             configurations set when initializing the StreamSocket.
 
