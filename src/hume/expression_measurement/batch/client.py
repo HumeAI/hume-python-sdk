@@ -132,7 +132,6 @@ class BatchClient:
         models: typing.Optional[Models] = OMIT,
         transcription: typing.Optional[Transcription] = OMIT,
         urls: typing.Optional[typing.Sequence[str]] = OMIT,
-        registry_files: typing.Optional[typing.Sequence[str]] = OMIT,
         text: typing.Optional[typing.Sequence[str]] = OMIT,
         callback_url: typing.Optional[str] = OMIT,
         notify: typing.Optional[bool] = OMIT,
@@ -154,9 +153,6 @@ class BatchClient:
             URLs to the media files to be processed. Each must be a valid public URL to a media file (see recommended input filetypes) or an archive (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`) of media files.
 
             If you wish to supply more than 100 URLs, consider providing them as an archive (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`).
-
-        registry_files : typing.Optional[typing.Sequence[str]]
-            List of File IDs corresponding to the files in the asset registry.
 
         text : typing.Optional[typing.Sequence[str]]
             Text supplied directly to our Emotional Language and NER models for analysis.
@@ -194,7 +190,6 @@ class BatchClient:
                 "models": models,
                 "transcription": transcription,
                 "urls": urls,
-                "registry_files": registry_files,
                 "text": text,
                 "callback_url": callback_url,
                 "notify": notify,
@@ -537,7 +532,6 @@ class AsyncBatchClient:
         models: typing.Optional[Models] = OMIT,
         transcription: typing.Optional[Transcription] = OMIT,
         urls: typing.Optional[typing.Sequence[str]] = OMIT,
-        registry_files: typing.Optional[typing.Sequence[str]] = OMIT,
         text: typing.Optional[typing.Sequence[str]] = OMIT,
         callback_url: typing.Optional[str] = OMIT,
         notify: typing.Optional[bool] = OMIT,
@@ -559,9 +553,6 @@ class AsyncBatchClient:
             URLs to the media files to be processed. Each must be a valid public URL to a media file (see recommended input filetypes) or an archive (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`) of media files.
 
             If you wish to supply more than 100 URLs, consider providing them as an archive (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`).
-
-        registry_files : typing.Optional[typing.Sequence[str]]
-            List of File IDs corresponding to the files in the asset registry.
 
         text : typing.Optional[typing.Sequence[str]]
             Text supplied directly to our Emotional Language and NER models for analysis.
@@ -607,7 +598,6 @@ class AsyncBatchClient:
                 "models": models,
                 "transcription": transcription,
                 "urls": urls,
-                "registry_files": registry_files,
                 "text": text,
                 "callback_url": callback_url,
                 "notify": notify,

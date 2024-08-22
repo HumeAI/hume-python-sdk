@@ -219,14 +219,6 @@ If you wish to supply more than 100 URLs, consider providing them as an archive 
 <dl>
 <dd>
 
-**registry_files:** `typing.Optional[typing.Sequence[str]]` — List of File IDs corresponding to the files in the asset registry.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
 **text:** `typing.Optional[typing.Sequence[str]]` — Text supplied directly to our Emotional Language and NER models for analysis.
     
 </dd>

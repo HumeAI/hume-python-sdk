@@ -8,7 +8,7 @@ from .stream_models_endpoint_payload_models_language import StreamModelsEndpoint
 from ....core.pydantic_utilities import IS_PYDANTIC_V2
 
 
-class StreamModelsEndpointPayloadModels(UniversalBaseModel):
+class Config(UniversalBaseModel):
     """
     Configuration used to specify which models should be used and with what settings.
     """

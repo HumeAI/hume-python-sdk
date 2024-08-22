@@ -14,11 +14,6 @@ class JobInference(UniversalBaseModel):
     The ID associated with this job.
     """
 
-    user_id: str = pydantic.Field()
-    """
-    The unique identifier for the user who initiated the job.
-    """
-
     request: InferenceRequest = pydantic.Field()
     """
     The request that initiated the job.
