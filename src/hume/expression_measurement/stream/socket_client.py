@@ -62,7 +62,7 @@ class StreamWebsocketConnection:
                     config=config
                 )
 
-        to_send = {"payload_id": uuid.uuid4(), "data": data, "raw_text": raw_text}
+        to_send = {"payload_id": str(uuid.uuid4()), "data": data, "raw_text": raw_text}
         if self.params is not None:
             config = self.params.get("config")
             if config is not None:
