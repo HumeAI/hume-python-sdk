@@ -27,7 +27,7 @@ Sort and filter jobs.
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -163,7 +163,7 @@ Start a new measurement inference job.
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -290,7 +290,7 @@ Get the request details and state of a given job.
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -360,7 +360,7 @@ Get the JSON predictions of a completed inference job.
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -430,7 +430,7 @@ Get the artifacts ZIP of a completed inference job.
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -500,7 +500,7 @@ Start a new batch inference job.
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -565,7 +565,7 @@ typing.List[core.File]` — See core.File for more documentation
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -659,7 +659,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -755,7 +755,7 @@ These parameters define the inputs needed for the Tool’s execution, including 
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -843,7 +843,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -939,7 +939,7 @@ These parameters define the inputs needed for the Tool’s execution, including 
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -995,7 +995,7 @@ client.empathic_voice.tools.delete_tool(
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -1060,7 +1060,7 @@ client.empathic_voice.tools.update_tool_name(
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -1131,7 +1131,7 @@ Version numbers are integer values representing different iterations of the Tool
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -1202,7 +1202,7 @@ Version numbers are integer values representing different iterations of the Tool
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -1283,7 +1283,7 @@ Version numbers are integer values representing different iterations of the Tool
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -1377,7 +1377,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -1456,7 +1456,7 @@ For help writing a system prompt, see our [Prompting Guide](/docs/empathic-voice
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -1544,7 +1544,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -1624,7 +1624,7 @@ For help writing a system prompt, see our [Prompting Guide](/docs/empathic-voice
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -1680,7 +1680,7 @@ client.empathic_voice.prompts.delete_prompt(
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -1745,7 +1745,7 @@ client.empathic_voice.prompts.update_prompt_name(
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -1816,7 +1816,7 @@ Version numbers are integer values representing different iterations of the Prom
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -1887,7 +1887,7 @@ Version numbers are integer values representing different iterations of the Prom
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -1968,7 +1968,7 @@ Version numbers are integer values representing different iterations of the Prom
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -2057,7 +2057,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 from hume.empathic_voice import (
     PostedEventMessageSpec,
     PostedEventMessageSpecs,
@@ -2226,7 +2226,7 @@ Hume's eLLM (empathic Large Language Model) is a multimodal language model that 
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -2314,7 +2314,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 from hume.empathic_voice import (
     PostedEllmModel,
     PostedEventMessageSpec,
@@ -2488,7 +2488,7 @@ Hume's eLLM (empathic Large Language Model) is a multimodal language model that 
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -2544,7 +2544,7 @@ client.empathic_voice.configs.delete_config(
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -2609,7 +2609,7 @@ client.empathic_voice.configs.update_config_name(
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -2680,7 +2680,7 @@ Version numbers are integer values representing different iterations of the Conf
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -2751,7 +2751,7 @@ Version numbers are integer values representing different iterations of the Conf
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -2832,7 +2832,7 @@ Version numbers are integer values representing different iterations of the Conf
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -2919,7 +2919,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -3016,7 +3016,7 @@ This parameter uses zero-based indexing. For example, setting `page_number` to 0
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -3111,7 +3111,7 @@ Filter Chat Groups to only include Chats that used this `config_id` in their mos
 <dd>
 
 ```python
-from hume.client import HumeClient
+from hume import HumeClient
 
 client = HumeClient(
     api_key="YOUR_API_KEY",

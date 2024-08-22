@@ -11,7 +11,9 @@ channel:
       body: SubscribeEvent
     publish:
       origin: client
-      body: StreamData
+      body:
+        type: StreamModelsEndpointPayload
+        docs: Models endpoint payload
   examples:
     - messages:
         - type: publish
@@ -19,7 +21,7 @@ channel:
         - type: subscribe
           body: {}
 types:
-  StreamBurstJobDetails:
+  StreamModelPredictionsJobDetails:
     docs: >
       If the job_details flag was set in the request, details about the current
       streaming job will be returned in the response body.
@@ -29,19 +31,19 @@ types:
         docs: ID of the current streaming job.
     source:
       openapi: ../expression-measurement/streaming-asyncapi.yml
-  StreamBurstBurstPredictionsItem:
+  StreamModelPredictionsBurstPredictionsItem:
     properties:
-      time: optional<root.TimeRange>
-      emotions: optional<root.EmotionEmbedding>
+      time: optional<TimeRange>
+      emotions: optional<EmotionEmbedding>
     source:
       openapi: ../expression-measurement/streaming-asyncapi.yml
-  StreamBurstBurst:
+  StreamModelPredictionsBurst:
     docs: Response for the vocal burst emotion model.
     properties:
-      predictions: optional<list<StreamBurstBurstPredictionsItem>>
+      predictions: optional<list<StreamModelPredictionsBurstPredictionsItem>>
     source:
       openapi: ../expression-measurement/streaming-asyncapi.yml
-  StreamBurstFacePredictionsItem:
+  StreamModelPredictionsFacePredictionsItem:
     properties:
       frame:
         type: optional<double>
@@ -49,7 +51,7 @@ types:
       time:
         type: optional<double>
         docs: Time in seconds when face detection occurred.
-      bbox: optional<root.BoundingBox>
+      bbox: optional<StreamBoundingBox>
       prob:
         type: optional<double>
         docs: The predicted probability that a detected face was actually a face.
@@ -58,58 +60,59 @@ types:
         docs: >-
           Identifier for a face. Not that this defaults to `unknown` unless face
           identification is enabled in the face model configuration.
-      emotions: optional<root.EmotionEmbedding>
-      facs: optional<root.EmotionEmbedding>
-      descriptions: optional<root.EmotionEmbedding>
+      emotions: optional<EmotionEmbedding>
+      facs: optional<EmotionEmbedding>
+      descriptions: optional<EmotionEmbedding>
     source:
       openapi: ../expression-measurement/streaming-asyncapi.yml
-  StreamBurstFace:
+  StreamModelPredictionsFace:
     docs: Response for the facial expression emotion model.
     properties:
-      predictions: optional<list<StreamBurstFacePredictionsItem>>
+      predictions: optional<list<StreamModelPredictionsFacePredictionsItem>>
     source:
       openapi: ../expression-measurement/streaming-asyncapi.yml
-  StreamBurstFacemeshPredictionsItem:
+  StreamModelPredictionsFacemeshPredictionsItem:
     properties:
-      emotions: optional<root.EmotionEmbedding>
+      emotions: optional<EmotionEmbedding>
     source:
       openapi: ../expression-measurement/streaming-asyncapi.yml
-  StreamBurstFacemesh:
+  StreamModelPredictionsFacemesh:
     docs: Response for the facemesh emotion model.
     properties:
-      predictions: optional<list<StreamBurstFacemeshPredictionsItem>>
+      predictions: optional<list<StreamModelPredictionsFacemeshPredictionsItem>>
     source:
       openapi: ../expression-measurement/streaming-asyncapi.yml
-  StreamBurstLanguagePredictionsItem:
+  StreamModelPredictionsLanguagePredictionsItem:
     properties:
       text:
         type: optional<string>
         docs: A segment of text (like a word or a sentence).
-      position: optional<root.TextPosition>
-      emotions: optional<root.EmotionEmbedding>
-      sentiment: optional<root.Sentiment>
-      toxicity: optional<root.Toxicity>
+      position: optional<TextPosition>
+      emotions: optional<EmotionEmbedding>
+      sentiment: optional<Sentiment>
+      toxicity: optional<Toxicity>
     source:
       openapi: ../expression-measurement/streaming-asyncapi.yml
-  StreamBurstLanguage:
+  StreamModelPredictionsLanguage:
     docs: Response for the language emotion model.
     properties:
-      predictions: optional<list<StreamBurstLanguagePredictionsItem>>
+      predictions: optional<list<StreamModelPredictionsLanguagePredictionsItem>>
     source:
       openapi: ../expression-measurement/streaming-asyncapi.yml
-  StreamBurstProsodyPredictionsItem:
+  StreamModelPredictionsProsodyPredictionsItem:
     properties:
-      time: optional<root.TimeRange>
-      emotions: optional<root.EmotionEmbedding>
+      time: optional<TimeRange>
+      emotions: optional<EmotionEmbedding>
     source:
       openapi: ../expression-measurement/streaming-asyncapi.yml
-  StreamBurstProsody:
+  StreamModelPredictionsProsody:
     docs: Response for the speech prosody emotion model.
     properties:
-      predictions: optional<list<StreamBurstProsodyPredictionsItem>>
+      predictions: optional<list<StreamModelPredictionsProsodyPredictionsItem>>
     source:
       openapi: ../expression-measurement/streaming-asyncapi.yml
-  StreamBurst:
+  StreamModelPredictions:
+    docs: Model predictions
     properties:
       payload_id:
         type: optional<string>
@@ -117,28 +120,28 @@ types:
           If a payload ID was passed in the request, the same payload ID will be
           sent back in the response body.
       job_details:
-        type: optional<StreamBurstJobDetails>
+        type: optional<StreamModelPredictionsJobDetails>
         docs: >
           If the job_details flag was set in the request, details about the
           current streaming job will be returned in the response body.
       burst:
-        type: optional<StreamBurstBurst>
+        type: optional<StreamModelPredictionsBurst>
         docs: Response for the vocal burst emotion model.
       face:
-        type: optional<StreamBurstFace>
+        type: optional<StreamModelPredictionsFace>
         docs: Response for the facial expression emotion model.
       facemesh:
-        type: optional<StreamBurstFacemesh>
+        type: optional<StreamModelPredictionsFacemesh>
         docs: Response for the facemesh emotion model.
       language:
-        type: optional<StreamBurstLanguage>
+        type: optional<StreamModelPredictionsLanguage>
         docs: Response for the language emotion model.
       prosody:
-        type: optional<StreamBurstProsody>
+        type: optional<StreamModelPredictionsProsody>
         docs: Response for the speech prosody emotion model.
     source:
       openapi: ../expression-measurement/streaming-asyncapi.yml
-  StreamErrorJobDetails:
+  StreamErrorMessageJobDetails:
     docs: >
       If the job_details flag was set in the request, details about the current
       streaming job will be returned in the response body.
@@ -148,7 +151,8 @@ types:
         docs: ID of the current streaming job.
     source:
       openapi: ../expression-measurement/streaming-asyncapi.yml
-  StreamError:
+  StreamErrorMessage:
+    docs: Error message
     properties:
       error:
         type: optional<string>
@@ -162,13 +166,13 @@ types:
           If a payload ID was passed in the request, the same payload ID will be
           sent back in the response body.
       job_details:
-        type: optional<StreamErrorJobDetails>
+        type: optional<StreamErrorMessageJobDetails>
         docs: >
           If the job_details flag was set in the request, details about the
           current streaming job will be returned in the response body.
     source:
       openapi: ../expression-measurement/streaming-asyncapi.yml
-  StreamJobDetailsJobDetails:
+  StreamWarningMessageJobDetails:
     docs: >
       If the job_details flag was set in the request, details about the current
       streaming job will be returned in the response body.
@@ -178,7 +182,8 @@ types:
         docs: ID of the current streaming job.
     source:
       openapi: ../expression-measurement/streaming-asyncapi.yml
-  StreamJobDetails:
+  StreamWarningMessage:
+    docs: Warning message
     properties:
       warning:
         type: optional<string>
@@ -192,7 +197,7 @@ types:
           If a payload ID was passed in the request, the same payload ID will be
           sent back in the response body.
       job_details:
-        type: optional<StreamJobDetailsJobDetails>
+        type: optional<StreamWarningMessageJobDetails>
         docs: >
           If the job_details flag was set in the request, details about the
           current streaming job will be returned in the response body.
@@ -201,12 +206,15 @@ types:
   SubscribeEvent:
     discriminated: false
     union:
-      - StreamBurst
-      - StreamError
-      - StreamJobDetails
+      - type: StreamModelPredictions
+        docs: Model predictions
+      - type: StreamErrorMessage
+        docs: Error message
+      - type: StreamWarningMessage
+        docs: Warning message
     source:
       openapi: ../expression-measurement/streaming-asyncapi.yml
-  StreamDataModelsFace:
+  StreamModelsEndpointPayloadModelsFace:
     docs: >
       Configuration for the facial expression emotion model.
 
@@ -255,7 +263,7 @@ types:
         default: 3
     source:
       openapi: ../expression-measurement/streaming-asyncapi.yml
-  StreamDataModelsLanguage:
+  StreamModelsEndpointPayloadModelsLanguage:
     docs: Configuration for the language emotion model.
     properties:
       sentiment:
@@ -277,7 +285,7 @@ types:
           is `word`.
     source:
       openapi: ../expression-measurement/streaming-asyncapi.yml
-  StreamDataModels:
+  StreamModelsEndpointPayloadModels:
     docs: >
       Configuration used to specify which models should be used and with what
       settings.
@@ -291,7 +299,7 @@ types:
 
           Please use the default configuration by passing an empty object `{}`.
       face:
-        type: optional<StreamDataModelsFace>
+        type: optional<StreamModelsEndpointPayloadModelsFace>
         docs: >
           Configuration for the facial expression emotion model.
 
@@ -308,7 +316,7 @@ types:
 
           Please use the default configuration by passing an empty object `{}`.
       language:
-        type: optional<StreamDataModelsLanguage>
+        type: optional<StreamModelsEndpointPayloadModelsLanguage>
         docs: Configuration for the language emotion model.
       prosody:
         type: optional<map<string, unknown>>
@@ -320,11 +328,12 @@ types:
           Please use the default configuration by passing an empty object `{}`.
     source:
       openapi: ../expression-measurement/streaming-asyncapi.yml
-  StreamData:
+  StreamModelsEndpointPayload:
+    docs: Models endpoint payload
     properties:
       data: optional<string>
       models:
-        type: optional<StreamDataModels>
+        type: optional<StreamModelsEndpointPayloadModels>
         docs: >
           Configuration used to specify which models should be used and with
           what settings.
@@ -404,5 +413,115 @@ types:
           received.
     source:
       openapi: ../expression-measurement/streaming-asyncapi.yml
-imports:
-  root: __package__.yml
+  EmotionEmbeddingItem:
+    properties:
+      name:
+        type: optional<string>
+        docs: Name of the emotion being expressed.
+      score:
+        type: optional<double>
+        docs: Embedding value for the emotion being expressed.
+    source:
+      openapi: ../expression-measurement/streaming-asyncapi.yml
+  EmotionEmbedding:
+    docs: A high-dimensional embedding in emotion space.
+    type: list<EmotionEmbeddingItem>
+  StreamBoundingBox:
+    docs: A bounding box around a face.
+    properties:
+      x:
+        type: optional<double>
+        docs: x-coordinate of bounding box top left corner.
+        validation:
+          min: 0
+      'y':
+        type: optional<double>
+        docs: y-coordinate of bounding box top left corner.
+        validation:
+          min: 0
+      w:
+        type: optional<double>
+        docs: Bounding box width.
+        validation:
+          min: 0
+      h:
+        type: optional<double>
+        docs: Bounding box height.
+        validation:
+          min: 0
+    source:
+      openapi: ../expression-measurement/streaming-asyncapi.yml
+  TimeRange:
+    docs: A time range with a beginning and end, measured in seconds.
+    properties:
+      begin:
+        type: optional<double>
+        docs: Beginning of time range in seconds.
+        validation:
+          min: 0
+      end:
+        type: optional<double>
+        docs: End of time range in seconds.
+        validation:
+          min: 0
+    source:
+      openapi: ../expression-measurement/streaming-asyncapi.yml
+  TextPosition:
+    docs: >
+      Position of a segment of text within a larger document, measured in
+      characters. Uses zero-based indexing. The beginning index is inclusive and
+      the end index is exclusive.
+    properties:
+      begin:
+        type: optional<double>
+        docs: The index of the first character in the text segment, inclusive.
+        validation:
+          min: 0
+      end:
+        type: optional<double>
+        docs: The index of the last character in the text segment, exclusive.
+        validation:
+          min: 0
+    source:
+      openapi: ../expression-measurement/streaming-asyncapi.yml
+  SentimentItem:
+    properties:
+      name:
+        type: optional<string>
+        docs: Level of sentiment, ranging from 1 (negative) to 9 (positive)
+      score:
+        type: optional<double>
+        docs: Prediction for this level of sentiment
+    source:
+      openapi: ../expression-measurement/streaming-asyncapi.yml
+  Sentiment:
+    docs: >-
+      Sentiment predictions returned as a distribution. This model predicts the
+      probability that a given text could be interpreted as having each
+      sentiment level from 1 (negative) to 9 (positive).
+
+
+      Compared to returning one estimate of sentiment, this enables a more
+      nuanced analysis of a text's meaning. For example, a text with very
+      neutral sentiment would have an average rating of 5. But also a text that
+      could be interpreted as having very positive sentiment or very negative
+      sentiment would also have an average rating of 5. The average sentiment is
+      less informative than the distribution over sentiment, so this API returns
+      a value for each sentiment level.
+    type: list<SentimentItem>
+  ToxicityItem:
+    properties:
+      name:
+        type: optional<string>
+        docs: Category of toxicity.
+      score:
+        type: optional<double>
+        docs: Prediction for this category of toxicity
+    source:
+      openapi: ../expression-measurement/streaming-asyncapi.yml
+  Toxicity:
+    docs: >-
+      Toxicity predictions returned as probabilities that the text can be
+      classified into the following categories: toxic, severe_toxic, obscene,
+      threat, insult, and identity_hate.
+    type: list<ToxicityItem>
