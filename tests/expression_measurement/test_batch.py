@@ -40,7 +40,6 @@ async def test_list_jobs(client: HumeClient, async_client: AsyncHumeClient) -> N
                 "status": "COMPLETED",
             },
             "type": "INFERENCE",
-            "user_id": "user_id",
         }
     ]
     expected_types: typing.Tuple[typing.Any, typing.Any] = (
@@ -78,7 +77,6 @@ async def test_list_jobs(client: HumeClient, async_client: AsyncHumeClient) -> N
                     "status": None,
                 },
                 "type": None,
-                "user_id": None,
             }
         },
     )
@@ -136,7 +134,6 @@ async def test_get_job_details(client: HumeClient, async_client: AsyncHumeClient
             "started_timestamp_ms": 1712590457995,
             "status": "COMPLETED",
         },
-        "user_id": "user_id",
     }
     expected_types: typing.Any = {
         "type": None,
@@ -170,7 +167,6 @@ async def test_get_job_details(client: HumeClient, async_client: AsyncHumeClient
             "started_timestamp_ms": None,
             "status": None,
         },
-        "user_id": None,
     }
     response = client.expression_measurement.batch.get_job_details(id="job_id")
     validate_response(response, expected_response, expected_types)

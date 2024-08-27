@@ -116,7 +116,6 @@ service:
                   started_timestamp_ms: 1712587158800
                   status: COMPLETED
                 type: INFERENCE
-                user_id: user_id
     start-inference-job:
       path: /v0/batch/jobs
       method: POST
@@ -188,7 +187,6 @@ service:
                 num_predictions: 10
                 started_timestamp_ms: 1712590457995
                 status: COMPLETED
-              user_id: user_id
     get-job-predictions:
       path: /v0/batch/jobs/{id}/predictions
       method: GET
@@ -842,9 +840,6 @@ types:
 
           If you wish to supply more than 100 URLs, consider providing them as
           an archive (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`).
-      registry_files:
-        type: optional<list<string>>
-        docs: List of File IDs corresponding to the files in the asset registry.
       text:
         type: optional<list<string>>
         docs: >-
@@ -940,11 +935,6 @@ types:
       job_id:
         type: string
         docs: The ID associated with this job.
-        validation:
-          format: uuid
-      user_id:
-        type: string
-        docs: The unique identifier for the user who initiated the job.
         validation:
           format: uuid
       request:
