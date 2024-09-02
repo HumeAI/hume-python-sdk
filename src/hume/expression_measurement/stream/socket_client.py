@@ -23,6 +23,7 @@ class StreamConnectOptions(typing.TypedDict, total=False):
     Configuration used to specify which models should be used and with what settings.
     """
 
+
 class StreamWebsocketConnection:
     def __init__(
         self,
@@ -52,17 +53,23 @@ class StreamWebsocketConnection:
         return parse_obj_as(SubscribeEvent, json.loads(data))  # type: ignore
 
     async def _send_config(
-        self, data: str, raw_text: bool, config: typing.Optional[Config]
+        self,
+        data: str,
+        raw_text: bool,
+        config: typing.Optional[Config],
+        payload_id: typing.Optional[str] = None,
     ) -> SubscribeEvent:
         if config != None:
             if self.params is not None:
                 self.params["config"] = config
             else:
-                self.params = StreamConnectOptions(
-                    config=config
-                )
+                self.params = StreamConnectOptions(config=config)
 
-        to_send = {"payload_id": str(uuid.uuid4()), "data": data, "raw_text": raw_text}
+        to_send = {
+            "payload_id": payload_id or str(uuid.uuid4()),
+            "data": data,
+            "raw_text": raw_text,
+        }
         if self.params is not None:
             config = self.params.get("config")
             if config is not None:
@@ -101,6 +108,7 @@ class StreamWebsocketConnection:
         self,
         landmarks: typing.List[typing.List[typing.List[float]]],
         config: typing.Optional[Config] = None,
+        payload_id: typing.Optional[str] = None,
     ) -> SubscribeEvent:
         """
         Parameters
@@ -121,11 +129,14 @@ class StreamWebsocketConnection:
         """
         landmarks_str = json.dumps(landmarks)
         return await self._send_config(
-            data=landmarks_str, raw_text=False, config=config
+            data=landmarks_str, raw_text=False, config=config, payload_id=payload_id
         )
 
     async def send_text(
-        self, text: str, config: typing.Optional[Config] = None
+        self,
+        text: str,
+        config: typing.Optional[Config] = None,
+        payload_id: typing.Optional[str] = None,
     ) -> SubscribeEvent:
         """
         Parameters
@@ -141,10 +152,15 @@ class StreamWebsocketConnection:
         -------
         SubscribeEvent
         """
-        return await self._send_config(data=text, raw_text=True, config=config)
+        return await self._send_config(
+            data=text, raw_text=True, config=config, payload_id=payload_id
+        )
 
     async def send_file(
-        self, file_: typing.Union[str, Path], config: typing.Optional[Config] = None
+        self,
+        file_: typing.Union[str, Path],
+        config: typing.Optional[Config] = None,
+        payload_id: typing.Optional[str] = None,
     ) -> SubscribeEvent:
         """
         Parameters
@@ -165,12 +181,14 @@ class StreamWebsocketConnection:
             with open(file_, "rb") as f:
                 bytes_data = base64.b64encode(f.read()).decode()
         except:
-            if isinstance(file_, Path): 
+            if isinstance(file_, Path):
                 raise ApiError(body=f"Failed to open file: {file_}")
             # If you cannot open the file, assume you were passed a b64 string, not a file path
             bytes_data = file_
-    
-        return await self._send_config(data=bytes_data, raw_text=False, config=config)
+
+        return await self._send_config(
+            data=bytes_data, raw_text=False, config=config, payload_id=payload_id
+        )
 
 
 class AsyncStreamClientWithWebsocket:
@@ -179,12 +197,18 @@ class AsyncStreamClientWithWebsocket:
 
     @asynccontextmanager
     async def connect(
-        self, options: typing.Optional[StreamConnectOptions] = None, stream_window_ms: typing.Optional[float] = None
+        self,
+        options: typing.Optional[StreamConnectOptions] = None,
+        stream_window_ms: typing.Optional[float] = None,
     ) -> typing.AsyncIterator[StreamWebsocketConnection]:
-        api_key = options.get("api_key") if options is not None and options.get("api_key") else self.client_wrapper.api_key
+        api_key = (
+            options.get("api_key")
+            if options is not None and options.get("api_key")
+            else self.client_wrapper.api_key
+        )
         if api_key is None:
             raise ValueError("An API key is required to connect to the streaming API.")
-        
+
         try:
             async with websockets.connect(  # type: ignore[attr-defined]
                 "wss://api.hume.ai/v0/stream/models",
@@ -193,9 +217,19 @@ class AsyncStreamClientWithWebsocket:
                     "X-Hume-Api-Key": api_key,
                 },
             ) as protocol:
-                yield StreamWebsocketConnection(websocket=protocol, params=options, stream_window_ms=stream_window_ms)
+                yield StreamWebsocketConnection(
+                    websocket=protocol,
+                    params=options,
+                    stream_window_ms=stream_window_ms,
+                )
         except websockets.exceptions.InvalidStatusCode as exc:
             status_code: int = exc.status_code
             if status_code == 401:
-                raise ApiError(status_code=status_code, body="Websocket initialized with invalid credentials.") from exc
-            raise ApiError(status_code=status_code, body="Unexpected error when initializing websocket connection.") from exc
+                raise ApiError(
+                    status_code=status_code,
+                    body="Websocket initialized with invalid credentials.",
+                ) from exc
+            raise ApiError(
+                status_code=status_code,
+                body="Unexpected error when initializing websocket connection.",
+            ) from exc
