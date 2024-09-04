@@ -26,9 +26,7 @@ pip install hume
 poetry add hume
 ```
 
-## Usage
-
-Simply import `HumeClient` and start making calls to our API.
+## Other Resources
 
 ```python
 from hume.client import HumeClient
