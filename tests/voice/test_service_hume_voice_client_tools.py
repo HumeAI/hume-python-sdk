@@ -3,9 +3,15 @@ import logging
 from uuid import uuid4
 
 import pytest
-
-from hume import HumeVoiceClient, LanguageModelConfig, VoiceConfig, VoiceIdentityConfig, VoiceTool
 from hume.error.hume_client_exception import HumeClientException
+
+from hume import (
+    HumeVoiceClient,
+    LanguageModelConfig,
+    VoiceConfig,
+    VoiceIdentityConfig,
+    VoiceTool,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -18,7 +24,10 @@ def voice_client_fixture(hume_api_key: str) -> HumeVoiceClient:
 WEATHER_TOOL_PARAMETERS = {
     "type": "object",
     "properties": {
-        "location": {"type": "string", "description": "The city and state, e.g. San Francisco, CA"},
+        "location": {
+            "type": "string",
+            "description": "The city and state, e.g. San Francisco, CA",
+        },
         "format": {
             "type": "string",
             "enum": ["celsius", "fahrenheit"],
@@ -54,7 +63,9 @@ class TestServiceHumeVoiceClientTools:
             name=config_name,
             prompt=WHETHER_ASSISTANT_PROMPT,
             tools=[new_tool],
-            language_model=LanguageModelConfig(model_provider="OPEN_AI", model_resource="gpt-3.5-turbo"),
+            language_model=LanguageModelConfig(
+                model_provider="OPEN_AI", model_resource="gpt-3.5-turbo"
+            ),
             voice_identity_config=VoiceIdentityConfig(name="ITO", provider="HUME_AI"),
         )
 
@@ -71,7 +82,7 @@ class TestServiceHumeVoiceClientTools:
         listed_tools = list(voice_client.iter_tools())
         assert len(listed_tools) == n_tools - 1
 
-        match = f"Tool \(ID: {new_tool.id}"
+        match = f"tool id {new_tool.id}"
         with pytest.raises(HumeClientException, match=match):
             voice_client.get_tool(new_tool.id)
 
