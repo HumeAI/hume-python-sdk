@@ -4,7 +4,7 @@ import pytest
 from pytest import TempPathFactory
 from testbook import testbook
 
-from tests._legacy.examples.example import Example
+from tests.custom._legacy.examples.example import Example
 
 logger = logging.getLogger(__name__)
 

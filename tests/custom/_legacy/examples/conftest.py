@@ -5,11 +5,11 @@ from typing import Generator
 import pytest
 from pytest import FixtureRequest
 
-from tests._legacy.examples.example import Example
+from tests.custom._legacy.examples.example import Example
 
 
 def get_example_dirpaths() -> list[Path]:
-    examples_dirpath = Path(__file__).parent.parent.parent.parent / "examples"
+    examples_dirpath = Path(__file__).parent.parent.parent.parent.parent / "examples"
     paths = []
     for example_dirpath in examples_dirpath.iterdir():
         if example_dirpath.is_dir():
