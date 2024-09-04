@@ -28,10 +28,6 @@ sudo apt-get --yes update
 sudo apt-get --yes install libasound2-dev libportaudio2
 ```
 
-## Basic Usage
-
-Jupyter example notebooks can be found in the [Python SDK GitHub repo](https://github.com/HumeAI/hume-python-sdk/tree/main/examples/README.md).
-
 ### Stream an EVI chat session
 
 Start a new session using your device's microphone:
@@ -136,8 +132,6 @@ print("Predictions downloaded to predictions.json")
 job.download_artifacts("artifacts.zip")
 print("Artifacts downloaded to artifacts.zip")
 ```
-
-> Note: You can also supply a local filepath when submitting a batch job. Check it out in a Jupyter notebook [here](https://github.com/HumeAI/hume-python-sdk/tree/main/examples/batch-text-entity-recognition/batch-text-entity-recognition.ipynb).
 
 ### Rehydrate a batch job from a job ID
 

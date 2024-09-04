@@ -25,8 +25,6 @@ To get started, create an account at [beta.hume.ai](https://beta.hume.ai).
 
 For complete documentation check out the [Python SDK docs site](https://humeai.github.io/hume-python-sdk/) or [try our quickstart guide](https://dev.hume.ai/docs/empathic-voice-interface-evi/quickstart/python).
 
-Example notebooks can be found in the [examples folder](./examples/README.md).
-
 ## Other Resources
 
 - [Hume AI Homepage](https://hume.ai)
