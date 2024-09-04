@@ -3,7 +3,7 @@
 from ....core.pydantic_utilities import UniversalBaseModel
 import typing
 import pydantic
-from .stream_error_message_job_details import StreamErrorMessageJobDetails
+from .job_details import JobDetails
 from ....core.pydantic_utilities import IS_PYDANTIC_V2
 
 
@@ -27,7 +27,7 @@ class StreamErrorMessage(UniversalBaseModel):
     If a payload ID was passed in the request, the same payload ID will be sent back in the response body.
     """
 
-    job_details: typing.Optional[StreamErrorMessageJobDetails] = pydantic.Field(default=None)
+    job_details: typing.Optional[JobDetails] = pydantic.Field(default=None)
     """
     If the job_details flag was set in the request, details about the current streaming job will be returned in the response body.
     """

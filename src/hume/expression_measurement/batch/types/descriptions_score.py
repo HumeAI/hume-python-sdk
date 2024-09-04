@@ -12,7 +12,7 @@ class DescriptionsScore(UniversalBaseModel):
     Name of the descriptive feature being expressed.
     """
 
-    score: str = pydantic.Field()
+    score: float = pydantic.Field()
     """
     Embedding value for the descriptive feature being expressed.
     """

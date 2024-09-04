@@ -104,7 +104,6 @@ service:
                       granularity: utterance
                       identify_speakers: false
                   notify: true
-                  registry_files: []
                   text: []
                   urls:
                     - https://hume-tutorials.s3.amazonaws.com/faces.zip
@@ -127,6 +126,7 @@ service:
       response:
         docs: ''
         type: JobId
+        property: job_id
       examples:
         - request:
             urls:
@@ -176,7 +176,6 @@ service:
                     granularity: utterance
                     identify_speakers: false
                 notify: true
-                registry_files: []
                 text: []
                 urls:
                   - https://hume-tutorials.s3.amazonaws.com/faces.zip
@@ -545,7 +544,7 @@ types:
         type: string
         docs: Name of the descriptive feature being expressed.
       score:
-        type: string
+        type: float
         docs: Embedding value for the descriptive feature being expressed.
     source:
       openapi: ../expression-measurement/batch-openapi.json
@@ -568,7 +567,7 @@ types:
         type: string
         docs: Name of the emotion being expressed.
       score:
-        type: double
+        type: float
         docs: Embedding value for the emotion being expressed.
     source:
       openapi: ../expression-measurement/batch-openapi.json
@@ -671,7 +670,7 @@ types:
         type: string
         docs: Name of the FACS 2.0 feature being expressed.
       score:
-        type: string
+        type: float
         docs: Embedding value for the FACS 2.0 feature being expressed.
     source:
       openapi: ../expression-measurement/batch-openapi.json
@@ -880,9 +879,6 @@ types:
 
           If you wish to supply more than 100 URLs, consider providing them as
           an archive (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`).
-      registry_files:
-        type: optional<list<string>>
-        docs: List of File IDs corresponding to the files in the asset registry.
       text:
         type: optional<list<string>>
         docs: Text to supply directly to our language and NER models.
@@ -1243,7 +1239,7 @@ types:
         type: string
         docs: Level of sentiment, ranging from `1` (negative) to `9` (positive)
       score:
-        type: string
+        type: float
         docs: Prediction for this level of sentiment
     source:
       openapi: ../expression-measurement/batch-openapi.json
@@ -1321,34 +1317,34 @@ types:
   StateInference:
     discriminated: false
     union:
-      - StateInferenceQueued
-      - StateInferenceInProgress
-      - StateInferenceCompletedInference
-      - StateInferenceFailed
+      - QueuedState
+      - InProgressState
+      - CompletedState
+      - FailedState
     source:
       openapi: ../expression-measurement/batch-openapi.json
-  StateInferenceCompletedInference:
+  CompletedState:
     properties:
       status: literal<"COMPLETED">
     extends:
       - CompletedInference
     source:
       openapi: ../expression-measurement/batch-openapi.json
-  StateInferenceFailed:
+  FailedState:
     properties:
       status: literal<"FAILED">
     extends:
       - Failed
     source:
       openapi: ../expression-measurement/batch-openapi.json
-  StateInferenceInProgress:
+  InProgressState:
     properties:
       status: literal<"IN_PROGRESS">
     extends:
       - InProgress
     source:
       openapi: ../expression-measurement/batch-openapi.json
-  StateInferenceQueued:
+  QueuedState:
     properties:
       status: literal<"QUEUED">
     extends:
@@ -1517,9 +1513,6 @@ types:
 
           If you wish to supply more than 100 URLs, consider providing them as
           an archive (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`).
-      registry_files:
-        type: optional<list<string>>
-        docs: List of File IDs corresponding to the files in the asset registry.
       callback_url:
         type: optional<string>
         docs: >-
@@ -1556,7 +1549,7 @@ types:
         type: string
         docs: Category of toxicity.
       score:
-        type: string
+        type: float
         docs: Prediction for this category of toxicity
     source:
       openapi: ../expression-measurement/batch-openapi.json

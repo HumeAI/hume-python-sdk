@@ -3,11 +3,11 @@
 from .config import Config
 from .emotion_embedding import EmotionEmbedding
 from .emotion_embedding_item import EmotionEmbeddingItem
+from .job_details import JobDetails
 from .sentiment import Sentiment
 from .sentiment_item import SentimentItem
 from .stream_bounding_box import StreamBoundingBox
 from .stream_error_message import StreamErrorMessage
-from .stream_error_message_job_details import StreamErrorMessageJobDetails
 from .stream_model_predictions_burst import StreamModelPredictionsBurst
 from .stream_model_predictions_burst_predictions_item import StreamModelPredictionsBurstPredictionsItem
 from .stream_model_predictions_face import StreamModelPredictionsFace
@@ -34,11 +34,11 @@ __all__ = [
     "Config",
     "EmotionEmbedding",
     "EmotionEmbeddingItem",
+    "JobDetails",
     "Sentiment",
     "SentimentItem",
     "StreamBoundingBox",
     "StreamErrorMessage",
-    "StreamErrorMessageJobDetails",
     "StreamModelPredictionsBurst",
     "StreamModelPredictionsBurstPredictionsItem",
     "StreamModelPredictionsFace",

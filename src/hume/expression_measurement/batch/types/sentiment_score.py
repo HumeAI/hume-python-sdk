@@ -12,7 +12,7 @@ class SentimentScore(UniversalBaseModel):
     Level of sentiment, ranging from `1` (negative) to `9` (positive)
     """
 
-    score: str = pydantic.Field()
+    score: float = pydantic.Field()
     """
     Prediction for this level of sentiment
     """

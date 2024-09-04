@@ -136,7 +136,7 @@ class BatchClient:
         callback_url: typing.Optional[str] = OMIT,
         notify: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> JobId:
+    ) -> str:
         """
         Start a new measurement inference job.
 
@@ -168,7 +168,7 @@ class BatchClient:
 
         Returns
         -------
-        JobId
+        str
 
 
         Examples
@@ -199,13 +199,14 @@ class BatchClient:
         )
         try:
             if 200 <= _response.status_code < 300:
-                return typing.cast(
+                _parsed_response = typing.cast(
                     JobId,
                     parse_obj_as(
                         type_=JobId,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
+                return _parsed_response.job_id
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -536,7 +537,7 @@ class AsyncBatchClient:
         callback_url: typing.Optional[str] = OMIT,
         notify: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> JobId:
+    ) -> str:
         """
         Start a new measurement inference job.
 
@@ -568,7 +569,7 @@ class AsyncBatchClient:
 
         Returns
         -------
-        JobId
+        str
 
 
         Examples
@@ -607,13 +608,14 @@ class AsyncBatchClient:
         )
         try:
             if 200 <= _response.status_code < 300:
-                return typing.cast(
+                _parsed_response = typing.cast(
                     JobId,
                     parse_obj_as(
                         type_=JobId,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
+                return _parsed_response.job_id
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)

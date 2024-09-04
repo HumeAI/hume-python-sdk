@@ -12,7 +12,7 @@ class FacsScore(UniversalBaseModel):
     Name of the FACS 2.0 feature being expressed.
     """
 
-    score: str = pydantic.Field()
+    score: float = pydantic.Field()
     """
     Embedding value for the FACS 2.0 feature being expressed.
     """

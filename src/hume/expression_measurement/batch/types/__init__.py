@@ -7,6 +7,7 @@ from .burst_prediction import BurstPrediction
 from .classification import Classification
 from .completed_embedding_generation import CompletedEmbeddingGeneration
 from .completed_inference import CompletedInference
+from .completed_state import CompletedState
 from .completed_tl_inference import CompletedTlInference
 from .completed_training import CompletedTraining
 from .custom_model import CustomModel
@@ -31,6 +32,7 @@ from .face_prediction import FacePrediction
 from .facemesh_prediction import FacemeshPrediction
 from .facs_score import FacsScore
 from .failed import Failed
+from .failed_state import FailedState
 from .file import File
 from .granularity import Granularity
 from .grouped_predictions_burst_prediction import GroupedPredictionsBurstPrediction
@@ -40,6 +42,7 @@ from .grouped_predictions_language_prediction import GroupedPredictionsLanguageP
 from .grouped_predictions_ner_prediction import GroupedPredictionsNerPrediction
 from .grouped_predictions_prosody_prediction import GroupedPredictionsProsodyPrediction
 from .in_progress import InProgress
+from .in_progress_state import InProgressState
 from .inference_base_request import InferenceBaseRequest
 from .inference_job import InferenceJob
 from .inference_prediction import InferencePrediction
@@ -74,6 +77,7 @@ from .predictions_optional_transcription_metadata_prosody_prediction import (
 from .prosody import Prosody
 from .prosody_prediction import ProsodyPrediction
 from .queued import Queued
+from .queued_state import QueuedState
 from .registry_file_detail import RegistryFileDetail
 from .regression import Regression
 from .sentiment_score import SentimentScore
@@ -90,10 +94,6 @@ from .state_embedding_generation_failed import StateEmbeddingGenerationFailed
 from .state_embedding_generation_in_progress import StateEmbeddingGenerationInProgress
 from .state_embedding_generation_queued import StateEmbeddingGenerationQueued
 from .state_inference import StateInference
-from .state_inference_completed_inference import StateInferenceCompletedInference
-from .state_inference_failed import StateInferenceFailed
-from .state_inference_in_progress import StateInferenceInProgress
-from .state_inference_queued import StateInferenceQueued
 from .state_tl_inference import StateTlInference
 from .state_tl_inference_completed_tl_inference import StateTlInferenceCompletedTlInference
 from .state_tl_inference_failed import StateTlInferenceFailed
@@ -138,6 +138,7 @@ __all__ = [
     "Classification",
     "CompletedEmbeddingGeneration",
     "CompletedInference",
+    "CompletedState",
     "CompletedTlInference",
     "CompletedTraining",
     "CustomModel",
@@ -162,6 +163,7 @@ __all__ = [
     "FacemeshPrediction",
     "FacsScore",
     "Failed",
+    "FailedState",
     "File",
     "Granularity",
     "GroupedPredictionsBurstPrediction",
@@ -171,6 +173,7 @@ __all__ = [
     "GroupedPredictionsNerPrediction",
     "GroupedPredictionsProsodyPrediction",
     "InProgress",
+    "InProgressState",
     "InferenceBaseRequest",
     "InferenceJob",
     "InferencePrediction",
@@ -199,6 +202,7 @@ __all__ = [
     "Prosody",
     "ProsodyPrediction",
     "Queued",
+    "QueuedState",
     "RegistryFileDetail",
     "Regression",
     "SentimentScore",
@@ -213,10 +217,6 @@ __all__ = [
     "StateEmbeddingGenerationInProgress",
     "StateEmbeddingGenerationQueued",
     "StateInference",
-    "StateInferenceCompletedInference",
-    "StateInferenceFailed",
-    "StateInferenceInProgress",
-    "StateInferenceQueued",
     "StateTlInference",
     "StateTlInferenceCompletedTlInference",
     "StateTlInferenceFailed",

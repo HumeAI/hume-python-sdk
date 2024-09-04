@@ -27,7 +27,6 @@ async def test_list_jobs(client: HumeClient, async_client: AsyncHumeClient) -> N
                     "prosody": {"granularity": "utterance", "identify_speakers": False},
                 },
                 "notify": True,
-                "registry_files": [],
                 "text": [],
                 "urls": ["https://hume-tutorials.s3.amazonaws.com/faces.zip"],
             },
@@ -64,7 +63,6 @@ async def test_list_jobs(client: HumeClient, async_client: AsyncHumeClient) -> N
                         "prosody": {"granularity": None, "identify_speakers": None},
                     },
                     "notify": None,
-                    "registry_files": ("list", {}),
                     "text": ("list", {}),
                     "urls": ("list", {0: None}),
                 },
@@ -84,20 +82,6 @@ async def test_list_jobs(client: HumeClient, async_client: AsyncHumeClient) -> N
     validate_response(response, expected_response, expected_types)
 
     async_response = await async_client.expression_measurement.batch.list_jobs()
-    validate_response(async_response, expected_response, expected_types)
-
-
-async def test_start_inference_job(client: HumeClient, async_client: AsyncHumeClient) -> None:
-    expected_response: typing.Any = {"job_id": "job_id"}
-    expected_types: typing.Any = {"job_id": None}
-    response = client.expression_measurement.batch.start_inference_job(
-        urls=["https://hume-tutorials.s3.amazonaws.com/faces.zip"], notify=True
-    )
-    validate_response(response, expected_response, expected_types)
-
-    async_response = await async_client.expression_measurement.batch.start_inference_job(
-        urls=["https://hume-tutorials.s3.amazonaws.com/faces.zip"], notify=True
-    )
     validate_response(async_response, expected_response, expected_types)
 
 
@@ -122,7 +106,6 @@ async def test_get_job_details(client: HumeClient, async_client: AsyncHumeClient
                 "prosody": {"granularity": "utterance", "identify_speakers": False},
             },
             "notify": True,
-            "registry_files": [],
             "text": [],
             "urls": ["https://hume-tutorials.s3.amazonaws.com/faces.zip"],
         },
@@ -155,7 +138,6 @@ async def test_get_job_details(client: HumeClient, async_client: AsyncHumeClient
                 "prosody": {"granularity": None, "identify_speakers": None},
             },
             "notify": None,
-            "registry_files": ("list", {}),
             "text": ("list", {}),
             "urls": ("list", {0: None}),
         },

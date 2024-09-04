@@ -19,11 +19,6 @@ class InferenceRequest(UniversalBaseModel):
     If you wish to supply more than 100 URLs, consider providing them as an archive (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`).
     """
 
-    registry_files: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
-    """
-    List of File IDs corresponding to the files in the asset registry.
-    """
-
     text: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
     """
     Text to supply directly to our language and NER models.
