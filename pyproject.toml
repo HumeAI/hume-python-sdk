@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "hume"
-version = "0.7.0-rc0"
+version = "0.7.0-rc2"
 description = "A Python SDK for Hume AI"
 readme = "README.md"
 authors = []
