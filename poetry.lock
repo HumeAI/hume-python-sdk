@@ -146,8 +146,8 @@ files = [
 lazy-object-proxy = ">=1.4.0"
 typing-extensions = {version = ">=4.0.0", markers = "python_version < \"3.11\""}
 wrapt = [
-    {version = ">=1.14,<2", markers = "python_version >= \"3.11\""},
     {version = ">=1.11,<2", markers = "python_version < \"3.11\""},
+    {version = ">=1.14,<2", markers = "python_version >= \"3.11\""},
 ]
 
 [[package]]
@@ -1830,8 +1830,8 @@ files = [
 annotated-types = ">=0.4.0"
 pydantic-core = "2.23.2"
 typing-extensions = [
-    {version = ">=4.12.2", markers = "python_version >= \"3.13\""},
     {version = ">=4.6.1", markers = "python_version < \"3.13\""},
+    {version = ">=4.12.2", markers = "python_version >= \"3.13\""},
 ]
 tzdata = {version = "*", markers = "python_version >= \"3.9\""}
 
@@ -1960,7 +1960,7 @@ toml = ["tomli (>=1.2.3)"]
 name = "pydub"
 version = "0.25.1"
 description = "Manipulate audio with an simple and easy high level interface"
-optional = true
+optional = false
 python-versions = "*"
 files = [
     {file = "pydub-0.25.1-py2.py3-none-any.whl", hash = "sha256:65617e33033874b59d87db603aa1ed450633288aefead953b30bded59cb599a6"},
@@ -2010,8 +2010,8 @@ files = [
 astroid = ">=2.15.8,<=2.17.0-dev0"
 colorama = {version = ">=0.4.5", markers = "sys_platform == \"win32\""}
 dill = [
-    {version = ">=0.3.6", markers = "python_version >= \"3.11\""},
     {version = ">=0.2", markers = "python_version < \"3.11\""},
+    {version = ">=0.3.6", markers = "python_version >= \"3.11\""},
 ]
 isort = ">=4.2.5,<6"
 mccabe = ">=0.6,<0.8"
@@ -2579,7 +2579,7 @@ type = ["importlib-metadata (>=7.0.2)", "jaraco.develop (>=7.21)", "mypy (==1.11
 name = "simpleaudio"
 version = "1.0.4"
 description = "Simple, asynchronous audio playback for Python 3."
-optional = true
+optional = false
 python-versions = "*"
 files = [
     {file = "simpleaudio-1.0.4-cp37-cp37m-macosx_10_6_intel.whl", hash = "sha256:05b63da515f5fc7c6f40e4d9673d22239c5e03e2bda200fc09fd21c185d73713"},
@@ -2628,7 +2628,7 @@ files = [
 name = "sounddevice"
 version = "0.4.7"
 description = "Play and Record Sound with Python"
-optional = true
+optional = false
 python-versions = ">=3.7"
 files = [
     {file = "sounddevice-0.4.7-py3-none-any.whl", hash = "sha256:1c3f18bfa4d9a257f5715f2ab83f2c0eb412a09f3e6a9fa73720886ca88f6bc7"},
@@ -3115,4 +3115,4 @@ microphone = ["simpleaudio", "sounddevice"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4"
-content-hash = "9dab03a70b255c5c98937ac328d2a93df43ae924ff3d9370797306732db0e864"
+content-hash = "7719a660590310ddbe54fe5ef2ffe9d6a9c71d5152f66d6ad666a03f3a1b2240"
