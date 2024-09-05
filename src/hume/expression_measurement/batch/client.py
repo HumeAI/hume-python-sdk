@@ -8,13 +8,14 @@ from .types.sort_by import SortBy
 from .types.direction import Direction
 from ...core.request_options import RequestOptions
 from .types.union_job import UnionJob
-from ...core.jsonable_encoder import jsonable_encoder
 from ...core.pydantic_utilities import parse_obj_as
 from json.decoder import JSONDecodeError
 from ...core.api_error import ApiError
 from .types.models import Models
 from .types.transcription import Transcription
+from ...core.serialization import convert_and_respect_annotation_metadata
 from .types.job_id import JobId
+from ...core.jsonable_encoder import jsonable_encoder
 from .types.union_predict_result import UnionPredictResult
 from ... import core
 from .types.inference_base_request import InferenceBaseRequest
@@ -106,7 +107,7 @@ class BatchClient:
                 "limit": limit,
                 "status": status,
                 "when": when,
-                "timestamp_ms": jsonable_encoder(timestamp_ms),
+                "timestamp_ms": timestamp_ms,
                 "sort_by": sort_by,
                 "direction": direction,
             },
@@ -187,8 +188,10 @@ class BatchClient:
             "v0/batch/jobs",
             method="POST",
             json={
-                "models": models,
-                "transcription": transcription,
+                "models": convert_and_respect_annotation_metadata(object_=models, annotation=Models, direction="write"),
+                "transcription": convert_and_respect_annotation_metadata(
+                    object_=transcription, annotation=Transcription, direction="write"
+                ),
                 "urls": urls,
                 "text": text,
                 "callback_url": callback_url,
@@ -507,7 +510,7 @@ class AsyncBatchClient:
                 "limit": limit,
                 "status": status,
                 "when": when,
-                "timestamp_ms": jsonable_encoder(timestamp_ms),
+                "timestamp_ms": timestamp_ms,
                 "sort_by": sort_by,
                 "direction": direction,
             },
@@ -596,8 +599,10 @@ class AsyncBatchClient:
             "v0/batch/jobs",
             method="POST",
             json={
-                "models": models,
-                "transcription": transcription,
+                "models": convert_and_respect_annotation_metadata(object_=models, annotation=Models, direction="write"),
+                "transcription": convert_and_respect_annotation_metadata(
+                    object_=transcription, annotation=Transcription, direction="write"
+                ),
                 "urls": urls,
                 "text": text,
                 "callback_url": callback_url,
