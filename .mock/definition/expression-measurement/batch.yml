@@ -1,0 +1,1774 @@
+service:
+  auth: false
+  base-path: ''
+  endpoints:
+    list-jobs:
+      path: /v0/batch/jobs
+      method: GET
+      auth: true
+      docs: Sort and filter jobs.
+      display-name: List jobs
+      request:
+        name: BatchListJobsRequest
+        query-parameters:
+          limit:
+            type: optional<integer>
+            docs: The maximum number of jobs to include in the response.
+          status:
+            type: optional<Status>
+            allow-multiple: true
+            docs: >-
+              Include only jobs of this status in the response. There are four
+              possible statuses:
+
+
+              - `QUEUED`: The job has been received and is waiting to be
+              processed.
+
+
+              - `IN_PROGRESS`: The job is currently being processed. 
+
+
+              - `COMPLETED`: The job has finished processing.
+
+
+              - `FAILED`: The job encountered an error and could not be
+              completed successfully.
+          when:
+            type: optional<When>
+            docs: >-
+              Specify whether to include jobs created before or after a given
+              `timestamp_ms`.
+          timestamp_ms:
+            type: optional<long>
+            docs: |-
+              Provide a timestamp in milliseconds to filter jobs.
+
+               When combined with the `when` parameter, you can filter jobs before or after the given timestamp. Defaults to the current Unix timestamp if one is not provided.
+          sort_by:
+            type: optional<SortBy>
+            docs: >-
+              Specify which timestamp to sort the jobs by.
+
+
+              - `created`: Sort jobs by the time of creation, indicated by
+              `created_timestamp_ms`.
+
+
+              - `started`: Sort jobs by the time processing started, indicated
+              by `started_timestamp_ms`.
+
+
+              - `ended`: Sort jobs by the time processing ended, indicated by
+              `ended_timestamp_ms`.
+          direction:
+            type: optional<Direction>
+            docs: >-
+              Specify the order in which to sort the jobs. Defaults to
+              descending order.
+
+
+              - `asc`: Sort in ascending order (chronological, with the oldest
+              records first).
+
+
+              - `desc`: Sort in descending order (reverse-chronological, with
+              the newest records first).
+      response:
+        docs: ''
+        type: list<UnionJob>
+      examples:
+        - response:
+            body:
+              - job_id: job_id
+                request:
+                  files:
+                    - filename: filename
+                      md5sum: md5sum
+                      content_type: content_type
+                  models:
+                    burst: {}
+                    face:
+                      fps_pred: 3
+                      identify_faces: false
+                      min_face_size: 60
+                      prob_threshold: 0.99
+                      save_faces: false
+                    facemesh: {}
+                    language:
+                      granularity: word
+                      identify_speakers: false
+                    ner:
+                      identify_speakers: false
+                    prosody:
+                      granularity: utterance
+                      identify_speakers: false
+                  notify: true
+                  text: []
+                  urls:
+                    - https://hume-tutorials.s3.amazonaws.com/faces.zip
+                state:
+                  created_timestamp_ms: 1712587158717
+                  ended_timestamp_ms: 1712587159274
+                  num_errors: 0
+                  num_predictions: 10
+                  started_timestamp_ms: 1712587158800
+                  status: COMPLETED
+                type: INFERENCE
+    start-inference-job:
+      path: /v0/batch/jobs
+      method: POST
+      auth: true
+      docs: Start a new measurement inference job.
+      display-name: Start inference job
+      request:
+        body: InferenceBaseRequest
+      response:
+        docs: ''
+        type: JobId
+        property: job_id
+      examples:
+        - request:
+            urls:
+              - https://hume-tutorials.s3.amazonaws.com/faces.zip
+            notify: true
+          response:
+            body:
+              job_id: job_id
+    get-job-details:
+      path: /v0/batch/jobs/{id}
+      method: GET
+      auth: true
+      docs: Get the request details and state of a given job.
+      path-parameters:
+        id:
+          type: string
+          docs: The unique identifier for the job.
+      display-name: Get job details
+      response:
+        docs: ''
+        type: UnionJob
+      examples:
+        - name: Inference
+          path-parameters:
+            id: job_id
+          response:
+            body:
+              type: INFERENCE
+              job_id: job_id
+              request:
+                files: []
+                models:
+                  burst: {}
+                  face:
+                    fps_pred: 3
+                    identify_faces: false
+                    min_face_size: 60
+                    prob_threshold: 0.99
+                    save_faces: false
+                  facemesh: {}
+                  language:
+                    granularity: word
+                    identify_speakers: false
+                  ner:
+                    identify_speakers: false
+                  prosody:
+                    granularity: utterance
+                    identify_speakers: false
+                notify: true
+                text: []
+                urls:
+                  - https://hume-tutorials.s3.amazonaws.com/faces.zip
+              state:
+                created_timestamp_ms: 1712590457884
+                ended_timestamp_ms: 1712590462252
+                num_errors: 0
+                num_predictions: 10
+                started_timestamp_ms: 1712590457995
+                status: COMPLETED
+    get-job-predictions:
+      path: /v0/batch/jobs/{id}/predictions
+      method: GET
+      auth: true
+      docs: Get the JSON predictions of a completed inference job.
+      path-parameters:
+        id:
+          type: string
+          docs: The unique identifier for the job.
+      display-name: Get job predictions
+      response:
+        docs: ''
+        type: list<UnionPredictResult>
+      examples:
+        - path-parameters:
+            id: job_id
+          response:
+            body:
+              - source:
+                  type: url
+                  url: https://hume-tutorials.s3.amazonaws.com/faces.zip
+                results:
+                  predictions:
+                    - file: faces/100.jpg
+                      models:
+                        face:
+                          grouped_predictions:
+                            - id: unknown
+                              predictions:
+                                - frame: 0
+                                  time: 0
+                                  prob: 0.9994111061096191
+                                  box:
+                                    x: 1187.885986328125
+                                    'y': 1397.697509765625
+                                    w: 1401.668701171875
+                                    h: 1961.424560546875
+                                  emotions:
+                                    - name: Admiration
+                                      score: 0.10722749680280685
+                                    - name: Adoration
+                                      score: 0.06395940482616425
+                                    - name: Aesthetic Appreciation
+                                      score: 0.05811462551355362
+                                    - name: Amusement
+                                      score: 0.14187128841876984
+                                    - name: Anger
+                                      score: 0.02804684266448021
+                                    - name: Anxiety
+                                      score: 0.2713485360145569
+                                    - name: Awe
+                                      score: 0.33812594413757324
+                                    - name: Awkwardness
+                                      score: 0.1745193600654602
+                                    - name: Boredom
+                                      score: 0.23600080609321594
+                                    - name: Calmness
+                                      score: 0.18988418579101562
+                                    - name: Concentration
+                                      score: 0.44288986921310425
+                                    - name: Confusion
+                                      score: 0.39346569776535034
+                                    - name: Contemplation
+                                      score: 0.31002455949783325
+                                    - name: Contempt
+                                      score: 0.048870109021663666
+                                    - name: Contentment
+                                      score: 0.0579497292637825
+                                    - name: Craving
+                                      score: 0.06544201076030731
+                                    - name: Desire
+                                      score: 0.05526508390903473
+                                    - name: Determination
+                                      score: 0.08590991795063019
+                                    - name: Disappointment
+                                      score: 0.19508258998394012
+                                    - name: Disgust
+                                      score: 0.031529419124126434
+                                    - name: Distress
+                                      score: 0.23210826516151428
+                                    - name: Doubt
+                                      score: 0.3284550905227661
+                                    - name: Ecstasy
+                                      score: 0.040716782212257385
+                                    - name: Embarrassment
+                                      score: 0.1467227339744568
+                                    - name: Empathic Pain
+                                      score: 0.07633581757545471
+                                    - name: Entrancement
+                                      score: 0.16245244443416595
+                                    - name: Envy
+                                      score: 0.03267110139131546
+                                    - name: Excitement
+                                      score: 0.10656816512346268
+                                    - name: Fear
+                                      score: 0.3115977346897125
+                                    - name: Guilt
+                                      score: 0.11615975946187973
+                                    - name: Horror
+                                      score: 0.19795553386211395
+                                    - name: Interest
+                                      score: 0.3136432468891144
+                                    - name: Joy
+                                      score: 0.06285581737756729
+                                    - name: Love
+                                      score: 0.06339752674102783
+                                    - name: Nostalgia
+                                      score: 0.05866732448339462
+                                    - name: Pain
+                                      score: 0.07684041559696198
+                                    - name: Pride
+                                      score: 0.026822954416275024
+                                    - name: Realization
+                                      score: 0.30000734329223633
+                                    - name: Relief
+                                      score: 0.04414166510105133
+                                    - name: Romance
+                                      score: 0.042728863656520844
+                                    - name: Sadness
+                                      score: 0.14773206412792206
+                                    - name: Satisfaction
+                                      score: 0.05902980640530586
+                                    - name: Shame
+                                      score: 0.08103451132774353
+                                    - name: Surprise (negative)
+                                      score: 0.25518184900283813
+                                    - name: Surprise (positive)
+                                      score: 0.28845661878585815
+                                    - name: Sympathy
+                                      score: 0.062488824129104614
+                                    - name: Tiredness
+                                      score: 0.1559651643037796
+                                    - name: Triumph
+                                      score: 0.01955239288508892
+                  errors: []
+    get-job-artifacts:
+      path: /v0/batch/jobs/{id}/artifacts
+      method: GET
+      auth: true
+      docs: Get the artifacts ZIP of a completed inference job.
+      path-parameters:
+        id:
+          type: string
+          docs: The unique identifier for the job.
+      display-name: Get job artifacts
+      response:
+        docs: ''
+        type: file
+    start-inference-job-from-local-file:
+      path: /v0/batch/jobs
+      method: POST
+      auth: true
+      docs: Start a new batch inference job.
+      display-name: Start inference job from local file
+      request:
+        name: BatchStartInferenceJobFromLocalFileRequest
+        body:
+          properties:
+            json:
+              type: optional<InferenceBaseRequest>
+              docs: >-
+                Stringified JSON object containing the inference job
+                configuration.
+            file: list<file>
+        content-type: multipart/form-data
+      response:
+        docs: ''
+        type: JobId
+        property: job_id
+      examples:
+        - request: {}
+          response:
+            body:
+              job_id: job_id
+  source:
+    openapi: ../expression-measurement/batch-files-openapi.yml
+types:
+  Alternative: literal<"language_only">
+  Bcp47Tag:
+    enum:
+      - zh
+      - da
+      - nl
+      - en
+      - value: en-AU
+        name: EnAu
+      - value: en-IN
+        name: EnIn
+      - value: en-NZ
+        name: EnNz
+      - value: en-GB
+        name: EnGb
+      - fr
+      - value: fr-CA
+        name: FrCa
+      - de
+      - hi
+      - value: hi-Latn
+        name: HiLatn
+      - id
+      - it
+      - ja
+      - ko
+      - 'no'
+      - pl
+      - pt
+      - value: pt-BR
+        name: PtBr
+      - value: pt-PT
+        name: PtPt
+      - ru
+      - es
+      - value: es-419
+        name: Es419
+      - sv
+      - ta
+      - tr
+      - uk
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  BoundingBox:
+    docs: A bounding box around a face.
+    properties:
+      x:
+        type: double
+        docs: x-coordinate of bounding box top left corner.
+      'y':
+        type: double
+        docs: y-coordinate of bounding box top left corner.
+      w:
+        type: double
+        docs: Bounding box width.
+      h:
+        type: double
+        docs: Bounding box height.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  BurstPrediction:
+    properties:
+      time: TimeInterval
+      emotions:
+        docs: A high-dimensional embedding in emotion space.
+        type: list<EmotionScore>
+      descriptions:
+        docs: Modality-specific descriptive features and their scores.
+        type: list<DescriptionsScore>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  Classification: map<string, unknown>
+  CompletedEmbeddingGeneration:
+    properties:
+      created_timestamp_ms:
+        type: long
+        docs: When this job was created (Unix timestamp in milliseconds).
+      started_timestamp_ms:
+        type: long
+        docs: When this job started (Unix timestamp in milliseconds).
+      ended_timestamp_ms:
+        type: long
+        docs: When this job ended (Unix timestamp in milliseconds).
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  CompletedInference:
+    properties:
+      created_timestamp_ms:
+        type: long
+        docs: When this job was created (Unix timestamp in milliseconds).
+      started_timestamp_ms:
+        type: long
+        docs: When this job started (Unix timestamp in milliseconds).
+      ended_timestamp_ms:
+        type: long
+        docs: When this job ended (Unix timestamp in milliseconds).
+      num_predictions:
+        type: uint64
+        docs: The number of predictions that were generated by this job.
+      num_errors:
+        type: uint64
+        docs: The number of errors that occurred while running this job.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  CompletedTlInference:
+    properties:
+      created_timestamp_ms:
+        type: long
+        docs: When this job was created (Unix timestamp in milliseconds).
+      started_timestamp_ms:
+        type: long
+        docs: When this job started (Unix timestamp in milliseconds).
+      ended_timestamp_ms:
+        type: long
+        docs: When this job ended (Unix timestamp in milliseconds).
+      num_predictions:
+        type: uint64
+        docs: The number of predictions that were generated by this job.
+      num_errors:
+        type: uint64
+        docs: The number of errors that occurred while running this job.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  CompletedTraining:
+    properties:
+      created_timestamp_ms:
+        type: long
+        docs: When this job was created (Unix timestamp in milliseconds).
+      started_timestamp_ms:
+        type: long
+        docs: When this job started (Unix timestamp in milliseconds).
+      ended_timestamp_ms:
+        type: long
+        docs: When this job ended (Unix timestamp in milliseconds).
+      custom_model: TrainingCustomModel
+      alternatives: optional<map<string, TrainingCustomModel>>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  CustomModelPrediction:
+    properties:
+      output: map<string, double>
+      error: string
+      task_type: string
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  CustomModelRequest:
+    properties:
+      name: string
+      description: optional<string>
+      tags: optional<list<Tag>>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  Dataset:
+    discriminated: false
+    union:
+      - DatasetId
+      - DatasetVersionId
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  DatasetId:
+    properties:
+      id:
+        type: string
+        validation:
+          format: uuid
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  DatasetVersionId:
+    properties:
+      version_id:
+        type: string
+        validation:
+          format: uuid
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  DescriptionsScore:
+    properties:
+      name:
+        type: string
+        docs: Name of the descriptive feature being expressed.
+      score:
+        type: float
+        docs: Embedding value for the descriptive feature being expressed.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  Direction:
+    enum:
+      - asc
+      - desc
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  EmbeddingGenerationBaseRequest:
+    properties:
+      registry_file_details:
+        type: optional<list<RegistryFileDetail>>
+        docs: File ID and File URL pairs for an asset registry file
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  EmotionScore:
+    properties:
+      name:
+        type: string
+        docs: Name of the emotion being expressed.
+      score:
+        type: float
+        docs: Embedding value for the emotion being expressed.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  Error:
+    properties:
+      message:
+        type: string
+        docs: An error message.
+      file:
+        type: string
+        docs: A file path relative to the top level source URL or file.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  EvaluationArgs:
+    properties:
+      validation: optional<ValidationArgs>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  Face:
+    docs: >-
+      The Facial Emotional Expression model analyzes human facial expressions in
+      images and videos. Results will be provided per frame for video files.
+
+
+      Recommended input file types: `.png`, `.jpeg`, `.mp4`
+    properties:
+      fps_pred:
+        type: optional<double>
+        docs: >-
+          Number of frames per second to process. Other frames will be omitted
+          from the response. Set to `0` to process every frame.
+        default: 3
+      prob_threshold:
+        type: optional<double>
+        docs: >-
+          Face detection probability threshold. Faces detected with a
+          probability less than this threshold will be omitted from the
+          response.
+        default: 0.99
+        validation:
+          min: 0
+          max: 1
+      identify_faces:
+        type: optional<boolean>
+        docs: >-
+          Whether to return identifiers for faces across frames. If `true`,
+          unique identifiers will be assigned to face bounding boxes to
+          differentiate different faces. If `false`, all faces will be tagged
+          with an `unknown` ID.
+        default: false
+      min_face_size:
+        type: optional<uint64>
+        docs: >-
+          Minimum bounding box side length in pixels to treat as a face. Faces
+          detected with a bounding box side length in pixels less than this
+          threshold will be omitted from the response.
+      facs: optional<Unconfigurable>
+      descriptions: optional<Unconfigurable>
+      save_faces:
+        type: optional<boolean>
+        docs: >-
+          Whether to extract and save the detected faces in the artifacts zip
+          created by each job.
+        default: false
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  FacePrediction:
+    properties:
+      frame:
+        type: uint64
+        docs: Frame number
+      time:
+        type: double
+        docs: Time in seconds when face detection occurred.
+      prob:
+        type: double
+        docs: The predicted probability that a detected face was actually a face.
+      box: BoundingBox
+      emotions:
+        docs: A high-dimensional embedding in emotion space.
+        type: list<EmotionScore>
+      facs:
+        type: optional<list<FacsScore>>
+        docs: FACS 2.0 features and their scores.
+      descriptions:
+        type: optional<list<DescriptionsScore>>
+        docs: Modality-specific descriptive features and their scores.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  FacemeshPrediction:
+    properties:
+      emotions:
+        docs: A high-dimensional embedding in emotion space.
+        type: list<EmotionScore>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  FacsScore:
+    properties:
+      name:
+        type: string
+        docs: Name of the FACS 2.0 feature being expressed.
+      score:
+        type: float
+        docs: Embedding value for the FACS 2.0 feature being expressed.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  Failed:
+    properties:
+      created_timestamp_ms:
+        type: long
+        docs: When this job was created (Unix timestamp in milliseconds).
+      started_timestamp_ms:
+        type: long
+        docs: When this job started (Unix timestamp in milliseconds).
+      ended_timestamp_ms:
+        type: long
+        docs: When this job ended (Unix timestamp in milliseconds).
+      message:
+        type: string
+        docs: An error message.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  File:
+    docs: The list of files submitted for analysis.
+    properties:
+      filename:
+        type: optional<string>
+        docs: The name of the file.
+      content_type:
+        type: optional<string>
+        docs: The content type of the file.
+      md5sum:
+        type: string
+        docs: The MD5 checksum of the file.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  Granularity:
+    enum:
+      - word
+      - sentence
+      - utterance
+      - conversational_turn
+    docs: >-
+      The granularity at which to generate predictions. The `granularity` field
+      is ignored if transcription is not enabled or if the `window` field has
+      been set.
+
+
+      - `word`: At the word level, our model provides a separate output for each
+      word, offering the most granular insight into emotional expression during
+      speech. 
+
+
+      - `sentence`: At the sentence level of granularity, we annotate the
+      emotional tone of each spoken sentence with our Prosody and Emotional
+      Language models. 
+
+
+      - `utterance`: Utterance-level granularity is between word- and
+      sentence-level. It takes into account natural pauses or breaks in speech,
+      providing more rapidly updated measures of emotional expression within a
+      flowing conversation. For text inputs, utterance-level granularity will
+      produce results identical to sentence-level granularity. 
+
+
+      - `conversational_turn`: Conversational turn-level granularity provides a
+      distinct output for each change in speaker. It captures the full sequence
+      of words and sentences spoken uninterrupted by each person. This approach
+      provides a higher-level view of the emotional dynamics in a
+      multi-participant dialogue. For text inputs, specifying conversational
+      turn-level granularity for our Emotional Language model will produce
+      results for the entire passage.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  GroupedPredictionsBurstPrediction:
+    properties:
+      id:
+        type: string
+        docs: >-
+          An automatically generated label to identify individuals in your media
+          file. Will be `unknown` if you have chosen to disable identification,
+          or if the model is unable to distinguish between individuals.
+      predictions: list<BurstPrediction>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  GroupedPredictionsFacePrediction:
+    properties:
+      id:
+        type: string
+        docs: >-
+          An automatically generated label to identify individuals in your media
+          file. Will be `unknown` if you have chosen to disable identification,
+          or if the model is unable to distinguish between individuals.
+      predictions: list<FacePrediction>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  GroupedPredictionsFacemeshPrediction:
+    properties:
+      id:
+        type: string
+        docs: >-
+          An automatically generated label to identify individuals in your media
+          file. Will be `unknown` if you have chosen to disable identification,
+          or if the model is unable to distinguish between individuals.
+      predictions: list<FacemeshPrediction>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  GroupedPredictionsLanguagePrediction:
+    properties:
+      id:
+        type: string
+        docs: >-
+          An automatically generated label to identify individuals in your media
+          file. Will be `unknown` if you have chosen to disable identification,
+          or if the model is unable to distinguish between individuals.
+      predictions: list<LanguagePrediction>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  GroupedPredictionsNerPrediction:
+    properties:
+      id:
+        type: string
+        docs: >-
+          An automatically generated label to identify individuals in your media
+          file. Will be `unknown` if you have chosen to disable identification,
+          or if the model is unable to distinguish between individuals.
+      predictions: list<NerPrediction>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  GroupedPredictionsProsodyPrediction:
+    properties:
+      id:
+        type: string
+        docs: >-
+          An automatically generated label to identify individuals in your media
+          file. Will be `unknown` if you have chosen to disable identification,
+          or if the model is unable to distinguish between individuals.
+      predictions: list<ProsodyPrediction>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  InProgress:
+    properties:
+      created_timestamp_ms:
+        type: long
+        docs: When this job was created (Unix timestamp in milliseconds).
+      started_timestamp_ms:
+        type: long
+        docs: When this job started (Unix timestamp in milliseconds).
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  InferenceBaseRequest:
+    properties:
+      models:
+        type: optional<Models>
+        docs: >-
+          Specify the models to use for inference.
+
+
+          If this field is not explicitly set, then all models will run by
+          default.
+      transcription: optional<Transcription>
+      urls:
+        type: optional<list<string>>
+        docs: >-
+          URLs to the media files to be processed. Each must be a valid public
+          URL to a media file (see recommended input filetypes) or an archive
+          (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`) of media files.
+
+
+          If you wish to supply more than 100 URLs, consider providing them as
+          an archive (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`).
+      text:
+        type: optional<list<string>>
+        docs: >-
+          Text supplied directly to our Emotional Language and NER models for
+          analysis.
+      callback_url:
+        type: optional<string>
+        docs: >-
+          If provided, a `POST` request will be made to the URL with the
+          generated predictions on completion or the error message on failure.
+      notify:
+        type: optional<boolean>
+        docs: >-
+          Whether to send an email notification to the user upon job
+          completion/failure.
+        default: false
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  InferencePrediction:
+    properties:
+      file:
+        type: string
+        docs: A file path relative to the top level source URL or file.
+      models: ModelsPredictions
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  InferenceRequest:
+    properties:
+      models: optional<Models>
+      transcription: optional<Transcription>
+      urls:
+        type: optional<list<string>>
+        docs: >-
+          URLs to the media files to be processed. Each must be a valid public
+          URL to a media file (see recommended input filetypes) or an archive
+          (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`) of media files.
+
+
+          If you wish to supply more than 100 URLs, consider providing them as
+          an archive (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`).
+      text:
+        type: optional<list<string>>
+        docs: Text to supply directly to our language and NER models.
+      callback_url:
+        type: optional<string>
+        docs: >-
+          If provided, a `POST` request will be made to the URL with the
+          generated predictions on completion or the error message on failure.
+      notify:
+        type: optional<boolean>
+        docs: >-
+          Whether to send an email notification to the user upon job
+          completion/failure.
+        default: false
+      files: list<File>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  InferenceResults:
+    properties:
+      predictions: list<InferencePrediction>
+      errors: list<Error>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  InferenceSourcePredictResult:
+    properties:
+      source: Source
+      results: optional<InferenceResults>
+      error:
+        type: optional<string>
+        docs: An error message.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  JobEmbeddingGeneration:
+    properties:
+      job_id:
+        type: string
+        docs: The ID associated with this job.
+        validation:
+          format: uuid
+      user_id:
+        type: string
+        validation:
+          format: uuid
+      request: EmbeddingGenerationBaseRequest
+      state: StateEmbeddingGeneration
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  JobInference:
+    properties:
+      job_id:
+        type: string
+        docs: The ID associated with this job.
+        validation:
+          format: uuid
+      request:
+        type: InferenceRequest
+        docs: The request that initiated the job.
+      state:
+        type: StateInference
+        docs: The current state of the job.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  JobTlInference:
+    properties:
+      job_id:
+        type: string
+        docs: The ID associated with this job.
+        validation:
+          format: uuid
+      user_id:
+        type: string
+        validation:
+          format: uuid
+      request: TlInferenceBaseRequest
+      state: StateTlInference
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  JobTraining:
+    properties:
+      job_id:
+        type: string
+        docs: The ID associated with this job.
+        validation:
+          format: uuid
+      user_id:
+        type: string
+        validation:
+          format: uuid
+      request: TrainingBaseRequest
+      state: StateTraining
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  JobId:
+    properties:
+      job_id:
+        type: string
+        docs: The ID of the started job.
+        validation:
+          format: uuid
+    source:
+      openapi: ../expression-measurement/batch-files-openapi.yml
+  Language:
+    docs: >-
+      The Emotional Language model analyzes passages of text. This also supports
+      audio and video files by transcribing and then directly analyzing the
+      transcribed text.
+
+
+      Recommended input filetypes: `.txt`, `.mp3`, `.wav`, `.mp4`
+    properties:
+      granularity: optional<Granularity>
+      sentiment: optional<Unconfigurable>
+      toxicity: optional<Unconfigurable>
+      identify_speakers:
+        type: optional<boolean>
+        docs: >-
+          Whether to return identifiers for speakers over time. If `true`,
+          unique identifiers will be assigned to spoken words to differentiate
+          different speakers. If `false`, all speakers will be tagged with an
+          `unknown` ID.
+        default: false
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  LanguagePrediction:
+    properties:
+      text:
+        type: string
+        docs: A segment of text (like a word or a sentence).
+      position: PositionInterval
+      time: optional<TimeInterval>
+      confidence:
+        type: optional<double>
+        docs: >-
+          Value between `0.0` and `1.0` that indicates our transcription model's
+          relative confidence in this text.
+      speaker_confidence:
+        type: optional<double>
+        docs: >-
+          Value between `0.0` and `1.0` that indicates our transcription model's
+          relative confidence that this text was spoken by this speaker.
+      emotions:
+        docs: A high-dimensional embedding in emotion space.
+        type: list<EmotionScore>
+      sentiment:
+        type: optional<list<SentimentScore>>
+        docs: >-
+          Sentiment predictions returned as a distribution. This model predicts
+          the probability that a given text could be interpreted as having each
+          sentiment level from `1` (negative) to `9` (positive).
+
+
+          Compared to returning one estimate of sentiment, this enables a more
+          nuanced analysis of a text's meaning. For example, a text with very
+          neutral sentiment would have an average rating of `5`. But also a text
+          that could be interpreted as having very positive sentiment or very
+          negative sentiment would also have an average rating of `5`. The
+          average sentiment is less informative than the distribution over
+          sentiment, so this API returns a value for each sentiment level.
+      toxicity:
+        type: optional<list<ToxicityScore>>
+        docs: >-
+          Toxicity predictions returned as probabilities that the text can be
+          classified into the following categories: `toxic`, `severe_toxic`,
+          `obscene`, `threat`, `insult`, and `identity_hate`.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  Models:
+    docs: The models used for inference.
+    properties:
+      face: optional<Face>
+      burst: optional<Unconfigurable>
+      prosody: optional<Prosody>
+      language: optional<Language>
+      ner: optional<Ner>
+      facemesh: optional<Unconfigurable>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  ModelsPredictions:
+    properties:
+      face: optional<PredictionsOptionalNullFacePrediction>
+      burst: optional<PredictionsOptionalNullBurstPrediction>
+      prosody: optional<PredictionsOptionalTranscriptionMetadataProsodyPrediction>
+      language: optional<PredictionsOptionalTranscriptionMetadataLanguagePrediction>
+      ner: optional<PredictionsOptionalTranscriptionMetadataNerPrediction>
+      facemesh: optional<PredictionsOptionalNullFacemeshPrediction>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  Ner:
+    docs: >-
+      The NER (Named-entity Recognition) model identifies real-world objects and
+      concepts in passages of text. This also supports audio and video files by
+      transcribing and then directly analyzing the transcribed text.
+
+
+      Recommended input filetypes: `.txt`, `.mp3`, `.wav`, `.mp4`
+    properties:
+      identify_speakers:
+        type: optional<boolean>
+        docs: >-
+          Whether to return identifiers for speakers over time. If `true`,
+          unique identifiers will be assigned to spoken words to differentiate
+          different speakers. If `false`, all speakers will be tagged with an
+          `unknown` ID.
+        default: false
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  NerPrediction:
+    properties:
+      entity:
+        type: string
+        docs: The recognized topic or entity.
+      position: PositionInterval
+      entity_confidence:
+        type: double
+        docs: Our NER model's relative confidence in the recognized topic or entity.
+      support:
+        type: double
+        docs: A measure of how often the entity is linked to by other entities.
+      uri:
+        type: string
+        docs: >-
+          A URL which provides more information about the recognized topic or
+          entity.
+      link_word:
+        type: string
+        docs: The specific word to which the emotion predictions are linked.
+      time: optional<TimeInterval>
+      confidence:
+        type: optional<double>
+        docs: >-
+          Value between `0.0` and `1.0` that indicates our transcription model's
+          relative confidence in this text.
+      speaker_confidence:
+        type: optional<double>
+        docs: >-
+          Value between `0.0` and `1.0` that indicates our transcription model's
+          relative confidence that this text was spoken by this speaker.
+      emotions:
+        docs: A high-dimensional embedding in emotion space.
+        type: list<EmotionScore>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  'Null':
+    type: map<string, unknown>
+    docs: No associated metadata for this model. Value will be `null`.
+  PositionInterval:
+    docs: >-
+      Position of a segment of text within a larger document, measured in
+      characters. Uses zero-based indexing. The beginning index is inclusive and
+      the end index is exclusive.
+    properties:
+      begin:
+        type: uint64
+        docs: The index of the first character in the text segment, inclusive.
+      end:
+        type: uint64
+        docs: The index of the last character in the text segment, exclusive.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  PredictionsOptionalNullBurstPrediction:
+    properties:
+      metadata: optional<Null>
+      grouped_predictions: list<GroupedPredictionsBurstPrediction>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  PredictionsOptionalNullFacePrediction:
+    properties:
+      metadata: optional<Null>
+      grouped_predictions: list<GroupedPredictionsFacePrediction>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  PredictionsOptionalNullFacemeshPrediction:
+    properties:
+      metadata: optional<Null>
+      grouped_predictions: list<GroupedPredictionsFacemeshPrediction>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  PredictionsOptionalTranscriptionMetadataLanguagePrediction:
+    properties:
+      metadata: optional<TranscriptionMetadata>
+      grouped_predictions: list<GroupedPredictionsLanguagePrediction>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  PredictionsOptionalTranscriptionMetadataNerPrediction:
+    properties:
+      metadata: optional<TranscriptionMetadata>
+      grouped_predictions: list<GroupedPredictionsNerPrediction>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  PredictionsOptionalTranscriptionMetadataProsodyPrediction:
+    properties:
+      metadata: optional<TranscriptionMetadata>
+      grouped_predictions: list<GroupedPredictionsProsodyPrediction>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  Prosody:
+    docs: >-
+      The Speech Prosody model analyzes the intonation, stress, and rhythm of
+      spoken word.
+
+
+      Recommended input file types: `.wav`, `.mp3`, `.mp4`
+    properties:
+      granularity: optional<Granularity>
+      window: optional<Window>
+      identify_speakers:
+        type: optional<boolean>
+        docs: >-
+          Whether to return identifiers for speakers over time. If `true`,
+          unique identifiers will be assigned to spoken words to differentiate
+          different speakers. If `false`, all speakers will be tagged with an
+          `unknown` ID.
+        default: false
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  ProsodyPrediction:
+    properties:
+      text:
+        type: optional<string>
+        docs: A segment of text (like a word or a sentence).
+      time: TimeInterval
+      confidence:
+        type: optional<double>
+        docs: >-
+          Value between `0.0` and `1.0` that indicates our transcription model's
+          relative confidence in this text.
+      speaker_confidence:
+        type: optional<double>
+        docs: >-
+          Value between `0.0` and `1.0` that indicates our transcription model's
+          relative confidence that this text was spoken by this speaker.
+      emotions:
+        docs: A high-dimensional embedding in emotion space.
+        type: list<EmotionScore>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  Queued:
+    properties:
+      created_timestamp_ms:
+        type: long
+        docs: When this job was created (Unix timestamp in milliseconds).
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  RegistryFileDetail:
+    properties:
+      file_id:
+        type: string
+        docs: File ID in the Asset Registry
+      file_url:
+        type: string
+        docs: URL to the file in the Asset Registry
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  Regression: map<string, unknown>
+  SentimentScore:
+    properties:
+      name:
+        type: string
+        docs: Level of sentiment, ranging from `1` (negative) to `9` (positive)
+      score:
+        type: float
+        docs: Prediction for this level of sentiment
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  SortBy:
+    enum:
+      - created
+      - started
+      - ended
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  Source:
+    discriminated: false
+    union:
+      - SourceUrl
+      - SourceFile
+      - SourceTextSource
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  SourceFile:
+    properties:
+      type: literal<"file">
+    extends:
+      - File
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  SourceTextSource:
+    properties:
+      type: literal<"text">
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  SourceUrl:
+    properties:
+      type: literal<"url">
+    extends:
+      - Url
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  StateEmbeddingGeneration:
+    discriminated: false
+    union:
+      - StateEmbeddingGenerationQueued
+      - StateEmbeddingGenerationInProgress
+      - StateEmbeddingGenerationCompletedEmbeddingGeneration
+      - StateEmbeddingGenerationFailed
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  StateEmbeddingGenerationCompletedEmbeddingGeneration:
+    properties:
+      status: literal<"COMPLETED">
+    extends:
+      - CompletedEmbeddingGeneration
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  StateEmbeddingGenerationFailed:
+    properties:
+      status: literal<"FAILED">
+    extends:
+      - Failed
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  StateEmbeddingGenerationInProgress:
+    properties:
+      status: literal<"IN_PROGRESS">
+    extends:
+      - InProgress
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  StateEmbeddingGenerationQueued:
+    properties:
+      status: literal<"QUEUED">
+    extends:
+      - Queued
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  StateInference:
+    discriminated: false
+    union:
+      - QueuedState
+      - InProgressState
+      - CompletedState
+      - FailedState
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  CompletedState:
+    properties:
+      status: literal<"COMPLETED">
+    extends:
+      - CompletedInference
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  FailedState:
+    properties:
+      status: literal<"FAILED">
+    extends:
+      - Failed
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  InProgressState:
+    properties:
+      status: literal<"IN_PROGRESS">
+    extends:
+      - InProgress
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  QueuedState:
+    properties:
+      status: literal<"QUEUED">
+    extends:
+      - Queued
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  StateTlInference:
+    discriminated: false
+    union:
+      - StateTlInferenceQueued
+      - StateTlInferenceInProgress
+      - StateTlInferenceCompletedTlInference
+      - StateTlInferenceFailed
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  StateTlInferenceCompletedTlInference:
+    properties:
+      status: literal<"COMPLETED">
+    extends:
+      - CompletedTlInference
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  StateTlInferenceFailed:
+    properties:
+      status: literal<"FAILED">
+    extends:
+      - Failed
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  StateTlInferenceInProgress:
+    properties:
+      status: literal<"IN_PROGRESS">
+    extends:
+      - InProgress
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  StateTlInferenceQueued:
+    properties:
+      status: literal<"QUEUED">
+    extends:
+      - Queued
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  StateTraining:
+    discriminated: false
+    union:
+      - StateTrainingQueued
+      - StateTrainingInProgress
+      - StateTrainingCompletedTraining
+      - StateTrainingFailed
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  StateTrainingCompletedTraining:
+    properties:
+      status: literal<"COMPLETED">
+    extends:
+      - CompletedTraining
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  StateTrainingFailed:
+    properties:
+      status: literal<"FAILED">
+    extends:
+      - Failed
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  StateTrainingInProgress:
+    properties:
+      status: literal<"IN_PROGRESS">
+    extends:
+      - InProgress
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  StateTrainingQueued:
+    properties:
+      status: literal<"QUEUED">
+    extends:
+      - Queued
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  Status:
+    enum:
+      - QUEUED
+      - IN_PROGRESS
+      - COMPLETED
+      - FAILED
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  TlInferencePrediction:
+    properties:
+      file:
+        type: string
+        docs: A file path relative to the top level source URL or file.
+      file_type: string
+      custom_models: map<string, CustomModelPrediction>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  TlInferenceResults:
+    properties:
+      predictions: list<TlInferencePrediction>
+      errors: list<Error>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  TlInferenceSourcePredictResult:
+    properties:
+      source: Source
+      results: optional<TlInferenceResults>
+      error:
+        type: optional<string>
+        docs: An error message.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  Tag:
+    properties:
+      key: string
+      value: string
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  Target:
+    discriminated: false
+    union:
+      - long
+      - double
+      - string
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  Task:
+    discriminated: false
+    union:
+      - TaskClassification
+      - TaskRegression
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  TaskClassification:
+    properties:
+      type: literal<"classification">
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  TaskRegression:
+    properties:
+      type: literal<"regression">
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  TextSource: map<string, unknown>
+  TimeInterval:
+    docs: A time range with a beginning and end, measured in seconds.
+    properties:
+      begin:
+        type: double
+        docs: Beginning of time range in seconds.
+      end:
+        type: double
+        docs: End of time range in seconds.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  TlInferenceBaseRequest:
+    properties:
+      custom_model: CustomModel
+      urls:
+        type: optional<list<string>>
+        docs: >-
+          URLs to the media files to be processed. Each must be a valid public
+          URL to a media file (see recommended input filetypes) or an archive
+          (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`) of media files.
+
+
+          If you wish to supply more than 100 URLs, consider providing them as
+          an archive (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`).
+      callback_url:
+        type: optional<string>
+        docs: >-
+          If provided, a `POST` request will be made to the URL with the
+          generated predictions on completion or the error message on failure.
+      notify:
+        type: optional<boolean>
+        docs: >-
+          Whether to send an email notification to the user upon job
+          completion/failure.
+        default: false
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  CustomModel:
+    discriminated: false
+    union:
+      - CustomModelId
+      - CustomModelVersionId
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  CustomModelId:
+    properties:
+      id: string
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  CustomModelVersionId:
+    properties:
+      version_id: string
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  ToxicityScore:
+    properties:
+      name:
+        type: string
+        docs: Category of toxicity.
+      score:
+        type: float
+        docs: Prediction for this category of toxicity
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  TrainingBaseRequest:
+    properties:
+      custom_model: CustomModelRequest
+      dataset: Dataset
+      target_feature:
+        type: optional<string>
+        default: label
+      task: optional<Task>
+      evaluation: optional<EvaluationArgs>
+      alternatives: optional<list<Alternative>>
+      callback_url: optional<string>
+      notify:
+        type: optional<boolean>
+        default: false
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  TrainingCustomModel:
+    properties:
+      id: string
+      version_id: optional<string>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  Transcription:
+    docs: |-
+      Transcription-related configuration options.
+
+      To disable transcription, explicitly set this field to `null`.
+    properties:
+      language:
+        type: optional<Bcp47Tag>
+        docs: >-
+          By default, we use an automated language detection method for our
+          Speech Prosody, Language, and NER models. However, if you know what
+          language is being spoken in your media samples, you can specify it via
+          its BCP-47 tag and potentially obtain more accurate results.
+
+
+          You can specify any of the following languages:
+
+          - Chinese: `zh`
+
+          - Danish: `da`
+
+          - Dutch: `nl`
+
+          - English: `en`
+
+          - English (Australia): `en-AU`
+
+          - English (India): `en-IN`
+
+          - English (New Zealand): `en-NZ`
+
+          - English (United Kingdom): `en-GB`
+
+          - French: `fr`
+
+          - French (Canada): `fr-CA`
+
+          - German: `de`
+
+          - Hindi: `hi`
+
+          - Hindi (Roman Script): `hi-Latn`
+
+          - Indonesian: `id`
+
+          - Italian: `it`
+
+          - Japanese: `ja`
+
+          - Korean: `ko`
+
+          - Norwegian: `no`
+
+          - Polish: `pl`
+
+          - Portuguese: `pt`
+
+          - Portuguese (Brazil): `pt-BR`
+
+          - Portuguese (Portugal): `pt-PT`
+
+          - Russian: `ru`
+
+          - Spanish: `es`
+
+          - Spanish (Latin America): `es-419`
+
+          - Swedish: `sv`
+
+          - Tamil: `ta`
+
+          - Turkish: `tr`
+
+          - Ukrainian: `uk`
+      identify_speakers:
+        type: optional<boolean>
+        docs: >-
+          Whether to return identifiers for speakers over time. If `true`,
+          unique identifiers will be assigned to spoken words to differentiate
+          different speakers. If `false`, all speakers will be tagged with an
+          `unknown` ID.
+        default: false
+      confidence_threshold:
+        type: optional<double>
+        docs: >-
+          Transcript confidence threshold. Transcripts generated with a
+          confidence less than this threshold will be considered invalid and not
+          used as an input for model inference.
+        default: 0.5
+        validation:
+          min: 0
+          max: 1
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  TranscriptionMetadata:
+    docs: Transcription metadata for your media file.
+    properties:
+      confidence:
+        type: double
+        docs: >-
+          Value between `0.0` and `1.0` indicating our transcription model's
+          relative confidence in the transcription of your media file.
+      detected_language: optional<Bcp47Tag>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  Type:
+    enum:
+      - EMBEDDING_GENERATION
+      - INFERENCE
+      - TL_INFERENCE
+      - TRAINING
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  Unconfigurable:
+    type: map<string, unknown>
+    docs: >-
+      To include predictions for this model type, set this field to `{}`. It is
+      currently not configurable further.
+  UnionJob: InferenceJob
+  EmbeddingGenerationJob:
+    properties:
+      type: string
+    extends:
+      - JobEmbeddingGeneration
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  InferenceJob:
+    properties:
+      type:
+        type: string
+        docs: >-
+          Denotes the job type.
+
+
+          Jobs created with the Expression Measurement API will have this field
+          set to `INFERENCE`.
+    extends:
+      - JobInference
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  CustomModelsInferenceJob:
+    properties:
+      type: string
+    extends:
+      - JobTlInference
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  CustomModelsTrainingJob:
+    properties:
+      type: string
+    extends:
+      - JobTraining
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  UnionPredictResult: InferenceSourcePredictResult
+  Url:
+    properties:
+      url:
+        type: string
+        docs: The URL of the source media file.
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  ValidationArgs:
+    properties:
+      positive_label: optional<Target>
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  When:
+    enum:
+      - created_before
+      - created_after
+    source:
+      openapi: ../expression-measurement/batch-openapi.json
+  Window:
+    docs: >-
+      Generate predictions based on time.
+
+
+      Setting the `window` field allows for a 'sliding window' approach, where a
+      fixed-size window moves across the audio or video file in defined steps.
+      This enables continuous analysis of prosody within subsets of the file,
+      providing dynamic and localized insights into emotional expression.
+    properties:
+      length:
+        type: optional<double>
+        docs: The length of the sliding window.
+        default: 4
+        validation:
+          min: 0.5
+      step:
+        type: optional<double>
+        docs: The step size of the sliding window.
+        default: 1
+        validation:
+          min: 0.5
+    source:
+      openapi: ../expression-measurement/batch-openapi.json

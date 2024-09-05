@@ -8,33 +8,248 @@
 
   <br>
   <div>
-    <a href="https://humeai.github.io/hume-python-sdk"><img src="https://img.shields.io/badge/docs-mkdocs-blue" alt="Docs"></a>
-    <a href="https://pepy.tech/project/hume"><img src="https://pepy.tech/badge/hume" alt="Downloads"></a>
-    <a href="https://pypi.org/project/hume"><img src="https://img.shields.io/pypi/v/hume?logo=python&logoColor=%23cccccc" alt="PyPI"></a>
-    <a href="https://github.com/HumeAI/hume-python-sdk/actions/workflows/ci.yml"><img src="https://github.com/HumeAI/hume-python-sdk/actions/workflows/ci.yaml/badge.svg" alt="CI"></a>
+    <a href="https://pypi.python.org/pypi/hume"><img src="https://img.shields.io/pypi/v/hume">
+    <a href="https://buildwithfern.com/"><img src="https://img.shields.io/badge/%F0%9F%8C%BF-SDK%20generated%20by%20Fern-brightgreen">     
   </div>
   <br>
 </div>
 
-To get started, create an account at [beta.hume.ai](https://beta.hume.ai).
+## Documentation
 
-> **Note:**
-> Our APIs might undergo breaking changes that are necessary for us to improve our tooling and ensure a more reliable release in the future. Early versions of this SDK may have partial support or support may be fully discontinued. We encourage you to [join our Discord](https://link.hume.ai/discord) to to stay up to date with the latest changes.
+API reference documentation is available [here](https://dev.hume.ai/reference/).
 
-## Documentation & Examples
+## Installation
 
-For complete documentation check out the [Python SDK docs site](https://humeai.github.io/hume-python-sdk/) or [try our quickstart guide](https://dev.hume.ai/docs/empathic-voice-interface-evi/quickstart/python).
+```sh
+pip install hume
+# or
+poetry add hume
+```
 
 ## Other Resources
 
-- [Hume AI Homepage](https://hume.ai)
-- [Platform Documentation](https://dev.hume.ai)
-- [API Reference](https://dev.hume.ai/reference)
+```python
+from hume.client import HumeClient
 
-## Citations
+client = HumeClient(
+    api_key="YOUR_API_KEY", # Defaults to HUME_API_KEY
+)
+client.empathic_voice.configs.list_configs()
+```
 
-Hume's expressive communication platform has been built on top of published scientific research. If you use this SDK in your work please cite one of the relevant papers in [our publications repo](https://github.com/HumeAI/hume-research-publications).
+## Async Client
 
-## Support
+The SDK also exports an async client so that you can make non-blocking calls to our API.
 
-If you have questions, require assistance, or wish to engage in discussions pertaining to this SDK, [reach out to us on Discord](https://link.hume.ai/discord)! For issues specific to this Python SDK, we invite you to [open a new issue on Github](https://github.com/HumeAI/hume-python-sdk/issues/new).
+```python
+import asyncio
+
+from hume.client import AsyncHumeClient
+
+client = AsyncHumeClient(
+    api_key="YOUR_API_KEY",
+)
+
+async def main() -> None:
+    await client.empathic_voice.configs.list_configs()
+
+asyncio.run(main())
+```
+
+### Writing File
+
+Writing files with an async stream of bytes can be tricky in Python! `aiofiles` can simplify this some. For example,
+you can download your job artifacts like so:
+
+```python
+import aiofiles
+
+from hume import AsyncHumeClient
+
+client = AsyncHumeClient()
+async with aiofiles.open('artifacts.zip', mode='wb') as file:
+    async for chunk in client.expression_measurement.batch.get_job_artifacts(id="my-job-id"):
+        await file.write(chunk)
+```
+
+## Legacy SDK
+
+If you want to continue using the legacy SDKs, simply import them from
+the `hume.legacy` module.
+
+```python
+from hume import HumeVoiceClient, VoiceConfig
+
+client = HumeVoiceClient("<your-api-key>")
+config = client.empathic_voice.configs.get_config_version(
+    id="id",
+    version=1,
+)
+```
+
+## Namespaces
+
+This SDK contains the APIs for expression measurement, empathic voice and custom models. Even
+if you do not plan on using more than one API to start, the SDK provides easy access in
+case you find additional APIs in the future.
+
+Each API is namespaced accordingly:
+
+```python
+from hume.client import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+
+client.expression_measurement. # APIs specific to Expression Measurement
+
+client.emapthic_voice.         # APIs specific to Empathic Voice
+```
+
+## Exception Handling
+
+All errors thrown by the SDK will be subclasses of [`ApiError`](./src/hume/core/api_error.py).
+
+```python
+import hume
+
+try:
+  client.text_gen.create_chat_completion(...)
+except hume.core.ApiError as e: # Handle all errors
+  print(e.status_code)
+  print(e.body)
+```
+
+## Pagination
+
+Paginated requests will return a `SyncPager` or `AsyncPager`, which can be used as generators for the underlying object. For example, `list_tools` will return a generator over `ReturnUserDefinedTool` and handle the pagination behind the scenes:
+
+```python
+import hume.client
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+
+for tool in client.empathic_voice.tools.list_tools():
+  print(tool)
+```
+
+you could also iterate page-by-page:
+
+```python
+for page in client.empathic_voice.tools.list_tools().iter_pages():
+  print(page.items)
+```
+
+or manually:
+
+```python
+pager = client.empathic_voice.tools.list_tools()
+# First page
+print(pager.items)
+# Second page
+pager = pager.next_page()
+print(pager.items)
+```
+
+## WebSockets
+
+We expose a websocket client for interacting with the EVI API as well as Expression Measurement.
+
+When interacting with these clients, you can use them very similarly to how you'd use the common `websockets` library:
+
+```python
+from hume import StreamDataModels
+
+client = AsyncHumeClient(api_key=os.getenv("HUME_API_KEY"))
+
+async with client.expression_measurement.stream.connect(
+    options={"config": StreamDataModels(...)}
+) as hume_socket:
+    print(await hume_socket.get_job_details())
+```
+
+The underlying connection, in this case `hume_socket`, will support intellisense/autocomplete for the different functions that are available on the socket!
+
+### Advanced
+
+#### Retries
+
+The Hume SDK is instrumented with automatic retries with exponential backoff. A request will be
+retried as long as the request is deemed retriable and the number of retry attempts has not grown larger
+than the configured retry limit.
+
+A request is deemed retriable when any of the following HTTP status codes is returned:
+
+- [408](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/408) (Timeout)
+- [409](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/409) (Conflict)
+- [429](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429) (Too Many Requests)
+- [5XX](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500) (Internal Server Errors)
+
+Use the `max_retries` request option to configure this behavior.
+
+```python
+from hume.client import HumeClient
+
+client = HumeClient(...)
+
+# Override retries for a specific method
+client.text_gen.create_chat_completion(..., {
+    max_retries=5
+})
+```
+
+#### Timeouts
+
+By default, requests time out after 60 seconds. You can configure this with a
+timeout option at the client or request level.
+
+```python
+from hume.client import HumeClient
+
+client = HumeClient(
+    # All timeouts are 20 seconds
+    timeout=20.0,
+)
+
+# Override timeout for a specific method
+client.text_gen.create_chat_completion(..., {
+    timeout_in_seconds=20.0
+})
+```
+
+#### Custom HTTP client
+
+You can override the httpx client to customize it for your use-case. Some common use-cases
+include support for proxies and transports.
+
+```python
+import httpx
+
+from hume.client import HumeClient
+
+client = HumeClient(
+    http_client=httpx.Client(
+        proxies="http://my.test.proxy.example.com",
+        transport=httpx.HTTPTransport(local_address="0.0.0.0"),
+    ),
+)
+```
+
+## Beta Status
+
+This SDK is in beta, and there may be breaking changes between versions without a major
+version update. Therefore, we recommend pinning the package version to a specific version.
+This way, you can install the same version each time without breaking changes.
+
+## Contributing
+
+While we value open-source contributions to this SDK, this library is generated programmatically.
+Additions made directly to this library would have to be moved over to our generation code,
+otherwise they would be overwritten upon the next generated release. Feel free to open a PR as
+a proof of concept, but know that we will not be able to merge it as-is. We suggest opening
+an issue first to discuss with us!
+
+On the other hand, contributions to the README are always very welcome!
