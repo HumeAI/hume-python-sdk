@@ -16,6 +16,7 @@ from ..types.posted_builtin_tool import PostedBuiltinTool
 from ..types.posted_event_message_specs import PostedEventMessageSpecs
 from ..types.posted_timeout_specs import PostedTimeoutSpecs
 from ..types.return_config import ReturnConfig
+from ...core.serialization import convert_and_respect_annotation_metadata
 from ...core.jsonable_encoder import jsonable_encoder
 from ...core.client_wrapper import AsyncClientWrapper
 
@@ -207,14 +208,34 @@ class ConfigsClient:
             json={
                 "name": name,
                 "version_description": version_description,
-                "prompt": prompt,
-                "voice": voice,
-                "language_model": language_model,
-                "ellm_model": ellm_model,
-                "tools": tools,
-                "builtin_tools": builtin_tools,
-                "event_messages": event_messages,
-                "timeouts": timeouts,
+                "prompt": convert_and_respect_annotation_metadata(
+                    object_=prompt, annotation=PostedPromptSpec, direction="write"
+                ),
+                "voice": convert_and_respect_annotation_metadata(
+                    object_=voice, annotation=PostedVoice, direction="write"
+                ),
+                "language_model": convert_and_respect_annotation_metadata(
+                    object_=language_model, annotation=PostedLanguageModel, direction="write"
+                ),
+                "ellm_model": convert_and_respect_annotation_metadata(
+                    object_=ellm_model, annotation=PostedEllmModel, direction="write"
+                ),
+                "tools": convert_and_respect_annotation_metadata(
+                    object_=tools,
+                    annotation=typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]],
+                    direction="write",
+                ),
+                "builtin_tools": convert_and_respect_annotation_metadata(
+                    object_=builtin_tools,
+                    annotation=typing.Sequence[typing.Optional[PostedBuiltinTool]],
+                    direction="write",
+                ),
+                "event_messages": convert_and_respect_annotation_metadata(
+                    object_=event_messages, annotation=PostedEventMessageSpecs, direction="write"
+                ),
+                "timeouts": convert_and_respect_annotation_metadata(
+                    object_=timeouts, annotation=PostedTimeoutSpecs, direction="write"
+                ),
             },
             request_options=request_options,
             omit=OMIT,
@@ -415,14 +436,34 @@ class ConfigsClient:
             method="POST",
             json={
                 "version_description": version_description,
-                "prompt": prompt,
-                "voice": voice,
-                "language_model": language_model,
-                "ellm_model": ellm_model,
-                "tools": tools,
-                "builtin_tools": builtin_tools,
-                "event_messages": event_messages,
-                "timeouts": timeouts,
+                "prompt": convert_and_respect_annotation_metadata(
+                    object_=prompt, annotation=PostedPromptSpec, direction="write"
+                ),
+                "voice": convert_and_respect_annotation_metadata(
+                    object_=voice, annotation=PostedVoice, direction="write"
+                ),
+                "language_model": convert_and_respect_annotation_metadata(
+                    object_=language_model, annotation=PostedLanguageModel, direction="write"
+                ),
+                "ellm_model": convert_and_respect_annotation_metadata(
+                    object_=ellm_model, annotation=PostedEllmModel, direction="write"
+                ),
+                "tools": convert_and_respect_annotation_metadata(
+                    object_=tools,
+                    annotation=typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]],
+                    direction="write",
+                ),
+                "builtin_tools": convert_and_respect_annotation_metadata(
+                    object_=builtin_tools,
+                    annotation=typing.Sequence[typing.Optional[PostedBuiltinTool]],
+                    direction="write",
+                ),
+                "event_messages": convert_and_respect_annotation_metadata(
+                    object_=event_messages, annotation=PostedEventMessageSpecs, direction="write"
+                ),
+                "timeouts": convert_and_respect_annotation_metadata(
+                    object_=timeouts, annotation=PostedTimeoutSpecs, direction="write"
+                ),
             },
             request_options=request_options,
             omit=OMIT,
@@ -898,14 +939,34 @@ class AsyncConfigsClient:
             json={
                 "name": name,
                 "version_description": version_description,
-                "prompt": prompt,
-                "voice": voice,
-                "language_model": language_model,
-                "ellm_model": ellm_model,
-                "tools": tools,
-                "builtin_tools": builtin_tools,
-                "event_messages": event_messages,
-                "timeouts": timeouts,
+                "prompt": convert_and_respect_annotation_metadata(
+                    object_=prompt, annotation=PostedPromptSpec, direction="write"
+                ),
+                "voice": convert_and_respect_annotation_metadata(
+                    object_=voice, annotation=PostedVoice, direction="write"
+                ),
+                "language_model": convert_and_respect_annotation_metadata(
+                    object_=language_model, annotation=PostedLanguageModel, direction="write"
+                ),
+                "ellm_model": convert_and_respect_annotation_metadata(
+                    object_=ellm_model, annotation=PostedEllmModel, direction="write"
+                ),
+                "tools": convert_and_respect_annotation_metadata(
+                    object_=tools,
+                    annotation=typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]],
+                    direction="write",
+                ),
+                "builtin_tools": convert_and_respect_annotation_metadata(
+                    object_=builtin_tools,
+                    annotation=typing.Sequence[typing.Optional[PostedBuiltinTool]],
+                    direction="write",
+                ),
+                "event_messages": convert_and_respect_annotation_metadata(
+                    object_=event_messages, annotation=PostedEventMessageSpecs, direction="write"
+                ),
+                "timeouts": convert_and_respect_annotation_metadata(
+                    object_=timeouts, annotation=PostedTimeoutSpecs, direction="write"
+                ),
             },
             request_options=request_options,
             omit=OMIT,
@@ -1122,14 +1183,34 @@ class AsyncConfigsClient:
             method="POST",
             json={
                 "version_description": version_description,
-                "prompt": prompt,
-                "voice": voice,
-                "language_model": language_model,
-                "ellm_model": ellm_model,
-                "tools": tools,
-                "builtin_tools": builtin_tools,
-                "event_messages": event_messages,
-                "timeouts": timeouts,
+                "prompt": convert_and_respect_annotation_metadata(
+                    object_=prompt, annotation=PostedPromptSpec, direction="write"
+                ),
+                "voice": convert_and_respect_annotation_metadata(
+                    object_=voice, annotation=PostedVoice, direction="write"
+                ),
+                "language_model": convert_and_respect_annotation_metadata(
+                    object_=language_model, annotation=PostedLanguageModel, direction="write"
+                ),
+                "ellm_model": convert_and_respect_annotation_metadata(
+                    object_=ellm_model, annotation=PostedEllmModel, direction="write"
+                ),
+                "tools": convert_and_respect_annotation_metadata(
+                    object_=tools,
+                    annotation=typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]],
+                    direction="write",
+                ),
+                "builtin_tools": convert_and_respect_annotation_metadata(
+                    object_=builtin_tools,
+                    annotation=typing.Sequence[typing.Optional[PostedBuiltinTool]],
+                    direction="write",
+                ),
+                "event_messages": convert_and_respect_annotation_metadata(
+                    object_=event_messages, annotation=PostedEventMessageSpecs, direction="write"
+                ),
+                "timeouts": convert_and_respect_annotation_metadata(
+                    object_=timeouts, annotation=PostedTimeoutSpecs, direction="write"
+                ),
             },
             request_options=request_options,
             omit=OMIT,

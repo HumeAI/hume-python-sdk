@@ -3,6 +3,8 @@
 from ....core.pydantic_utilities import UniversalBaseModel
 import typing
 import pydantic
+import typing_extensions
+from ....core.serialization import FieldMetadata
 from ....core.pydantic_utilities import IS_PYDANTIC_V2
 
 
@@ -21,7 +23,7 @@ class File(UniversalBaseModel):
     The content type of the file.
     """
 
-    md_5_sum: str = pydantic.Field(alias="md5sum")
+    md_5_sum: typing_extensions.Annotated[str, FieldMetadata(alias="md5sum")] = pydantic.Field()
     """
     The MD5 checksum of the file.
     """
