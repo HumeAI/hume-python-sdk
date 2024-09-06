@@ -12,8 +12,8 @@ from hume.core.api_error import ApiError
 from hume.empathic_voice.chat.audio.asyncio_utilities import Stream
 
 try:
-    import _cffi_backend as cffi_backend
-    import sounddevice
+    import _cffi_backend as cffi_backend # type: ignore
+    import sounddevice # type: ignore
     from _cffi_backend import \
         _CDataBase as CDataBase  # pylint: disable=no-name-in-module
     from sounddevice import CallbackFlags, RawInputStream
