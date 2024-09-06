@@ -19,7 +19,7 @@ jobs:
         run: |
           curl -sSL https://install.python-poetry.org | python - -y --version 1.5.1
       - name: Install dependencies
-        run: poetry install
+        run: poetry install -E microphone
       - name: Compile
         run: poetry run mypy .
   test:
@@ -31,12 +31,15 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: 3.9
+      - name: Install system dependencies for audio
+        run: |
+          sudo apt-get --yes update
+          sudo apt-get --yes install libasound2-dev libportaudio2 ffmpeg
       - name: Bootstrap poetry
         run: |
           curl -sSL https://install.python-poetry.org | python - -y --version 1.5.1
       - name: Install dependencies
-        run: poetry install
-
+        run: poetry install -E microphone
       - name: Install Fern
         run: npm install -g fern-api
       - name: Test
