@@ -1960,7 +1960,7 @@ toml = ["tomli (>=1.2.3)"]
 name = "pydub"
 version = "0.25.1"
 description = "Manipulate audio with an simple and easy high level interface"
-optional = false
+optional = true
 python-versions = "*"
 files = [
     {file = "pydub-0.25.1-py2.py3-none-any.whl", hash = "sha256:65617e33033874b59d87db603aa1ed450633288aefead953b30bded59cb599a6"},
@@ -2579,7 +2579,7 @@ type = ["importlib-metadata (>=7.0.2)", "jaraco.develop (>=7.21)", "mypy (==1.11
 name = "simpleaudio"
 version = "1.0.4"
 description = "Simple, asynchronous audio playback for Python 3."
-optional = false
+optional = true
 python-versions = "*"
 files = [
     {file = "simpleaudio-1.0.4-cp37-cp37m-macosx_10_6_intel.whl", hash = "sha256:05b63da515f5fc7c6f40e4d9673d22239c5e03e2bda200fc09fd21c185d73713"},
@@ -2628,7 +2628,7 @@ files = [
 name = "sounddevice"
 version = "0.4.7"
 description = "Play and Record Sound with Python"
-optional = false
+optional = true
 python-versions = ">=3.7"
 files = [
     {file = "sounddevice-0.4.7-py3-none-any.whl", hash = "sha256:1c3f18bfa4d9a257f5715f2ab83f2c0eb412a09f3e6a9fa73720886ca88f6bc7"},
@@ -3109,10 +3109,10 @@ type = ["pytest-mypy"]
 
 [extras]
 examples = ["jupyter"]
-legacy = ["pydub"]
-microphone = ["simpleaudio", "sounddevice"]
+legacy = ["pydub", "simpleaudio", "sounddevice"]
+microphone = ["pydub", "simpleaudio", "sounddevice"]
 
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4"
-content-hash = "7719a660590310ddbe54fe5ef2ffe9d6a9c71d5152f66d6ad666a03f3a1b2240"
+content-hash = "94da4d7b0043a562315700a473e6b30dbeb3d2ac6dd60b8bcdd8b4b79fde2027"
