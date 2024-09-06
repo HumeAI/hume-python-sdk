@@ -23,9 +23,9 @@ class MicrophoneInterface:
     async def start(
         cls,
         socket: ChatWebsocketConnection,
+        byte_stream: Stream[bytes],
         device: int | None = Microphone.DEFAULT_DEVICE,
         allow_user_interrupt: bool = DEFAULT_ALLOW_USER_INTERRUPT,
-        byte_stream: Stream[bytes] | None = None
     ) -> None:
         """Start the microphone interface.
 
@@ -33,6 +33,7 @@ class MicrophoneInterface:
             socket (AsyncChatWSSConnection): EVI socket.
             device (int | None): Device index for the microphone.
             allow_user_interrupt (bool): Whether to allow the user to interrupt EVI. If False, the user's microphone input is stopped from flowing to the WebSocket when audio from the assistant is playing.
+            byte_stream (Stream[bytes]): Stream of audio bytes.
         """
         with Microphone.context(device=device) as microphone:
             sender = MicrophoneSender.new(microphone=microphone, allow_interrupt=allow_user_interrupt)
