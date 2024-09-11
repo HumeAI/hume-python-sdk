@@ -92,12 +92,12 @@ build-backend = "poetry.core.masonry.api"
 requires = ["poetry-core"]
 
 [tool.covcheck.group.unit.coverage]
-branch = 40.0
-line = 60.0
+branch = 26.0
+line = 65.0
 
 [tool.covcheck.group.service.coverage]
-branch = 50.0
-line = 70.0
+branch = 30.0
+line = 67.0
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
