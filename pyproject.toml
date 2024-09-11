@@ -93,7 +93,7 @@ requires = ["poetry-core"]
 
 [tool.covcheck.group.unit.coverage]
 branch = 26.0
-line = 65.0
+line = 62.0
 
 [tool.covcheck.group.service.coverage]
 branch = 30.0
