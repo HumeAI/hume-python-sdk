@@ -2,7 +2,23 @@ name: ci
 
 on: [push]
 jobs:
-  compile:
+  compile-without-audio:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Set up python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+      - name: Bootstrap poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python - -y --version 1.5.1
+      - name: Install dependencies
+        run: poetry install
+      - name: Type check everything except audio utilities and legacy
+        run: poetry run mypy . --exclude 'src/hume/empathic_voice/chat/audio' --exclude 'src/hume/legacy/microphone'
+  compile-with-audio:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout repo
@@ -46,7 +62,7 @@ jobs:
         run: fern test --command "poetry run pytest -rP . --ignore ./tests/custom/_legacy"
 
   publish:
-    needs: [compile, test]
+    needs: [compile-without-audio, compile-with-audio, test]
     if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
     runs-on: ubuntu-20.04
     steps:
