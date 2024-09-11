@@ -27,5 +27,5 @@ async def _play_audio(byte_str: bytes) -> None:
     """
     if not _HAS_AUDIO_DEPENDENCIES:
         raise ApiError(body='Run `pip install "hume[microphone]"` to install dependencies required to use audio playback.')
-    segment = AudioSegment.from_file(BytesIO(byte_str))
+    segment = AudioSegment.from_file(BytesIO(byte_str)) # type: ignore
     await asyncio.to_thread(pydub.playback.play, segment)
