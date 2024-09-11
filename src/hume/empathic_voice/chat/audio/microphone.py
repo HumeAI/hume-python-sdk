@@ -18,16 +18,16 @@ try:
         _CDataBase as CDataBase  # pylint: disable=no-name-in-module
     from sounddevice import CallbackFlags, RawInputStream
 
-    HAS_AUDIO_DEPENDENCIES = True
+    _HAS_AUDIO_DEPENDENCIES = True
 except ModuleNotFoundError:
-    HAS_AUDIO_DEPENDENCIES = False
+    _HAS_AUDIO_DEPENDENCIES = False
 
 
 logger = logging.getLogger(__name__)
 
 
 @dataclasses.dataclass
-class Microphone:
+class _Microphone:
     """Abstraction for handling microphone input."""
 
     # NOTE: use int16 for compatibility with deepgram
@@ -42,13 +42,13 @@ class Microphone:
     # [https://python-sounddevice.readthedocs.io/en/0.4.6/examples.html#creating-an-asyncio-generator-for-audio-blocks]
     @classmethod
     @contextlib.contextmanager
-    def context(cls, *, device: int | None = DEFAULT_DEVICE) -> Iterator["Microphone"]:
+    def context(cls, *, device: int | None = DEFAULT_DEVICE) -> Iterator["_Microphone"]:
         """Create a new microphone context.
 
         Args:
             device (int | None): Input device ID.
         """
-        if not HAS_AUDIO_DEPENDENCIES:
+        if not _HAS_AUDIO_DEPENDENCIES:
             raise ApiError(body='Run `pip install "hume[microphone]"` to install dependencies required to use microphone playback.')
 
         if device is None:

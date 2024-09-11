@@ -2,12 +2,12 @@ import logging
 from dataclasses import dataclass
 from typing import Protocol
 
-from hume.empathic_voice.chat.audio.microphone import Microphone
+from hume.empathic_voice.chat.audio.microphone import _Microphone
 from hume.empathic_voice.chat.socket_client import ChatWebsocketConnection
 
 logger = logging.getLogger(__name__)
 
-class Sender(Protocol):
+class _Sender(Protocol):
     """Protocol for sending streaming audio to an EVI connection."""
 
     async def on_audio_begin(self) -> None:
@@ -27,19 +27,19 @@ class Sender(Protocol):
         raise NotImplementedError()
 
 @dataclass
-class MicrophoneSender(Sender):
+class _MicrophoneSender(_Sender):
     """Sender for streaming audio from a microphone."""
 
-    microphone: Microphone
+    microphone: _Microphone
     send_audio: bool
     allow_interrupt: bool
 
     @classmethod
-    def new(cls, *, microphone: Microphone, allow_interrupt: bool) -> "MicrophoneSender":
+    def new(cls, *, microphone: _Microphone, allow_interrupt: bool) -> "_MicrophoneSender":
         """Create a new microphone sender.
 
         Args:
-            microphone (Microphone): Microphone instance.
+            microphone (_Microphone): Microphone instance.
             allow_interrupt (bool): Whether to allow interrupting the audio stream.
         """
         return cls(microphone=microphone, send_audio=True, allow_interrupt=allow_interrupt)

@@ -5,33 +5,33 @@ import logging
 from dataclasses import dataclass
 
 from hume.empathic_voice.chat.audio.asyncio_utilities import Stream
-from hume.empathic_voice.chat.audio.audio_utilities import play_audio
-from hume.empathic_voice.chat.audio.microphone_sender import Sender
+from hume.empathic_voice.chat.audio.audio_utilities import _play_audio
+from hume.empathic_voice.chat.audio.microphone_sender import _Sender
 from hume.empathic_voice.chat.socket_client import ChatWebsocketConnection
 
 logger = logging.getLogger(__name__)
 
-
 @dataclass
-class ChatClient:
+class _ChatClient:
     """Async client for handling messages to and from an EVI connection."""
 
-    sender: Sender
+    sender: _Sender
     byte_strs: Stream[bytes]
 
     @classmethod
-    def new(cls, *, sender: Sender, byte_strs: Stream[bytes]) -> "ChatClient":
+    def new(cls, *, sender: _Sender, byte_strs: Stream[bytes]) -> "_ChatClient":
         """Create a new chat client.
 
         Args:
-            sender (Sender): Sender for audio data.
+            sender (_Sender): Sender for audio data.
+            byte_strs (Stream[bytes]): Byte stream of audio data. 
         """
         return cls(sender=sender, byte_strs=byte_strs)
 
     async def _play(self) -> None:
         async for byte_str in self.byte_strs:
             await self.sender.on_audio_begin()
-            await play_audio(byte_str)
+            await _play_audio(byte_str)
             await self.sender.on_audio_end()
 
     async def run(self, *, socket: ChatWebsocketConnection) -> None:

@@ -8,9 +8,9 @@ from hume.core.api_error import ApiError
 try:
     import pydub.playback
     from pydub import AudioSegment
-    HAS_AUDIO_DEPENDENCIES = True
+    _HAS_AUDIO_DEPENDENCIES = True
 except ModuleNotFoundError:
-    HAS_AUDIO_DEPENDENCIES = False
+    _HAS_AUDIO_DEPENDENCIES = False
 
 
 # NOTE:
@@ -19,13 +19,13 @@ except ModuleNotFoundError:
 #   - [https://stackoverflow.com/a/20746883]
 #   - [https://github.com/jiaaro/pydub#playback]
 #   - [https://github.com/jiaaro/pydub/blob/master/pydub/playback.py]
-async def play_audio(byte_str: bytes) -> None:
+async def _play_audio(byte_str: bytes) -> None:
     """Play a byte string of audio data with the system audio output device.
 
     Args:
         byte_str (bytes): Byte string of audio data.
     """
-    if not HAS_AUDIO_DEPENDENCIES:
+    if not _HAS_AUDIO_DEPENDENCIES:
         raise ApiError(body='Run `pip install "hume[microphone]"` to install dependencies required to use audio playback.')
     segment = AudioSegment.from_file(BytesIO(byte_str))
     await asyncio.to_thread(pydub.playback.play, segment)
