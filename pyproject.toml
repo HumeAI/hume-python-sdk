@@ -82,6 +82,23 @@ testbook = "^0.4.2"
 types-aiofiles = "^24.1.0.20240626"
 types-python-dateutil = "^2.9.0.20240316"
 
+[tool.poetry.extras]
+examples = ["jupyter"]
+legacy = ["pydub"]
+microphone = ["simpleaudio", "sounddevice"]
+
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core"]
+
+[tool.covcheck.group.unit.coverage]
+branch = 40.0
+line = 60.0
+
+[tool.covcheck.group.service.coverage]
+branch = 50.0
+line = 70.0
+
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
@@ -91,12 +108,3 @@ plugins = ["pydantic.mypy"]
 
 [tool.ruff]
 line-length = 120
-
-[build-system]
-build-backend = "poetry.core.masonry.api"
-requires = ["poetry-core"]
-
-[tool.poetry.extras]
-examples = ["jupyter"]
-legacy = ["pydub"]
-microphone = ["simpleaudio", "sounddevice"]
