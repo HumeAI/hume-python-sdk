@@ -21,10 +21,10 @@ jobs:
           - "3.11"
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Python ${{ matrix.python-version }} Setup
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -38,7 +38,6 @@ jobs:
         shell: bash
         run: |
           pip install poetry
-
           if [ -d /poetryenvs ]; then rm -rf ~/poetryenvs; fi
           poetry config virtualenvs.path ~/poetryenvs
           poetry install
@@ -66,13 +65,13 @@ jobs:
           poetry run pydocstyle hume
 
       - name: Upload HTML Coverage
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: hume-unit-coverage-html
           path: hume/htmlcov
 
       - name: Upload XML Coverage
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: hume-unit-coverage-xml
           path: hume/coverage.xml
@@ -88,10 +87,10 @@ jobs:
           - "3.10"
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Python ${{ matrix.python-version }} Setup
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -105,7 +104,6 @@ jobs:
         shell: bash
         run: |
           pip install poetry
-
           if [ -d /poetryenvs ]; then rm -rf ~/poetryenvs; fi
           poetry config virtualenvs.path ~/poetryenvs
           poetry install
@@ -119,13 +117,13 @@ jobs:
           poetry run pytest tests/custom/_legacy -m service
 
       - name: Upload HTML Coverage
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: hume-service-coverage-html
           path: hume/htmlcov
 
       - name: Upload XML Coverage
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: hume-service-coverage-xml
           path: hume/coverage.xml
@@ -139,10 +137,10 @@ jobs:
           - "3.10"
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Python ${{ matrix.python-version }} Setup
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
 
