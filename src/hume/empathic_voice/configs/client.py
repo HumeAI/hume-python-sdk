@@ -5,9 +5,11 @@ from ...core.client_wrapper import SyncClientWrapper
 from ...core.request_options import RequestOptions
 from ..types.return_paged_configs import ReturnPagedConfigs
 from ...core.pydantic_utilities import parse_obj_as
+from ..errors.bad_request_error import BadRequestError
+from ..types.error_response import ErrorResponse
 from json.decoder import JSONDecodeError
 from ...core.api_error import ApiError
-from ..types.posted_prompt_spec import PostedPromptSpec
+from ..types.posted_config_prompt_spec import PostedConfigPromptSpec
 from ..types.posted_voice import PostedVoice
 from ..types.posted_language_model import PostedLanguageModel
 from ..types.posted_ellm_model import PostedEllmModel
@@ -96,6 +98,16 @@ class ConfigsClient:
                         object_=_response.json(),
                     ),
                 )
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    typing.cast(
+                        ErrorResponse,
+                        parse_obj_as(
+                            type_=ErrorResponse,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -104,9 +116,10 @@ class ConfigsClient:
     def create_config(
         self,
         *,
+        evi_version: str,
         name: str,
         version_description: typing.Optional[str] = OMIT,
-        prompt: typing.Optional[PostedPromptSpec] = OMIT,
+        prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
         voice: typing.Optional[PostedVoice] = OMIT,
         language_model: typing.Optional[PostedLanguageModel] = OMIT,
         ellm_model: typing.Optional[PostedEllmModel] = OMIT,
@@ -119,13 +132,16 @@ class ConfigsClient:
         """
         Parameters
         ----------
+        evi_version : str
+            Specifies the EVI version to use. Use `"1"` for version 1, or `"2"` for the latest enhanced version. For a detailed comparison of the two versions, refer to our [guide](/docs/empathic-voice-interface-evi/evi-2).
+
         name : str
             Name applied to all versions of a particular Config.
 
         version_description : typing.Optional[str]
             An optional description of the Config version.
 
-        prompt : typing.Optional[PostedPromptSpec]
+        prompt : typing.Optional[PostedConfigPromptSpec]
 
         voice : typing.Optional[PostedVoice]
             A voice specification associated with this Config.
@@ -162,10 +178,10 @@ class ConfigsClient:
         --------
         from hume import HumeClient
         from hume.empathic_voice import (
+            PostedConfigPromptSpec,
             PostedEventMessageSpec,
             PostedEventMessageSpecs,
             PostedLanguageModel,
-            PostedPromptSpec,
             PostedVoice,
         )
 
@@ -174,12 +190,13 @@ class ConfigsClient:
         )
         client.empathic_voice.configs.create_config(
             name="Weather Assistant Config",
-            prompt=PostedPromptSpec(
+            prompt=PostedConfigPromptSpec(
                 id="af699d45-2985-42cc-91b9-af9e5da3bac5",
                 version=0,
             ),
+            evi_version="2",
             voice=PostedVoice(
-                name="KORA",
+                name="SAMPLE VOICE",
             ),
             language_model=PostedLanguageModel(
                 model_provider="ANTHROPIC",
@@ -206,10 +223,11 @@ class ConfigsClient:
             "v0/evi/configs",
             method="POST",
             json={
+                "evi_version": evi_version,
                 "name": name,
                 "version_description": version_description,
                 "prompt": convert_and_respect_annotation_metadata(
-                    object_=prompt, annotation=PostedPromptSpec, direction="write"
+                    object_=prompt, annotation=PostedConfigPromptSpec, direction="write"
                 ),
                 "voice": convert_and_respect_annotation_metadata(
                     object_=voice, annotation=PostedVoice, direction="write"
@@ -248,6 +266,16 @@ class ConfigsClient:
                         type_=ReturnConfig,  # type: ignore
                         object_=_response.json(),
                     ),
+                )
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    typing.cast(
+                        ErrorResponse,
+                        parse_obj_as(
+                            type_=ErrorResponse,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
                 )
             _response_json = _response.json()
         except JSONDecodeError:
@@ -320,6 +348,16 @@ class ConfigsClient:
                         object_=_response.json(),
                     ),
                 )
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    typing.cast(
+                        ErrorResponse,
+                        parse_obj_as(
+                            type_=ErrorResponse,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -329,8 +367,9 @@ class ConfigsClient:
         self,
         id: str,
         *,
+        evi_version: str,
         version_description: typing.Optional[str] = OMIT,
-        prompt: typing.Optional[PostedPromptSpec] = OMIT,
+        prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
         voice: typing.Optional[PostedVoice] = OMIT,
         language_model: typing.Optional[PostedLanguageModel] = OMIT,
         ellm_model: typing.Optional[PostedEllmModel] = OMIT,
@@ -346,10 +385,13 @@ class ConfigsClient:
         id : str
             Identifier for a Config. Formatted as a UUID.
 
+        evi_version : str
+            The version of the EVI used with this config.
+
         version_description : typing.Optional[str]
             An optional description of the Config version.
 
-        prompt : typing.Optional[PostedPromptSpec]
+        prompt : typing.Optional[PostedConfigPromptSpec]
 
         voice : typing.Optional[PostedVoice]
             A voice specification associated with this Config version.
@@ -386,11 +428,11 @@ class ConfigsClient:
         --------
         from hume import HumeClient
         from hume.empathic_voice import (
+            PostedConfigPromptSpec,
             PostedEllmModel,
             PostedEventMessageSpec,
             PostedEventMessageSpecs,
             PostedLanguageModel,
-            PostedPromptSpec,
             PostedVoice,
         )
 
@@ -400,7 +442,8 @@ class ConfigsClient:
         client.empathic_voice.configs.create_config_version(
             id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
             version_description="This is an updated version of the Weather Assistant Config.",
-            prompt=PostedPromptSpec(
+            evi_version="2",
+            prompt=PostedConfigPromptSpec(
                 id="af699d45-2985-42cc-91b9-af9e5da3bac5",
                 version=0,
             ),
@@ -435,9 +478,10 @@ class ConfigsClient:
             f"v0/evi/configs/{jsonable_encoder(id)}",
             method="POST",
             json={
+                "evi_version": evi_version,
                 "version_description": version_description,
                 "prompt": convert_and_respect_annotation_metadata(
-                    object_=prompt, annotation=PostedPromptSpec, direction="write"
+                    object_=prompt, annotation=PostedConfigPromptSpec, direction="write"
                 ),
                 "voice": convert_and_respect_annotation_metadata(
                     object_=voice, annotation=PostedVoice, direction="write"
@@ -477,6 +521,16 @@ class ConfigsClient:
                         object_=_response.json(),
                     ),
                 )
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    typing.cast(
+                        ErrorResponse,
+                        parse_obj_as(
+                            type_=ErrorResponse,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -515,6 +569,16 @@ class ConfigsClient:
         try:
             if 200 <= _response.status_code < 300:
                 return
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    typing.cast(
+                        ErrorResponse,
+                        parse_obj_as(
+                            type_=ErrorResponse,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -562,6 +626,16 @@ class ConfigsClient:
         try:
             if 200 <= _response.status_code < 300:
                 return _response.text  # type: ignore
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    typing.cast(
+                        ErrorResponse,
+                        parse_obj_as(
+                            type_=ErrorResponse,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -579,7 +653,7 @@ class ConfigsClient:
         version : int
             Version number for a Config.
 
-            Configs, as well as Prompts and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+            Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
 
             Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
 
@@ -617,6 +691,16 @@ class ConfigsClient:
                         object_=_response.json(),
                     ),
                 )
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    typing.cast(
+                        ErrorResponse,
+                        parse_obj_as(
+                            type_=ErrorResponse,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -634,7 +718,7 @@ class ConfigsClient:
         version : int
             Version number for a Config.
 
-            Configs, as well as Prompts and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+            Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
 
             Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
 
@@ -665,6 +749,16 @@ class ConfigsClient:
         try:
             if 200 <= _response.status_code < 300:
                 return
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    typing.cast(
+                        ErrorResponse,
+                        parse_obj_as(
+                            type_=ErrorResponse,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -687,7 +781,7 @@ class ConfigsClient:
         version : int
             Version number for a Config.
 
-            Configs, as well as Prompts and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+            Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
 
             Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
 
@@ -732,6 +826,16 @@ class ConfigsClient:
                         type_=ReturnConfig,  # type: ignore
                         object_=_response.json(),
                     ),
+                )
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    typing.cast(
+                        ErrorResponse,
+                        parse_obj_as(
+                            type_=ErrorResponse,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
                 )
             _response_json = _response.json()
         except JSONDecodeError:
@@ -819,6 +923,16 @@ class AsyncConfigsClient:
                         object_=_response.json(),
                     ),
                 )
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    typing.cast(
+                        ErrorResponse,
+                        parse_obj_as(
+                            type_=ErrorResponse,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -827,9 +941,10 @@ class AsyncConfigsClient:
     async def create_config(
         self,
         *,
+        evi_version: str,
         name: str,
         version_description: typing.Optional[str] = OMIT,
-        prompt: typing.Optional[PostedPromptSpec] = OMIT,
+        prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
         voice: typing.Optional[PostedVoice] = OMIT,
         language_model: typing.Optional[PostedLanguageModel] = OMIT,
         ellm_model: typing.Optional[PostedEllmModel] = OMIT,
@@ -842,13 +957,16 @@ class AsyncConfigsClient:
         """
         Parameters
         ----------
+        evi_version : str
+            Specifies the EVI version to use. Use `"1"` for version 1, or `"2"` for the latest enhanced version. For a detailed comparison of the two versions, refer to our [guide](/docs/empathic-voice-interface-evi/evi-2).
+
         name : str
             Name applied to all versions of a particular Config.
 
         version_description : typing.Optional[str]
             An optional description of the Config version.
 
-        prompt : typing.Optional[PostedPromptSpec]
+        prompt : typing.Optional[PostedConfigPromptSpec]
 
         voice : typing.Optional[PostedVoice]
             A voice specification associated with this Config.
@@ -887,10 +1005,10 @@ class AsyncConfigsClient:
 
         from hume import AsyncHumeClient
         from hume.empathic_voice import (
+            PostedConfigPromptSpec,
             PostedEventMessageSpec,
             PostedEventMessageSpecs,
             PostedLanguageModel,
-            PostedPromptSpec,
             PostedVoice,
         )
 
@@ -902,12 +1020,13 @@ class AsyncConfigsClient:
         async def main() -> None:
             await client.empathic_voice.configs.create_config(
                 name="Weather Assistant Config",
-                prompt=PostedPromptSpec(
+                prompt=PostedConfigPromptSpec(
                     id="af699d45-2985-42cc-91b9-af9e5da3bac5",
                     version=0,
                 ),
+                evi_version="2",
                 voice=PostedVoice(
-                    name="KORA",
+                    name="SAMPLE VOICE",
                 ),
                 language_model=PostedLanguageModel(
                     model_provider="ANTHROPIC",
@@ -937,10 +1056,11 @@ class AsyncConfigsClient:
             "v0/evi/configs",
             method="POST",
             json={
+                "evi_version": evi_version,
                 "name": name,
                 "version_description": version_description,
                 "prompt": convert_and_respect_annotation_metadata(
-                    object_=prompt, annotation=PostedPromptSpec, direction="write"
+                    object_=prompt, annotation=PostedConfigPromptSpec, direction="write"
                 ),
                 "voice": convert_and_respect_annotation_metadata(
                     object_=voice, annotation=PostedVoice, direction="write"
@@ -979,6 +1099,16 @@ class AsyncConfigsClient:
                         type_=ReturnConfig,  # type: ignore
                         object_=_response.json(),
                     ),
+                )
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    typing.cast(
+                        ErrorResponse,
+                        parse_obj_as(
+                            type_=ErrorResponse,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
                 )
             _response_json = _response.json()
         except JSONDecodeError:
@@ -1059,6 +1189,16 @@ class AsyncConfigsClient:
                         object_=_response.json(),
                     ),
                 )
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    typing.cast(
+                        ErrorResponse,
+                        parse_obj_as(
+                            type_=ErrorResponse,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -1068,8 +1208,9 @@ class AsyncConfigsClient:
         self,
         id: str,
         *,
+        evi_version: str,
         version_description: typing.Optional[str] = OMIT,
-        prompt: typing.Optional[PostedPromptSpec] = OMIT,
+        prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
         voice: typing.Optional[PostedVoice] = OMIT,
         language_model: typing.Optional[PostedLanguageModel] = OMIT,
         ellm_model: typing.Optional[PostedEllmModel] = OMIT,
@@ -1085,10 +1226,13 @@ class AsyncConfigsClient:
         id : str
             Identifier for a Config. Formatted as a UUID.
 
+        evi_version : str
+            The version of the EVI used with this config.
+
         version_description : typing.Optional[str]
             An optional description of the Config version.
 
-        prompt : typing.Optional[PostedPromptSpec]
+        prompt : typing.Optional[PostedConfigPromptSpec]
 
         voice : typing.Optional[PostedVoice]
             A voice specification associated with this Config version.
@@ -1127,11 +1271,11 @@ class AsyncConfigsClient:
 
         from hume import AsyncHumeClient
         from hume.empathic_voice import (
+            PostedConfigPromptSpec,
             PostedEllmModel,
             PostedEventMessageSpec,
             PostedEventMessageSpecs,
             PostedLanguageModel,
-            PostedPromptSpec,
             PostedVoice,
         )
 
@@ -1144,7 +1288,8 @@ class AsyncConfigsClient:
             await client.empathic_voice.configs.create_config_version(
                 id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
                 version_description="This is an updated version of the Weather Assistant Config.",
-                prompt=PostedPromptSpec(
+                evi_version="2",
+                prompt=PostedConfigPromptSpec(
                     id="af699d45-2985-42cc-91b9-af9e5da3bac5",
                     version=0,
                 ),
@@ -1182,9 +1327,10 @@ class AsyncConfigsClient:
             f"v0/evi/configs/{jsonable_encoder(id)}",
             method="POST",
             json={
+                "evi_version": evi_version,
                 "version_description": version_description,
                 "prompt": convert_and_respect_annotation_metadata(
-                    object_=prompt, annotation=PostedPromptSpec, direction="write"
+                    object_=prompt, annotation=PostedConfigPromptSpec, direction="write"
                 ),
                 "voice": convert_and_respect_annotation_metadata(
                     object_=voice, annotation=PostedVoice, direction="write"
@@ -1223,6 +1369,16 @@ class AsyncConfigsClient:
                         type_=ReturnConfig,  # type: ignore
                         object_=_response.json(),
                     ),
+                )
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    typing.cast(
+                        ErrorResponse,
+                        parse_obj_as(
+                            type_=ErrorResponse,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
                 )
             _response_json = _response.json()
         except JSONDecodeError:
@@ -1270,6 +1426,16 @@ class AsyncConfigsClient:
         try:
             if 200 <= _response.status_code < 300:
                 return
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    typing.cast(
+                        ErrorResponse,
+                        parse_obj_as(
+                            type_=ErrorResponse,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -1327,6 +1493,16 @@ class AsyncConfigsClient:
         try:
             if 200 <= _response.status_code < 300:
                 return _response.text  # type: ignore
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    typing.cast(
+                        ErrorResponse,
+                        parse_obj_as(
+                            type_=ErrorResponse,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -1344,7 +1520,7 @@ class AsyncConfigsClient:
         version : int
             Version number for a Config.
 
-            Configs, as well as Prompts and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+            Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
 
             Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
 
@@ -1390,6 +1566,16 @@ class AsyncConfigsClient:
                         object_=_response.json(),
                     ),
                 )
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    typing.cast(
+                        ErrorResponse,
+                        parse_obj_as(
+                            type_=ErrorResponse,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -1407,7 +1593,7 @@ class AsyncConfigsClient:
         version : int
             Version number for a Config.
 
-            Configs, as well as Prompts and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+            Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
 
             Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
 
@@ -1446,6 +1632,16 @@ class AsyncConfigsClient:
         try:
             if 200 <= _response.status_code < 300:
                 return
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    typing.cast(
+                        ErrorResponse,
+                        parse_obj_as(
+                            type_=ErrorResponse,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
@@ -1468,7 +1664,7 @@ class AsyncConfigsClient:
         version : int
             Version number for a Config.
 
-            Configs, as well as Prompts and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+            Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
 
             Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
 
@@ -1521,6 +1717,16 @@ class AsyncConfigsClient:
                         type_=ReturnConfig,  # type: ignore
                         object_=_response.json(),
                     ),
+                )
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    typing.cast(
+                        ErrorResponse,
+                        parse_obj_as(
+                            type_=ErrorResponse,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
                 )
             _response_json = _response.json()
         except JSONDecodeError:

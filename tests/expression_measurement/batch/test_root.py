@@ -3,7 +3,7 @@
 from hume import HumeClient
 from hume import AsyncHumeClient
 import typing
-from ..utilities import validate_response
+from ...utilities import validate_response
 
 
 async def test_list_jobs(client: HumeClient, async_client: AsyncHumeClient) -> None:
