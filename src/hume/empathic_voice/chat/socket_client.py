@@ -61,7 +61,7 @@ class ChatWebsocketConnection:
 
     async def __aiter__(self):
         async for message in self.websocket:
-            yield message
+            yield parse_obj_as(SubscribeEvent, json.loads(message))  # type: ignore
 
     async def _send(self, data: typing.Any) -> None:
         if isinstance(data, dict):
