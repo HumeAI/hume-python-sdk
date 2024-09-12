@@ -1,9 +1,24 @@
 [tool.poetry]
-name = "hume"
-version = "0.7.0-rc2"
-description = "A Python SDK for Hume AI"
-readme = "README.md"
 authors = []
+classifiers = [
+    "Intended Audience :: Developers",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Operating System :: POSIX",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: Microsoft :: Windows",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+    "License :: OSI Approved :: MIT License",
+]
+description = "A Python SDK for Hume AI"
 keywords = [
     "hume",
     "ai",
@@ -24,30 +39,13 @@ keywords = [
     "expressive",
     "embeddings",
     "communication",
-    "learning"
+    "learning",
 ]
 license = "MIT"
-classifiers = [
-    "Intended Audience :: Developers",
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Operating System :: OS Independent",
-    "Operating System :: POSIX",
-    "Operating System :: MacOS",
-    "Operating System :: POSIX :: Linux",
-    "Operating System :: Microsoft :: Windows",
-    "Topic :: Software Development :: Libraries :: Python Modules",
-    "Typing :: Typed",
-    "License :: OSI Approved :: MIT License"
-]
-packages = [
-    { include = "hume", from = "src"}
-]
+name = "hume"
+packages = [{ include = "hume", from = "src" }]
+readme = "README.md"
+version = "0.7.0-rc2"
 
 [project.urls]
 Documentation = 'hhttps://dev.hume.ai/reference'
@@ -55,44 +53,34 @@ Homepage = 'https://www.hume.ai/'
 Repository = 'https://github.com/HumeAI/hume-python-sdk'
 
 [tool.poetry.dependencies]
-python = ">=3.9,<4"
 aiofiles = "^24.1.0"
 eval-type-backport = "^0.2.0"
 httpx = ">=0.21.2"
-jupyter = { version="^1.0.0", optional = true}
+jupyter = { version = "^1.0.0", optional = true }
 pydantic = ">= 1.9.2"
 pydantic-core = "^2.18.2"
-pydub = { version="^0.25.1", optional = true}
-simpleaudio = { version="^1.0.4", optional = true}
-sounddevice = { version="^0.4.6", optional = true}
+pydub = { version = "^0.25.1", optional = true }
+python = ">=3.9,<4"
+simpleaudio = { version = "^1.0.4", optional = true }
+sounddevice = { version = "^0.4.6", optional = true }
 typing_extensions = ">= 4.0.0"
 websockets = "12.0"
 
 [tool.poetry.dev-dependencies]
+covcheck = { version = "^0.4.3", extras = ["toml"] }
 mypy = "1.0.1"
-pytest = "^7.4.0"
-pytest-asyncio = "^0.23.5"
-python-dateutil = "^2.9.0"
-types-python-dateutil = "^2.9.0.20240316"
-covcheck = "^0.4.3"
 pydocstyle = "^6.1.1"
 pydub-stubs = "^0.25.1"
 pylint = "^2.16.2"
+pytest = "^7.4.0"
+pytest-asyncio = "^0.23.5"
 pytest-cov = "^4.0.0"
+python-dateutil = "^2.9.0"
 ruff = "^0.5.6"
 semver = "^2.13.0"
 testbook = "^0.4.2"
 types-aiofiles = "^24.1.0.20240626"
-
-[tool.pytest.ini_options]
-testpaths = [ "tests" ]
-asyncio_mode = "auto"
-
-[tool.mypy]
-plugins = ["pydantic.mypy"]
-
-[tool.ruff]
-line-length = 120
+types-python-dateutil = "^2.9.0.20240316"
 
 [build-system]
 requires = ["poetry-core"]
@@ -102,3 +90,21 @@ build-backend = "poetry.core.masonry.api"
 examples=["jupyter"]
 microphone=["pydub", "simpleaudio", "sounddevice"]
 legacy=["pydub"]
+
+[tool.covcheck.group.unit.coverage]
+branch = 26.0
+line = 62.0
+
+[tool.covcheck.group.service.coverage]
+branch = 30.0
+line = 67.0
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.mypy]
+plugins = ["pydantic.mypy"]
+
+[tool.ruff]
+line-length = 120
