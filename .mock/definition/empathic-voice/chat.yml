@@ -130,7 +130,7 @@ types:
       - root.ToolResponseMessage
       - root.ToolErrorMessage
     source:
-      openapi: ../empathic-voice-interface/assistant-asyncapi.json
+      openapi: assistant-asyncapi.json
   PublishEvent:
     discriminated: false
     union:
@@ -143,4 +143,4 @@ types:
       - root.PauseAssistantMessage
       - root.ResumeAssistantMessage
     source:
-      openapi: ../empathic-voice-interface/assistant-asyncapi.json
+      openapi: assistant-asyncapi.json

@@ -48,6 +48,8 @@ service:
       response:
         docs: Success
         type: root.ReturnPagedPrompts
+      errors:
+        - root.BadRequestError
       examples:
         - query-parameters:
             page_number: 0
@@ -122,6 +124,8 @@ service:
       response:
         docs: Created
         type: optional<root.ReturnPrompt>
+      errors:
+        - root.BadRequestError
       examples:
         - request:
             name: Weather Assistant Prompt
@@ -189,6 +193,8 @@ service:
       response:
         docs: Success
         type: root.ReturnPagedPrompts
+      errors:
+        - root.BadRequestError
       examples:
         - path-parameters:
             id: af699d45-2985-42cc-91b9-af9e5da3bac5
@@ -248,6 +254,8 @@ service:
       response:
         docs: Created
         type: optional<root.ReturnPrompt>
+      errors:
+        - root.BadRequestError
       examples:
         - path-parameters:
             id: af699d45-2985-42cc-91b9-af9e5da3bac5
@@ -285,6 +293,8 @@ service:
           type: string
           docs: Identifier for a Prompt. Formatted as a UUID.
       display-name: Delete prompt
+      errors:
+        - root.BadRequestError
       examples:
         - path-parameters:
             id: af699d45-2985-42cc-91b9-af9e5da3bac5
@@ -307,6 +317,8 @@ service:
       response:
         docs: Success
         type: text
+      errors:
+        - root.BadRequestError
       examples:
         - path-parameters:
             id: af699d45-2985-42cc-91b9-af9e5da3bac5
@@ -326,7 +338,7 @@ service:
             Version number for a Prompt.
 
 
-            Prompts, as well as Configs and Tools, are versioned. This
+            Prompts, Configs, Custom Voices, and Tools are versioned. This
             versioning system supports iterative development, allowing you to
             progressively refine prompts and revert to previous versions if
             needed.
@@ -339,6 +351,8 @@ service:
       response:
         docs: Success
         type: optional<root.ReturnPrompt>
+      errors:
+        - root.BadRequestError
       examples:
         - path-parameters:
             id: af699d45-2985-42cc-91b9-af9e5da3bac5
@@ -373,7 +387,7 @@ service:
             Version number for a Prompt.
 
 
-            Prompts, as well as Configs and Tools, are versioned. This
+            Prompts, Configs, Custom Voices, and Tools are versioned. This
             versioning system supports iterative development, allowing you to
             progressively refine prompts and revert to previous versions if
             needed.
@@ -383,6 +397,8 @@ service:
             of the Prompt. Each update to the Prompt increments its version
             number.
       display-name: Delete prompt version
+      errors:
+        - root.BadRequestError
       examples:
         - path-parameters:
             id: af699d45-2985-42cc-91b9-af9e5da3bac5
@@ -401,7 +417,7 @@ service:
             Version number for a Prompt.
 
 
-            Prompts, as well as Configs and Tools, are versioned. This
+            Prompts, Configs, Custom Voices, and Tools are versioned. This
             versioning system supports iterative development, allowing you to
             progressively refine prompts and revert to previous versions if
             needed.
@@ -421,6 +437,8 @@ service:
       response:
         docs: Success
         type: optional<root.ReturnPrompt>
+      errors:
+        - root.BadRequestError
       examples:
         - path-parameters:
             id: af699d45-2985-42cc-91b9-af9e5da3bac5
@@ -444,4 +462,4 @@ service:
                 conditions, and any weather alerts. Include helpful tips if
                 severe weather is expected.</role>
   source:
-    openapi: ../empathic-voice-interface/stenographer-openapi.json
+    openapi: stenographer-openapi.json

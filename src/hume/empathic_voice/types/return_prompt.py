@@ -21,7 +21,7 @@ class ReturnPrompt(UniversalBaseModel):
     """
     Version number for a Prompt.
     
-    Prompts, as well as Configs and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
+    Prompts, Configs, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
     
     Version numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number.
     """

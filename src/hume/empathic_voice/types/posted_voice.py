@@ -3,7 +3,7 @@
 from ...core.pydantic_utilities import UniversalBaseModel
 import typing
 import pydantic
-from .posted_voice_name import PostedVoiceName
+from .posted_custom_voice import PostedCustomVoice
 from ...core.pydantic_utilities import IS_PYDANTIC_V2
 
 
@@ -17,10 +17,16 @@ class PostedVoice(UniversalBaseModel):
     The provider of the voice to use. Currently, only `HUME_AI` is supported as the voice provider.
     """
 
-    name: typing.Optional[PostedVoiceName] = pydantic.Field(default=None)
+    name: typing.Optional[str] = pydantic.Field(default=None)
     """
-    String with the name of the voice to use. Maximum length of 75 characters. Will be converted to all-uppercase.
+    Specifies the name of the voice to use.
+    
+    This can be either the name of a previously created Custom Voice or one of our 7 base voices: `ITO`, `KORA`, `DACHER`, `AURA`, `FINN`, `WHIMSY`, or `STELLA`.
+    
+    The name will be automatically converted to uppercase (e.g., "Ito" becomes "ITO"). If a name is not specified, then a [Custom Voice](/reference/empathic-voice-interface-evi/configs/create-config#request.body.voice.custom_voice) specification must be provided.
     """
+
+    custom_voice: typing.Optional[PostedCustomVoice] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

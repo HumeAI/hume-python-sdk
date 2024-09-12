@@ -1088,7 +1088,7 @@ client.empathic_voice.tools.get_tool_version(
 
 Version number for a Tool.
 
-Tools, as well as Configs and Prompts, are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.
+Tools, Configs, Custom Voices, and Prompts are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.
 
 Version numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number.
     
@@ -1159,7 +1159,7 @@ client.empathic_voice.tools.delete_tool_version(
 
 Version number for a Tool.
 
-Tools, as well as Configs and Prompts, are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.
+Tools, Configs, Custom Voices, and Prompts are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.
 
 Version numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number.
     
@@ -1231,7 +1231,7 @@ client.empathic_voice.tools.update_tool_description(
 
 Version number for a Tool.
 
-Tools, as well as Configs and Prompts, are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.
+Tools, Configs, Custom Voices, and Prompts are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.
 
 Version numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number.
     
@@ -1773,7 +1773,7 @@ client.empathic_voice.prompts.get_prompt_version(
 
 Version number for a Prompt.
 
-Prompts, as well as Configs and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
+Prompts, Configs, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
 
 Version numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number.
     
@@ -1844,7 +1844,7 @@ client.empathic_voice.prompts.delete_prompt_version(
 
 Version number for a Prompt.
 
-Prompts, as well as Configs and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
+Prompts, Configs, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
 
 Version numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number.
     
@@ -1916,7 +1916,7 @@ client.empathic_voice.prompts.update_prompt_description(
 
 Version number for a Prompt.
 
-Prompts, as well as Configs and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
+Prompts, Configs, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
 
 Version numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number.
     
@@ -1927,6 +1927,425 @@ Version numbers are integer values representing different iterations of the Prom
 <dd>
 
 **version_description:** `typing.Optional[str]` — An optional description of the Prompt version.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## EmpathicVoice CustomVoices
+<details><summary><code>client.empathic_voice.custom_voices.<a href="src/hume/empathic_voice/custom_voices/client.py">get_return_custom_voices_for_user</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.custom_voices.get_return_custom_voices_for_user()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**page_number:** `typing.Optional[int]` 
+
+Specifies the page number to retrieve, enabling pagination.
+
+This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_size:** `typing.Optional[int]` 
+
+Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+
+For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**name:** `typing.Optional[str]` — Filter to only include custom voices with this name.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.custom_voices.<a href="src/hume/empathic_voice/custom_voices/client.py">create_new_custom_voice</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.custom_voices.create_new_custom_voice(
+    name="name",
+    base_voice="ITO",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**name:** `str` — The name of the Custom Voice. Maximum length of 75 characters. Will be converted to all-uppercase. (e.g., "sample voice" becomes "SAMPLE VOICE")
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**base_voice:** `PostedCustomVoiceBaseVoice` — Specifies the base voice used to create the Custom Voice.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**parameters:** `typing.Optional[PostedCustomVoiceParameters]` 
+
+The specified attributes of a Custom Voice.
+
+If no parameters are specified then all attributes will be set to their defaults, meaning no modfications will be made to the base voice.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.custom_voices.<a href="src/hume/empathic_voice/custom_voices/client.py">get_return_custom_voice_by_custom_voice_id</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.custom_voices.get_return_custom_voice_by_custom_voice_id(
+    id="id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Custom Voice. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.custom_voices.<a href="src/hume/empathic_voice/custom_voices/client.py">add_new_custom_voice_version</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.custom_voices.add_new_custom_voice_version(
+    id="id",
+    name="name",
+    base_voice="ITO",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Custom Voice. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**name:** `str` — The name of the Custom Voice. Maximum length of 75 characters. Will be converted to all-uppercase. (e.g., "sample voice" becomes "SAMPLE VOICE")
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**base_voice:** `PostedCustomVoiceBaseVoice` — Specifies the base voice used to create the Custom Voice.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**parameters:** `typing.Optional[PostedCustomVoiceParameters]` 
+
+The specified attributes of a Custom Voice.
+
+If no parameters are specified then all attributes will be set to their defaults, meaning no modfications will be made to the base voice.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.custom_voices.<a href="src/hume/empathic_voice/custom_voices/client.py">delete_custom_voice</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.custom_voices.delete_custom_voice(
+    id="id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Custom Voice. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.custom_voices.<a href="src/hume/empathic_voice/custom_voices/client.py">update_custom_voice_name</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.custom_voices.update_custom_voice_name(
+    id="string",
+    name="string",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Custom Voice. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**name:** `str` — The name of the Custom Voice. Maximum length of 75 characters. Will be converted to all-uppercase. (e.g., "sample voice" becomes "SAMPLE VOICE")
     
 </dd>
 </dl>
@@ -2051,10 +2470,10 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 ```python
 from hume import HumeClient
 from hume.empathic_voice import (
+    PostedConfigPromptSpec,
     PostedEventMessageSpec,
     PostedEventMessageSpecs,
     PostedLanguageModel,
-    PostedPromptSpec,
     PostedVoice,
 )
 
@@ -2063,12 +2482,13 @@ client = HumeClient(
 )
 client.empathic_voice.configs.create_config(
     name="Weather Assistant Config",
-    prompt=PostedPromptSpec(
+    prompt=PostedConfigPromptSpec(
         id="af699d45-2985-42cc-91b9-af9e5da3bac5",
         version=0,
     ),
+    evi_version="2",
     voice=PostedVoice(
-        name="KORA",
+        name="SAMPLE VOICE",
     ),
     language_model=PostedLanguageModel(
         model_provider="ANTHROPIC",
@@ -2105,6 +2525,14 @@ client.empathic_voice.configs.create_config(
 <dl>
 <dd>
 
+**evi_version:** `str` — Specifies the EVI version to use. Use `"1"` for version 1, or `"2"` for the latest enhanced version. For a detailed comparison of the two versions, refer to our [guide](/docs/empathic-voice-interface-evi/evi-2).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **name:** `str` — Name applied to all versions of a particular Config.
     
 </dd>
@@ -2121,7 +2549,7 @@ client.empathic_voice.configs.create_config(
 <dl>
 <dd>
 
-**prompt:** `typing.Optional[PostedPromptSpec]` 
+**prompt:** `typing.Optional[PostedConfigPromptSpec]` 
     
 </dd>
 </dl>
@@ -2308,11 +2736,11 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 ```python
 from hume import HumeClient
 from hume.empathic_voice import (
+    PostedConfigPromptSpec,
     PostedEllmModel,
     PostedEventMessageSpec,
     PostedEventMessageSpecs,
     PostedLanguageModel,
-    PostedPromptSpec,
     PostedVoice,
 )
 
@@ -2322,7 +2750,8 @@ client = HumeClient(
 client.empathic_voice.configs.create_config_version(
     id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
     version_description="This is an updated version of the Weather Assistant Config.",
-    prompt=PostedPromptSpec(
+    evi_version="2",
+    prompt=PostedConfigPromptSpec(
         id="af699d45-2985-42cc-91b9-af9e5da3bac5",
         version=0,
     ),
@@ -2375,6 +2804,14 @@ client.empathic_voice.configs.create_config_version(
 <dl>
 <dd>
 
+**evi_version:** `str` — The version of the EVI used with this config.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **version_description:** `typing.Optional[str]` — An optional description of the Config version.
     
 </dd>
@@ -2383,7 +2820,7 @@ client.empathic_voice.configs.create_config_version(
 <dl>
 <dd>
 
-**prompt:** `typing.Optional[PostedPromptSpec]` 
+**prompt:** `typing.Optional[PostedConfigPromptSpec]` 
     
 </dd>
 </dl>
@@ -2637,7 +3074,7 @@ client.empathic_voice.configs.get_config_version(
 
 Version number for a Config.
 
-Configs, as well as Prompts and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
 
 Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
     
@@ -2708,7 +3145,7 @@ client.empathic_voice.configs.delete_config_version(
 
 Version number for a Config.
 
-Configs, as well as Prompts and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
 
 Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
     
@@ -2780,7 +3217,7 @@ client.empathic_voice.configs.update_config_description(
 
 Version number for a Config.
 
-Configs, as well as Prompts and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
 
 Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
     
