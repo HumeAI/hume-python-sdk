@@ -38,7 +38,7 @@ class StreamWebsocketConnection:
 
     async def __aiter__(self):
         async for message in self.websocket:
-            yield message
+            yield parse_obj_as(SubscribeEvent, json.loads(message))  # type: ignore
 
     # TODO: we can likely coerce the right response model within the union here, if we're
     # assuming request-response pattern and 1:1 mapping between request and response types
