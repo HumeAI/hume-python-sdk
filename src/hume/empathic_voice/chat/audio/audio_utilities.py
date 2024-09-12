@@ -19,7 +19,7 @@ except ModuleNotFoundError:
 #   - [https://stackoverflow.com/a/20746883]
 #   - [https://github.com/jiaaro/pydub#playback]
 #   - [https://github.com/jiaaro/pydub/blob/master/pydub/playback.py]
-async def _play_audio(byte_str: bytes) -> None:
+async def play_audio(byte_str: bytes) -> None:
     """Play a byte string of audio data with the system audio output device.
 
     Args:

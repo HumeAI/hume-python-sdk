@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
 
 
 @dataclasses.dataclass
-class _Microphone:
+class Microphone:
     """Abstraction for handling microphone input."""
 
     # NOTE: use int16 for compatibility with deepgram
@@ -42,7 +42,7 @@ class _Microphone:
     # [https://python-sounddevice.readthedocs.io/en/0.4.6/examples.html#creating-an-asyncio-generator-for-audio-blocks]
     @classmethod
     @contextlib.contextmanager
-    def context(cls, *, device: int | None = DEFAULT_DEVICE) -> Iterator["_Microphone"]:
+    def context(cls, *, device: int | None = DEFAULT_DEVICE) -> Iterator["Microphone"]:
         """Create a new microphone context.
 
         Args:

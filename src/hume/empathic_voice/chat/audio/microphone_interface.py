@@ -4,10 +4,10 @@ import logging
 from dataclasses import dataclass
 from typing import ClassVar
 
-from hume.empathic_voice.chat.audio.microphone import _Microphone
-from hume.empathic_voice.chat.audio.microphone_sender import _MicrophoneSender
+from hume.empathic_voice.chat.audio.microphone import Microphone
+from hume.empathic_voice.chat.audio.microphone_sender import MicrophoneSender
 from hume.empathic_voice.chat.socket_client import ChatWebsocketConnection
-from hume.empathic_voice.chat.audio.chat_client import _ChatClient
+from hume.empathic_voice.chat.audio.chat_client import ChatClient
 from hume.empathic_voice.types import AudioConfiguration, SessionSettings
 from hume.empathic_voice.chat.audio.asyncio_utilities import Stream
 
@@ -24,7 +24,7 @@ class MicrophoneInterface:
         cls,
         socket: ChatWebsocketConnection,
         byte_stream: Stream[bytes],
-        device: int | None = _Microphone.DEFAULT_DEVICE,
+        device: int | None = Microphone.DEFAULT_DEVICE,
         allow_user_interrupt: bool = DEFAULT_ALLOW_USER_INTERRUPT,
     ) -> None:
         """Start the microphone interface.
@@ -35,9 +35,9 @@ class MicrophoneInterface:
             allow_user_interrupt (bool): Whether to allow the user to interrupt EVI. If False, the user's microphone input is stopped from flowing to the WebSocket when audio from the assistant is playing.
             byte_stream (Stream[bytes]): Byte stream of audio data.
         """
-        with _Microphone.context(device=device) as microphone:
-            sender = _MicrophoneSender.new(microphone=microphone, allow_interrupt=allow_user_interrupt)
-            chat_client = _ChatClient.new(sender=sender, byte_strs=byte_stream)
+        with Microphone.context(device=device) as microphone:
+            sender = MicrophoneSender.new(microphone=microphone, allow_interrupt=allow_user_interrupt)
+            chat_client = ChatClient.new(sender=sender, byte_strs=byte_stream)
             print("Configuring socket with microphone settings...")
             audio_config = AudioConfiguration(sample_rate=microphone.sample_rate,
                                               channels=microphone.num_channels,
