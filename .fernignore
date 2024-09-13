@@ -7,7 +7,6 @@ src/hume/core/client_wrapper.py
 # Pending generator upgrade
 
 README.md
-src/hume/core/http_client.py
 
 # Custom Client Modifications
 
