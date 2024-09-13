@@ -8,9 +8,6 @@ src/hume/core/client_wrapper.py
 
 README.md
 src/hume/core/http_client.py
-tests/empathic_voice/test_tools.py
-tests/empathic_voice/test_configs.py
-tests/empathic_voice/test_prompts.py
 
 # Custom Client Modifications
 
