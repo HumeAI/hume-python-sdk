@@ -2,38 +2,41 @@
 
 from ...core.pydantic_utilities import UniversalBaseModel
 import pydantic
+from .posted_custom_voice_base_voice import PostedCustomVoiceBaseVoice
 import typing
+from .posted_custom_voice_parameters import PostedCustomVoiceParameters
 from ...core.pydantic_utilities import IS_PYDANTIC_V2
 
 
 class PostedCustomVoice(UniversalBaseModel):
     """
-    A custom voice specifications posted to the server
+    A Custom Voice specification to be associated with this Config.
+
+    If a Custom Voice specification is not provided then the [name](/reference/empathic-voice-interface-evi/configs/create-config#request.body.voice.name) of a base voice or previously created Custom Voice must be provided.
+
+    See our [Voices guide](/docs/empathic-voice-interface-evi/voices) for a tutorial on how to craft a Custom Voice.
     """
 
     name: str = pydantic.Field()
     """
-    String with the name of the voice to use. Maximum length of 75 characters. Will be converted to all-uppercase.
+    The name of the Custom Voice. Maximum length of 75 characters. Will be converted to all-uppercase. (e.g., "sample voice" becomes "SAMPLE VOICE")
     """
 
-    base_voice: str = pydantic.Field()
+    base_voice: PostedCustomVoiceBaseVoice = pydantic.Field()
     """
-    The voice the custom voice is based off of.
-    """
-
-    speech_rate_multiplier: typing.Optional[float] = pydantic.Field(default=None)
-    """
-    The speech rate multiplier for this custom voice.
+    Specifies the base voice used to create the Custom Voice.
     """
 
-    parameter_model: str = pydantic.Field()
+    parameter_model: typing.Literal["20240715-4parameter"] = pydantic.Field(default="20240715-4parameter")
     """
-    The name of the parameter model used to define which attributes are used by `parameters`.
+    The name of the parameter model used to define which attributes are used by the `parameters` field. Currently, only `20240715-4parameter` is supported as the parameter model.
     """
 
-    parameters: typing.Optional[typing.Dict[str, typing.Optional[float]]] = pydantic.Field(default=None)
+    parameters: typing.Optional[PostedCustomVoiceParameters] = pydantic.Field(default=None)
     """
-    Voice specification for a Config.
+    The specified attributes of a Custom Voice.
+    
+    If no parameters are specified then all attributes will be set to their defaults, meaning no modfications will be made to the base voice.
     """
 
     if IS_PYDANTIC_V2:

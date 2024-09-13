@@ -79,14 +79,38 @@ def to_jsonable_with_fallback(
 class UniversalBaseModel(pydantic.BaseModel):
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(
+            # Allow fields begining with `model_` to be used in the model
             protected_namespaces=(),
-            json_encoders={dt.datetime: serialize_datetime},
         )  # type: ignore # Pydantic v2
+
+        @pydantic.model_serializer(mode="wrap", when_used="json")  # type: ignore # Pydantic v2
+        def serialize_model(self, handler: pydantic.SerializerFunctionWrapHandler) -> typing.Any:  # type: ignore # Pydantic v2
+            serialized = handler(self)
+            data = {k: serialize_datetime(v) if isinstance(v, dt.datetime) else v for k, v in serialized.items()}
+            return data
+
     else:
 
         class Config:
             smart_union = True
             json_encoders = {dt.datetime: serialize_datetime}
+
+    @classmethod
+    def model_construct(
+        cls: type[Model], _fields_set: typing.Optional[typing.Set[str]] = None, **values: typing.Any
+    ) -> Model:
+        dealiased_object = convert_and_respect_annotation_metadata(object_=values, annotation=cls, direction="read")
+        return cls.construct(_fields_set, **dealiased_object)
+
+    @classmethod
+    def construct(
+        cls: type[Model], _fields_set: typing.Optional[typing.Set[str]] = None, **values: typing.Any
+    ) -> Model:
+        dealiased_object = convert_and_respect_annotation_metadata(object_=values, annotation=cls, direction="read")
+        if IS_PYDANTIC_V2:
+            return super().model_construct(_fields_set, **dealiased_object)  # type: ignore # Pydantic v2
+        else:
+            return super().construct(_fields_set, **dealiased_object)
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {
@@ -104,32 +128,66 @@ class UniversalBaseModel(pydantic.BaseModel):
         Override the default dict method to `exclude_unset` by default. This function patches
         `exclude_unset` to work include fields within non-None default values.
         """
-        _fields_set = self.__fields_set__
-
-        fields = _get_model_fields(self.__class__)
-        for name, field in fields.items():
-            if name not in _fields_set:
-                default = _get_field_default(field)
-
-                # If the default values are non-null act like they've been set
-                # This effectively allows exclude_unset to work like exclude_none where
-                # the latter passes through intentionally set none values.
-                if default != None:
-                    _fields_set.add(name)
-
-        kwargs_with_defaults_exclude_unset: typing.Any = {
-            "by_alias": True,
-            "exclude_unset": True,
-            "include": _fields_set,
-            **kwargs,
-        }
-
+        # Note: the logic here is multi-plexed given the levers exposed in Pydantic V1 vs V2
+        # Pydantic V1's .dict can be extremely slow, so we do not want to call it twice.
+        #
+        # We'd ideally do the same for Pydantic V2, but it shells out to a library to serialize models
+        # that we have less control over, and this is less intrusive than custom serializers for now.
         if IS_PYDANTIC_V2:
-            dict_dump = super().model_dump(**kwargs_with_defaults_exclude_unset)  # type: ignore # Pydantic v2
+            kwargs_with_defaults_exclude_unset: typing.Any = {
+                **kwargs,
+                "by_alias": True,
+                "exclude_unset": True,
+                "exclude_none": False,
+            }
+            kwargs_with_defaults_exclude_none: typing.Any = {
+                **kwargs,
+                "by_alias": True,
+                "exclude_none": True,
+                "exclude_unset": False,
+            }
+            dict_dump = deep_union_pydantic_dicts(
+                super().model_dump(**kwargs_with_defaults_exclude_unset),  # type: ignore # Pydantic v2
+                super().model_dump(**kwargs_with_defaults_exclude_none),  # type: ignore # Pydantic v2
+            )
+
         else:
-            dict_dump = super().dict(**kwargs_with_defaults_exclude_unset)
+            _fields_set = self.__fields_set__
+
+            fields = _get_model_fields(self.__class__)
+            for name, field in fields.items():
+                if name not in _fields_set:
+                    default = _get_field_default(field)
+
+                    # If the default values are non-null act like they've been set
+                    # This effectively allows exclude_unset to work like exclude_none where
+                    # the latter passes through intentionally set none values.
+                    if default != None:
+                        _fields_set.add(name)
+
+            kwargs_with_defaults_exclude_unset_include_fields: typing.Any = {
+                "by_alias": True,
+                "exclude_unset": True,
+                "include": _fields_set,
+                **kwargs,
+            }
+
+            dict_dump = super().dict(**kwargs_with_defaults_exclude_unset_include_fields)
 
         return convert_and_respect_annotation_metadata(object_=dict_dump, annotation=self.__class__, direction="write")
+
+
+def deep_union_pydantic_dicts(
+    source: typing.Dict[str, typing.Any], destination: typing.Dict[str, typing.Any]
+) -> typing.Dict[str, typing.Any]:
+    for key, value in source.items():
+        if isinstance(value, dict):
+            node = destination.setdefault(key, {})
+            deep_union_pydantic_dicts(value, node)
+        else:
+            destination[key] = value
+
+    return destination
 
 
 if IS_PYDANTIC_V2:
@@ -156,11 +214,11 @@ def encode_by_type(o: typing.Any) -> typing.Any:
             return encoder(o)
 
 
-def update_forward_refs(model: typing.Type["Model"]) -> None:
+def update_forward_refs(model: typing.Type["Model"], **localns: typing.Any) -> None:
     if IS_PYDANTIC_V2:
         model.model_rebuild(raise_errors=False)  # type: ignore # Pydantic v2
     else:
-        model.update_forward_refs()
+        model.update_forward_refs(**localns)
 
 
 # Mirrors Pydantic's internal typing

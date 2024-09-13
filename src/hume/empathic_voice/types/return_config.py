@@ -28,9 +28,14 @@ class ReturnConfig(UniversalBaseModel):
     """
     Version number for a Config.
     
-    Configs, as well as Prompts and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+    Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
     
     Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
+    """
+
+    evi_version: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Specifies the EVI version to use. Use `"1"` for version 1, or `"2"` for the latest enhanced version. For a detailed comparison of the two versions, refer to our [guide](/docs/empathic-voice-interface-evi/evi-2).
     """
 
     version_description: typing.Optional[str] = pydantic.Field(default=None)
