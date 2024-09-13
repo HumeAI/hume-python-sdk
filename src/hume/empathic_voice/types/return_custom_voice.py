@@ -2,13 +2,15 @@
 
 from ...core.pydantic_utilities import UniversalBaseModel
 import pydantic
+from .return_custom_voice_base_voice import ReturnCustomVoiceBaseVoice
 import typing
+from .return_custom_voice_parameters import ReturnCustomVoiceParameters
 from ...core.pydantic_utilities import IS_PYDANTIC_V2
 
 
 class ReturnCustomVoice(UniversalBaseModel):
     """
-    A custom voice specification returned from the server
+    A Custom Voice specification associated with this Config.
     """
 
     id: str = pydantic.Field()
@@ -18,42 +20,41 @@ class ReturnCustomVoice(UniversalBaseModel):
 
     version: int = pydantic.Field()
     """
-    Version number for a Custom Voice. Version numbers should be integers. The combination of custom_voice_id and version number is unique.
+    Version number for a Custom Voice.
+    
+    Custom Voices, Prompts, Configs, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+    
+    Version numbers are integer values representing different iterations of the Custom Voice. Each update to the Custom Voice increments its version number.
     """
 
     name: str = pydantic.Field()
     """
-    String with the name of the voice to use. Maximum length of 75 characters. Will be converted to all-uppercase.
+    The name of the Custom Voice. Maximum length of 75 characters.
     """
 
     created_on: int = pydantic.Field()
     """
-    The timestamp when the first version of this prompt was created.
+    Time at which the Custom Voice was created. Measured in seconds since the Unix epoch.
     """
 
     modified_on: int = pydantic.Field()
     """
-    The timestamp when this version of the prompt was created.
+    Time at which the Custom Voice was last modified. Measured in seconds since the Unix epoch.
     """
 
-    base_voice: str = pydantic.Field()
+    base_voice: ReturnCustomVoiceBaseVoice = pydantic.Field()
     """
-    The voice the custom voice is based off of.
-    """
-
-    speech_rate_multiplier: typing.Optional[float] = pydantic.Field(default=None)
-    """
-    The speech rate multiplier for this custom voice.
+    The base voice used to create the Custom Voice.
     """
 
-    parameter_model: str = pydantic.Field()
+    parameter_model: typing.Literal["20240715-4parameter"] = pydantic.Field(default="20240715-4parameter")
     """
-    The name of the parameter model used to define which attributes are used by `parameters`.
+    The name of the parameter model used to define which attributes are used by the `parameters` field. Currently, only `20240715-4parameter` is supported as the parameter model.
     """
 
-    parameters: typing.Dict[str, float] = pydantic.Field()
+    parameters: ReturnCustomVoiceParameters = pydantic.Field()
     """
-    Voice specification for a Config.
+    The specified attributes of a Custom Voice. If a parameter's value is `0` (default), it will not be included in the response.
     """
 
     if IS_PYDANTIC_V2:

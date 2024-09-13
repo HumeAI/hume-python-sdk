@@ -1,0 +1,197 @@
+imports:
+  root: __package__.yml
+service:
+  auth: false
+  base-path: ''
+  endpoints:
+    getReturnCustomVoicesForUser:
+      path: /v0/evi/custom_voices
+      method: GET
+      auth: true
+      display-name: List custom voices
+      request:
+        name: GetReturnCustomVoicesForUserRequest
+        query-parameters:
+          page_number:
+            type: optional<integer>
+            docs: >-
+              Specifies the page number to retrieve, enabling pagination.
+
+
+              This parameter uses zero-based indexing. For example, setting
+              `page_number` to 0 retrieves the first page of results (items 0-9
+              if `page_size` is 10), setting `page_number` to 1 retrieves the
+              second page (items 10-19), and so on. Defaults to 0, which
+              retrieves the first page.
+          page_size:
+            type: optional<integer>
+            docs: >-
+              Specifies the maximum number of results to include per page,
+              enabling pagination. The value must be between 1 and 100,
+              inclusive.
+
+
+              For example, if `page_size` is set to 10, each page will include
+              up to 10 items. Defaults to 10.
+          name:
+            type: optional<string>
+            docs: Filter to only include custom voices with this name.
+      response:
+        docs: Success
+        type: root.ReturnPagedCustomVoices
+      errors:
+        - root.BadRequestError
+      examples:
+        - response:
+            body:
+              page_number: 1
+              page_size: 1
+              total_pages: 1
+              custom_voices_page:
+                - id: id
+                  version: 1
+                  name: name
+                  created_on: 1000000
+                  modified_on: 1000000
+                  base_voice: ITO
+                  parameter_model: 20240715-4parameter
+                  parameters: {}
+    createNewCustomVoice:
+      path: /v0/evi/custom_voices
+      method: POST
+      auth: true
+      display-name: Create custom voice
+      request:
+        body: root.PostedCustomVoice
+      response:
+        docs: Created
+        type: root.ReturnCustomVoice
+      errors:
+        - root.BadRequestError
+      examples:
+        - request:
+            name: name
+            base_voice: ITO
+            parameter_model: 20240715-4parameter
+          response:
+            body:
+              id: id
+              version: 1
+              name: name
+              created_on: 1000000
+              modified_on: 1000000
+              base_voice: ITO
+              parameter_model: 20240715-4parameter
+              parameters:
+                gender: 1
+                huskiness: 1
+                nasality: 1
+                pitch: 1
+    getReturnCustomVoiceByCustomVoiceId:
+      path: /v0/evi/custom_voices/{id}
+      method: GET
+      auth: true
+      path-parameters:
+        id:
+          type: string
+          docs: Identifier for a Custom Voice. Formatted as a UUID.
+      display-name: Get specific custom voice by ID
+      response:
+        docs: Success
+        type: root.ReturnCustomVoice
+      errors:
+        - root.BadRequestError
+      examples:
+        - path-parameters:
+            id: id
+          response:
+            body:
+              id: id
+              version: 1
+              name: name
+              created_on: 1000000
+              modified_on: 1000000
+              base_voice: ITO
+              parameter_model: 20240715-4parameter
+              parameters:
+                gender: 1
+                huskiness: 1
+                nasality: 1
+                pitch: 1
+    addNewCustomVoiceVersion:
+      path: /v0/evi/custom_voices/{id}
+      method: POST
+      auth: true
+      path-parameters:
+        id:
+          type: string
+          docs: Identifier for a Custom Voice. Formatted as a UUID.
+      display-name: Create new version of existing custom voice
+      request:
+        body: root.PostedCustomVoice
+      response:
+        docs: Created
+        type: root.ReturnCustomVoice
+      errors:
+        - root.BadRequestError
+      examples:
+        - path-parameters:
+            id: id
+          request:
+            name: name
+            base_voice: ITO
+            parameter_model: 20240715-4parameter
+          response:
+            body:
+              id: id
+              version: 1
+              name: name
+              created_on: 1000000
+              modified_on: 1000000
+              base_voice: ITO
+              parameter_model: 20240715-4parameter
+              parameters:
+                gender: 1
+                huskiness: 1
+                nasality: 1
+                pitch: 1
+    deleteCustomVoice:
+      path: /v0/evi/custom_voices/{id}
+      method: DELETE
+      auth: true
+      path-parameters:
+        id:
+          type: string
+          docs: Identifier for a Custom Voice. Formatted as a UUID.
+      display-name: Delete a custom voice
+      errors:
+        - root.BadRequestError
+      examples:
+        - path-parameters:
+            id: id
+    updateCustomVoiceName:
+      path: /v0/evi/custom_voices/{id}
+      method: PATCH
+      auth: true
+      path-parameters:
+        id:
+          type: string
+          docs: Identifier for a Custom Voice. Formatted as a UUID.
+      display-name: Update custom voice name
+      request:
+        name: PostedCustomVoiceName
+        body:
+          properties:
+            name:
+              type: string
+              docs: >-
+                The name of the Custom Voice. Maximum length of 75 characters.
+                Will be converted to all-uppercase. (e.g., "sample voice"
+                becomes "SAMPLE VOICE")
+      response:
+        docs: Success
+        type: text
+      errors:
+        - root.BadRequestError
+  source:
+    openapi: stenographer-openapi.json
