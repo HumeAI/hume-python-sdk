@@ -14,22 +14,26 @@ class ReturnPagedCustomVoices(UniversalBaseModel):
 
     page_number: int = pydantic.Field()
     """
-    The page number of the returned results.
+    The page number of the returned list.
+    
+    This value corresponds to the `page_number` parameter specified in the request. Pagination uses zero-based indexing.
     """
 
     page_size: int = pydantic.Field()
     """
-    The number of results returned per page.
+    The maximum number of items returned per page.
+    
+    This value corresponds to the `page_size` parameter specified in the request.
     """
 
     total_pages: int = pydantic.Field()
     """
-    The total number of pages in the collection
+    The total number of pages in the collection.
     """
 
     custom_voices_page: typing.List[ReturnCustomVoice] = pydantic.Field()
     """
-    List of custom voices returned for the specified page number and page size.
+    List of Custom Voices for the specified `page_number` and `page_size`.
     """
 
     if IS_PYDANTIC_V2:

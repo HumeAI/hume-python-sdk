@@ -2,8 +2,9 @@
 
 from . import empathic_voice, expression_measurement
 from .client import AsyncHumeClient, HumeClient
+from .empathic_voice.chat.audio.asyncio_utilities import Stream
+from .empathic_voice.chat.audio.microphone_interface import MicrophoneInterface
 from .environment import HumeClientEnvironment
-from .legacy._voice.microphone.microphone_interface import MicrophoneInterface
 from .version import __version__
 
 __all__ = [
@@ -11,6 +12,7 @@ __all__ = [
     "HumeClient",
     "HumeClientEnvironment",
     "MicrophoneInterface",
+    "Stream",
     "__version__",
     "empathic_voice",
     "expression_measurement",
