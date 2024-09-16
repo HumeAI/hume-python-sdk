@@ -79,7 +79,7 @@ jobs:
       - name: Check Coverage
         shell: bash
         run: |
-          poetry run covcheck coverage.xml --config pyproject.toml --group unit
+          poetry run covcheck coverage.xml --group unit --line 62 --branch 26
 
   build-service:
     runs-on: ubuntu-latest
@@ -135,7 +135,7 @@ jobs:
       - name: Check Coverage
         shell: bash
         run: |
-          poetry run covcheck coverage.xml --config pyproject.toml --group service
+          poetry run covcheck coverage.xml --group service --line 67 --branch 30
 
   build-microphone:
     runs-on: ubuntu-latest

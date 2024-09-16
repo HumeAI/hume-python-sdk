@@ -87,17 +87,9 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.extras]
-examples=["jupyter"]
-microphone=["pydub", "simpleaudio", "sounddevice"]
-legacy=["pydub"]
-
-[tool.covcheck.group.unit.coverage]
-branch = 26.0
-line = 62.0
-
-[tool.covcheck.group.service.coverage]
-branch = 30.0
-line = 67.0
+examples = ["jupyter"]
+microphone = ["pydub", "simpleaudio", "sounddevice"]
+legacy = ["pydub"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
