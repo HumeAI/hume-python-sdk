@@ -8,6 +8,7 @@ from .sentiment import Sentiment
 from .sentiment_item import SentimentItem
 from .stream_bounding_box import StreamBoundingBox
 from .stream_error_message import StreamErrorMessage
+from .stream_model_predictions import StreamModelPredictions
 from .stream_model_predictions_burst import StreamModelPredictionsBurst
 from .stream_model_predictions_burst_predictions_item import StreamModelPredictionsBurstPredictionsItem
 from .stream_model_predictions_face import StreamModelPredictionsFace
@@ -39,6 +40,7 @@ __all__ = [
     "SentimentItem",
     "StreamBoundingBox",
     "StreamErrorMessage",
+    "StreamModelPredictions",
     "StreamModelPredictionsBurst",
     "StreamModelPredictionsBurstPredictionsItem",
     "StreamModelPredictionsFace",

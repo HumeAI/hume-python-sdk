@@ -52,6 +52,8 @@ service:
       response:
         docs: Success
         type: root.ReturnPagedChatGroups
+      errors:
+        - root.BadRequestError
       examples:
         - query-parameters:
             page_number: 0
@@ -115,6 +117,8 @@ service:
       response:
         docs: Success
         type: root.ReturnChatGroupPagedEvents
+      errors:
+        - root.BadRequestError
       examples:
         - path-parameters:
             id: 697056f0-6c7e-487d-9bd8-9c19df79f05f
@@ -441,4 +445,4 @@ service:
                     "Triumph": 0.04107666015625}
                   metadata: ''
   source:
-    openapi: ../empathic-voice-interface/stenographer-openapi.json
+    openapi: stenographer-openapi.json

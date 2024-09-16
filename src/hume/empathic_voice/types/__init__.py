@@ -16,6 +16,7 @@ from .context_type import ContextType
 from .emotion_scores import EmotionScores
 from .encoding import Encoding
 from .error_level import ErrorLevel
+from .error_response import ErrorResponse
 from .extended_voice_args import ExtendedVoiceArgs
 from .function_call_response_input import FunctionCallResponseInput
 from .http_validation_error import HttpValidationError
@@ -25,8 +26,10 @@ from .millisecond_interval import MillisecondInterval
 from .pause_assistant_message import PauseAssistantMessage
 from .posted_builtin_tool import PostedBuiltinTool
 from .posted_builtin_tool_name import PostedBuiltinToolName
+from .posted_config_prompt_spec import PostedConfigPromptSpec
 from .posted_custom_voice import PostedCustomVoice
-from .posted_custom_voice_name import PostedCustomVoiceName
+from .posted_custom_voice_base_voice import PostedCustomVoiceBaseVoice
+from .posted_custom_voice_parameters import PostedCustomVoiceParameters
 from .posted_ellm_model import PostedEllmModel
 from .posted_event_message_spec import PostedEventMessageSpec
 from .posted_event_message_specs import PostedEventMessageSpecs
@@ -39,7 +42,6 @@ from .posted_timeout_specs_inactivity import PostedTimeoutSpecsInactivity
 from .posted_timeout_specs_max_duration import PostedTimeoutSpecsMaxDuration
 from .posted_user_defined_tool_spec import PostedUserDefinedToolSpec
 from .posted_voice import PostedVoice
-from .posted_voice_name import PostedVoiceName
 from .prosody_inference import ProsodyInference
 from .resume_assistant_message import ResumeAssistantMessage
 from .return_active_chat_count import ReturnActiveChatCount
@@ -61,6 +63,8 @@ from .return_chat_status import ReturnChatStatus
 from .return_config import ReturnConfig
 from .return_config_spec import ReturnConfigSpec
 from .return_custom_voice import ReturnCustomVoice
+from .return_custom_voice_base_voice import ReturnCustomVoiceBaseVoice
+from .return_custom_voice_parameters import ReturnCustomVoiceParameters
 from .return_ellm_model import ReturnEllmModel
 from .return_event_message_spec import ReturnEventMessageSpec
 from .return_event_message_specs import ReturnEventMessageSpecs
@@ -82,7 +86,6 @@ from .return_user_defined_tool import ReturnUserDefinedTool
 from .return_user_defined_tool_tool_type import ReturnUserDefinedToolToolType
 from .return_user_defined_tool_version_type import ReturnUserDefinedToolVersionType
 from .return_voice import ReturnVoice
-from .return_voice_name import ReturnVoiceName
 from .role import Role
 from .session_settings import SessionSettings
 from .text_input import TextInput
@@ -118,6 +121,7 @@ __all__ = [
     "EmotionScores",
     "Encoding",
     "ErrorLevel",
+    "ErrorResponse",
     "ExtendedVoiceArgs",
     "FunctionCallResponseInput",
     "HttpValidationError",
@@ -127,8 +131,10 @@ __all__ = [
     "PauseAssistantMessage",
     "PostedBuiltinTool",
     "PostedBuiltinToolName",
+    "PostedConfigPromptSpec",
     "PostedCustomVoice",
-    "PostedCustomVoiceName",
+    "PostedCustomVoiceBaseVoice",
+    "PostedCustomVoiceParameters",
     "PostedEllmModel",
     "PostedEventMessageSpec",
     "PostedEventMessageSpecs",
@@ -141,7 +147,6 @@ __all__ = [
     "PostedTimeoutSpecsMaxDuration",
     "PostedUserDefinedToolSpec",
     "PostedVoice",
-    "PostedVoiceName",
     "ProsodyInference",
     "ResumeAssistantMessage",
     "ReturnActiveChatCount",
@@ -163,6 +168,8 @@ __all__ = [
     "ReturnConfig",
     "ReturnConfigSpec",
     "ReturnCustomVoice",
+    "ReturnCustomVoiceBaseVoice",
+    "ReturnCustomVoiceParameters",
     "ReturnEllmModel",
     "ReturnEventMessageSpec",
     "ReturnEventMessageSpecs",
@@ -184,7 +191,6 @@ __all__ = [
     "ReturnUserDefinedToolToolType",
     "ReturnUserDefinedToolVersionType",
     "ReturnVoice",
-    "ReturnVoiceName",
     "Role",
     "SessionSettings",
     "TextInput",

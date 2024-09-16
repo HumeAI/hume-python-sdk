@@ -3,7 +3,7 @@
 from ...core.pydantic_utilities import UniversalBaseModel
 import typing
 import pydantic
-from .return_voice_name import ReturnVoiceName
+from .return_custom_voice import ReturnCustomVoice
 from ...core.pydantic_utilities import IS_PYDANTIC_V2
 
 
@@ -17,10 +17,14 @@ class ReturnVoice(UniversalBaseModel):
     The provider of the voice to use. Currently, only `HUME_AI` is supported as the voice provider.
     """
 
-    name: typing.Optional[ReturnVoiceName] = pydantic.Field(default=None)
+    name: typing.Optional[str] = pydantic.Field(default=None)
     """
-    String with the name of the voice to use. Maximum length of 75 characters. Will be converted to all-uppercase.
+    The name of the specified voice.
+    
+    This will either be the name of a previously created Custom Voice or one of our 7 base voices: `ITO`, `KORA`, `DACHER`, `AURA`, `FINN`, `WHIMSY`, or `STELLA`.
     """
+
+    custom_voice: ReturnCustomVoice
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
