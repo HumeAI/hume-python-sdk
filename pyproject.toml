@@ -45,7 +45,7 @@ license = "MIT"
 name = "hume"
 packages = [{ include = "hume", from = "src" }]
 readme = "README.md"
-version = "0.6.1"
+version = "0.7.0-rc3"
 
 [project.urls]
 Documentation = 'hhttps://dev.hume.ai/reference'
