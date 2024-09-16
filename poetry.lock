@@ -3118,11 +3118,10 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 type = ["pytest-mypy"]
 
 [extras]
-examples = ["jupyter"]
 legacy = ["pydub"]
 microphone = ["pydub", "simpleaudio", "sounddevice"]
 
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4"
-content-hash = "6c05f984cb5e08248fe440717430eba30a9ceff1f453583f6f7576cf65ca0979"
+content-hash = "57f224588709bb4851d574103df63389191c95207cf5e1a2d2df4e19475a8a3f"

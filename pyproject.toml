@@ -93,10 +93,9 @@ plugins = ["pydantic.mypy"]
 line-length = 120
 
 [build-system]
-requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core"]
 
 [tool.poetry.extras]
-examples = ["jupyter"]
-microphone = ["pydub", "simpleaudio", "sounddevice"]
 legacy = ["pydub"]
+microphone = ["pydub", "simpleaudio", "sounddevice"]
