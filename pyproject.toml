@@ -48,7 +48,7 @@ readme = "README.md"
 version = "0.7.0-rc3"
 
 [project.urls]
-Documentation = 'hhttps://dev.hume.ai/reference'
+Documentation = 'https://dev.hume.ai'
 Homepage = 'https://www.hume.ai/'
 Repository = 'https://github.com/HumeAI/hume-python-sdk'
 
