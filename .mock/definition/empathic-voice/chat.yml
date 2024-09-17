@@ -119,28 +119,46 @@ types:
   SubscribeEvent:
     discriminated: false
     union:
-      - root.AssistantEnd
-      - root.AssistantMessage
-      - root.AudioOutput
-      - root.ChatMetadata
-      - root.WebSocketError
-      - root.UserInterruption
-      - root.UserMessage
-      - root.ToolCallMessage
-      - root.ToolResponseMessage
-      - root.ToolErrorMessage
+      - display-name: AssistantEnd
+        type: root.AssistantEnd
+      - display-name: AssistantMessage
+        type: root.AssistantMessage
+      - display-name: AudioOutput
+        type: root.AudioOutput
+      - display-name: ChatMetadata
+        type: root.ChatMetadata
+      - display-name: Error
+        type: root.WebSocketError
+      - display-name: UserInterruption
+        type: root.UserInterruption
+      - display-name: UserMessage
+        type: root.UserMessage
+      - display-name: ToolCallMessage
+        type: root.ToolCallMessage
+      - display-name: ToolResponseMessage
+        type: root.ToolResponseMessage
+      - display-name: ToolErrorMessage
+        type: root.ToolErrorMessage
     source:
       openapi: assistant-asyncapi.json
   PublishEvent:
     discriminated: false
     union:
-      - root.AudioInput
-      - root.SessionSettings
-      - root.UserInput
-      - root.AssistantInput
-      - root.ToolResponseMessage
-      - root.ToolErrorMessage
-      - root.PauseAssistantMessage
-      - root.ResumeAssistantMessage
+      - display-name: AudioInput
+        type: root.AudioInput
+      - display-name: SessionSettings
+        type: root.SessionSettings
+      - display-name: UserInput
+        type: root.UserInput
+      - display-name: AssistantInput
+        type: root.AssistantInput
+      - display-name: ToolResponseMessage
+        type: root.ToolResponseMessage
+      - display-name: ToolErrorMessage
+        type: root.ToolErrorMessage
+      - display-name: PauseAssistantMessage
+        type: root.PauseAssistantMessage
+      - display-name: ResumeAssistantMessage
+        type: root.ResumeAssistantMessage
     source:
       openapi: assistant-asyncapi.json
