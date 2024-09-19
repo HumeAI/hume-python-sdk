@@ -33,6 +33,10 @@ class PromptsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[typing.Optional[ReturnPrompt]]:
         """
+        Fetches a paginated list of **Prompts**.
+
+        See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         page_number : typing.Optional[int]
@@ -131,6 +135,10 @@ class PromptsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Optional[ReturnPrompt]:
         """
+        Creates a **Prompt** that can be added to an [EVI configuration](/reference/empathic-voice-interface-evi/configs/create-config).
+
+        See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         name : str
@@ -211,6 +219,10 @@ class PromptsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnPagedPrompts:
         """
+        Fetches a list of a **Prompt's** versions.
+
+        See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         id : str
@@ -291,6 +303,10 @@ class PromptsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Optional[ReturnPrompt]:
         """
+        Updates a **Prompt** by creating a new version of the **Prompt**.
+
+        See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         id : str
@@ -363,6 +379,10 @@ class PromptsClient:
 
     def delete_prompt(self, id: str, *, request_options: typing.Optional[RequestOptions] = None) -> None:
         """
+        Deletes a **Prompt** and its versions.
+
+        See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         id : str
@@ -411,6 +431,10 @@ class PromptsClient:
 
     def update_prompt_name(self, id: str, *, name: str, request_options: typing.Optional[RequestOptions] = None) -> str:
         """
+        Updates the name of a **Prompt**.
+
+        See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         id : str
@@ -470,6 +494,10 @@ class PromptsClient:
         self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.Optional[ReturnPrompt]:
         """
+        Fetches a specified version of a **Prompt**.
+
+        See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         id : str
@@ -535,6 +563,10 @@ class PromptsClient:
         self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> None:
         """
+        Deletes a specified version of a **Prompt**.
+
+        See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         id : str
@@ -598,6 +630,10 @@ class PromptsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Optional[ReturnPrompt]:
         """
+        Updates the description of a **Prompt**.
+
+        See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         id : str
@@ -682,6 +718,10 @@ class AsyncPromptsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[typing.Optional[ReturnPrompt]]:
         """
+        Fetches a paginated list of **Prompts**.
+
+        See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         page_number : typing.Optional[int]
@@ -788,6 +828,10 @@ class AsyncPromptsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Optional[ReturnPrompt]:
         """
+        Creates a **Prompt** that can be added to an [EVI configuration](/reference/empathic-voice-interface-evi/configs/create-config).
+
+        See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         name : str
@@ -876,6 +920,10 @@ class AsyncPromptsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnPagedPrompts:
         """
+        Fetches a list of a **Prompt's** versions.
+
+        See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         id : str
@@ -964,6 +1012,10 @@ class AsyncPromptsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Optional[ReturnPrompt]:
         """
+        Updates a **Prompt** by creating a new version of the **Prompt**.
+
+        See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         id : str
@@ -1044,6 +1096,10 @@ class AsyncPromptsClient:
 
     async def delete_prompt(self, id: str, *, request_options: typing.Optional[RequestOptions] = None) -> None:
         """
+        Deletes a **Prompt** and its versions.
+
+        See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         id : str
@@ -1102,6 +1158,10 @@ class AsyncPromptsClient:
         self, id: str, *, name: str, request_options: typing.Optional[RequestOptions] = None
     ) -> str:
         """
+        Updates the name of a **Prompt**.
+
+        See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         id : str
@@ -1169,6 +1229,10 @@ class AsyncPromptsClient:
         self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.Optional[ReturnPrompt]:
         """
+        Fetches a specified version of a **Prompt**.
+
+        See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         id : str
@@ -1242,6 +1306,10 @@ class AsyncPromptsClient:
         self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> None:
         """
+        Deletes a specified version of a **Prompt**.
+
+        See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         id : str
@@ -1313,6 +1381,10 @@ class AsyncPromptsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Optional[ReturnPrompt]:
         """
+        Updates the description of a **Prompt**.
+
+        See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         id : str

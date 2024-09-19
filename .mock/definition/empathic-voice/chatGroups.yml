@@ -8,6 +8,7 @@ service:
       path: /v0/evi/chat_groups
       method: GET
       auth: true
+      docs: Fetches a paginated list of **Chat Groups**.
       display-name: List chat_groups
       request:
         name: ChatGroupsListChatGroupsRequest
@@ -77,6 +78,9 @@ service:
       path: /v0/evi/chat_groups/{id}/events
       method: GET
       auth: true
+      docs: >-
+        Fetches a paginated list of **Chat** events associated with a **Chat
+        Group**.
       path-parameters:
         id:
           type: string

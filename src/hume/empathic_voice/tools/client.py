@@ -33,6 +33,10 @@ class ToolsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[typing.Optional[ReturnUserDefinedTool]]:
         """
+        Fetches a paginated list of **Tools**.
+
+        Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+
         Parameters
         ----------
         page_number : typing.Optional[int]
@@ -133,6 +137,10 @@ class ToolsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Optional[ReturnUserDefinedTool]:
         """
+        Creates a **Tool** that can be added to an [EVI configuration](/reference/empathic-voice-interface-evi/configs/create-config).
+
+        Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+
         Parameters
         ----------
         name : str
@@ -222,6 +230,10 @@ class ToolsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnPagedUserDefinedTools:
         """
+        Fetches a list of a **Tool's** versions.
+
+        Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+
         Parameters
         ----------
         id : str
@@ -304,6 +316,10 @@ class ToolsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Optional[ReturnUserDefinedTool]:
         """
+        Updates a **Tool** by creating a new version of the **Tool**.
+
+        Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+
         Parameters
         ----------
         id : str
@@ -384,6 +400,10 @@ class ToolsClient:
 
     def delete_tool(self, id: str, *, request_options: typing.Optional[RequestOptions] = None) -> None:
         """
+        Deletes a **Tool** and its versions.
+
+        Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+
         Parameters
         ----------
         id : str
@@ -432,6 +452,10 @@ class ToolsClient:
 
     def update_tool_name(self, id: str, *, name: str, request_options: typing.Optional[RequestOptions] = None) -> str:
         """
+        Updates the name of a **Tool**.
+
+        Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+
         Parameters
         ----------
         id : str
@@ -491,6 +515,10 @@ class ToolsClient:
         self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.Optional[ReturnUserDefinedTool]:
         """
+        Fetches a specified version of a **Tool**.
+
+        Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+
         Parameters
         ----------
         id : str
@@ -556,6 +584,10 @@ class ToolsClient:
         self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> None:
         """
+        Deletes a specified version of a **Tool**.
+
+        Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+
         Parameters
         ----------
         id : str
@@ -619,6 +651,10 @@ class ToolsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Optional[ReturnUserDefinedTool]:
         """
+        Updates the description of a specified **Tool** version.
+
+        Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+
         Parameters
         ----------
         id : str
@@ -703,6 +739,10 @@ class AsyncToolsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[typing.Optional[ReturnUserDefinedTool]]:
         """
+        Fetches a paginated list of **Tools**.
+
+        Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+
         Parameters
         ----------
         page_number : typing.Optional[int]
@@ -811,6 +851,10 @@ class AsyncToolsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Optional[ReturnUserDefinedTool]:
         """
+        Creates a **Tool** that can be added to an [EVI configuration](/reference/empathic-voice-interface-evi/configs/create-config).
+
+        Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+
         Parameters
         ----------
         name : str
@@ -908,6 +952,10 @@ class AsyncToolsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnPagedUserDefinedTools:
         """
+        Fetches a list of a **Tool's** versions.
+
+        Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+
         Parameters
         ----------
         id : str
@@ -998,6 +1046,10 @@ class AsyncToolsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Optional[ReturnUserDefinedTool]:
         """
+        Updates a **Tool** by creating a new version of the **Tool**.
+
+        Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+
         Parameters
         ----------
         id : str
@@ -1086,6 +1138,10 @@ class AsyncToolsClient:
 
     async def delete_tool(self, id: str, *, request_options: typing.Optional[RequestOptions] = None) -> None:
         """
+        Deletes a **Tool** and its versions.
+
+        Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+
         Parameters
         ----------
         id : str
@@ -1144,6 +1200,10 @@ class AsyncToolsClient:
         self, id: str, *, name: str, request_options: typing.Optional[RequestOptions] = None
     ) -> str:
         """
+        Updates the name of a **Tool**.
+
+        Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+
         Parameters
         ----------
         id : str
@@ -1211,6 +1271,10 @@ class AsyncToolsClient:
         self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.Optional[ReturnUserDefinedTool]:
         """
+        Fetches a specified version of a **Tool**.
+
+        Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+
         Parameters
         ----------
         id : str
@@ -1284,6 +1348,10 @@ class AsyncToolsClient:
         self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> None:
         """
+        Deletes a specified version of a **Tool**.
+
+        Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+
         Parameters
         ----------
         id : str
@@ -1355,6 +1423,10 @@ class AsyncToolsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Optional[ReturnUserDefinedTool]:
         """
+        Updates the description of a specified **Tool** version.
+
+        Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+
         Parameters
         ----------
         id : str

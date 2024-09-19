@@ -28,6 +28,8 @@ class ChatGroupsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnPagedChatGroups:
         """
+        Fetches a paginated list of **Chat Groups**.
+
         Parameters
         ----------
         page_number : typing.Optional[int]
@@ -115,6 +117,8 @@ class ChatGroupsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnChatGroupPagedEvents:
         """
+        Fetches a paginated list of **Chat** events associated with a **Chat Group**.
+
         Parameters
         ----------
         id : str
@@ -204,6 +208,8 @@ class AsyncChatGroupsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnPagedChatGroups:
         """
+        Fetches a paginated list of **Chat Groups**.
+
         Parameters
         ----------
         page_number : typing.Optional[int]
@@ -299,6 +305,8 @@ class AsyncChatGroupsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnChatGroupPagedEvents:
         """
+        Fetches a paginated list of **Chat** events associated with a **Chat Group**.
+
         Parameters
         ----------
         id : str

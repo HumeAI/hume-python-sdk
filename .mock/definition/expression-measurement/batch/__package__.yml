@@ -427,9 +427,11 @@ types:
     properties:
       time: TimeInterval
       emotions:
+        display-name: Emotions Scores
         docs: A high-dimensional embedding in emotion space.
         type: list<EmotionScore>
       descriptions:
+        display-name: Descriptions Scores
         docs: Modality-specific descriptive features and their scores.
         type: list<DescriptionsScore>
     source:
@@ -647,6 +649,7 @@ types:
         docs: The predicted probability that a detected face was actually a face.
       box: BoundingBox
       emotions:
+        display-name: Emotions Scores
         docs: A high-dimensional embedding in emotion space.
         type: list<EmotionScore>
       facs:
@@ -660,6 +663,7 @@ types:
   FacemeshPrediction:
     properties:
       emotions:
+        display-name: Emotions Scores
         docs: A high-dimensional embedding in emotion space.
         type: list<EmotionScore>
     source:
@@ -1020,6 +1024,7 @@ types:
           Value between `0.0` and `1.0` that indicates our transcription model's
           relative confidence that this text was spoken by this speaker.
       emotions:
+        display-name: Emotions Scores
         docs: A high-dimensional embedding in emotion space.
         type: list<EmotionScore>
       sentiment:
@@ -1117,6 +1122,7 @@ types:
           Value between `0.0` and `1.0` that indicates our transcription model's
           relative confidence that this text was spoken by this speaker.
       emotions:
+        display-name: Emotions Scores
         docs: A high-dimensional embedding in emotion space.
         type: list<EmotionScore>
     source:
@@ -1211,6 +1217,7 @@ types:
           Value between `0.0` and `1.0` that indicates our transcription model's
           relative confidence that this text was spoken by this speaker.
       emotions:
+        display-name: Emotions Scores
         docs: A high-dimensional embedding in emotion space.
         type: list<EmotionScore>
     source:
