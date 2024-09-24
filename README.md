@@ -78,7 +78,7 @@ If you want to continue using the legacy SDKs, simply import them from
 the `hume.legacy` module.
 
 ```python
-from hume import HumeVoiceClient, VoiceConfig
+from hume.legacy import HumeVoiceClient, VoiceConfig
 
 client = HumeVoiceClient("<your-api-key>")
 config = client.empathic_voice.configs.get_config_version(
