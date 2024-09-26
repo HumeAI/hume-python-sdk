@@ -1557,7 +1557,11 @@ types:
       num_chats:
         type: integer
         docs: The total number of Chats in this Chat Group.
-      active: optional<boolean>
+      active:
+        type: optional<boolean>
+        docs: >-
+          Denotes whether there is an active Chat associated with this Chat
+          Group.
     source:
       openapi: stenographer-openapi.json
   ReturnPagedChatGroupsPaginationDirection:
@@ -1615,6 +1619,21 @@ types:
         type: list<ReturnChatGroup>
     source:
       openapi: stenographer-openapi.json
+  ReturnChatGroupPagedChatsPaginationDirection:
+    enum:
+      - ASC
+      - DESC
+    docs: >-
+      Indicates the order in which the paginated results are presented, based on
+      their creation date.
+
+
+      It shows `ASC` for ascending order (chronological, with the oldest records
+      first) or `DESC` for descending order (reverse-chronological, with the
+      newest records first). This value corresponds to the `ascending_order`
+      query parameter used in the request.
+    source:
+      openapi: stenographer-openapi.json
   ReturnChatGroupPagedChats:
     docs: >-
       A description of chat_group and its status with a paginated list of each
@@ -1623,39 +1642,59 @@ types:
       id:
         type: string
         docs: >-
-          Identifier for the chat group. Any chat resumed from this chat will
-          have the same chat_group_id. Formatted as a UUID.
+          Identifier for the Chat Group. Any Chat resumed from this Chat Group
+          will have the same `chat_group_id`. Formatted as a UUID.
       first_start_timestamp:
         type: long
         docs: >-
-          The timestamp when the first chat in this chat group started,
-          formatted as a Unix epoch milliseconds.
+          Time at which the first Chat in this Chat Group was created. Measured
+          in seconds since the Unix epoch.
       most_recent_start_timestamp:
         type: long
         docs: >-
-          The timestamp when the most recent chat in this chat group started,
-          formatted as a Unix epoch milliseconds.
+          Time at which the most recent Chat in this Chat Group was created.
+          Measured in seconds since the Unix epoch.
       num_chats:
         type: integer
-        docs: The total number of chats in this chat group.
+        docs: The total number of Chats associated with this Chat Group.
       page_number:
         type: integer
-        docs: The page number of the returned results.
+        docs: >-
+          The page number of the returned list.
+
+
+          This value corresponds to the `page_number` parameter specified in the
+          request. Pagination uses zero-based indexing.
       page_size:
         type: integer
-        docs: The number of results returned per page.
+        docs: >-
+          The maximum number of items returned per page.
+
+
+          This value corresponds to the `page_size` parameter specified in the
+          request.
       total_pages:
         type: integer
-        docs: The total number of pages in the collection
+        docs: The total number of pages in the collection.
       pagination_direction:
-        type: string
-        docs: The direction of the pagination (ASC or DESC).
-      chats_page:
+        type: ReturnChatGroupPagedChatsPaginationDirection
         docs: >-
-          List of chats and their metadata returned for the specified page
-          number and page size.
+          Indicates the order in which the paginated results are presented,
+          based on their creation date.
+
+
+          It shows `ASC` for ascending order (chronological, with the oldest
+          records first) or `DESC` for descending order (reverse-chronological,
+          with the newest records first). This value corresponds to the
+          `ascending_order` query parameter used in the request.
+      chats_page:
+        docs: List of Chats for the specified `page_number` and `page_size`.
         type: list<ReturnChat>
-      active: optional<boolean>
+      active:
+        type: optional<boolean>
+        docs: >-
+          Denotes whether there is an active Chat associated with this Chat
+          Group.
     source:
       openapi: stenographer-openapi.json
   ReturnChatGroupPagedEventsPaginationDirection:
@@ -1728,6 +1767,7 @@ types:
     docs: When provided, the input is spoken by EVI.
     properties:
       type:
+        display-name: Type
         type: literal<"assistant_input">
         docs: >-
           The type of message sent through the socket; must be `assistant_input`
@@ -1738,6 +1778,7 @@ types:
         docs: >-
           Used to manage conversational state, correlate frontend and backend
           data, and persist conversations across EVI sessions.
+        display-name: AssistantInput
       text:
         type: string
         docs: >-
@@ -1756,6 +1797,7 @@ types:
   AudioConfiguration:
     properties:
       encoding:
+        display-name: Encoding
         type: Encoding
         docs: Encoding format of the audio input, such as `linear16`.
       channels:
@@ -1772,6 +1814,7 @@ types:
     docs: When provided, the input is audio.
     properties:
       type:
+        display-name: Type
         type: literal<"audio_input">
         docs: >-
           The type of message sent through the socket; must be `audio_input` for
@@ -1787,6 +1830,7 @@ types:
         docs: >-
           Used to manage conversational state, correlate frontend and backend
           data, and persist conversations across EVI sessions.
+        display-name: AudioInput
       data:
         type: string
         docs: >-
@@ -1807,19 +1851,23 @@ types:
     source:
       openapi: assistant-asyncapi.json
   BuiltInTool:
+    display-name: BuiltInTool
     type: literal<"web_search">
     docs: >-
       Name of the built-in tool. Set to `web_search` to equip EVI with the
       built-in Web Search tool.
   BuiltinToolConfig:
     properties:
-      name: BuiltInTool
+      name:
+        display-name: BuiltInTool
+        type: BuiltInTool
       fallback_content:
         type: optional<string>
         docs: >-
           Optional text passed to the supplemental LLM if the tool call fails.
           The LLM then uses this text to generate a response back to the user,
           ensuring continuity in the conversation.
+        display-name: BuiltinToolConfig
     source:
       openapi: assistant-asyncapi.json
   Context:
@@ -1844,6 +1892,7 @@ types:
            - **Editable**: The original context is updated to reflect the new context.
 
            If the type is not specified, it will default to `temporary`.
+        display-name: Context
       text:
         type: string
         docs: >-
@@ -1866,14 +1915,19 @@ types:
       - temporary
     source:
       openapi: assistant-asyncapi.json
-  Encoding: literal<"linear16">
-  ErrorLevel: literal<"warn">
+  Encoding:
+    display-name: Encoding
+    type: literal<"linear16">
+  ErrorLevel:
+    display-name: ErrorLevel
+    type: literal<"warn">
   PauseAssistantMessage:
     docs: >-
       Pause responses from EVI. Chat history is still saved and sent after
       resuming. 
     properties:
       type:
+        display-name: Type
         type: literal<"pause_assistant_message">
         docs: >-
           The type of message sent through the socket; must be
@@ -1891,6 +1945,7 @@ types:
         docs: >-
           Used to manage conversational state, correlate frontend and backend
           data, and persist conversations across EVI sessions.
+        display-name: PauseAssistantMessage
     source:
       openapi: assistant-asyncapi.json
   ResumeAssistantMessage:
@@ -1899,6 +1954,7 @@ types:
       sent. 
     properties:
       type:
+        display-name: Type
         type: literal<"resume_assistant_message">
         docs: >-
           The type of message sent through the socket; must be
@@ -1917,12 +1973,14 @@ types:
         docs: >-
           Used to manage conversational state, correlate frontend and backend
           data, and persist conversations across EVI sessions.
+        display-name: ResumeAssistantMessage
     source:
       openapi: assistant-asyncapi.json
   SessionSettings:
     docs: Settings for this chat session.
     properties:
       type:
+        display-name: Type
         type: literal<"session_settings">
         docs: >-
           The type of message sent through the socket; must be
@@ -1957,6 +2015,7 @@ types:
           language
           model](/docs/empathic-voice-interface-evi/custom-language-model) with
           EVI to learn more.
+        display-name: SessionSettings
       system_prompt:
         type: optional<string>
         docs: >-
@@ -1979,6 +2038,7 @@ types:
 
           For help writing a system prompt, see our [Prompting
           Guide](/docs/empathic-voice-interface-evi/prompting).
+        display-name: SessionSettings
       context:
         type: optional<Context>
         docs: >-
@@ -1993,6 +2053,7 @@ types:
 
 
           Set to `null` to disable context injection.
+        display-name: SessionSettings
       audio:
         type: optional<AudioConfiguration>
         docs: >-
@@ -2006,6 +2067,7 @@ types:
           Linear 16 audio, please refer to the [Session Settings
           section](/docs/empathic-voice-interface-evi/configuration#session-settings)
           on the EVI Configuration page.
+        display-name: SessionSettings
       language_model_api_key:
         type: optional<string>
         docs: >-
@@ -2015,6 +2077,7 @@ types:
           When provided, EVI will use this key instead of Hume’s API key for the
           supplemental LLM. This allows you to bypass rate limits and utilize
           your own API key as needed.
+        display-name: SessionSettings
       tools:
         type: optional<list<Tool>>
         docs: >-
@@ -2026,6 +2089,7 @@ types:
           search, are natively integrated, while user-defined tools are created
           and invoked by the user. To learn more, see our [Tool Use
           Guide](/docs/empathic-voice-interface-evi/tool-use).
+        display-name: SessionSettings
       builtin_tools:
         type: optional<list<BuiltinToolConfig>>
         docs: >-
@@ -2042,15 +2106,20 @@ types:
           Currently, the only built-in tool Hume provides is **Web Search**.
           When enabled, Web Search equips EVI with the ability to search the web
           for up-to-date information.
-      metadata: optional<map<string, unknown>>
+        display-name: SessionSettings
+      metadata:
+        type: optional<map<string, unknown>>
+        display-name: SessionSettings
       variables:
         type: optional<map<string, string>>
         docs: Dynamic values that can be used to populate EVI prompts.
+        display-name: SessionSettings
     source:
       openapi: assistant-asyncapi.json
   Tool:
     properties:
       type:
+        display-name: ToolType
         type: ToolType
         docs: Type of tool. Set to `function` for user-defined tools.
       name:
@@ -2071,18 +2140,21 @@ types:
         docs: >-
           An optional description of what the tool does, used by the
           supplemental LLM to choose when and how to call the function.
+        display-name: Tool
       fallback_content:
         type: optional<string>
         docs: >-
           Optional text passed to the supplemental LLM if the tool call fails.
           The LLM then uses this text to generate a response back to the user,
           ensuring continuity in the conversation.
+        display-name: Tool
     source:
       openapi: assistant-asyncapi.json
   ToolErrorMessage:
     docs: When provided, the output is a function call error.
     properties:
       type:
+        display-name: Type
         type: literal<"tool_error">
         docs: >-
           The type of message sent through the socket; for a Tool Error message,
@@ -2098,11 +2170,13 @@ types:
         docs: >-
           Used to manage conversational state, correlate frontend and backend
           data, and persist conversations across EVI sessions.
+        display-name: ToolErrorMessage
       tool_type:
         type: optional<ToolType>
         docs: >-
           Type of tool called. Either `builtin` for natively implemented tools,
           like web search, or `function` for user-defined tools.
+        display-name: ToolErrorMessage
       tool_call_id:
         type: string
         docs: >-
@@ -2120,23 +2194,27 @@ types:
           Optional text passed to the supplemental LLM in place of the tool call
           result. The LLM then uses this text to generate a response back to the
           user, ensuring continuity in the conversation if the tool errors.
+        display-name: ToolErrorMessage
       error:
         type: string
         docs: Error message from the tool call, not exposed to the LLM or user.
       code:
         type: optional<string>
         docs: Error code. Identifies the type of error encountered.
+        display-name: ToolErrorMessage
       level:
         type: optional<ErrorLevel>
         docs: >-
           Indicates the severity of an error; for a Tool Error message, this
           must be `warn` to signal an unexpected event.
+        display-name: ToolErrorMessage
     source:
       openapi: assistant-asyncapi.json
   ToolResponseMessage:
     docs: When provided, the output is a function call response.
     properties:
       type:
+        display-name: Type
         type: literal<"tool_response">
         docs: >-
           The type of message sent through the socket; for a Tool Response
@@ -2152,6 +2230,7 @@ types:
         docs: >-
           Used to manage conversational state, correlate frontend and backend
           data, and persist conversations across EVI sessions.
+        display-name: ToolResponseMessage
       tool_call_id:
         type: string
         docs: >-
@@ -2178,11 +2257,13 @@ types:
           which tool generated the response. The specified `tool_name` must
           match the one received in the [Tool Call
           message](/reference/empathic-voice-interface-evi/chat/chat#receive.Tool%20Call%20Message.type).
+        display-name: ToolResponseMessage
       tool_type:
         type: optional<ToolType>
         docs: >-
           Type of tool called. Either `builtin` for natively implemented tools,
           like web search, or `function` for user-defined tools.
+        display-name: ToolResponseMessage
     source:
       openapi: assistant-asyncapi.json
   ToolType:
@@ -2195,6 +2276,7 @@ types:
     docs: User text to insert into the conversation.
     properties:
       type:
+        display-name: Type
         type: literal<"user_input">
         docs: >-
           The type of message sent through the socket; must be `user_input` for
@@ -2205,6 +2287,7 @@ types:
         docs: >-
           Used to manage conversational state, correlate frontend and backend
           data, and persist conversations across EVI sessions.
+        display-name: UserInput
       text:
         type: string
         docs: >-
@@ -2222,6 +2305,7 @@ types:
     docs: When provided, the output is an assistant end message.
     properties:
       type:
+        display-name: Type
         type: literal<"assistant_end">
         docs: >-
           The type of message sent through the socket; for an Assistant End
@@ -2236,12 +2320,14 @@ types:
         docs: >-
           Used to manage conversational state, correlate frontend and backend
           data, and persist conversations across EVI sessions.
+        display-name: AssistantEnd
     source:
       openapi: assistant-asyncapi.json
   AssistantMessage:
     docs: When provided, the output is an assistant message.
     properties:
       type:
+        display-name: Type
         type: literal<"assistant_message">
         docs: >-
           The type of message sent through the socket; for an Assistant Message,
@@ -2256,15 +2342,19 @@ types:
         docs: >-
           Used to manage conversational state, correlate frontend and backend
           data, and persist conversations across EVI sessions.
+        display-name: AssistantMessage
       id:
         type: optional<string>
         docs: >-
           ID of the assistant message. Allows the Assistant Message to be
           tracked and referenced.
+        display-name: AssistantMessage
       message:
+        display-name: ChatMessage
         type: ChatMessage
         docs: Transcript of the message.
       models:
+        display-name: Inference
         type: Inference
         docs: Inference model results.
       from_text:
@@ -2279,6 +2369,7 @@ types:
     docs: When provided, the output is audio.
     properties:
       type:
+        display-name: Type
         type: literal<"audio_output">
         docs: >-
           The type of message sent through the socket; for an Audio Output
@@ -2288,6 +2379,7 @@ types:
         docs: >-
           Used to manage conversational state, correlate frontend and backend
           data, and persist conversations across EVI sessions.
+        display-name: AudioOutput
       id:
         type: string
         docs: >-
@@ -2305,30 +2397,37 @@ types:
     discriminated: false
     docs: Function call response from client.
     union:
-      - ToolResponseMessage
-      - ToolErrorMessage
+      - display-name: ToolResponseMessage
+        type: ToolResponseMessage
+      - display-name: ToolErrorMessage
+        type: ToolErrorMessage
     source:
       openapi: assistant-asyncapi.json
   ChatMessage:
     properties:
       role:
+        display-name: Role
         type: Role
         docs: Role of who is providing the message.
       content:
         type: optional<string>
         docs: Transcript of the message.
+        display-name: ChatMessage
       tool_call:
         type: optional<ToolCallMessage>
         docs: Function call name and arguments.
+        display-name: ChatMessage
       tool_result:
         type: optional<ChatMessageToolResult>
         docs: Function call response from client.
+        display-name: ChatMessage
     source:
       openapi: assistant-asyncapi.json
   ChatMetadata:
     docs: When provided, the output is a chat metadata message.
     properties:
       type:
+        display-name: Type
         type: literal<"chat_metadata">
         docs: >-
           The type of message sent through the socket; for a Chat Metadata
@@ -2343,6 +2442,7 @@ types:
         docs: >-
           Used to manage conversational state, correlate frontend and backend
           data, and persist conversations across EVI sessions.
+        display-name: ChatMetadata
       chat_group_id:
         type: string
         docs: >-
@@ -2425,6 +2525,7 @@ types:
     docs: When provided, the output is an error message.
     properties:
       type:
+        display-name: Type
         type: literal<"error">
         docs: >-
           The type of message sent through the socket; for a Web Socket Error
@@ -2439,6 +2540,7 @@ types:
         docs: >-
           Used to manage conversational state, correlate frontend and backend
           data, and persist conversations across EVI sessions.
+        display-name: Error
       code:
         type: string
         docs: Error code. Identifies the type of error encountered.
@@ -2478,6 +2580,7 @@ types:
   ProsodyInference:
     properties:
       scores:
+        display-name: EmotionScores
         type: EmotionScores
         docs: >-
           The confidence scores for 48 emotions within the detected expression
@@ -2528,6 +2631,7 @@ types:
           invocation, ensuring that the correct response is linked to the
           appropriate request.
       type:
+        display-name: Type
         type: literal<"tool_call">
         docs: >-
           The type of message sent through the socket; for a Tool Call message,
@@ -2541,11 +2645,13 @@ types:
         docs: >-
           Used to manage conversational state, correlate frontend and backend
           data, and persist conversations across EVI sessions.
+        display-name: ToolCallMessage
       tool_type:
         type: optional<ToolType>
         docs: >-
           Type of tool called. Either `builtin` for natively implemented tools,
           like web search, or `function` for user-defined tools.
+        display-name: ToolCallMessage
       response_required:
         type: boolean
         docs: >-
@@ -2560,6 +2666,7 @@ types:
     docs: When provided, the output is an interruption.
     properties:
       type:
+        display-name: Type
         type: literal<"user_interruption">
         docs: >-
           The type of message sent through the socket; for a User Interruption
@@ -2576,6 +2683,7 @@ types:
         docs: >-
           Used to manage conversational state, correlate frontend and backend
           data, and persist conversations across EVI sessions.
+        display-name: UserInterruption
       time:
         type: integer
         docs: Unix timestamp of the detected user interruption.
@@ -2585,6 +2693,7 @@ types:
     docs: When provided, the output is a user message.
     properties:
       type:
+        display-name: Type
         type: literal<"user_message">
         docs: >-
           The type of message sent through the socket; for a User Message, this
@@ -2604,13 +2713,17 @@ types:
         docs: >-
           Used to manage conversational state, correlate frontend and backend
           data, and persist conversations across EVI sessions.
+        display-name: UserMessage
       message:
+        display-name: ChatMessage
         type: ChatMessage
         docs: Transcript of the message.
       models:
+        display-name: Inference
         type: Inference
         docs: Inference model results.
       time:
+        display-name: MillisecondInterval
         type: MillisecondInterval
         docs: Start and End time of user message.
       from_text:
@@ -2625,15 +2738,24 @@ types:
   JsonMessage:
     discriminated: false
     union:
-      - AssistantEnd
-      - AssistantMessage
-      - ChatMetadata
-      - WebSocketError
-      - UserInterruption
-      - UserMessage
-      - ToolCallMessage
-      - ToolResponseMessage
-      - ToolErrorMessage
+      - display-name: AssistantEnd
+        type: AssistantEnd
+      - display-name: AssistantMessage
+        type: AssistantMessage
+      - display-name: ChatMetadata
+        type: ChatMetadata
+      - display-name: Error
+        type: WebSocketError
+      - display-name: UserInterruption
+        type: UserInterruption
+      - display-name: UserMessage
+        type: UserMessage
+      - display-name: ToolCallMessage
+        type: ToolCallMessage
+      - display-name: ToolResponseMessage
+        type: ToolResponseMessage
+      - display-name: ToolErrorMessage
+        type: ToolErrorMessage
     source:
       openapi: assistant-asyncapi.json
   TtsInput:
@@ -2654,12 +2776,16 @@ types:
   ExtendedVoiceArgs:
     properties:
       text: string
-      voice_args: VoiceArgs
+      voice_args:
+        display-name: VoiceArgs
+        type: VoiceArgs
     source:
       openapi: assistant-openapi.json
   HTTPValidationError:
     properties:
-      detail: optional<list<ValidationError>>
+      detail:
+        type: optional<list<ValidationError>>
+        display-name: HTTPValidationError
     source:
       openapi: assistant-openapi.json
   ValidationErrorLocItem:
@@ -2671,20 +2797,26 @@ types:
       openapi: assistant-openapi.json
   ValidationError:
     properties:
-      loc: list<ValidationErrorLocItem>
+      loc:
+        display-name: Location
+        type: list<ValidationErrorLocItem>
       msg: string
       type: string
     source:
       openapi: assistant-openapi.json
   VoiceArgs:
     properties:
-      voice: optional<VoiceNameEnum>
+      voice:
+        type: optional<VoiceNameEnum>
+        display-name: VoiceArgs
       baseline:
         type: optional<boolean>
         default: false
+        display-name: VoiceArgs
       reconstruct:
         type: optional<boolean>
         default: false
+        display-name: VoiceArgs
     source:
       openapi: assistant-openapi.json
   VoiceNameEnum:
