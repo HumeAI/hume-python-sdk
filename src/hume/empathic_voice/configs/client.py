@@ -40,6 +40,10 @@ class ConfigsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnPagedConfigs:
         """
+        Fetches a paginated list of **Configs**.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+
         Parameters
         ----------
         page_number : typing.Optional[int]
@@ -130,6 +134,10 @@ class ConfigsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnConfig:
         """
+        Creates a **Config** which can be applied to EVI.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+
         Parameters
         ----------
         evi_version : str
@@ -292,6 +300,10 @@ class ConfigsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnPagedConfigs:
         """
+        Fetches a list of a **Config's** versions.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+
         Parameters
         ----------
         id : str
@@ -380,6 +392,10 @@ class ConfigsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnConfig:
         """
+        Updates a **Config** by creating a new version of the **Config**.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+
         Parameters
         ----------
         id : str
@@ -538,6 +554,10 @@ class ConfigsClient:
 
     def delete_config(self, id: str, *, request_options: typing.Optional[RequestOptions] = None) -> None:
         """
+        Deletes a **Config** and its versions.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+
         Parameters
         ----------
         id : str
@@ -586,6 +606,10 @@ class ConfigsClient:
 
     def update_config_name(self, id: str, *, name: str, request_options: typing.Optional[RequestOptions] = None) -> str:
         """
+        Updates the name of a **Config**.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+
         Parameters
         ----------
         id : str
@@ -645,6 +669,10 @@ class ConfigsClient:
         self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> ReturnConfig:
         """
+        Fetches a specified version of a **Config**.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+
         Parameters
         ----------
         id : str
@@ -710,6 +738,10 @@ class ConfigsClient:
         self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> None:
         """
+        Deletes a specified version of a **Config**.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+
         Parameters
         ----------
         id : str
@@ -773,6 +805,10 @@ class ConfigsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnConfig:
         """
+        Updates the description of a **Config**.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+
         Parameters
         ----------
         id : str
@@ -857,6 +893,10 @@ class AsyncConfigsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnPagedConfigs:
         """
+        Fetches a paginated list of **Configs**.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+
         Parameters
         ----------
         page_number : typing.Optional[int]
@@ -955,6 +995,10 @@ class AsyncConfigsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnConfig:
         """
+        Creates a **Config** which can be applied to EVI.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+
         Parameters
         ----------
         evi_version : str
@@ -1125,6 +1169,10 @@ class AsyncConfigsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnPagedConfigs:
         """
+        Fetches a list of a **Config's** versions.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+
         Parameters
         ----------
         id : str
@@ -1221,6 +1269,10 @@ class AsyncConfigsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnConfig:
         """
+        Updates a **Config** by creating a new version of the **Config**.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+
         Parameters
         ----------
         id : str
@@ -1387,6 +1439,10 @@ class AsyncConfigsClient:
 
     async def delete_config(self, id: str, *, request_options: typing.Optional[RequestOptions] = None) -> None:
         """
+        Deletes a **Config** and its versions.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+
         Parameters
         ----------
         id : str
@@ -1445,6 +1501,10 @@ class AsyncConfigsClient:
         self, id: str, *, name: str, request_options: typing.Optional[RequestOptions] = None
     ) -> str:
         """
+        Updates the name of a **Config**.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+
         Parameters
         ----------
         id : str
@@ -1512,6 +1572,10 @@ class AsyncConfigsClient:
         self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> ReturnConfig:
         """
+        Fetches a specified version of a **Config**.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+
         Parameters
         ----------
         id : str
@@ -1585,6 +1649,10 @@ class AsyncConfigsClient:
         self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> None:
         """
+        Deletes a specified version of a **Config**.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+
         Parameters
         ----------
         id : str
@@ -1656,6 +1724,10 @@ class AsyncConfigsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnConfig:
         """
+        Updates the description of a **Config**.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+
         Parameters
         ----------
         id : str

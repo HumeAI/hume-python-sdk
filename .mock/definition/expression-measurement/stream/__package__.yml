@@ -12,6 +12,7 @@ channel:
     publish:
       origin: client
       body:
+        display-name: Models endpoint payload
         type: StreamModelsEndpointPayload
         docs: Models endpoint payload
   examples:
@@ -119,26 +120,33 @@ types:
         docs: >
           If a payload ID was passed in the request, the same payload ID will be
           sent back in the response body.
+        display-name: Model predictions
       job_details:
         type: optional<StreamModelPredictionsJobDetails>
         docs: >
           If the job_details flag was set in the request, details about the
           current streaming job will be returned in the response body.
+        display-name: Model predictions
       burst:
         type: optional<StreamModelPredictionsBurst>
         docs: Response for the vocal burst emotion model.
+        display-name: Model predictions
       face:
         type: optional<StreamModelPredictionsFace>
         docs: Response for the facial expression emotion model.
+        display-name: Model predictions
       facemesh:
         type: optional<StreamModelPredictionsFacemesh>
         docs: Response for the facemesh emotion model.
+        display-name: Model predictions
       language:
         type: optional<StreamModelPredictionsLanguage>
         docs: Response for the language emotion model.
+        display-name: Model predictions
       prosody:
         type: optional<StreamModelPredictionsProsody>
         docs: Response for the speech prosody emotion model.
+        display-name: Model predictions
     source:
       openapi: streaming-asyncapi.yml
   JobDetails:
@@ -157,19 +165,23 @@ types:
       error:
         type: optional<string>
         docs: Error message text.
+        display-name: Error message
       code:
         type: optional<string>
         docs: Unique identifier for the error.
+        display-name: Error message
       payload_id:
         type: optional<string>
         docs: >
           If a payload ID was passed in the request, the same payload ID will be
           sent back in the response body.
+        display-name: Error message
       job_details:
         type: optional<JobDetails>
         docs: >
           If the job_details flag was set in the request, details about the
           current streaming job will be returned in the response body.
+        display-name: Error message
     source:
       openapi: streaming-asyncapi.yml
   StreamWarningMessageJobDetails:
@@ -188,29 +200,36 @@ types:
       warning:
         type: optional<string>
         docs: Warning message text.
+        display-name: Warning message
       code:
         type: optional<string>
         docs: Unique identifier for the error.
+        display-name: Warning message
       payload_id:
         type: optional<string>
         docs: >
           If a payload ID was passed in the request, the same payload ID will be
           sent back in the response body.
+        display-name: Warning message
       job_details:
         type: optional<StreamWarningMessageJobDetails>
         docs: >
           If the job_details flag was set in the request, details about the
           current streaming job will be returned in the response body.
+        display-name: Warning message
     source:
       openapi: streaming-asyncapi.yml
   SubscribeEvent:
     discriminated: false
     union:
-      - type: StreamModelPredictions
+      - display-name: Model predictions
+        type: StreamModelPredictions
         docs: Model predictions
-      - type: StreamErrorMessage
+      - display-name: Error message
+        type: StreamErrorMessage
         docs: Error message
-      - type: StreamWarningMessage
+      - display-name: Warning message
+        type: StreamWarningMessage
         docs: Warning message
     source:
       openapi: streaming-asyncapi.yml
@@ -331,12 +350,15 @@ types:
   StreamModelsEndpointPayload:
     docs: Models endpoint payload
     properties:
-      data: optional<string>
+      data:
+        type: optional<string>
+        display-name: Models endpoint payload
       models:
         type: optional<Config>
         docs: >
           Configuration used to specify which models should be used and with
           what settings.
+        display-name: Models endpoint payload
       stream_window_ms:
         type: optional<double>
         docs: >
@@ -364,6 +386,7 @@ types:
         validation:
           min: 500
           max: 10000
+        display-name: Models endpoint payload
       reset_stream:
         type: optional<boolean>
         docs: >
@@ -378,6 +401,7 @@ types:
           Use reset_stream when one audio file is done being processed and you
           do not want context to leak across files.
         default: false
+        display-name: Models endpoint payload
       raw_text:
         type: optional<boolean>
         docs: >
@@ -388,6 +412,7 @@ types:
           the language model, but it cannot be used with other file types like
           audio, image, or video.
         default: false
+        display-name: Models endpoint payload
       job_details:
         type: optional<boolean>
         docs: >
@@ -401,6 +426,7 @@ types:
 
           This parameter is useful to get the unique job ID.
         default: false
+        display-name: Models endpoint payload
       payload_id:
         type: optional<string>
         docs: >
@@ -411,8 +437,13 @@ types:
           This can be useful if you have multiple requests running
           asynchronously and want to disambiguate responses as they are
           received.
-      face: optional<unknown>
-      language: optional<unknown>
+        display-name: Models endpoint payload
+      face:
+        type: optional<unknown>
+        display-name: Models endpoint payload
+      language:
+        type: optional<unknown>
+        display-name: Models endpoint payload
     source:
       openapi: streaming-asyncapi.yml
   EmotionEmbeddingItem:

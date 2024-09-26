@@ -31,6 +31,8 @@ class ChatsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[ReturnChat]:
         """
+        Fetches a paginated list of **Chats**.
+
         Parameters
         ----------
         page_number : typing.Optional[int]
@@ -126,6 +128,8 @@ class ChatsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[ReturnChatEvent]:
         """
+        Fetches a paginated list of **Chat** events.
+
         Parameters
         ----------
         id : str
@@ -230,6 +234,8 @@ class AsyncChatsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[ReturnChat]:
         """
+        Fetches a paginated list of **Chats**.
+
         Parameters
         ----------
         page_number : typing.Optional[int]
@@ -333,6 +339,8 @@ class AsyncChatsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[ReturnChatEvent]:
         """
+        Fetches a paginated list of **Chat** events.
+
         Parameters
         ----------
         id : str

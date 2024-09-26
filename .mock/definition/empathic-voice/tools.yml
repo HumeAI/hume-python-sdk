@@ -8,6 +8,14 @@ service:
       path: /v0/evi/tools
       method: GET
       auth: true
+      docs: >-
+        Fetches a paginated list of **Tools**.
+
+
+        Refer to our [tool
+        use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide
+        for comprehensive instructions on defining and integrating tools into
+        EVI.
       pagination:
         offset: $request.page_number
         results: $response.tools_page
@@ -99,6 +107,15 @@ service:
       path: /v0/evi/tools
       method: POST
       auth: true
+      docs: >-
+        Creates a **Tool** that can be added to an [EVI
+        configuration](/reference/empathic-voice-interface-evi/configs/create-config).
+
+
+        Refer to our [tool
+        use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide
+        for comprehensive instructions on defining and integrating tools into
+        EVI.
       display-name: Create tool
       request:
         name: PostedUserDefinedTool
@@ -178,6 +195,14 @@ service:
       path: /v0/evi/tools/{id}
       method: GET
       auth: true
+      docs: >-
+        Fetches a list of a **Tool's** versions.
+
+
+        Refer to our [tool
+        use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide
+        for comprehensive instructions on defining and integrating tools into
+        EVI.
       path-parameters:
         id:
           type: string
@@ -250,6 +275,14 @@ service:
       path: /v0/evi/tools/{id}
       method: POST
       auth: true
+      docs: >-
+        Updates a **Tool** by creating a new version of the **Tool**.
+
+
+        Refer to our [tool
+        use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide
+        for comprehensive instructions on defining and integrating tools into
+        EVI.
       path-parameters:
         id:
           type: string
@@ -331,6 +364,14 @@ service:
       path: /v0/evi/tools/{id}
       method: DELETE
       auth: true
+      docs: >-
+        Deletes a **Tool** and its versions.
+
+
+        Refer to our [tool
+        use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide
+        for comprehensive instructions on defining and integrating tools into
+        EVI.
       path-parameters:
         id:
           type: string
@@ -345,6 +386,14 @@ service:
       path: /v0/evi/tools/{id}
       method: PATCH
       auth: true
+      docs: >-
+        Updates the name of a **Tool**.
+
+
+        Refer to our [tool
+        use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide
+        for comprehensive instructions on defining and integrating tools into
+        EVI.
       path-parameters:
         id:
           type: string
@@ -371,6 +420,14 @@ service:
       path: /v0/evi/tools/{id}/version/{version}
       method: GET
       auth: true
+      docs: >-
+        Fetches a specified version of a **Tool**.
+
+
+        Refer to our [tool
+        use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide
+        for comprehensive instructions on defining and integrating tools into
+        EVI.
       path-parameters:
         id:
           type: string
@@ -424,6 +481,14 @@ service:
       path: /v0/evi/tools/{id}/version/{version}
       method: DELETE
       auth: true
+      docs: >-
+        Deletes a specified version of a **Tool**.
+
+
+        Refer to our [tool
+        use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide
+        for comprehensive instructions on defining and integrating tools into
+        EVI.
       path-parameters:
         id:
           type: string
@@ -453,6 +518,14 @@ service:
       path: /v0/evi/tools/{id}/version/{version}
       method: PATCH
       auth: true
+      docs: >-
+        Updates the description of a specified **Tool** version.
+
+
+        Refer to our [tool
+        use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide
+        for comprehensive instructions on defining and integrating tools into
+        EVI.
       path-parameters:
         id:
           type: string
