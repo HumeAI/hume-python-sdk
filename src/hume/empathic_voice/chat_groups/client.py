@@ -9,8 +9,9 @@ from ..errors.bad_request_error import BadRequestError
 from ..types.error_response import ErrorResponse
 from json.decoder import JSONDecodeError
 from ...core.api_error import ApiError
-from ..types.return_chat_group_paged_events import ReturnChatGroupPagedEvents
+from ..types.return_chat_group_paged_chats import ReturnChatGroupPagedChats
 from ...core.jsonable_encoder import jsonable_encoder
+from ..types.return_chat_group_paged_events import ReturnChatGroupPagedEvents
 from ...core.client_wrapper import AsyncClientWrapper
 
 
@@ -28,6 +29,8 @@ class ChatGroupsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnPagedChatGroups:
         """
+        Fetches a paginated list of **Chat Groups**.
+
         Parameters
         ----------
         page_number : typing.Optional[int]
@@ -105,6 +108,92 @@ class ChatGroupsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
+    def get_chat_group(
+        self,
+        id: str,
+        *,
+        page_size: typing.Optional[int] = None,
+        page_number: typing.Optional[int] = None,
+        ascending_order: typing.Optional[bool] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> ReturnChatGroupPagedChats:
+        """
+        Fetches a **ChatGroup** by ID, including a paginated list of **Chats** associated with the **ChatGroup**.
+
+        Parameters
+        ----------
+        id : str
+            Identifier for a Chat Group. Formatted as a UUID.
+
+        page_size : typing.Optional[int]
+            Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+
+            For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+
+        page_number : typing.Optional[int]
+            Specifies the page number to retrieve, enabling pagination.
+
+            This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
+
+        ascending_order : typing.Optional[bool]
+            Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ReturnChatGroupPagedChats
+            Success
+
+        Examples
+        --------
+        from hume import HumeClient
+
+        client = HumeClient(
+            api_key="YOUR_API_KEY",
+        )
+        client.empathic_voice.chat_groups.get_chat_group(
+            id="697056f0-6c7e-487d-9bd8-9c19df79f05f",
+            page_number=0,
+            page_size=1,
+            ascending_order=True,
+        )
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"v0/evi/chat_groups/{jsonable_encoder(id)}",
+            method="GET",
+            params={
+                "page_size": page_size,
+                "page_number": page_number,
+                "ascending_order": ascending_order,
+            },
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                return typing.cast(
+                    ReturnChatGroupPagedChats,
+                    parse_obj_as(
+                        type_=ReturnChatGroupPagedChats,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    typing.cast(
+                        ErrorResponse,
+                        parse_obj_as(
+                            type_=ErrorResponse,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
     def list_chat_group_events(
         self,
         id: str,
@@ -115,6 +204,8 @@ class ChatGroupsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnChatGroupPagedEvents:
         """
+        Fetches a paginated list of **Chat** events associated with a **Chat Group**.
+
         Parameters
         ----------
         id : str
@@ -204,6 +295,8 @@ class AsyncChatGroupsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnPagedChatGroups:
         """
+        Fetches a paginated list of **Chat Groups**.
+
         Parameters
         ----------
         page_number : typing.Optional[int]
@@ -289,6 +382,100 @@ class AsyncChatGroupsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
+    async def get_chat_group(
+        self,
+        id: str,
+        *,
+        page_size: typing.Optional[int] = None,
+        page_number: typing.Optional[int] = None,
+        ascending_order: typing.Optional[bool] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> ReturnChatGroupPagedChats:
+        """
+        Fetches a **ChatGroup** by ID, including a paginated list of **Chats** associated with the **ChatGroup**.
+
+        Parameters
+        ----------
+        id : str
+            Identifier for a Chat Group. Formatted as a UUID.
+
+        page_size : typing.Optional[int]
+            Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+
+            For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+
+        page_number : typing.Optional[int]
+            Specifies the page number to retrieve, enabling pagination.
+
+            This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
+
+        ascending_order : typing.Optional[bool]
+            Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ReturnChatGroupPagedChats
+            Success
+
+        Examples
+        --------
+        import asyncio
+
+        from hume import AsyncHumeClient
+
+        client = AsyncHumeClient(
+            api_key="YOUR_API_KEY",
+        )
+
+
+        async def main() -> None:
+            await client.empathic_voice.chat_groups.get_chat_group(
+                id="697056f0-6c7e-487d-9bd8-9c19df79f05f",
+                page_number=0,
+                page_size=1,
+                ascending_order=True,
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"v0/evi/chat_groups/{jsonable_encoder(id)}",
+            method="GET",
+            params={
+                "page_size": page_size,
+                "page_number": page_number,
+                "ascending_order": ascending_order,
+            },
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                return typing.cast(
+                    ReturnChatGroupPagedChats,
+                    parse_obj_as(
+                        type_=ReturnChatGroupPagedChats,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    typing.cast(
+                        ErrorResponse,
+                        parse_obj_as(
+                            type_=ErrorResponse,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
     async def list_chat_group_events(
         self,
         id: str,
@@ -299,6 +486,8 @@ class AsyncChatGroupsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnChatGroupPagedEvents:
         """
+        Fetches a paginated list of **Chat** events associated with a **Chat Group**.
+
         Parameters
         ----------
         id : str

@@ -8,6 +8,8 @@ from .sentiment import Sentiment
 from .sentiment_item import SentimentItem
 from .stream_bounding_box import StreamBoundingBox
 from .stream_error_message import StreamErrorMessage
+from .stream_face import StreamFace
+from .stream_language import StreamLanguage
 from .stream_model_predictions import StreamModelPredictions
 from .stream_model_predictions_burst import StreamModelPredictionsBurst
 from .stream_model_predictions_burst_predictions_item import StreamModelPredictionsBurstPredictionsItem
@@ -21,8 +23,6 @@ from .stream_model_predictions_language_predictions_item import StreamModelPredi
 from .stream_model_predictions_prosody import StreamModelPredictionsProsody
 from .stream_model_predictions_prosody_predictions_item import StreamModelPredictionsProsodyPredictionsItem
 from .stream_models_endpoint_payload import StreamModelsEndpointPayload
-from .stream_models_endpoint_payload_models_face import StreamModelsEndpointPayloadModelsFace
-from .stream_models_endpoint_payload_models_language import StreamModelsEndpointPayloadModelsLanguage
 from .stream_warning_message import StreamWarningMessage
 from .stream_warning_message_job_details import StreamWarningMessageJobDetails
 from .subscribe_event import SubscribeEvent
@@ -40,6 +40,8 @@ __all__ = [
     "SentimentItem",
     "StreamBoundingBox",
     "StreamErrorMessage",
+    "StreamFace",
+    "StreamLanguage",
     "StreamModelPredictions",
     "StreamModelPredictionsBurst",
     "StreamModelPredictionsBurstPredictionsItem",
@@ -53,8 +55,6 @@ __all__ = [
     "StreamModelPredictionsProsody",
     "StreamModelPredictionsProsodyPredictionsItem",
     "StreamModelsEndpointPayload",
-    "StreamModelsEndpointPayloadModelsFace",
-    "StreamModelsEndpointPayloadModelsLanguage",
     "StreamWarningMessage",
     "StreamWarningMessageJobDetails",
     "SubscribeEvent",

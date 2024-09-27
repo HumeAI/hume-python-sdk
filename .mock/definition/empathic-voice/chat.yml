@@ -119,28 +119,28 @@ types:
   SubscribeEvent:
     discriminated: false
     union:
-      - root.AssistantEnd
-      - root.AssistantMessage
-      - root.AudioOutput
-      - root.ChatMetadata
-      - root.WebSocketError
-      - root.UserInterruption
-      - root.UserMessage
-      - root.ToolCallMessage
-      - root.ToolResponseMessage
-      - root.ToolErrorMessage
+      - type: root.AssistantEnd
+      - type: root.AssistantMessage
+      - type: root.AudioOutput
+      - type: root.ChatMetadata
+      - type: root.WebSocketError
+      - type: root.UserInterruption
+      - type: root.UserMessage
+      - type: root.ToolCallMessage
+      - type: root.ToolResponseMessage
+      - type: root.ToolErrorMessage
     source:
       openapi: assistant-asyncapi.json
   PublishEvent:
     discriminated: false
     union:
-      - root.AudioInput
-      - root.SessionSettings
-      - root.UserInput
-      - root.AssistantInput
-      - root.ToolResponseMessage
-      - root.ToolErrorMessage
-      - root.PauseAssistantMessage
-      - root.ResumeAssistantMessage
+      - type: root.AudioInput
+      - type: root.SessionSettings
+      - type: root.UserInput
+      - type: root.AssistantInput
+      - type: root.ToolResponseMessage
+      - type: root.ToolErrorMessage
+      - type: root.PauseAssistantMessage
+      - type: root.ResumeAssistantMessage
     source:
       openapi: assistant-asyncapi.json

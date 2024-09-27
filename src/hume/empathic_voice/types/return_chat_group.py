@@ -36,7 +36,10 @@ class ReturnChatGroup(UniversalBaseModel):
     The total number of Chats in this Chat Group.
     """
 
-    active: typing.Optional[bool] = None
+    active: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    Denotes whether there is an active Chat associated with this Chat Group.
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

@@ -54,6 +54,7 @@ from .return_chat_event_role import ReturnChatEventRole
 from .return_chat_event_type import ReturnChatEventType
 from .return_chat_group import ReturnChatGroup
 from .return_chat_group_paged_chats import ReturnChatGroupPagedChats
+from .return_chat_group_paged_chats_pagination_direction import ReturnChatGroupPagedChatsPaginationDirection
 from .return_chat_group_paged_events import ReturnChatGroupPagedEvents
 from .return_chat_group_paged_events_pagination_direction import ReturnChatGroupPagedEventsPaginationDirection
 from .return_chat_paged_events import ReturnChatPagedEvents
@@ -159,6 +160,7 @@ __all__ = [
     "ReturnChatEventType",
     "ReturnChatGroup",
     "ReturnChatGroupPagedChats",
+    "ReturnChatGroupPagedChatsPaginationDirection",
     "ReturnChatGroupPagedEvents",
     "ReturnChatGroupPagedEventsPaginationDirection",
     "ReturnChatPagedEvents",
