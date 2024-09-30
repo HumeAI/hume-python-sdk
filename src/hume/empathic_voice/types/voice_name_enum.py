@@ -2,4 +2,9 @@
 
 import typing
 
-VoiceNameEnum = typing.Union[typing.Literal["ITO", "KORA", "DACHER"], typing.Any]
+VoiceNameEnum = typing.Union[
+    typing.Literal[
+        "ITO", "KORA", "DACHER", "AURA", "FINN", "SIENNA", "WILLOW", "SCOUT", "WHIMSY", "ACE", "JUNO", "STELLA", "HIRO"
+    ],
+    typing.Any,
+]

@@ -2,4 +2,4 @@
 
 import typing
 
-BuiltInTool = typing.Literal["web_search"]
+BuiltInTool = typing.Union[typing.Literal["web_search", "hang_up"], typing.Any]
