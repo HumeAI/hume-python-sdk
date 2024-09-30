@@ -8,6 +8,13 @@ service:
       path: /v0/evi/configs
       method: GET
       auth: true
+      docs: >-
+        Fetches a paginated list of **Configs**.
+
+
+        For more details on configuration options and how to configure EVI, see
+        our [configuration
+        guide](/docs/empathic-voice-interface-evi/configuration).
       display-name: List configs
       request:
         name: ConfigsListConfigsRequest
@@ -124,6 +131,13 @@ service:
       path: /v0/evi/configs
       method: POST
       auth: true
+      docs: >-
+        Creates a **Config** which can be applied to EVI.
+
+
+        For more details on configuration options and how to configure EVI, see
+        our [configuration
+        guide](/docs/empathic-voice-interface-evi/configuration).
       display-name: Create config
       request:
         name: PostedConfig
@@ -174,6 +188,7 @@ service:
               docs: List of built-in tools associated with this Config.
             event_messages: optional<root.PostedEventMessageSpecs>
             timeouts: optional<root.PostedTimeoutSpecs>
+        content-type: application/json
       response:
         docs: Created
         type: root.ReturnConfig
@@ -272,6 +287,13 @@ service:
       path: /v0/evi/configs/{id}
       method: GET
       auth: true
+      docs: >-
+        Fetches a list of a **Config's** versions.
+
+
+        For more details on configuration options and how to configure EVI, see
+        our [configuration
+        guide](/docs/empathic-voice-interface-evi/configuration).
       path-parameters:
         id:
           type: string
@@ -388,6 +410,13 @@ service:
       path: /v0/evi/configs/{id}
       method: POST
       auth: true
+      docs: >-
+        Updates a **Config** by creating a new version of the **Config**.
+
+
+        For more details on configuration options and how to configure EVI, see
+        our [configuration
+        guide](/docs/empathic-voice-interface-evi/configuration).
       path-parameters:
         id:
           type: string
@@ -436,6 +465,7 @@ service:
               docs: List of built-in tools associated with this Config version.
             event_messages: optional<root.PostedEventMessageSpecs>
             timeouts: optional<root.PostedTimeoutSpecs>
+        content-type: application/json
       response:
         docs: Created
         type: root.ReturnConfig
@@ -538,6 +568,13 @@ service:
       path: /v0/evi/configs/{id}
       method: DELETE
       auth: true
+      docs: >-
+        Deletes a **Config** and its versions.
+
+
+        For more details on configuration options and how to configure EVI, see
+        our [configuration
+        guide](/docs/empathic-voice-interface-evi/configuration).
       path-parameters:
         id:
           type: string
@@ -552,6 +589,13 @@ service:
       path: /v0/evi/configs/{id}
       method: PATCH
       auth: true
+      docs: >-
+        Updates the name of a **Config**.
+
+
+        For more details on configuration options and how to configure EVI, see
+        our [configuration
+        guide](/docs/empathic-voice-interface-evi/configuration).
       path-parameters:
         id:
           type: string
@@ -564,6 +608,7 @@ service:
             name:
               type: string
               docs: Name applied to all versions of a particular Config.
+        content-type: application/json
       response:
         docs: Success
         type: text
@@ -578,6 +623,13 @@ service:
       path: /v0/evi/configs/{id}/version/{version}
       method: GET
       auth: true
+      docs: >-
+        Fetches a specified version of a **Config**.
+
+
+        For more details on configuration options and how to configure EVI, see
+        our [configuration
+        guide](/docs/empathic-voice-interface-evi/configuration).
       path-parameters:
         id:
           type: string
@@ -676,6 +728,13 @@ service:
       path: /v0/evi/configs/{id}/version/{version}
       method: DELETE
       auth: true
+      docs: >-
+        Deletes a specified version of a **Config**.
+
+
+        For more details on configuration options and how to configure EVI, see
+        our [configuration
+        guide](/docs/empathic-voice-interface-evi/configuration).
       path-parameters:
         id:
           type: string
@@ -706,6 +765,13 @@ service:
       path: /v0/evi/configs/{id}/version/{version}
       method: PATCH
       auth: true
+      docs: >-
+        Updates the description of a **Config**.
+
+
+        For more details on configuration options and how to configure EVI, see
+        our [configuration
+        guide](/docs/empathic-voice-interface-evi/configuration).
       path-parameters:
         id:
           type: string
@@ -733,6 +799,7 @@ service:
             version_description:
               type: optional<string>
               docs: An optional description of the Config version.
+        content-type: application/json
       response:
         docs: Success
         type: root.ReturnConfig

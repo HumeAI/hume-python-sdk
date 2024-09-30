@@ -8,6 +8,13 @@ service:
       path: /v0/evi/prompts
       method: GET
       auth: true
+      docs: >-
+        Fetches a paginated list of **Prompts**.
+
+
+        See our [prompting
+        guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on
+        crafting your system prompt.
       pagination:
         offset: $request.page_number
         results: $response.prompts_page
@@ -94,6 +101,14 @@ service:
       path: /v0/evi/prompts
       method: POST
       auth: true
+      docs: >-
+        Creates a **Prompt** that can be added to an [EVI
+        configuration](/reference/empathic-voice-interface-evi/configs/create-config).
+
+
+        See our [prompting
+        guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on
+        crafting your system prompt.
       display-name: Create prompt
       request:
         name: PostedPrompt
@@ -121,6 +136,7 @@ service:
 
                 For help writing a system prompt, see our [Prompting
                 Guide](/docs/empathic-voice-interface-evi/prompting).
+        content-type: application/json
       response:
         docs: Created
         type: optional<root.ReturnPrompt>
@@ -155,6 +171,13 @@ service:
       path: /v0/evi/prompts/{id}
       method: GET
       auth: true
+      docs: >-
+        Fetches a list of a **Prompt's** versions.
+
+
+        See our [prompting
+        guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on
+        crafting your system prompt.
       path-parameters:
         id:
           type: string
@@ -222,6 +245,13 @@ service:
       path: /v0/evi/prompts/{id}
       method: POST
       auth: true
+      docs: >-
+        Updates a **Prompt** by creating a new version of the **Prompt**.
+
+
+        See our [prompting
+        guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on
+        crafting your system prompt.
       path-parameters:
         id:
           type: string
@@ -251,6 +281,7 @@ service:
 
                 For help writing a system prompt, see our [Prompting
                 Guide](/docs/empathic-voice-interface-evi/prompting).
+        content-type: application/json
       response:
         docs: Created
         type: optional<root.ReturnPrompt>
@@ -288,6 +319,13 @@ service:
       path: /v0/evi/prompts/{id}
       method: DELETE
       auth: true
+      docs: >-
+        Deletes a **Prompt** and its versions.
+
+
+        See our [prompting
+        guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on
+        crafting your system prompt.
       path-parameters:
         id:
           type: string
@@ -302,6 +340,13 @@ service:
       path: /v0/evi/prompts/{id}
       method: PATCH
       auth: true
+      docs: >-
+        Updates the name of a **Prompt**.
+
+
+        See our [prompting
+        guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on
+        crafting your system prompt.
       path-parameters:
         id:
           type: string
@@ -314,6 +359,7 @@ service:
             name:
               type: string
               docs: Name applied to all versions of a particular Prompt.
+        content-type: application/json
       response:
         docs: Success
         type: text
@@ -328,6 +374,13 @@ service:
       path: /v0/evi/prompts/{id}/version/{version}
       method: GET
       auth: true
+      docs: >-
+        Fetches a specified version of a **Prompt**.
+
+
+        See our [prompting
+        guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on
+        crafting your system prompt.
       path-parameters:
         id:
           type: string
@@ -377,6 +430,13 @@ service:
       path: /v0/evi/prompts/{id}/version/{version}
       method: DELETE
       auth: true
+      docs: >-
+        Deletes a specified version of a **Prompt**.
+
+
+        See our [prompting
+        guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on
+        crafting your system prompt.
       path-parameters:
         id:
           type: string
@@ -407,6 +467,13 @@ service:
       path: /v0/evi/prompts/{id}/version/{version}
       method: PATCH
       auth: true
+      docs: >-
+        Updates the description of a **Prompt**.
+
+
+        See our [prompting
+        guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on
+        crafting your system prompt.
       path-parameters:
         id:
           type: string
@@ -434,6 +501,7 @@ service:
             version_description:
               type: optional<string>
               docs: An optional description of the Prompt version.
+        content-type: application/json
       response:
         docs: Success
         type: optional<root.ReturnPrompt>

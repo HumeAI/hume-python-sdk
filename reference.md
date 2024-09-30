@@ -548,6 +548,22 @@ typing.List[core.File]` — See core.File for more documentation
 <dl>
 <dd>
 
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a paginated list of **Tools**.
+
+Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+</dd>
+</dl>
+</dd>
+</dl>
+
 #### 🔌 Usage
 
 <dl>
@@ -641,6 +657,22 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">create_tool</a>(...)</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Creates a **Tool** that can be added to an [EVI configuration](/reference/empathic-voice-interface-evi/configs/create-config).
+
+Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -738,6 +770,22 @@ These parameters define the inputs needed for the Tool’s execution, including 
 <dl>
 <dd>
 
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a list of a **Tool's** versions.
+
+Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+</dd>
+</dl>
+</dd>
+</dl>
+
 #### 🔌 Usage
 
 <dl>
@@ -825,6 +873,22 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">create_tool_version</a>(...)</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates a **Tool** by creating a new version of the **Tool**.
+
+Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -922,6 +986,22 @@ These parameters define the inputs needed for the Tool’s execution, including 
 <dl>
 <dd>
 
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Deletes a **Tool** and its versions.
+
+Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+</dd>
+</dl>
+</dd>
+</dl>
+
 #### 🔌 Usage
 
 <dl>
@@ -977,6 +1057,22 @@ client.empathic_voice.tools.delete_tool(
 <details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">update_tool_name</a>(...)</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates the name of a **Tool**.
+
+Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -1042,6 +1138,22 @@ client.empathic_voice.tools.update_tool_name(
 <details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">get_tool_version</a>(...)</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a specified version of a **Tool**.
+
+Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -1114,6 +1226,22 @@ Version numbers are integer values representing different iterations of the Tool
 <dl>
 <dd>
 
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Deletes a specified version of a **Tool**.
+
+Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+</dd>
+</dl>
+</dd>
+</dl>
+
 #### 🔌 Usage
 
 <dl>
@@ -1184,6 +1312,22 @@ Version numbers are integer values representing different iterations of the Tool
 <details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">update_tool_description</a>(...)</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates the description of a specified **Tool** version.
+
+Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -1265,6 +1409,22 @@ Version numbers are integer values representing different iterations of the Tool
 <details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">list_prompts</a>(...)</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a paginated list of **Prompts**.
+
+See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -1360,6 +1520,22 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dl>
 <dd>
 
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Creates a **Prompt** that can be added to an [EVI configuration](/reference/empathic-voice-interface-evi/configs/create-config).
+
+See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+</dd>
+</dl>
+</dd>
+</dl>
+
 #### 🔌 Usage
 
 <dl>
@@ -1438,6 +1614,22 @@ For help writing a system prompt, see our [Prompting Guide](/docs/empathic-voice
 <details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">list_prompt_versions</a>(...)</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a list of a **Prompt's** versions.
+
+See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -1527,6 +1719,22 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dl>
 <dd>
 
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates a **Prompt** by creating a new version of the **Prompt**.
+
+See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+</dd>
+</dl>
+</dd>
+</dl>
+
 #### 🔌 Usage
 
 <dl>
@@ -1607,6 +1815,22 @@ For help writing a system prompt, see our [Prompting Guide](/docs/empathic-voice
 <dl>
 <dd>
 
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Deletes a **Prompt** and its versions.
+
+See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+</dd>
+</dl>
+</dd>
+</dl>
+
 #### 🔌 Usage
 
 <dl>
@@ -1662,6 +1886,22 @@ client.empathic_voice.prompts.delete_prompt(
 <details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">update_prompt_name</a>(...)</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates the name of a **Prompt**.
+
+See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -1727,6 +1967,22 @@ client.empathic_voice.prompts.update_prompt_name(
 <details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">get_prompt_version</a>(...)</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a specified version of a **Prompt**.
+
+See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -1799,6 +2055,22 @@ Version numbers are integer values representing different iterations of the Prom
 <dl>
 <dd>
 
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Deletes a specified version of a **Prompt**.
+
+See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+</dd>
+</dl>
+</dd>
+</dl>
+
 #### 🔌 Usage
 
 <dl>
@@ -1869,6 +2141,22 @@ Version numbers are integer values representing different iterations of the Prom
 <details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">update_prompt_description</a>(...)</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates the description of a **Prompt**.
+
+See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -1947,9 +2235,25 @@ Version numbers are integer values representing different iterations of the Prom
 </details>
 
 ## EmpathicVoice CustomVoices
-<details><summary><code>client.empathic_voice.custom_voices.<a href="src/hume/empathic_voice/custom_voices/client.py">get_return_custom_voices_for_user</a>(...)</code></summary>
+<details><summary><code>client.empathic_voice.custom_voices.<a href="src/hume/empathic_voice/custom_voices/client.py">list_custom_voices</a>(...)</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a paginated list of **Custom Voices**.
+
+Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices) for details on creating a custom voice.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -1965,7 +2269,7 @@ from hume import HumeClient
 client = HumeClient(
     api_key="YOUR_API_KEY",
 )
-client.empathic_voice.custom_voices.get_return_custom_voices_for_user()
+client.empathic_voice.custom_voices.list_custom_voices()
 
 ```
 </dd>
@@ -2025,9 +2329,25 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.custom_voices.<a href="src/hume/empathic_voice/custom_voices/client.py">create_new_custom_voice</a>(...)</code></summary>
+<details><summary><code>client.empathic_voice.custom_voices.<a href="src/hume/empathic_voice/custom_voices/client.py">create_custom_voice</a>(...)</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Creates a **Custom Voice** that can be added to an [EVI configuration](/reference/empathic-voice-interface-evi/configs/create-config).
+
+Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices) for details on creating a custom voice.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -2043,7 +2363,7 @@ from hume import HumeClient
 client = HumeClient(
     api_key="YOUR_API_KEY",
 )
-client.empathic_voice.custom_voices.create_new_custom_voice(
+client.empathic_voice.custom_voices.create_custom_voice(
     name="name",
     base_voice="ITO",
 )
@@ -2102,9 +2422,25 @@ If no parameters are specified then all attributes will be set to their defaults
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.custom_voices.<a href="src/hume/empathic_voice/custom_voices/client.py">get_return_custom_voice_by_custom_voice_id</a>(...)</code></summary>
+<details><summary><code>client.empathic_voice.custom_voices.<a href="src/hume/empathic_voice/custom_voices/client.py">get_custom_voice</a>(...)</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a specific **Custom Voice** by ID.
+
+Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices) for details on creating a custom voice.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -2120,7 +2456,7 @@ from hume import HumeClient
 client = HumeClient(
     api_key="YOUR_API_KEY",
 )
-client.empathic_voice.custom_voices.get_return_custom_voice_by_custom_voice_id(
+client.empathic_voice.custom_voices.get_custom_voice(
     id="id",
 )
 
@@ -2158,9 +2494,25 @@ client.empathic_voice.custom_voices.get_return_custom_voice_by_custom_voice_id(
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.custom_voices.<a href="src/hume/empathic_voice/custom_voices/client.py">add_new_custom_voice_version</a>(...)</code></summary>
+<details><summary><code>client.empathic_voice.custom_voices.<a href="src/hume/empathic_voice/custom_voices/client.py">create_custom_voice_version</a>(...)</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates a **Custom Voice** by creating a new version of the **Custom Voice**.
+
+Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices) for details on creating a custom voice.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -2176,7 +2528,7 @@ from hume import HumeClient
 client = HumeClient(
     api_key="YOUR_API_KEY",
 )
-client.empathic_voice.custom_voices.add_new_custom_voice_version(
+client.empathic_voice.custom_voices.create_custom_voice_version(
     id="id",
     name="name",
     base_voice="ITO",
@@ -2248,6 +2600,22 @@ If no parameters are specified then all attributes will be set to their defaults
 <dl>
 <dd>
 
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Deletes a **Custom Voice** and its versions.
+
+Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices) for details on creating a custom voice.
+</dd>
+</dl>
+</dd>
+</dl>
+
 #### 🔌 Usage
 
 <dl>
@@ -2303,6 +2671,22 @@ client.empathic_voice.custom_voices.delete_custom_voice(
 <details><summary><code>client.empathic_voice.custom_voices.<a href="src/hume/empathic_voice/custom_voices/client.py">update_custom_voice_name</a>(...)</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates the name of a **Custom Voice**.
+
+Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices) for details on creating a custom voice.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -2369,6 +2753,22 @@ client.empathic_voice.custom_voices.update_custom_voice_name(
 <details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">list_configs</a>(...)</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a paginated list of **Configs**.
+
+For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -2458,6 +2858,22 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">create_config</a>(...)</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Creates a **Config** which can be applied to EVI.
+
+For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -2637,6 +3053,22 @@ Hume's eLLM (empathic Large Language Model) is a multimodal language model that 
 <dl>
 <dd>
 
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a list of a **Config's** versions.
+
+For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+</dd>
+</dl>
+</dd>
+</dl>
+
 #### 🔌 Usage
 
 <dl>
@@ -2724,6 +3156,22 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">create_config_version</a>(...)</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates a **Config** by creating a new version of the **Config**.
+
+For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -2908,6 +3356,22 @@ Hume's eLLM (empathic Large Language Model) is a multimodal language model that 
 <dl>
 <dd>
 
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Deletes a **Config** and its versions.
+
+For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+</dd>
+</dl>
+</dd>
+</dl>
+
 #### 🔌 Usage
 
 <dl>
@@ -2963,6 +3427,22 @@ client.empathic_voice.configs.delete_config(
 <details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">update_config_name</a>(...)</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates the name of a **Config**.
+
+For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -3028,6 +3508,22 @@ client.empathic_voice.configs.update_config_name(
 <details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">get_config_version</a>(...)</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a specified version of a **Config**.
+
+For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -3100,6 +3596,22 @@ Version numbers are integer values representing different iterations of the Conf
 <dl>
 <dd>
 
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Deletes a specified version of a **Config**.
+
+For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+</dd>
+</dl>
+</dd>
+</dl>
+
 #### 🔌 Usage
 
 <dl>
@@ -3170,6 +3682,22 @@ Version numbers are integer values representing different iterations of the Conf
 <details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">update_config_description</a>(...)</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates the description of a **Config**.
+
+For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -3251,6 +3779,20 @@ Version numbers are integer values representing different iterations of the Conf
 <details><summary><code>client.empathic_voice.chats.<a href="src/hume/empathic_voice/chats/client.py">list_chats</a>(...)</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a paginated list of **Chats**.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -3338,6 +3880,20 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <details><summary><code>client.empathic_voice.chats.<a href="src/hume/empathic_voice/chats/client.py">list_chat_events</a>(...)</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a paginated list of **Chat** events.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -3436,6 +3992,20 @@ This parameter uses zero-based indexing. For example, setting `page_number` to 0
 <dl>
 <dd>
 
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a paginated list of **Chat Groups**.
+</dd>
+</dl>
+</dd>
+</dl>
+
 #### 🔌 Usage
 
 <dl>
@@ -3527,9 +4097,128 @@ Filter Chat Groups to only include Chats that used this `config_id` in their mos
 </dl>
 </details>
 
+<details><summary><code>client.empathic_voice.chat_groups.<a href="src/hume/empathic_voice/chat_groups/client.py">get_chat_group</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a **ChatGroup** by ID, including a paginated list of **Chats** associated with the **ChatGroup**.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.chat_groups.get_chat_group(
+    id="697056f0-6c7e-487d-9bd8-9c19df79f05f",
+    page_number=0,
+    page_size=1,
+    ascending_order=True,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Chat Group. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_size:** `typing.Optional[int]` 
+
+Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+
+For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_number:** `typing.Optional[int]` 
+
+Specifies the page number to retrieve, enabling pagination.
+
+This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ascending_order:** `typing.Optional[bool]` — Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.empathic_voice.chat_groups.<a href="src/hume/empathic_voice/chat_groups/client.py">list_chat_group_events</a>(...)</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a paginated list of **Chat** events associated with a **Chat Group**.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 

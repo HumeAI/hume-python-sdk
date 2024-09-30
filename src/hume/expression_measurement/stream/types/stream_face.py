@@ -6,7 +6,7 @@ import pydantic
 from ....core.pydantic_utilities import IS_PYDANTIC_V2
 
 
-class StreamModelsEndpointPayloadModelsFace(UniversalBaseModel):
+class StreamFace(UniversalBaseModel):
     """
     Configuration for the facial expression emotion model.
 
