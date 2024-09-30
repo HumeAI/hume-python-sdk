@@ -1846,10 +1846,14 @@ types:
     source:
       openapi: assistant-asyncapi.json
   BuiltInTool:
-    type: literal<"web_search">
+    enum:
+      - web_search
+      - hang_up
     docs: >-
       Name of the built-in tool. Set to `web_search` to equip EVI with the
       built-in Web Search tool.
+    source:
+      openapi: assistant-asyncapi.json
   BuiltinToolConfig:
     properties:
       name:
@@ -2336,6 +2340,9 @@ types:
         docs: >-
           ID of the audio output. Allows the Audio Output message to be tracked
           and referenced.
+      index:
+        type: integer
+        docs: Index of the chunk of audio relative to the whole audio segment.
       data:
         type: string
         docs: >-
@@ -2694,17 +2701,177 @@ types:
       type: optional<literal<"function_call_response">>
     source:
       openapi: assistant-asyncapi.json
+  BodyTwilioWebhookV0AssistantTwilioPost:
+    properties:
+      call_sid:
+        type: optional<string>
+        default: ''
+      account_sid:
+        type: optional<string>
+        default: ''
+      from_number:
+        type: optional<string>
+        default: ''
+      to_number:
+        type: optional<string>
+        default: ''
+      call_status:
+        type: optional<string>
+        default: ''
+      direction:
+        type: optional<string>
+        default: ''
+    source:
+      openapi: assistant-openapi.json
+  BodyTwilioWebhookV0EviTwilioPost:
+    properties:
+      call_sid:
+        type: optional<string>
+        default: ''
+      account_sid:
+        type: optional<string>
+        default: ''
+      from_number:
+        type: optional<string>
+        default: ''
+      to_number:
+        type: optional<string>
+        default: ''
+      call_status:
+        type: optional<string>
+        default: ''
+      direction:
+        type: optional<string>
+        default: ''
+    source:
+      openapi: assistant-openapi.json
+  BuiltinToolType:
+    enum:
+      - web_search
+      - hang_up
+    source:
+      openapi: assistant-openapi.json
   ExtendedVoiceArgs:
     properties:
       text: string
+      use_s2a:
+        type: optional<boolean>
+        default: true
       voice_args:
         type: VoiceArgs
+    source:
+      openapi: assistant-openapi.json
+  FeatureDefaultActivations:
+    properties:
+      gender: double
+      huskiness: double
+      nasality: double
+      pitch: double
     source:
       openapi: assistant-openapi.json
   HTTPValidationError:
     properties:
       detail:
         type: optional<list<ValidationError>>
+    source:
+      openapi: assistant-openapi.json
+  LanguageModelEndpointResponse:
+    properties:
+      language_models:
+        docs: List of supported language models.
+        type: list<SupportedLanguageModelEndpoint>
+    source:
+      openapi: assistant-openapi.json
+  LanguageModelType:
+    enum:
+      - value: claude-3-5-sonnet-20240620
+        name: Claude35Sonnet20240620
+      - value: claude-3-opus-20240229
+        name: Claude3Opus20240229
+      - value: claude-3-sonnet-20240229
+        name: Claude3Sonnet20240229
+      - value: claude-3-haiku-20240307
+        name: Claude3Haiku20240307
+      - value: claude-2.1
+        name: Claude21
+      - value: claude-instant-1.2
+        name: ClaudeInstant12
+      - value: gemini-1.5-pro
+        name: Gemini15Pro
+      - value: gemini-1.5-flash
+        name: Gemini15Flash
+      - value: gpt-4-turbo-preview
+        name: Gpt4TurboPreview
+      - value: gpt-3.5-turbo-0125
+        name: Gpt35Turbo0125
+      - value: gpt-3.5-turbo
+        name: Gpt35Turbo
+      - value: gpt-4o
+        name: Gpt4O
+      - value: gpt-4o-mini
+        name: Gpt4OMini
+      - value: gemma-7b-it
+        name: Gemma7BIt
+      - value: llama3-8b-8192
+        name: Llama38B8192
+      - value: llama3-70b-8192
+        name: Llama370B8192
+      - value: llama-3.1-70b-versatile
+        name: Llama3170BVersatile
+      - value: llama-3.1-8b-instant
+        name: Llama318BInstant
+      - value: accounts/fireworks/models/mixtral-8x7b-instruct
+        name: AccountsFireworksModelsMixtral8X7BInstruct
+      - value: accounts/fireworks/models/llama-v3p1-405b-instruct
+        name: AccountsFireworksModelsLlamaV3P1405BInstruct
+      - value: accounts/fireworks/models/llama-v3p1-70b-instruct
+        name: AccountsFireworksModelsLlamaV3P170BInstruct
+      - value: accounts/fireworks/models/llama-v3p1-8b-instruct
+        name: AccountsFireworksModelsLlamaV3P18BInstruct
+      - ellm
+    source:
+      openapi: assistant-openapi.json
+  ModelProviderEnum:
+    enum:
+      - GROQ
+      - OPEN_AI
+      - BYO_TEXT
+      - FIREWORKS
+      - ANTHROPIC
+      - CUSTOM_LANGUAGE_MODEL
+      - GOOGLE
+      - HUME_AI
+    source:
+      openapi: assistant-openapi.json
+  SupportedLanguageModelEndpoint:
+    properties:
+      model_provider:
+        type: ModelProviderEnum
+        docs: Model provider of the language model.
+      model_resource:
+        type: LanguageModelType
+        docs: Language model resource. Either a model name or a Websocket url.
+      builtin_tools:
+        docs: List of builtin tools supported by the language model.
+        type: list<BuiltinToolType>
+    source:
+      openapi: assistant-openapi.json
+  SupportedVoiceNameEndpoint:
+    properties:
+      voice_provider:
+        type: string
+        docs: Provider of the voice.
+      voice_name:
+        type: VoiceNameEnum
+        docs: Name of the voice.
+      preview_url:
+        type: string
+        docs: Url pointing to an audio sample.
+      requires_evi_2:
+        type: boolean
+        docs: >-
+          Whether this voice requires EVI 2 (when true) or can be used in EVI 1
+          and 2 (when false)
     source:
       openapi: assistant-openapi.json
   ValidationErrorLocItem:
@@ -2726,12 +2893,36 @@ types:
     properties:
       voice:
         type: optional<VoiceNameEnum>
+      speech_rate_multiplier:
+        type: optional<double>
+        default: 1
+        validation:
+          min: 0.5
+          max: 2
       baseline:
         type: optional<boolean>
         default: false
       reconstruct:
         type: optional<boolean>
         default: false
+      additive:
+        type: optional<boolean>
+        default: false
+      drift:
+        type: optional<boolean>
+        default: true
+      use_v2:
+        type: optional<boolean>
+        default: true
+    source:
+      openapi: assistant-openapi.json
+  VoiceDefaultActivations:
+    type: map<string, unknown>
+  VoiceNameEndpointResponse:
+    properties:
+      voice_names:
+        docs: List of supported voice names.
+        type: list<SupportedVoiceNameEndpoint>
     source:
       openapi: assistant-openapi.json
   VoiceNameEnum:
@@ -2739,5 +2930,15 @@ types:
       - ITO
       - KORA
       - DACHER
+      - AURA
+      - FINN
+      - SIENNA
+      - WILLOW
+      - SCOUT
+      - WHIMSY
+      - ACE
+      - JUNO
+      - STELLA
+      - HIRO
     source:
       openapi: assistant-openapi.json

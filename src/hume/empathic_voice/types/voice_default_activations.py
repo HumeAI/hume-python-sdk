@@ -2,4 +2,4 @@
 
 import typing
 
-BuiltInTool = typing.Union[typing.Literal["web_search", "hang_up"], typing.Any]
+VoiceDefaultActivations = typing.Dict[str, typing.Optional[typing.Any]]
