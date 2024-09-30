@@ -14,6 +14,14 @@
   <br>
 </div>
 
+## Migration Guide for Version 0.7.0
+
+We've released version `0.7.0` of the SDK with significant architectural changes. This update introduces `AsyncHumeClient` and `HumeClient`, improves type safety and async support, and provides more granular configuration options. To help you transition, we've prepared a comprehensive migration guide:
+
+**[View the Migration Guide](https://github.com/HumeAI/hume-python-sdk/wiki/Python-SDK-Migration-Guide)**
+
+Please review this guide before updating, as it covers breaking changes and provides examples for updating your code. Legacy functionality is preserved for backward compatibility. If you have any questions, please open an issue or contact our support team.
+
 ## Documentation
 
 API reference documentation is available [here](https://dev.hume.ai/reference/).
@@ -112,10 +120,10 @@ client.emapthic_voice.         # APIs specific to Empathic Voice
 All errors thrown by the SDK will be subclasses of [`ApiError`](./src/hume/core/api_error.py).
 
 ```python
-import hume
+import hume.client
 
 try:
-  client.text_gen.create_chat_completion(...)
+  client.expression_measurement.batch.get_job_predictions(...)
 except hume.core.ApiError as e: # Handle all errors
   print(e.status_code)
   print(e.body)
@@ -192,13 +200,14 @@ Use the `max_retries` request option to configure this behavior.
 
 ```python
 from hume.client import HumeClient
+from hume.core import RequestOptions
 
 client = HumeClient(...)
 
 # Override retries for a specific method
-client.text_gen.create_chat_completion(..., {
-    max_retries=5
-})
+client.expression_measurement.batch.get_job_predictions(...,
+    request_options=RequestOptions(max_retries=5)
+)
 ```
 
 #### Timeouts
@@ -208,6 +217,7 @@ timeout option at the client or request level.
 
 ```python
 from hume.client import HumeClient
+from hume.core import RequestOptions
 
 client = HumeClient(
     # All timeouts are 20 seconds
@@ -215,9 +225,9 @@ client = HumeClient(
 )
 
 # Override timeout for a specific method
-client.text_gen.create_chat_completion(..., {
-    timeout_in_seconds=20.0
-})
+client.expression_measurement.batch.get_job_predictions(...,
+    request_options=RequestOptions(timeout_in_seconds=20)
+)
 ```
 
 #### Custom HTTP client
