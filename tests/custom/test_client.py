@@ -21,7 +21,7 @@ async def test_get_job_predictions() -> None:
         "max_retries": 3,
     })
 
-# @pytest.mark.skip(reason="CI does not have authentication.")
+@pytest.mark.skip(reason="CI does not have authentication.")
 async def test_start_inference_job_from_local_file() -> None:
     client = HumeClient(api_key="MY_API_KEY")
     client.expression_measurement.batch.start_inference_job_from_local_file(
