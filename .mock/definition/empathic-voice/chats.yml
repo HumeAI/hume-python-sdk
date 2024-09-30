@@ -8,6 +8,7 @@ service:
       path: /v0/evi/chats
       method: GET
       auth: true
+      docs: Fetches a paginated list of **Chats**.
       pagination:
         offset: $request.page_number
         results: $response.chats_page
@@ -75,6 +76,7 @@ service:
       path: /v0/evi/chats/{id}
       method: GET
       auth: true
+      docs: Fetches a paginated list of **Chat** events.
       pagination:
         offset: $request.page_number
         results: $response.events_page

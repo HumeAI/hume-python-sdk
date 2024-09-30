@@ -24,7 +24,7 @@ class CustomVoicesClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    def get_return_custom_voices_for_user(
+    def list_custom_voices(
         self,
         *,
         page_number: typing.Optional[int] = None,
@@ -33,6 +33,10 @@ class CustomVoicesClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnPagedCustomVoices:
         """
+        Fetches a paginated list of **Custom Voices**.
+
+        Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices) for details on creating a custom voice.
+
         Parameters
         ----------
         page_number : typing.Optional[int]
@@ -63,7 +67,7 @@ class CustomVoicesClient:
         client = HumeClient(
             api_key="YOUR_API_KEY",
         )
-        client.empathic_voice.custom_voices.get_return_custom_voices_for_user()
+        client.empathic_voice.custom_voices.list_custom_voices()
         """
         _response = self._client_wrapper.httpx_client.request(
             "v0/evi/custom_voices",
@@ -99,7 +103,7 @@ class CustomVoicesClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def create_new_custom_voice(
+    def create_custom_voice(
         self,
         *,
         name: str,
@@ -108,6 +112,10 @@ class CustomVoicesClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnCustomVoice:
         """
+        Creates a **Custom Voice** that can be added to an [EVI configuration](/reference/empathic-voice-interface-evi/configs/create-config).
+
+        Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices) for details on creating a custom voice.
+
         Parameters
         ----------
         name : str
@@ -136,7 +144,7 @@ class CustomVoicesClient:
         client = HumeClient(
             api_key="YOUR_API_KEY",
         )
-        client.empathic_voice.custom_voices.create_new_custom_voice(
+        client.empathic_voice.custom_voices.create_custom_voice(
             name="name",
             base_voice="ITO",
         )
@@ -179,10 +187,14 @@ class CustomVoicesClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def get_return_custom_voice_by_custom_voice_id(
+    def get_custom_voice(
         self, id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> ReturnCustomVoice:
         """
+        Fetches a specific **Custom Voice** by ID.
+
+        Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices) for details on creating a custom voice.
+
         Parameters
         ----------
         id : str
@@ -203,7 +215,7 @@ class CustomVoicesClient:
         client = HumeClient(
             api_key="YOUR_API_KEY",
         )
-        client.empathic_voice.custom_voices.get_return_custom_voice_by_custom_voice_id(
+        client.empathic_voice.custom_voices.get_custom_voice(
             id="id",
         )
         """
@@ -236,7 +248,7 @@ class CustomVoicesClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def add_new_custom_voice_version(
+    def create_custom_voice_version(
         self,
         id: str,
         *,
@@ -246,6 +258,10 @@ class CustomVoicesClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnCustomVoice:
         """
+        Updates a **Custom Voice** by creating a new version of the **Custom Voice**.
+
+        Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices) for details on creating a custom voice.
+
         Parameters
         ----------
         id : str
@@ -277,7 +293,7 @@ class CustomVoicesClient:
         client = HumeClient(
             api_key="YOUR_API_KEY",
         )
-        client.empathic_voice.custom_voices.add_new_custom_voice_version(
+        client.empathic_voice.custom_voices.create_custom_voice_version(
             id="id",
             name="name",
             base_voice="ITO",
@@ -323,6 +339,10 @@ class CustomVoicesClient:
 
     def delete_custom_voice(self, id: str, *, request_options: typing.Optional[RequestOptions] = None) -> None:
         """
+        Deletes a **Custom Voice** and its versions.
+
+        Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices) for details on creating a custom voice.
+
         Parameters
         ----------
         id : str
@@ -373,6 +393,10 @@ class CustomVoicesClient:
         self, id: str, *, name: str, request_options: typing.Optional[RequestOptions] = None
     ) -> str:
         """
+        Updates the name of a **Custom Voice**.
+
+        Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices) for details on creating a custom voice.
+
         Parameters
         ----------
         id : str
@@ -433,7 +457,7 @@ class AsyncCustomVoicesClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    async def get_return_custom_voices_for_user(
+    async def list_custom_voices(
         self,
         *,
         page_number: typing.Optional[int] = None,
@@ -442,6 +466,10 @@ class AsyncCustomVoicesClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnPagedCustomVoices:
         """
+        Fetches a paginated list of **Custom Voices**.
+
+        Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices) for details on creating a custom voice.
+
         Parameters
         ----------
         page_number : typing.Optional[int]
@@ -477,7 +505,7 @@ class AsyncCustomVoicesClient:
 
 
         async def main() -> None:
-            await client.empathic_voice.custom_voices.get_return_custom_voices_for_user()
+            await client.empathic_voice.custom_voices.list_custom_voices()
 
 
         asyncio.run(main())
@@ -516,7 +544,7 @@ class AsyncCustomVoicesClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def create_new_custom_voice(
+    async def create_custom_voice(
         self,
         *,
         name: str,
@@ -525,6 +553,10 @@ class AsyncCustomVoicesClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnCustomVoice:
         """
+        Creates a **Custom Voice** that can be added to an [EVI configuration](/reference/empathic-voice-interface-evi/configs/create-config).
+
+        Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices) for details on creating a custom voice.
+
         Parameters
         ----------
         name : str
@@ -558,7 +590,7 @@ class AsyncCustomVoicesClient:
 
 
         async def main() -> None:
-            await client.empathic_voice.custom_voices.create_new_custom_voice(
+            await client.empathic_voice.custom_voices.create_custom_voice(
                 name="name",
                 base_voice="ITO",
             )
@@ -604,10 +636,14 @@ class AsyncCustomVoicesClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def get_return_custom_voice_by_custom_voice_id(
+    async def get_custom_voice(
         self, id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> ReturnCustomVoice:
         """
+        Fetches a specific **Custom Voice** by ID.
+
+        Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices) for details on creating a custom voice.
+
         Parameters
         ----------
         id : str
@@ -633,7 +669,7 @@ class AsyncCustomVoicesClient:
 
 
         async def main() -> None:
-            await client.empathic_voice.custom_voices.get_return_custom_voice_by_custom_voice_id(
+            await client.empathic_voice.custom_voices.get_custom_voice(
                 id="id",
             )
 
@@ -669,7 +705,7 @@ class AsyncCustomVoicesClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def add_new_custom_voice_version(
+    async def create_custom_voice_version(
         self,
         id: str,
         *,
@@ -679,6 +715,10 @@ class AsyncCustomVoicesClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnCustomVoice:
         """
+        Updates a **Custom Voice** by creating a new version of the **Custom Voice**.
+
+        Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices) for details on creating a custom voice.
+
         Parameters
         ----------
         id : str
@@ -715,7 +755,7 @@ class AsyncCustomVoicesClient:
 
 
         async def main() -> None:
-            await client.empathic_voice.custom_voices.add_new_custom_voice_version(
+            await client.empathic_voice.custom_voices.create_custom_voice_version(
                 id="id",
                 name="name",
                 base_voice="ITO",
@@ -764,6 +804,10 @@ class AsyncCustomVoicesClient:
 
     async def delete_custom_voice(self, id: str, *, request_options: typing.Optional[RequestOptions] = None) -> None:
         """
+        Deletes a **Custom Voice** and its versions.
+
+        Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices) for details on creating a custom voice.
+
         Parameters
         ----------
         id : str
@@ -822,6 +866,10 @@ class AsyncCustomVoicesClient:
         self, id: str, *, name: str, request_options: typing.Optional[RequestOptions] = None
     ) -> str:
         """
+        Updates the name of a **Custom Voice**.
+
+        Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices) for details on creating a custom voice.
+
         Parameters
         ----------
         id : str

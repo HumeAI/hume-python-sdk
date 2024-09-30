@@ -53,6 +53,63 @@ async def test_list_chat_groups(client: HumeClient, async_client: AsyncHumeClien
     validate_response(async_response, expected_response, expected_types)
 
 
+async def test_get_chat_group(client: HumeClient, async_client: AsyncHumeClient) -> None:
+    expected_response: typing.Any = {
+        "id": "369846cf-6ad5-404d-905e-a8acb5cdfc78",
+        "first_start_timestamp": 1712334213647,
+        "most_recent_start_timestamp": 1712334213647,
+        "num_chats": 1,
+        "page_number": 0,
+        "page_size": 1,
+        "total_pages": 1,
+        "pagination_direction": "ASC",
+        "chats_page": [
+            {
+                "id": "6375d4f8-cd3e-4d6b-b13b-ace66b7c8aaa",
+                "chat_group_id": "369846cf-6ad5-404d-905e-a8acb5cdfc78",
+                "status": "USER_ENDED",
+                "start_timestamp": 1712334213647,
+                "end_timestamp": 1712334332571,
+                "event_count": 0,
+            }
+        ],
+        "active": False,
+    }
+    expected_types: typing.Any = {
+        "id": None,
+        "first_start_timestamp": None,
+        "most_recent_start_timestamp": None,
+        "num_chats": "integer",
+        "page_number": "integer",
+        "page_size": "integer",
+        "total_pages": "integer",
+        "pagination_direction": None,
+        "chats_page": (
+            "list",
+            {
+                0: {
+                    "id": None,
+                    "chat_group_id": None,
+                    "status": None,
+                    "start_timestamp": None,
+                    "end_timestamp": None,
+                    "event_count": None,
+                }
+            },
+        ),
+        "active": None,
+    }
+    response = client.empathic_voice.chat_groups.get_chat_group(
+        id="697056f0-6c7e-487d-9bd8-9c19df79f05f", page_number=0, page_size=1, ascending_order=True
+    )
+    validate_response(response, expected_response, expected_types)
+
+    async_response = await async_client.empathic_voice.chat_groups.get_chat_group(
+        id="697056f0-6c7e-487d-9bd8-9c19df79f05f", page_number=0, page_size=1, ascending_order=True
+    )
+    validate_response(async_response, expected_response, expected_types)
+
+
 async def test_list_chat_group_events(client: HumeClient, async_client: AsyncHumeClient) -> None:
     expected_response: typing.Any = {
         "id": "697056f0-6c7e-487d-9bd8-9c19df79f05f",

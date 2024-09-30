@@ -6,7 +6,7 @@ import typing
 from ..utilities import validate_response
 
 
-async def test_get_return_custom_voices_for_user(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_list_custom_voices(client: HumeClient, async_client: AsyncHumeClient) -> None:
     expected_response: typing.Any = {
         "page_number": 1,
         "page_size": 1,
@@ -44,14 +44,14 @@ async def test_get_return_custom_voices_for_user(client: HumeClient, async_clien
             },
         ),
     }
-    response = client.empathic_voice.custom_voices.get_return_custom_voices_for_user()
+    response = client.empathic_voice.custom_voices.list_custom_voices()
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.empathic_voice.custom_voices.get_return_custom_voices_for_user()
+    async_response = await async_client.empathic_voice.custom_voices.list_custom_voices()
     validate_response(async_response, expected_response, expected_types)
 
 
-async def test_create_new_custom_voice(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_create_custom_voice(client: HumeClient, async_client: AsyncHumeClient) -> None:
     expected_response: typing.Any = {
         "id": "id",
         "version": 1,
@@ -72,16 +72,14 @@ async def test_create_new_custom_voice(client: HumeClient, async_client: AsyncHu
         "parameter_model": None,
         "parameters": {"gender": "integer", "huskiness": "integer", "nasality": "integer", "pitch": "integer"},
     }
-    response = client.empathic_voice.custom_voices.create_new_custom_voice(name="name", base_voice="ITO")
+    response = client.empathic_voice.custom_voices.create_custom_voice(name="name", base_voice="ITO")
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.empathic_voice.custom_voices.create_new_custom_voice(
-        name="name", base_voice="ITO"
-    )
+    async_response = await async_client.empathic_voice.custom_voices.create_custom_voice(name="name", base_voice="ITO")
     validate_response(async_response, expected_response, expected_types)
 
 
-async def test_get_return_custom_voice_by_custom_voice_id(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_get_custom_voice(client: HumeClient, async_client: AsyncHumeClient) -> None:
     expected_response: typing.Any = {
         "id": "id",
         "version": 1,
@@ -102,14 +100,14 @@ async def test_get_return_custom_voice_by_custom_voice_id(client: HumeClient, as
         "parameter_model": None,
         "parameters": {"gender": "integer", "huskiness": "integer", "nasality": "integer", "pitch": "integer"},
     }
-    response = client.empathic_voice.custom_voices.get_return_custom_voice_by_custom_voice_id(id="id")
+    response = client.empathic_voice.custom_voices.get_custom_voice(id="id")
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.empathic_voice.custom_voices.get_return_custom_voice_by_custom_voice_id(id="id")
+    async_response = await async_client.empathic_voice.custom_voices.get_custom_voice(id="id")
     validate_response(async_response, expected_response, expected_types)
 
 
-async def test_add_new_custom_voice_version(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_create_custom_voice_version(client: HumeClient, async_client: AsyncHumeClient) -> None:
     expected_response: typing.Any = {
         "id": "id",
         "version": 1,
@@ -130,10 +128,10 @@ async def test_add_new_custom_voice_version(client: HumeClient, async_client: As
         "parameter_model": None,
         "parameters": {"gender": "integer", "huskiness": "integer", "nasality": "integer", "pitch": "integer"},
     }
-    response = client.empathic_voice.custom_voices.add_new_custom_voice_version(id="id", name="name", base_voice="ITO")
+    response = client.empathic_voice.custom_voices.create_custom_voice_version(id="id", name="name", base_voice="ITO")
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.empathic_voice.custom_voices.add_new_custom_voice_version(
+    async_response = await async_client.empathic_voice.custom_voices.create_custom_voice_version(
         id="id", name="name", base_voice="ITO"
     )
     validate_response(async_response, expected_response, expected_types)

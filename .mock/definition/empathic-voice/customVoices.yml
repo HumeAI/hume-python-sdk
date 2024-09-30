@@ -4,13 +4,19 @@ service:
   auth: false
   base-path: ''
   endpoints:
-    getReturnCustomVoicesForUser:
+    list-custom-voices:
       path: /v0/evi/custom_voices
       method: GET
       auth: true
+      docs: >-
+        Fetches a paginated list of **Custom Voices**.
+
+
+        Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices)
+        for details on creating a custom voice.
       display-name: List custom voices
       request:
-        name: GetReturnCustomVoicesForUserRequest
+        name: CustomVoicesListCustomVoicesRequest
         query-parameters:
           page_number:
             type: optional<integer>
@@ -56,13 +62,21 @@ service:
                   base_voice: ITO
                   parameter_model: 20240715-4parameter
                   parameters: {}
-    createNewCustomVoice:
+    create-custom-voice:
       path: /v0/evi/custom_voices
       method: POST
       auth: true
+      docs: >-
+        Creates a **Custom Voice** that can be added to an [EVI
+        configuration](/reference/empathic-voice-interface-evi/configs/create-config).
+
+
+        Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices)
+        for details on creating a custom voice.
       display-name: Create custom voice
       request:
         body: root.PostedCustomVoice
+        content-type: application/json
       response:
         docs: Created
         type: root.ReturnCustomVoice
@@ -87,10 +101,16 @@ service:
                 huskiness: 1
                 nasality: 1
                 pitch: 1
-    getReturnCustomVoiceByCustomVoiceId:
+    get-custom-voice:
       path: /v0/evi/custom_voices/{id}
       method: GET
       auth: true
+      docs: >-
+        Fetches a specific **Custom Voice** by ID.
+
+
+        Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices)
+        for details on creating a custom voice.
       path-parameters:
         id:
           type: string
@@ -118,10 +138,17 @@ service:
                 huskiness: 1
                 nasality: 1
                 pitch: 1
-    addNewCustomVoiceVersion:
+    create-custom-voice-version:
       path: /v0/evi/custom_voices/{id}
       method: POST
       auth: true
+      docs: >-
+        Updates a **Custom Voice** by creating a new version of the **Custom
+        Voice**.
+
+
+        Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices)
+        for details on creating a custom voice.
       path-parameters:
         id:
           type: string
@@ -129,6 +156,7 @@ service:
       display-name: Create new version of existing custom voice
       request:
         body: root.PostedCustomVoice
+        content-type: application/json
       response:
         docs: Created
         type: root.ReturnCustomVoice
@@ -155,10 +183,16 @@ service:
                 huskiness: 1
                 nasality: 1
                 pitch: 1
-    deleteCustomVoice:
+    delete-custom-voice:
       path: /v0/evi/custom_voices/{id}
       method: DELETE
       auth: true
+      docs: >-
+        Deletes a **Custom Voice** and its versions.
+
+
+        Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices)
+        for details on creating a custom voice.
       path-parameters:
         id:
           type: string
@@ -169,10 +203,16 @@ service:
       examples:
         - path-parameters:
             id: id
-    updateCustomVoiceName:
+    update-custom-voice-name:
       path: /v0/evi/custom_voices/{id}
       method: PATCH
       auth: true
+      docs: >-
+        Updates the name of a **Custom Voice**.
+
+
+        Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices)
+        for details on creating a custom voice.
       path-parameters:
         id:
           type: string
@@ -188,6 +228,7 @@ service:
                 The name of the Custom Voice. Maximum length of 75 characters.
                 Will be converted to all-uppercase. (e.g., "sample voice"
                 becomes "SAMPLE VOICE")
+        content-type: application/json
       response:
         docs: Success
         type: text

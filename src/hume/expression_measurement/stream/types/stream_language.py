@@ -6,7 +6,7 @@ import pydantic
 from ....core.pydantic_utilities import IS_PYDANTIC_V2
 
 
-class StreamModelsEndpointPayloadModelsLanguage(UniversalBaseModel):
+class StreamLanguage(UniversalBaseModel):
     """
     Configuration for the language emotion model.
     """

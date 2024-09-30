@@ -3,8 +3,8 @@
 from ....core.pydantic_utilities import UniversalBaseModel
 import typing
 import pydantic
-from .stream_models_endpoint_payload_models_face import StreamModelsEndpointPayloadModelsFace
-from .stream_models_endpoint_payload_models_language import StreamModelsEndpointPayloadModelsLanguage
+from .stream_face import StreamFace
+from .stream_language import StreamLanguage
 from ....core.pydantic_utilities import IS_PYDANTIC_V2
 
 
@@ -22,7 +22,7 @@ class Config(UniversalBaseModel):
     Please use the default configuration by passing an empty object `{}`.
     """
 
-    face: typing.Optional[StreamModelsEndpointPayloadModelsFace] = pydantic.Field(default=None)
+    face: typing.Optional[StreamFace] = pydantic.Field(default=None)
     """
     Configuration for the facial expression emotion model.
     
@@ -38,7 +38,7 @@ class Config(UniversalBaseModel):
     Please use the default configuration by passing an empty object `{}`.
     """
 
-    language: typing.Optional[StreamModelsEndpointPayloadModelsLanguage] = pydantic.Field(default=None)
+    language: typing.Optional[StreamLanguage] = pydantic.Field(default=None)
     """
     Configuration for the language emotion model.
     """
