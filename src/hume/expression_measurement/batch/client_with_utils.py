@@ -195,11 +195,9 @@ class AsyncBatchClientWithUtils(AsyncBatchClient):
         _response = await self._client_wrapper.httpx_client.request(
             "v0/batch/jobs",
             method="POST",
-            data={
-                "json": jsonlib.dumps(jsonable_encoder(json)).encode("utf-8"),
-            },
             files={
                 "file": file,
+                "json": jsonlib.dumps(jsonable_encoder(json)).encode("utf-8"),
             },
             request_options=request_options,
         )
