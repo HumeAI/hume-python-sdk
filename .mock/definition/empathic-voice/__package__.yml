@@ -1846,10 +1846,14 @@ types:
     source:
       openapi: assistant-asyncapi.json
   BuiltInTool:
-    type: literal<"web_search">
+    enum:
+      - web_search
+      - hang_up
     docs: >-
       Name of the built-in tool. Set to `web_search` to equip EVI with the
       built-in Web Search tool.
+    source:
+      openapi: assistant-asyncapi.json
   BuiltinToolConfig:
     properties:
       name:
@@ -2336,6 +2340,9 @@ types:
         docs: >-
           ID of the audio output. Allows the Audio Output message to be tracked
           and referenced.
+      index:
+        type: integer
+        docs: Index of the chunk of audio relative to the whole audio segment.
       data:
         type: string
         docs: >-
@@ -2697,6 +2704,9 @@ types:
   ExtendedVoiceArgs:
     properties:
       text: string
+      use_s2a:
+        type: optional<boolean>
+        default: true
       voice_args:
         type: VoiceArgs
     source:
@@ -2726,12 +2736,27 @@ types:
     properties:
       voice:
         type: optional<VoiceNameEnum>
+      speech_rate_multiplier:
+        type: optional<double>
+        default: 1
+        validation:
+          min: 0.5
+          max: 2
       baseline:
         type: optional<boolean>
         default: false
       reconstruct:
         type: optional<boolean>
         default: false
+      additive:
+        type: optional<boolean>
+        default: false
+      drift:
+        type: optional<boolean>
+        default: true
+      use_v2:
+        type: optional<boolean>
+        default: true
     source:
       openapi: assistant-openapi.json
   VoiceNameEnum:
@@ -2739,5 +2764,15 @@ types:
       - ITO
       - KORA
       - DACHER
+      - AURA
+      - FINN
+      - SIENNA
+      - WILLOW
+      - SCOUT
+      - WHIMSY
+      - ACE
+      - JUNO
+      - STELLA
+      - HIRO
     source:
       openapi: assistant-openapi.json
