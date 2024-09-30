@@ -90,13 +90,16 @@ class BatchClientWithUtils(BatchClient):
         )
         client.expression_measurement.batch.start_inference_job_from_local_file()
         """
+        files: typing.Dict[str, typing.Any] = {
+            "file": file,
+        }
+        if json is not None:
+            files["json"] = jsonlib.dumps(jsonable_encoder(json)).encode("utf-8")
+
         _response = self._client_wrapper.httpx_client.request(
             "v0/batch/jobs",
             method="POST",
-            files={
-                "file": file,
-                "json": jsonlib.dumps(jsonable_encoder(json)).encode("utf-8"),
-            },
+            files=files,
             request_options=request_options,
         )
         try:
@@ -192,13 +195,16 @@ class AsyncBatchClientWithUtils(AsyncBatchClient):
         )
         client.expression_measurement.batch.start_inference_job_from_local_file()
         """
+        files: typing.Dict[str, typing.Any] = {
+            "file": file,
+        }
+        if json is not None:
+            files["json"] = jsonlib.dumps(jsonable_encoder(json)).encode("utf-8")
+
         _response = await self._client_wrapper.httpx_client.request(
             "v0/batch/jobs",
             method="POST",
-            files={
-                "file": file,
-                "json": jsonlib.dumps(jsonable_encoder(json)).encode("utf-8"),
-            },
+            files=files,
             request_options=request_options,
         )
         try:
