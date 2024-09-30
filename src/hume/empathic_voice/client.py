@@ -7,6 +7,7 @@ from .custom_voices.client import CustomVoicesClient
 from .configs.client import ConfigsClient
 from .chats.client import ChatsClient
 from .chat_groups.client import ChatGroupsClient
+from .chat_audio_reconstructions.client import ChatAudioReconstructionsClient
 from ..core.client_wrapper import AsyncClientWrapper
 from .tools.client import AsyncToolsClient
 from .prompts.client import AsyncPromptsClient
@@ -14,6 +15,7 @@ from .custom_voices.client import AsyncCustomVoicesClient
 from .configs.client import AsyncConfigsClient
 from .chats.client import AsyncChatsClient
 from .chat_groups.client import AsyncChatGroupsClient
+from .chat_audio_reconstructions.client import AsyncChatAudioReconstructionsClient
 
 
 class EmpathicVoiceClient:
@@ -25,6 +27,7 @@ class EmpathicVoiceClient:
         self.configs = ConfigsClient(client_wrapper=self._client_wrapper)
         self.chats = ChatsClient(client_wrapper=self._client_wrapper)
         self.chat_groups = ChatGroupsClient(client_wrapper=self._client_wrapper)
+        self.chat_audio_reconstructions = ChatAudioReconstructionsClient(client_wrapper=self._client_wrapper)
 
 
 class AsyncEmpathicVoiceClient:
@@ -36,3 +39,4 @@ class AsyncEmpathicVoiceClient:
         self.configs = AsyncConfigsClient(client_wrapper=self._client_wrapper)
         self.chats = AsyncChatsClient(client_wrapper=self._client_wrapper)
         self.chat_groups = AsyncChatGroupsClient(client_wrapper=self._client_wrapper)
+        self.chat_audio_reconstructions = AsyncChatAudioReconstructionsClient(client_wrapper=self._client_wrapper)

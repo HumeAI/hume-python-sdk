@@ -6,8 +6,11 @@ from .assistant_message import AssistantMessage
 from .audio_configuration import AudioConfiguration
 from .audio_input import AudioInput
 from .audio_output import AudioOutput
+from .body_twilio_webhook_v_0_assistant_twilio_post import BodyTwilioWebhookV0AssistantTwilioPost
+from .body_twilio_webhook_v_0_evi_twilio_post import BodyTwilioWebhookV0EviTwilioPost
 from .built_in_tool import BuiltInTool
 from .builtin_tool_config import BuiltinToolConfig
+from .builtin_tool_type import BuiltinToolType
 from .chat_message import ChatMessage
 from .chat_message_tool_result import ChatMessageToolResult
 from .chat_metadata import ChatMetadata
@@ -18,11 +21,15 @@ from .encoding import Encoding
 from .error_level import ErrorLevel
 from .error_response import ErrorResponse
 from .extended_voice_args import ExtendedVoiceArgs
+from .feature_default_activations import FeatureDefaultActivations
 from .function_call_response_input import FunctionCallResponseInput
 from .http_validation_error import HttpValidationError
 from .inference import Inference
 from .json_message import JsonMessage
+from .language_model_endpoint_response import LanguageModelEndpointResponse
+from .language_model_type import LanguageModelType
 from .millisecond_interval import MillisecondInterval
+from .model_provider_enum import ModelProviderEnum
 from .pause_assistant_message import PauseAssistantMessage
 from .posted_builtin_tool import PostedBuiltinTool
 from .posted_builtin_tool_name import PostedBuiltinToolName
@@ -89,6 +96,8 @@ from .return_user_defined_tool_version_type import ReturnUserDefinedToolVersionT
 from .return_voice import ReturnVoice
 from .role import Role
 from .session_settings import SessionSettings
+from .supported_language_model_endpoint import SupportedLanguageModelEndpoint
+from .supported_voice_name_endpoint import SupportedVoiceNameEndpoint
 from .text_input import TextInput
 from .tool import Tool
 from .tool_call_message import ToolCallMessage
@@ -102,6 +111,8 @@ from .user_message import UserMessage
 from .validation_error import ValidationError
 from .validation_error_loc_item import ValidationErrorLocItem
 from .voice_args import VoiceArgs
+from .voice_default_activations import VoiceDefaultActivations
+from .voice_name_endpoint_response import VoiceNameEndpointResponse
 from .voice_name_enum import VoiceNameEnum
 from .web_socket_error import WebSocketError
 
@@ -112,8 +123,11 @@ __all__ = [
     "AudioConfiguration",
     "AudioInput",
     "AudioOutput",
+    "BodyTwilioWebhookV0AssistantTwilioPost",
+    "BodyTwilioWebhookV0EviTwilioPost",
     "BuiltInTool",
     "BuiltinToolConfig",
+    "BuiltinToolType",
     "ChatMessage",
     "ChatMessageToolResult",
     "ChatMetadata",
@@ -124,11 +138,15 @@ __all__ = [
     "ErrorLevel",
     "ErrorResponse",
     "ExtendedVoiceArgs",
+    "FeatureDefaultActivations",
     "FunctionCallResponseInput",
     "HttpValidationError",
     "Inference",
     "JsonMessage",
+    "LanguageModelEndpointResponse",
+    "LanguageModelType",
     "MillisecondInterval",
+    "ModelProviderEnum",
     "PauseAssistantMessage",
     "PostedBuiltinTool",
     "PostedBuiltinToolName",
@@ -195,6 +213,8 @@ __all__ = [
     "ReturnVoice",
     "Role",
     "SessionSettings",
+    "SupportedLanguageModelEndpoint",
+    "SupportedVoiceNameEndpoint",
     "TextInput",
     "Tool",
     "ToolCallMessage",
@@ -208,6 +228,8 @@ __all__ = [
     "ValidationError",
     "ValidationErrorLocItem",
     "VoiceArgs",
+    "VoiceDefaultActivations",
+    "VoiceNameEndpointResponse",
     "VoiceNameEnum",
     "WebSocketError",
 ]

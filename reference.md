@@ -4307,3 +4307,60 @@ This parameter uses zero-based indexing. For example, setting `page_number` to 0
 </dl>
 </details>
 
+## EmpathicVoice ChatAudioReconstructions
+<details><summary><code>client.empathic_voice.chat_audio_reconstructions.<a href="src/hume/empathic_voice/chat_audio_reconstructions/client.py">get_reconstruction_by_chat_id</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.chat_audio_reconstructions.get_reconstruction_by_chat_id(
+    id="id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a chat. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+

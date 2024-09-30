@@ -26,6 +26,11 @@ class AudioOutput(UniversalBaseModel):
     ID of the audio output. Allows the Audio Output message to be tracked and referenced.
     """
 
+    index: int = pydantic.Field()
+    """
+    Index of the chunk of audio relative to the whole audio segment.
+    """
+
     data: str = pydantic.Field()
     """
     Base64 encoded audio output. This encoded audio is transmitted to the client, where it can be decoded and played back as part of the user interaction.
