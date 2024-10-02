@@ -24,7 +24,7 @@ class ReturnVoice(UniversalBaseModel):
     This will either be the name of a previously created Custom Voice or one of our 7 base voices: `ITO`, `KORA`, `DACHER`, `AURA`, `FINN`, `WHIMSY`, or `STELLA`.
     """
 
-    custom_voice: ReturnCustomVoice
+    custom_voice: typing.Optional[ReturnCustomVoice] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
