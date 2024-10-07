@@ -8,7 +8,7 @@ from ...core.pydantic_utilities import IS_PYDANTIC_V2
 
 class AudioOutput(UniversalBaseModel):
     """
-    When provided, the output is audio.
+    The type of message sent through the socket; for an Audio Output message, this must be `audio_output`.
     """
 
     type: typing.Literal["audio_output"] = pydantic.Field(default="audio_output")
