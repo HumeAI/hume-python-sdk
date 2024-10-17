@@ -1,6 +1,7 @@
 channel:
   path: /v0/stream/models
   auth: false
+  display-name: Stream
   headers:
     X-Hume-Api-Key:
       type: string

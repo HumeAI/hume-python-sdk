@@ -158,7 +158,7 @@ class CustomVoicesClient:
                 "parameters": convert_and_respect_annotation_metadata(
                     object_=parameters, annotation=PostedCustomVoiceParameters, direction="write"
                 ),
-                "parameter_model": "20240715-4parameter",
+                "parameter_model": "20241004-11parameter",
             },
             request_options=request_options,
             omit=OMIT,
@@ -308,7 +308,7 @@ class CustomVoicesClient:
                 "parameters": convert_and_respect_annotation_metadata(
                     object_=parameters, annotation=PostedCustomVoiceParameters, direction="write"
                 ),
-                "parameter_model": "20240715-4parameter",
+                "parameter_model": "20241004-11parameter",
             },
             request_options=request_options,
             omit=OMIT,
@@ -607,7 +607,7 @@ class AsyncCustomVoicesClient:
                 "parameters": convert_and_respect_annotation_metadata(
                     object_=parameters, annotation=PostedCustomVoiceParameters, direction="write"
                 ),
-                "parameter_model": "20240715-4parameter",
+                "parameter_model": "20241004-11parameter",
             },
             request_options=request_options,
             omit=OMIT,
@@ -773,7 +773,7 @@ class AsyncCustomVoicesClient:
                 "parameters": convert_and_respect_annotation_metadata(
                     object_=parameters, annotation=PostedCustomVoiceParameters, direction="write"
                 ),
-                "parameter_model": "20240715-4parameter",
+                "parameter_model": "20241004-11parameter",
             },
             request_options=request_options,
             omit=OMIT,
