@@ -52,7 +52,7 @@ service:
               each tool in the list, set `restrict_to_most_recent` to false.
           name:
             type: optional<string>
-            docs: Filter to only include tools with this name.
+            docs: Filter to only include tools with name.
       response:
         docs: Success
         type: root.ReturnPagedUserDefinedTools

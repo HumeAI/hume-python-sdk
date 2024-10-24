@@ -45,13 +45,10 @@ service:
               up to 10 items. Defaults to 10.
           restrict_to_most_recent:
             type: optional<boolean>
-            docs: >-
-              By default, `restrict_to_most_recent` is set to true, returning
-              only the latest version of each prompt. To include all versions of
-              each prompt in the list, set `restrict_to_most_recent` to false.
+            docs: Only include the most recent version of each prompt in the list.
           name:
             type: optional<string>
-            docs: Filter to only include prompts with this name.
+            docs: Filter to only include prompts with name.
       response:
         docs: Success
         type: root.ReturnPagedPrompts
