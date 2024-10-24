@@ -3,6 +3,8 @@ errors:
     status-code: 400
     type: ErrorResponse
     docs: Bad Request
+    examples:
+      - value: {}
 types:
   ErrorResponse:
     properties:
@@ -172,8 +174,9 @@ types:
       - DACHER
       - AURA
       - FINN
-      - STELLA
       - WHIMSY
+      - STELLA
+      - SUNNY
     docs: Specifies the base voice used to create the Custom Voice.
     source:
       openapi: stenographer-openapi.json
@@ -188,38 +191,103 @@ types:
       gender:
         type: optional<integer>
         docs: >-
-          The vocalization of gender, ranging between masculine and feminine.
+          The vocalization of gender, ranging between more masculine and more
+          feminine.
 
 
           The default value is `0`, with a minimum of `-100` (more masculine)
           and a maximum of `100` (more feminine). A value of `0` leaves this
           parameter unchanged from the base voice.
-      huskiness:
+      articulation:
         type: optional<integer>
         docs: >-
-          The texture of the voice, ranging between bright and husky.
+          The clarity of the voice, ranging between mumbled and articulate.
 
 
-          The default value is `0`, with a minimum of `-100` (brighter) and a
-          maximum of `100` (huskier). A value of `0` leaves this parameter
+          The default value is `0`, with a minimum of `-100` (mumbled) and a
+          maximum of `100` (articulate). A value of `0` leaves this parameter
+          unchanged from the base voice.
+      assertiveness:
+        type: optional<integer>
+        docs: >-
+          The firmness of the voice, ranging between whiny and bold.
+
+
+          The default value is `0`, with a minimum of `-100` (whiny) and a
+          maximum of `100` (bold). A value of `0` leaves this parameter
+          unchanged from the base voice.
+      buoyancy:
+        type: optional<integer>
+        docs: >-
+          The density of the voice, ranging between deflated and buoyant.
+
+
+          The default value is `0`, with a minimum of `-100` (deflated) and a
+          maximum of `100` (buoyant). A value of `0` leaves this parameter
+          unchanged from the base voice.
+      confidence:
+        type: optional<integer>
+        docs: >-
+          The assuredness of the voice, ranging between shy and confident.
+
+
+          The default value is `0`, with a minimum of `-100` (shy) and a maximum
+          of `100` (confident). A value of `0` leaves this parameter unchanged
+          from the base voice.
+      enthusiasm:
+        type: optional<integer>
+        docs: >-
+          The excitement within the voice, ranging between calm and
+          enthusiastic.
+
+
+          The default value is `0`, with a minimum of `-100` (calm) and a
+          maximum of `100` (enthusiastic). A value of `0` leaves this parameter
           unchanged from the base voice.
       nasality:
         type: optional<integer>
         docs: >-
-          The openness of the voice, ranging between resonant and nasal.
+          The openness of the voice, ranging between clear and nasal.
 
 
-          The default value is `0`, with a minimum of `-100` (more resonant) and
-          a maximum of `100` (more nasal). A value of `0` leaves this parameter
+          The default value is `0`, with a minimum of `-100` (clear) and a
+          maximum of `100` (nasal). A value of `0` leaves this parameter
           unchanged from the base voice.
-      pitch:
+      relaxedness:
         type: optional<integer>
         docs: >-
-          The frequency of the voice, ranging between low and high.
+          The stress within the voice, ranging between tense and relaxed.
 
 
-          The default value is `0`, with a minimum of `-100` (lower) and a
-          maximum of `100` (higher). A value of `0` leaves this parameter
+          The default value is `0`, with a minimum of `-100` (tense) and a
+          maximum of `100` (relaxed). A value of `0` leaves this parameter
+          unchanged from the base voice.
+      smoothness:
+        type: optional<integer>
+        docs: >-
+          The texture of the voice, ranging between smooth and staccato.
+
+
+          The default value is `0`, with a minimum of `-100` (smooth) and a
+          maximum of `100` (staccato). A value of `0` leaves this parameter
+          unchanged from the base voice.
+      tepidity:
+        type: optional<integer>
+        docs: >-
+          The liveliness behind the voice, ranging between tepid and vigorous.
+
+
+          The default value is `0`, with a minimum of `-100` (tepid) and a
+          maximum of `100` (vigorous). A value of `0` leaves this parameter
+          unchanged from the base voice.
+      tightness:
+        type: optional<integer>
+        docs: >-
+          The containment of the voice, ranging between tight and breathy.
+
+
+          The default value is `0`, with a minimum of `-100` (tight) and a
+          maximum of `100` (breathy). A value of `0` leaves this parameter
           unchanged from the base voice.
     source:
       openapi: stenographer-openapi.json
@@ -244,10 +312,10 @@ types:
         type: PostedCustomVoiceBaseVoice
         docs: Specifies the base voice used to create the Custom Voice.
       parameter_model:
-        type: literal<"20240715-4parameter">
+        type: literal<"20241004-11parameter">
         docs: >-
           The name of the parameter model used to define which attributes are
-          used by the `parameters` field. Currently, only `20240715-4parameter`
+          used by the `parameters` field. Currently, only `20241004-11parameter`
           is supported as the parameter model.
       parameters:
         type: optional<PostedCustomVoiceParameters>
@@ -267,8 +335,9 @@ types:
       - DACHER
       - AURA
       - FINN
-      - STELLA
       - WHIMSY
+      - STELLA
+      - SUNNY
     docs: The base voice used to create the Custom Voice.
     source:
       openapi: stenographer-openapi.json
@@ -280,38 +349,103 @@ types:
       gender:
         type: optional<integer>
         docs: >-
-          The vocalization of gender, ranging between masculine and feminine.
+          The vocalization of gender, ranging between more masculine and more
+          feminine.
 
 
           The default value is `0`, with a minimum of `-100` (more masculine)
           and a maximum of `100` (more feminine). A value of `0` leaves this
           parameter unchanged from the base voice.
-      huskiness:
+      articulation:
         type: optional<integer>
         docs: >-
-          The texture of the voice, ranging between bright and husky.
+          The clarity of the voice, ranging between mumbled and articulate.
 
 
-          The default value is `0`, with a minimum of `-100` (brighter) and a
-          maximum of `100` (huskier). A value of `0` leaves this parameter
+          The default value is `0`, with a minimum of `-100` (mumbled) and a
+          maximum of `100` (articulate). A value of `0` leaves this parameter
+          unchanged from the base voice.
+      assertiveness:
+        type: optional<integer>
+        docs: >-
+          The firmness of the voice, ranging between whiny and bold.
+
+
+          The default value is `0`, with a minimum of `-100` (whiny) and a
+          maximum of `100` (bold). A value of `0` leaves this parameter
+          unchanged from the base voice.
+      buoyancy:
+        type: optional<integer>
+        docs: >-
+          The density of the voice, ranging between deflated and buoyant.
+
+
+          The default value is `0`, with a minimum of `-100` (deflated) and a
+          maximum of `100` (buoyant). A value of `0` leaves this parameter
+          unchanged from the base voice.
+      confidence:
+        type: optional<integer>
+        docs: >-
+          The assuredness of the voice, ranging between shy and confident.
+
+
+          The default value is `0`, with a minimum of `-100` (shy) and a maximum
+          of `100` (confident). A value of `0` leaves this parameter unchanged
+          from the base voice.
+      enthusiasm:
+        type: optional<integer>
+        docs: >-
+          The excitement within the voice, ranging between calm and
+          enthusiastic.
+
+
+          The default value is `0`, with a minimum of `-100` (calm) and a
+          maximum of `100` (enthusiastic). A value of `0` leaves this parameter
           unchanged from the base voice.
       nasality:
         type: optional<integer>
         docs: >-
-          The openness of the voice, ranging between resonant and nasal.
+          The openness of the voice, ranging between clear and nasal.
 
 
-          The default value is `0`, with a minimum of `-100` (more resonant) and
-          a maximum of `100` (more nasal). A value of `0` leaves this parameter
+          The default value is `0`, with a minimum of `-100` (clear) and a
+          maximum of `100` (nasal). A value of `0` leaves this parameter
           unchanged from the base voice.
-      pitch:
+      relaxedness:
         type: optional<integer>
         docs: >-
-          The frequency of the voice, ranging between low and high.
+          The stress within the voice, ranging between tense and relaxed.
 
 
-          The default value is `0`, with a minimum of `-100` (lower) and a
-          maximum of `100` (higher). A value of `0` leaves this parameter
+          The default value is `0`, with a minimum of `-100` (tense) and a
+          maximum of `100` (relaxed). A value of `0` leaves this parameter
+          unchanged from the base voice.
+      smoothness:
+        type: optional<integer>
+        docs: >-
+          The texture of the voice, ranging between smooth and staccato.
+
+
+          The default value is `0`, with a minimum of `-100` (smooth) and a
+          maximum of `100` (staccato). A value of `0` leaves this parameter
+          unchanged from the base voice.
+      tepidity:
+        type: optional<integer>
+        docs: >-
+          The liveliness behind the voice, ranging between tepid and vigorous.
+
+
+          The default value is `0`, with a minimum of `-100` (tepid) and a
+          maximum of `100` (vigorous). A value of `0` leaves this parameter
+          unchanged from the base voice.
+      tightness:
+        type: optional<integer>
+        docs: >-
+          The containment of the voice, ranging between tight and breathy.
+
+
+          The default value is `0`, with a minimum of `-100` (tight) and a
+          maximum of `100` (breathy). A value of `0` leaves this parameter
           unchanged from the base voice.
     source:
       openapi: stenographer-openapi.json
@@ -353,10 +487,10 @@ types:
         type: ReturnCustomVoiceBaseVoice
         docs: The base voice used to create the Custom Voice.
       parameter_model:
-        type: literal<"20240715-4parameter">
+        type: literal<"20241004-11parameter">
         docs: >-
           The name of the parameter model used to define which attributes are
-          used by the `parameters` field. Currently, only `20240715-4parameter`
+          used by the `parameters` field. Currently, only `20241004-11parameter`
           is supported as the parameter model.
       parameters:
         type: ReturnCustomVoiceParameters
@@ -665,8 +799,8 @@ types:
 
 
           This can be either the name of a previously created Custom Voice or
-          one of our 7 base voices: `ITO`, `KORA`, `DACHER`, `AURA`, `FINN`,
-          `WHIMSY`, or `STELLA`.
+          one of our 8 base voices: `ITO`, `KORA`, `DACHER`, `AURA`, `FINN`,
+          `WHIMSY`, `STELLA`, or `SUNNY`.
 
 
           The name will be automatically converted to uppercase (e.g., "Ito"
@@ -952,8 +1086,8 @@ types:
 
 
           This will either be the name of a previously created Custom Voice or
-          one of our 7 base voices: `ITO`, `KORA`, `DACHER`, `AURA`, `FINN`,
-          `WHIMSY`, or `STELLA`.
+          one of our 8 base voices: `ITO`, `KORA`, `DACHER`, `AURA`, `FINN`,
+          `WHIMSY`, `STELLA`, or `SUNNY`.
       custom_voice: optional<ReturnCustomVoice>
     source:
       openapi: stenographer-openapi.json
@@ -2239,7 +2373,14 @@ types:
     source:
       openapi: assistant-asyncapi.json
   UserInput:
-    docs: User text to insert into the conversation.
+    docs: >-
+      User text to insert into the conversation. Text sent through a User Input
+      message is treated as the user’s speech to EVI. EVI processes this input
+      and provides a corresponding response.
+
+
+      Expression measurement results are not available for User Input messages,
+      as the prosody model relies on audio input and cannot process text alone.
     properties:
       type:
         type: literal<"user_input">
@@ -2323,7 +2464,9 @@ types:
     source:
       openapi: assistant-asyncapi.json
   AudioOutput:
-    docs: When provided, the output is audio.
+    docs: >-
+      The type of message sent through the socket; for an Audio Output message,
+      this must be `audio_output`.
     properties:
       type:
         type: literal<"audio_output">
@@ -2701,6 +2844,12 @@ types:
       type: optional<literal<"function_call_response">>
     source:
       openapi: assistant-asyncapi.json
+  Datetime:
+    properties:
+      value:
+        type: datetime
+    source:
+      openapi: assistant-openapi.json
   ExtendedVoiceArgs:
     properties:
       text: string
@@ -2715,6 +2864,101 @@ types:
     properties:
       detail:
         type: optional<list<ValidationError>>
+    source:
+      openapi: assistant-openapi.json
+  LanguageModelTag:
+    enum:
+      - fast
+      - personable
+      - recommended
+    source:
+      openapi: assistant-openapi.json
+  LanguageModelType:
+    enum:
+      - value: claude-3-5-sonnet-20240620
+        name: Claude35Sonnet20240620
+      - value: claude-3-opus-20240229
+        name: Claude3Opus20240229
+      - value: claude-3-sonnet-20240229
+        name: Claude3Sonnet20240229
+      - value: claude-3-haiku-20240307
+        name: Claude3Haiku20240307
+      - value: claude-2.1
+        name: Claude21
+      - value: claude-instant-1.2
+        name: ClaudeInstant12
+      - value: gemini-1.5-pro
+        name: Gemini15Pro
+      - value: gemini-1.5-flash
+        name: Gemini15Flash
+      - value: gemini-1.5-pro-002
+        name: Gemini15Pro002
+      - value: gemini-1.5-flash-002
+        name: Gemini15Flash002
+      - value: gpt-4-turbo-preview
+        name: Gpt4TurboPreview
+      - value: gpt-3.5-turbo-0125
+        name: Gpt35Turbo0125
+      - value: gpt-3.5-turbo
+        name: Gpt35Turbo
+      - value: gpt-4o
+        name: Gpt4O
+      - value: gpt-4o-mini
+        name: Gpt4OMini
+      - value: gemma-7b-it
+        name: Gemma7BIt
+      - value: llama3-8b-8192
+        name: Llama38B8192
+      - value: llama3-70b-8192
+        name: Llama370B8192
+      - value: llama-3.1-70b-versatile
+        name: Llama3170BVersatile
+      - value: llama-3.1-8b-instant
+        name: Llama318BInstant
+      - value: accounts/fireworks/models/mixtral-8x7b-instruct
+        name: AccountsFireworksModelsMixtral8X7BInstruct
+      - value: accounts/fireworks/models/llama-v3p1-405b-instruct
+        name: AccountsFireworksModelsLlamaV3P1405BInstruct
+      - value: accounts/fireworks/models/llama-v3p1-70b-instruct
+        name: AccountsFireworksModelsLlamaV3P170BInstruct
+      - value: accounts/fireworks/models/llama-v3p1-8b-instruct
+        name: AccountsFireworksModelsLlamaV3P18BInstruct
+      - ellm
+    source:
+      openapi: assistant-openapi.json
+  Model:
+    enum:
+      - value: 20240701-4parameter
+        name: Undefined4Parameter
+      - value: 20241004-11parameter
+        name: Undefined11Parameter
+    source:
+      openapi: assistant-openapi.json
+  ModelProviderEnum:
+    enum:
+      - GROQ
+      - OPEN_AI
+      - BYO_TEXT
+      - FIREWORKS
+      - ANTHROPIC
+      - CUSTOM_LANGUAGE_MODEL
+      - GOOGLE
+      - HUME_AI
+    source:
+      openapi: assistant-openapi.json
+  SupportedLanguageModelDeprecation:
+    properties:
+      support_ends:
+        type: Datetime
+      recommended_replacement:
+        type: LanguageModelType
+    source:
+      openapi: assistant-openapi.json
+  SupportedLanguageModelsResponse:
+    properties:
+      language_models:
+        docs: List of supported language models.
+        type: list<unknown>
     source:
       openapi: assistant-openapi.json
   ValidationErrorLocItem:
@@ -2753,10 +2997,9 @@ types:
         default: false
       drift:
         type: optional<boolean>
-        default: true
-      use_v2:
-        type: optional<boolean>
-        default: true
+        default: false
+      model:
+        type: optional<Model>
     source:
       openapi: assistant-openapi.json
   VoiceNameEnum:
@@ -2774,5 +3017,6 @@ types:
       - JUNO
       - STELLA
       - HIRO
+      - SUNNY
     source:
       openapi: assistant-openapi.json

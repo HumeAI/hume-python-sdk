@@ -44,8 +44,8 @@ service:
             type: optional<boolean>
             docs: >-
               By default, `restrict_to_most_recent` is set to true, returning
-              only the latest version of each config. To include all versions of
-              each config in the list, set `restrict_to_most_recent` to false.
+              only the latest version of each tool. To include all versions of
+              each tool in the list, set `restrict_to_most_recent` to false.
           name:
             type: optional<string>
             docs: Filter to only include configs with this name.
@@ -96,12 +96,19 @@ service:
                       created_on: 1724704587367
                       modified_on: 1725489961583
                       base_voice: KORA
-                      parameter_model: 20240715-4parameter
+                      parameter_model: 20241004-11parameter
                       parameters:
-                        gender: -7
-                        huskiness: -2
-                        nasality: -8
-                        pitch: -9
+                        gender: 0
+                        articulation: -10
+                        assertiveness: 20
+                        buoyancy: -30
+                        confidence: -40
+                        enthusiasm: 50
+                        nasality: 45
+                        relaxedness: -35
+                        smoothness: 25
+                        tepidity: 15
+                        tightness: 5
                   language_model:
                     model_provider: ANTHROPIC
                     model_resource: claude-3-5-sonnet-20240620
@@ -252,12 +259,19 @@ service:
                   created_on: 1724704587367
                   modified_on: 1725489961583
                   base_voice: KORA
-                  parameter_model: 20240715-4parameter
+                  parameter_model: 20241004-11parameter
                   parameters:
-                    gender: -7
-                    huskiness: -2
-                    nasality: -8
-                    pitch: -9
+                    gender: 0
+                    articulation: -10
+                    assertiveness: 20
+                    buoyancy: -30
+                    confidence: -40
+                    enthusiasm: 50
+                    nasality: 45
+                    relaxedness: -35
+                    smoothness: 25
+                    tepidity: 15
+                    tightness: 5
               language_model:
                 model_provider: ANTHROPIC
                 model_resource: claude-3-5-sonnet-20240620
@@ -375,12 +389,19 @@ service:
                       created_on: 1724704587367
                       modified_on: 1725489961583
                       base_voice: KORA
-                      parameter_model: 20240715-4parameter
+                      parameter_model: 20241004-11parameter
                       parameters:
-                        gender: -7
-                        huskiness: -2
-                        nasality: -8
-                        pitch: -9
+                        gender: 0
+                        articulation: -10
+                        assertiveness: 20
+                        buoyancy: -30
+                        confidence: -40
+                        enthusiasm: 50
+                        nasality: 45
+                        relaxedness: -35
+                        smoothness: 25
+                        tepidity: 15
+                        tightness: 5
                   language_model:
                     model_provider: ANTHROPIC
                     model_resource: claude-3-5-sonnet-20240620
@@ -533,12 +554,19 @@ service:
                   created_on: 1724704587367
                   modified_on: 1725489961583
                   base_voice: KORA
-                  parameter_model: 20240715-4parameter
+                  parameter_model: 20241004-11parameter
                   parameters:
-                    gender: -7
-                    huskiness: -2
-                    nasality: -8
-                    pitch: -9
+                    gender: 0
+                    articulation: -10
+                    assertiveness: 20
+                    buoyancy: -30
+                    confidence: -40
+                    enthusiasm: 50
+                    nasality: 45
+                    relaxedness: -35
+                    smoothness: 25
+                    tepidity: 15
+                    tightness: 5
               language_model:
                 model_provider: ANTHROPIC
                 model_resource: claude-3-5-sonnet-20240620
@@ -693,12 +721,19 @@ service:
                   created_on: 1724704587367
                   modified_on: 1725489961583
                   base_voice: KORA
-                  parameter_model: 20240715-4parameter
+                  parameter_model: 20241004-11parameter
                   parameters:
-                    gender: -7
-                    huskiness: -2
-                    nasality: -8
-                    pitch: -9
+                    gender: 0
+                    articulation: -10
+                    assertiveness: 20
+                    buoyancy: -30
+                    confidence: -40
+                    enthusiasm: 50
+                    nasality: 45
+                    relaxedness: -35
+                    smoothness: 25
+                    tepidity: 15
+                    tightness: 5
               language_model:
                 model_provider: ANTHROPIC
                 model_resource: claude-3-5-sonnet-20240620
@@ -845,12 +880,19 @@ service:
                   created_on: 1724704587367
                   modified_on: 1725489961583
                   base_voice: KORA
-                  parameter_model: 20240715-4parameter
+                  parameter_model: 20241004-11parameter
                   parameters:
-                    gender: -7
-                    huskiness: -2
-                    nasality: -8
-                    pitch: -9
+                    gender: 0
+                    articulation: -10
+                    assertiveness: 20
+                    buoyancy: -30
+                    confidence: -40
+                    enthusiasm: 50
+                    nasality: 45
+                    relaxedness: -35
+                    smoothness: 25
+                    tepidity: 15
+                    tightness: 5
               language_model:
                 model_provider: ANTHROPIC
                 model_resource: claude-3-5-sonnet-20240620

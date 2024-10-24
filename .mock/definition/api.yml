@@ -7,6 +7,6 @@ environments:
 auth: HeaderAuthScheme
 auth-schemes:
   HeaderAuthScheme:
-    name: apiKey
     header: X-Hume-Api-Key
     type: optional<string>
+    name: apiKey

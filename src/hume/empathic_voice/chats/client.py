@@ -220,6 +220,63 @@ class ChatsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
+    def get_reconstruction_by_chat_id(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ReturnChatPagedEvents:
+        """
+        Parameters
+        ----------
+        id : str
+            Identifier for a chat. Formatted as a UUID.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ReturnChatPagedEvents
+            Success
+
+        Examples
+        --------
+        from hume import HumeClient
+
+        client = HumeClient(
+            api_key="YOUR_API_KEY",
+        )
+        client.empathic_voice.chats.get_reconstruction_by_chat_id(
+            id="id",
+        )
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"v0/evi/chats/{jsonable_encoder(id)}/audio",
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                return typing.cast(
+                    ReturnChatPagedEvents,
+                    parse_obj_as(
+                        type_=ReturnChatPagedEvents,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    typing.cast(
+                        ErrorResponse,
+                        parse_obj_as(
+                            type_=ErrorResponse,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
 
 class AsyncChatsClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -424,6 +481,71 @@ class AsyncChatsClient:
                 )
                 _items = _parsed_response.events_page
                 return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next)
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    typing.cast(
+                        ErrorResponse,
+                        parse_obj_as(
+                            type_=ErrorResponse,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def get_reconstruction_by_chat_id(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ReturnChatPagedEvents:
+        """
+        Parameters
+        ----------
+        id : str
+            Identifier for a chat. Formatted as a UUID.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ReturnChatPagedEvents
+            Success
+
+        Examples
+        --------
+        import asyncio
+
+        from hume import AsyncHumeClient
+
+        client = AsyncHumeClient(
+            api_key="YOUR_API_KEY",
+        )
+
+
+        async def main() -> None:
+            await client.empathic_voice.chats.get_reconstruction_by_chat_id(
+                id="id",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"v0/evi/chats/{jsonable_encoder(id)}/audio",
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                return typing.cast(
+                    ReturnChatPagedEvents,
+                    parse_obj_as(
+                        type_=ReturnChatPagedEvents,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
             if _response.status_code == 400:
                 raise BadRequestError(
                     typing.cast(

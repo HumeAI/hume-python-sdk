@@ -395,76 +395,6 @@ client.expression_measurement.batch.get_job_predictions(
 </dl>
 </details>
 
-<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">get_job_artifacts</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Get the artifacts ZIP of a completed inference job.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.expression_measurement.batch.get_job_artifacts(
-    id="string",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — The unique identifier for the job.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
 <details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">start_inference_job_from_local_file</a>(...)</code></summary>
 <dl>
 <dd>
@@ -634,7 +564,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dl>
 <dd>
 
-**name:** `typing.Optional[str]` — Filter to only include tools with this name.
+**name:** `typing.Optional[str]` — Filter to only include tools with name.
     
 </dd>
 </dl>
@@ -1488,7 +1418,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dl>
 <dd>
 
-**restrict_to_most_recent:** `typing.Optional[bool]` — By default, `restrict_to_most_recent` is set to true, returning only the latest version of each prompt. To include all versions of each prompt in the list, set `restrict_to_most_recent` to false.
+**restrict_to_most_recent:** `typing.Optional[bool]` — Only include the most recent version of each prompt in the list.
     
 </dd>
 </dl>
@@ -1496,7 +1426,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dl>
 <dd>
 
-**name:** `typing.Optional[str]` — Filter to only include prompts with this name.
+**name:** `typing.Optional[str]` — Filter to only include prompts with name.
     
 </dd>
 </dl>
@@ -2309,7 +2239,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dl>
 <dd>
 
-**name:** `typing.Optional[str]` — Filter to only include custom voices with this name.
+**name:** `typing.Optional[str]` — Filter to only include custom voices with name.
     
 </dd>
 </dl>
@@ -2668,87 +2598,6 @@ client.empathic_voice.custom_voices.delete_custom_voice(
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.custom_voices.<a href="src/hume/empathic_voice/custom_voices/client.py">update_custom_voice_name</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Updates the name of a **Custom Voice**.
-
-Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices) for details on creating a custom voice.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.empathic_voice.custom_voices.update_custom_voice_name(
-    id="string",
-    name="string",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — Identifier for a Custom Voice. Formatted as a UUID.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**name:** `str` — The name of the Custom Voice. Maximum length of 75 characters. Will be converted to all-uppercase. (e.g., "sample voice" becomes "SAMPLE VOICE")
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
 ## EmpathicVoice Configs
 <details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">list_configs</a>(...)</code></summary>
 <dl>
@@ -2827,7 +2676,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dl>
 <dd>
 
-**restrict_to_most_recent:** `typing.Optional[bool]` — By default, `restrict_to_most_recent` is set to true, returning only the latest version of each config. To include all versions of each config in the list, set `restrict_to_most_recent` to false.
+**restrict_to_most_recent:** `typing.Optional[bool]` — By default, `restrict_to_most_recent` is set to true, returning only the latest version of each tool. To include all versions of each tool in the list, set `restrict_to_most_recent` to false.
     
 </dd>
 </dl>
@@ -3987,6 +3836,62 @@ This parameter uses zero-based indexing. For example, setting `page_number` to 0
 </dl>
 </details>
 
+<details><summary><code>client.empathic_voice.chats.<a href="src/hume/empathic_voice/chats/client.py">get_reconstruction_by_chat_id</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.chats.get_reconstruction_by_chat_id(
+    id="id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a chat. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## EmpathicVoice ChatGroups
 <details><summary><code>client.empathic_voice.chat_groups.<a href="src/hume/empathic_voice/chat_groups/client.py">list_chat_groups</a>(...)</code></summary>
 <dl>
@@ -4288,6 +4193,94 @@ This parameter uses zero-based indexing. For example, setting `page_number` to 0
 <dd>
 
 **ascending_order:** `typing.Optional[bool]` — Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.chat_groups.<a href="src/hume/empathic_voice/chat_groups/client.py">get_reconstruction_by_chat_group_id</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.chat_groups.get_reconstruction_by_chat_group_id(
+    id="id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a chat. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_number:** `typing.Optional[int]` 
+
+Specifies the page number to retrieve, enabling pagination.
+
+This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_size:** `typing.Optional[int]` 
+
+Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+
+For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ascending_order:** `typing.Optional[bool]` — Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
     
 </dd>
 </dl>

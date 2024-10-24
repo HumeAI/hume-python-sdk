@@ -201,3 +201,64 @@ async def test_list_chat_group_events(client: HumeClient, async_client: AsyncHum
         id="697056f0-6c7e-487d-9bd8-9c19df79f05f", page_number=0, page_size=3, ascending_order=True
     )
     validate_response(async_response, expected_response, expected_types)
+
+
+async def test_get_reconstruction_by_chat_group_id(client: HumeClient, async_client: AsyncHumeClient) -> None:
+    expected_response: typing.Any = {
+        "id": "id",
+        "chat_group_id": "chat_group_id",
+        "status": "ACTIVE",
+        "start_timestamp": 1000000,
+        "end_timestamp": 1000000,
+        "pagination_direction": "ASC",
+        "events_page": [
+            {
+                "id": "id",
+                "chat_id": "chat_id",
+                "timestamp": 1000000,
+                "role": "USER",
+                "type": "SYSTEM_PROMPT",
+                "message_text": "message_text",
+                "emotion_features": "emotion_features",
+                "metadata": "metadata",
+            }
+        ],
+        "metadata": "metadata",
+        "page_number": 1,
+        "page_size": 1,
+        "total_pages": 1,
+        "config": {"id": "id", "version": 1},
+    }
+    expected_types: typing.Any = {
+        "id": None,
+        "chat_group_id": None,
+        "status": None,
+        "start_timestamp": None,
+        "end_timestamp": None,
+        "pagination_direction": None,
+        "events_page": (
+            "list",
+            {
+                0: {
+                    "id": None,
+                    "chat_id": None,
+                    "timestamp": None,
+                    "role": None,
+                    "type": None,
+                    "message_text": None,
+                    "emotion_features": None,
+                    "metadata": None,
+                }
+            },
+        ),
+        "metadata": None,
+        "page_number": "integer",
+        "page_size": "integer",
+        "total_pages": "integer",
+        "config": {"id": None, "version": "integer"},
+    }
+    response = client.empathic_voice.chat_groups.get_reconstruction_by_chat_group_id(id="id")
+    validate_response(response, expected_response, expected_types)
+
+    async_response = await async_client.empathic_voice.chat_groups.get_reconstruction_by_chat_group_id(id="id")
+    validate_response(async_response, expected_response, expected_types)
