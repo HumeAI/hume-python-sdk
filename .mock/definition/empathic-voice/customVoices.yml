@@ -60,7 +60,7 @@ service:
                   created_on: 1000000
                   modified_on: 1000000
                   base_voice: ITO
-                  parameter_model: 20240715-4parameter
+                  parameter_model: 20241004-11parameter
                   parameters: {}
     create-custom-voice:
       path: /v0/evi/custom_voices
@@ -86,7 +86,7 @@ service:
         - request:
             name: name
             base_voice: ITO
-            parameter_model: 20240715-4parameter
+            parameter_model: 20241004-11parameter
           response:
             body:
               id: id
@@ -95,12 +95,19 @@ service:
               created_on: 1000000
               modified_on: 1000000
               base_voice: ITO
-              parameter_model: 20240715-4parameter
+              parameter_model: 20241004-11parameter
               parameters:
                 gender: 1
-                huskiness: 1
+                articulation: 1
+                assertiveness: 1
+                buoyancy: 1
+                confidence: 1
+                enthusiasm: 1
                 nasality: 1
-                pitch: 1
+                relaxedness: 1
+                smoothness: 1
+                tepidity: 1
+                tightness: 1
     get-custom-voice:
       path: /v0/evi/custom_voices/{id}
       method: GET
@@ -132,12 +139,19 @@ service:
               created_on: 1000000
               modified_on: 1000000
               base_voice: ITO
-              parameter_model: 20240715-4parameter
+              parameter_model: 20241004-11parameter
               parameters:
                 gender: 1
-                huskiness: 1
+                articulation: 1
+                assertiveness: 1
+                buoyancy: 1
+                confidence: 1
+                enthusiasm: 1
                 nasality: 1
-                pitch: 1
+                relaxedness: 1
+                smoothness: 1
+                tepidity: 1
+                tightness: 1
     create-custom-voice-version:
       path: /v0/evi/custom_voices/{id}
       method: POST
@@ -168,7 +182,7 @@ service:
           request:
             name: name
             base_voice: ITO
-            parameter_model: 20240715-4parameter
+            parameter_model: 20241004-11parameter
           response:
             body:
               id: id
@@ -177,12 +191,19 @@ service:
               created_on: 1000000
               modified_on: 1000000
               base_voice: ITO
-              parameter_model: 20240715-4parameter
+              parameter_model: 20241004-11parameter
               parameters:
                 gender: 1
-                huskiness: 1
+                articulation: 1
+                assertiveness: 1
+                buoyancy: 1
+                confidence: 1
+                enthusiasm: 1
                 nasality: 1
-                pitch: 1
+                relaxedness: 1
+                smoothness: 1
+                tepidity: 1
+                tightness: 1
     delete-custom-voice:
       path: /v0/evi/custom_voices/{id}
       method: DELETE
