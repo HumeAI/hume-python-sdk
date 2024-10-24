@@ -50,7 +50,7 @@ class CustomVoicesClient:
             For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         name : typing.Optional[str]
-            Filter to only include custom voices with this name.
+            Filter to only include custom voices with name.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -158,7 +158,7 @@ class CustomVoicesClient:
                 "parameters": convert_and_respect_annotation_metadata(
                     object_=parameters, annotation=PostedCustomVoiceParameters, direction="write"
                 ),
-                "parameter_model": "20240715-4parameter",
+                "parameter_model": "20241004-11parameter",
             },
             request_options=request_options,
             omit=OMIT,
@@ -308,7 +308,7 @@ class CustomVoicesClient:
                 "parameters": convert_and_respect_annotation_metadata(
                     object_=parameters, annotation=PostedCustomVoiceParameters, direction="write"
                 ),
-                "parameter_model": "20240715-4parameter",
+                "parameter_model": "20241004-11parameter",
             },
             request_options=request_options,
             omit=OMIT,
@@ -412,18 +412,6 @@ class CustomVoicesClient:
         -------
         str
             Success
-
-        Examples
-        --------
-        from hume import HumeClient
-
-        client = HumeClient(
-            api_key="YOUR_API_KEY",
-        )
-        client.empathic_voice.custom_voices.update_custom_voice_name(
-            id="string",
-            name="string",
-        )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/custom_voices/{jsonable_encoder(id)}",
@@ -483,7 +471,7 @@ class AsyncCustomVoicesClient:
             For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         name : typing.Optional[str]
-            Filter to only include custom voices with this name.
+            Filter to only include custom voices with name.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -607,7 +595,7 @@ class AsyncCustomVoicesClient:
                 "parameters": convert_and_respect_annotation_metadata(
                     object_=parameters, annotation=PostedCustomVoiceParameters, direction="write"
                 ),
-                "parameter_model": "20240715-4parameter",
+                "parameter_model": "20241004-11parameter",
             },
             request_options=request_options,
             omit=OMIT,
@@ -773,7 +761,7 @@ class AsyncCustomVoicesClient:
                 "parameters": convert_and_respect_annotation_metadata(
                     object_=parameters, annotation=PostedCustomVoiceParameters, direction="write"
                 ),
-                "parameter_model": "20240715-4parameter",
+                "parameter_model": "20241004-11parameter",
             },
             request_options=request_options,
             omit=OMIT,
@@ -885,26 +873,6 @@ class AsyncCustomVoicesClient:
         -------
         str
             Success
-
-        Examples
-        --------
-        import asyncio
-
-        from hume import AsyncHumeClient
-
-        client = AsyncHumeClient(
-            api_key="YOUR_API_KEY",
-        )
-
-
-        async def main() -> None:
-            await client.empathic_voice.custom_voices.update_custom_voice_name(
-                id="string",
-                name="string",
-            )
-
-
-        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/custom_voices/{jsonable_encoder(id)}",

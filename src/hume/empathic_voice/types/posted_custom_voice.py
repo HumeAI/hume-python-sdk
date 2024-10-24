@@ -27,9 +27,9 @@ class PostedCustomVoice(UniversalBaseModel):
     Specifies the base voice used to create the Custom Voice.
     """
 
-    parameter_model: typing.Literal["20240715-4parameter"] = pydantic.Field(default="20240715-4parameter")
+    parameter_model: typing.Literal["20241004-11parameter"] = pydantic.Field(default="20241004-11parameter")
     """
-    The name of the parameter model used to define which attributes are used by the `parameters` field. Currently, only `20240715-4parameter` is supported as the parameter model.
+    The name of the parameter model used to define which attributes are used by the `parameters` field. Currently, only `20241004-11parameter` is supported as the parameter model.
     """
 
     parameters: typing.Optional[PostedCustomVoiceParameters] = pydantic.Field(default=None)
