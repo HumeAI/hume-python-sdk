@@ -13,6 +13,7 @@ from .chat_message_tool_result import ChatMessageToolResult
 from .chat_metadata import ChatMetadata
 from .context import Context
 from .context_type import ContextType
+from .datetime import Datetime
 from .emotion_scores import EmotionScores
 from .encoding import Encoding
 from .error_level import ErrorLevel
@@ -22,7 +23,11 @@ from .function_call_response_input import FunctionCallResponseInput
 from .http_validation_error import HttpValidationError
 from .inference import Inference
 from .json_message import JsonMessage
+from .language_model_tag import LanguageModelTag
+from .language_model_type import LanguageModelType
 from .millisecond_interval import MillisecondInterval
+from .model import Model
+from .model_provider_enum import ModelProviderEnum
 from .pause_assistant_message import PauseAssistantMessage
 from .posted_builtin_tool import PostedBuiltinTool
 from .posted_builtin_tool_name import PostedBuiltinToolName
@@ -89,6 +94,8 @@ from .return_user_defined_tool_version_type import ReturnUserDefinedToolVersionT
 from .return_voice import ReturnVoice
 from .role import Role
 from .session_settings import SessionSettings
+from .supported_language_model_deprecation import SupportedLanguageModelDeprecation
+from .supported_language_models_response import SupportedLanguageModelsResponse
 from .text_input import TextInput
 from .tool import Tool
 from .tool_call_message import ToolCallMessage
@@ -119,6 +126,7 @@ __all__ = [
     "ChatMetadata",
     "Context",
     "ContextType",
+    "Datetime",
     "EmotionScores",
     "Encoding",
     "ErrorLevel",
@@ -128,7 +136,11 @@ __all__ = [
     "HttpValidationError",
     "Inference",
     "JsonMessage",
+    "LanguageModelTag",
+    "LanguageModelType",
     "MillisecondInterval",
+    "Model",
+    "ModelProviderEnum",
     "PauseAssistantMessage",
     "PostedBuiltinTool",
     "PostedBuiltinToolName",
@@ -195,6 +207,8 @@ __all__ = [
     "ReturnVoice",
     "Role",
     "SessionSettings",
+    "SupportedLanguageModelDeprecation",
+    "SupportedLanguageModelsResponse",
     "TextInput",
     "Tool",
     "ToolCallMessage",
