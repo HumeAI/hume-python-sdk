@@ -53,7 +53,7 @@ class ToolsClient:
             By default, `restrict_to_most_recent` is set to true, returning only the latest version of each tool. To include all versions of each tool in the list, set `restrict_to_most_recent` to false.
 
         name : typing.Optional[str]
-            Filter to only include tools with this name.
+            Filter to only include tools with name.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -759,7 +759,7 @@ class AsyncToolsClient:
             By default, `restrict_to_most_recent` is set to true, returning only the latest version of each tool. To include all versions of each tool in the list, set `restrict_to_most_recent` to false.
 
         name : typing.Optional[str]
-            Filter to only include tools with this name.
+            Filter to only include tools with name.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.

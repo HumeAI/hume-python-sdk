@@ -21,7 +21,7 @@ class PostedVoice(UniversalBaseModel):
     """
     Specifies the name of the voice to use.
     
-    This can be either the name of a previously created Custom Voice or one of our 7 base voices: `ITO`, `KORA`, `DACHER`, `AURA`, `FINN`, `WHIMSY`, or `STELLA`.
+    This can be either the name of a previously created Custom Voice or one of our 8 base voices: `ITO`, `KORA`, `DACHER`, `AURA`, `FINN`, `WHIMSY`, `STELLA`, or `SUNNY`.
     
     The name will be automatically converted to uppercase (e.g., "Ito" becomes "ITO"). If a name is not specified, then a [Custom Voice](/reference/empathic-voice-interface-evi/configs/create-config#request.body.voice.custom_voice) specification must be provided.
     """

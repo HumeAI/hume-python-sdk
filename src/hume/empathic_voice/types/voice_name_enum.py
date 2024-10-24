@@ -4,7 +4,20 @@ import typing
 
 VoiceNameEnum = typing.Union[
     typing.Literal[
-        "ITO", "KORA", "DACHER", "AURA", "FINN", "SIENNA", "WILLOW", "SCOUT", "WHIMSY", "ACE", "JUNO", "STELLA", "HIRO"
+        "ITO",
+        "KORA",
+        "DACHER",
+        "AURA",
+        "FINN",
+        "SIENNA",
+        "WILLOW",
+        "SCOUT",
+        "WHIMSY",
+        "ACE",
+        "JUNO",
+        "STELLA",
+        "HIRO",
+        "SUNNY",
     ],
     typing.Any,
 ]

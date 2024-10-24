@@ -17,7 +17,6 @@ from .emotion_scores import EmotionScores
 from .encoding import Encoding
 from .error_level import ErrorLevel
 from .error_response import ErrorResponse
-from .extended_voice_args import ExtendedVoiceArgs
 from .function_call_response_input import FunctionCallResponseInput
 from .http_validation_error import HttpValidationError
 from .inference import Inference
@@ -101,7 +100,6 @@ from .user_interruption import UserInterruption
 from .user_message import UserMessage
 from .validation_error import ValidationError
 from .validation_error_loc_item import ValidationErrorLocItem
-from .voice_args import VoiceArgs
 from .voice_name_enum import VoiceNameEnum
 from .web_socket_error import WebSocketError
 
@@ -123,7 +121,6 @@ __all__ = [
     "Encoding",
     "ErrorLevel",
     "ErrorResponse",
-    "ExtendedVoiceArgs",
     "FunctionCallResponseInput",
     "HttpValidationError",
     "Inference",
@@ -207,7 +204,6 @@ __all__ = [
     "UserMessage",
     "ValidationError",
     "ValidationErrorLocItem",
-    "VoiceArgs",
     "VoiceNameEnum",
     "WebSocketError",
 ]

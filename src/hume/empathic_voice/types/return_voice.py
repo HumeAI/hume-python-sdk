@@ -21,7 +21,7 @@ class ReturnVoice(UniversalBaseModel):
     """
     The name of the specified voice.
     
-    This will either be the name of a previously created Custom Voice or one of our 7 base voices: `ITO`, `KORA`, `DACHER`, `AURA`, `FINN`, `WHIMSY`, or `STELLA`.
+    This will either be the name of a previously created Custom Voice or one of our 8 base voices: `ITO`, `KORA`, `DACHER`, `AURA`, `FINN`, `WHIMSY`, `STELLA`, or `SUNNY`.
     """
 
     custom_voice: typing.Optional[ReturnCustomVoice] = None

@@ -329,17 +329,6 @@ class BatchClient:
         ------
         typing.Iterator[bytes]
 
-
-        Examples
-        --------
-        from hume import HumeClient
-
-        client = HumeClient(
-            api_key="YOUR_API_KEY",
-        )
-        client.expression_measurement.batch.get_job_artifacts(
-            id="string",
-        )
         """
         with self._client_wrapper.httpx_client.stream(
             f"v0/batch/jobs/{jsonable_encoder(id)}/artifacts",
@@ -756,25 +745,6 @@ class AsyncBatchClient:
         ------
         typing.AsyncIterator[bytes]
 
-
-        Examples
-        --------
-        import asyncio
-
-        from hume import AsyncHumeClient
-
-        client = AsyncHumeClient(
-            api_key="YOUR_API_KEY",
-        )
-
-
-        async def main() -> None:
-            await client.expression_measurement.batch.get_job_artifacts(
-                id="string",
-            )
-
-
-        asyncio.run(main())
         """
         async with self._client_wrapper.httpx_client.stream(
             f"v0/batch/jobs/{jsonable_encoder(id)}/artifacts",
