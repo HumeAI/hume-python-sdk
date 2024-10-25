@@ -204,6 +204,7 @@ class ConfigsClient:
             ),
             evi_version="2",
             voice=PostedVoice(
+                provider="HUME_AI",
                 name="SAMPLE VOICE",
             ),
             language_model=PostedLanguageModel(
@@ -464,6 +465,7 @@ class ConfigsClient:
                 version=0,
             ),
             voice=PostedVoice(
+                provider="HUME_AI",
                 name="ITO",
             ),
             language_model=PostedLanguageModel(
@@ -1070,6 +1072,7 @@ class AsyncConfigsClient:
                 ),
                 evi_version="2",
                 voice=PostedVoice(
+                    provider="HUME_AI",
                     name="SAMPLE VOICE",
                 ),
                 language_model=PostedLanguageModel(
@@ -1346,6 +1349,7 @@ class AsyncConfigsClient:
                     version=0,
                 ),
                 voice=PostedVoice(
+                    provider="HUME_AI",
                     name="ITO",
                 ),
                 language_model=PostedLanguageModel(

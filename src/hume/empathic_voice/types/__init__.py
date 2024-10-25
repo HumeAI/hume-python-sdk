@@ -34,6 +34,7 @@ from .posted_event_message_spec import PostedEventMessageSpec
 from .posted_event_message_specs import PostedEventMessageSpecs
 from .posted_language_model import PostedLanguageModel
 from .posted_language_model_model_provider import PostedLanguageModelModelProvider
+from .posted_language_model_model_resource import PostedLanguageModelModelResource
 from .posted_prompt_spec import PostedPromptSpec
 from .posted_timeout_spec import PostedTimeoutSpec
 from .posted_timeout_specs import PostedTimeoutSpecs
@@ -41,6 +42,7 @@ from .posted_timeout_specs_inactivity import PostedTimeoutSpecsInactivity
 from .posted_timeout_specs_max_duration import PostedTimeoutSpecsMaxDuration
 from .posted_user_defined_tool_spec import PostedUserDefinedToolSpec
 from .posted_voice import PostedVoice
+from .posted_voice_provider import PostedVoiceProvider
 from .prosody_inference import ProsodyInference
 from .resume_assistant_message import ResumeAssistantMessage
 from .return_active_chat_count import ReturnActiveChatCount
@@ -70,6 +72,7 @@ from .return_event_message_spec import ReturnEventMessageSpec
 from .return_event_message_specs import ReturnEventMessageSpecs
 from .return_language_model import ReturnLanguageModel
 from .return_language_model_model_provider import ReturnLanguageModelModelProvider
+from .return_language_model_model_resource import ReturnLanguageModelModelResource
 from .return_paged_chat_groups import ReturnPagedChatGroups
 from .return_paged_chat_groups_pagination_direction import ReturnPagedChatGroupsPaginationDirection
 from .return_paged_chats import ReturnPagedChats
@@ -86,6 +89,7 @@ from .return_user_defined_tool import ReturnUserDefinedTool
 from .return_user_defined_tool_tool_type import ReturnUserDefinedToolToolType
 from .return_user_defined_tool_version_type import ReturnUserDefinedToolVersionType
 from .return_voice import ReturnVoice
+from .return_voice_provider import ReturnVoiceProvider
 from .role import Role
 from .session_settings import SessionSettings
 from .text_input import TextInput
@@ -138,6 +142,7 @@ __all__ = [
     "PostedEventMessageSpecs",
     "PostedLanguageModel",
     "PostedLanguageModelModelProvider",
+    "PostedLanguageModelModelResource",
     "PostedPromptSpec",
     "PostedTimeoutSpec",
     "PostedTimeoutSpecs",
@@ -145,6 +150,7 @@ __all__ = [
     "PostedTimeoutSpecsMaxDuration",
     "PostedUserDefinedToolSpec",
     "PostedVoice",
+    "PostedVoiceProvider",
     "ProsodyInference",
     "ResumeAssistantMessage",
     "ReturnActiveChatCount",
@@ -174,6 +180,7 @@ __all__ = [
     "ReturnEventMessageSpecs",
     "ReturnLanguageModel",
     "ReturnLanguageModelModelProvider",
+    "ReturnLanguageModelModelResource",
     "ReturnPagedChatGroups",
     "ReturnPagedChatGroupsPaginationDirection",
     "ReturnPagedChats",
@@ -190,6 +197,7 @@ __all__ = [
     "ReturnUserDefinedToolToolType",
     "ReturnUserDefinedToolVersionType",
     "ReturnVoice",
+    "ReturnVoiceProvider",
     "Role",
     "SessionSettings",
     "TextInput",
