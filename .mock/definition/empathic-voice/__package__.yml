@@ -784,14 +784,23 @@ types:
           of the Tool. Each update to the Tool increments its version number.
     source:
       openapi: stenographer-openapi.json
+  PostedVoiceProvider:
+    enum:
+      - HUME_AI
+      - CUSTOM_VOICE
+    docs: >-
+      The provider of the voice to use. Supported values are `HUME_AI` and
+      `CUSTOM_VOICE`.
+    source:
+      openapi: stenographer-openapi.json
   PostedVoice:
     docs: A Voice specification posted to the server
     properties:
       provider:
-        type: literal<"HUME_AI">
+        type: PostedVoiceProvider
         docs: >-
-          The provider of the voice to use. Currently, only `HUME_AI` is
-          supported as the voice provider.
+          The provider of the voice to use. Supported values are `HUME_AI` and
+          `CUSTOM_VOICE`.
       name:
         type: optional<string>
         docs: >-
@@ -1071,14 +1080,23 @@ types:
           seconds.
     source:
       openapi: stenographer-openapi.json
+  ReturnVoiceProvider:
+    enum:
+      - HUME_AI
+      - CUSTOM_VOICE
+    docs: >-
+      The provider of the voice to use. Supported values are `HUME_AI` and
+      `CUSTOM_VOICE`.
+    source:
+      openapi: stenographer-openapi.json
   ReturnVoice:
     docs: A specific voice specification
     properties:
       provider:
-        type: literal<"HUME_AI">
+        type: ReturnVoiceProvider
         docs: >-
-          The provider of the voice to use. Currently, only `HUME_AI` is
-          supported as the voice provider.
+          The provider of the voice to use. Supported values are `HUME_AI` and
+          `CUSTOM_VOICE`.
       name:
         type: optional<string>
         docs: >-

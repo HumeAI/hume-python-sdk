@@ -2753,6 +2753,7 @@ client.empathic_voice.configs.create_config(
     ),
     evi_version="2",
     voice=PostedVoice(
+        provider="HUME_AI",
         name="SAMPLE VOICE",
     ),
     language_model=PostedLanguageModel(
@@ -3053,6 +3054,7 @@ client.empathic_voice.configs.create_config_version(
         version=0,
     ),
     voice=PostedVoice(
+        provider="HUME_AI",
         name="ITO",
     ),
     language_model=PostedLanguageModel(
