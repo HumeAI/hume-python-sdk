@@ -26,6 +26,21 @@ Please review this guide before updating, as it covers breaking changes and prov
 
 API reference documentation is available [here](https://dev.hume.ai/reference/).
 
+## Compatibility
+
+The Hume Python SDK is compatible across several Python versions and operating systems.
+
+- For the Empathic Voice Interface, Python versions `3.9` through `3.11` are supported on macOS and Linux.
+
+- For Expression Measurement, Python versions `3.9` through `3.12` are supported on macOS, Linux, and Windows.
+
+Below is a table which shows the version and operating system compatibilities by product:
+
+|                          | Python Version                | Operating System      |
+| ------------------------ | ----------------------------- | --------------------- |
+| Empathic Voice Interface | `3.9`, `3.10`, `3.11`         | macOS, Linux          |
+| Expression Measurement   | `3.9`, `3.10`, `3.11`, `3.12` | macOS, Linux, Windows |
+
 ## Installation
 
 ```sh
