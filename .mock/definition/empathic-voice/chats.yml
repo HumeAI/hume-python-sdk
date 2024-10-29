@@ -455,46 +455,5 @@ service:
               config:
                 id: 1b60e1a0-cc59-424a-8d2c-189d354db3f3
                 version: 0
-    get-audio:
-      path: /v0/evi/chats/{id}/audio
-      method: GET
-      auth: true
-      path-parameters:
-        id:
-          type: string
-          docs: Identifier for a chat. Formatted as a UUID.
-      display-name: Get chat audio
-      response:
-        docs: Success
-        type: root.ReturnChatPagedEvents
-      errors:
-        - root.BadRequestError
-      examples:
-        - path-parameters:
-            id: id
-          response:
-            body:
-              id: id
-              chat_group_id: chat_group_id
-              status: ACTIVE
-              start_timestamp: 1000000
-              end_timestamp: 1000000
-              pagination_direction: ASC
-              events_page:
-                - id: id
-                  chat_id: chat_id
-                  timestamp: 1000000
-                  role: USER
-                  type: SYSTEM_PROMPT
-                  message_text: message_text
-                  emotion_features: emotion_features
-                  metadata: metadata
-              metadata: metadata
-              page_number: 1
-              page_size: 1
-              total_pages: 1
-              config:
-                id: id
-                version: 1
   source:
     openapi: stenographer-openapi.json
