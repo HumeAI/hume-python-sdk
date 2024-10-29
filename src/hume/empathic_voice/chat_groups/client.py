@@ -12,7 +12,7 @@ from ...core.api_error import ApiError
 from ..types.return_chat_group_paged_chats import ReturnChatGroupPagedChats
 from ...core.jsonable_encoder import jsonable_encoder
 from ..types.return_chat_group_paged_events import ReturnChatGroupPagedEvents
-from ..types.return_chat_paged_events import ReturnChatPagedEvents
+from ..types.return_chat_group_paged_audio_reconstructions import ReturnChatGroupPagedAudioReconstructions
 from ...core.client_wrapper import AsyncClientWrapper
 
 
@@ -289,7 +289,7 @@ class ChatGroupsClient:
         page_size: typing.Optional[int] = None,
         ascending_order: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> ReturnChatPagedEvents:
+    ) -> ReturnChatGroupPagedAudioReconstructions:
         """
         Parameters
         ----------
@@ -314,7 +314,7 @@ class ChatGroupsClient:
 
         Returns
         -------
-        ReturnChatPagedEvents
+        ReturnChatGroupPagedAudioReconstructions
             Success
 
         Examples
@@ -325,7 +325,10 @@ class ChatGroupsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.chat_groups.get_audio(
-            id="id",
+            id="369846cf-6ad5-404d-905e-a8acb5cdfc78",
+            page_number=0,
+            page_size=10,
+            ascending_order=True,
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -341,9 +344,9 @@ class ChatGroupsClient:
         try:
             if 200 <= _response.status_code < 300:
                 return typing.cast(
-                    ReturnChatPagedEvents,
+                    ReturnChatGroupPagedAudioReconstructions,
                     parse_obj_as(
-                        type_=ReturnChatPagedEvents,  # type: ignore
+                        type_=ReturnChatGroupPagedAudioReconstructions,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -660,7 +663,7 @@ class AsyncChatGroupsClient:
         page_size: typing.Optional[int] = None,
         ascending_order: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> ReturnChatPagedEvents:
+    ) -> ReturnChatGroupPagedAudioReconstructions:
         """
         Parameters
         ----------
@@ -685,7 +688,7 @@ class AsyncChatGroupsClient:
 
         Returns
         -------
-        ReturnChatPagedEvents
+        ReturnChatGroupPagedAudioReconstructions
             Success
 
         Examples
@@ -701,7 +704,10 @@ class AsyncChatGroupsClient:
 
         async def main() -> None:
             await client.empathic_voice.chat_groups.get_audio(
-                id="id",
+                id="369846cf-6ad5-404d-905e-a8acb5cdfc78",
+                page_number=0,
+                page_size=10,
+                ascending_order=True,
             )
 
 
@@ -720,9 +726,9 @@ class AsyncChatGroupsClient:
         try:
             if 200 <= _response.status_code < 300:
                 return typing.cast(
-                    ReturnChatPagedEvents,
+                    ReturnChatGroupPagedAudioReconstructions,
                     parse_obj_as(
-                        type_=ReturnChatPagedEvents,  # type: ignore
+                        type_=ReturnChatGroupPagedAudioReconstructions,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
