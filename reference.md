@@ -2753,6 +2753,7 @@ client.empathic_voice.configs.create_config(
     ),
     evi_version="2",
     voice=PostedVoice(
+        provider="HUME_AI",
         name="SAMPLE VOICE",
     ),
     language_model=PostedLanguageModel(
@@ -3053,6 +3054,7 @@ client.empathic_voice.configs.create_config_version(
         version=0,
     ),
     voice=PostedVoice(
+        provider="HUME_AI",
         name="ITO",
     ),
     language_model=PostedLanguageModel(
@@ -3836,62 +3838,6 @@ This parameter uses zero-based indexing. For example, setting `page_number` to 0
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.chats.<a href="src/hume/empathic_voice/chats/client.py">get_audio</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.empathic_voice.chats.get_audio(
-    id="id",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — Identifier for a chat. Formatted as a UUID.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
 ## EmpathicVoice ChatGroups
 <details><summary><code>client.empathic_voice.chat_groups.<a href="src/hume/empathic_voice/chat_groups/client.py">list_chat_groups</a>(...)</code></summary>
 <dl>
@@ -4193,94 +4139,6 @@ This parameter uses zero-based indexing. For example, setting `page_number` to 0
 <dd>
 
 **ascending_order:** `typing.Optional[bool]` — Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.empathic_voice.chat_groups.<a href="src/hume/empathic_voice/chat_groups/client.py">get_audio</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.empathic_voice.chat_groups.get_audio(
-    id="id",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — Identifier for a chat. Formatted as a UUID.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**page_number:** `typing.Optional[int]` 
-
-Specifies the page number to retrieve, enabling pagination.
-
-This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**page_size:** `typing.Optional[int]` 
-
-Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
-
-For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**ascending_order:** `typing.Optional[bool]` — Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
     
 </dd>
 </dl>

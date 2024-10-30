@@ -18,14 +18,14 @@ class ReturnTimeoutSpecs(UniversalBaseModel):
     """
     Specifies the duration of user inactivity (in seconds) after which the EVI WebSocket connection will be automatically disconnected. Default is 600 seconds (10 minutes).
     
-    Accepts a minimum value of 1 second and a maximum value of 1,800 seconds.
+    Accepts a minimum value of 30 seconds and a maximum value of 1,800 seconds.
     """
 
     max_duration: ReturnTimeoutSpec = pydantic.Field()
     """
     Specifies the maximum allowed duration (in seconds) for an EVI WebSocket connection before it is automatically disconnected. Default is 1,800 seconds (30 minutes).
     
-    Accepts a minimum value of 1 second and a maximum value of 1,800 seconds.
+    Accepts a minimum value of 30 seconds and a maximum value of 1,800 seconds.
     """
 
     if IS_PYDANTIC_V2:
