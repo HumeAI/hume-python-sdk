@@ -10,7 +10,7 @@ class PostedTimeoutSpecsMaxDuration(UniversalBaseModel):
     """
     Specifies the maximum allowed duration (in seconds) for an EVI WebSocket connection before it is automatically disconnected. Default is 1,800 seconds (30 minutes).
 
-    Accepts a minimum value of 1 second and a maximum value of 1,800 seconds.
+    Accepts a minimum value of 30 seconds and a maximum value of 1,800 seconds.
     """
 
     enabled: bool = pydantic.Field()

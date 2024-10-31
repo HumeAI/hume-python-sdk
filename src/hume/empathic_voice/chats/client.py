@@ -14,6 +14,7 @@ from ...core.api_error import ApiError
 from ..types.return_chat_event import ReturnChatEvent
 from ...core.jsonable_encoder import jsonable_encoder
 from ..types.return_chat_paged_events import ReturnChatPagedEvents
+from ..types.return_chat_audio_reconstruction import ReturnChatAudioReconstruction
 from ...core.client_wrapper import AsyncClientWrapper
 from ...core.pagination import AsyncPager
 
@@ -220,8 +221,12 @@ class ChatsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def get_audio(self, id: str, *, request_options: typing.Optional[RequestOptions] = None) -> ReturnChatPagedEvents:
+    def get_audio(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ReturnChatAudioReconstruction:
         """
+        Fetches the audio of a previous **Chat**. For more details, see our guide on audio reconstruction [here](/docs/empathic-voice-interface-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
+
         Parameters
         ----------
         id : str
@@ -232,7 +237,7 @@ class ChatsClient:
 
         Returns
         -------
-        ReturnChatPagedEvents
+        ReturnChatAudioReconstruction
             Success
 
         Examples
@@ -243,7 +248,7 @@ class ChatsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.chats.get_audio(
-            id="id",
+            id="470a49f6-1dec-4afe-8b61-035d3b2d63b0",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -254,9 +259,9 @@ class ChatsClient:
         try:
             if 200 <= _response.status_code < 300:
                 return typing.cast(
-                    ReturnChatPagedEvents,
+                    ReturnChatAudioReconstruction,
                     parse_obj_as(
-                        type_=ReturnChatPagedEvents,  # type: ignore
+                        type_=ReturnChatAudioReconstruction,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -496,8 +501,10 @@ class AsyncChatsClient:
 
     async def get_audio(
         self, id: str, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> ReturnChatPagedEvents:
+    ) -> ReturnChatAudioReconstruction:
         """
+        Fetches the audio of a previous **Chat**. For more details, see our guide on audio reconstruction [here](/docs/empathic-voice-interface-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
+
         Parameters
         ----------
         id : str
@@ -508,7 +515,7 @@ class AsyncChatsClient:
 
         Returns
         -------
-        ReturnChatPagedEvents
+        ReturnChatAudioReconstruction
             Success
 
         Examples
@@ -524,7 +531,7 @@ class AsyncChatsClient:
 
         async def main() -> None:
             await client.empathic_voice.chats.get_audio(
-                id="id",
+                id="470a49f6-1dec-4afe-8b61-035d3b2d63b0",
             )
 
 
@@ -538,9 +545,9 @@ class AsyncChatsClient:
         try:
             if 200 <= _response.status_code < 300:
                 return typing.cast(
-                    ReturnChatPagedEvents,
+                    ReturnChatAudioReconstruction,
                     parse_obj_as(
-                        type_=ReturnChatPagedEvents,  # type: ignore
+                        type_=ReturnChatAudioReconstruction,  # type: ignore
                         object_=_response.json(),
                     ),
                 )

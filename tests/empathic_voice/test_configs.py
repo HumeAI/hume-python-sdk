@@ -282,7 +282,7 @@ async def test_create_config(client: HumeClient, async_client: AsyncHumeClient) 
         name="Weather Assistant Config",
         prompt=PostedConfigPromptSpec(id="af699d45-2985-42cc-91b9-af9e5da3bac5", version=0),
         evi_version="2",
-        voice=PostedVoice(name="SAMPLE VOICE"),
+        voice=PostedVoice(provider="HUME_AI", name="SAMPLE VOICE"),
         language_model=PostedLanguageModel(
             model_provider="ANTHROPIC", model_resource="claude-3-5-sonnet-20240620", temperature=1.0
         ),
@@ -298,7 +298,7 @@ async def test_create_config(client: HumeClient, async_client: AsyncHumeClient) 
         name="Weather Assistant Config",
         prompt=PostedConfigPromptSpec(id="af699d45-2985-42cc-91b9-af9e5da3bac5", version=0),
         evi_version="2",
-        voice=PostedVoice(name="SAMPLE VOICE"),
+        voice=PostedVoice(provider="HUME_AI", name="SAMPLE VOICE"),
         language_model=PostedLanguageModel(
             model_provider="ANTHROPIC", model_resource="claude-3-5-sonnet-20240620", temperature=1.0
         ),
@@ -584,7 +584,7 @@ async def test_create_config_version(client: HumeClient, async_client: AsyncHume
         version_description="This is an updated version of the Weather Assistant Config.",
         evi_version="2",
         prompt=PostedConfigPromptSpec(id="af699d45-2985-42cc-91b9-af9e5da3bac5", version=0),
-        voice=PostedVoice(name="ITO"),
+        voice=PostedVoice(provider="HUME_AI", name="ITO"),
         language_model=PostedLanguageModel(
             model_provider="ANTHROPIC", model_resource="claude-3-5-sonnet-20240620", temperature=1.0
         ),
@@ -602,7 +602,7 @@ async def test_create_config_version(client: HumeClient, async_client: AsyncHume
         version_description="This is an updated version of the Weather Assistant Config.",
         evi_version="2",
         prompt=PostedConfigPromptSpec(id="af699d45-2985-42cc-91b9-af9e5da3bac5", version=0),
-        voice=PostedVoice(name="ITO"),
+        voice=PostedVoice(provider="HUME_AI", name="ITO"),
         language_model=PostedLanguageModel(
             model_provider="ANTHROPIC", model_resource="claude-3-5-sonnet-20240620", temperature=1.0
         ),

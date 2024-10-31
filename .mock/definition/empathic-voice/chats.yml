@@ -459,6 +459,10 @@ service:
       path: /v0/evi/chats/{id}/audio
       method: GET
       auth: true
+      docs: >-
+        Fetches the audio of a previous **Chat**. For more details, see our
+        guide on audio reconstruction
+        [here](/docs/empathic-voice-interface-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
       path-parameters:
         id:
           type: string
@@ -466,35 +470,21 @@ service:
       display-name: Get chat audio
       response:
         docs: Success
-        type: root.ReturnChatPagedEvents
+        type: root.ReturnChatAudioReconstruction
       errors:
         - root.BadRequestError
       examples:
         - path-parameters:
-            id: id
+            id: 470a49f6-1dec-4afe-8b61-035d3b2d63b0
           response:
             body:
-              id: id
-              chat_group_id: chat_group_id
-              status: ACTIVE
-              start_timestamp: 1000000
-              end_timestamp: 1000000
-              pagination_direction: ASC
-              events_page:
-                - id: id
-                  chat_id: chat_id
-                  timestamp: 1000000
-                  role: USER
-                  type: SYSTEM_PROMPT
-                  message_text: message_text
-                  emotion_features: emotion_features
-                  metadata: metadata
-              metadata: metadata
-              page_number: 1
-              page_size: 1
-              total_pages: 1
-              config:
-                id: id
-                version: 1
+              id: 470a49f6-1dec-4afe-8b61-035d3b2d63b0
+              user_id: e6235940-cfda-3988-9147-ff531627cf42
+              status: COMPLETE
+              filename: >-
+                e6235940-cfda-3988-9147-ff531627cf42/470a49f6-1dec-4afe-8b61-035d3b2d63b0/reconstructed_audio.mp4
+              modified_at: 1729875432555
+              signed_audio_url: https://storage.googleapis.com/...etc.
+              signed_url_expiration_timestamp_millis: 1730232816964
   source:
     openapi: stenographer-openapi.json

@@ -2753,6 +2753,7 @@ client.empathic_voice.configs.create_config(
     ),
     evi_version="2",
     voice=PostedVoice(
+        provider="HUME_AI",
         name="SAMPLE VOICE",
     ),
     language_model=PostedLanguageModel(
@@ -3053,6 +3054,7 @@ client.empathic_voice.configs.create_config_version(
         version=0,
     ),
     voice=PostedVoice(
+        provider="HUME_AI",
         name="ITO",
     ),
     language_model=PostedLanguageModel(
@@ -3840,6 +3842,20 @@ This parameter uses zero-based indexing. For example, setting `page_number` to 0
 <dl>
 <dd>
 
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches the audio of a previous **Chat**. For more details, see our guide on audio reconstruction [here](/docs/empathic-voice-interface-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
+</dd>
+</dl>
+</dd>
+</dl>
+
 #### 🔌 Usage
 
 <dl>
@@ -3855,7 +3871,7 @@ client = HumeClient(
     api_key="YOUR_API_KEY",
 )
 client.empathic_voice.chats.get_audio(
-    id="id",
+    id="470a49f6-1dec-4afe-8b61-035d3b2d63b0",
 )
 
 ```
@@ -4216,6 +4232,20 @@ This parameter uses zero-based indexing. For example, setting `page_number` to 0
 <dl>
 <dd>
 
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a paginated list of audio for each **Chat** within the specified **Chat Group**. For more details, see our guide on audio reconstruction [here](/docs/empathic-voice-interface-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
+</dd>
+</dl>
+</dd>
+</dl>
+
 #### 🔌 Usage
 
 <dl>
@@ -4231,7 +4261,10 @@ client = HumeClient(
     api_key="YOUR_API_KEY",
 )
 client.empathic_voice.chat_groups.get_audio(
-    id="id",
+    id="369846cf-6ad5-404d-905e-a8acb5cdfc78",
+    page_number=0,
+    page_size=10,
+    ascending_order=True,
 )
 
 ```
