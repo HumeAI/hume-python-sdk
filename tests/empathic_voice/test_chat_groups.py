@@ -205,60 +205,54 @@ async def test_list_chat_group_events(client: HumeClient, async_client: AsyncHum
 
 async def test_get_audio(client: HumeClient, async_client: AsyncHumeClient) -> None:
     expected_response: typing.Any = {
-        "id": "id",
-        "chat_group_id": "chat_group_id",
-        "status": "ACTIVE",
-        "start_timestamp": 1000000,
-        "end_timestamp": 1000000,
+        "id": "369846cf-6ad5-404d-905e-a8acb5cdfc78",
+        "user_id": "e6235940-cfda-3988-9147-ff531627cf42",
+        "num_chats": 1,
+        "page_number": 0,
+        "page_size": 10,
+        "total_pages": 1,
         "pagination_direction": "ASC",
-        "events_page": [
+        "audio_reconstructions_page": [
             {
-                "id": "id",
-                "chat_id": "chat_id",
-                "timestamp": 1000000,
-                "role": "USER",
-                "type": "SYSTEM_PROMPT",
-                "message_text": "message_text",
-                "emotion_features": "emotion_features",
-                "metadata": "metadata",
+                "id": "470a49f6-1dec-4afe-8b61-035d3b2d63b0",
+                "user_id": "e6235940-cfda-3988-9147-ff531627cf42",
+                "status": "COMPLETE",
+                "filename": "e6235940-cfda-3988-9147-ff531627cf42/470a49f6-1dec-4afe-8b61-035d3b2d63b0/reconstructed_audio.mp4",
+                "modified_at": 1729875432555,
+                "signed_audio_url": "https://storage.googleapis.com/...etc.",
+                "signed_url_expiration_timestamp_millis": 1730232816964,
             }
         ],
-        "metadata": "metadata",
-        "page_number": 1,
-        "page_size": 1,
-        "total_pages": 1,
-        "config": {"id": "id", "version": 1},
     }
     expected_types: typing.Any = {
         "id": None,
-        "chat_group_id": None,
-        "status": None,
-        "start_timestamp": None,
-        "end_timestamp": None,
+        "user_id": None,
+        "num_chats": "integer",
+        "page_number": "integer",
+        "page_size": "integer",
+        "total_pages": "integer",
         "pagination_direction": None,
-        "events_page": (
+        "audio_reconstructions_page": (
             "list",
             {
                 0: {
                     "id": None,
-                    "chat_id": None,
-                    "timestamp": None,
-                    "role": None,
-                    "type": None,
-                    "message_text": None,
-                    "emotion_features": None,
-                    "metadata": None,
+                    "user_id": None,
+                    "status": None,
+                    "filename": None,
+                    "modified_at": None,
+                    "signed_audio_url": None,
+                    "signed_url_expiration_timestamp_millis": None,
                 }
             },
         ),
-        "metadata": None,
-        "page_number": "integer",
-        "page_size": "integer",
-        "total_pages": "integer",
-        "config": {"id": None, "version": "integer"},
     }
-    response = client.empathic_voice.chat_groups.get_audio(id="id")
+    response = client.empathic_voice.chat_groups.get_audio(
+        id="369846cf-6ad5-404d-905e-a8acb5cdfc78", page_number=0, page_size=10, ascending_order=True
+    )
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.empathic_voice.chat_groups.get_audio(id="id")
+    async_response = await async_client.empathic_voice.chat_groups.get_audio(
+        id="369846cf-6ad5-404d-905e-a8acb5cdfc78", page_number=0, page_size=10, ascending_order=True
+    )
     validate_response(async_response, expected_response, expected_types)
