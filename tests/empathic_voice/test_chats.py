@@ -8,60 +8,25 @@ from ..utilities import validate_response
 
 async def test_get_audio(client: HumeClient, async_client: AsyncHumeClient) -> None:
     expected_response: typing.Any = {
-        "id": "id",
-        "chat_group_id": "chat_group_id",
-        "status": "ACTIVE",
-        "start_timestamp": 1000000,
-        "end_timestamp": 1000000,
-        "pagination_direction": "ASC",
-        "events_page": [
-            {
-                "id": "id",
-                "chat_id": "chat_id",
-                "timestamp": 1000000,
-                "role": "USER",
-                "type": "SYSTEM_PROMPT",
-                "message_text": "message_text",
-                "emotion_features": "emotion_features",
-                "metadata": "metadata",
-            }
-        ],
-        "metadata": "metadata",
-        "page_number": 1,
-        "page_size": 1,
-        "total_pages": 1,
-        "config": {"id": "id", "version": 1},
+        "id": "470a49f6-1dec-4afe-8b61-035d3b2d63b0",
+        "user_id": "e6235940-cfda-3988-9147-ff531627cf42",
+        "status": "COMPLETE",
+        "filename": "e6235940-cfda-3988-9147-ff531627cf42/470a49f6-1dec-4afe-8b61-035d3b2d63b0/reconstructed_audio.mp4",
+        "modified_at": 1729875432555,
+        "signed_audio_url": "https://storage.googleapis.com/...etc.",
+        "signed_url_expiration_timestamp_millis": 1730232816964,
     }
     expected_types: typing.Any = {
         "id": None,
-        "chat_group_id": None,
+        "user_id": None,
         "status": None,
-        "start_timestamp": None,
-        "end_timestamp": None,
-        "pagination_direction": None,
-        "events_page": (
-            "list",
-            {
-                0: {
-                    "id": None,
-                    "chat_id": None,
-                    "timestamp": None,
-                    "role": None,
-                    "type": None,
-                    "message_text": None,
-                    "emotion_features": None,
-                    "metadata": None,
-                }
-            },
-        ),
-        "metadata": None,
-        "page_number": "integer",
-        "page_size": "integer",
-        "total_pages": "integer",
-        "config": {"id": None, "version": "integer"},
+        "filename": None,
+        "modified_at": None,
+        "signed_audio_url": None,
+        "signed_url_expiration_timestamp_millis": None,
     }
-    response = client.empathic_voice.chats.get_audio(id="id")
+    response = client.empathic_voice.chats.get_audio(id="470a49f6-1dec-4afe-8b61-035d3b2d63b0")
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.empathic_voice.chats.get_audio(id="id")
+    async_response = await async_client.empathic_voice.chats.get_audio(id="470a49f6-1dec-4afe-8b61-035d3b2d63b0")
     validate_response(async_response, expected_response, expected_types)
