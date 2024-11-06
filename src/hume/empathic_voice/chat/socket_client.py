@@ -44,6 +44,10 @@ class ChatConnectOptions(typing.TypedDict, total=False):
 
     secret_key: typing.Optional[str]
 
+    resumed_chat_group_id: typing.Optional[str]
+
+    verbose_transcription: typing.Optional[bool]
+
 
 class ChatWebsocketConnection:
     DEFAULT_NUM_CHANNELS: typing.ClassVar[int] = 1
@@ -203,6 +207,16 @@ class AsyncChatClientWithWebsocket:
             if maybe_config_version is not None:
                 query_params = query_params.add(
                     "config_version", maybe_config_version
+                )
+            maybe_resumed_chat_group_id = options.get("resumed_chat_group_id")
+            if maybe_resumed_chat_group_id is not None:
+                query_params = query_params.add(
+                    "resumed_chat_group_id", maybe_resumed_chat_group_id
+                )
+            maybe_verbose_transcription = options.get("verbose_transcription")
+            if maybe_verbose_transcription is not None:
+                query_params = query_params.add(
+                    "verbose_transcription", "true" if maybe_verbose_transcription else "false"
                 )
             maybe_secret_key = options.get("secret_key")
             if maybe_secret_key is not None and api_key is not None:
