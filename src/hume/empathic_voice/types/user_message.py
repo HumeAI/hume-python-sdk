@@ -46,6 +46,11 @@ class UserMessage(UniversalBaseModel):
     Indicates if this message was inserted into the conversation as text from a [User Input](/reference/empathic-voice-interface-evi/chat/chat#send.User%20Input.text) message.
     """
 
+    interim: bool = pydantic.Field()
+    """
+    Indicates if this message contains an immediate and unfinalized transcript of the user’s audio input. If it does, words may be repeated across successive `UserMessage` messages as our transcription model becomes more confident about what was said with additional context. Interim messages are useful to detect if the user is interrupting during audio playback on the client. Even without a finalized transcription, along with [UserInterrupt](/reference/empathic-voice-interface-evi/chat/chat#receive.User%20Interruption.type) messages, interim `UserMessages` are useful for detecting if the user is interrupting during audio playback on the client, signaling to stop playback in your application. Interim `UserMessages` will only be received if the [verbose_transcription](/reference/empathic-voice-interface-evi/chat/chat#request.query.verbose_transcription) query parameter is set to `true` in the handshake request.
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:
