@@ -14,6 +14,8 @@ service:
 
         Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices)
         for details on creating a custom voice.
+      source:
+        openapi: stenographer-openapi.json
       display-name: List custom voices
       request:
         name: CustomVoicesListCustomVoicesRequest
@@ -73,6 +75,8 @@ service:
 
         Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices)
         for details on creating a custom voice.
+      source:
+        openapi: stenographer-openapi.json
       display-name: Create custom voice
       request:
         body: root.PostedCustomVoice
@@ -118,6 +122,8 @@ service:
 
         Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices)
         for details on creating a custom voice.
+      source:
+        openapi: stenographer-openapi.json
       path-parameters:
         id:
           type: string
@@ -163,6 +169,8 @@ service:
 
         Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices)
         for details on creating a custom voice.
+      source:
+        openapi: stenographer-openapi.json
       path-parameters:
         id:
           type: string
@@ -214,6 +222,8 @@ service:
 
         Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices)
         for details on creating a custom voice.
+      source:
+        openapi: stenographer-openapi.json
       path-parameters:
         id:
           type: string
@@ -234,6 +244,8 @@ service:
 
         Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices)
         for details on creating a custom voice.
+      source:
+        openapi: stenographer-openapi.json
       path-parameters:
         id:
           type: string

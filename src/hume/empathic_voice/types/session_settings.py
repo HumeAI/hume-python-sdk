@@ -7,6 +7,7 @@ from .context import Context
 from .audio_configuration import AudioConfiguration
 from .tool import Tool
 from .builtin_tool_config import BuiltinToolConfig
+from .session_settings_variables_value import SessionSettingsVariablesValue
 from ...core.pydantic_utilities import IS_PYDANTIC_V2
 
 
@@ -84,9 +85,13 @@ class SessionSettings(UniversalBaseModel):
     """
 
     metadata: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = None
-    variables: typing.Optional[typing.Dict[str, str]] = pydantic.Field(default=None)
+    variables: typing.Optional[typing.Dict[str, SessionSettingsVariablesValue]] = pydantic.Field(default=None)
     """
-    Dynamic values that can be used to populate EVI prompts.
+    This field allows you to assign values to dynamic variables referenced in your system prompt.
+    
+    Each key represents the variable name, and the corresponding value is the specific content you wish to assign to that variable within the session. While the values for variables can be strings, numbers, or booleans, the value will ultimately be converted to a string when injected into your system prompt.
+    
+    Using this field, you can personalize responses based on session-specific details. For more guidance, see our [guide on using dynamic variables](/docs/empathic-voice-interface-evi/conversational-controls#dynamic-variables).
     """
 
     if IS_PYDANTIC_V2:
