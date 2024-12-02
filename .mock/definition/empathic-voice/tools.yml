@@ -19,6 +19,8 @@ service:
       pagination:
         offset: $request.page_number
         results: $response.tools_page
+      source:
+        openapi: stenographer-openapi.json
       display-name: List tools
       request:
         name: ToolsListToolsRequest
@@ -116,6 +118,8 @@ service:
         use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide
         for comprehensive instructions on defining and integrating tools into
         EVI.
+      source:
+        openapi: stenographer-openapi.json
       display-name: Create tool
       request:
         name: PostedUserDefinedTool
@@ -204,6 +208,8 @@ service:
         use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide
         for comprehensive instructions on defining and integrating tools into
         EVI.
+      source:
+        openapi: stenographer-openapi.json
       path-parameters:
         id:
           type: string
@@ -284,6 +290,8 @@ service:
         use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide
         for comprehensive instructions on defining and integrating tools into
         EVI.
+      source:
+        openapi: stenographer-openapi.json
       path-parameters:
         id:
           type: string
@@ -374,6 +382,8 @@ service:
         use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide
         for comprehensive instructions on defining and integrating tools into
         EVI.
+      source:
+        openapi: stenographer-openapi.json
       path-parameters:
         id:
           type: string
@@ -396,6 +406,8 @@ service:
         use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide
         for comprehensive instructions on defining and integrating tools into
         EVI.
+      source:
+        openapi: stenographer-openapi.json
       path-parameters:
         id:
           type: string
@@ -431,6 +443,8 @@ service:
         use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide
         for comprehensive instructions on defining and integrating tools into
         EVI.
+      source:
+        openapi: stenographer-openapi.json
       path-parameters:
         id:
           type: string
@@ -492,6 +506,8 @@ service:
         use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide
         for comprehensive instructions on defining and integrating tools into
         EVI.
+      source:
+        openapi: stenographer-openapi.json
       path-parameters:
         id:
           type: string
@@ -529,6 +545,8 @@ service:
         use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide
         for comprehensive instructions on defining and integrating tools into
         EVI.
+      source:
+        openapi: stenographer-openapi.json
       path-parameters:
         id:
           type: string

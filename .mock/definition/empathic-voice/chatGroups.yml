@@ -9,6 +9,8 @@ service:
       method: GET
       auth: true
       docs: Fetches a paginated list of **Chat Groups**.
+      source:
+        openapi: stenographer-openapi.json
       display-name: List chat_groups
       request:
         name: ChatGroupsListChatGroupsRequest
@@ -50,6 +52,8 @@ service:
 
               Filter Chat Groups to only include Chats that used this
               `config_id` in their most recent Chat.
+            validation:
+              format: uuid
       response:
         docs: Success
         type: root.ReturnPagedChatGroups
@@ -81,6 +85,8 @@ service:
       docs: >-
         Fetches a **ChatGroup** by ID, including a paginated list of **Chats**
         associated with the **ChatGroup**.
+      source:
+        openapi: stenographer-openapi.json
       path-parameters:
         id:
           type: string
@@ -155,6 +161,8 @@ service:
       docs: >-
         Fetches a paginated list of **Chat** events associated with a **Chat
         Group**.
+      source:
+        openapi: stenographer-openapi.json
       path-parameters:
         id:
           type: string
@@ -530,6 +538,8 @@ service:
         Fetches a paginated list of audio for each **Chat** within the specified
         **Chat Group**. For more details, see our guide on audio reconstruction
         [here](/docs/empathic-voice-interface-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
+      source:
+        openapi: stenographer-openapi.json
       path-parameters:
         id:
           type: string

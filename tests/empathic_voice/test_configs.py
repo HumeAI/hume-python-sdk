@@ -49,7 +49,6 @@ async def test_list_configs(client: HumeClient, async_client: AsyncHumeClient) -
                         "parameter_model": "20241004-11parameter",
                         "parameters": {
                             "gender": 0,
-                            "articulation": -10,
                             "assertiveness": 20,
                             "buoyancy": -30,
                             "confidence": -40,
@@ -120,7 +119,6 @@ async def test_list_configs(client: HumeClient, async_client: AsyncHumeClient) -
                             "parameter_model": None,
                             "parameters": {
                                 "gender": "integer",
-                                "articulation": "integer",
                                 "assertiveness": "integer",
                                 "buoyancy": "integer",
                                 "confidence": "integer",
@@ -189,7 +187,6 @@ async def test_create_config(client: HumeClient, async_client: AsyncHumeClient) 
                 "parameter_model": "20241004-11parameter",
                 "parameters": {
                     "gender": 0,
-                    "articulation": -10,
                     "assertiveness": 20,
                     "buoyancy": -30,
                     "confidence": -40,
@@ -251,7 +248,6 @@ async def test_create_config(client: HumeClient, async_client: AsyncHumeClient) 
                 "parameter_model": None,
                 "parameters": {
                     "gender": "integer",
-                    "articulation": "integer",
                     "assertiveness": "integer",
                     "buoyancy": "integer",
                     "confidence": "integer",
@@ -348,7 +344,6 @@ async def test_list_config_versions(client: HumeClient, async_client: AsyncHumeC
                         "parameter_model": "20241004-11parameter",
                         "parameters": {
                             "gender": 0,
-                            "articulation": -10,
                             "assertiveness": 20,
                             "buoyancy": -30,
                             "confidence": -40,
@@ -419,7 +414,6 @@ async def test_list_config_versions(client: HumeClient, async_client: AsyncHumeC
                             "parameter_model": None,
                             "parameters": {
                                 "gender": "integer",
-                                "articulation": "integer",
                                 "assertiveness": "integer",
                                 "buoyancy": "integer",
                                 "confidence": "integer",
@@ -490,7 +484,6 @@ async def test_create_config_version(client: HumeClient, async_client: AsyncHume
                 "parameter_model": "20241004-11parameter",
                 "parameters": {
                     "gender": 0,
-                    "articulation": -10,
                     "assertiveness": 20,
                     "buoyancy": -30,
                     "confidence": -40,
@@ -552,7 +545,6 @@ async def test_create_config_version(client: HumeClient, async_client: AsyncHume
                 "parameter_model": None,
                 "parameters": {
                     "gender": "integer",
-                    "articulation": "integer",
                     "assertiveness": "integer",
                     "buoyancy": "integer",
                     "confidence": "integer",
@@ -678,7 +670,6 @@ async def test_get_config_version(client: HumeClient, async_client: AsyncHumeCli
                 "parameter_model": "20241004-11parameter",
                 "parameters": {
                     "gender": 0,
-                    "articulation": -10,
                     "assertiveness": 20,
                     "buoyancy": -30,
                     "confidence": -40,
@@ -740,7 +731,6 @@ async def test_get_config_version(client: HumeClient, async_client: AsyncHumeCli
                 "parameter_model": None,
                 "parameters": {
                     "gender": "integer",
-                    "articulation": "integer",
                     "assertiveness": "integer",
                     "buoyancy": "integer",
                     "confidence": "integer",
@@ -823,7 +813,6 @@ async def test_update_config_description(client: HumeClient, async_client: Async
                 "parameter_model": "20241004-11parameter",
                 "parameters": {
                     "gender": 0,
-                    "articulation": -10,
                     "assertiveness": 20,
                     "buoyancy": -30,
                     "confidence": -40,
@@ -885,7 +874,6 @@ async def test_update_config_description(client: HumeClient, async_client: Async
                 "parameter_model": None,
                 "parameters": {
                     "gender": "integer",
-                    "articulation": "integer",
                     "assertiveness": "integer",
                     "buoyancy": "integer",
                     "confidence": "integer",

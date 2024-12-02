@@ -18,6 +18,8 @@ service:
       pagination:
         offset: $request.page_number
         results: $response.prompts_page
+      source:
+        openapi: stenographer-openapi.json
       display-name: List prompts
       request:
         name: PromptsListPromptsRequest
@@ -106,6 +108,8 @@ service:
         See our [prompting
         guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on
         crafting your system prompt.
+      source:
+        openapi: stenographer-openapi.json
       display-name: Create prompt
       request:
         name: PostedPrompt
@@ -175,6 +179,8 @@ service:
         See our [prompting
         guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on
         crafting your system prompt.
+      source:
+        openapi: stenographer-openapi.json
       path-parameters:
         id:
           type: string
@@ -249,6 +255,8 @@ service:
         See our [prompting
         guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on
         crafting your system prompt.
+      source:
+        openapi: stenographer-openapi.json
       path-parameters:
         id:
           type: string
@@ -323,6 +331,8 @@ service:
         See our [prompting
         guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on
         crafting your system prompt.
+      source:
+        openapi: stenographer-openapi.json
       path-parameters:
         id:
           type: string
@@ -344,6 +354,8 @@ service:
         See our [prompting
         guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on
         crafting your system prompt.
+      source:
+        openapi: stenographer-openapi.json
       path-parameters:
         id:
           type: string
@@ -378,6 +390,8 @@ service:
         See our [prompting
         guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on
         crafting your system prompt.
+      source:
+        openapi: stenographer-openapi.json
       path-parameters:
         id:
           type: string
@@ -434,6 +448,8 @@ service:
         See our [prompting
         guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on
         crafting your system prompt.
+      source:
+        openapi: stenographer-openapi.json
       path-parameters:
         id:
           type: string
@@ -471,6 +487,8 @@ service:
         See our [prompting
         guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on
         crafting your system prompt.
+      source:
+        openapi: stenographer-openapi.json
       path-parameters:
         id:
           type: string
