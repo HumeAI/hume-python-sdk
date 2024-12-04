@@ -12,6 +12,8 @@ service:
       pagination:
         offset: $request.page_number
         results: $response.chats_page
+      source:
+        openapi: stenographer-openapi.json
       display-name: List chats
       request:
         name: ChatsListChatsRequest
@@ -80,6 +82,8 @@ service:
       pagination:
         offset: $request.page_number
         results: $response.events_page
+      source:
+        openapi: stenographer-openapi.json
       path-parameters:
         id:
           type: string
@@ -463,6 +467,8 @@ service:
         Fetches the audio of a previous **Chat**. For more details, see our
         guide on audio reconstruction
         [here](/docs/empathic-voice-interface-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
+      source:
+        openapi: stenographer-openapi.json
       path-parameters:
         id:
           type: string

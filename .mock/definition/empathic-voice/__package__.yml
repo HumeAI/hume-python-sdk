@@ -191,26 +191,17 @@ types:
       gender:
         type: optional<integer>
         docs: >-
-          The vocalization of gender, ranging between more masculine and more
-          feminine.
+          The perceived tonality of the voice, reflecting characteristics
+          typically associated with masculinity and femininity.
 
 
           The default value is `0`, with a minimum of `-100` (more masculine)
           and a maximum of `100` (more feminine). A value of `0` leaves this
           parameter unchanged from the base voice.
-      articulation:
-        type: optional<integer>
-        docs: >-
-          The clarity of the voice, ranging between mumbled and articulate.
-
-
-          The default value is `0`, with a minimum of `-100` (mumbled) and a
-          maximum of `100` (articulate). A value of `0` leaves this parameter
-          unchanged from the base voice.
       assertiveness:
         type: optional<integer>
         docs: >-
-          The firmness of the voice, ranging between whiny and bold.
+          The perceived firmness of the voice, ranging between whiny and bold.
 
 
           The default value is `0`, with a minimum of `-100` (whiny) and a
@@ -219,7 +210,8 @@ types:
       buoyancy:
         type: optional<integer>
         docs: >-
-          The density of the voice, ranging between deflated and buoyant.
+          The perceived density of the voice, ranging between deflated and
+          buoyant.
 
 
           The default value is `0`, with a minimum of `-100` (deflated) and a
@@ -228,7 +220,8 @@ types:
       confidence:
         type: optional<integer>
         docs: >-
-          The assuredness of the voice, ranging between shy and confident.
+          The perceived assuredness of the voice, ranging between shy and
+          confident.
 
 
           The default value is `0`, with a minimum of `-100` (shy) and a maximum
@@ -237,7 +230,7 @@ types:
       enthusiasm:
         type: optional<integer>
         docs: >-
-          The excitement within the voice, ranging between calm and
+          The perceived excitement within the voice, ranging between calm and
           enthusiastic.
 
 
@@ -247,7 +240,7 @@ types:
       nasality:
         type: optional<integer>
         docs: >-
-          The openness of the voice, ranging between clear and nasal.
+          The perceived openness of the voice, ranging between clear and nasal.
 
 
           The default value is `0`, with a minimum of `-100` (clear) and a
@@ -256,7 +249,8 @@ types:
       relaxedness:
         type: optional<integer>
         docs: >-
-          The stress within the voice, ranging between tense and relaxed.
+          The perceived stress within the voice, ranging between tense and
+          relaxed.
 
 
           The default value is `0`, with a minimum of `-100` (tense) and a
@@ -265,7 +259,8 @@ types:
       smoothness:
         type: optional<integer>
         docs: >-
-          The texture of the voice, ranging between smooth and staccato.
+          The perceived texture of the voice, ranging between smooth and
+          staccato.
 
 
           The default value is `0`, with a minimum of `-100` (smooth) and a
@@ -274,7 +269,8 @@ types:
       tepidity:
         type: optional<integer>
         docs: >-
-          The liveliness behind the voice, ranging between tepid and vigorous.
+          The perceived liveliness behind the voice, ranging between tepid and
+          vigorous.
 
 
           The default value is `0`, with a minimum of `-100` (tepid) and a
@@ -283,7 +279,8 @@ types:
       tightness:
         type: optional<integer>
         docs: >-
-          The containment of the voice, ranging between tight and breathy.
+          The perceived containment of the voice, ranging between tight and
+          breathy.
 
 
           The default value is `0`, with a minimum of `-100` (tight) and a
@@ -291,6 +288,7 @@ types:
           unchanged from the base voice.
     source:
       openapi: stenographer-openapi.json
+    inline: true
   PostedCustomVoice:
     docs: >-
       A Custom Voice specification to be associated with this Config.
@@ -349,26 +347,17 @@ types:
       gender:
         type: optional<integer>
         docs: >-
-          The vocalization of gender, ranging between more masculine and more
-          feminine.
+          The perceived tonality of the voice, reflecting characteristics
+          typically associated with masculinity and femininity.
 
 
           The default value is `0`, with a minimum of `-100` (more masculine)
           and a maximum of `100` (more feminine). A value of `0` leaves this
           parameter unchanged from the base voice.
-      articulation:
-        type: optional<integer>
-        docs: >-
-          The clarity of the voice, ranging between mumbled and articulate.
-
-
-          The default value is `0`, with a minimum of `-100` (mumbled) and a
-          maximum of `100` (articulate). A value of `0` leaves this parameter
-          unchanged from the base voice.
       assertiveness:
         type: optional<integer>
         docs: >-
-          The firmness of the voice, ranging between whiny and bold.
+          The perceived firmness of the voice, ranging between whiny and bold.
 
 
           The default value is `0`, with a minimum of `-100` (whiny) and a
@@ -377,7 +366,8 @@ types:
       buoyancy:
         type: optional<integer>
         docs: >-
-          The density of the voice, ranging between deflated and buoyant.
+          The perceived density of the voice, ranging between deflated and
+          buoyant.
 
 
           The default value is `0`, with a minimum of `-100` (deflated) and a
@@ -386,7 +376,8 @@ types:
       confidence:
         type: optional<integer>
         docs: >-
-          The assuredness of the voice, ranging between shy and confident.
+          The perceived assuredness of the voice, ranging between shy and
+          confident.
 
 
           The default value is `0`, with a minimum of `-100` (shy) and a maximum
@@ -395,7 +386,7 @@ types:
       enthusiasm:
         type: optional<integer>
         docs: >-
-          The excitement within the voice, ranging between calm and
+          The perceived excitement within the voice, ranging between calm and
           enthusiastic.
 
 
@@ -405,7 +396,7 @@ types:
       nasality:
         type: optional<integer>
         docs: >-
-          The openness of the voice, ranging between clear and nasal.
+          The perceived openness of the voice, ranging between clear and nasal.
 
 
           The default value is `0`, with a minimum of `-100` (clear) and a
@@ -414,7 +405,8 @@ types:
       relaxedness:
         type: optional<integer>
         docs: >-
-          The stress within the voice, ranging between tense and relaxed.
+          The perceived stress within the voice, ranging between tense and
+          relaxed.
 
 
           The default value is `0`, with a minimum of `-100` (tense) and a
@@ -423,7 +415,8 @@ types:
       smoothness:
         type: optional<integer>
         docs: >-
-          The texture of the voice, ranging between smooth and staccato.
+          The perceived texture of the voice, ranging between smooth and
+          staccato.
 
 
           The default value is `0`, with a minimum of `-100` (smooth) and a
@@ -432,7 +425,8 @@ types:
       tepidity:
         type: optional<integer>
         docs: >-
-          The liveliness behind the voice, ranging between tepid and vigorous.
+          The perceived liveliness behind the voice, ranging between tepid and
+          vigorous.
 
 
           The default value is `0`, with a minimum of `-100` (tepid) and a
@@ -441,7 +435,8 @@ types:
       tightness:
         type: optional<integer>
         docs: >-
-          The containment of the voice, ranging between tight and breathy.
+          The perceived containment of the voice, ranging between tight and
+          breathy.
 
 
           The default value is `0`, with a minimum of `-100` (tight) and a
@@ -449,6 +444,7 @@ types:
           unchanged from the base voice.
     source:
       openapi: stenographer-openapi.json
+    inline: true
   ReturnCustomVoice:
     docs: A Custom Voice specification associated with this Config.
     properties:
@@ -762,6 +758,7 @@ types:
           minutes).
     source:
       openapi: stenographer-openapi.json
+    inline: true
   PostedTimeoutSpecsMaxDuration:
     docs: >-
       Specifies the maximum allowed duration (in seconds) for an EVI WebSocket
@@ -789,6 +786,7 @@ types:
           minutes).
     source:
       openapi: stenographer-openapi.json
+    inline: true
   PostedTimeoutSpecs:
     docs: >-
       Collection of timeout specifications returned by the server.
@@ -2376,6 +2374,15 @@ types:
           data, and persist conversations across EVI sessions.
     source:
       openapi: assistant-asyncapi.json
+  SessionSettingsVariablesValue:
+    discriminated: false
+    union:
+      - string
+      - double
+      - boolean
+    source:
+      openapi: assistant-asyncapi.json
+    inline: true
   SessionSettings:
     docs: Settings for this chat session.
     properties:
@@ -2502,8 +2509,23 @@ types:
       metadata:
         type: optional<map<string, unknown>>
       variables:
-        type: optional<map<string, string>>
-        docs: Dynamic values that can be used to populate EVI prompts.
+        type: optional<map<string, SessionSettingsVariablesValue>>
+        docs: >-
+          This field allows you to assign values to dynamic variables referenced
+          in your system prompt.
+
+
+          Each key represents the variable name, and the corresponding value is
+          the specific content you wish to assign to that variable within the
+          session. While the values for variables can be strings, numbers, or
+          booleans, the value will ultimately be converted to a string when
+          injected into your system prompt.
+
+
+          Using this field, you can personalize responses based on
+          session-specific details. For more guidance, see our [guide on using
+          dynamic
+          variables](/docs/empathic-voice-interface-evi/conversational-controls#dynamic-variables).
     source:
       openapi: assistant-asyncapi.json
   Tool:
@@ -2779,6 +2801,7 @@ types:
       - type: ToolErrorMessage
     source:
       openapi: assistant-asyncapi.json
+    inline: true
   ChatMessage:
     properties:
       role:
@@ -3151,6 +3174,7 @@ types:
       - integer
     source:
       openapi: assistant-openapi.json
+    inline: true
   ValidationError:
     properties:
       loc:

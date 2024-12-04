@@ -98,6 +98,7 @@ from .return_voice import ReturnVoice
 from .return_voice_provider import ReturnVoiceProvider
 from .role import Role
 from .session_settings import SessionSettings
+from .session_settings_variables_value import SessionSettingsVariablesValue
 from .text_input import TextInput
 from .tool import Tool
 from .tool_call_message import ToolCallMessage
@@ -210,6 +211,7 @@ __all__ = [
     "ReturnVoiceProvider",
     "Role",
     "SessionSettings",
+    "SessionSettingsVariablesValue",
     "TextInput",
     "Tool",
     "ToolCallMessage",
