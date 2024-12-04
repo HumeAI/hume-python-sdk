@@ -62,7 +62,6 @@ async def test_create_custom_voice(client: HumeClient, async_client: AsyncHumeCl
         "parameter_model": "20241004-11parameter",
         "parameters": {
             "gender": 1,
-            "articulation": 1,
             "assertiveness": 1,
             "buoyancy": 1,
             "confidence": 1,
@@ -84,7 +83,6 @@ async def test_create_custom_voice(client: HumeClient, async_client: AsyncHumeCl
         "parameter_model": None,
         "parameters": {
             "gender": "integer",
-            "articulation": "integer",
             "assertiveness": "integer",
             "buoyancy": "integer",
             "confidence": "integer",
@@ -114,7 +112,6 @@ async def test_get_custom_voice(client: HumeClient, async_client: AsyncHumeClien
         "parameter_model": "20241004-11parameter",
         "parameters": {
             "gender": 1,
-            "articulation": 1,
             "assertiveness": 1,
             "buoyancy": 1,
             "confidence": 1,
@@ -136,7 +133,6 @@ async def test_get_custom_voice(client: HumeClient, async_client: AsyncHumeClien
         "parameter_model": None,
         "parameters": {
             "gender": "integer",
-            "articulation": "integer",
             "assertiveness": "integer",
             "buoyancy": "integer",
             "confidence": "integer",
@@ -166,7 +162,6 @@ async def test_create_custom_voice_version(client: HumeClient, async_client: Asy
         "parameter_model": "20241004-11parameter",
         "parameters": {
             "gender": 1,
-            "articulation": 1,
             "assertiveness": 1,
             "buoyancy": 1,
             "confidence": 1,
@@ -188,7 +183,6 @@ async def test_create_custom_voice_version(client: HumeClient, async_client: Asy
         "parameter_model": None,
         "parameters": {
             "gender": "integer",
-            "articulation": "integer",
             "assertiveness": "integer",
             "buoyancy": "integer",
             "confidence": "integer",

@@ -7,6 +7,8 @@ service:
       method: GET
       auth: true
       docs: Sort and filter jobs.
+      source:
+        openapi: batch-openapi.json
       display-name: List jobs
       request:
         name: BatchListJobsRequest
@@ -120,6 +122,8 @@ service:
       method: POST
       auth: true
       docs: Start a new measurement inference job.
+      source:
+        openapi: batch-openapi.json
       display-name: Start inference job
       request:
         body: InferenceBaseRequest
@@ -141,6 +145,8 @@ service:
       method: GET
       auth: true
       docs: Get the request details and state of a given job.
+      source:
+        openapi: batch-openapi.json
       path-parameters:
         id:
           type: string
@@ -192,6 +198,8 @@ service:
       method: GET
       auth: true
       docs: Get the JSON predictions of a completed inference job.
+      source:
+        openapi: batch-openapi.json
       path-parameters:
         id:
           type: string
@@ -327,6 +335,8 @@ service:
       method: GET
       auth: true
       docs: Get the artifacts ZIP of a completed inference job.
+      source:
+        openapi: batch-openapi.json
       path-parameters:
         id:
           type: string
@@ -340,6 +350,8 @@ service:
       method: POST
       auth: true
       docs: Start a new batch inference job.
+      source:
+        openapi: batch-files-openapi.yml
       display-name: Start inference job from local file
       request:
         name: BatchStartInferenceJobFromLocalFileRequest

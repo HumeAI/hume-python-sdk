@@ -32,18 +32,21 @@ types:
         docs: ID of the current streaming job.
     source:
       openapi: streaming-asyncapi.yml
+    inline: true
   StreamModelPredictionsBurstPredictionsItem:
     properties:
       time: optional<TimeRange>
       emotions: optional<EmotionEmbedding>
     source:
       openapi: streaming-asyncapi.yml
+    inline: true
   StreamModelPredictionsBurst:
     docs: Response for the vocal burst emotion model.
     properties:
       predictions: optional<list<StreamModelPredictionsBurstPredictionsItem>>
     source:
       openapi: streaming-asyncapi.yml
+    inline: true
   StreamModelPredictionsFacePredictionsItem:
     properties:
       frame:
@@ -66,23 +69,27 @@ types:
       descriptions: optional<EmotionEmbedding>
     source:
       openapi: streaming-asyncapi.yml
+    inline: true
   StreamModelPredictionsFace:
     docs: Response for the facial expression emotion model.
     properties:
       predictions: optional<list<StreamModelPredictionsFacePredictionsItem>>
     source:
       openapi: streaming-asyncapi.yml
+    inline: true
   StreamModelPredictionsFacemeshPredictionsItem:
     properties:
       emotions: optional<EmotionEmbedding>
     source:
       openapi: streaming-asyncapi.yml
+    inline: true
   StreamModelPredictionsFacemesh:
     docs: Response for the facemesh emotion model.
     properties:
       predictions: optional<list<StreamModelPredictionsFacemeshPredictionsItem>>
     source:
       openapi: streaming-asyncapi.yml
+    inline: true
   StreamModelPredictionsLanguagePredictionsItem:
     properties:
       text:
@@ -94,24 +101,28 @@ types:
       toxicity: optional<Toxicity>
     source:
       openapi: streaming-asyncapi.yml
+    inline: true
   StreamModelPredictionsLanguage:
     docs: Response for the language emotion model.
     properties:
       predictions: optional<list<StreamModelPredictionsLanguagePredictionsItem>>
     source:
       openapi: streaming-asyncapi.yml
+    inline: true
   StreamModelPredictionsProsodyPredictionsItem:
     properties:
       time: optional<TimeRange>
       emotions: optional<EmotionEmbedding>
     source:
       openapi: streaming-asyncapi.yml
+    inline: true
   StreamModelPredictionsProsody:
     docs: Response for the speech prosody emotion model.
     properties:
       predictions: optional<list<StreamModelPredictionsProsodyPredictionsItem>>
     source:
       openapi: streaming-asyncapi.yml
+    inline: true
   StreamModelPredictions:
     docs: Model predictions
     properties:
@@ -142,6 +153,7 @@ types:
         docs: Response for the speech prosody emotion model.
     source:
       openapi: streaming-asyncapi.yml
+    inline: true
   JobDetails:
     docs: >
       If the job_details flag was set in the request, details about the current
@@ -152,6 +164,7 @@ types:
         docs: ID of the current streaming job.
     source:
       openapi: streaming-asyncapi.yml
+    inline: true
   StreamErrorMessage:
     docs: Error message
     properties:
@@ -173,6 +186,7 @@ types:
           current streaming job will be returned in the response body.
     source:
       openapi: streaming-asyncapi.yml
+    inline: true
   StreamWarningMessageJobDetails:
     docs: >
       If the job_details flag was set in the request, details about the current
@@ -183,6 +197,7 @@ types:
         docs: ID of the current streaming job.
     source:
       openapi: streaming-asyncapi.yml
+    inline: true
   StreamWarningMessage:
     docs: Warning message
     properties:
@@ -204,6 +219,7 @@ types:
           current streaming job will be returned in the response body.
     source:
       openapi: streaming-asyncapi.yml
+    inline: true
   SubscribeEvent:
     discriminated: false
     union:
@@ -264,6 +280,7 @@ types:
         default: 3
     source:
       openapi: streaming-asyncapi.yml
+    inline: true
   StreamLanguage:
     docs: Configuration for the language emotion model.
     properties:
@@ -286,6 +303,7 @@ types:
           is `word`.
     source:
       openapi: streaming-asyncapi.yml
+    inline: true
   Config:
     docs: >
       Configuration used to specify which models should be used and with what
@@ -329,6 +347,7 @@ types:
           Please use the default configuration by passing an empty object `{}`.
     source:
       openapi: streaming-asyncapi.yml
+    inline: true
   StreamModelsEndpointPayload:
     docs: Models endpoint payload
     properties:

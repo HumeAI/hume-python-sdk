@@ -15,6 +15,8 @@ service:
         For more details on configuration options and how to configure EVI, see
         our [configuration
         guide](/docs/empathic-voice-interface-evi/configuration).
+      source:
+        openapi: stenographer-openapi.json
       display-name: List configs
       request:
         name: ConfigsListConfigsRequest
@@ -99,7 +101,6 @@ service:
                       parameter_model: 20241004-11parameter
                       parameters:
                         gender: 0
-                        articulation: -10
                         assertiveness: 20
                         buoyancy: -30
                         confidence: -40
@@ -145,6 +146,8 @@ service:
         For more details on configuration options and how to configure EVI, see
         our [configuration
         guide](/docs/empathic-voice-interface-evi/configuration).
+      source:
+        openapi: stenographer-openapi.json
       display-name: Create config
       request:
         name: PostedConfig
@@ -262,7 +265,6 @@ service:
                   parameter_model: 20241004-11parameter
                   parameters:
                     gender: 0
-                    articulation: -10
                     assertiveness: 20
                     buoyancy: -30
                     confidence: -40
@@ -308,6 +310,8 @@ service:
         For more details on configuration options and how to configure EVI, see
         our [configuration
         guide](/docs/empathic-voice-interface-evi/configuration).
+      source:
+        openapi: stenographer-openapi.json
       path-parameters:
         id:
           type: string
@@ -392,7 +396,6 @@ service:
                       parameter_model: 20241004-11parameter
                       parameters:
                         gender: 0
-                        articulation: -10
                         assertiveness: 20
                         buoyancy: -30
                         confidence: -40
@@ -438,6 +441,8 @@ service:
         For more details on configuration options and how to configure EVI, see
         our [configuration
         guide](/docs/empathic-voice-interface-evi/configuration).
+      source:
+        openapi: stenographer-openapi.json
       path-parameters:
         id:
           type: string
@@ -557,7 +562,6 @@ service:
                   parameter_model: 20241004-11parameter
                   parameters:
                     gender: 0
-                    articulation: -10
                     assertiveness: 20
                     buoyancy: -30
                     confidence: -40
@@ -603,6 +607,8 @@ service:
         For more details on configuration options and how to configure EVI, see
         our [configuration
         guide](/docs/empathic-voice-interface-evi/configuration).
+      source:
+        openapi: stenographer-openapi.json
       path-parameters:
         id:
           type: string
@@ -624,6 +630,8 @@ service:
         For more details on configuration options and how to configure EVI, see
         our [configuration
         guide](/docs/empathic-voice-interface-evi/configuration).
+      source:
+        openapi: stenographer-openapi.json
       path-parameters:
         id:
           type: string
@@ -658,6 +666,8 @@ service:
         For more details on configuration options and how to configure EVI, see
         our [configuration
         guide](/docs/empathic-voice-interface-evi/configuration).
+      source:
+        openapi: stenographer-openapi.json
       path-parameters:
         id:
           type: string
@@ -724,7 +734,6 @@ service:
                   parameter_model: 20241004-11parameter
                   parameters:
                     gender: 0
-                    articulation: -10
                     assertiveness: 20
                     buoyancy: -30
                     confidence: -40
@@ -770,6 +779,8 @@ service:
         For more details on configuration options and how to configure EVI, see
         our [configuration
         guide](/docs/empathic-voice-interface-evi/configuration).
+      source:
+        openapi: stenographer-openapi.json
       path-parameters:
         id:
           type: string
@@ -807,6 +818,8 @@ service:
         For more details on configuration options and how to configure EVI, see
         our [configuration
         guide](/docs/empathic-voice-interface-evi/configuration).
+      source:
+        openapi: stenographer-openapi.json
       path-parameters:
         id:
           type: string
@@ -883,7 +896,6 @@ service:
                   parameter_model: 20241004-11parameter
                   parameters:
                     gender: 0
-                    articulation: -10
                     assertiveness: 20
                     buoyancy: -30
                     confidence: -40
