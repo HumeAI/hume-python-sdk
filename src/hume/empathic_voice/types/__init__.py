@@ -43,10 +43,10 @@ from .posted_timeout_specs_max_duration import PostedTimeoutSpecsMaxDuration
 from .posted_user_defined_tool_spec import PostedUserDefinedToolSpec
 from .posted_voice import PostedVoice
 from .posted_voice_provider import PostedVoiceProvider
+from .posted_webhook_event_type import PostedWebhookEventType
+from .posted_webhook_spec import PostedWebhookSpec
 from .prosody_inference import ProsodyInference
 from .resume_assistant_message import ResumeAssistantMessage
-from .return_active_chat_count import ReturnActiveChatCount
-from .return_active_chat_count_per_tag import ReturnActiveChatCountPerTag
 from .return_builtin_tool import ReturnBuiltinTool
 from .return_builtin_tool_tool_type import ReturnBuiltinToolToolType
 from .return_chat import ReturnChat
@@ -96,6 +96,8 @@ from .return_user_defined_tool_tool_type import ReturnUserDefinedToolToolType
 from .return_user_defined_tool_version_type import ReturnUserDefinedToolVersionType
 from .return_voice import ReturnVoice
 from .return_voice_provider import ReturnVoiceProvider
+from .return_webhook_event_type import ReturnWebhookEventType
+from .return_webhook_spec import ReturnWebhookSpec
 from .role import Role
 from .session_settings import SessionSettings
 from .session_settings_variables_value import SessionSettingsVariablesValue
@@ -111,7 +113,6 @@ from .user_interruption import UserInterruption
 from .user_message import UserMessage
 from .validation_error import ValidationError
 from .validation_error_loc_item import ValidationErrorLocItem
-from .voice_name_enum import VoiceNameEnum
 from .web_socket_error import WebSocketError
 
 __all__ = [
@@ -158,10 +159,10 @@ __all__ = [
     "PostedUserDefinedToolSpec",
     "PostedVoice",
     "PostedVoiceProvider",
+    "PostedWebhookEventType",
+    "PostedWebhookSpec",
     "ProsodyInference",
     "ResumeAssistantMessage",
-    "ReturnActiveChatCount",
-    "ReturnActiveChatCountPerTag",
     "ReturnBuiltinTool",
     "ReturnBuiltinToolToolType",
     "ReturnChat",
@@ -209,6 +210,8 @@ __all__ = [
     "ReturnUserDefinedToolVersionType",
     "ReturnVoice",
     "ReturnVoiceProvider",
+    "ReturnWebhookEventType",
+    "ReturnWebhookSpec",
     "Role",
     "SessionSettings",
     "SessionSettingsVariablesValue",
@@ -224,6 +227,5 @@ __all__ = [
     "UserMessage",
     "ValidationError",
     "ValidationErrorLocItem",
-    "VoiceNameEnum",
     "WebSocketError",
 ]

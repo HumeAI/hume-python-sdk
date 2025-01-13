@@ -11,6 +11,7 @@ from .return_user_defined_tool import ReturnUserDefinedTool
 from .return_builtin_tool import ReturnBuiltinTool
 from .return_event_message_specs import ReturnEventMessageSpecs
 from .return_timeout_specs import ReturnTimeoutSpecs
+from .return_webhook_spec import ReturnWebhookSpec
 from ...core.pydantic_utilities import IS_PYDANTIC_V2
 
 
@@ -90,6 +91,10 @@ class ReturnConfig(UniversalBaseModel):
 
     event_messages: typing.Optional[ReturnEventMessageSpecs] = None
     timeouts: typing.Optional[ReturnTimeoutSpecs] = None
+    webhooks: typing.Optional[typing.List[typing.Optional[ReturnWebhookSpec]]] = pydantic.Field(default=None)
+    """
+    Map of webhooks associated with this config.
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
