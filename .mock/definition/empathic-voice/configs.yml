@@ -198,6 +198,9 @@ service:
               docs: List of built-in tools associated with this Config.
             event_messages: optional<root.PostedEventMessageSpecs>
             timeouts: optional<root.PostedTimeoutSpecs>
+            webhooks:
+              type: optional<list<optional<root.PostedWebhookSpec>>>
+              docs: Webhook config specifications for each subscriber.
         content-type: application/json
       response:
         docs: Created
@@ -491,6 +494,9 @@ service:
               docs: List of built-in tools associated with this Config version.
             event_messages: optional<root.PostedEventMessageSpecs>
             timeouts: optional<root.PostedTimeoutSpecs>
+            webhooks:
+              type: optional<list<optional<root.PostedWebhookSpec>>>
+              docs: Webhook config specifications for each subscriber.
         content-type: application/json
       response:
         docs: Created

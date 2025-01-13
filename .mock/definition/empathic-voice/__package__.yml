@@ -875,6 +875,24 @@ types:
       custom_voice: optional<PostedCustomVoice>
     source:
       openapi: stenographer-openapi.json
+  PostedWebhookSpecEventsItem:
+    enum:
+      - chat_started
+      - chat_ended
+    docs: Events this URL is subscribed to
+    source:
+      openapi: stenographer-openapi.json
+  PostedWebhookSpec:
+    docs: URL and settings for a specific webhook to be posted to the server
+    properties:
+      url:
+        type: string
+        docs: URL to send the webhook to
+      events:
+        docs: Events this URL is subscribed to
+        type: list<PostedWebhookSpecEventsItem>
+    source:
+      openapi: stenographer-openapi.json
   ReturnBuiltinToolToolType:
     enum:
       - BUILTIN
@@ -978,6 +996,9 @@ types:
         docs: List of built-in tools associated with this Config.
       event_messages: optional<ReturnEventMessageSpecs>
       timeouts: optional<ReturnTimeoutSpecs>
+      webhooks:
+        type: optional<list<optional<ReturnedWebhookSpec>>>
+        docs: Map of webhooks associated with this config.
     source:
       openapi: stenographer-openapi.json
   ReturnEllmModel:
@@ -1223,6 +1244,24 @@ types:
           one of our 8 base voices: `ITO`, `KORA`, `DACHER`, `AURA`, `FINN`,
           `WHIMSY`, `STELLA`, or `SUNNY`.
       custom_voice: optional<ReturnCustomVoice>
+    source:
+      openapi: stenographer-openapi.json
+  ReturnedWebhookSpecEventsItem:
+    enum:
+      - chat_started
+      - chat_ended
+    docs: Events this URL is subscribed to
+    source:
+      openapi: stenographer-openapi.json
+  ReturnedWebhookSpec:
+    docs: Collection of webhook URL endpoints to be returned from the server
+    properties:
+      url:
+        type: string
+        docs: Webhook URL to send the event updates to
+      events:
+        docs: Events this URL is subscribed to
+        type: list<ReturnedWebhookSpecEventsItem>
     source:
       openapi: stenographer-openapi.json
   ReturnPagedUserDefinedTools:
@@ -1843,39 +1882,6 @@ types:
           epoch milliseconds.
     source:
       openapi: stenographer-openapi.json
-  ReturnActiveChatCount:
-    docs: A description of current chat chat sessions for a user
-    properties:
-      timestamp:
-        type: long
-        docs: >-
-          The timestamp for when chat status was measured. Formatted as a Unix
-          epoch milliseconds.
-      total_user_active_chats:
-        type: integer
-        docs: The total number of active chats for this user.
-      max_allowed_active_chats:
-        type: optional<integer>
-        docs: The maximum number of concurrent active chats for this user.
-      more_active_chats_allowed:
-        type: boolean
-        docs: Boolean indicating if the user is allowed to start more chats.
-      per_tag:
-        type: optional<list<optional<ReturnActiveChatCountPerTag>>>
-        docs: Optional List of chat counts per tag.
-    source:
-      openapi: stenographer-openapi.json
-  ReturnActiveChatCountPerTag:
-    docs: A description of current chat chat sessions per tag
-    properties:
-      tag:
-        type: string
-        docs: User tag applied to a chat.
-      total_tag_active_chats:
-        type: integer
-        docs: The total number of active chats for this user with the specified tag.
-    source:
-      openapi: stenographer-openapi.json
   ReturnChatGroup:
     docs: A description of chat_group and its status
     properties:
@@ -1899,6 +1905,7 @@ types:
         docs: >-
           The `chat_id` of the most recent Chat in this Chat Group. Formatted as
           a UUID.
+      most_recent_config: optional<ReturnConfigSpec>
       num_chats:
         type: integer
         docs: The total number of Chats in this Chat Group.
@@ -3181,23 +3188,5 @@ types:
         type: list<ValidationErrorLocItem>
       msg: string
       type: string
-    source:
-      openapi: assistant-openapi.json
-  VoiceNameEnum:
-    enum:
-      - ITO
-      - KORA
-      - DACHER
-      - AURA
-      - FINN
-      - SIENNA
-      - WILLOW
-      - SCOUT
-      - WHIMSY
-      - ACE
-      - JUNO
-      - STELLA
-      - HIRO
-      - SUNNY
     source:
       openapi: assistant-openapi.json

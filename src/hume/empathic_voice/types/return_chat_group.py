@@ -3,6 +3,7 @@
 from ...core.pydantic_utilities import UniversalBaseModel
 import pydantic
 import typing
+from .return_config_spec import ReturnConfigSpec
 from ...core.pydantic_utilities import IS_PYDANTIC_V2
 
 
@@ -31,6 +32,7 @@ class ReturnChatGroup(UniversalBaseModel):
     The `chat_id` of the most recent Chat in this Chat Group. Formatted as a UUID.
     """
 
+    most_recent_config: typing.Optional[ReturnConfigSpec] = None
     num_chats: int = pydantic.Field()
     """
     The total number of Chats in this Chat Group.
