@@ -17,6 +17,7 @@ from ..types.posted_user_defined_tool_spec import PostedUserDefinedToolSpec
 from ..types.posted_builtin_tool import PostedBuiltinTool
 from ..types.posted_event_message_specs import PostedEventMessageSpecs
 from ..types.posted_timeout_specs import PostedTimeoutSpecs
+from ..types.posted_webhook_spec import PostedWebhookSpec
 from ..types.return_config import ReturnConfig
 from ...core.serialization import convert_and_respect_annotation_metadata
 from ...core.jsonable_encoder import jsonable_encoder
@@ -131,6 +132,7 @@ class ConfigsClient:
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
         event_messages: typing.Optional[PostedEventMessageSpecs] = OMIT,
         timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
+        webhooks: typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnConfig:
         """
@@ -173,6 +175,9 @@ class ConfigsClient:
         event_messages : typing.Optional[PostedEventMessageSpecs]
 
         timeouts : typing.Optional[PostedTimeoutSpecs]
+
+        webhooks : typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]]
+            Webhook config specifications for each subscriber.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -262,6 +267,9 @@ class ConfigsClient:
                 ),
                 "timeouts": convert_and_respect_annotation_metadata(
                     object_=timeouts, annotation=PostedTimeoutSpecs, direction="write"
+                ),
+                "webhooks": convert_and_respect_annotation_metadata(
+                    object_=webhooks, annotation=typing.Sequence[typing.Optional[PostedWebhookSpec]], direction="write"
                 ),
             },
             request_options=request_options,
@@ -390,6 +398,7 @@ class ConfigsClient:
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
         event_messages: typing.Optional[PostedEventMessageSpecs] = OMIT,
         timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
+        webhooks: typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnConfig:
         """
@@ -432,6 +441,9 @@ class ConfigsClient:
         event_messages : typing.Optional[PostedEventMessageSpecs]
 
         timeouts : typing.Optional[PostedTimeoutSpecs]
+
+        webhooks : typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]]
+            Webhook config specifications for each subscriber.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -525,6 +537,9 @@ class ConfigsClient:
                 ),
                 "timeouts": convert_and_respect_annotation_metadata(
                     object_=timeouts, annotation=PostedTimeoutSpecs, direction="write"
+                ),
+                "webhooks": convert_and_respect_annotation_metadata(
+                    object_=webhooks, annotation=typing.Sequence[typing.Optional[PostedWebhookSpec]], direction="write"
                 ),
             },
             request_options=request_options,
@@ -994,6 +1009,7 @@ class AsyncConfigsClient:
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
         event_messages: typing.Optional[PostedEventMessageSpecs] = OMIT,
         timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
+        webhooks: typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnConfig:
         """
@@ -1036,6 +1052,9 @@ class AsyncConfigsClient:
         event_messages : typing.Optional[PostedEventMessageSpecs]
 
         timeouts : typing.Optional[PostedTimeoutSpecs]
+
+        webhooks : typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]]
+            Webhook config specifications for each subscriber.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1133,6 +1152,9 @@ class AsyncConfigsClient:
                 ),
                 "timeouts": convert_and_respect_annotation_metadata(
                     object_=timeouts, annotation=PostedTimeoutSpecs, direction="write"
+                ),
+                "webhooks": convert_and_respect_annotation_metadata(
+                    object_=webhooks, annotation=typing.Sequence[typing.Optional[PostedWebhookSpec]], direction="write"
                 ),
             },
             request_options=request_options,
@@ -1269,6 +1291,7 @@ class AsyncConfigsClient:
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
         event_messages: typing.Optional[PostedEventMessageSpecs] = OMIT,
         timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
+        webhooks: typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnConfig:
         """
@@ -1311,6 +1334,9 @@ class AsyncConfigsClient:
         event_messages : typing.Optional[PostedEventMessageSpecs]
 
         timeouts : typing.Optional[PostedTimeoutSpecs]
+
+        webhooks : typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]]
+            Webhook config specifications for each subscriber.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1412,6 +1438,9 @@ class AsyncConfigsClient:
                 ),
                 "timeouts": convert_and_respect_annotation_metadata(
                     object_=timeouts, annotation=PostedTimeoutSpecs, direction="write"
+                ),
+                "webhooks": convert_and_respect_annotation_metadata(
+                    object_=webhooks, annotation=typing.Sequence[typing.Optional[PostedWebhookSpec]], direction="write"
                 ),
             },
             request_options=request_options,

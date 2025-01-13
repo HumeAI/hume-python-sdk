@@ -29,6 +29,7 @@ class ChatsClient:
         page_number: typing.Optional[int] = None,
         page_size: typing.Optional[int] = None,
         ascending_order: typing.Optional[bool] = None,
+        config_id: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[ReturnChat]:
         """
@@ -48,6 +49,9 @@ class ChatsClient:
 
         ascending_order : typing.Optional[bool]
             Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
+
+        config_id : typing.Optional[str]
+            Filter to only include chats that used this config.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -83,6 +87,7 @@ class ChatsClient:
                 "page_number": page_number,
                 "page_size": page_size,
                 "ascending_order": ascending_order,
+                "config_id": config_id,
             },
             request_options=request_options,
         )
@@ -100,6 +105,7 @@ class ChatsClient:
                     page_number=page_number + 1,
                     page_size=page_size,
                     ascending_order=ascending_order,
+                    config_id=config_id,
                     request_options=request_options,
                 )
                 _items = _parsed_response.chats_page
@@ -291,6 +297,7 @@ class AsyncChatsClient:
         page_number: typing.Optional[int] = None,
         page_size: typing.Optional[int] = None,
         ascending_order: typing.Optional[bool] = None,
+        config_id: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[ReturnChat]:
         """
@@ -310,6 +317,9 @@ class AsyncChatsClient:
 
         ascending_order : typing.Optional[bool]
             Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
+
+        config_id : typing.Optional[str]
+            Filter to only include chats that used this config.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -353,6 +363,7 @@ class AsyncChatsClient:
                 "page_number": page_number,
                 "page_size": page_size,
                 "ascending_order": ascending_order,
+                "config_id": config_id,
             },
             request_options=request_options,
         )
@@ -370,6 +381,7 @@ class AsyncChatsClient:
                     page_number=page_number + 1,
                     page_size=page_size,
                     ascending_order=ascending_order,
+                    config_id=config_id,
                     request_options=request_options,
                 )
                 _items = _parsed_response.chats_page

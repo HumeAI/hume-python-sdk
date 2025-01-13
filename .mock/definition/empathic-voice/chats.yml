@@ -47,6 +47,11 @@ service:
               oldest records first) and false for descending order
               (reverse-chronological, with the newest records first). Defaults
               to true.
+          config_id:
+            type: optional<string>
+            docs: Filter to only include chats that used this config.
+            validation:
+              format: uuid
       response:
         docs: Success
         type: root.ReturnPagedChats
