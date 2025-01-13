@@ -2,23 +2,24 @@
 
 from ...core.pydantic_utilities import UniversalBaseModel
 import pydantic
-from ...core.pydantic_utilities import IS_PYDANTIC_V2
 import typing
+from .return_webhook_event_type import ReturnWebhookEventType
+from ...core.pydantic_utilities import IS_PYDANTIC_V2
 
 
-class ReturnActiveChatCountPerTag(UniversalBaseModel):
+class ReturnWebhookSpec(UniversalBaseModel):
     """
-    A description of current chat chat sessions per tag
-    """
-
-    tag: str = pydantic.Field()
-    """
-    User tag applied to a chat.
+    Collection of webhook URL endpoints to be returned from the server
     """
 
-    total_tag_active_chats: int = pydantic.Field()
+    url: str = pydantic.Field()
     """
-    The total number of active chats for this user with the specified tag.
+    Webhook URL to send the event updates to
+    """
+
+    events: typing.List[ReturnWebhookEventType] = pydantic.Field()
+    """
+    Events this URL is subscribed to
     """
 
     if IS_PYDANTIC_V2:
