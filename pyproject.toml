@@ -1,9 +1,6 @@
-[project]
-name = "hume"
-
 [tool.poetry]
 name = "hume"
-version = "0.7.6"
+version = "0.7.7"
 description = "A Python SDK for Hume AI"
 readme = "README.md"
 authors = []
@@ -106,3 +103,6 @@ build-backend = "poetry.core.masonry.api"
 examples=["jupyter"]
 microphone=["pydub", "simpleaudio", "sounddevice"]
 legacy=["pydub"]
+
+[project]
+name = "hume"
