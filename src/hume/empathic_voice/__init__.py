@@ -113,6 +113,12 @@ from .types import (
     ValidationError,
     ValidationErrorLocItem,
     WebSocketError,
+    WebhookEvent,
+    WebhookEventBase,
+    WebhookEventChatEnded,
+    WebhookEventChatStartType,
+    WebhookEventChatStarted,
+    WebhookEventChatStatus,
 )
 from .errors import BadRequestError
 from . import chat, chat_groups, chats, configs, custom_voices, prompts, tools
@@ -234,6 +240,12 @@ __all__ = [
     "ValidationError",
     "ValidationErrorLocItem",
     "WebSocketError",
+    "WebhookEvent",
+    "WebhookEventBase",
+    "WebhookEventChatEnded",
+    "WebhookEventChatStartType",
+    "WebhookEventChatStarted",
+    "WebhookEventChatStatus",
     "chat",
     "chat_groups",
     "chats",

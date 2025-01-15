@@ -114,6 +114,12 @@ from .user_message import UserMessage
 from .validation_error import ValidationError
 from .validation_error_loc_item import ValidationErrorLocItem
 from .web_socket_error import WebSocketError
+from .webhook_event import WebhookEvent
+from .webhook_event_base import WebhookEventBase
+from .webhook_event_chat_ended import WebhookEventChatEnded
+from .webhook_event_chat_start_type import WebhookEventChatStartType
+from .webhook_event_chat_started import WebhookEventChatStarted
+from .webhook_event_chat_status import WebhookEventChatStatus
 
 __all__ = [
     "AssistantEnd",
@@ -228,4 +234,10 @@ __all__ = [
     "ValidationError",
     "ValidationErrorLocItem",
     "WebSocketError",
+    "WebhookEvent",
+    "WebhookEventBase",
+    "WebhookEventChatEnded",
+    "WebhookEventChatStartType",
+    "WebhookEventChatStarted",
+    "WebhookEventChatStatus",
 ]
