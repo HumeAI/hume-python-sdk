@@ -350,7 +350,7 @@ class BatchClient:
         self,
         *,
         file: typing.List[core.File],
-        json: typing.Optional[InferenceBaseRequest] = None,
+        json: typing.Optional[InferenceBaseRequest] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> str:
         """
@@ -766,7 +766,7 @@ class AsyncBatchClient:
         self,
         *,
         file: typing.List[core.File],
-        json: typing.Optional[InferenceBaseRequest] = None,
+        json: typing.Optional[InferenceBaseRequest] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> str:
         """
