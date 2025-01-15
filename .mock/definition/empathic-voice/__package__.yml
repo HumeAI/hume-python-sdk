@@ -3190,3 +3190,87 @@ types:
       type: string
     source:
       openapi: assistant-openapi.json
+  WebhookEventChatEnded:
+    properties:
+      event_name:
+        type: optional<literal<"chat_ended">>
+        docs: Always `chat_ended`.
+      end_time: integer
+      duration_seconds: integer
+      end_reason:
+        type: WebhookEventChatStatus
+      caller_number: optional<string>
+      custom_session_id: optional<string>
+    extends:
+      - WebhookEventBase
+    source:
+      openapi: assistant-openapi.json
+  WebhookEventChatStartType:
+    enum:
+      - new_chat_group
+      - resumed_chat_group
+    source:
+      openapi: assistant-openapi.json
+  WebhookEventChatStarted:
+    properties:
+      event_name:
+        type: optional<literal<"chat_started">>
+        docs: Always `chat_started`.
+      start_time:
+        type: integer
+        docs: Unix timestamp (in milliseconds) indicating when the session started.
+      chat_start_type:
+        type: WebhookEventChatStartType
+        docs: >-
+          Indicates whether the chat is the first in a new Chat Group
+          (`new_chat_group`) or the continuation of an existing chat group
+          (`resumed_chat_group`).
+      caller_number:
+        type: optional<string>
+        docs: >-
+          Phone number of the caller in E.164 format (e.g., `+12223333333`).
+          This field is included only if the Chat was created via the [Twilio
+          phone calling](/docs/empathic-voice-interface-evi/phone-calling)
+          integration.
+      custom_session_id:
+        type: optional<string>
+        docs: >-
+          User-defined session ID. Relevant only when employing a [custom
+          language
+          model](/docs/empathic-voice-interface-evi/custom-language-model) in
+          the EVI Config.
+    extends:
+      - WebhookEventBase
+    source:
+      openapi: assistant-openapi.json
+  WebhookEventChatStatus:
+    enum:
+      - ACTIVE
+      - USER_ENDED
+      - USER_TIMEOUT
+      - INACTIVITY_TIMEOUT
+      - MAX_DURATION_TIMEOUT
+      - ERROR
+    source:
+      openapi: assistant-openapi.json
+  WebhookEvent:
+    discriminated: false
+    union:
+      - WebhookEventChatStarted
+      - WebhookEventChatEnded
+    source:
+      openapi: assistant-openapi.json
+  WebhookEventBase:
+    docs: Represents the fields common to all webhook events.
+    properties:
+      chat_group_id:
+        type: string
+        docs: Unique ID of the **Chat Group** associated with the **Chat** session.
+      chat_id:
+        type: string
+        docs: Unique ID of the **Chat** session.
+      config_id:
+        type: optional<string>
+        docs: Unique ID of the EVI **Config** used for the session.
+    source:
+      openapi: assistant-openapi.json

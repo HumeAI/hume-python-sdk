@@ -1,0 +1,21 @@
+imports:
+  root: __package__.yml
+webhooks:
+  chatWebhook:
+    method: POST
+    display-name: Chat Webhook
+    headers: {}
+    payload: root.WebhookEvent
+    examples:
+      - payload:
+          chat_group_id: chat_group_id
+          chat_id: chat_id
+          start_time: 1
+          chat_start_type: new_chat_group
+    docs: >-
+      Webhook events are JSON payloads to your server during an EVI chat. You
+      can subscribe to specific events, and set which URLs should be notified in
+      the
+      [Config](/reference/empathic-voice-interface-evi/configs/create-config#request.body.webhooks)
+      resource. Read the [Webhook
+      Guide](/docs/empathic-voice-interface-evi/webhooks) for more information.
