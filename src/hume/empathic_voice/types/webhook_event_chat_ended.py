@@ -13,11 +13,30 @@ class WebhookEventChatEnded(WebhookEventBase):
     Always `chat_ended`.
     """
 
-    end_time: int
-    duration_seconds: int
-    end_reason: WebhookEventChatStatus
-    caller_number: typing.Optional[str] = None
-    custom_session_id: typing.Optional[str] = None
+    end_time: int = pydantic.Field()
+    """
+    Unix timestamp (in milliseconds) indicating when the session ended.
+    """
+
+    duration_seconds: int = pydantic.Field()
+    """
+    Total duration of the session in seconds.
+    """
+
+    end_reason: WebhookEventChatStatus = pydantic.Field()
+    """
+    Reason for the session's termination.
+    """
+
+    caller_number: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Phone number of the caller in E.164 format (e.g., `+12223333333`). This field is included only if the Chat was created via the [Twilio phone calling](/docs/empathic-voice-interface-evi/phone-calling) integration.
+    """
+
+    custom_session_id: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    User-defined session ID. Relevant only when employing a [custom language model](/docs/empathic-voice-interface-evi/custom-language-model) in the EVI Config.
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

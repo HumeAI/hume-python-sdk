@@ -1856,7 +1856,7 @@ client.empathic_voice.custom_voices.create_custom_voice(
 
 **parameters:** `typing.Optional[PostedCustomVoiceParameters]` 
 
-The specified attributes of a Custom Voice.
+The specified attributes of a Custom Voice. 
 
 If no parameters are specified then all attributes will be set to their defaults, meaning no modfications will be made to the base voice.
     
@@ -2030,7 +2030,7 @@ client.empathic_voice.custom_voices.create_custom_voice_version(
 
 **parameters:** `typing.Optional[PostedCustomVoiceParameters]` 
 
-The specified attributes of a Custom Voice.
+The specified attributes of a Custom Voice. 
 
 If no parameters are specified then all attributes will be set to their defaults, meaning no modfications will be made to the base voice.
     
@@ -2105,6 +2105,87 @@ client.empathic_voice.custom_voices.delete_custom_voice(
 <dd>
 
 **id:** `str` — Identifier for a Custom Voice. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.custom_voices.<a href="src/hume/empathic_voice/custom_voices/client.py">update_custom_voice_name</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates the name of a **Custom Voice**.
+
+Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices) for details on creating a custom voice.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.custom_voices.update_custom_voice_name(
+    id="id",
+    name="name",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Custom Voice. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**name:** `str` — The name of the Custom Voice. Maximum length of 75 characters. Will be converted to all-uppercase. (e.g., "sample voice" becomes "SAMPLE VOICE")
     
 </dd>
 </dl>
@@ -3946,7 +4027,7 @@ Include only jobs of this status in the response. There are four possible status
 
 - `QUEUED`: The job has been received and is waiting to be processed.
 
-- `IN_PROGRESS`: The job is currently being processed.
+- `IN_PROGRESS`: The job is currently being processed. 
 
 - `COMPLETED`: The job has finished processing.
 
@@ -3970,7 +4051,7 @@ Include only jobs of this status in the response. There are four possible status
 
 Provide a timestamp in milliseconds to filter jobs.
 
-When combined with the `when` parameter, you can filter jobs before or after the given timestamp. Defaults to the current Unix timestamp if one is not provided.
+ When combined with the `when` parameter, you can filter jobs before or after the given timestamp. Defaults to the current Unix timestamp if one is not provided.
     
 </dd>
 </dl>
