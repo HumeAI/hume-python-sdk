@@ -244,7 +244,7 @@ service:
                     technical jargon. Provide temperature, precipitation, wind
                     conditions, and any weather alerts. Include helpful tips if
                     severe weather is expected.</role>
-    create-prompt-verison:
+    create-prompt-version:
       path: /v0/evi/prompts/{id}
       method: POST
       auth: true

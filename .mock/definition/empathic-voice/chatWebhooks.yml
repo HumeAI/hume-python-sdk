@@ -1,21 +1,32 @@
 imports:
   root: __package__.yml
 webhooks:
-  chatWebhook:
+  chatEnded:
     method: POST
-    display-name: Chat Webhook
+    display-name: Chat Ended
     headers: {}
-    payload: root.WebhookEvent
+    payload: root.WebhookEventChatEnded
     examples:
       - payload:
-          chat_group_id: chat_group_id
-          chat_id: chat_id
-          start_time: 1
+          chat_group_id: 9fc18597-3567-42d5-94d6-935bde84bf2f
+          chat_id: 470a49f6-1dec-4afe-8b61-035d3b2d63b0
+          config_id: 1b60e1a0-cc59-424a-8d2c-189d354db3f3
+          event_name: chat_ended
+          end_time: 1716244958546
+          duration_seconds: 180
+          end_reason: USER_ENDED
+    docs: Sent when an EVI chat ends.
+  chatStarted:
+    method: POST
+    display-name: Chat Started
+    headers: {}
+    payload: root.WebhookEventChatStarted
+    examples:
+      - payload:
+          chat_group_id: 9fc18597-3567-42d5-94d6-935bde84bf2f
+          chat_id: 470a49f6-1dec-4afe-8b61-035d3b2d63b0
+          config_id: 1b60e1a0-cc59-424a-8d2c-189d354db3f3
+          event_name: chat_started
+          start_time: 1716244940648
           chat_start_type: new_chat_group
-    docs: >-
-      Webhook events are JSON payloads to your server during an EVI chat. You
-      can subscribe to specific events, and set which URLs should be notified in
-      the
-      [Config](/reference/empathic-voice-interface-evi/configs/create-config#request.body.webhooks)
-      resource. Read the [Webhook
-      Guide](/docs/empathic-voice-interface-evi/webhooks) for more information.
+    docs: Sent when an EVI chat is started.

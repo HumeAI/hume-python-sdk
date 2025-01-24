@@ -214,3 +214,13 @@ async def test_delete_custom_voice(client: HumeClient, async_client: AsyncHumeCl
         await async_client.empathic_voice.custom_voices.delete_custom_voice(id="id")  # type: ignore[func-returns-value]
         is None
     )
+
+
+async def test_update_custom_voice_name(client: HumeClient, async_client: AsyncHumeClient) -> None:
+    expected_response: typing.Any = "string"
+    expected_types: typing.Any = None
+    response = client.empathic_voice.custom_voices.update_custom_voice_name(id="id", name="name")
+    validate_response(response, expected_response, expected_types)
+
+    async_response = await async_client.empathic_voice.custom_voices.update_custom_voice_name(id="id", name="name")
+    validate_response(async_response, expected_response, expected_types)

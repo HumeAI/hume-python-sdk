@@ -19,6 +19,7 @@ types:
     docs: >-
       Type of Tool. Either `BUILTIN` for natively implemented tools, like web
       search, or `FUNCTION` for user-defined tools.
+    inline: true
     source:
       openapi: stenographer-openapi.json
   ReturnUserDefinedToolVersionType:
@@ -28,6 +29,7 @@ types:
     docs: >-
       Versioning method for a Tool. Either `FIXED` for using a fixed version
       number or `LATEST` for auto-updating to the latest version.
+    inline: true
     source:
       openapi: stenographer-openapi.json
   ReturnUserDefinedTool:
@@ -106,6 +108,7 @@ types:
     docs: >-
       Versioning method for a Prompt. Either `FIXED` for using a fixed version
       number or `LATEST` for auto-updating to the latest version.
+    inline: true
     source:
       openapi: stenographer-openapi.json
   ReturnPrompt:
@@ -178,6 +181,7 @@ types:
       - STELLA
       - SUNNY
     docs: Specifies the base voice used to create the Custom Voice.
+    inline: true
     source:
       openapi: stenographer-openapi.json
   PostedCustomVoiceParameters:
@@ -337,6 +341,7 @@ types:
       - STELLA
       - SUNNY
     docs: The base voice used to create the Custom Voice.
+    inline: true
     source:
       openapi: stenographer-openapi.json
   ReturnCustomVoiceParameters:
@@ -513,6 +518,7 @@ types:
 
       For more information, see our guide on [using built-in
       tools](/docs/empathic-voice-interface-evi/tool-use#using-built-in-tools).
+    inline: true
     source:
       openapi: stenographer-openapi.json
   PostedBuiltinTool:
@@ -642,6 +648,7 @@ types:
       - GROQ
       - GOOGLE
     docs: The provider of the supplemental language model.
+    inline: true
     source:
       openapi: stenographer-openapi.json
   PostedLanguageModelModelResource:
@@ -698,6 +705,7 @@ types:
         name: AccountsFireworksModelsLlamaV3P18BInstruct
       - ellm
     docs: String that specifies the language model to use with `model_provider`.
+    inline: true
     source:
       openapi: stenographer-openapi.json
   PostedLanguageModel:
@@ -847,6 +855,7 @@ types:
     docs: >-
       The provider of the voice to use. Supported values are `HUME_AI` and
       `CUSTOM_VOICE`.
+    inline: true
     source:
       openapi: stenographer-openapi.json
   PostedVoice:
@@ -880,6 +889,7 @@ types:
       - chat_started
       - chat_ended
     docs: Events this URL is subscribed to
+    inline: true
     source:
       openapi: stenographer-openapi.json
   PostedWebhookSpec:
@@ -887,9 +897,18 @@ types:
     properties:
       url:
         type: string
-        docs: URL to send the webhook to
+        docs: >-
+          The URL where event payloads will be sent. This must be a valid https
+          URL to ensure secure communication. The server at this URL must accept
+          POST requests with a JSON payload.
       events:
-        docs: Events this URL is subscribed to
+        docs: >-
+          The list of events the specified URL is subscribed to. 
+
+
+          See our [webhooks
+          guide](/docs/empathic-voice-interface-evi/configuration#supported-events)
+          for more information on supported events.
         type: list<PostedWebhookEventType>
     source:
       openapi: stenographer-openapi.json
@@ -900,6 +919,7 @@ types:
     docs: >-
       Type of Tool. Either `BUILTIN` for natively implemented tools, like web
       search, or `FUNCTION` for user-defined tools.
+    inline: true
     source:
       openapi: stenographer-openapi.json
   ReturnBuiltinTool:
@@ -1083,6 +1103,7 @@ types:
       - GROQ
       - GOOGLE
     docs: The provider of the supplemental language model.
+    inline: true
     source:
       openapi: stenographer-openapi.json
   ReturnLanguageModelModelResource:
@@ -1143,6 +1164,7 @@ types:
         name: AccountsFireworksModelsLlamaV3P18BInstruct
       - ellm
     docs: String that specifies the language model to use with `model_provider`.
+    inline: true
     source:
       openapi: stenographer-openapi.json
   ReturnLanguageModel:
@@ -1224,6 +1246,7 @@ types:
     docs: >-
       The provider of the voice to use. Supported values are `HUME_AI` and
       `CUSTOM_VOICE`.
+    inline: true
     source:
       openapi: stenographer-openapi.json
   ReturnVoice:
@@ -1251,6 +1274,7 @@ types:
       - chat_started
       - chat_ended
     docs: Events this URL is subscribed to
+    inline: true
     source:
       openapi: stenographer-openapi.json
   ReturnWebhookSpec:
@@ -1258,9 +1282,18 @@ types:
     properties:
       url:
         type: string
-        docs: Webhook URL to send the event updates to
+        docs: >-
+          The URL where event payloads will be sent. This must be a valid https
+          URL to ensure secure communication. The server at this URL must accept
+          POST requests with a JSON payload.
       events:
-        docs: Events this URL is subscribed to
+        docs: >-
+          The list of events the specified URL is subscribed to. 
+
+
+          See our [webhooks
+          guide](/docs/empathic-voice-interface-evi/configuration#supported-events)
+          for more information on supported events.
         type: list<ReturnWebhookEventType>
     source:
       openapi: stenographer-openapi.json
@@ -1407,6 +1440,7 @@ types:
 
 
       - `ERROR`: The chat ended unexpectedly due to an error.
+    inline: true
     source:
       openapi: stenographer-openapi.json
   ReturnChat:
@@ -1499,6 +1533,7 @@ types:
       first) or `DESC` for descending order (reverse-chronological, with the
       newest records first). This value corresponds to the `ascending_order`
       query parameter used in the request.
+    inline: true
     source:
       openapi: stenographer-openapi.json
   ReturnPagedChats:
@@ -1562,6 +1597,7 @@ types:
 
 
       - `TOOL`: The function calling mechanism.
+    inline: true
     source:
       openapi: stenographer-openapi.json
   ReturnChatEventType:
@@ -1594,6 +1630,7 @@ types:
 
 
       - `FUNCTION_CALL_RESPONSE`: Contains the tool response.
+    inline: true
     source:
       openapi: stenographer-openapi.json
   ReturnChatEvent:
@@ -1702,6 +1739,7 @@ types:
 
 
       - `ERROR`: The chat ended unexpectedly due to an error.
+    inline: true
     source:
       openapi: stenographer-openapi.json
   ReturnChatPagedEventsPaginationDirection:
@@ -1717,6 +1755,7 @@ types:
       first) or `DESC` for descending order (reverse-chronological, with the
       newest records first). This value corresponds to the `ascending_order`
       query parameter used in the request.
+    inline: true
     source:
       openapi: stenographer-openapi.json
   ReturnChatPagedEvents:
@@ -1830,6 +1869,7 @@ types:
 
 
       - `CANCELED`: The reconstruction job has been canceled.
+    inline: true
     source:
       openapi: stenographer-openapi.json
   ReturnChatAudioReconstruction:
@@ -1929,6 +1969,7 @@ types:
       first) or `DESC` for descending order (reverse-chronological, with the
       newest records first). This value corresponds to the `ascending_order`
       query parameter used in the request.
+    inline: true
     source:
       openapi: stenographer-openapi.json
   ReturnPagedChatGroups:
@@ -1984,6 +2025,7 @@ types:
       first) or `DESC` for descending order (reverse-chronological, with the
       newest records first). This value corresponds to the `ascending_order`
       query parameter used in the request.
+    inline: true
     source:
       openapi: stenographer-openapi.json
   ReturnChatGroupPagedChats:
@@ -2062,6 +2104,7 @@ types:
       first) or `DESC` for descending order (reverse-chronological, with the
       newest records first). This value corresponds to the `ascending_order`
       query parameter used in the request.
+    inline: true
     source:
       openapi: stenographer-openapi.json
   ReturnChatGroupPagedEvents:
@@ -2122,6 +2165,7 @@ types:
       first) or `DESC` for descending order (reverse-chronological, with the
       newest records first). This value corresponds to the `ascending_order`
       query parameter used in the request.
+    inline: true
     source:
       openapi: stenographer-openapi.json
   ReturnChatGroupPagedAudioReconstructions:
@@ -3195,12 +3239,29 @@ types:
       event_name:
         type: optional<literal<"chat_ended">>
         docs: Always `chat_ended`.
-      end_time: integer
-      duration_seconds: integer
+      end_time:
+        type: integer
+        docs: Unix timestamp (in milliseconds) indicating when the session ended.
+      duration_seconds:
+        type: integer
+        docs: Total duration of the session in seconds.
       end_reason:
         type: WebhookEventChatStatus
-      caller_number: optional<string>
-      custom_session_id: optional<string>
+        docs: Reason for the session's termination.
+      caller_number:
+        type: optional<string>
+        docs: >-
+          Phone number of the caller in E.164 format (e.g., `+12223333333`).
+          This field is included only if the Chat was created via the [Twilio
+          phone calling](/docs/empathic-voice-interface-evi/phone-calling)
+          integration.
+      custom_session_id:
+        type: optional<string>
+        docs: >-
+          User-defined session ID. Relevant only when employing a [custom
+          language
+          model](/docs/empathic-voice-interface-evi/custom-language-model) in
+          the EVI Config.
     extends:
       - WebhookEventBase
     source:
