@@ -15,6 +15,7 @@ service:
         query-parameters:
           limit:
             type: optional<integer>
+            default: 50
             docs: The maximum number of jobs to include in the response.
           status:
             type: optional<Status>
@@ -43,6 +44,7 @@ service:
               `timestamp_ms`.
           timestamp_ms:
             type: optional<long>
+            default: 1704319392247
             docs: |-
               Provide a timestamp in milliseconds to filter jobs.
 
