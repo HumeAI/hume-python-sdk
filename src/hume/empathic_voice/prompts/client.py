@@ -294,7 +294,7 @@ class PromptsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def create_prompt_verison(
+    def create_prompt_version(
         self,
         id: str,
         *,
@@ -337,7 +337,7 @@ class PromptsClient:
         client = HumeClient(
             api_key="YOUR_API_KEY",
         )
-        client.empathic_voice.prompts.create_prompt_verison(
+        client.empathic_voice.prompts.create_prompt_version(
             id="af699d45-2985-42cc-91b9-af9e5da3bac5",
             text="<role>You are an updated version of an AI weather assistant providing users with accurate and up-to-date weather information. Respond to user queries concisely and clearly. Use simple language and avoid technical jargon. Provide temperature, precipitation, wind conditions, and any weather alerts. Include helpful tips if severe weather is expected.</role>",
             version_description="This is an updated version of the Weather Assistant Prompt.",
@@ -1003,7 +1003,7 @@ class AsyncPromptsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def create_prompt_verison(
+    async def create_prompt_version(
         self,
         id: str,
         *,
@@ -1051,7 +1051,7 @@ class AsyncPromptsClient:
 
 
         async def main() -> None:
-            await client.empathic_voice.prompts.create_prompt_verison(
+            await client.empathic_voice.prompts.create_prompt_version(
                 id="af699d45-2985-42cc-91b9-af9e5da3bac5",
                 text="<role>You are an updated version of an AI weather assistant providing users with accurate and up-to-date weather information. Respond to user queries concisely and clearly. Use simple language and avoid technical jargon. Provide temperature, precipitation, wind conditions, and any weather alerts. Include helpful tips if severe weather is expected.</role>",
                 version_description="This is an updated version of the Weather Assistant Prompt.",

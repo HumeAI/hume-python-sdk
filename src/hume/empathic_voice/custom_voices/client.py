@@ -412,6 +412,18 @@ class CustomVoicesClient:
         -------
         str
             Success
+
+        Examples
+        --------
+        from hume import HumeClient
+
+        client = HumeClient(
+            api_key="YOUR_API_KEY",
+        )
+        client.empathic_voice.custom_voices.update_custom_voice_name(
+            id="id",
+            name="name",
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/custom_voices/{jsonable_encoder(id)}",
@@ -873,6 +885,26 @@ class AsyncCustomVoicesClient:
         -------
         str
             Success
+
+        Examples
+        --------
+        import asyncio
+
+        from hume import AsyncHumeClient
+
+        client = AsyncHumeClient(
+            api_key="YOUR_API_KEY",
+        )
+
+
+        async def main() -> None:
+            await client.empathic_voice.custom_voices.update_custom_voice_name(
+                id="id",
+                name="name",
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/custom_voices/{jsonable_encoder(id)}",
