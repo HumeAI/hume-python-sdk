@@ -14,7 +14,7 @@ class PostedCustomVoice(UniversalBaseModel):
 
     If a Custom Voice specification is not provided then the [name](/reference/empathic-voice-interface-evi/configs/create-config#request.body.voice.name) of a base voice or previously created Custom Voice must be provided.
 
-    See our [Voices guide](/docs/empathic-voice-interface-evi/voices) for a tutorial on how to craft a Custom Voice.
+     See our [Voices guide](/docs/empathic-voice-interface-evi/configuration/voices) for a tutorial on how to craft a Custom Voice.
     """
 
     name: str = pydantic.Field()
@@ -34,7 +34,7 @@ class PostedCustomVoice(UniversalBaseModel):
 
     parameters: typing.Optional[PostedCustomVoiceParameters] = pydantic.Field(default=None)
     """
-    The specified attributes of a Custom Voice.
+    The specified attributes of a Custom Voice. 
     
     If no parameters are specified then all attributes will be set to their defaults, meaning no modfications will be made to the base voice.
     """

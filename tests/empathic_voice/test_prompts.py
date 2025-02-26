@@ -11,6 +11,7 @@ async def test_create_prompt(client: HumeClient, async_client: AsyncHumeClient) 
         "id": "af699d45-2985-42cc-91b9-af9e5da3bac5",
         "version": 0,
         "version_type": "FIXED",
+        "version_description": None,
         "name": "Weather Assistant Prompt",
         "created_on": 1722633247488,
         "modified_on": 1722633247488,
@@ -20,6 +21,7 @@ async def test_create_prompt(client: HumeClient, async_client: AsyncHumeClient) 
         "id": None,
         "version": "integer",
         "version_type": None,
+        "version_description": None,
         "name": None,
         "created_on": None,
         "modified_on": None,
@@ -85,7 +87,7 @@ async def test_list_prompt_versions(client: HumeClient, async_client: AsyncHumeC
     validate_response(async_response, expected_response, expected_types)
 
 
-async def test_create_prompt_verison(client: HumeClient, async_client: AsyncHumeClient) -> None:
+async def test_create_prompt_version(client: HumeClient, async_client: AsyncHumeClient) -> None:
     expected_response: typing.Any = {
         "id": "af699d45-2985-42cc-91b9-af9e5da3bac5",
         "version": 1,
@@ -106,14 +108,14 @@ async def test_create_prompt_verison(client: HumeClient, async_client: AsyncHume
         "modified_on": None,
         "text": None,
     }
-    response = client.empathic_voice.prompts.create_prompt_verison(
+    response = client.empathic_voice.prompts.create_prompt_version(
         id="af699d45-2985-42cc-91b9-af9e5da3bac5",
         text="<role>You are an updated version of an AI weather assistant providing users with accurate and up-to-date weather information. Respond to user queries concisely and clearly. Use simple language and avoid technical jargon. Provide temperature, precipitation, wind conditions, and any weather alerts. Include helpful tips if severe weather is expected.</role>",
         version_description="This is an updated version of the Weather Assistant Prompt.",
     )
     validate_response(response, expected_response, expected_types)
 
-    async_response = await async_client.empathic_voice.prompts.create_prompt_verison(
+    async_response = await async_client.empathic_voice.prompts.create_prompt_version(
         id="af699d45-2985-42cc-91b9-af9e5da3bac5",
         text="<role>You are an updated version of an AI weather assistant providing users with accurate and up-to-date weather information. Respond to user queries concisely and clearly. Use simple language and avoid technical jargon. Provide temperature, precipitation, wind conditions, and any weather alerts. Include helpful tips if severe weather is expected.</role>",
         version_description="This is an updated version of the Weather Assistant Prompt.",

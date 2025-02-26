@@ -1,5 +1,6 @@
 channel:
   path: /v0/evi/chat
+  url: prod
   auth: false
   query-parameters:
     config_id:
@@ -11,7 +12,7 @@ channel:
         Include this ID in your connection request to equip EVI with the Prompt,
         Language Model, Voice, and Tools associated with the specified
         configuration. If omitted, EVI will apply [default configuration
-        settings](/docs/empathic-voice-interface-evi/configuration#default-configuration).
+        settings](/docs/empathic-voice-interface-evi/configuration/build-a-configuration#default-configuration).
 
 
         For help obtaining this ID, see our [Configuration
@@ -76,6 +77,7 @@ channel:
         list of all available chat groups.
     verbose_transcription:
       type: optional<boolean>
+      default: false
       docs: >-
         A flag to enable verbose transcription. Set this query parameter to
         `true` to have unfinalized user transcripts be sent to the client as
@@ -86,6 +88,7 @@ channel:
         denotes whether the message is "interim" or "final."
     access_token:
       type: optional<string>
+      default: ''
       docs: >-
         Access token used for authenticating the client. If not provided, an
         `api_key` must be provided to authenticate.
@@ -100,6 +103,7 @@ channel:
         Guide](/docs/introduction/api-key#authentication-strategies).
     api_key:
       type: optional<string>
+      default: ''
       docs: >-
         API key used for authenticating the client. If not provided, an
         `access_token` must be provided to authenticate.

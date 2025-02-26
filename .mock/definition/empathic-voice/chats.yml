@@ -55,6 +55,7 @@ service:
       response:
         docs: Success
         type: root.ReturnPagedChats
+        status-code: 200
       errors:
         - root.BadRequestError
       examples:
@@ -129,6 +130,7 @@ service:
       response:
         docs: Success
         type: root.ReturnChatPagedEvents
+        status-code: 200
       errors:
         - root.BadRequestError
       examples:
@@ -482,6 +484,7 @@ service:
       response:
         docs: Success
         type: root.ReturnChatAudioReconstruction
+        status-code: 200
       errors:
         - root.BadRequestError
       examples:

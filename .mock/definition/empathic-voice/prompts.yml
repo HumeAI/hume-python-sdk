@@ -13,8 +13,8 @@ service:
 
 
         See our [prompting
-        guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on
-        crafting your system prompt.
+        guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips
+        on crafting your system prompt.
       pagination:
         offset: $request.page_number
         results: $response.prompts_page
@@ -54,6 +54,7 @@ service:
       response:
         docs: Success
         type: root.ReturnPagedPrompts
+        status-code: 200
       errors:
         - root.BadRequestError
       examples:
@@ -106,8 +107,8 @@ service:
 
 
         See our [prompting
-        guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on
-        crafting your system prompt.
+        guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips
+        on crafting your system prompt.
       source:
         openapi: stenographer-openapi.json
       display-name: Create prompt
@@ -136,11 +137,12 @@ service:
 
 
                 For help writing a system prompt, see our [Prompting
-                Guide](/docs/empathic-voice-interface-evi/prompting).
+                Guide](/docs/empathic-voice-interface-evi/guides/prompting).
         content-type: application/json
       response:
         docs: Created
         type: optional<root.ReturnPrompt>
+        status-code: 201
       errors:
         - root.BadRequestError
       examples:
@@ -158,6 +160,7 @@ service:
               id: af699d45-2985-42cc-91b9-af9e5da3bac5
               version: 0
               version_type: FIXED
+              version_description: null
               name: Weather Assistant Prompt
               created_on: 1722633247488
               modified_on: 1722633247488
@@ -177,8 +180,8 @@ service:
 
 
         See our [prompting
-        guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on
-        crafting your system prompt.
+        guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips
+        on crafting your system prompt.
       source:
         openapi: stenographer-openapi.json
       path-parameters:
@@ -219,6 +222,7 @@ service:
       response:
         docs: Success
         type: root.ReturnPagedPrompts
+        status-code: 200
       errors:
         - root.BadRequestError
       examples:
@@ -244,7 +248,7 @@ service:
                     technical jargon. Provide temperature, precipitation, wind
                     conditions, and any weather alerts. Include helpful tips if
                     severe weather is expected.</role>
-    create-prompt-verison:
+    create-prompt-version:
       path: /v0/evi/prompts/{id}
       method: POST
       auth: true
@@ -253,8 +257,8 @@ service:
 
 
         See our [prompting
-        guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on
-        crafting your system prompt.
+        guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips
+        on crafting your system prompt.
       source:
         openapi: stenographer-openapi.json
       path-parameters:
@@ -285,11 +289,12 @@ service:
 
 
                 For help writing a system prompt, see our [Prompting
-                Guide](/docs/empathic-voice-interface-evi/prompting).
+                Guide](/docs/empathic-voice-interface-evi/guides/prompting).
         content-type: application/json
       response:
         docs: Created
         type: optional<root.ReturnPrompt>
+        status-code: 201
       errors:
         - root.BadRequestError
       examples:
@@ -329,8 +334,8 @@ service:
 
 
         See our [prompting
-        guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on
-        crafting your system prompt.
+        guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips
+        on crafting your system prompt.
       source:
         openapi: stenographer-openapi.json
       path-parameters:
@@ -352,8 +357,8 @@ service:
 
 
         See our [prompting
-        guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on
-        crafting your system prompt.
+        guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips
+        on crafting your system prompt.
       source:
         openapi: stenographer-openapi.json
       path-parameters:
@@ -372,6 +377,7 @@ service:
       response:
         docs: Success
         type: text
+        status-code: 200
       errors:
         - root.BadRequestError
       examples:
@@ -388,8 +394,8 @@ service:
 
 
         See our [prompting
-        guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on
-        crafting your system prompt.
+        guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips
+        on crafting your system prompt.
       source:
         openapi: stenographer-openapi.json
       path-parameters:
@@ -415,6 +421,7 @@ service:
       response:
         docs: Success
         type: optional<root.ReturnPrompt>
+        status-code: 200
       errors:
         - root.BadRequestError
       examples:
@@ -446,8 +453,8 @@ service:
 
 
         See our [prompting
-        guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on
-        crafting your system prompt.
+        guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips
+        on crafting your system prompt.
       source:
         openapi: stenographer-openapi.json
       path-parameters:
@@ -485,8 +492,8 @@ service:
 
 
         See our [prompting
-        guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on
-        crafting your system prompt.
+        guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips
+        on crafting your system prompt.
       source:
         openapi: stenographer-openapi.json
       path-parameters:
@@ -520,6 +527,7 @@ service:
       response:
         docs: Success
         type: optional<root.ReturnPrompt>
+        status-code: 200
       errors:
         - root.BadRequestError
       examples:

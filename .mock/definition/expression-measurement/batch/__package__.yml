@@ -15,6 +15,7 @@ service:
         query-parameters:
           limit:
             type: optional<integer>
+            default: 50
             docs: The maximum number of jobs to include in the response.
           status:
             type: optional<Status>
@@ -43,6 +44,7 @@ service:
               `timestamp_ms`.
           timestamp_ms:
             type: optional<long>
+            default: 1704319392247
             docs: |-
               Provide a timestamp in milliseconds to filter jobs.
 
@@ -79,11 +81,13 @@ service:
       response:
         docs: ''
         type: list<UnionJob>
+        status-code: 200
       examples:
         - response:
             body:
               - job_id: job_id
                 request:
+                  callback_url: null
                   files:
                     - filename: filename
                       md5sum: md5sum
@@ -91,6 +95,8 @@ service:
                   models:
                     burst: {}
                     face:
+                      descriptions: null
+                      facs: null
                       fps_pred: 3
                       identify_faces: false
                       min_face_size: 60
@@ -100,11 +106,14 @@ service:
                     language:
                       granularity: word
                       identify_speakers: false
+                      sentiment: null
+                      toxicity: null
                     ner:
                       identify_speakers: false
                     prosody:
                       granularity: utterance
                       identify_speakers: false
+                      window: null
                   notify: true
                   text: []
                   urls:
@@ -131,6 +140,7 @@ service:
       response:
         docs: ''
         type: JobId
+        status-code: 200
         property: job_id
       examples:
         - request:
@@ -155,6 +165,7 @@ service:
       response:
         docs: ''
         type: UnionJob
+        status-code: 200
       examples:
         - name: Inference
           path-parameters:
@@ -164,10 +175,13 @@ service:
               type: INFERENCE
               job_id: job_id
               request:
+                callback_url: null
                 files: []
                 models:
                   burst: {}
                   face:
+                    descriptions: null
+                    facs: null
                     fps_pred: 3
                     identify_faces: false
                     min_face_size: 60
@@ -177,11 +191,14 @@ service:
                   language:
                     granularity: word
                     identify_speakers: false
+                    sentiment: null
+                    toxicity: null
                   ner:
                     identify_speakers: false
                   prosody:
                     granularity: utterance
                     identify_speakers: false
+                    window: null
                 notify: true
                 text: []
                 urls:
@@ -208,6 +225,7 @@ service:
       response:
         docs: ''
         type: list<UnionPredictResult>
+        status-code: 200
       examples:
         - path-parameters:
             id: job_id
@@ -221,6 +239,7 @@ service:
                     - file: faces/100.jpg
                       models:
                         face:
+                          metadata: null
                           grouped_predictions:
                             - id: unknown
                               predictions:
@@ -329,6 +348,8 @@ service:
                                       score: 0.1559651643037796
                                     - name: Triumph
                                       score: 0.01955239288508892
+                                  facs: null
+                                  descriptions: null
                   errors: []
     get-job-artifacts:
       path: /v0/batch/jobs/{id}/artifacts
@@ -345,6 +366,7 @@ service:
       response:
         docs: ''
         type: file
+        status-code: 200
     start-inference-job-from-local-file:
       path: /v0/batch/jobs
       method: POST
@@ -375,6 +397,7 @@ service:
       response:
         docs: ''
         type: JobId
+        status-code: 200
         property: job_id
       examples:
         - request: {}

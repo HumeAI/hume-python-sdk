@@ -25,12 +25,12 @@ class WebhookEventChatStarted(WebhookEventBase):
 
     caller_number: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Phone number of the caller in E.164 format (e.g., `+12223333333`). This field is included only if the Chat was created via the [Twilio phone calling](/docs/empathic-voice-interface-evi/phone-calling) integration.
+    Phone number of the caller in E.164 format (e.g., `+12223333333`). This field is included only if the Chat was created via the [Twilio phone calling](/docs/empathic-voice-interface-evi/guides/phone-calling) integration.
     """
 
     custom_session_id: typing.Optional[str] = pydantic.Field(default=None)
     """
-    User-defined session ID. Relevant only when employing a [custom language model](/docs/empathic-voice-interface-evi/custom-language-model) in the EVI Config.
+    User-defined session ID. Relevant only when employing a [custom language model](/docs/empathic-voice-interface-evi/guides/custom-language-model) in the EVI Config.
     """
 
     if IS_PYDANTIC_V2:

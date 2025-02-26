@@ -13,9 +13,9 @@ service:
 
 
         Refer to our [tool
-        use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide
-        for comprehensive instructions on defining and integrating tools into
-        EVI.
+        use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling)
+        guide for comprehensive instructions on defining and integrating tools
+        into EVI.
       pagination:
         offset: $request.page_number
         results: $response.tools_page
@@ -58,6 +58,7 @@ service:
       response:
         docs: Success
         type: root.ReturnPagedUserDefinedTools
+        status-code: 200
       errors:
         - root.BadRequestError
       examples:
@@ -115,9 +116,9 @@ service:
 
 
         Refer to our [tool
-        use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide
-        for comprehensive instructions on defining and integrating tools into
-        EVI.
+        use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling)
+        guide for comprehensive instructions on defining and integrating tools
+        into EVI.
       source:
         openapi: stenographer-openapi.json
       display-name: Create tool
@@ -158,6 +159,7 @@ service:
       response:
         docs: Created
         type: optional<root.ReturnUserDefinedTool>
+        status-code: 201
       errors:
         - root.BadRequestError
       examples:
@@ -205,9 +207,9 @@ service:
 
 
         Refer to our [tool
-        use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide
-        for comprehensive instructions on defining and integrating tools into
-        EVI.
+        use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling)
+        guide for comprehensive instructions on defining and integrating tools
+        into EVI.
       source:
         openapi: stenographer-openapi.json
       path-parameters:
@@ -248,6 +250,7 @@ service:
       response:
         docs: Success
         type: root.ReturnPagedUserDefinedTools
+        status-code: 200
       errors:
         - root.BadRequestError
       examples:
@@ -287,9 +290,9 @@ service:
 
 
         Refer to our [tool
-        use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide
-        for comprehensive instructions on defining and integrating tools into
-        EVI.
+        use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling)
+        guide for comprehensive instructions on defining and integrating tools
+        into EVI.
       source:
         openapi: stenographer-openapi.json
       path-parameters:
@@ -331,6 +334,7 @@ service:
       response:
         docs: Created
         type: optional<root.ReturnUserDefinedTool>
+        status-code: 201
       errors:
         - root.BadRequestError
       examples:
@@ -379,9 +383,9 @@ service:
 
 
         Refer to our [tool
-        use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide
-        for comprehensive instructions on defining and integrating tools into
-        EVI.
+        use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling)
+        guide for comprehensive instructions on defining and integrating tools
+        into EVI.
       source:
         openapi: stenographer-openapi.json
       path-parameters:
@@ -403,9 +407,9 @@ service:
 
 
         Refer to our [tool
-        use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide
-        for comprehensive instructions on defining and integrating tools into
-        EVI.
+        use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling)
+        guide for comprehensive instructions on defining and integrating tools
+        into EVI.
       source:
         openapi: stenographer-openapi.json
       path-parameters:
@@ -424,6 +428,7 @@ service:
       response:
         docs: Success
         type: text
+        status-code: 200
       errors:
         - root.BadRequestError
       examples:
@@ -440,9 +445,9 @@ service:
 
 
         Refer to our [tool
-        use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide
-        for comprehensive instructions on defining and integrating tools into
-        EVI.
+        use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling)
+        guide for comprehensive instructions on defining and integrating tools
+        into EVI.
       source:
         openapi: stenographer-openapi.json
       path-parameters:
@@ -467,6 +472,7 @@ service:
       response:
         docs: Success
         type: optional<root.ReturnUserDefinedTool>
+        status-code: 200
       errors:
         - root.BadRequestError
       examples:
@@ -503,9 +509,9 @@ service:
 
 
         Refer to our [tool
-        use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide
-        for comprehensive instructions on defining and integrating tools into
-        EVI.
+        use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling)
+        guide for comprehensive instructions on defining and integrating tools
+        into EVI.
       source:
         openapi: stenographer-openapi.json
       path-parameters:
@@ -542,9 +548,9 @@ service:
 
 
         Refer to our [tool
-        use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide
-        for comprehensive instructions on defining and integrating tools into
-        EVI.
+        use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling)
+        guide for comprehensive instructions on defining and integrating tools
+        into EVI.
       source:
         openapi: stenographer-openapi.json
       path-parameters:
@@ -577,6 +583,7 @@ service:
       response:
         docs: Success
         type: optional<root.ReturnUserDefinedTool>
+        status-code: 200
       errors:
         - root.BadRequestError
       examples:
