@@ -1,4 +1,778 @@
 # Reference
+## Tts
+<details><summary><code>client.tts.<a href="src/hume/tts/client.py">synthesize_json</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Synthesizes one or more input texts into speech using the specified voice. If no voice is provided,  a novel voice will be generated dynamically. Optionally, additional context can be included to influence the  speech's style and prosody. 
+
+The response includes the base64-encoded audio and metadata in JSON format.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+from hume.tts import FormatMp3, PostedContextWithUtterances, PostedUtterance
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.tts.synthesize_json(
+    utterances=[
+        PostedUtterance(
+            text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
+            description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm,  steady tone with an articulate, academic quality.",
+        )
+    ],
+    context=PostedContextWithUtterances(
+        utterances=[
+            PostedUtterance(
+                text="How can people see beauty so differently?",
+                description="A curious student with a clear and respectful tone, seeking clarification on Hume's  ideas with a straightforward question.",
+            )
+        ],
+    ),
+    format=FormatMp3(),
+    num_generations=1,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**utterances:** `typing.Sequence[PostedUtterance]` — Utterances to be converted to speech output.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**context:** `typing.Optional[PostedContext]` — Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `typing.Optional[Format]` — Specifies the output audio file format.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**num_generations:** `typing.Optional[int]` — Number of generations of the audio to produce.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.tts.<a href="src/hume/tts/client.py">synthesize_file</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Synthesizes one or more input texts into speech using the specified voice. If no voice is provided,  a novel voice will be generated dynamically. Optionally, additional context can be included to influence the  speech's style and prosody. 
+
+The response contains the generated audio file in the requested format.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+from hume.tts import FormatMp3, PostedContextWithGenerationId, PostedUtterance
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.tts.synthesize_file(
+    utterances=[
+        PostedUtterance(
+            text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
+            description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm,  steady tone with an articulate, academic quality.",
+        )
+    ],
+    context=PostedContextWithGenerationId(
+        generation_id="09ad914d-8e7f-40f8-a279-e34f07f7dab2",
+    ),
+    format=FormatMp3(),
+    num_generations=1,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**utterances:** `typing.Sequence[PostedUtterance]` — Utterances to be converted to speech output.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**context:** `typing.Optional[PostedContext]` — Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `typing.Optional[Format]` — Specifies the output audio file format.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**num_generations:** `typing.Optional[int]` — Number of generations of the audio to produce.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Tts Voices
+<details><summary><code>client.tts.voices.<a href="src/hume/tts/voices/client.py">create</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Creates a new voice from a specified TTS generation ID and saves it to your **Voice Library**. This allows for consistent speech style and prosody across multiple requests.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.tts.voices.create(
+    generation_id="795c949a-1510-4a80-9646-7d0863b023ab",
+    name="David Hume",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**generation_id:** `str` — Id of the TTS generation (as returned by the [/v0/tts endpoint](/reference/text-to-speech-evi/synthesize-json#response.body.generations.generation_id)) that should be saved as a voice.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**name:** `str` — Name of the voice in the `Voice Library`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## ExpressionMeasurement Batch
+<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">list_jobs</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Sort and filter jobs.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.expression_measurement.batch.list_jobs()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**limit:** `typing.Optional[int]` — The maximum number of jobs to include in the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**status:** `typing.Optional[typing.Union[Status, typing.Sequence[Status]]]` 
+
+Include only jobs of this status in the response. There are four possible statuses:
+
+- `QUEUED`: The job has been received and is waiting to be processed.
+
+- `IN_PROGRESS`: The job is currently being processed. 
+
+- `COMPLETED`: The job has finished processing.
+
+- `FAILED`: The job encountered an error and could not be completed successfully.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**when:** `typing.Optional[When]` — Specify whether to include jobs created before or after a given `timestamp_ms`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**timestamp_ms:** `typing.Optional[int]` 
+
+Provide a timestamp in milliseconds to filter jobs.
+
+ When combined with the `when` parameter, you can filter jobs before or after the given timestamp. Defaults to the current Unix timestamp if one is not provided.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sort_by:** `typing.Optional[SortBy]` 
+
+Specify which timestamp to sort the jobs by.
+
+- `created`: Sort jobs by the time of creation, indicated by `created_timestamp_ms`.
+
+- `started`: Sort jobs by the time processing started, indicated by `started_timestamp_ms`.
+
+- `ended`: Sort jobs by the time processing ended, indicated by `ended_timestamp_ms`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**direction:** `typing.Optional[Direction]` 
+
+Specify the order in which to sort the jobs. Defaults to descending order.
+
+- `asc`: Sort in ascending order (chronological, with the oldest records first).
+
+- `desc`: Sort in descending order (reverse-chronological, with the newest records first).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">start_inference_job</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Start a new measurement inference job.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.expression_measurement.batch.start_inference_job(
+    urls=["https://hume-tutorials.s3.amazonaws.com/faces.zip"],
+    notify=True,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**models:** `typing.Optional[Models]` 
+
+Specify the models to use for inference.
+
+If this field is not explicitly set, then all models will run by default.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**transcription:** `typing.Optional[Transcription]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**urls:** `typing.Optional[typing.Sequence[str]]` 
+
+URLs to the media files to be processed. Each must be a valid public URL to a media file (see recommended input filetypes) or an archive (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`) of media files.
+
+If you wish to supply more than 100 URLs, consider providing them as an archive (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**text:** `typing.Optional[typing.Sequence[str]]` — Text supplied directly to our Emotional Language and NER models for analysis.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**callback_url:** `typing.Optional[str]` — If provided, a `POST` request will be made to the URL with the generated predictions on completion or the error message on failure.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**notify:** `typing.Optional[bool]` — Whether to send an email notification to the user upon job completion/failure.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">get_job_details</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Get the request details and state of a given job.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.expression_measurement.batch.get_job_details(
+    id="job_id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — The unique identifier for the job.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">get_job_predictions</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Get the JSON predictions of a completed inference job.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.expression_measurement.batch.get_job_predictions(
+    id="job_id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — The unique identifier for the job.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">start_inference_job_from_local_file</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Start a new batch inference job.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.expression_measurement.batch.start_inference_job_from_local_file()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**file:** `from __future__ import annotations
+
+typing.List[core.File]` — See core.File for more documentation
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**json:** `typing.Optional[InferenceBaseRequest]` — Stringified JSON object containing the inference job configuration.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## EmpathicVoice Tools
 <details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">list_tools</a>(...)</code></summary>
 <dl>
@@ -14,7 +788,7 @@
 
 Fetches a paginated list of **Tools**.
 
-Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 </dd>
 </dl>
 </dd>
@@ -124,7 +898,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 
 Creates a **Tool** that can be added to an [EVI configuration](/reference/empathic-voice-interface-evi/configs/create-config).
 
-Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 </dd>
 </dl>
 </dd>
@@ -236,7 +1010,7 @@ These parameters define the inputs needed for the Tool’s execution, including 
 
 Fetches a list of a **Tool's** versions.
 
-Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 </dd>
 </dl>
 </dd>
@@ -340,7 +1114,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 
 Updates a **Tool** by creating a new version of the **Tool**.
 
-Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 </dd>
 </dl>
 </dd>
@@ -452,7 +1226,7 @@ These parameters define the inputs needed for the Tool’s execution, including 
 
 Deletes a **Tool** and its versions.
 
-Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 </dd>
 </dl>
 </dd>
@@ -524,7 +1298,7 @@ client.empathic_voice.tools.delete_tool(
 
 Updates the name of a **Tool**.
 
-Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 </dd>
 </dl>
 </dd>
@@ -605,7 +1379,7 @@ client.empathic_voice.tools.update_tool_name(
 
 Fetches a specified version of a **Tool**.
 
-Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 </dd>
 </dl>
 </dd>
@@ -692,7 +1466,7 @@ Version numbers are integer values representing different iterations of the Tool
 
 Deletes a specified version of a **Tool**.
 
-Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 </dd>
 </dl>
 </dd>
@@ -779,7 +1553,7 @@ Version numbers are integer values representing different iterations of the Tool
 
 Updates the description of a specified **Tool** version.
 
-Refer to our [tool use](/docs/empathic-voice-interface-evi/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 </dd>
 </dl>
 </dd>
@@ -876,7 +1650,7 @@ Version numbers are integer values representing different iterations of the Tool
 
 Fetches a paginated list of **Prompts**.
 
-See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
 </dd>
 </dl>
 </dd>
@@ -986,7 +1760,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 
 Creates a **Prompt** that can be added to an [EVI configuration](/reference/empathic-voice-interface-evi/configs/create-config).
 
-See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
 </dd>
 </dl>
 </dd>
@@ -1039,7 +1813,7 @@ Instructions used to shape EVI’s behavior, responses, and style.
 
 You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles.
 
-For help writing a system prompt, see our [Prompting Guide](/docs/empathic-voice-interface-evi/prompting).
+For help writing a system prompt, see our [Prompting Guide](/docs/empathic-voice-interface-evi/guides/prompting).
     
 </dd>
 </dl>
@@ -1081,7 +1855,7 @@ For help writing a system prompt, see our [Prompting Guide](/docs/empathic-voice
 
 Fetches a list of a **Prompt's** versions.
 
-See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
 </dd>
 </dl>
 </dd>
@@ -1171,7 +1945,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">create_prompt_verison</a>(...)</code></summary>
+<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">create_prompt_version</a>(...)</code></summary>
 <dl>
 <dd>
 
@@ -1185,7 +1959,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 
 Updates a **Prompt** by creating a new version of the **Prompt**.
 
-See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
 </dd>
 </dl>
 </dd>
@@ -1205,7 +1979,7 @@ from hume import HumeClient
 client = HumeClient(
     api_key="YOUR_API_KEY",
 )
-client.empathic_voice.prompts.create_prompt_verison(
+client.empathic_voice.prompts.create_prompt_version(
     id="af699d45-2985-42cc-91b9-af9e5da3bac5",
     text="<role>You are an updated version of an AI weather assistant providing users with accurate and up-to-date weather information. Respond to user queries concisely and clearly. Use simple language and avoid technical jargon. Provide temperature, precipitation, wind conditions, and any weather alerts. Include helpful tips if severe weather is expected.</role>",
     version_description="This is an updated version of the Weather Assistant Prompt.",
@@ -1239,7 +2013,7 @@ Instructions used to shape EVI’s behavior, responses, and style for this versi
 
 You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles.
 
-For help writing a system prompt, see our [Prompting Guide](/docs/empathic-voice-interface-evi/prompting).
+For help writing a system prompt, see our [Prompting Guide](/docs/empathic-voice-interface-evi/guides/prompting).
     
 </dd>
 </dl>
@@ -1281,7 +2055,7 @@ For help writing a system prompt, see our [Prompting Guide](/docs/empathic-voice
 
 Deletes a **Prompt** and its versions.
 
-See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
 </dd>
 </dl>
 </dd>
@@ -1353,7 +2127,7 @@ client.empathic_voice.prompts.delete_prompt(
 
 Updates the name of a **Prompt**.
 
-See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
 </dd>
 </dl>
 </dd>
@@ -1434,7 +2208,7 @@ client.empathic_voice.prompts.update_prompt_name(
 
 Fetches a specified version of a **Prompt**.
 
-See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
 </dd>
 </dl>
 </dd>
@@ -1521,7 +2295,7 @@ Version numbers are integer values representing different iterations of the Prom
 
 Deletes a specified version of a **Prompt**.
 
-See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
 </dd>
 </dl>
 </dd>
@@ -1608,7 +2382,7 @@ Version numbers are integer values representing different iterations of the Prom
 
 Updates the description of a **Prompt**.
 
-See our [prompting guide](/docs/empathic-voice-interface-evi/phone-calling) for tips on crafting your system prompt.
+See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
 </dd>
 </dl>
 </dd>
@@ -1705,7 +2479,7 @@ Version numbers are integer values representing different iterations of the Prom
 
 Fetches a paginated list of **Custom Voices**.
 
-Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices) for details on creating a custom voice.
+Refer to our [voices guide](/docs/empathic-voice-interface-evi/configuration/voices) for details on creating a custom voice.
 </dd>
 </dl>
 </dd>
@@ -1799,7 +2573,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 
 Creates a **Custom Voice** that can be added to an [EVI configuration](/reference/empathic-voice-interface-evi/configs/create-config).
 
-Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices) for details on creating a custom voice.
+Refer to our [voices guide](/docs/empathic-voice-interface-evi/configuration/voices) for details on creating a custom voice.
 </dd>
 </dl>
 </dd>
@@ -1856,7 +2630,7 @@ client.empathic_voice.custom_voices.create_custom_voice(
 
 **parameters:** `typing.Optional[PostedCustomVoiceParameters]` 
 
-The specified attributes of a Custom Voice.
+The specified attributes of a Custom Voice. 
 
 If no parameters are specified then all attributes will be set to their defaults, meaning no modfications will be made to the base voice.
     
@@ -1892,7 +2666,7 @@ If no parameters are specified then all attributes will be set to their defaults
 
 Fetches a specific **Custom Voice** by ID.
 
-Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices) for details on creating a custom voice.
+Refer to our [voices guide](/docs/empathic-voice-interface-evi/configuration/voices) for details on creating a custom voice.
 </dd>
 </dl>
 </dd>
@@ -1964,7 +2738,7 @@ client.empathic_voice.custom_voices.get_custom_voice(
 
 Updates a **Custom Voice** by creating a new version of the **Custom Voice**.
 
-Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices) for details on creating a custom voice.
+Refer to our [voices guide](/docs/empathic-voice-interface-evi/configuration/voices) for details on creating a custom voice.
 </dd>
 </dl>
 </dd>
@@ -2030,7 +2804,7 @@ client.empathic_voice.custom_voices.create_custom_voice_version(
 
 **parameters:** `typing.Optional[PostedCustomVoiceParameters]` 
 
-The specified attributes of a Custom Voice.
+The specified attributes of a Custom Voice. 
 
 If no parameters are specified then all attributes will be set to their defaults, meaning no modfications will be made to the base voice.
     
@@ -2066,7 +2840,7 @@ If no parameters are specified then all attributes will be set to their defaults
 
 Deletes a **Custom Voice** and its versions.
 
-Refer to our [voices guide](/docs/empathic-voice-interface-evi/voices) for details on creating a custom voice.
+Refer to our [voices guide](/docs/empathic-voice-interface-evi/configuration/voices) for details on creating a custom voice.
 </dd>
 </dl>
 </dd>
@@ -2105,6 +2879,87 @@ client.empathic_voice.custom_voices.delete_custom_voice(
 <dd>
 
 **id:** `str` — Identifier for a Custom Voice. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.custom_voices.<a href="src/hume/empathic_voice/custom_voices/client.py">update_custom_voice_name</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates the name of a **Custom Voice**.
+
+Refer to our [voices guide](/docs/empathic-voice-interface-evi/configuration/voices) for details on creating a custom voice.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.custom_voices.update_custom_voice_name(
+    id="id",
+    name="name",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Custom Voice. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**name:** `str` — The name of the Custom Voice. Maximum length of 75 characters. Will be converted to all-uppercase. (e.g., "sample voice" becomes "SAMPLE VOICE")
     
 </dd>
 </dl>
@@ -2317,7 +3172,7 @@ client.empathic_voice.configs.create_config(
 <dl>
 <dd>
 
-**evi_version:** `str` — Specifies the EVI version to use. Use `"1"` for version 1, or `"2"` for the latest enhanced version. For a detailed comparison of the two versions, refer to our [guide](/docs/empathic-voice-interface-evi/evi-2).
+**evi_version:** `str` — Specifies the EVI version to use. Use `"1"` for version 1, or `"2"` for the latest enhanced version. For a detailed comparison of the two versions, refer to our [guide](/docs/empathic-voice-interface-evi/configuration/evi-version).
     
 </dd>
 </dl>
@@ -3864,480 +4719,6 @@ This parameter uses zero-based indexing. For example, setting `page_number` to 0
 <dd>
 
 **ascending_order:** `typing.Optional[bool]` — Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-## ExpressionMeasurement Batch
-<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">list_jobs</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Sort and filter jobs.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.expression_measurement.batch.list_jobs()
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**limit:** `typing.Optional[int]` — The maximum number of jobs to include in the response.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**status:** `typing.Optional[typing.Union[Status, typing.Sequence[Status]]]` 
-
-Include only jobs of this status in the response. There are four possible statuses:
-
-- `QUEUED`: The job has been received and is waiting to be processed.
-
-- `IN_PROGRESS`: The job is currently being processed.
-
-- `COMPLETED`: The job has finished processing.
-
-- `FAILED`: The job encountered an error and could not be completed successfully.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**when:** `typing.Optional[When]` — Specify whether to include jobs created before or after a given `timestamp_ms`.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**timestamp_ms:** `typing.Optional[int]` 
-
-Provide a timestamp in milliseconds to filter jobs.
-
-When combined with the `when` parameter, you can filter jobs before or after the given timestamp. Defaults to the current Unix timestamp if one is not provided.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**sort_by:** `typing.Optional[SortBy]` 
-
-Specify which timestamp to sort the jobs by.
-
-- `created`: Sort jobs by the time of creation, indicated by `created_timestamp_ms`.
-
-- `started`: Sort jobs by the time processing started, indicated by `started_timestamp_ms`.
-
-- `ended`: Sort jobs by the time processing ended, indicated by `ended_timestamp_ms`.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**direction:** `typing.Optional[Direction]` 
-
-Specify the order in which to sort the jobs. Defaults to descending order.
-
-- `asc`: Sort in ascending order (chronological, with the oldest records first).
-
-- `desc`: Sort in descending order (reverse-chronological, with the newest records first).
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">start_inference_job</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Start a new measurement inference job.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.expression_measurement.batch.start_inference_job(
-    urls=["https://hume-tutorials.s3.amazonaws.com/faces.zip"],
-    notify=True,
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**models:** `typing.Optional[Models]` 
-
-Specify the models to use for inference.
-
-If this field is not explicitly set, then all models will run by default.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**transcription:** `typing.Optional[Transcription]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**urls:** `typing.Optional[typing.Sequence[str]]` 
-
-URLs to the media files to be processed. Each must be a valid public URL to a media file (see recommended input filetypes) or an archive (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`) of media files.
-
-If you wish to supply more than 100 URLs, consider providing them as an archive (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`).
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**text:** `typing.Optional[typing.Sequence[str]]` — Text supplied directly to our Emotional Language and NER models for analysis.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**callback_url:** `typing.Optional[str]` — If provided, a `POST` request will be made to the URL with the generated predictions on completion or the error message on failure.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**notify:** `typing.Optional[bool]` — Whether to send an email notification to the user upon job completion/failure.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">get_job_details</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Get the request details and state of a given job.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.expression_measurement.batch.get_job_details(
-    id="job_id",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — The unique identifier for the job.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">get_job_predictions</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Get the JSON predictions of a completed inference job.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.expression_measurement.batch.get_job_predictions(
-    id="job_id",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — The unique identifier for the job.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">start_inference_job_from_local_file</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Start a new batch inference job.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.expression_measurement.batch.start_inference_job_from_local_file()
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**file:** `from __future__ import annotations
-
-typing.List[core.File]` — See core.File for more documentation
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**json:** `typing.Optional[InferenceBaseRequest]` — Stringified JSON object containing the inference job configuration.
     
 </dd>
 </dl>

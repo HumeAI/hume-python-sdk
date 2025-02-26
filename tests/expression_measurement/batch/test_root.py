@@ -11,10 +11,13 @@ async def test_list_jobs(client: HumeClient, async_client: AsyncHumeClient) -> N
         {
             "job_id": "job_id",
             "request": {
+                "callback_url": None,
                 "files": [{"filename": "filename", "md5sum": "md5sum", "content_type": "content_type"}],
                 "models": {
                     "burst": {},
                     "face": {
+                        "descriptions": None,
+                        "facs": None,
                         "fps_pred": 3,
                         "identify_faces": False,
                         "min_face_size": 60,
@@ -22,9 +25,14 @@ async def test_list_jobs(client: HumeClient, async_client: AsyncHumeClient) -> N
                         "save_faces": False,
                     },
                     "facemesh": {},
-                    "language": {"granularity": "word", "identify_speakers": False},
+                    "language": {
+                        "granularity": "word",
+                        "identify_speakers": False,
+                        "sentiment": None,
+                        "toxicity": None,
+                    },
                     "ner": {"identify_speakers": False},
-                    "prosody": {"granularity": "utterance", "identify_speakers": False},
+                    "prosody": {"granularity": "utterance", "identify_speakers": False, "window": None},
                 },
                 "notify": True,
                 "text": [],
@@ -47,10 +55,13 @@ async def test_list_jobs(client: HumeClient, async_client: AsyncHumeClient) -> N
             0: {
                 "job_id": None,
                 "request": {
+                    "callback_url": None,
                     "files": ("list", {0: {"filename": None, "md5sum": None, "content_type": None}}),
                     "models": {
                         "burst": ("dict", {}),
                         "face": {
+                            "descriptions": None,
+                            "facs": None,
                             "fps_pred": None,
                             "identify_faces": None,
                             "min_face_size": None,
@@ -58,9 +69,14 @@ async def test_list_jobs(client: HumeClient, async_client: AsyncHumeClient) -> N
                             "save_faces": None,
                         },
                         "facemesh": ("dict", {}),
-                        "language": {"granularity": None, "identify_speakers": None},
+                        "language": {
+                            "granularity": None,
+                            "identify_speakers": None,
+                            "sentiment": None,
+                            "toxicity": None,
+                        },
                         "ner": {"identify_speakers": None},
-                        "prosody": {"granularity": None, "identify_speakers": None},
+                        "prosody": {"granularity": None, "identify_speakers": None, "window": None},
                     },
                     "notify": None,
                     "text": ("list", {}),
@@ -90,10 +106,13 @@ async def test_get_job_details(client: HumeClient, async_client: AsyncHumeClient
         "type": "INFERENCE",
         "job_id": "job_id",
         "request": {
+            "callback_url": None,
             "files": [],
             "models": {
                 "burst": {},
                 "face": {
+                    "descriptions": None,
+                    "facs": None,
                     "fps_pred": 3,
                     "identify_faces": False,
                     "min_face_size": 60,
@@ -101,9 +120,9 @@ async def test_get_job_details(client: HumeClient, async_client: AsyncHumeClient
                     "save_faces": False,
                 },
                 "facemesh": {},
-                "language": {"granularity": "word", "identify_speakers": False},
+                "language": {"granularity": "word", "identify_speakers": False, "sentiment": None, "toxicity": None},
                 "ner": {"identify_speakers": False},
-                "prosody": {"granularity": "utterance", "identify_speakers": False},
+                "prosody": {"granularity": "utterance", "identify_speakers": False, "window": None},
             },
             "notify": True,
             "text": [],
@@ -122,10 +141,13 @@ async def test_get_job_details(client: HumeClient, async_client: AsyncHumeClient
         "type": None,
         "job_id": None,
         "request": {
+            "callback_url": None,
             "files": ("list", {}),
             "models": {
                 "burst": ("dict", {}),
                 "face": {
+                    "descriptions": None,
+                    "facs": None,
                     "fps_pred": None,
                     "identify_faces": None,
                     "min_face_size": None,
@@ -133,9 +155,9 @@ async def test_get_job_details(client: HumeClient, async_client: AsyncHumeClient
                     "save_faces": None,
                 },
                 "facemesh": ("dict", {}),
-                "language": {"granularity": None, "identify_speakers": None},
+                "language": {"granularity": None, "identify_speakers": None, "sentiment": None, "toxicity": None},
                 "ner": {"identify_speakers": None},
-                "prosody": {"granularity": None, "identify_speakers": None},
+                "prosody": {"granularity": None, "identify_speakers": None, "window": None},
             },
             "notify": None,
             "text": ("list", {}),
@@ -167,6 +189,7 @@ async def test_get_job_predictions(client: HumeClient, async_client: AsyncHumeCl
                         "file": "faces/100.jpg",
                         "models": {
                             "face": {
+                                "metadata": None,
                                 "grouped_predictions": [
                                     {
                                         "id": "unknown",
@@ -231,10 +254,12 @@ async def test_get_job_predictions(client: HumeClient, async_client: AsyncHumeCl
                                                     {"name": "Tiredness", "score": 0.1559651643037796},
                                                     {"name": "Triumph", "score": 0.01955239288508892},
                                                 ],
+                                                "facs": None,
+                                                "descriptions": None,
                                             }
                                         ],
                                     }
-                                ]
+                                ],
                             }
                         },
                     }
@@ -256,6 +281,7 @@ async def test_get_job_predictions(client: HumeClient, async_client: AsyncHumeCl
                                 "file": None,
                                 "models": {
                                     "face": {
+                                        "metadata": None,
                                         "grouped_predictions": (
                                             "list",
                                             {
@@ -322,12 +348,14 @@ async def test_get_job_predictions(client: HumeClient, async_client: AsyncHumeCl
                                                                         47: {"name": None, "score": None},
                                                                     },
                                                                 ),
+                                                                "facs": None,
+                                                                "descriptions": None,
                                                             }
                                                         },
                                                     ),
                                                 }
                                             },
-                                        )
+                                        ),
                                     }
                                 },
                             }

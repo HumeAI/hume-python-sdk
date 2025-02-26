@@ -143,7 +143,7 @@ class ConfigsClient:
         Parameters
         ----------
         evi_version : str
-            Specifies the EVI version to use. Use `"1"` for version 1, or `"2"` for the latest enhanced version. For a detailed comparison of the two versions, refer to our [guide](/docs/empathic-voice-interface-evi/evi-2).
+            Specifies the EVI version to use. Use `"1"` for version 1, or `"2"` for the latest enhanced version. For a detailed comparison of the two versions, refer to our [guide](/docs/empathic-voice-interface-evi/configuration/evi-version).
 
         name : str
             Name applied to all versions of a particular Config.
@@ -1020,7 +1020,7 @@ class AsyncConfigsClient:
         Parameters
         ----------
         evi_version : str
-            Specifies the EVI version to use. Use `"1"` for version 1, or `"2"` for the latest enhanced version. For a detailed comparison of the two versions, refer to our [guide](/docs/empathic-voice-interface-evi/evi-2).
+            Specifies the EVI version to use. Use `"1"` for version 1, or `"2"` for the latest enhanced version. For a detailed comparison of the two versions, refer to our [guide](/docs/empathic-voice-interface-evi/configuration/evi-version).
 
         name : str
             Name applied to all versions of a particular Config.

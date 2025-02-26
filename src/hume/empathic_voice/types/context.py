@@ -18,9 +18,9 @@ class Context(UniversalBaseModel):
     
     - **Temporary**: The context is appended only to the next user message.
     
-    - **Editable**: The original context is updated to reflect the new context.
+     - **Editable**: The original context is updated to reflect the new context.
     
-    If the type is not specified, it will default to `temporary`.
+     If the type is not specified, it will default to `temporary`.
     """
 
     text: str = pydantic.Field()

@@ -71,6 +71,8 @@ async def test_get_chat_group(client: HumeClient, async_client: AsyncHumeClient)
                 "start_timestamp": 1712334213647,
                 "end_timestamp": 1712334332571,
                 "event_count": 0,
+                "metadata": None,
+                "config": None,
             }
         ],
         "active": False,
@@ -94,6 +96,8 @@ async def test_get_chat_group(client: HumeClient, async_client: AsyncHumeClient)
                     "start_timestamp": None,
                     "end_timestamp": None,
                     "event_count": None,
+                    "metadata": None,
+                    "config": None,
                 }
             },
         ),

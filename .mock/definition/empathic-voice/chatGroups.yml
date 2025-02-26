@@ -57,6 +57,7 @@ service:
       response:
         docs: Success
         type: root.ReturnPagedChatGroups
+        status-code: 200
       errors:
         - root.BadRequestError
       examples:
@@ -127,6 +128,7 @@ service:
       response:
         docs: Success
         type: root.ReturnChatGroupPagedChats
+        status-code: 200
       errors:
         - root.BadRequestError
       examples:
@@ -153,6 +155,8 @@ service:
                   start_timestamp: 1712334213647
                   end_timestamp: 1712334332571
                   event_count: 0
+                  metadata: null
+                  config: null
               active: false
     list-chat-group-events:
       path: /v0/evi/chat_groups/{id}/events
@@ -203,6 +207,7 @@ service:
       response:
         docs: Success
         type: root.ReturnChatGroupPagedEvents
+        status-code: 200
       errors:
         - root.BadRequestError
       examples:
@@ -580,6 +585,7 @@ service:
       response:
         docs: Success
         type: root.ReturnChatGroupPagedAudioReconstructions
+        status-code: 200
       errors:
         - root.BadRequestError
       examples:
