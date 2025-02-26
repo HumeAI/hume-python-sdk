@@ -2,7 +2,7 @@
 
 from ....core.pydantic_utilities import UniversalBaseModel
 import typing
-from .config import Config as expression_measurement_stream_types_config_Config
+from .config import Config as expression_measurement_v_0_stream_models_types_config_Config
 import pydantic
 from ....core.pydantic_utilities import IS_PYDANTIC_V2
 
@@ -13,7 +13,7 @@ class StreamModelsEndpointPayload(UniversalBaseModel):
     """
 
     data: typing.Optional[str] = None
-    models: typing.Optional[expression_measurement_stream_types_config_Config] = pydantic.Field(default=None)
+    models: typing.Optional[expression_measurement_v_0_stream_models_types_config_Config] = pydantic.Field(default=None)
     """
     Configuration used to specify which models should be used and with what settings.
     """

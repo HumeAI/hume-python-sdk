@@ -28,7 +28,7 @@ class VoicesClient:
         Parameters
         ----------
         generation_id : str
-            Id of the TTS generation (as returned by the [/v0/tts endpoint](/reference/text-to-speech-evi/synthesize-json#response.body.generations.generation_id)) that should be saved as a voice.
+            Id of the TTS generation (as returned by the [/v0/tts endpoint](/reference/text-to-speech-tts/synthesize-json#response.body.generations.generation_id)) that should be saved as a voice.
 
         name : str
             Name of the voice in the `Voice Library`.
@@ -101,7 +101,7 @@ class AsyncVoicesClient:
         Parameters
         ----------
         generation_id : str
-            Id of the TTS generation (as returned by the [/v0/tts endpoint](/reference/text-to-speech-evi/synthesize-json#response.body.generations.generation_id)) that should be saved as a voice.
+            Id of the TTS generation (as returned by the [/v0/tts endpoint](/reference/text-to-speech-tts/synthesize-json#response.body.generations.generation_id)) that should be saved as a voice.
 
         name : str
             Name of the voice in the `Voice Library`.
