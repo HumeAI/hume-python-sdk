@@ -92,8 +92,8 @@ service:
           type: PostedTts
         content-type: application/json
       response:
-        docs: Successful Response
-        type: unknown
+        docs: OK
+        type: file
         status-code: 200
       errors:
         - UnprocessableEntityError

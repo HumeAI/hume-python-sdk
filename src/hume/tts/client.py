@@ -137,7 +137,7 @@ class TtsClient:
         format: typing.Optional[Format] = OMIT,
         num_generations: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> typing.Optional[typing.Any]:
+    ) -> typing.Iterator[bytes]:
         """
         Synthesizes one or more input texts into speech using the specified voice. If no voice is provided,  a novel voice will be generated dynamically. Optionally, additional context can be included to influence the  speech's style and prosody.
 
@@ -160,10 +160,10 @@ class TtsClient:
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
-        Returns
-        -------
-        typing.Optional[typing.Any]
-            Successful Response
+        Yields
+        ------
+        typing.Iterator[bytes]
+            OK
 
         Examples
         --------
@@ -187,7 +187,7 @@ class TtsClient:
             num_generations=1,
         )
         """
-        _response = self._client_wrapper.httpx_client.request(
+        with self._client_wrapper.httpx_client.stream(
             "v0/tts/file",
             method="POST",
             json={
@@ -202,30 +202,27 @@ class TtsClient:
             },
             request_options=request_options,
             omit=OMIT,
-        )
-        try:
-            if 200 <= _response.status_code < 300:
-                return typing.cast(
-                    typing.Optional[typing.Any],
-                    parse_obj_as(
-                        type_=typing.Optional[typing.Any],  # type: ignore
-                        object_=_response.json(),
-                    ),
-                )
-            if _response.status_code == 422:
-                raise UnprocessableEntityError(
-                    typing.cast(
-                        HttpValidationError,
-                        parse_obj_as(
-                            type_=HttpValidationError,  # type: ignore
-                            object_=_response.json(),
-                        ),
+        ) as _response:
+            try:
+                if 200 <= _response.status_code < 300:
+                    for _chunk in _response.iter_bytes():
+                        yield _chunk
+                    return
+                _response.read()
+                if _response.status_code == 422:
+                    raise UnprocessableEntityError(
+                        typing.cast(
+                            HttpValidationError,
+                            parse_obj_as(
+                                type_=HttpValidationError,  # type: ignore
+                                object_=_response.json(),
+                            ),
+                        )
                     )
-                )
-            _response_json = _response.json()
-        except JSONDecodeError:
-            raise ApiError(status_code=_response.status_code, body=_response.text)
-        raise ApiError(status_code=_response.status_code, body=_response_json)
+                _response_json = _response.json()
+            except JSONDecodeError:
+                raise ApiError(status_code=_response.status_code, body=_response.text)
+            raise ApiError(status_code=_response.status_code, body=_response_json)
 
 
 class AsyncTtsClient:
@@ -352,7 +349,7 @@ class AsyncTtsClient:
         format: typing.Optional[Format] = OMIT,
         num_generations: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> typing.Optional[typing.Any]:
+    ) -> typing.AsyncIterator[bytes]:
         """
         Synthesizes one or more input texts into speech using the specified voice. If no voice is provided,  a novel voice will be generated dynamically. Optionally, additional context can be included to influence the  speech's style and prosody.
 
@@ -375,10 +372,10 @@ class AsyncTtsClient:
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
-        Returns
-        -------
-        typing.Optional[typing.Any]
-            Successful Response
+        Yields
+        ------
+        typing.AsyncIterator[bytes]
+            OK
 
         Examples
         --------
@@ -410,7 +407,7 @@ class AsyncTtsClient:
 
         asyncio.run(main())
         """
-        _response = await self._client_wrapper.httpx_client.request(
+        async with self._client_wrapper.httpx_client.stream(
             "v0/tts/file",
             method="POST",
             json={
@@ -425,27 +422,24 @@ class AsyncTtsClient:
             },
             request_options=request_options,
             omit=OMIT,
-        )
-        try:
-            if 200 <= _response.status_code < 300:
-                return typing.cast(
-                    typing.Optional[typing.Any],
-                    parse_obj_as(
-                        type_=typing.Optional[typing.Any],  # type: ignore
-                        object_=_response.json(),
-                    ),
-                )
-            if _response.status_code == 422:
-                raise UnprocessableEntityError(
-                    typing.cast(
-                        HttpValidationError,
-                        parse_obj_as(
-                            type_=HttpValidationError,  # type: ignore
-                            object_=_response.json(),
-                        ),
+        ) as _response:
+            try:
+                if 200 <= _response.status_code < 300:
+                    async for _chunk in _response.aiter_bytes():
+                        yield _chunk
+                    return
+                await _response.aread()
+                if _response.status_code == 422:
+                    raise UnprocessableEntityError(
+                        typing.cast(
+                            HttpValidationError,
+                            parse_obj_as(
+                                type_=HttpValidationError,  # type: ignore
+                                object_=_response.json(),
+                            ),
+                        )
                     )
-                )
-            _response_json = _response.json()
-        except JSONDecodeError:
-            raise ApiError(status_code=_response.status_code, body=_response.text)
-        raise ApiError(status_code=_response.status_code, body=_response_json)
+                _response_json = _response.json()
+            except JSONDecodeError:
+                raise ApiError(status_code=_response.status_code, body=_response.text)
+            raise ApiError(status_code=_response.status_code, body=_response_json)
