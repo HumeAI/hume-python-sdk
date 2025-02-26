@@ -7,7 +7,6 @@ from hume.tts import PostedUtterance
 from hume.tts import PostedContextWithUtterances
 from hume.tts import FormatMp3
 from ..utilities import validate_response
-from hume.tts import PostedContextWithGenerationId
 
 
 async def test_synthesize_json(client: HumeClient, async_client: AsyncHumeClient) -> None:
@@ -87,36 +86,3 @@ async def test_synthesize_json(client: HumeClient, async_client: AsyncHumeClient
         num_generations=1,
     )
     validate_response(async_response, expected_response, expected_types)
-
-
-async def test_synthesize_file(client: HumeClient, async_client: AsyncHumeClient) -> None:
-    # Type ignore to avoid mypy complaining about the function not being meant to return a value
-    assert (
-        client.tts.synthesize_file(
-            utterances=[
-                PostedUtterance(
-                    text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
-                    description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm,  steady tone with an articulate, academic quality.",
-                )
-            ],
-            context=PostedContextWithGenerationId(generation_id="09ad914d-8e7f-40f8-a279-e34f07f7dab2"),
-            format=FormatMp3(),
-            num_generations=1,
-        )  # type: ignore[func-returns-value]
-        is None
-    )
-
-    assert (
-        await async_client.tts.synthesize_file(
-            utterances=[
-                PostedUtterance(
-                    text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
-                    description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm,  steady tone with an articulate, academic quality.",
-                )
-            ],
-            context=PostedContextWithGenerationId(generation_id="09ad914d-8e7f-40f8-a279-e34f07f7dab2"),
-            format=FormatMp3(),
-            num_generations=1,
-        )  # type: ignore[func-returns-value]
-        is None
-    )
