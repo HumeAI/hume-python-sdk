@@ -2,15 +2,12 @@
 
 from ....core.pydantic_utilities import UniversalBaseModel
 import typing
-from .time_range import TimeRange
-from .emotion_embedding import EmotionEmbedding
 from ....core.pydantic_utilities import IS_PYDANTIC_V2
 import pydantic
 
 
-class StreamModelPredictionsBurstPredictionsItem(UniversalBaseModel):
-    time: typing.Optional[TimeRange] = None
-    emotions: typing.Optional[EmotionEmbedding] = None
+class StreamModelPredictionsFacemeshPredictionsItem(UniversalBaseModel):
+    emotions: typing.Optional[typing.Optional[typing.Any]] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
