@@ -3,6 +3,10 @@
 from ....core.pydantic_utilities import UniversalBaseModel
 import typing
 import pydantic
+from .text_position import TextPosition
+from .emotion_embedding import EmotionEmbedding
+from .sentiment import Sentiment
+from .toxicity import Toxicity
 from ....core.pydantic_utilities import IS_PYDANTIC_V2
 
 
@@ -12,10 +16,10 @@ class StreamModelPredictionsLanguagePredictionsItem(UniversalBaseModel):
     A segment of text (like a word or a sentence).
     """
 
-    position: typing.Optional[typing.Optional[typing.Any]] = None
-    emotions: typing.Optional[typing.Optional[typing.Any]] = None
-    sentiment: typing.Optional[typing.Optional[typing.Any]] = None
-    toxicity: typing.Optional[typing.Optional[typing.Any]] = None
+    position: typing.Optional[TextPosition] = None
+    emotions: typing.Optional[EmotionEmbedding] = None
+    sentiment: typing.Optional[Sentiment] = None
+    toxicity: typing.Optional[Toxicity] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

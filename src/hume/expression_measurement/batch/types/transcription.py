@@ -19,6 +19,7 @@ class Transcription(UniversalBaseModel):
     By default, we use an automated language detection method for our Speech Prosody, Language, and NER models. However, if you know what language is being spoken in your media samples, you can specify it via its BCP-47 tag and potentially obtain more accurate results.
     
     You can specify any of the following languages:
+    
     - Chinese: `zh`
     - Danish: `da`
     - Dutch: `nl`

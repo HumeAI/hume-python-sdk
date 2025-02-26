@@ -3,6 +3,8 @@
 from ....core.pydantic_utilities import UniversalBaseModel
 import typing
 import pydantic
+from .stream_bounding_box import StreamBoundingBox
+from .emotion_embedding import EmotionEmbedding
 from ....core.pydantic_utilities import IS_PYDANTIC_V2
 
 
@@ -17,7 +19,7 @@ class StreamModelPredictionsFacePredictionsItem(UniversalBaseModel):
     Time in seconds when face detection occurred.
     """
 
-    bbox: typing.Optional[typing.Optional[typing.Any]] = None
+    bbox: typing.Optional[StreamBoundingBox] = None
     prob: typing.Optional[float] = pydantic.Field(default=None)
     """
     The predicted probability that a detected face was actually a face.
@@ -28,9 +30,9 @@ class StreamModelPredictionsFacePredictionsItem(UniversalBaseModel):
     Identifier for a face. Not that this defaults to `unknown` unless face identification is enabled in the face model configuration.
     """
 
-    emotions: typing.Optional[typing.Optional[typing.Any]] = None
-    facs: typing.Optional[typing.Optional[typing.Any]] = None
-    descriptions: typing.Optional[typing.Optional[typing.Any]] = None
+    emotions: typing.Optional[EmotionEmbedding] = None
+    facs: typing.Optional[EmotionEmbedding] = None
+    descriptions: typing.Optional[EmotionEmbedding] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
