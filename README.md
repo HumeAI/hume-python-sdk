@@ -30,15 +30,16 @@ API reference documentation is available [here](https://dev.hume.ai/reference/).
 
 The Hume Python SDK is compatible across several Python versions and operating systems.
 
-- For the Empathic Voice Interface, Python versions `3.9` through `3.11` are supported on macOS and Linux.
-
-- For Expression Measurement, Python versions `3.9` through `3.12` are supported on macOS, Linux, and Windows.
+- For the [Empathic Voice Interface](https://dev.hume.ai/docs/empathic-voice-interface-evi/overview), Python versions `3.9` through `3.11` are supported on macOS and Linux.
+- For [Text-to-speech (TTS)](https://dev.hume.ai/docs/text-to-speech-tts/overview), Python versions `3.9` through `3.12` are supported on macOS, Linux, and Windows.
+- For [Expression Measurement](https://dev.hume.ai/docs/expression-measurement/overview), Python versions `3.9` through `3.12` are supported on macOS, Linux, and Windows.
 
 Below is a table which shows the version and operating system compatibilities by product:
 
 |                          | Python Version                | Operating System      |
 | ------------------------ | ----------------------------- | --------------------- |
 | Empathic Voice Interface | `3.9`, `3.10`, `3.11`         | macOS, Linux          |
+| Text-to-speech (TTS)     | `3.9`, `3.10`, `3.11`, `3.12` | macOS, Linux, Windows |
 | Expression Measurement   | `3.9`, `3.10`, `3.11`, `3.12` | macOS, Linux, Windows |
 
 ## Installation
@@ -47,6 +48,8 @@ Below is a table which shows the version and operating system compatibilities by
 pip install hume
 # or
 poetry add hume
+# or
+uv add hume
 ```
 
 ## Other Resources
@@ -54,9 +57,7 @@ poetry add hume
 ```python
 from hume.client import HumeClient
 
-client = HumeClient(
-    api_key="YOUR_API_KEY", # Defaults to HUME_API_KEY
-)
+client = HumeClient(api_key="YOUR_API_KEY")
 client.empathic_voice.configs.list_configs()
 ```
 
@@ -69,9 +70,7 @@ import asyncio
 
 from hume.client import AsyncHumeClient
 
-client = AsyncHumeClient(
-    api_key="YOUR_API_KEY",
-)
+client = AsyncHumeClient(api_key="YOUR_API_KEY")
 
 async def main() -> None:
     await client.empathic_voice.configs.list_configs()
@@ -112,22 +111,20 @@ config = client.empathic_voice.configs.get_config_version(
 
 ## Namespaces
 
-This SDK contains the APIs for expression measurement, empathic voice and custom models. Even
+This SDK contains the APIs for empathic voice, tts, and expression measurement. Even
 if you do not plan on using more than one API to start, the SDK provides easy access in
-case you find additional APIs in the future.
+case you would like to use additional APIs in the future.
 
 Each API is namespaced accordingly:
 
 ```python
 from hume.client import HumeClient
 
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-
-client.expression_measurement. # APIs specific to Expression Measurement
+client = HumeClient(api_key="YOUR_API_KEY")
 
 client.emapthic_voice.         # APIs specific to Empathic Voice
+client.tts.                    # APIs specific to Text-to-speech
+client.expression_measurement. # APIs specific to Expression Measurement
 ```
 
 ## Exception Handling
@@ -151,9 +148,7 @@ Paginated requests will return a `SyncPager` or `AsyncPager`, which can be used 
 ```python
 import hume.client
 
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
+client = HumeClient(api_key="YOUR_API_KEY")
 
 for tool in client.empathic_voice.tools.list_tools():
   print(tool)
