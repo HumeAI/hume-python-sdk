@@ -23,7 +23,7 @@ service:
               type: string
               docs: >-
                 Id of the TTS generation (as returned by the [/v0/tts
-                endpoint](/reference/text-to-speech-evi/synthesize-json#response.body.generations.generation_id))
+                endpoint](/reference/text-to-speech-tts/synthesize-json#response.body.generations.generation_id))
                 that should be saved as a voice.
             name:
               type: string
