@@ -14,6 +14,9 @@ from .errors.unprocessable_entity_error import UnprocessableEntityError
 from .types.http_validation_error import HttpValidationError
 from json.decoder import JSONDecodeError
 from ..core.api_error import ApiError
+from .types.return_generation_chunk import ReturnGenerationChunk
+import httpx_sse
+import json
 from ..core.client_wrapper import AsyncClientWrapper
 from .voices.client import AsyncVoicesClient
 
@@ -207,6 +210,180 @@ class TtsClient:
                 if 200 <= _response.status_code < 300:
                     for _chunk in _response.iter_bytes():
                         yield _chunk
+                    return
+                _response.read()
+                if _response.status_code == 422:
+                    raise UnprocessableEntityError(
+                        typing.cast(
+                            HttpValidationError,
+                            parse_obj_as(
+                                type_=HttpValidationError,  # type: ignore
+                                object_=_response.json(),
+                            ),
+                        )
+                    )
+                _response_json = _response.json()
+            except JSONDecodeError:
+                raise ApiError(status_code=_response.status_code, body=_response.text)
+            raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def stream_file(
+        self,
+        *,
+        utterances: typing.Sequence[PostedUtterance],
+        context: typing.Optional[PostedContext] = OMIT,
+        format: typing.Optional[Format] = OMIT,
+        num_generations: typing.Optional[int] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> typing.Iterator[bytes]:
+        """
+        Streams synthesized speech using the specified voice. If no voice is provided,  a novel voice will be generated dynamically. Optionally, additional context can be included to influence the  speech's style and prosody.
+
+        The response is streamed as a raw audio file in the requested format.
+
+        Parameters
+        ----------
+        utterances : typing.Sequence[PostedUtterance]
+            Utterances to be converted to speech output.
+
+        context : typing.Optional[PostedContext]
+            Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+
+        format : typing.Optional[Format]
+            Specifies the output audio file format.
+
+        num_generations : typing.Optional[int]
+            Number of generations of the audio to produce.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Yields
+        ------
+        typing.Iterator[bytes]
+            OK
+        """
+        with self._client_wrapper.httpx_client.stream(
+            "v0/tts/stream/file",
+            method="POST",
+            json={
+                "context": convert_and_respect_annotation_metadata(
+                    object_=context, annotation=PostedContext, direction="write"
+                ),
+                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
+                "num_generations": num_generations,
+                "utterances": convert_and_respect_annotation_metadata(
+                    object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
+                ),
+            },
+            request_options=request_options,
+            omit=OMIT,
+        ) as _response:
+            try:
+                if 200 <= _response.status_code < 300:
+                    for _chunk in _response.iter_bytes():
+                        yield _chunk
+                    return
+                _response.read()
+                if _response.status_code == 422:
+                    raise UnprocessableEntityError(
+                        typing.cast(
+                            HttpValidationError,
+                            parse_obj_as(
+                                type_=HttpValidationError,  # type: ignore
+                                object_=_response.json(),
+                            ),
+                        )
+                    )
+                _response_json = _response.json()
+            except JSONDecodeError:
+                raise ApiError(status_code=_response.status_code, body=_response.text)
+            raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def stream_json(
+        self,
+        *,
+        utterances: typing.Sequence[PostedUtterance],
+        context: typing.Optional[PostedContext] = OMIT,
+        format: typing.Optional[Format] = OMIT,
+        num_generations: typing.Optional[int] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> typing.Iterator[ReturnGenerationChunk]:
+        """
+        Streams synthesized speech using the specified voice. If no voice is provided,  a novel voice will be generated dynamically. Optionally, additional context can be included to influence the  speech's style and prosody.
+
+        The response is streamed as Server-Sent Events (SSE) with JSON data containing the audio encoded in base64.
+
+        Parameters
+        ----------
+        utterances : typing.Sequence[PostedUtterance]
+            Utterances to be converted to speech output.
+
+        context : typing.Optional[PostedContext]
+            Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+
+        format : typing.Optional[Format]
+            Specifies the output audio file format.
+
+        num_generations : typing.Optional[int]
+            Number of generations of the audio to produce.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Yields
+        ------
+        typing.Iterator[ReturnGenerationChunk]
+            OK
+
+        Examples
+        --------
+        from hume import HumeClient
+        from hume.tts import PostedUtterance
+
+        client = HumeClient(
+            api_key="YOUR_API_KEY",
+        )
+        response = client.tts.stream_json(
+            utterances=[
+                PostedUtterance(
+                    text="text",
+                )
+            ],
+        )
+        for chunk in response:
+            yield chunk
+        """
+        with self._client_wrapper.httpx_client.stream(
+            "v0/tts/stream/json",
+            method="POST",
+            json={
+                "context": convert_and_respect_annotation_metadata(
+                    object_=context, annotation=PostedContext, direction="write"
+                ),
+                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
+                "num_generations": num_generations,
+                "utterances": convert_and_respect_annotation_metadata(
+                    object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
+                ),
+            },
+            request_options=request_options,
+            omit=OMIT,
+        ) as _response:
+            try:
+                if 200 <= _response.status_code < 300:
+                    _event_source = httpx_sse.EventSource(_response)
+                    for _sse in _event_source.iter_sse():
+                        try:
+                            yield typing.cast(
+                                ReturnGenerationChunk,
+                                parse_obj_as(
+                                    type_=ReturnGenerationChunk,  # type: ignore
+                                    object_=json.loads(_sse.data),
+                                ),
+                            )
+                        except:
+                            pass
                     return
                 _response.read()
                 if _response.status_code == 422:
@@ -427,6 +604,188 @@ class AsyncTtsClient:
                 if 200 <= _response.status_code < 300:
                     async for _chunk in _response.aiter_bytes():
                         yield _chunk
+                    return
+                await _response.aread()
+                if _response.status_code == 422:
+                    raise UnprocessableEntityError(
+                        typing.cast(
+                            HttpValidationError,
+                            parse_obj_as(
+                                type_=HttpValidationError,  # type: ignore
+                                object_=_response.json(),
+                            ),
+                        )
+                    )
+                _response_json = _response.json()
+            except JSONDecodeError:
+                raise ApiError(status_code=_response.status_code, body=_response.text)
+            raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def stream_file(
+        self,
+        *,
+        utterances: typing.Sequence[PostedUtterance],
+        context: typing.Optional[PostedContext] = OMIT,
+        format: typing.Optional[Format] = OMIT,
+        num_generations: typing.Optional[int] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> typing.AsyncIterator[bytes]:
+        """
+        Streams synthesized speech using the specified voice. If no voice is provided,  a novel voice will be generated dynamically. Optionally, additional context can be included to influence the  speech's style and prosody.
+
+        The response is streamed as a raw audio file in the requested format.
+
+        Parameters
+        ----------
+        utterances : typing.Sequence[PostedUtterance]
+            Utterances to be converted to speech output.
+
+        context : typing.Optional[PostedContext]
+            Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+
+        format : typing.Optional[Format]
+            Specifies the output audio file format.
+
+        num_generations : typing.Optional[int]
+            Number of generations of the audio to produce.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Yields
+        ------
+        typing.AsyncIterator[bytes]
+            OK
+        """
+        async with self._client_wrapper.httpx_client.stream(
+            "v0/tts/stream/file",
+            method="POST",
+            json={
+                "context": convert_and_respect_annotation_metadata(
+                    object_=context, annotation=PostedContext, direction="write"
+                ),
+                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
+                "num_generations": num_generations,
+                "utterances": convert_and_respect_annotation_metadata(
+                    object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
+                ),
+            },
+            request_options=request_options,
+            omit=OMIT,
+        ) as _response:
+            try:
+                if 200 <= _response.status_code < 300:
+                    async for _chunk in _response.aiter_bytes():
+                        yield _chunk
+                    return
+                await _response.aread()
+                if _response.status_code == 422:
+                    raise UnprocessableEntityError(
+                        typing.cast(
+                            HttpValidationError,
+                            parse_obj_as(
+                                type_=HttpValidationError,  # type: ignore
+                                object_=_response.json(),
+                            ),
+                        )
+                    )
+                _response_json = _response.json()
+            except JSONDecodeError:
+                raise ApiError(status_code=_response.status_code, body=_response.text)
+            raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def stream_json(
+        self,
+        *,
+        utterances: typing.Sequence[PostedUtterance],
+        context: typing.Optional[PostedContext] = OMIT,
+        format: typing.Optional[Format] = OMIT,
+        num_generations: typing.Optional[int] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> typing.AsyncIterator[ReturnGenerationChunk]:
+        """
+        Streams synthesized speech using the specified voice. If no voice is provided,  a novel voice will be generated dynamically. Optionally, additional context can be included to influence the  speech's style and prosody.
+
+        The response is streamed as Server-Sent Events (SSE) with JSON data containing the audio encoded in base64.
+
+        Parameters
+        ----------
+        utterances : typing.Sequence[PostedUtterance]
+            Utterances to be converted to speech output.
+
+        context : typing.Optional[PostedContext]
+            Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+
+        format : typing.Optional[Format]
+            Specifies the output audio file format.
+
+        num_generations : typing.Optional[int]
+            Number of generations of the audio to produce.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Yields
+        ------
+        typing.AsyncIterator[ReturnGenerationChunk]
+            OK
+
+        Examples
+        --------
+        import asyncio
+
+        from hume import AsyncHumeClient
+        from hume.tts import PostedUtterance
+
+        client = AsyncHumeClient(
+            api_key="YOUR_API_KEY",
+        )
+
+
+        async def main() -> None:
+            response = await client.tts.stream_json(
+                utterances=[
+                    PostedUtterance(
+                        text="text",
+                    )
+                ],
+            )
+            async for chunk in response:
+                yield chunk
+
+
+        asyncio.run(main())
+        """
+        async with self._client_wrapper.httpx_client.stream(
+            "v0/tts/stream/json",
+            method="POST",
+            json={
+                "context": convert_and_respect_annotation_metadata(
+                    object_=context, annotation=PostedContext, direction="write"
+                ),
+                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
+                "num_generations": num_generations,
+                "utterances": convert_and_respect_annotation_metadata(
+                    object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
+                ),
+            },
+            request_options=request_options,
+            omit=OMIT,
+        ) as _response:
+            try:
+                if 200 <= _response.status_code < 300:
+                    _event_source = httpx_sse.EventSource(_response)
+                    async for _sse in _event_source.aiter_sse():
+                        try:
+                            yield typing.cast(
+                                ReturnGenerationChunk,
+                                parse_obj_as(
+                                    type_=ReturnGenerationChunk,  # type: ignore
+                                    object_=json.loads(_sse.data),
+                                ),
+                            )
+                        except:
+                            pass
                     return
                 await _response.aread()
                 if _response.status_code == 422:

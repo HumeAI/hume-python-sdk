@@ -2,7 +2,6 @@ channel:
   path: /v0/stream/models
   url: prod
   auth: false
-  display-name: Stream
   headers:
     X-Hume-Api-Key:
       type: string
@@ -36,8 +35,8 @@ types:
     inline: true
   StreamModelPredictionsBurstPredictionsItem:
     properties:
-      time: optional<unknown>
-      emotions: optional<unknown>
+      time: optional<streamRoot.TimeRange>
+      emotions: optional<streamRoot.EmotionEmbedding>
     source:
       openapi: streaming-asyncapi.yml
     inline: true
@@ -56,7 +55,7 @@ types:
       time:
         type: optional<double>
         docs: Time in seconds when face detection occurred.
-      bbox: optional<unknown>
+      bbox: optional<streamRoot.StreamBoundingBox>
       prob:
         type: optional<double>
         docs: The predicted probability that a detected face was actually a face.
@@ -65,9 +64,9 @@ types:
         docs: >-
           Identifier for a face. Not that this defaults to `unknown` unless face
           identification is enabled in the face model configuration.
-      emotions: optional<unknown>
-      facs: optional<unknown>
-      descriptions: optional<unknown>
+      emotions: optional<streamRoot.EmotionEmbedding>
+      facs: optional<streamRoot.EmotionEmbedding>
+      descriptions: optional<streamRoot.EmotionEmbedding>
     source:
       openapi: streaming-asyncapi.yml
     inline: true
@@ -80,7 +79,7 @@ types:
     inline: true
   StreamModelPredictionsFacemeshPredictionsItem:
     properties:
-      emotions: optional<unknown>
+      emotions: optional<streamRoot.EmotionEmbedding>
     source:
       openapi: streaming-asyncapi.yml
     inline: true
@@ -96,10 +95,10 @@ types:
       text:
         type: optional<string>
         docs: A segment of text (like a word or a sentence).
-      position: optional<unknown>
-      emotions: optional<unknown>
-      sentiment: optional<unknown>
-      toxicity: optional<unknown>
+      position: optional<streamRoot.TextPosition>
+      emotions: optional<streamRoot.EmotionEmbedding>
+      sentiment: optional<streamRoot.Sentiment>
+      toxicity: optional<streamRoot.Toxicity>
     source:
       openapi: streaming-asyncapi.yml
     inline: true
@@ -112,8 +111,8 @@ types:
     inline: true
   StreamModelPredictionsProsodyPredictionsItem:
     properties:
-      time: optional<unknown>
-      emotions: optional<unknown>
+      time: optional<streamRoot.TimeRange>
+      emotions: optional<streamRoot.EmotionEmbedding>
     source:
       openapi: streaming-asyncapi.yml
     inline: true
@@ -435,3 +434,5 @@ types:
           received.
     source:
       openapi: streaming-asyncapi.yml
+imports:
+  streamRoot: __package__.yml

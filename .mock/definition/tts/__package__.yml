@@ -71,6 +71,7 @@ service:
                         text: >-
                           Beauty is no quality in things themselves: It exists
                           merely in the mind which contemplates them.
+                        generation_id: 795c949a-1510-4a80-9646-7d0863b023ab
               request_id: 66e01f90-4501-4aa0-bbaf-74f45dc15aa725906
     synthesize-file:
       path: /v0/tts/file
@@ -112,6 +113,72 @@ service:
             format:
               type: mp3
             num_generations: 1
+    stream-file:
+      path: /v0/tts/stream/file
+      method: POST
+      auth: true
+      docs: >-
+        Streams synthesized speech using the specified voice. If no voice is
+        provided,  a novel voice will be generated dynamically. Optionally,
+        additional context can be included to influence the  speech's style and
+        prosody. 
+
+
+        The response is streamed as a raw audio file in the requested format.
+      source:
+        openapi: tts-openapi.yml
+      display-name: Text-to-speech Stream (File)
+      request:
+        body:
+          type: PostedTts
+        content-type: application/json
+      response:
+        docs: OK
+        type: file
+        status-code: 200
+      errors:
+        - UnprocessableEntityError
+    stream-json:
+      path: /v0/tts/stream/json
+      method: POST
+      auth: true
+      docs: >-
+        Streams synthesized speech using the specified voice. If no voice is
+        provided,  a novel voice will be generated dynamically. Optionally,
+        additional context can be included to influence the  speech's style and
+        prosody. 
+
+
+        The response is streamed as Server-Sent Events (SSE) with JSON data
+        containing the audio encoded in base64.
+      source:
+        openapi: tts-openapi.yml
+      display-name: Text-to-speech Stream (JSON)
+      request:
+        body:
+          type: PostedTts
+        content-type: application/json
+      response-stream:
+        docs: OK
+        type: ReturnGenerationChunk
+        format: sse
+      errors:
+        - UnprocessableEntityError
+      examples:
+        - request:
+            utterances:
+              - text: text
+          response:
+            stream:
+              - event: ''
+                data:
+                  generation_id: generation_id
+                  snippet:
+                    audio: audio
+                    generation_id: generation_id
+                    id: id
+                    text: text
+                    utterance_index: 1
   source:
     openapi: tts-openapi.yml
 types:
@@ -184,8 +251,7 @@ types:
     source:
       openapi: tts-openapi.yml
   FormatMp3:
-    properties:
-      type: literal<"mp3">
+    properties: {}
     source:
       openapi: tts-openapi.yml
   PostedContext:
@@ -201,15 +267,17 @@ types:
       openapi: tts-openapi.yml
     inline: true
   Format:
-    discriminated: false
-    docs: Specifies the output audio file format.
+    discriminant: type
+    base-properties: {}
     union:
-      - type: FormatMp3
-      - type: FormatPcm
-      - type: FormatWav
+      mp3:
+        type: FormatMp3
+      pcm:
+        type: FormatPcm
+      wav:
+        type: FormatWav
     source:
       openapi: tts-openapi.yml
-    inline: true
   PostedTts:
     properties:
       context:
@@ -228,6 +296,54 @@ types:
         validation:
           min: 1
           max: 5
+      utterances:
+        docs: Utterances to be converted to speech output.
+        type: list<PostedUtterance>
+    source:
+      openapi: tts-openapi.yml
+  Context:
+    discriminated: false
+    docs: >-
+      Utterances to use as context for generating consistent speech style and
+      prosody across multiple requests. These will not be converted to speech
+      output.
+    union:
+      - type: PostedContextWithGenerationId
+      - type: PostedContextWithUtterances
+    source:
+      openapi: tts-openapi.yml
+    inline: true
+  OctaveBodyArgsFile:
+    properties:
+      context:
+        type: optional<Context>
+        docs: >-
+          Utterances to use as context for generating consistent speech style
+          and prosody across multiple requests. These will not be converted to
+          speech output.
+      expand_description:
+        type: optional<boolean>
+        docs: >-
+          If enabled, enhances the provided description prompt to improve voice
+          generation quality.
+        default: false
+      filter_generations:
+        type: optional<boolean>
+        docs: >-
+          If enabled, additional generations will be made, and the best
+          `num_generations` of them all will be returned.
+        default: true
+      format:
+        type: optional<Format>
+      model:
+        type: optional<literal<"octave">>
+        docs: The TTS model to use for speech generations.
+      split_utterances:
+        type: optional<boolean>
+        docs: >-
+          If enabled, each input utterance will be split as needed into more
+          natural-sounding `snippets` of speech for audio generation.
+        default: true
       utterances:
         docs: Utterances to be converted to speech output.
         type: list<PostedUtterance>
@@ -256,19 +372,7 @@ types:
     source:
       openapi: tts-openapi.yml
   FormatPcm:
-    properties:
-      type: literal<"pcm">
-    source:
-      openapi: tts-openapi.yml
-  PostedTtsRecord:
-    properties:
-      created_on: integer
-      id: string
-      internal_metadata: string
-      message_text: string
-      parent_id:
-        type: optional<string>
-      request_payload: string
+    properties: {}
     source:
       openapi: tts-openapi.yml
   Snippet:
@@ -278,12 +382,18 @@ types:
         docs: >-
           The segmented audio output in the requested format, encoded as a
           base64 string.
+      generation_id:
+        type: string
+        docs: The generation ID this snippet corresponds to.
       id:
         type: string
         docs: A unique ID associated with this **Snippet**.
       text:
         type: string
         docs: The text for this **Snippet**.
+      utterance_index:
+        type: optional<integer>
+        docs: The index of the utterance in the request this snippet corresponds to.
     source:
       openapi: tts-openapi.yml
   PostedUtterance:
@@ -388,7 +498,21 @@ types:
     source:
       openapi: tts-openapi.yml
   FormatWav:
+    properties: {}
+    source:
+      openapi: tts-openapi.yml
+  ReturnGenerationChunk:
     properties:
-      type: literal<"wav">
+      generation_id:
+        type: string
+        docs: >-
+          A unique ID associated with this TTS generation that can be used as
+          context for generating consistent speech style and prosody across
+          multiple requests.
+      snippet:
+        type: Snippet
+        docs: >-
+          A speech segment containing a portion of the original text optimized
+          for natural speech delivery.
     source:
       openapi: tts-openapi.yml
