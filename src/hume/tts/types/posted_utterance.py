@@ -17,9 +17,19 @@ class PostedUtterance(UniversalBaseModel):
      See our  [prompting guide](/docs/text-to-speech-tts/prompting) for tips on crafting your descriptions.
     """
 
+    speed: typing.Optional[float] = pydantic.Field(default=None)
+    """
+    A relative measure of how fast this utterance should be spoken.
+    """
+
     text: str = pydantic.Field()
     """
     The input text to be synthesized into speech.
+    """
+
+    trailing_silence: typing.Optional[float] = pydantic.Field(default=None)
+    """
+    Duration of trailing silence (in seconds) to add to this utterance
     """
 
     voice: typing.Optional[PostedUtteranceVoice] = pydantic.Field(default=None)

@@ -24,6 +24,7 @@ async def test_synthesize_json(client: HumeClient, async_client: AsyncHumeClient
                             "audio": "//PExAA0DDYRvkpNfhv3JI5JZ...etc.",
                             "id": "37b1b1b1-1b1b-1b1b-1b1b-1b1b1b1b1b1b",
                             "text": "Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
+                            "generation_id": "795c949a-1510-4a80-9646-7d0863b023ab",
                         }
                     ]
                 ],
@@ -41,7 +42,10 @@ async def test_synthesize_json(client: HumeClient, async_client: AsyncHumeClient
                     "file_size": "integer",
                     "encoding": {"format": None, "sample_rate": "integer"},
                     "audio": None,
-                    "snippets": ("list", {0: ("list", {0: {"audio": None, "id": None, "text": None}})}),
+                    "snippets": (
+                        "list",
+                        {0: ("list", {0: {"audio": None, "id": None, "text": None, "generation_id": None}})},
+                    ),
                 }
             },
         ),
@@ -84,5 +88,17 @@ async def test_synthesize_json(client: HumeClient, async_client: AsyncHumeClient
         ),
         format=FormatMp3(),
         num_generations=1,
+    )
+    validate_response(async_response, expected_response, expected_types)
+
+
+async def test_stream_file_v_0_tts_stream_file_post(client: HumeClient, async_client: AsyncHumeClient) -> None:
+    expected_response: typing.Any = {"key": "value"}
+    expected_types: typing.Any = None
+    response = client.tts.stream_file_v_0_tts_stream_file_post(utterances=[PostedUtterance(text="text")])
+    validate_response(response, expected_response, expected_types)
+
+    async_response = await async_client.tts.stream_file_v_0_tts_stream_file_post(
+        utterances=[PostedUtterance(text="text")]
     )
     validate_response(async_response, expected_response, expected_types)
