@@ -71,6 +71,7 @@ service:
                         text: >-
                           Beauty is no quality in things themselves: It exists
                           merely in the mind which contemplates them.
+                        generation_id: 795c949a-1510-4a80-9646-7d0863b023ab
               request_id: 66e01f90-4501-4aa0-bbaf-74f45dc15aa725906
     synthesize-file:
       path: /v0/tts/file
@@ -202,7 +203,6 @@ types:
     inline: true
   Format:
     discriminated: false
-    docs: Specifies the output audio file format.
     union:
       - type: FormatMp3
       - type: FormatPcm
@@ -228,6 +228,54 @@ types:
         validation:
           min: 1
           max: 5
+      utterances:
+        docs: Utterances to be converted to speech output.
+        type: list<PostedUtterance>
+    source:
+      openapi: tts-openapi.yml
+  Context:
+    discriminated: false
+    docs: >-
+      Utterances to use as context for generating consistent speech style and
+      prosody across multiple requests. These will not be converted to speech
+      output.
+    union:
+      - type: PostedContextWithGenerationId
+      - type: PostedContextWithUtterances
+    source:
+      openapi: tts-openapi.yml
+    inline: true
+  OctaveBodyArgsFile:
+    properties:
+      context:
+        type: optional<Context>
+        docs: >-
+          Utterances to use as context for generating consistent speech style
+          and prosody across multiple requests. These will not be converted to
+          speech output.
+      expand_description:
+        type: optional<boolean>
+        docs: >-
+          If enabled, enhances the provided description prompt to improve voice
+          generation quality.
+        default: false
+      filter_generations:
+        type: optional<boolean>
+        docs: >-
+          If enabled, additional generations will be made, and the best
+          `num_generations` of them all will be returned.
+        default: true
+      format:
+        type: optional<Format>
+      model:
+        type: optional<literal<"octave">>
+        docs: The TTS model to use for speech generations.
+      split_utterances:
+        type: optional<boolean>
+        docs: >-
+          If enabled, each input utterance will be split as needed into more
+          natural-sounding `snippets` of speech for audio generation.
+        default: true
       utterances:
         docs: Utterances to be converted to speech output.
         type: list<PostedUtterance>
@@ -260,17 +308,6 @@ types:
       type: literal<"pcm">
     source:
       openapi: tts-openapi.yml
-  PostedTtsRecord:
-    properties:
-      created_on: integer
-      id: string
-      internal_metadata: string
-      message_text: string
-      parent_id:
-        type: optional<string>
-      request_payload: string
-    source:
-      openapi: tts-openapi.yml
   Snippet:
     properties:
       audio:
@@ -278,12 +315,18 @@ types:
         docs: >-
           The segmented audio output in the requested format, encoded as a
           base64 string.
+      generation_id:
+        type: string
+        docs: The generation ID this snippet corresponds to.
       id:
         type: string
         docs: A unique ID associated with this **Snippet**.
       text:
         type: string
         docs: The text for this **Snippet**.
+      utterance_index:
+        type: optional<integer>
+        docs: The index of the utterance in the request this snippet corresponds to.
     source:
       openapi: tts-openapi.yml
   PostedUtterance:
@@ -305,11 +348,25 @@ types:
            See our  [prompting guide](/docs/text-to-speech-tts/prompting) for tips on crafting your descriptions.
         validation:
           maxLength: 1000
+      speed:
+        type: optional<double>
+        docs: Speed multiplier for the synthesized speech.
+        default: 1
+        validation:
+          min: 0.25
+          max: 3
       text:
         type: string
         docs: The input text to be synthesized into speech.
         validation:
           maxLength: 5000
+      trailing_silence:
+        type: optional<double>
+        docs: Duration of trailing silence (in seconds) to add to this utterance
+        default: 0.35
+        validation:
+          min: 0
+          max: 5
       voice:
         type: optional<PostedUtteranceVoice>
         docs: >-
@@ -390,5 +447,20 @@ types:
   FormatWav:
     properties:
       type: literal<"wav">
+    source:
+      openapi: tts-openapi.yml
+  ReturnGenerationChunk:
+    properties:
+      generation_id:
+        type: string
+        docs: >-
+          A unique ID associated with this TTS generation that can be used as
+          context for generating consistent speech style and prosody across
+          multiple requests.
+      snippet:
+        type: Snippet
+        docs: >-
+          A speech segment containing a portion of the original text optimized
+          for natural speech delivery.
     source:
       openapi: tts-openapi.yml

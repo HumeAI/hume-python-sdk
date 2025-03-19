@@ -2,6 +2,7 @@ channel:
   path: /v0/evi/chat
   url: prod
   auth: false
+  docs: Chat with Empathic Voice Interface (EVI)
   query-parameters:
     config_id:
       type: optional<string>
