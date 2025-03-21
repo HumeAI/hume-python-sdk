@@ -11,12 +11,12 @@ from .posted_context import PostedContext
 from .posted_context_with_generation_id import PostedContextWithGenerationId
 from .posted_context_with_utterances import PostedContextWithUtterances
 from .posted_tts import PostedTts
-from .posted_tts_record import PostedTtsRecord
 from .posted_utterance import PostedUtterance
 from .posted_utterance_voice import PostedUtteranceVoice
 from .posted_utterance_voice_with_id import PostedUtteranceVoiceWithId
 from .posted_utterance_voice_with_name import PostedUtteranceVoiceWithName
 from .return_generation import ReturnGeneration
+from .return_generation_chunk import ReturnGenerationChunk
 from .return_tts import ReturnTts
 from .return_voice import ReturnVoice
 from .snippet import Snippet
@@ -36,12 +36,12 @@ __all__ = [
     "PostedContextWithGenerationId",
     "PostedContextWithUtterances",
     "PostedTts",
-    "PostedTtsRecord",
     "PostedUtterance",
     "PostedUtteranceVoice",
     "PostedUtteranceVoiceWithId",
     "PostedUtteranceVoiceWithName",
     "ReturnGeneration",
+    "ReturnGenerationChunk",
     "ReturnTts",
     "ReturnVoice",
     "Snippet",

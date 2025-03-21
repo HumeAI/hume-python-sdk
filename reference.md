@@ -271,7 +271,7 @@ client.tts.voices.create(
 <dl>
 <dd>
 
-**generation_id:** `str` — Id of the TTS generation (as returned by the [/v0/tts endpoint](/reference/text-to-speech-evi/synthesize-json#response.body.generations.generation_id)) that should be saved as a voice.
+**generation_id:** `str` — A unique ID associated with this TTS generation that can be used as context for generating consistent speech style and prosody across multiple requests.
     
 </dd>
 </dl>
