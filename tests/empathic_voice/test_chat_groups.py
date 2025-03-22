@@ -43,12 +43,18 @@ async def test_list_chat_groups(client: HumeClient, async_client: AsyncHumeClien
         ),
     }
     response = client.empathic_voice.chat_groups.list_chat_groups(
-        page_number=0, page_size=1, ascending_order=True, config_id="1b60e1a0-cc59-424a-8d2c-189d354db3f3"
+        page_number=0,
+        page_size=1,
+        ascending_order=True,
+        config_id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
     )
     validate_response(response, expected_response, expected_types)
 
     async_response = await async_client.empathic_voice.chat_groups.list_chat_groups(
-        page_number=0, page_size=1, ascending_order=True, config_id="1b60e1a0-cc59-424a-8d2c-189d354db3f3"
+        page_number=0,
+        page_size=1,
+        ascending_order=True,
+        config_id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
     )
     validate_response(async_response, expected_response, expected_types)
 
@@ -104,12 +110,18 @@ async def test_get_chat_group(client: HumeClient, async_client: AsyncHumeClient)
         "active": None,
     }
     response = client.empathic_voice.chat_groups.get_chat_group(
-        id="697056f0-6c7e-487d-9bd8-9c19df79f05f", page_number=0, page_size=1, ascending_order=True
+        id="697056f0-6c7e-487d-9bd8-9c19df79f05f",
+        page_number=0,
+        page_size=1,
+        ascending_order=True,
     )
     validate_response(response, expected_response, expected_types)
 
     async_response = await async_client.empathic_voice.chat_groups.get_chat_group(
-        id="697056f0-6c7e-487d-9bd8-9c19df79f05f", page_number=0, page_size=1, ascending_order=True
+        id="697056f0-6c7e-487d-9bd8-9c19df79f05f",
+        page_number=0,
+        page_size=1,
+        ascending_order=True,
     )
     validate_response(async_response, expected_response, expected_types)
 
@@ -197,12 +209,18 @@ async def test_list_chat_group_events(client: HumeClient, async_client: AsyncHum
         ),
     }
     response = client.empathic_voice.chat_groups.list_chat_group_events(
-        id="697056f0-6c7e-487d-9bd8-9c19df79f05f", page_number=0, page_size=3, ascending_order=True
+        id="697056f0-6c7e-487d-9bd8-9c19df79f05f",
+        page_number=0,
+        page_size=3,
+        ascending_order=True,
     )
     validate_response(response, expected_response, expected_types)
 
     async_response = await async_client.empathic_voice.chat_groups.list_chat_group_events(
-        id="697056f0-6c7e-487d-9bd8-9c19df79f05f", page_number=0, page_size=3, ascending_order=True
+        id="697056f0-6c7e-487d-9bd8-9c19df79f05f",
+        page_number=0,
+        page_size=3,
+        ascending_order=True,
     )
     validate_response(async_response, expected_response, expected_types)
 
@@ -252,11 +270,17 @@ async def test_get_audio(client: HumeClient, async_client: AsyncHumeClient) -> N
         ),
     }
     response = client.empathic_voice.chat_groups.get_audio(
-        id="369846cf-6ad5-404d-905e-a8acb5cdfc78", page_number=0, page_size=10, ascending_order=True
+        id="369846cf-6ad5-404d-905e-a8acb5cdfc78",
+        page_number=0,
+        page_size=10,
+        ascending_order=True,
     )
     validate_response(response, expected_response, expected_types)
 
     async_response = await async_client.empathic_voice.chat_groups.get_audio(
-        id="369846cf-6ad5-404d-905e-a8acb5cdfc78", page_number=0, page_size=10, ascending_order=True
+        id="369846cf-6ad5-404d-905e-a8acb5cdfc78",
+        page_number=0,
+        page_size=10,
+        ascending_order=True,
     )
     validate_response(async_response, expected_response, expected_types)

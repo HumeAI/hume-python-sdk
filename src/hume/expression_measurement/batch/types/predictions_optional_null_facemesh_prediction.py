@@ -3,7 +3,9 @@
 from ....core.pydantic_utilities import UniversalBaseModel
 import typing
 from .null import Null
-from .grouped_predictions_facemesh_prediction import GroupedPredictionsFacemeshPrediction
+from .grouped_predictions_facemesh_prediction import (
+    GroupedPredictionsFacemeshPrediction,
+)
 from ....core.pydantic_utilities import IS_PYDANTIC_V2
 import pydantic
 

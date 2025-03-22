@@ -3,6 +3,13 @@
 import typing
 
 ReturnChatStatus = typing.Union[
-    typing.Literal["ACTIVE", "USER_ENDED", "USER_TIMEOUT", "MAX_DURATION_TIMEOUT", "INACTIVITY_TIMEOUT", "ERROR"],
+    typing.Literal[
+        "ACTIVE",
+        "USER_ENDED",
+        "USER_TIMEOUT",
+        "MAX_DURATION_TIMEOUT",
+        "INACTIVITY_TIMEOUT",
+        "ERROR",
+    ],
     typing.Any,
 ]

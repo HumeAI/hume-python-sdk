@@ -2,4 +2,7 @@
 
 import typing
 
-Type = typing.Union[typing.Literal["EMBEDDING_GENERATION", "INFERENCE", "TL_INFERENCE", "TRAINING"], typing.Any]
+Type = typing.Union[
+    typing.Literal["EMBEDDING_GENERATION", "INFERENCE", "TL_INFERENCE", "TRAINING"],
+    typing.Any,
+]

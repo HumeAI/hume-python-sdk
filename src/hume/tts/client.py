@@ -99,7 +99,9 @@ class TtsClient:
                 "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
                 "num_generations": num_generations,
                 "utterances": convert_and_respect_annotation_metadata(
-                    object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
+                    object_=utterances,
+                    annotation=typing.Sequence[PostedUtterance],
+                    direction="write",
                 ),
             },
             request_options=request_options,
@@ -158,7 +160,7 @@ class TtsClient:
             Number of generations of the audio to produce.
 
         request_options : typing.Optional[RequestOptions]
-            Request-specific configuration.
+            Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
 
         Yields
         ------
@@ -197,7 +199,9 @@ class TtsClient:
                 "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
                 "num_generations": num_generations,
                 "utterances": convert_and_respect_annotation_metadata(
-                    object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
+                    object_=utterances,
+                    annotation=typing.Sequence[PostedUtterance],
+                    direction="write",
                 ),
             },
             request_options=request_options,
@@ -205,7 +209,8 @@ class TtsClient:
         ) as _response:
             try:
                 if 200 <= _response.status_code < 300:
-                    for _chunk in _response.iter_bytes():
+                    _chunk_size = request_options.get("chunk_size", None) if request_options is not None else None
+                    for _chunk in _response.iter_bytes(chunk_size=_chunk_size):
                         yield _chunk
                     return
                 _response.read()
@@ -311,7 +316,9 @@ class AsyncTtsClient:
                 "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
                 "num_generations": num_generations,
                 "utterances": convert_and_respect_annotation_metadata(
-                    object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
+                    object_=utterances,
+                    annotation=typing.Sequence[PostedUtterance],
+                    direction="write",
                 ),
             },
             request_options=request_options,
@@ -370,7 +377,7 @@ class AsyncTtsClient:
             Number of generations of the audio to produce.
 
         request_options : typing.Optional[RequestOptions]
-            Request-specific configuration.
+            Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
 
         Yields
         ------
@@ -417,7 +424,9 @@ class AsyncTtsClient:
                 "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
                 "num_generations": num_generations,
                 "utterances": convert_and_respect_annotation_metadata(
-                    object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
+                    object_=utterances,
+                    annotation=typing.Sequence[PostedUtterance],
+                    direction="write",
                 ),
             },
             request_options=request_options,
@@ -425,7 +434,8 @@ class AsyncTtsClient:
         ) as _response:
             try:
                 if 200 <= _response.status_code < 300:
-                    async for _chunk in _response.aiter_bytes():
+                    _chunk_size = request_options.get("chunk_size", None) if request_options is not None else None
+                    async for _chunk in _response.aiter_bytes(chunk_size=_chunk_size):
                         yield _chunk
                     return
                 await _response.aread()

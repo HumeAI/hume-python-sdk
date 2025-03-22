@@ -4,7 +4,12 @@ import typing
 
 ReturnChatEventType = typing.Union[
     typing.Literal[
-        "SYSTEM_PROMPT", "USER_MESSAGE", "USER_INTERRUPTION", "AGENT_MESSAGE", "FUNCTION_CALL", "FUNCTION_CALL_RESPONSE"
+        "SYSTEM_PROMPT",
+        "USER_MESSAGE",
+        "USER_INTERRUPTION",
+        "AGENT_MESSAGE",
+        "FUNCTION_CALL",
+        "FUNCTION_CALL_RESPONSE",
     ],
     typing.Any,
 ]

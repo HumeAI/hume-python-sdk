@@ -65,7 +65,7 @@ class BatchClient:
         timestamp_ms : typing.Optional[int]
             Provide a timestamp in milliseconds to filter jobs.
 
-            When combined with the `when` parameter, you can filter jobs before or after the given timestamp. Defaults to the current Unix timestamp if one is not provided.
+             When combined with the `when` parameter, you can filter jobs before or after the given timestamp. Defaults to the current Unix timestamp if one is not provided.
 
         sort_by : typing.Optional[SortBy]
             Specify which timestamp to sort the jobs by.
@@ -323,7 +323,7 @@ class BatchClient:
             The unique identifier for the job.
 
         request_options : typing.Optional[RequestOptions]
-            Request-specific configuration.
+            Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
 
         Yields
         ------
@@ -337,7 +337,8 @@ class BatchClient:
         ) as _response:
             try:
                 if 200 <= _response.status_code < 300:
-                    for _chunk in _response.iter_bytes():
+                    _chunk_size = request_options.get("chunk_size", None) if request_options is not None else None
+                    for _chunk in _response.iter_bytes(chunk_size=_chunk_size):
                         yield _chunk
                     return
                 _response.read()
@@ -449,7 +450,7 @@ class AsyncBatchClient:
         timestamp_ms : typing.Optional[int]
             Provide a timestamp in milliseconds to filter jobs.
 
-            When combined with the `when` parameter, you can filter jobs before or after the given timestamp. Defaults to the current Unix timestamp if one is not provided.
+             When combined with the `when` parameter, you can filter jobs before or after the given timestamp. Defaults to the current Unix timestamp if one is not provided.
 
         sort_by : typing.Optional[SortBy]
             Specify which timestamp to sort the jobs by.
@@ -739,7 +740,7 @@ class AsyncBatchClient:
             The unique identifier for the job.
 
         request_options : typing.Optional[RequestOptions]
-            Request-specific configuration.
+            Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
 
         Yields
         ------
@@ -753,7 +754,8 @@ class AsyncBatchClient:
         ) as _response:
             try:
                 if 200 <= _response.status_code < 300:
-                    async for _chunk in _response.aiter_bytes():
+                    _chunk_size = request_options.get("chunk_size", None) if request_options is not None else None
+                    async for _chunk in _response.aiter_bytes(chunk_size=_chunk_size):
                         yield _chunk
                     return
                 await _response.aread()

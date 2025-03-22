@@ -20,7 +20,11 @@ class VoicesClient:
         self._client_wrapper = client_wrapper
 
     def create(
-        self, *, generation_id: str, name: str, request_options: typing.Optional[RequestOptions] = None
+        self,
+        *,
+        generation_id: str,
+        name: str,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnVoice:
         """
         Creates a new voice from a specified TTS generation ID and saves it to your **Voice Library**. This allows for consistent speech style and prosody across multiple requests.
@@ -28,7 +32,7 @@ class VoicesClient:
         Parameters
         ----------
         generation_id : str
-            Id of the TTS generation (as returned by the [/v0/tts endpoint](/reference/text-to-speech-evi/synthesize-json#response.body.generations.generation_id)) that should be saved as a voice.
+            A unique ID associated with this TTS generation that can be used as context for generating consistent speech style and prosody across multiple requests.
 
         name : str
             Name of the voice in the `Voice Library`.
@@ -59,6 +63,9 @@ class VoicesClient:
             json={
                 "generation_id": generation_id,
                 "name": name,
+            },
+            headers={
+                "content-type": "application/json",
             },
             request_options=request_options,
             omit=OMIT,
@@ -93,7 +100,11 @@ class AsyncVoicesClient:
         self._client_wrapper = client_wrapper
 
     async def create(
-        self, *, generation_id: str, name: str, request_options: typing.Optional[RequestOptions] = None
+        self,
+        *,
+        generation_id: str,
+        name: str,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnVoice:
         """
         Creates a new voice from a specified TTS generation ID and saves it to your **Voice Library**. This allows for consistent speech style and prosody across multiple requests.
@@ -101,7 +112,7 @@ class AsyncVoicesClient:
         Parameters
         ----------
         generation_id : str
-            Id of the TTS generation (as returned by the [/v0/tts endpoint](/reference/text-to-speech-evi/synthesize-json#response.body.generations.generation_id)) that should be saved as a voice.
+            A unique ID associated with this TTS generation that can be used as context for generating consistent speech style and prosody across multiple requests.
 
         name : str
             Name of the voice in the `Voice Library`.
@@ -140,6 +151,9 @@ class AsyncVoicesClient:
             json={
                 "generation_id": generation_id,
                 "name": name,
+            },
+            headers={
+                "content-type": "application/json",
             },
             request_options=request_options,
             omit=OMIT,
