@@ -7,5 +7,8 @@ from .state_training_completed_training import StateTrainingCompletedTraining
 from .state_training_failed import StateTrainingFailed
 
 StateTraining = typing.Union[
-    StateTrainingQueued, StateTrainingInProgress, StateTrainingCompletedTraining, StateTrainingFailed
+    StateTrainingQueued,
+    StateTrainingInProgress,
+    StateTrainingCompletedTraining,
+    StateTrainingFailed,
 ]

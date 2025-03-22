@@ -3,5 +3,6 @@
 import typing
 
 PostedCustomVoiceBaseVoice = typing.Union[
-    typing.Literal["ITO", "KORA", "DACHER", "AURA", "FINN", "WHIMSY", "STELLA", "SUNNY"], typing.Any
+    typing.Literal["ITO", "KORA", "DACHER", "AURA", "FINN", "WHIMSY", "STELLA", "SUNNY"],
+    typing.Any,
 ]

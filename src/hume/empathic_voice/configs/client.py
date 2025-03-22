@@ -247,7 +247,9 @@ class ConfigsClient:
                     object_=voice, annotation=PostedVoice, direction="write"
                 ),
                 "language_model": convert_and_respect_annotation_metadata(
-                    object_=language_model, annotation=PostedLanguageModel, direction="write"
+                    object_=language_model,
+                    annotation=PostedLanguageModel,
+                    direction="write",
                 ),
                 "ellm_model": convert_and_respect_annotation_metadata(
                     object_=ellm_model, annotation=PostedEllmModel, direction="write"
@@ -263,14 +265,21 @@ class ConfigsClient:
                     direction="write",
                 ),
                 "event_messages": convert_and_respect_annotation_metadata(
-                    object_=event_messages, annotation=PostedEventMessageSpecs, direction="write"
+                    object_=event_messages,
+                    annotation=PostedEventMessageSpecs,
+                    direction="write",
                 ),
                 "timeouts": convert_and_respect_annotation_metadata(
                     object_=timeouts, annotation=PostedTimeoutSpecs, direction="write"
                 ),
                 "webhooks": convert_and_respect_annotation_metadata(
-                    object_=webhooks, annotation=typing.Sequence[typing.Optional[PostedWebhookSpec]], direction="write"
+                    object_=webhooks,
+                    annotation=typing.Sequence[typing.Optional[PostedWebhookSpec]],
+                    direction="write",
                 ),
+            },
+            headers={
+                "content-type": "application/json",
             },
             request_options=request_options,
             omit=OMIT,
@@ -517,7 +526,9 @@ class ConfigsClient:
                     object_=voice, annotation=PostedVoice, direction="write"
                 ),
                 "language_model": convert_and_respect_annotation_metadata(
-                    object_=language_model, annotation=PostedLanguageModel, direction="write"
+                    object_=language_model,
+                    annotation=PostedLanguageModel,
+                    direction="write",
                 ),
                 "ellm_model": convert_and_respect_annotation_metadata(
                     object_=ellm_model, annotation=PostedEllmModel, direction="write"
@@ -533,14 +544,21 @@ class ConfigsClient:
                     direction="write",
                 ),
                 "event_messages": convert_and_respect_annotation_metadata(
-                    object_=event_messages, annotation=PostedEventMessageSpecs, direction="write"
+                    object_=event_messages,
+                    annotation=PostedEventMessageSpecs,
+                    direction="write",
                 ),
                 "timeouts": convert_and_respect_annotation_metadata(
                     object_=timeouts, annotation=PostedTimeoutSpecs, direction="write"
                 ),
                 "webhooks": convert_and_respect_annotation_metadata(
-                    object_=webhooks, annotation=typing.Sequence[typing.Optional[PostedWebhookSpec]], direction="write"
+                    object_=webhooks,
+                    annotation=typing.Sequence[typing.Optional[PostedWebhookSpec]],
+                    direction="write",
                 ),
+            },
+            headers={
+                "content-type": "application/json",
             },
             request_options=request_options,
             omit=OMIT,
@@ -621,7 +639,13 @@ class ConfigsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def update_config_name(self, id: str, *, name: str, request_options: typing.Optional[RequestOptions] = None) -> str:
+    def update_config_name(
+        self,
+        id: str,
+        *,
+        name: str,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> str:
         """
         Updates the name of a **Config**.
 
@@ -661,6 +685,9 @@ class ConfigsClient:
             json={
                 "name": name,
             },
+            headers={
+                "content-type": "application/json",
+            },
             request_options=request_options,
             omit=OMIT,
         )
@@ -683,7 +710,11 @@ class ConfigsClient:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def get_config_version(
-        self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        id: str,
+        version: int,
+        *,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnConfig:
         """
         Fetches a specified version of a **Config**.
@@ -752,7 +783,11 @@ class ConfigsClient:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def delete_config_version(
-        self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        id: str,
+        version: int,
+        *,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> None:
         """
         Deletes a specified version of a **Config**.
@@ -867,6 +902,9 @@ class ConfigsClient:
             method="PATCH",
             json={
                 "version_description": version_description,
+            },
+            headers={
+                "content-type": "application/json",
             },
             request_options=request_options,
             omit=OMIT,
@@ -1132,7 +1170,9 @@ class AsyncConfigsClient:
                     object_=voice, annotation=PostedVoice, direction="write"
                 ),
                 "language_model": convert_and_respect_annotation_metadata(
-                    object_=language_model, annotation=PostedLanguageModel, direction="write"
+                    object_=language_model,
+                    annotation=PostedLanguageModel,
+                    direction="write",
                 ),
                 "ellm_model": convert_and_respect_annotation_metadata(
                     object_=ellm_model, annotation=PostedEllmModel, direction="write"
@@ -1148,14 +1188,21 @@ class AsyncConfigsClient:
                     direction="write",
                 ),
                 "event_messages": convert_and_respect_annotation_metadata(
-                    object_=event_messages, annotation=PostedEventMessageSpecs, direction="write"
+                    object_=event_messages,
+                    annotation=PostedEventMessageSpecs,
+                    direction="write",
                 ),
                 "timeouts": convert_and_respect_annotation_metadata(
                     object_=timeouts, annotation=PostedTimeoutSpecs, direction="write"
                 ),
                 "webhooks": convert_and_respect_annotation_metadata(
-                    object_=webhooks, annotation=typing.Sequence[typing.Optional[PostedWebhookSpec]], direction="write"
+                    object_=webhooks,
+                    annotation=typing.Sequence[typing.Optional[PostedWebhookSpec]],
+                    direction="write",
                 ),
+            },
+            headers={
+                "content-type": "application/json",
             },
             request_options=request_options,
             omit=OMIT,
@@ -1418,7 +1465,9 @@ class AsyncConfigsClient:
                     object_=voice, annotation=PostedVoice, direction="write"
                 ),
                 "language_model": convert_and_respect_annotation_metadata(
-                    object_=language_model, annotation=PostedLanguageModel, direction="write"
+                    object_=language_model,
+                    annotation=PostedLanguageModel,
+                    direction="write",
                 ),
                 "ellm_model": convert_and_respect_annotation_metadata(
                     object_=ellm_model, annotation=PostedEllmModel, direction="write"
@@ -1434,14 +1483,21 @@ class AsyncConfigsClient:
                     direction="write",
                 ),
                 "event_messages": convert_and_respect_annotation_metadata(
-                    object_=event_messages, annotation=PostedEventMessageSpecs, direction="write"
+                    object_=event_messages,
+                    annotation=PostedEventMessageSpecs,
+                    direction="write",
                 ),
                 "timeouts": convert_and_respect_annotation_metadata(
                     object_=timeouts, annotation=PostedTimeoutSpecs, direction="write"
                 ),
                 "webhooks": convert_and_respect_annotation_metadata(
-                    object_=webhooks, annotation=typing.Sequence[typing.Optional[PostedWebhookSpec]], direction="write"
+                    object_=webhooks,
+                    annotation=typing.Sequence[typing.Optional[PostedWebhookSpec]],
+                    direction="write",
                 ),
+            },
+            headers={
+                "content-type": "application/json",
             },
             request_options=request_options,
             omit=OMIT,
@@ -1531,7 +1587,11 @@ class AsyncConfigsClient:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def update_config_name(
-        self, id: str, *, name: str, request_options: typing.Optional[RequestOptions] = None
+        self,
+        id: str,
+        *,
+        name: str,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> str:
         """
         Updates the name of a **Config**.
@@ -1580,6 +1640,9 @@ class AsyncConfigsClient:
             json={
                 "name": name,
             },
+            headers={
+                "content-type": "application/json",
+            },
             request_options=request_options,
             omit=OMIT,
         )
@@ -1602,7 +1665,11 @@ class AsyncConfigsClient:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def get_config_version(
-        self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        id: str,
+        version: int,
+        *,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnConfig:
         """
         Fetches a specified version of a **Config**.
@@ -1679,7 +1746,11 @@ class AsyncConfigsClient:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def delete_config_version(
-        self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        id: str,
+        version: int,
+        *,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> None:
         """
         Deletes a specified version of a **Config**.
@@ -1810,6 +1881,9 @@ class AsyncConfigsClient:
             method="PATCH",
             json={
                 "version_description": version_description,
+            },
+            headers={
+                "content-type": "application/json",
             },
             request_options=request_options,
             omit=OMIT,

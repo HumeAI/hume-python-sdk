@@ -3,9 +3,14 @@
 import typing
 from .state_tl_inference_queued import StateTlInferenceQueued
 from .state_tl_inference_in_progress import StateTlInferenceInProgress
-from .state_tl_inference_completed_tl_inference import StateTlInferenceCompletedTlInference
+from .state_tl_inference_completed_tl_inference import (
+    StateTlInferenceCompletedTlInference,
+)
 from .state_tl_inference_failed import StateTlInferenceFailed
 
 StateTlInference = typing.Union[
-    StateTlInferenceQueued, StateTlInferenceInProgress, StateTlInferenceCompletedTlInference, StateTlInferenceFailed
+    StateTlInferenceQueued,
+    StateTlInferenceInProgress,
+    StateTlInferenceCompletedTlInference,
+    StateTlInferenceFailed,
 ]

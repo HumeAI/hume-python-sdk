@@ -2,7 +2,9 @@
 
 from ...core.pydantic_utilities import UniversalBaseModel
 import pydantic
-from .return_paged_chat_groups_pagination_direction import ReturnPagedChatGroupsPaginationDirection
+from .return_paged_chat_groups_pagination_direction import (
+    ReturnPagedChatGroupsPaginationDirection,
+)
 import typing
 from .return_chat_group import ReturnChatGroup
 from ...core.pydantic_utilities import IS_PYDANTIC_V2

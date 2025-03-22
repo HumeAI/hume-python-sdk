@@ -140,14 +140,16 @@ async def test_update_prompt_name(client: HumeClient, async_client: AsyncHumeCli
     # Type ignore to avoid mypy complaining about the function not being meant to return a value
     assert (
         client.empathic_voice.prompts.update_prompt_name(
-            id="af699d45-2985-42cc-91b9-af9e5da3bac5", name="Updated Weather Assistant Prompt Name"
+            id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+            name="Updated Weather Assistant Prompt Name",
         )  # type: ignore[func-returns-value]
         == ""
     )
 
     assert (
         await async_client.empathic_voice.prompts.update_prompt_name(
-            id="af699d45-2985-42cc-91b9-af9e5da3bac5", name="Updated Weather Assistant Prompt Name"
+            id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+            name="Updated Weather Assistant Prompt Name",
         )  # type: ignore[func-returns-value]
         == ""
     )

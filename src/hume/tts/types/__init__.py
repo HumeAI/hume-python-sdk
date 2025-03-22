@@ -11,7 +11,6 @@ from .posted_context import PostedContext
 from .posted_context_with_generation_id import PostedContextWithGenerationId
 from .posted_context_with_utterances import PostedContextWithUtterances
 from .posted_tts import PostedTts
-from .posted_tts_record import PostedTtsRecord
 from .posted_utterance import PostedUtterance
 from .posted_utterance_voice import PostedUtteranceVoice
 from .posted_utterance_voice_with_id import PostedUtteranceVoiceWithId
@@ -36,7 +35,6 @@ __all__ = [
     "PostedContextWithGenerationId",
     "PostedContextWithUtterances",
     "PostedTts",
-    "PostedTtsRecord",
     "PostedUtterance",
     "PostedUtteranceVoice",
     "PostedUtteranceVoiceWithId",
