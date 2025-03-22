@@ -9,8 +9,8 @@ import websockets.protocol
 
 from hume.core.api_error import ApiError
 
-from ..stream.types.config import Config
-from ..stream.types.subscribe_event import SubscribeEvent
+from .stream.types.config import Config
+from .stream.types.subscribe_event import SubscribeEvent
 from ...core.pydantic_utilities import parse_obj_as
 from ...core.client_wrapper import AsyncClientWrapper
 
