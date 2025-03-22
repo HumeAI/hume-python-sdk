@@ -1,0 +1,47 @@
+imports:
+  root: __package__.yml
+service:
+  auth: false
+  base-path: ''
+  endpoints:
+    create:
+      path: /v0/tts/voices
+      method: POST
+      auth: true
+      docs: >-
+        Creates a new voice from a specified TTS generation ID and saves it to
+        your **Voice Library**. This allows for consistent speech style and
+        prosody across multiple requests.
+      source:
+        openapi: tts-openapi.yml
+      display-name: Create voice
+      request:
+        name: PostedVoice
+        body:
+          properties:
+            generation_id:
+              type: string
+              docs: >-
+                Id of the TTS generation (as returned by the [/v0/tts
+                endpoint](/reference/text-to-speech-evi/synthesize-json#response.body.generations.generation_id))
+                that should be saved as a voice.
+            name:
+              type: string
+              docs: Name of the voice in the `Voice Library`.
+        content-type: application/json
+      response:
+        docs: Successful Response
+        type: root.ReturnVoice
+        status-code: 200
+      errors:
+        - root.UnprocessableEntityError
+      examples:
+        - request:
+            generation_id: 795c949a-1510-4a80-9646-7d0863b023ab
+            name: David Hume
+          response:
+            body:
+              name: David Hume
+              id: c42352c0-4566-455d-b180-0f654b65b525
+  source:
+    openapi: tts-openapi.yml
