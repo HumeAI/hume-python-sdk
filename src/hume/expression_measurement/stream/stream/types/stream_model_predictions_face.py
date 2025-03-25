@@ -2,9 +2,7 @@
 
 from .....core.pydantic_utilities import UniversalBaseModel
 import typing
-from .stream_model_predictions_face_predictions_item import (
-    StreamModelPredictionsFacePredictionsItem,
-)
+from .stream_model_predictions_face_predictions_item import StreamModelPredictionsFacePredictionsItem
 from .....core.pydantic_utilities import IS_PYDANTIC_V2
 import pydantic
 

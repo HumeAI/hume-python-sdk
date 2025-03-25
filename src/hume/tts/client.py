@@ -33,6 +33,7 @@ class TtsClient:
         context: typing.Optional[PostedContext] = OMIT,
         format: typing.Optional[Format] = OMIT,
         num_generations: typing.Optional[int] = OMIT,
+        split_utterances: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnTts:
         """
@@ -53,6 +54,15 @@ class TtsClient:
 
         num_generations : typing.Optional[int]
             Number of generations of the audio to produce.
+
+        split_utterances : typing.Optional[bool]
+            Controls how audio output is segmented in the response.
+
+            - When **enabled** (`true`),  input utterances are automatically split into natural-sounding speech segments.
+
+            - When **disabled**  (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets.
+
+            This setting affects how the `snippets` array is structured in the response, which may be important  for applications that need to track the relationship between input text and generated audio segments. When  setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -98,10 +108,9 @@ class TtsClient:
                 ),
                 "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
                 "num_generations": num_generations,
+                "split_utterances": split_utterances,
                 "utterances": convert_and_respect_annotation_metadata(
-                    object_=utterances,
-                    annotation=typing.Sequence[PostedUtterance],
-                    direction="write",
+                    object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
                 ),
             },
             request_options=request_options,
@@ -138,6 +147,7 @@ class TtsClient:
         context: typing.Optional[PostedContext] = OMIT,
         format: typing.Optional[Format] = OMIT,
         num_generations: typing.Optional[int] = OMIT,
+        split_utterances: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Iterator[bytes]:
         """
@@ -159,8 +169,17 @@ class TtsClient:
         num_generations : typing.Optional[int]
             Number of generations of the audio to produce.
 
+        split_utterances : typing.Optional[bool]
+            Controls how audio output is segmented in the response.
+
+            - When **enabled** (`true`),  input utterances are automatically split into natural-sounding speech segments.
+
+            - When **disabled**  (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets.
+
+            This setting affects how the `snippets` array is structured in the response, which may be important  for applications that need to track the relationship between input text and generated audio segments. When  setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
+
         request_options : typing.Optional[RequestOptions]
-            Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
+            Request-specific configuration.
 
         Yields
         ------
@@ -198,10 +217,9 @@ class TtsClient:
                 ),
                 "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
                 "num_generations": num_generations,
+                "split_utterances": split_utterances,
                 "utterances": convert_and_respect_annotation_metadata(
-                    object_=utterances,
-                    annotation=typing.Sequence[PostedUtterance],
-                    direction="write",
+                    object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
                 ),
             },
             request_options=request_options,
@@ -209,8 +227,7 @@ class TtsClient:
         ) as _response:
             try:
                 if 200 <= _response.status_code < 300:
-                    _chunk_size = request_options.get("chunk_size", None) if request_options is not None else None
-                    for _chunk in _response.iter_bytes(chunk_size=_chunk_size):
+                    for _chunk in _response.iter_bytes():
                         yield _chunk
                     return
                 _response.read()
@@ -242,6 +259,7 @@ class AsyncTtsClient:
         context: typing.Optional[PostedContext] = OMIT,
         format: typing.Optional[Format] = OMIT,
         num_generations: typing.Optional[int] = OMIT,
+        split_utterances: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnTts:
         """
@@ -262,6 +280,15 @@ class AsyncTtsClient:
 
         num_generations : typing.Optional[int]
             Number of generations of the audio to produce.
+
+        split_utterances : typing.Optional[bool]
+            Controls how audio output is segmented in the response.
+
+            - When **enabled** (`true`),  input utterances are automatically split into natural-sounding speech segments.
+
+            - When **disabled**  (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets.
+
+            This setting affects how the `snippets` array is structured in the response, which may be important  for applications that need to track the relationship between input text and generated audio segments. When  setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -315,10 +342,9 @@ class AsyncTtsClient:
                 ),
                 "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
                 "num_generations": num_generations,
+                "split_utterances": split_utterances,
                 "utterances": convert_and_respect_annotation_metadata(
-                    object_=utterances,
-                    annotation=typing.Sequence[PostedUtterance],
-                    direction="write",
+                    object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
                 ),
             },
             request_options=request_options,
@@ -355,6 +381,7 @@ class AsyncTtsClient:
         context: typing.Optional[PostedContext] = OMIT,
         format: typing.Optional[Format] = OMIT,
         num_generations: typing.Optional[int] = OMIT,
+        split_utterances: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.AsyncIterator[bytes]:
         """
@@ -376,8 +403,17 @@ class AsyncTtsClient:
         num_generations : typing.Optional[int]
             Number of generations of the audio to produce.
 
+        split_utterances : typing.Optional[bool]
+            Controls how audio output is segmented in the response.
+
+            - When **enabled** (`true`),  input utterances are automatically split into natural-sounding speech segments.
+
+            - When **disabled**  (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets.
+
+            This setting affects how the `snippets` array is structured in the response, which may be important  for applications that need to track the relationship between input text and generated audio segments. When  setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
+
         request_options : typing.Optional[RequestOptions]
-            Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
+            Request-specific configuration.
 
         Yields
         ------
@@ -423,10 +459,9 @@ class AsyncTtsClient:
                 ),
                 "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
                 "num_generations": num_generations,
+                "split_utterances": split_utterances,
                 "utterances": convert_and_respect_annotation_metadata(
-                    object_=utterances,
-                    annotation=typing.Sequence[PostedUtterance],
-                    direction="write",
+                    object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
                 ),
             },
             request_options=request_options,
@@ -434,8 +469,7 @@ class AsyncTtsClient:
         ) as _response:
             try:
                 if 200 <= _response.status_code < 300:
-                    _chunk_size = request_options.get("chunk_size", None) if request_options is not None else None
-                    async for _chunk in _response.aiter_bytes(chunk_size=_chunk_size):
+                    async for _chunk in _response.aiter_bytes():
                         yield _chunk
                     return
                 await _response.aread()

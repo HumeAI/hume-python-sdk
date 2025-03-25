@@ -3,6 +3,5 @@
 import typing
 
 ReturnLanguageModelModelProvider = typing.Union[
-    typing.Literal["OPEN_AI", "CUSTOM_LANGUAGE_MODEL", "ANTHROPIC", "FIREWORKS", "GROQ", "GOOGLE"],
-    typing.Any,
+    typing.Literal["OPEN_AI", "CUSTOM_LANGUAGE_MODEL", "ANTHROPIC", "FIREWORKS", "GROQ", "GOOGLE"], typing.Any
 ]

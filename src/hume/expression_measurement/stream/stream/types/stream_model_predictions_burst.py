@@ -2,9 +2,7 @@
 
 from .....core.pydantic_utilities import UniversalBaseModel
 import typing
-from .stream_model_predictions_burst_predictions_item import (
-    StreamModelPredictionsBurstPredictionsItem,
-)
+from .stream_model_predictions_burst_predictions_item import StreamModelPredictionsBurstPredictionsItem
 from .....core.pydantic_utilities import IS_PYDANTIC_V2
 import pydantic
 

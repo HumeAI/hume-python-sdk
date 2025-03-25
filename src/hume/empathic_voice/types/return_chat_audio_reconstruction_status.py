@@ -3,6 +3,5 @@
 import typing
 
 ReturnChatAudioReconstructionStatus = typing.Union[
-    typing.Literal["QUEUED", "IN_PROGRESS", "COMPLETE", "ERROR", "CANCELLED"],
-    typing.Any,
+    typing.Literal["QUEUED", "IN_PROGRESS", "COMPLETE", "ERROR", "CANCELLED"], typing.Any
 ]
