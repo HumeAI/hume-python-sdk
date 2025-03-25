@@ -3,9 +3,7 @@
 from ....core.pydantic_utilities import UniversalBaseModel
 import typing
 from .transcription_metadata import TranscriptionMetadata
-from .grouped_predictions_language_prediction import (
-    GroupedPredictionsLanguagePrediction,
-)
+from .grouped_predictions_language_prediction import GroupedPredictionsLanguagePrediction
 from ....core.pydantic_utilities import IS_PYDANTIC_V2
 import pydantic
 

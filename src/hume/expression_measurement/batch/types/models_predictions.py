@@ -2,12 +2,8 @@
 
 from ....core.pydantic_utilities import UniversalBaseModel
 import typing
-from .predictions_optional_null_face_prediction import (
-    PredictionsOptionalNullFacePrediction,
-)
-from .predictions_optional_null_burst_prediction import (
-    PredictionsOptionalNullBurstPrediction,
-)
+from .predictions_optional_null_face_prediction import PredictionsOptionalNullFacePrediction
+from .predictions_optional_null_burst_prediction import PredictionsOptionalNullBurstPrediction
 from .predictions_optional_transcription_metadata_prosody_prediction import (
     PredictionsOptionalTranscriptionMetadataProsodyPrediction,
 )
@@ -17,9 +13,7 @@ from .predictions_optional_transcription_metadata_language_prediction import (
 from .predictions_optional_transcription_metadata_ner_prediction import (
     PredictionsOptionalTranscriptionMetadataNerPrediction,
 )
-from .predictions_optional_null_facemesh_prediction import (
-    PredictionsOptionalNullFacemeshPrediction,
-)
+from .predictions_optional_null_facemesh_prediction import PredictionsOptionalNullFacemeshPrediction
 from ....core.pydantic_utilities import IS_PYDANTIC_V2
 import pydantic
 

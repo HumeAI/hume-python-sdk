@@ -156,9 +156,7 @@ class CustomVoicesClient:
                 "name": name,
                 "base_voice": base_voice,
                 "parameters": convert_and_respect_annotation_metadata(
-                    object_=parameters,
-                    annotation=PostedCustomVoiceParameters,
-                    direction="write",
+                    object_=parameters, annotation=PostedCustomVoiceParameters, direction="write"
                 ),
                 "parameter_model": "20241004-11parameter",
             },
@@ -308,9 +306,7 @@ class CustomVoicesClient:
                 "name": name,
                 "base_voice": base_voice,
                 "parameters": convert_and_respect_annotation_metadata(
-                    object_=parameters,
-                    annotation=PostedCustomVoiceParameters,
-                    direction="write",
+                    object_=parameters, annotation=PostedCustomVoiceParameters, direction="write"
                 ),
                 "parameter_model": "20241004-11parameter",
             },
@@ -394,11 +390,7 @@ class CustomVoicesClient:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def update_custom_voice_name(
-        self,
-        id: str,
-        *,
-        name: str,
-        request_options: typing.Optional[RequestOptions] = None,
+        self, id: str, *, name: str, request_options: typing.Optional[RequestOptions] = None
     ) -> str:
         """
         Updates the name of a **Custom Voice**.
@@ -438,9 +430,6 @@ class CustomVoicesClient:
             method="PATCH",
             json={
                 "name": name,
-            },
-            headers={
-                "content-type": "application/json",
             },
             request_options=request_options,
             omit=OMIT,
@@ -616,9 +605,7 @@ class AsyncCustomVoicesClient:
                 "name": name,
                 "base_voice": base_voice,
                 "parameters": convert_and_respect_annotation_metadata(
-                    object_=parameters,
-                    annotation=PostedCustomVoiceParameters,
-                    direction="write",
+                    object_=parameters, annotation=PostedCustomVoiceParameters, direction="write"
                 ),
                 "parameter_model": "20241004-11parameter",
             },
@@ -784,9 +771,7 @@ class AsyncCustomVoicesClient:
                 "name": name,
                 "base_voice": base_voice,
                 "parameters": convert_and_respect_annotation_metadata(
-                    object_=parameters,
-                    annotation=PostedCustomVoiceParameters,
-                    direction="write",
+                    object_=parameters, annotation=PostedCustomVoiceParameters, direction="write"
                 ),
                 "parameter_model": "20241004-11parameter",
             },
@@ -878,11 +863,7 @@ class AsyncCustomVoicesClient:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def update_custom_voice_name(
-        self,
-        id: str,
-        *,
-        name: str,
-        request_options: typing.Optional[RequestOptions] = None,
+        self, id: str, *, name: str, request_options: typing.Optional[RequestOptions] = None
     ) -> str:
         """
         Updates the name of a **Custom Voice**.
@@ -930,9 +911,6 @@ class AsyncCustomVoicesClient:
             method="PATCH",
             json={
                 "name": name,
-            },
-            headers={
-                "content-type": "application/json",
             },
             request_options=request_options,
             omit=OMIT,

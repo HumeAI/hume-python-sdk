@@ -4,9 +4,7 @@ from ...core.pydantic_utilities import UniversalBaseModel
 import pydantic
 from .return_chat_paged_events_status import ReturnChatPagedEventsStatus
 import typing
-from .return_chat_paged_events_pagination_direction import (
-    ReturnChatPagedEventsPaginationDirection,
-)
+from .return_chat_paged_events_pagination_direction import ReturnChatPagedEventsPaginationDirection
 from .return_chat_event import ReturnChatEvent
 from .return_config_spec import ReturnConfigSpec
 from ...core.pydantic_utilities import IS_PYDANTIC_V2

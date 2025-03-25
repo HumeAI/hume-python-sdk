@@ -12,9 +12,7 @@ from ...core.api_error import ApiError
 from ..types.return_chat_group_paged_chats import ReturnChatGroupPagedChats
 from ...core.jsonable_encoder import jsonable_encoder
 from ..types.return_chat_group_paged_events import ReturnChatGroupPagedEvents
-from ..types.return_chat_group_paged_audio_reconstructions import (
-    ReturnChatGroupPagedAudioReconstructions,
-)
+from ..types.return_chat_group_paged_audio_reconstructions import ReturnChatGroupPagedAudioReconstructions
 from ...core.client_wrapper import AsyncClientWrapper
 
 

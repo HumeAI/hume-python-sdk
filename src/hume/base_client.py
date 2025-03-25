@@ -5,12 +5,12 @@ from .environment import HumeClientEnvironment
 import httpx
 from .core.client_wrapper import SyncClientWrapper
 from .tts.client import TtsClient
-from .expression_measurement.client import ExpressionMeasurementClient
 from .empathic_voice.client import EmpathicVoiceClient
+from .expression_measurement.client import ExpressionMeasurementClient
 from .core.client_wrapper import AsyncClientWrapper
 from .tts.client import AsyncTtsClient
-from .expression_measurement.client import AsyncExpressionMeasurementClient
 from .empathic_voice.client import AsyncEmpathicVoiceClient
+from .expression_measurement.client import AsyncExpressionMeasurementClient
 
 
 class BaseHumeClient:
@@ -72,8 +72,8 @@ class BaseHumeClient:
             timeout=_defaulted_timeout,
         )
         self.tts = TtsClient(client_wrapper=self._client_wrapper)
-        self.expression_measurement = ExpressionMeasurementClient(client_wrapper=self._client_wrapper)
         self.empathic_voice = EmpathicVoiceClient(client_wrapper=self._client_wrapper)
+        self.expression_measurement = ExpressionMeasurementClient(client_wrapper=self._client_wrapper)
 
 
 class AsyncBaseHumeClient:
@@ -135,8 +135,8 @@ class AsyncBaseHumeClient:
             timeout=_defaulted_timeout,
         )
         self.tts = AsyncTtsClient(client_wrapper=self._client_wrapper)
-        self.expression_measurement = AsyncExpressionMeasurementClient(client_wrapper=self._client_wrapper)
         self.empathic_voice = AsyncEmpathicVoiceClient(client_wrapper=self._client_wrapper)
+        self.expression_measurement = AsyncExpressionMeasurementClient(client_wrapper=self._client_wrapper)
 
 
 def _get_base_url(*, base_url: typing.Optional[str] = None, environment: HumeClientEnvironment) -> str:

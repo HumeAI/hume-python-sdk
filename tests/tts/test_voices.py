@@ -7,10 +7,7 @@ from ..utilities import validate_response
 
 
 async def test_create(client: HumeClient, async_client: AsyncHumeClient) -> None:
-    expected_response: typing.Any = {
-        "name": "David Hume",
-        "id": "c42352c0-4566-455d-b180-0f654b65b525",
-    }
+    expected_response: typing.Any = {"name": "David Hume", "id": "c42352c0-4566-455d-b180-0f654b65b525"}
     expected_types: typing.Any = {"name": None, "id": None}
     response = client.tts.voices.create(generation_id="795c949a-1510-4a80-9646-7d0863b023ab", name="David Hume")
     validate_response(response, expected_response, expected_types)

@@ -193,9 +193,6 @@ class ToolsClient:
                 "parameters": parameters,
                 "fallback_content": fallback_content,
             },
-            headers={
-                "content-type": "application/json",
-            },
             request_options=request_options,
             omit=OMIT,
         )
@@ -374,9 +371,6 @@ class ToolsClient:
                 "parameters": parameters,
                 "fallback_content": fallback_content,
             },
-            headers={
-                "content-type": "application/json",
-            },
             request_options=request_options,
             omit=OMIT,
         )
@@ -456,13 +450,7 @@ class ToolsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def update_tool_name(
-        self,
-        id: str,
-        *,
-        name: str,
-        request_options: typing.Optional[RequestOptions] = None,
-    ) -> str:
+    def update_tool_name(self, id: str, *, name: str, request_options: typing.Optional[RequestOptions] = None) -> str:
         """
         Updates the name of a **Tool**.
 
@@ -502,9 +490,6 @@ class ToolsClient:
             json={
                 "name": name,
             },
-            headers={
-                "content-type": "application/json",
-            },
             request_options=request_options,
             omit=OMIT,
         )
@@ -527,11 +512,7 @@ class ToolsClient:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def get_tool_version(
-        self,
-        id: str,
-        version: int,
-        *,
-        request_options: typing.Optional[RequestOptions] = None,
+        self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.Optional[ReturnUserDefinedTool]:
         """
         Fetches a specified version of a **Tool**.
@@ -600,11 +581,7 @@ class ToolsClient:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def delete_tool_version(
-        self,
-        id: str,
-        version: int,
-        *,
-        request_options: typing.Optional[RequestOptions] = None,
+        self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> None:
         """
         Deletes a specified version of a **Tool**.
@@ -719,9 +696,6 @@ class ToolsClient:
             method="PATCH",
             json={
                 "version_description": version_description,
-            },
-            headers={
-                "content-type": "application/json",
             },
             request_options=request_options,
             omit=OMIT,
@@ -941,9 +915,6 @@ class AsyncToolsClient:
                 "parameters": parameters,
                 "fallback_content": fallback_content,
             },
-            headers={
-                "content-type": "application/json",
-            },
             request_options=request_options,
             omit=OMIT,
         )
@@ -1138,9 +1109,6 @@ class AsyncToolsClient:
                 "parameters": parameters,
                 "fallback_content": fallback_content,
             },
-            headers={
-                "content-type": "application/json",
-            },
             request_options=request_options,
             omit=OMIT,
         )
@@ -1229,11 +1197,7 @@ class AsyncToolsClient:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def update_tool_name(
-        self,
-        id: str,
-        *,
-        name: str,
-        request_options: typing.Optional[RequestOptions] = None,
+        self, id: str, *, name: str, request_options: typing.Optional[RequestOptions] = None
     ) -> str:
         """
         Updates the name of a **Tool**.
@@ -1282,9 +1246,6 @@ class AsyncToolsClient:
             json={
                 "name": name,
             },
-            headers={
-                "content-type": "application/json",
-            },
             request_options=request_options,
             omit=OMIT,
         )
@@ -1307,11 +1268,7 @@ class AsyncToolsClient:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def get_tool_version(
-        self,
-        id: str,
-        version: int,
-        *,
-        request_options: typing.Optional[RequestOptions] = None,
+        self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.Optional[ReturnUserDefinedTool]:
         """
         Fetches a specified version of a **Tool**.
@@ -1388,11 +1345,7 @@ class AsyncToolsClient:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def delete_tool_version(
-        self,
-        id: str,
-        version: int,
-        *,
-        request_options: typing.Optional[RequestOptions] = None,
+        self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> None:
         """
         Deletes a specified version of a **Tool**.
@@ -1523,9 +1476,6 @@ class AsyncToolsClient:
             method="PATCH",
             json={
                 "version_description": version_description,
-            },
-            headers={
-                "content-type": "application/json",
             },
             request_options=request_options,
             omit=OMIT,

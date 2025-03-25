@@ -8,15 +8,11 @@ from hume import AsyncHumeClient
 
 @pytest.fixture
 def client() -> HumeClient:
-    return HumeClient(
-        api_key=os.getenv("ENV_API_KEY", "api_key"),
-        base_url=os.getenv("TESTS_BASE_URL", "base_url"),
-    )
+    return HumeClient(api_key=os.getenv("ENV_API_KEY", "api_key"), base_url=os.getenv("TESTS_BASE_URL", "base_url"))
 
 
 @pytest.fixture
 def async_client() -> AsyncHumeClient:
     return AsyncHumeClient(
-        api_key=os.getenv("ENV_API_KEY", "api_key"),
-        base_url=os.getenv("TESTS_BASE_URL", "base_url"),
+        api_key=os.getenv("ENV_API_KEY", "api_key"), base_url=os.getenv("TESTS_BASE_URL", "base_url")
     )

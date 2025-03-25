@@ -20,11 +20,7 @@ class VoicesClient:
         self._client_wrapper = client_wrapper
 
     def create(
-        self,
-        *,
-        generation_id: str,
-        name: str,
-        request_options: typing.Optional[RequestOptions] = None,
+        self, *, generation_id: str, name: str, request_options: typing.Optional[RequestOptions] = None
     ) -> ReturnVoice:
         """
         Creates a new voice from a specified TTS generation ID and saves it to your **Voice Library**. This allows for consistent speech style and prosody across multiple requests.
@@ -64,9 +60,6 @@ class VoicesClient:
                 "generation_id": generation_id,
                 "name": name,
             },
-            headers={
-                "content-type": "application/json",
-            },
             request_options=request_options,
             omit=OMIT,
         )
@@ -100,11 +93,7 @@ class AsyncVoicesClient:
         self._client_wrapper = client_wrapper
 
     async def create(
-        self,
-        *,
-        generation_id: str,
-        name: str,
-        request_options: typing.Optional[RequestOptions] = None,
+        self, *, generation_id: str, name: str, request_options: typing.Optional[RequestOptions] = None
     ) -> ReturnVoice:
         """
         Creates a new voice from a specified TTS generation ID and saves it to your **Voice Library**. This allows for consistent speech style and prosody across multiple requests.
@@ -151,9 +140,6 @@ class AsyncVoicesClient:
             json={
                 "generation_id": generation_id,
                 "name": name,
-            },
-            headers={
-                "content-type": "application/json",
             },
             request_options=request_options,
             omit=OMIT,
