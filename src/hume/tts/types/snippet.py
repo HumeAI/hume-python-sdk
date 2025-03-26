@@ -12,11 +12,6 @@ class Snippet(UniversalBaseModel):
     The segmented audio output in the requested format, encoded as a base64 string.
     """
 
-    audio_format: str = pydantic.Field()
-    """
-    The generated audio output format.
-    """
-
     generation_id: str = pydantic.Field()
     """
     The generation ID this snippet corresponds to.
