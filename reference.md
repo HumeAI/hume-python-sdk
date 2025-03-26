@@ -251,6 +251,256 @@ This setting affects how the `snippets` array is structured in the response, whi
 </dl>
 </details>
 
+<details><summary><code>client.tts.<a href="src/hume/tts/client.py">synthesize_file_streaming</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be  generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+from hume.tts import FormatMp3, PostedContextWithGenerationId, PostedUtterance
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.tts.synthesize_file_streaming(
+    utterances=[
+        PostedUtterance(
+            text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
+            description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm,  steady tone with an articulate, academic quality.",
+        )
+    ],
+    context=PostedContextWithGenerationId(
+        generation_id="09ad914d-8e7f-40f8-a279-e34f07f7dab2",
+    ),
+    format=FormatMp3(),
+    num_generations=1,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**utterances:** `typing.Sequence[PostedUtterance]` — Utterances to be converted to speech output.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**context:** `typing.Optional[PostedContext]` — Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `typing.Optional[Format]` — Specifies the output audio file format.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**num_generations:** `typing.Optional[int]` — Number of generations of the audio to produce.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**split_utterances:** `typing.Optional[bool]` 
+
+Controls how audio output is segmented in the response.
+
+- When **enabled** (`true`),  input utterances are automatically split into natural-sounding speech segments.
+
+- When **disabled**  (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets. 
+
+This setting affects how the `snippets` array is structured in the response, which may be important  for applications that need to track the relationship between input text and generated audio segments. When  setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.tts.<a href="src/hume/tts/client.py">synthesize_json_streaming</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Streams synthesized speech using the specified voice. If no voice is provided,  a novel voice will be generated dynamically. Optionally, additional context can be included to influence the  speech's style and prosody. 
+
+The response is a stream of JSON objects including audio encoded in base64.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+from hume.tts import FormatMp3, PostedContextWithUtterances, PostedUtterance
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+response = client.tts.synthesize_json_streaming(
+    utterances=[
+        PostedUtterance(
+            text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
+            description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm,  steady tone with an articulate, academic quality.",
+        )
+    ],
+    context=PostedContextWithUtterances(
+        utterances=[
+            PostedUtterance(
+                text="How can people see beauty so differently?",
+                description="A curious student with a clear and respectful tone, seeking clarification on Hume's  ideas with a straightforward question.",
+            )
+        ],
+    ),
+    format=FormatMp3(),
+)
+for chunk in response:
+    yield chunk
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**utterances:** `typing.Sequence[PostedUtterance]` — Utterances to be converted to speech output.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**context:** `typing.Optional[PostedContext]` — Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `typing.Optional[Format]` — Specifies the output audio file format.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**num_generations:** `typing.Optional[int]` — Number of generations of the audio to produce.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**split_utterances:** `typing.Optional[bool]` 
+
+Controls how audio output is segmented in the response.
+
+- When **enabled** (`true`),  input utterances are automatically split into natural-sounding speech segments.
+
+- When **disabled**  (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets. 
+
+This setting affects how the `snippets` array is structured in the response, which may be important  for applications that need to track the relationship between input text and generated audio segments. When  setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Tts Voices
 <details><summary><code>client.tts.voices.<a href="src/hume/tts/voices/client.py">create</a>(...)</code></summary>
 <dl>

@@ -114,6 +114,88 @@ service:
             format:
               type: mp3
             num_generations: 1
+    synthesize-file-streaming:
+      path: /v0/tts/stream/file
+      method: POST
+      auth: true
+      docs: >-
+        Streams synthesized speech using the specified voice. If no voice is
+        provided, a novel voice will be  generated dynamically. Optionally,
+        additional context can be included to influence the speech's style and
+        prosody.
+      source:
+        openapi: tts-openapi.yml
+      display-name: Text-to-speech (Streamed File)
+      request:
+        body:
+          type: PostedTts
+        content-type: application/json
+      response:
+        docs: OK
+        type: file
+        status-code: 200
+      errors:
+        - UnprocessableEntityError
+      examples:
+        - request:
+            utterances:
+              - text: >-
+                  Beauty is no quality in things themselves: It exists merely in
+                  the mind which contemplates them.
+                description: >-
+                  Middle-aged masculine voice with a clear, rhythmic Scots lilt,
+                  rounded vowels, and a warm,  steady tone with an articulate,
+                  academic quality.
+            context:
+              generation_id: 09ad914d-8e7f-40f8-a279-e34f07f7dab2
+            format:
+              type: mp3
+            num_generations: 1
+    synthesize-json-streaming:
+      path: /v0/tts/stream/json
+      method: POST
+      auth: true
+      docs: >-
+        Streams synthesized speech using the specified voice. If no voice is
+        provided,  a novel voice will be generated dynamically. Optionally,
+        additional context can be included to influence the  speech's style and
+        prosody. 
+
+
+        The response is a stream of JSON objects including audio encoded in
+        base64.
+      source:
+        openapi: tts-openapi.yml
+      display-name: Text-to-speech (Streamed JSON)
+      request:
+        body:
+          type: PostedTts
+        content-type: application/json
+      response-stream:
+        docs: Successful Response
+        type: Snippet
+        format: json
+      errors:
+        - UnprocessableEntityError
+      examples:
+        - request:
+            utterances:
+              - text: >-
+                  Beauty is no quality in things themselves: It exists merely in
+                  the mind which contemplates them.
+                description: >-
+                  Middle-aged masculine voice with a clear, rhythmic Scots lilt,
+                  rounded vowels, and a warm,  steady tone with an articulate,
+                  academic quality.
+            context:
+              utterances:
+                - text: How can people see beauty so differently?
+                  description: >-
+                    A curious student with a clear and respectful tone, seeking
+                    clarification on Hume's  ideas with a straightforward
+                    question.
+            format:
+              type: mp3
   source:
     openapi: tts-openapi.yml
 types:
