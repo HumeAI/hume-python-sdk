@@ -379,7 +379,6 @@ service:
       response:
         docs: Success
         type: text
-        status-code: 200
       errors:
         - root.BadRequestError
       examples:
