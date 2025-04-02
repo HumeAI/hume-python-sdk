@@ -7,7 +7,7 @@ service:
     list-custom-voices:
       path: /v0/evi/custom_voices
       method: GET
-      auth: true
+      auth: false
       docs: >-
         Fetches a paginated list of **Custom Voices**.
 
@@ -16,7 +16,7 @@ service:
         guide](/docs/empathic-voice-interface-evi/configuration/voices) for
         details on creating a custom voice.
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       display-name: List custom voices
       request:
         name: CustomVoicesListCustomVoicesRequest
@@ -69,7 +69,7 @@ service:
     create-custom-voice:
       path: /v0/evi/custom_voices
       method: POST
-      auth: true
+      auth: false
       docs: >-
         Creates a **Custom Voice** that can be added to an [EVI
         configuration](/reference/empathic-voice-interface-evi/configs/create-config).
@@ -79,7 +79,7 @@ service:
         guide](/docs/empathic-voice-interface-evi/configuration/voices) for
         details on creating a custom voice.
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       display-name: Create custom voice
       request:
         body: root.PostedCustomVoice
@@ -118,7 +118,7 @@ service:
     get-custom-voice:
       path: /v0/evi/custom_voices/{id}
       method: GET
-      auth: true
+      auth: false
       docs: >-
         Fetches a specific **Custom Voice** by ID.
 
@@ -127,7 +127,7 @@ service:
         guide](/docs/empathic-voice-interface-evi/configuration/voices) for
         details on creating a custom voice.
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       path-parameters:
         id:
           type: string
@@ -165,7 +165,7 @@ service:
     create-custom-voice-version:
       path: /v0/evi/custom_voices/{id}
       method: POST
-      auth: true
+      auth: false
       docs: >-
         Updates a **Custom Voice** by creating a new version of the **Custom
         Voice**.
@@ -175,7 +175,7 @@ service:
         guide](/docs/empathic-voice-interface-evi/configuration/voices) for
         details on creating a custom voice.
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       path-parameters:
         id:
           type: string
@@ -220,7 +220,7 @@ service:
     delete-custom-voice:
       path: /v0/evi/custom_voices/{id}
       method: DELETE
-      auth: true
+      auth: false
       docs: >-
         Deletes a **Custom Voice** and its versions.
 
@@ -229,7 +229,7 @@ service:
         guide](/docs/empathic-voice-interface-evi/configuration/voices) for
         details on creating a custom voice.
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       path-parameters:
         id:
           type: string
@@ -243,7 +243,7 @@ service:
     update-custom-voice-name:
       path: /v0/evi/custom_voices/{id}
       method: PATCH
-      auth: true
+      auth: false
       docs: >-
         Updates the name of a **Custom Voice**.
 
@@ -252,7 +252,7 @@ service:
         guide](/docs/empathic-voice-interface-evi/configuration/voices) for
         details on creating a custom voice.
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       path-parameters:
         id:
           type: string
@@ -276,4 +276,4 @@ service:
       errors:
         - root.BadRequestError
   source:
-    openapi: stenographer-openapi.json
+    openapi: evi-openapi.json

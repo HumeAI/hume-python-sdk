@@ -2,6 +2,7 @@
 
 from .audio_encoding import AudioEncoding
 from .audio_format_type import AudioFormatType
+from .error_response import ErrorResponse
 from .format import Format
 from .format_mp_3 import FormatMp3
 from .format_pcm import FormatPcm
@@ -11,15 +12,16 @@ from .posted_context import PostedContext
 from .posted_context_with_generation_id import PostedContextWithGenerationId
 from .posted_context_with_utterances import PostedContextWithUtterances
 from .posted_tts import PostedTts
-from .posted_tts_record import PostedTtsRecord
 from .posted_utterance import PostedUtterance
 from .posted_utterance_voice import PostedUtteranceVoice
 from .posted_utterance_voice_with_id import PostedUtteranceVoiceWithId
 from .posted_utterance_voice_with_name import PostedUtteranceVoiceWithName
 from .return_generation import ReturnGeneration
+from .return_paged_voices import ReturnPagedVoices
 from .return_tts import ReturnTts
 from .return_voice import ReturnVoice
 from .snippet import Snippet
+from .snippet_audio_chunk import SnippetAudioChunk
 from .validation_error import ValidationError
 from .validation_error_loc_item import ValidationErrorLocItem
 from .voice_provider import VoiceProvider
@@ -27,6 +29,7 @@ from .voice_provider import VoiceProvider
 __all__ = [
     "AudioEncoding",
     "AudioFormatType",
+    "ErrorResponse",
     "Format",
     "FormatMp3",
     "FormatPcm",
@@ -36,15 +39,16 @@ __all__ = [
     "PostedContextWithGenerationId",
     "PostedContextWithUtterances",
     "PostedTts",
-    "PostedTtsRecord",
     "PostedUtterance",
     "PostedUtteranceVoice",
     "PostedUtteranceVoiceWithId",
     "PostedUtteranceVoiceWithName",
     "ReturnGeneration",
+    "ReturnPagedVoices",
     "ReturnTts",
     "ReturnVoice",
     "Snippet",
+    "SnippetAudioChunk",
     "ValidationError",
     "ValidationErrorLocItem",
     "VoiceProvider",

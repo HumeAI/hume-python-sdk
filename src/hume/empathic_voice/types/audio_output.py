@@ -11,14 +11,14 @@ class AudioOutput(UniversalBaseModel):
     The type of message sent through the socket; for an Audio Output message, this must be `audio_output`.
     """
 
-    type: typing.Literal["audio_output"] = pydantic.Field(default="audio_output")
-    """
-    The type of message sent through the socket; for an Audio Output message, this must be `audio_output`.
-    """
-
     custom_session_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
+    """
+
+    data: str = pydantic.Field()
+    """
+    Base64 encoded audio output. This encoded audio is transmitted to the client, where it can be decoded and played back as part of the user interaction.
     """
 
     id: str = pydantic.Field()
@@ -31,9 +31,9 @@ class AudioOutput(UniversalBaseModel):
     Index of the chunk of audio relative to the whole audio segment.
     """
 
-    data: str = pydantic.Field()
+    type: typing.Literal["audio_output"] = pydantic.Field(default="audio_output")
     """
-    Base64 encoded audio output. This encoded audio is transmitted to the client, where it can be decoded and played back as part of the user interaction.
+    The type of message sent through the socket; for an Audio Output message, this must be `audio_output`.
     """
 
     if IS_PYDANTIC_V2:

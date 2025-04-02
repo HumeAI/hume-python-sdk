@@ -6,30 +6,30 @@ import typing
 from ...core.pydantic_utilities import IS_PYDANTIC_V2
 
 
-class Snippet(UniversalBaseModel):
+class SnippetAudioChunk(UniversalBaseModel):
     audio: str = pydantic.Field()
     """
-    The segmented audio output in the requested format, encoded as a base64 string.
+    The generated audio output chunk in the requested format.
+    """
+
+    chunk_index: int = pydantic.Field()
+    """
+    The index of the audio chunk in the snippet.
     """
 
     generation_id: str = pydantic.Field()
     """
-    The generation ID this snippet corresponds to.
+    The generation ID the parent snippet that this chunk corresponds to.
     """
 
-    id: str = pydantic.Field()
+    is_last_chunk: bool = pydantic.Field()
     """
-    A unique ID associated with this **Snippet**.
-    """
-
-    text: str = pydantic.Field()
-    """
-    The text for this **Snippet**.
+    Whether or not this is the last chunk streamed back from the decoder for one input snippet.
     """
 
     utterance_index: typing.Optional[int] = pydantic.Field(default=None)
     """
-    The index of the utterance in the request this snippet corresponds to.
+    The index of the utterance in the request the parent snippet of this chunk corresponds to.
     """
 
     if IS_PYDANTIC_V2:

@@ -14,6 +14,8 @@ from .errors.unprocessable_entity_error import UnprocessableEntityError
 from .types.http_validation_error import HttpValidationError
 from json.decoder import JSONDecodeError
 from ..core.api_error import ApiError
+from .types.snippet import Snippet
+import json
 from ..core.client_wrapper import AsyncClientWrapper
 from .voices.client import AsyncVoicesClient
 
@@ -33,6 +35,7 @@ class TtsClient:
         context: typing.Optional[PostedContext] = OMIT,
         format: typing.Optional[Format] = OMIT,
         num_generations: typing.Optional[int] = OMIT,
+        split_utterances: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnTts:
         """
@@ -53,6 +56,15 @@ class TtsClient:
 
         num_generations : typing.Optional[int]
             Number of generations of the audio to produce.
+
+        split_utterances : typing.Optional[bool]
+            Controls how audio output is segmented in the response.
+
+            - When **enabled** (`true`),  input utterances are automatically split into natural-sounding speech segments.
+
+            - When **disabled**  (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets.
+
+            This setting affects how the `snippets` array is structured in the response, which may be important  for applications that need to track the relationship between input text and generated audio segments. When  setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -98,6 +110,7 @@ class TtsClient:
                 ),
                 "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
                 "num_generations": num_generations,
+                "split_utterances": split_utterances,
                 "utterances": convert_and_respect_annotation_metadata(
                     object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
                 ),
@@ -136,6 +149,7 @@ class TtsClient:
         context: typing.Optional[PostedContext] = OMIT,
         format: typing.Optional[Format] = OMIT,
         num_generations: typing.Optional[int] = OMIT,
+        split_utterances: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Iterator[bytes]:
         """
@@ -156,6 +170,15 @@ class TtsClient:
 
         num_generations : typing.Optional[int]
             Number of generations of the audio to produce.
+
+        split_utterances : typing.Optional[bool]
+            Controls how audio output is segmented in the response.
+
+            - When **enabled** (`true`),  input utterances are automatically split into natural-sounding speech segments.
+
+            - When **disabled**  (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets.
+
+            This setting affects how the `snippets` array is structured in the response, which may be important  for applications that need to track the relationship between input text and generated audio segments. When  setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -196,6 +219,7 @@ class TtsClient:
                 ),
                 "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
                 "num_generations": num_generations,
+                "split_utterances": split_utterances,
                 "utterances": convert_and_respect_annotation_metadata(
                     object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
                 ),
@@ -207,6 +231,233 @@ class TtsClient:
                 if 200 <= _response.status_code < 300:
                     for _chunk in _response.iter_bytes():
                         yield _chunk
+                    return
+                _response.read()
+                if _response.status_code == 422:
+                    raise UnprocessableEntityError(
+                        typing.cast(
+                            HttpValidationError,
+                            parse_obj_as(
+                                type_=HttpValidationError,  # type: ignore
+                                object_=_response.json(),
+                            ),
+                        )
+                    )
+                _response_json = _response.json()
+            except JSONDecodeError:
+                raise ApiError(status_code=_response.status_code, body=_response.text)
+            raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def synthesize_file_streaming(
+        self,
+        *,
+        utterances: typing.Sequence[PostedUtterance],
+        context: typing.Optional[PostedContext] = OMIT,
+        format: typing.Optional[Format] = OMIT,
+        num_generations: typing.Optional[int] = OMIT,
+        split_utterances: typing.Optional[bool] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> typing.Iterator[bytes]:
+        """
+        Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be  generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
+
+        Parameters
+        ----------
+        utterances : typing.Sequence[PostedUtterance]
+            Utterances to be converted to speech output.
+
+        context : typing.Optional[PostedContext]
+            Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+
+        format : typing.Optional[Format]
+            Specifies the output audio file format.
+
+        num_generations : typing.Optional[int]
+            Number of generations of the audio to produce.
+
+        split_utterances : typing.Optional[bool]
+            Controls how audio output is segmented in the response.
+
+            - When **enabled** (`true`),  input utterances are automatically split into natural-sounding speech segments.
+
+            - When **disabled**  (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets.
+
+            This setting affects how the `snippets` array is structured in the response, which may be important  for applications that need to track the relationship between input text and generated audio segments. When  setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Yields
+        ------
+        typing.Iterator[bytes]
+            OK
+
+        Examples
+        --------
+        from hume import HumeClient
+        from hume.tts import FormatMp3, PostedContextWithGenerationId, PostedUtterance
+
+        client = HumeClient(
+            api_key="YOUR_API_KEY",
+        )
+        client.tts.synthesize_file_streaming(
+            utterances=[
+                PostedUtterance(
+                    text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
+                    description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm,  steady tone with an articulate, academic quality.",
+                )
+            ],
+            context=PostedContextWithGenerationId(
+                generation_id="09ad914d-8e7f-40f8-a279-e34f07f7dab2",
+            ),
+            format=FormatMp3(),
+            num_generations=1,
+        )
+        """
+        with self._client_wrapper.httpx_client.stream(
+            "v0/tts/stream/file",
+            method="POST",
+            json={
+                "context": convert_and_respect_annotation_metadata(
+                    object_=context, annotation=PostedContext, direction="write"
+                ),
+                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
+                "num_generations": num_generations,
+                "split_utterances": split_utterances,
+                "utterances": convert_and_respect_annotation_metadata(
+                    object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
+                ),
+            },
+            request_options=request_options,
+            omit=OMIT,
+        ) as _response:
+            try:
+                if 200 <= _response.status_code < 300:
+                    for _chunk in _response.iter_bytes():
+                        yield _chunk
+                    return
+                _response.read()
+                if _response.status_code == 422:
+                    raise UnprocessableEntityError(
+                        typing.cast(
+                            HttpValidationError,
+                            parse_obj_as(
+                                type_=HttpValidationError,  # type: ignore
+                                object_=_response.json(),
+                            ),
+                        )
+                    )
+                _response_json = _response.json()
+            except JSONDecodeError:
+                raise ApiError(status_code=_response.status_code, body=_response.text)
+            raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def synthesize_json_streaming(
+        self,
+        *,
+        utterances: typing.Sequence[PostedUtterance],
+        context: typing.Optional[PostedContext] = OMIT,
+        format: typing.Optional[Format] = OMIT,
+        num_generations: typing.Optional[int] = OMIT,
+        split_utterances: typing.Optional[bool] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> typing.Iterator[Snippet]:
+        """
+        Streams synthesized speech using the specified voice. If no voice is provided,  a novel voice will be generated dynamically. Optionally, additional context can be included to influence the  speech's style and prosody.
+
+        The response is a stream of JSON objects including audio encoded in base64.
+
+        Parameters
+        ----------
+        utterances : typing.Sequence[PostedUtterance]
+            Utterances to be converted to speech output.
+
+        context : typing.Optional[PostedContext]
+            Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+
+        format : typing.Optional[Format]
+            Specifies the output audio file format.
+
+        num_generations : typing.Optional[int]
+            Number of generations of the audio to produce.
+
+        split_utterances : typing.Optional[bool]
+            Controls how audio output is segmented in the response.
+
+            - When **enabled** (`true`),  input utterances are automatically split into natural-sounding speech segments.
+
+            - When **disabled**  (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets.
+
+            This setting affects how the `snippets` array is structured in the response, which may be important  for applications that need to track the relationship between input text and generated audio segments. When  setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Yields
+        ------
+        typing.Iterator[Snippet]
+            Successful Response
+
+        Examples
+        --------
+        from hume import HumeClient
+        from hume.tts import FormatMp3, PostedContextWithUtterances, PostedUtterance
+
+        client = HumeClient(
+            api_key="YOUR_API_KEY",
+        )
+        response = client.tts.synthesize_json_streaming(
+            utterances=[
+                PostedUtterance(
+                    text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
+                    description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm,  steady tone with an articulate, academic quality.",
+                )
+            ],
+            context=PostedContextWithUtterances(
+                utterances=[
+                    PostedUtterance(
+                        text="How can people see beauty so differently?",
+                        description="A curious student with a clear and respectful tone, seeking clarification on Hume's  ideas with a straightforward question.",
+                    )
+                ],
+            ),
+            format=FormatMp3(),
+        )
+        for chunk in response:
+            yield chunk
+        """
+        with self._client_wrapper.httpx_client.stream(
+            "v0/tts/stream/json",
+            method="POST",
+            json={
+                "context": convert_and_respect_annotation_metadata(
+                    object_=context, annotation=PostedContext, direction="write"
+                ),
+                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
+                "num_generations": num_generations,
+                "split_utterances": split_utterances,
+                "utterances": convert_and_respect_annotation_metadata(
+                    object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
+                ),
+            },
+            request_options=request_options,
+            omit=OMIT,
+        ) as _response:
+            try:
+                if 200 <= _response.status_code < 300:
+                    for _text in _response.iter_lines():
+                        try:
+                            if len(_text) == 0:
+                                continue
+                            yield typing.cast(
+                                Snippet,
+                                parse_obj_as(
+                                    type_=Snippet,  # type: ignore
+                                    object_=json.loads(_text),
+                                ),
+                            )
+                        except:
+                            pass
                     return
                 _response.read()
                 if _response.status_code == 422:
@@ -237,6 +488,7 @@ class AsyncTtsClient:
         context: typing.Optional[PostedContext] = OMIT,
         format: typing.Optional[Format] = OMIT,
         num_generations: typing.Optional[int] = OMIT,
+        split_utterances: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnTts:
         """
@@ -257,6 +509,15 @@ class AsyncTtsClient:
 
         num_generations : typing.Optional[int]
             Number of generations of the audio to produce.
+
+        split_utterances : typing.Optional[bool]
+            Controls how audio output is segmented in the response.
+
+            - When **enabled** (`true`),  input utterances are automatically split into natural-sounding speech segments.
+
+            - When **disabled**  (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets.
+
+            This setting affects how the `snippets` array is structured in the response, which may be important  for applications that need to track the relationship between input text and generated audio segments. When  setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -310,6 +571,7 @@ class AsyncTtsClient:
                 ),
                 "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
                 "num_generations": num_generations,
+                "split_utterances": split_utterances,
                 "utterances": convert_and_respect_annotation_metadata(
                     object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
                 ),
@@ -348,6 +610,7 @@ class AsyncTtsClient:
         context: typing.Optional[PostedContext] = OMIT,
         format: typing.Optional[Format] = OMIT,
         num_generations: typing.Optional[int] = OMIT,
+        split_utterances: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.AsyncIterator[bytes]:
         """
@@ -368,6 +631,15 @@ class AsyncTtsClient:
 
         num_generations : typing.Optional[int]
             Number of generations of the audio to produce.
+
+        split_utterances : typing.Optional[bool]
+            Controls how audio output is segmented in the response.
+
+            - When **enabled** (`true`),  input utterances are automatically split into natural-sounding speech segments.
+
+            - When **disabled**  (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets.
+
+            This setting affects how the `snippets` array is structured in the response, which may be important  for applications that need to track the relationship between input text and generated audio segments. When  setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -416,6 +688,7 @@ class AsyncTtsClient:
                 ),
                 "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
                 "num_generations": num_generations,
+                "split_utterances": split_utterances,
                 "utterances": convert_and_respect_annotation_metadata(
                     object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
                 ),
@@ -427,6 +700,249 @@ class AsyncTtsClient:
                 if 200 <= _response.status_code < 300:
                     async for _chunk in _response.aiter_bytes():
                         yield _chunk
+                    return
+                await _response.aread()
+                if _response.status_code == 422:
+                    raise UnprocessableEntityError(
+                        typing.cast(
+                            HttpValidationError,
+                            parse_obj_as(
+                                type_=HttpValidationError,  # type: ignore
+                                object_=_response.json(),
+                            ),
+                        )
+                    )
+                _response_json = _response.json()
+            except JSONDecodeError:
+                raise ApiError(status_code=_response.status_code, body=_response.text)
+            raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def synthesize_file_streaming(
+        self,
+        *,
+        utterances: typing.Sequence[PostedUtterance],
+        context: typing.Optional[PostedContext] = OMIT,
+        format: typing.Optional[Format] = OMIT,
+        num_generations: typing.Optional[int] = OMIT,
+        split_utterances: typing.Optional[bool] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> typing.AsyncIterator[bytes]:
+        """
+        Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be  generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
+
+        Parameters
+        ----------
+        utterances : typing.Sequence[PostedUtterance]
+            Utterances to be converted to speech output.
+
+        context : typing.Optional[PostedContext]
+            Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+
+        format : typing.Optional[Format]
+            Specifies the output audio file format.
+
+        num_generations : typing.Optional[int]
+            Number of generations of the audio to produce.
+
+        split_utterances : typing.Optional[bool]
+            Controls how audio output is segmented in the response.
+
+            - When **enabled** (`true`),  input utterances are automatically split into natural-sounding speech segments.
+
+            - When **disabled**  (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets.
+
+            This setting affects how the `snippets` array is structured in the response, which may be important  for applications that need to track the relationship between input text and generated audio segments. When  setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Yields
+        ------
+        typing.AsyncIterator[bytes]
+            OK
+
+        Examples
+        --------
+        import asyncio
+
+        from hume import AsyncHumeClient
+        from hume.tts import FormatMp3, PostedContextWithGenerationId, PostedUtterance
+
+        client = AsyncHumeClient(
+            api_key="YOUR_API_KEY",
+        )
+
+
+        async def main() -> None:
+            await client.tts.synthesize_file_streaming(
+                utterances=[
+                    PostedUtterance(
+                        text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
+                        description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm,  steady tone with an articulate, academic quality.",
+                    )
+                ],
+                context=PostedContextWithGenerationId(
+                    generation_id="09ad914d-8e7f-40f8-a279-e34f07f7dab2",
+                ),
+                format=FormatMp3(),
+                num_generations=1,
+            )
+
+
+        asyncio.run(main())
+        """
+        async with self._client_wrapper.httpx_client.stream(
+            "v0/tts/stream/file",
+            method="POST",
+            json={
+                "context": convert_and_respect_annotation_metadata(
+                    object_=context, annotation=PostedContext, direction="write"
+                ),
+                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
+                "num_generations": num_generations,
+                "split_utterances": split_utterances,
+                "utterances": convert_and_respect_annotation_metadata(
+                    object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
+                ),
+            },
+            request_options=request_options,
+            omit=OMIT,
+        ) as _response:
+            try:
+                if 200 <= _response.status_code < 300:
+                    async for _chunk in _response.aiter_bytes():
+                        yield _chunk
+                    return
+                await _response.aread()
+                if _response.status_code == 422:
+                    raise UnprocessableEntityError(
+                        typing.cast(
+                            HttpValidationError,
+                            parse_obj_as(
+                                type_=HttpValidationError,  # type: ignore
+                                object_=_response.json(),
+                            ),
+                        )
+                    )
+                _response_json = _response.json()
+            except JSONDecodeError:
+                raise ApiError(status_code=_response.status_code, body=_response.text)
+            raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def synthesize_json_streaming(
+        self,
+        *,
+        utterances: typing.Sequence[PostedUtterance],
+        context: typing.Optional[PostedContext] = OMIT,
+        format: typing.Optional[Format] = OMIT,
+        num_generations: typing.Optional[int] = OMIT,
+        split_utterances: typing.Optional[bool] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> typing.AsyncIterator[Snippet]:
+        """
+        Streams synthesized speech using the specified voice. If no voice is provided,  a novel voice will be generated dynamically. Optionally, additional context can be included to influence the  speech's style and prosody.
+
+        The response is a stream of JSON objects including audio encoded in base64.
+
+        Parameters
+        ----------
+        utterances : typing.Sequence[PostedUtterance]
+            Utterances to be converted to speech output.
+
+        context : typing.Optional[PostedContext]
+            Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+
+        format : typing.Optional[Format]
+            Specifies the output audio file format.
+
+        num_generations : typing.Optional[int]
+            Number of generations of the audio to produce.
+
+        split_utterances : typing.Optional[bool]
+            Controls how audio output is segmented in the response.
+
+            - When **enabled** (`true`),  input utterances are automatically split into natural-sounding speech segments.
+
+            - When **disabled**  (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets.
+
+            This setting affects how the `snippets` array is structured in the response, which may be important  for applications that need to track the relationship between input text and generated audio segments. When  setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Yields
+        ------
+        typing.AsyncIterator[Snippet]
+            Successful Response
+
+        Examples
+        --------
+        import asyncio
+
+        from hume import AsyncHumeClient
+        from hume.tts import FormatMp3, PostedContextWithUtterances, PostedUtterance
+
+        client = AsyncHumeClient(
+            api_key="YOUR_API_KEY",
+        )
+
+
+        async def main() -> None:
+            response = await client.tts.synthesize_json_streaming(
+                utterances=[
+                    PostedUtterance(
+                        text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
+                        description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm,  steady tone with an articulate, academic quality.",
+                    )
+                ],
+                context=PostedContextWithUtterances(
+                    utterances=[
+                        PostedUtterance(
+                            text="How can people see beauty so differently?",
+                            description="A curious student with a clear and respectful tone, seeking clarification on Hume's  ideas with a straightforward question.",
+                        )
+                    ],
+                ),
+                format=FormatMp3(),
+            )
+            async for chunk in response:
+                yield chunk
+
+
+        asyncio.run(main())
+        """
+        async with self._client_wrapper.httpx_client.stream(
+            "v0/tts/stream/json",
+            method="POST",
+            json={
+                "context": convert_and_respect_annotation_metadata(
+                    object_=context, annotation=PostedContext, direction="write"
+                ),
+                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
+                "num_generations": num_generations,
+                "split_utterances": split_utterances,
+                "utterances": convert_and_respect_annotation_metadata(
+                    object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
+                ),
+            },
+            request_options=request_options,
+            omit=OMIT,
+        ) as _response:
+            try:
+                if 200 <= _response.status_code < 300:
+                    async for _text in _response.aiter_lines():
+                        try:
+                            if len(_text) == 0:
+                                continue
+                            yield typing.cast(
+                                Snippet,
+                                parse_obj_as(
+                                    type_=Snippet,  # type: ignore
+                                    object_=json.loads(_text),
+                                ),
+                            )
+                        except:
+                            pass
                     return
                 await _response.aread()
                 if _response.status_code == 422:

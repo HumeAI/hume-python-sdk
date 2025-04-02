@@ -8,6 +8,21 @@ from ...core.pydantic_utilities import IS_PYDANTIC_V2
 
 
 class WebhookEventChatStarted(WebhookEventBase):
+    caller_number: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Phone number of the caller in E.164 format (e.g., `+12223333333`). This field is included only if the Chat was created via the [Twilio phone calling](/docs/empathic-voice-interface-evi/phone-calling) integration.
+    """
+
+    chat_start_type: WebhookEventChatStartType = pydantic.Field()
+    """
+    Indicates whether the chat is the first in a new Chat Group (`new_chat_group`) or the continuation of an existing chat group (`resumed_chat_group`).
+    """
+
+    custom_session_id: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    User-defined session ID. Relevant only when employing a [custom language model](/docs/empathic-voice-interface-evi/custom-language-model) in the EVI Config.
+    """
+
     event_name: typing.Optional[typing.Literal["chat_started"]] = pydantic.Field(default=None)
     """
     Always `chat_started`.
@@ -16,21 +31,6 @@ class WebhookEventChatStarted(WebhookEventBase):
     start_time: int = pydantic.Field()
     """
     Unix timestamp (in milliseconds) indicating when the session started.
-    """
-
-    chat_start_type: WebhookEventChatStartType = pydantic.Field()
-    """
-    Indicates whether the chat is the first in a new Chat Group (`new_chat_group`) or the continuation of an existing chat group (`resumed_chat_group`).
-    """
-
-    caller_number: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    Phone number of the caller in E.164 format (e.g., `+12223333333`). This field is included only if the Chat was created via the [Twilio phone calling](/docs/empathic-voice-interface-evi/guides/phone-calling) integration.
-    """
-
-    custom_session_id: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    User-defined session ID. Relevant only when employing a [custom language model](/docs/empathic-voice-interface-evi/guides/custom-language-model) in the EVI Config.
     """
 
     if IS_PYDANTIC_V2:
