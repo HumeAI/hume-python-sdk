@@ -44,8 +44,7 @@ service:
 
               For example, if `page_size` is set to 10, each page will include
               up to 10 items. Defaults to 10.
-          ascending_order:
-            type: optional<boolean>
+          ascending_order: optional<boolean>
       response:
         docs: Success
         type: root.ReturnPagedVoices

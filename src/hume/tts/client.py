@@ -14,7 +14,7 @@ from .errors.unprocessable_entity_error import UnprocessableEntityError
 from .types.http_validation_error import HttpValidationError
 from json.decoder import JSONDecodeError
 from ..core.api_error import ApiError
-from .types.snippet import Snippet
+from .types.snippet_audio_chunk import SnippetAudioChunk
 import json
 from ..core.client_wrapper import AsyncClientWrapper
 from .voices.client import AsyncVoicesClient
@@ -361,7 +361,7 @@ class TtsClient:
         num_generations: typing.Optional[int] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> typing.Iterator[Snippet]:
+    ) -> typing.Iterator[SnippetAudioChunk]:
         """
         Streams synthesized speech using the specified voice. If no voice is provided,  a novel voice will be generated dynamically. Optionally, additional context can be included to influence the  speech's style and prosody.
 
@@ -395,7 +395,7 @@ class TtsClient:
 
         Yields
         ------
-        typing.Iterator[Snippet]
+        typing.Iterator[SnippetAudioChunk]
             Successful Response
 
         Examples
@@ -450,9 +450,9 @@ class TtsClient:
                             if len(_text) == 0:
                                 continue
                             yield typing.cast(
-                                Snippet,
+                                SnippetAudioChunk,
                                 parse_obj_as(
-                                    type_=Snippet,  # type: ignore
+                                    type_=SnippetAudioChunk,  # type: ignore
                                     object_=json.loads(_text),
                                 ),
                             )
@@ -838,7 +838,7 @@ class AsyncTtsClient:
         num_generations: typing.Optional[int] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> typing.AsyncIterator[Snippet]:
+    ) -> typing.AsyncIterator[SnippetAudioChunk]:
         """
         Streams synthesized speech using the specified voice. If no voice is provided,  a novel voice will be generated dynamically. Optionally, additional context can be included to influence the  speech's style and prosody.
 
@@ -872,7 +872,7 @@ class AsyncTtsClient:
 
         Yields
         ------
-        typing.AsyncIterator[Snippet]
+        typing.AsyncIterator[SnippetAudioChunk]
             Successful Response
 
         Examples
@@ -935,9 +935,9 @@ class AsyncTtsClient:
                             if len(_text) == 0:
                                 continue
                             yield typing.cast(
-                                Snippet,
+                                SnippetAudioChunk,
                                 parse_obj_as(
-                                    type_=Snippet,  # type: ignore
+                                    type_=SnippetAudioChunk,  # type: ignore
                                     object_=json.loads(_text),
                                 ),
                             )

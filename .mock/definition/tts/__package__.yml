@@ -178,7 +178,7 @@ service:
         content-type: application/json
       response-stream:
         docs: Successful Response
-        type: Snippet
+        type: SnippetAudioChunk
         format: json
       errors:
         - UnprocessableEntityError
