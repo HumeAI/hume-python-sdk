@@ -7,7 +7,7 @@ service:
     list-prompts:
       path: /v0/evi/prompts
       method: GET
-      auth: true
+      auth: false
       docs: >-
         Fetches a paginated list of **Prompts**.
 
@@ -19,7 +19,7 @@ service:
         offset: $request.page_number
         results: $response.prompts_page
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       display-name: List prompts
       request:
         name: PromptsListPromptsRequest
@@ -100,7 +100,7 @@ service:
     create-prompt:
       path: /v0/evi/prompts
       method: POST
-      auth: true
+      auth: false
       docs: >-
         Creates a **Prompt** that can be added to an [EVI
         configuration](/reference/empathic-voice-interface-evi/configs/create-config).
@@ -110,7 +110,7 @@ service:
         guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips
         on crafting your system prompt.
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       display-name: Create prompt
       request:
         name: PostedPrompt
@@ -174,7 +174,7 @@ service:
     list-prompt-versions:
       path: /v0/evi/prompts/{id}
       method: GET
-      auth: true
+      auth: false
       docs: >-
         Fetches a list of a **Prompt's** versions.
 
@@ -183,7 +183,7 @@ service:
         guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips
         on crafting your system prompt.
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       path-parameters:
         id:
           type: string
@@ -251,7 +251,7 @@ service:
     create-prompt-version:
       path: /v0/evi/prompts/{id}
       method: POST
-      auth: true
+      auth: false
       docs: >-
         Updates a **Prompt** by creating a new version of the **Prompt**.
 
@@ -260,7 +260,7 @@ service:
         guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips
         on crafting your system prompt.
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       path-parameters:
         id:
           type: string
@@ -328,7 +328,7 @@ service:
     delete-prompt:
       path: /v0/evi/prompts/{id}
       method: DELETE
-      auth: true
+      auth: false
       docs: >-
         Deletes a **Prompt** and its versions.
 
@@ -337,7 +337,7 @@ service:
         guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips
         on crafting your system prompt.
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       path-parameters:
         id:
           type: string
@@ -351,7 +351,7 @@ service:
     update-prompt-name:
       path: /v0/evi/prompts/{id}
       method: PATCH
-      auth: true
+      auth: false
       docs: >-
         Updates the name of a **Prompt**.
 
@@ -360,7 +360,7 @@ service:
         guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips
         on crafting your system prompt.
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       path-parameters:
         id:
           type: string
@@ -377,6 +377,7 @@ service:
       response:
         docs: Success
         type: text
+        status-code: 200
       errors:
         - root.BadRequestError
       examples:
@@ -387,7 +388,7 @@ service:
     get-prompt-version:
       path: /v0/evi/prompts/{id}/version/{version}
       method: GET
-      auth: true
+      auth: false
       docs: >-
         Fetches a specified version of a **Prompt**.
 
@@ -396,7 +397,7 @@ service:
         guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips
         on crafting your system prompt.
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       path-parameters:
         id:
           type: string
@@ -446,7 +447,7 @@ service:
     delete-prompt-version:
       path: /v0/evi/prompts/{id}/version/{version}
       method: DELETE
-      auth: true
+      auth: false
       docs: >-
         Deletes a specified version of a **Prompt**.
 
@@ -455,7 +456,7 @@ service:
         guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips
         on crafting your system prompt.
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       path-parameters:
         id:
           type: string
@@ -485,7 +486,7 @@ service:
     update-prompt-description:
       path: /v0/evi/prompts/{id}/version/{version}
       method: PATCH
-      auth: true
+      auth: false
       docs: >-
         Updates the description of a **Prompt**.
 
@@ -494,7 +495,7 @@ service:
         guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips
         on crafting your system prompt.
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       path-parameters:
         id:
           type: string
@@ -552,4 +553,4 @@ service:
                 conditions, and any weather alerts. Include helpful tips if
                 severe weather is expected.</role>
   source:
-    openapi: stenographer-openapi.json
+    openapi: evi-openapi.json

@@ -14,16 +14,19 @@ class UserMessage(UniversalBaseModel):
     When provided, the output is a user message.
     """
 
-    type: typing.Literal["user_message"] = pydantic.Field(default="user_message")
-    """
-    The type of message sent through the socket; for a User Message, this must be `user_message`.
-    
-    This message contains both a transcript of the user’s input and the expression measurement predictions if the input was sent as an [Audio Input message](/reference/empathic-voice-interface-evi/chat/chat#send.Audio%20Input.type). Expression measurement predictions are not provided for a [User Input message](/reference/empathic-voice-interface-evi/chat/chat#send.User%20Input.type), as the prosody model relies on audio input and cannot process text alone.
-    """
-
     custom_session_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
+    """
+
+    from_text: bool = pydantic.Field()
+    """
+    Indicates if this message was inserted into the conversation as text from a [User Input](/reference/empathic-voice-interface-evi/chat/chat#send.User%20Input.text) message.
+    """
+
+    interim: bool = pydantic.Field()
+    """
+    Indicates if this message contains an immediate and unfinalized transcript of the user’s audio input. If it does, words may be repeated across successive `UserMessage` messages as our transcription model becomes more confident about what was said with additional context. Interim messages are useful to detect if the user is interrupting during audio playback on the client. Even without a finalized transcription, along with [UserInterrupt](/reference/empathic-voice-interface-evi/chat/chat#receive.User%20Interruption.type) messages, interim `UserMessages` are useful for detecting if the user is interrupting during audio playback on the client, signaling to stop playback in your application. Interim `UserMessages` will only be received if the [verbose_transcription](/reference/empathic-voice-interface-evi/chat/chat#request.query.verbose_transcription) query parameter is set to `true` in the handshake request.
     """
 
     message: ChatMessage = pydantic.Field()
@@ -41,14 +44,11 @@ class UserMessage(UniversalBaseModel):
     Start and End time of user message.
     """
 
-    from_text: bool = pydantic.Field()
+    type: typing.Literal["user_message"] = pydantic.Field(default="user_message")
     """
-    Indicates if this message was inserted into the conversation as text from a [User Input](/reference/empathic-voice-interface-evi/chat/chat#send.User%20Input.text) message.
-    """
-
-    interim: bool = pydantic.Field()
-    """
-    Indicates if this message contains an immediate and unfinalized transcript of the user’s audio input. If it does, words may be repeated across successive `UserMessage` messages as our transcription model becomes more confident about what was said with additional context. Interim messages are useful to detect if the user is interrupting during audio playback on the client. Even without a finalized transcription, along with [UserInterrupt](/reference/empathic-voice-interface-evi/chat/chat#receive.User%20Interruption.type) messages, interim `UserMessages` are useful for detecting if the user is interrupting during audio playback on the client, signaling to stop playback in your application. Interim `UserMessages` will only be received if the [verbose_transcription](/reference/empathic-voice-interface-evi/chat/chat#request.query.verbose_transcription) query parameter is set to `true` in the handshake request.
+    The type of message sent through the socket; for a User Message, this must be `user_message`.
+    
+    This message contains both a transcript of the user’s input and the expression measurement predictions if the input was sent as an [Audio Input message](/reference/empathic-voice-interface-evi/chat/chat#send.Audio%20Input.type). Expression measurement predictions are not provided for a [User Input message](/reference/empathic-voice-interface-evi/chat/chat#send.User%20Input.type), as the prosody model relies on audio input and cannot process text alone.
     """
 
     if IS_PYDANTIC_V2:

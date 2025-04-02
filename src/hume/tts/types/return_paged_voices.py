@@ -2,18 +2,20 @@
 
 from ...core.pydantic_utilities import UniversalBaseModel
 import typing
-import pydantic
-from .built_in_tool import BuiltInTool
+from .return_voice import ReturnVoice
 from ...core.pydantic_utilities import IS_PYDANTIC_V2
+import pydantic
 
 
-class BuiltinToolConfig(UniversalBaseModel):
-    fallback_content: typing.Optional[str] = pydantic.Field(default=None)
+class ReturnPagedVoices(UniversalBaseModel):
     """
-    Optional text passed to the supplemental LLM if the tool call fails. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation.
+    A paginated list Octave voices available for text-to-speech
     """
 
-    name: BuiltInTool
+    page_number: typing.Optional[int] = None
+    page_size: typing.Optional[int] = None
+    total_pages: typing.Optional[int] = None
+    voices_page: typing.Optional[typing.List[ReturnVoice]] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

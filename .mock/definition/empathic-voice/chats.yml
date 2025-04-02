@@ -7,13 +7,13 @@ service:
     list-chats:
       path: /v0/evi/chats
       method: GET
-      auth: true
+      auth: false
       docs: Fetches a paginated list of **Chats**.
       pagination:
         offset: $request.page_number
         results: $response.chats_page
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       display-name: List chats
       request:
         name: ChatsListChatsRequest
@@ -83,13 +83,13 @@ service:
     list-chat-events:
       path: /v0/evi/chats/{id}
       method: GET
-      auth: true
+      auth: false
       docs: Fetches a paginated list of **Chat** events.
       pagination:
         offset: $request.page_number
         results: $response.events_page
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       path-parameters:
         id:
           type: string
@@ -469,13 +469,13 @@ service:
     get-audio:
       path: /v0/evi/chats/{id}/audio
       method: GET
-      auth: true
+      auth: false
       docs: >-
         Fetches the audio of a previous **Chat**. For more details, see our
         guide on audio reconstruction
         [here](/docs/empathic-voice-interface-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       path-parameters:
         id:
           type: string
@@ -501,4 +501,4 @@ service:
               signed_audio_url: https://storage.googleapis.com/...etc.
               signed_url_expiration_timestamp_millis: 1730232816964
   source:
-    openapi: stenographer-openapi.json
+    openapi: evi-openapi.json

@@ -7,7 +7,7 @@ service:
     list-tools:
       path: /v0/evi/tools
       method: GET
-      auth: true
+      auth: false
       docs: >-
         Fetches a paginated list of **Tools**.
 
@@ -20,7 +20,7 @@ service:
         offset: $request.page_number
         results: $response.tools_page
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       display-name: List tools
       request:
         name: ToolsListToolsRequest
@@ -109,7 +109,7 @@ service:
     create-tool:
       path: /v0/evi/tools
       method: POST
-      auth: true
+      auth: false
       docs: >-
         Creates a **Tool** that can be added to an [EVI
         configuration](/reference/empathic-voice-interface-evi/configs/create-config).
@@ -120,7 +120,7 @@ service:
         guide for comprehensive instructions on defining and integrating tools
         into EVI.
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       display-name: Create tool
       request:
         name: PostedUserDefinedTool
@@ -201,7 +201,7 @@ service:
     list-tool-versions:
       path: /v0/evi/tools/{id}
       method: GET
-      auth: true
+      auth: false
       docs: >-
         Fetches a list of a **Tool's** versions.
 
@@ -211,7 +211,7 @@ service:
         guide for comprehensive instructions on defining and integrating tools
         into EVI.
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       path-parameters:
         id:
           type: string
@@ -284,7 +284,7 @@ service:
     create-tool-version:
       path: /v0/evi/tools/{id}
       method: POST
-      auth: true
+      auth: false
       docs: >-
         Updates a **Tool** by creating a new version of the **Tool**.
 
@@ -294,7 +294,7 @@ service:
         guide for comprehensive instructions on defining and integrating tools
         into EVI.
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       path-parameters:
         id:
           type: string
@@ -377,7 +377,7 @@ service:
     delete-tool:
       path: /v0/evi/tools/{id}
       method: DELETE
-      auth: true
+      auth: false
       docs: >-
         Deletes a **Tool** and its versions.
 
@@ -387,7 +387,7 @@ service:
         guide for comprehensive instructions on defining and integrating tools
         into EVI.
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       path-parameters:
         id:
           type: string
@@ -401,7 +401,7 @@ service:
     update-tool-name:
       path: /v0/evi/tools/{id}
       method: PATCH
-      auth: true
+      auth: false
       docs: >-
         Updates the name of a **Tool**.
 
@@ -411,7 +411,7 @@ service:
         guide for comprehensive instructions on defining and integrating tools
         into EVI.
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       path-parameters:
         id:
           type: string
@@ -427,6 +427,8 @@ service:
         content-type: application/json
       response:
         docs: Success
+        type: text
+        status-code: 200
       errors:
         - root.BadRequestError
       examples:
@@ -437,7 +439,7 @@ service:
     get-tool-version:
       path: /v0/evi/tools/{id}/version/{version}
       method: GET
-      auth: true
+      auth: false
       docs: >-
         Fetches a specified version of a **Tool**.
 
@@ -447,7 +449,7 @@ service:
         guide for comprehensive instructions on defining and integrating tools
         into EVI.
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       path-parameters:
         id:
           type: string
@@ -501,7 +503,7 @@ service:
     delete-tool-version:
       path: /v0/evi/tools/{id}/version/{version}
       method: DELETE
-      auth: true
+      auth: false
       docs: >-
         Deletes a specified version of a **Tool**.
 
@@ -511,7 +513,7 @@ service:
         guide for comprehensive instructions on defining and integrating tools
         into EVI.
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       path-parameters:
         id:
           type: string
@@ -540,7 +542,7 @@ service:
     update-tool-description:
       path: /v0/evi/tools/{id}/version/{version}
       method: PATCH
-      auth: true
+      auth: false
       docs: >-
         Updates the description of a specified **Tool** version.
 
@@ -550,7 +552,7 @@ service:
         guide for comprehensive instructions on defining and integrating tools
         into EVI.
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       path-parameters:
         id:
           type: string
@@ -616,4 +618,4 @@ service:
                 temperature unit to use. Infer this from the users location." }
                 }, "required": ["location", "format"] }
   source:
-    openapi: stenographer-openapi.json
+    openapi: evi-openapi.json

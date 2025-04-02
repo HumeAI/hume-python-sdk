@@ -7,7 +7,7 @@ service:
     list-configs:
       path: /v0/evi/configs
       method: GET
-      auth: true
+      auth: false
       docs: >-
         Fetches a paginated list of **Configs**.
 
@@ -16,7 +16,7 @@ service:
         our [configuration
         guide](/docs/empathic-voice-interface-evi/configuration).
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       display-name: List configs
       request:
         name: ConfigsListConfigsRequest
@@ -139,7 +139,7 @@ service:
     create-config:
       path: /v0/evi/configs
       method: POST
-      auth: true
+      auth: false
       docs: >-
         Creates a **Config** which can be applied to EVI.
 
@@ -148,7 +148,7 @@ service:
         our [configuration
         guide](/docs/empathic-voice-interface-evi/configuration).
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       display-name: Create config
       request:
         name: PostedConfig
@@ -307,7 +307,7 @@ service:
     list-config-versions:
       path: /v0/evi/configs/{id}
       method: GET
-      auth: true
+      auth: false
       docs: >-
         Fetches a list of a **Config's** versions.
 
@@ -316,7 +316,7 @@ service:
         our [configuration
         guide](/docs/empathic-voice-interface-evi/configuration).
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       path-parameters:
         id:
           type: string
@@ -439,7 +439,7 @@ service:
     create-config-version:
       path: /v0/evi/configs/{id}
       method: POST
-      auth: true
+      auth: false
       docs: >-
         Updates a **Config** by creating a new version of the **Config**.
 
@@ -448,7 +448,7 @@ service:
         our [configuration
         guide](/docs/empathic-voice-interface-evi/configuration).
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       path-parameters:
         id:
           type: string
@@ -609,7 +609,7 @@ service:
     delete-config:
       path: /v0/evi/configs/{id}
       method: DELETE
-      auth: true
+      auth: false
       docs: >-
         Deletes a **Config** and its versions.
 
@@ -618,7 +618,7 @@ service:
         our [configuration
         guide](/docs/empathic-voice-interface-evi/configuration).
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       path-parameters:
         id:
           type: string
@@ -632,7 +632,7 @@ service:
     update-config-name:
       path: /v0/evi/configs/{id}
       method: PATCH
-      auth: true
+      auth: false
       docs: >-
         Updates the name of a **Config**.
 
@@ -641,7 +641,7 @@ service:
         our [configuration
         guide](/docs/empathic-voice-interface-evi/configuration).
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       path-parameters:
         id:
           type: string
@@ -658,6 +658,7 @@ service:
       response:
         docs: Success
         type: text
+        status-code: 200
       errors:
         - root.BadRequestError
       examples:
@@ -668,7 +669,7 @@ service:
     get-config-version:
       path: /v0/evi/configs/{id}/version/{version}
       method: GET
-      auth: true
+      auth: false
       docs: >-
         Fetches a specified version of a **Config**.
 
@@ -677,7 +678,7 @@ service:
         our [configuration
         guide](/docs/empathic-voice-interface-evi/configuration).
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       path-parameters:
         id:
           type: string
@@ -782,7 +783,7 @@ service:
     delete-config-version:
       path: /v0/evi/configs/{id}/version/{version}
       method: DELETE
-      auth: true
+      auth: false
       docs: >-
         Deletes a specified version of a **Config**.
 
@@ -791,7 +792,7 @@ service:
         our [configuration
         guide](/docs/empathic-voice-interface-evi/configuration).
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       path-parameters:
         id:
           type: string
@@ -821,7 +822,7 @@ service:
     update-config-description:
       path: /v0/evi/configs/{id}/version/{version}
       method: PATCH
-      auth: true
+      auth: false
       docs: >-
         Updates the description of a **Config**.
 
@@ -830,7 +831,7 @@ service:
         our [configuration
         guide](/docs/empathic-voice-interface-evi/configuration).
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       path-parameters:
         id:
           type: string
@@ -943,4 +944,4 @@ service:
                   enabled: true
                   duration_secs: 1800
   source:
-    openapi: stenographer-openapi.json
+    openapi: evi-openapi.json
