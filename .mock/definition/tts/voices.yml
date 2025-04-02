@@ -1,10 +1,3 @@
-types:
-  VoicesListRequestProvider:
-    enum:
-      - HUME_AI
-      - CUSTOM_VOICE
-    source:
-      openapi: tts-openapi.yml
 imports:
   root: __package__.yml
 service:
@@ -26,7 +19,7 @@ service:
         name: VoicesListRequest
         query-parameters:
           provider:
-            type: VoicesListRequestProvider
+            type: root.VoiceProvider
             docs: >-
               Specifies whether to return custom voices created in your account
               or shared voices provided by Hume

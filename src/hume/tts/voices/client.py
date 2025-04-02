@@ -2,7 +2,7 @@
 
 import typing
 from ...core.client_wrapper import SyncClientWrapper
-from .types.voices_list_request_provider import VoicesListRequestProvider
+from ..types.voice_provider import VoiceProvider
 from ...core.request_options import RequestOptions
 from ..types.return_paged_voices import ReturnPagedVoices
 from ...core.pydantic_utilities import parse_obj_as
@@ -26,7 +26,7 @@ class VoicesClient:
     def list(
         self,
         *,
-        provider: VoicesListRequestProvider,
+        provider: VoiceProvider,
         page_number: typing.Optional[int] = None,
         page_size: typing.Optional[int] = None,
         ascending_order: typing.Optional[bool] = None,
@@ -37,7 +37,7 @@ class VoicesClient:
 
         Parameters
         ----------
-        provider : VoicesListRequestProvider
+        provider : VoiceProvider
             Specifies whether to return custom voices created in your account or shared voices provided by Hume
 
         page_number : typing.Optional[int]
@@ -235,7 +235,7 @@ class AsyncVoicesClient:
     async def list(
         self,
         *,
-        provider: VoicesListRequestProvider,
+        provider: VoiceProvider,
         page_number: typing.Optional[int] = None,
         page_size: typing.Optional[int] = None,
         ascending_order: typing.Optional[bool] = None,
@@ -246,7 +246,7 @@ class AsyncVoicesClient:
 
         Parameters
         ----------
-        provider : VoicesListRequestProvider
+        provider : VoiceProvider
             Specifies whether to return custom voices created in your account or shared voices provided by Hume
 
         page_number : typing.Optional[int]

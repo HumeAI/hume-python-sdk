@@ -22,13 +22,13 @@ from .types import (
     ReturnTts,
     ReturnVoice,
     Snippet,
+    SnippetAudioChunk,
     ValidationError,
     ValidationErrorLocItem,
     VoiceProvider,
 )
 from .errors import BadRequestError, UnprocessableEntityError
 from . import voices
-from .voices import VoicesListRequestProvider
 
 __all__ = [
     "AudioEncoding",
@@ -53,10 +53,10 @@ __all__ = [
     "ReturnTts",
     "ReturnVoice",
     "Snippet",
+    "SnippetAudioChunk",
     "UnprocessableEntityError",
     "ValidationError",
     "ValidationErrorLocItem",
     "VoiceProvider",
-    "VoicesListRequestProvider",
     "voices",
 ]
