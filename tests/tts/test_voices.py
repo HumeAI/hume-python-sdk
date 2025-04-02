@@ -9,12 +9,15 @@ from ..utilities import validate_response
 async def test_list_(client: HumeClient, async_client: AsyncHumeClient) -> None:
     expected_response: typing.Any = {
         "voices_page": [
-            {"name": "David Hume", "id": "c42352c0-4566-455d-b180-0f654b65b525"},
-            {"name": "Goliath Hume", "id": "d87352b0-26a3-4b11-081b-d157a5674d19"},
+            {"name": "David Hume", "id": "c42352c0-4566-455d-b180-0f654b65b525", "provider": "CUSTOM_VOICE"},
+            {"name": "Goliath Hume", "id": "d87352b0-26a3-4b11-081b-d157a5674d19", "provider": "CUSTOM_VOICE"},
         ]
     }
     expected_types: typing.Any = {
-        "voices_page": ("list", {0: {"name": None, "id": None}, 1: {"name": None, "id": None}})
+        "voices_page": (
+            "list",
+            {0: {"name": None, "id": None, "provider": None}, 1: {"name": None, "id": None, "provider": None}},
+        )
     }
     response = client.tts.voices.list(provider="CUSTOM_VOICE")
     validate_response(response, expected_response, expected_types)
@@ -24,8 +27,12 @@ async def test_list_(client: HumeClient, async_client: AsyncHumeClient) -> None:
 
 
 async def test_create(client: HumeClient, async_client: AsyncHumeClient) -> None:
-    expected_response: typing.Any = {"name": "David Hume", "id": "c42352c0-4566-455d-b180-0f654b65b525"}
-    expected_types: typing.Any = {"name": None, "id": None}
+    expected_response: typing.Any = {
+        "name": "David Hume",
+        "id": "c42352c0-4566-455d-b180-0f654b65b525",
+        "provider": "CUSTOM_VOICE",
+    }
+    expected_types: typing.Any = {"name": None, "id": None, "provider": None}
     response = client.tts.voices.create(generation_id="795c949a-1510-4a80-9646-7d0863b023ab", name="David Hume")
     validate_response(response, expected_response, expected_types)
 
