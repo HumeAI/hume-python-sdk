@@ -1295,176 +1295,169 @@ types:
     source:
       openapi: batch-openapi.json
   Source:
-    discriminated: false
+    discriminant: type
+    base-properties: {}
     union:
-      - SourceUrl
-      - SourceFile
-      - SourceTextSource
+      url: SourceUrl
+      file: SourceFile
+      text: SourceTextSource
     source:
       openapi: batch-openapi.json
   SourceFile:
-    properties:
-      type: literal<"file">
+    properties: {}
     extends:
       - File
     source:
       openapi: batch-openapi.json
   SourceTextSource:
-    properties:
-      type: literal<"text">
+    properties: {}
     source:
       openapi: batch-openapi.json
   SourceUrl:
-    properties:
-      type: literal<"url">
+    properties: {}
     extends:
       - Url
     source:
       openapi: batch-openapi.json
+  Url:
+    properties:
+      url:
+        type: string
+        docs: The URL of the source media file.
+    source:
+      openapi: batch-openapi.json
   StateEmbeddingGeneration:
-    discriminated: false
+    discriminant: status
+    base-properties: {}
     union:
-      - StateEmbeddingGenerationQueued
-      - StateEmbeddingGenerationInProgress
-      - StateEmbeddingGenerationCompletedEmbeddingGeneration
-      - StateEmbeddingGenerationFailed
+      QUEUED: StateEmbeddingGenerationQueued
+      IN_PROGRESS: StateEmbeddingGenerationInProgress
+      COMPLETED: StateEmbeddingGenerationCompletedEmbeddingGeneration
+      FAILED: StateEmbeddingGenerationFailed
     source:
       openapi: batch-openapi.json
   StateEmbeddingGenerationCompletedEmbeddingGeneration:
-    properties:
-      status: literal<"COMPLETED">
+    properties: {}
     extends:
       - CompletedEmbeddingGeneration
     source:
       openapi: batch-openapi.json
   StateEmbeddingGenerationFailed:
-    properties:
-      status: literal<"FAILED">
+    properties: {}
     extends:
       - Failed
     source:
       openapi: batch-openapi.json
   StateEmbeddingGenerationInProgress:
-    properties:
-      status: literal<"IN_PROGRESS">
+    properties: {}
     extends:
       - InProgress
     source:
       openapi: batch-openapi.json
   StateEmbeddingGenerationQueued:
-    properties:
-      status: literal<"QUEUED">
+    properties: {}
     extends:
       - Queued
     source:
       openapi: batch-openapi.json
   StateInference:
-    discriminated: false
+    discriminant: status
+    base-properties: {}
     union:
-      - QueuedState
-      - InProgressState
-      - CompletedState
-      - FailedState
+      QUEUED: QueuedState
+      IN_PROGRESS: InProgressState
+      COMPLETED: CompletedState
+      FAILED: FailedState
     source:
       openapi: batch-openapi.json
   CompletedState:
-    properties:
-      status: literal<"COMPLETED">
+    properties: {}
     extends:
       - CompletedInference
     source:
       openapi: batch-openapi.json
   FailedState:
-    properties:
-      status: literal<"FAILED">
+    properties: {}
     extends:
       - Failed
     source:
       openapi: batch-openapi.json
   InProgressState:
-    properties:
-      status: literal<"IN_PROGRESS">
+    properties: {}
     extends:
       - InProgress
     source:
       openapi: batch-openapi.json
   QueuedState:
-    properties:
-      status: literal<"QUEUED">
+    properties: {}
     extends:
       - Queued
     source:
       openapi: batch-openapi.json
   StateTlInference:
-    discriminated: false
+    discriminant: status
+    base-properties: {}
     union:
-      - StateTlInferenceQueued
-      - StateTlInferenceInProgress
-      - StateTlInferenceCompletedTlInference
-      - StateTlInferenceFailed
+      QUEUED: StateTlInferenceQueued
+      IN_PROGRESS: StateTlInferenceInProgress
+      COMPLETED: StateTlInferenceCompletedTlInference
+      FAILED: StateTlInferenceFailed
     source:
       openapi: batch-openapi.json
   StateTlInferenceCompletedTlInference:
-    properties:
-      status: literal<"COMPLETED">
+    properties: {}
     extends:
       - CompletedTlInference
     source:
       openapi: batch-openapi.json
   StateTlInferenceFailed:
-    properties:
-      status: literal<"FAILED">
+    properties: {}
     extends:
       - Failed
     source:
       openapi: batch-openapi.json
   StateTlInferenceInProgress:
-    properties:
-      status: literal<"IN_PROGRESS">
+    properties: {}
     extends:
       - InProgress
     source:
       openapi: batch-openapi.json
   StateTlInferenceQueued:
-    properties:
-      status: literal<"QUEUED">
+    properties: {}
     extends:
       - Queued
     source:
       openapi: batch-openapi.json
   StateTraining:
-    discriminated: false
+    discriminant: status
+    base-properties: {}
     union:
-      - StateTrainingQueued
-      - StateTrainingInProgress
-      - StateTrainingCompletedTraining
-      - StateTrainingFailed
+      QUEUED: StateTrainingQueued
+      IN_PROGRESS: StateTrainingInProgress
+      COMPLETED: StateTrainingCompletedTraining
+      FAILED: StateTrainingFailed
     source:
       openapi: batch-openapi.json
   StateTrainingCompletedTraining:
-    properties:
-      status: literal<"COMPLETED">
+    properties: {}
     extends:
       - CompletedTraining
     source:
       openapi: batch-openapi.json
   StateTrainingFailed:
-    properties:
-      status: literal<"FAILED">
+    properties: {}
     extends:
       - Failed
     source:
       openapi: batch-openapi.json
   StateTrainingInProgress:
-    properties:
-      status: literal<"IN_PROGRESS">
+    properties: {}
     extends:
       - InProgress
     source:
       openapi: batch-openapi.json
   StateTrainingQueued:
-    properties:
-      status: literal<"QUEUED">
+    properties: {}
     extends:
       - Queued
     source:
@@ -1516,20 +1509,19 @@ types:
     source:
       openapi: batch-openapi.json
   Task:
-    discriminated: false
+    discriminant: type
+    base-properties: {}
     union:
-      - TaskClassification
-      - TaskRegression
+      classification: TaskClassification
+      regression: TaskRegression
     source:
       openapi: batch-openapi.json
   TaskClassification:
-    properties:
-      type: literal<"classification">
+    properties: {}
     source:
       openapi: batch-openapi.json
   TaskRegression:
-    properties:
-      type: literal<"regression">
+    properties: {}
     source:
       openapi: batch-openapi.json
   TextSource: map<string, unknown>
@@ -1774,13 +1766,6 @@ types:
     source:
       openapi: batch-openapi.json
   UnionPredictResult: InferenceSourcePredictResult
-  Url:
-    properties:
-      url:
-        type: string
-        docs: The URL of the source media file.
-    source:
-      openapi: batch-openapi.json
   ValidationArgs:
     properties:
       positive_label: optional<Target>
