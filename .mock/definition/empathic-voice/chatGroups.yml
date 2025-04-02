@@ -7,10 +7,10 @@ service:
     list-chat-groups:
       path: /v0/evi/chat_groups
       method: GET
-      auth: true
+      auth: false
       docs: Fetches a paginated list of **Chat Groups**.
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       display-name: List chat_groups
       request:
         name: ChatGroupsListChatGroupsRequest
@@ -82,12 +82,12 @@ service:
     get-chat-group:
       path: /v0/evi/chat_groups/{id}
       method: GET
-      auth: true
+      auth: false
       docs: >-
         Fetches a **ChatGroup** by ID, including a paginated list of **Chats**
         associated with the **ChatGroup**.
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       path-parameters:
         id:
           type: string
@@ -161,12 +161,12 @@ service:
     list-chat-group-events:
       path: /v0/evi/chat_groups/{id}/events
       method: GET
-      auth: true
+      auth: false
       docs: >-
         Fetches a paginated list of **Chat** events associated with a **Chat
         Group**.
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       path-parameters:
         id:
           type: string
@@ -538,13 +538,13 @@ service:
     get-audio:
       path: /v0/evi/chat_groups/{id}/audio
       method: GET
-      auth: true
+      auth: false
       docs: >-
         Fetches a paginated list of audio for each **Chat** within the specified
         **Chat Group**. For more details, see our guide on audio reconstruction
         [here](/docs/empathic-voice-interface-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
       source:
-        openapi: stenographer-openapi.json
+        openapi: evi-openapi.json
       path-parameters:
         id:
           type: string
@@ -614,4 +614,4 @@ service:
                   signed_audio_url: https://storage.googleapis.com/...etc.
                   signed_url_expiration_timestamp_millis: 1730232816964
   source:
-    openapi: stenographer-openapi.json
+    openapi: evi-openapi.json
