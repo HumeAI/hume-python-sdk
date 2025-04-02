@@ -21,6 +21,7 @@ from .return_paged_voices import ReturnPagedVoices
 from .return_tts import ReturnTts
 from .return_voice import ReturnVoice
 from .snippet import Snippet
+from .snippet_audio_chunk import SnippetAudioChunk
 from .validation_error import ValidationError
 from .validation_error_loc_item import ValidationErrorLocItem
 from .voice_provider import VoiceProvider
@@ -47,6 +48,7 @@ __all__ = [
     "ReturnTts",
     "ReturnVoice",
     "Snippet",
+    "SnippetAudioChunk",
     "ValidationError",
     "ValidationErrorLocItem",
     "VoiceProvider",

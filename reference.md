@@ -552,7 +552,7 @@ client.tts.voices.list(
 <dl>
 <dd>
 
-**provider:** `VoicesListRequestProvider` — Specifies whether to return custom voices created in your account or shared voices provided by Hume
+**provider:** `VoiceProvider` — Specifies whether to return custom voices created in your account or shared voices provided by Hume
     
 </dd>
 </dl>
