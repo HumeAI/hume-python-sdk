@@ -73,11 +73,12 @@ service:
                   audio: //PExAA0DDYRvkpNfhv3JI5JZ...etc.
                   snippets:
                     - - audio: //PExAA0DDYRvkpNfhv3JI5JZ...etc.
+                        generation_id: 795c949a-1510-4a80-9646-7d0863b023ab
                         id: 37b1b1b1-1b1b-1b1b-1b1b-1b1b1b1b1b1b
                         text: >-
                           Beauty is no quality in things themselves: It exists
                           merely in the mind which contemplates them.
-                        generation_id: 795c949a-1510-4a80-9646-7d0863b023ab
+                        utterance_index: 0
               request_id: 66e01f90-4501-4aa0-bbaf-74f45dc15aa725906
     synthesize-file:
       path: /v0/tts/file
@@ -260,9 +261,10 @@ types:
           multiple requests.
       snippets:
         docs: >-
-          A list of speech segments, each containing a portion of the original
-          text optimized for  natural speech delivery. These segments represent
-          the input text divided into more natural-sounding units.
+          A list of snippet groups where each group corresponds to an utterance
+          in the request. Each  group contains segmented snippets that represent
+          the original utterance divided into more natural-sounding units
+          optimized for speech delivery.
         type: list<list<Snippet>>
     source:
       openapi: tts-openapi.yml

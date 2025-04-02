@@ -22,9 +22,10 @@ async def test_synthesize_json(client: HumeClient, async_client: AsyncHumeClient
                     [
                         {
                             "audio": "//PExAA0DDYRvkpNfhv3JI5JZ...etc.",
+                            "generation_id": "795c949a-1510-4a80-9646-7d0863b023ab",
                             "id": "37b1b1b1-1b1b-1b1b-1b1b-1b1b1b1b1b1b",
                             "text": "Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
-                            "generation_id": "795c949a-1510-4a80-9646-7d0863b023ab",
+                            "utterance_index": 0,
                         }
                     ]
                 ],
@@ -44,7 +45,20 @@ async def test_synthesize_json(client: HumeClient, async_client: AsyncHumeClient
                     "audio": None,
                     "snippets": (
                         "list",
-                        {0: ("list", {0: {"audio": None, "id": None, "text": None, "generation_id": None}})},
+                        {
+                            0: (
+                                "list",
+                                {
+                                    0: {
+                                        "audio": None,
+                                        "generation_id": None,
+                                        "id": None,
+                                        "text": None,
+                                        "utterance_index": "integer",
+                                    }
+                                },
+                            )
+                        },
                     ),
                 }
             },
