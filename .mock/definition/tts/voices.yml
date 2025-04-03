@@ -44,7 +44,8 @@ service:
 
               For example, if `page_size` is set to 10, each page will include
               up to 10 items. Defaults to 10.
-          ascending_order: optional<boolean>
+          ascending_order:
+            type: optional<boolean>
       response:
         docs: Success
         type: root.ReturnPagedVoices
@@ -56,11 +57,16 @@ service:
             provider: CUSTOM_VOICE
           response:
             body:
+              page_number: 0
+              page_size: 10
+              total_pages: 1
               voices_page:
                 - name: David Hume
                   id: c42352c0-4566-455d-b180-0f654b65b525
+                  provider: CUSTOM_VOICE
                 - name: Goliath Hume
                   id: d87352b0-26a3-4b11-081b-d157a5674d19
+                  provider: CUSTOM_VOICE
     create:
       path: /v0/tts/voices
       method: POST
@@ -100,6 +106,7 @@ service:
             body:
               name: David Hume
               id: c42352c0-4566-455d-b180-0f654b65b525
+              provider: CUSTOM_VOICE
     delete:
       path: /v0/tts/voices
       method: DELETE
