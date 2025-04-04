@@ -15,6 +15,9 @@ service:
         For more details on configuration options and how to configure EVI, see
         our [configuration
         guide](/docs/empathic-voice-interface-evi/configuration).
+      pagination:
+        offset: $request.page_number
+        results: $response.configs_page
       source:
         openapi: evi-openapi.json
       display-name: List configs
@@ -315,6 +318,9 @@ service:
         For more details on configuration options and how to configure EVI, see
         our [configuration
         guide](/docs/empathic-voice-interface-evi/configuration).
+      pagination:
+        offset: $request.page_number
+        results: $response.configs_page
       source:
         openapi: evi-openapi.json
       path-parameters:
@@ -658,6 +664,7 @@ service:
       response:
         docs: Success
         type: text
+        status-code: 200
       errors:
         - root.BadRequestError
       examples:

@@ -69,15 +69,16 @@ service:
                   file_size: 120192
                   encoding:
                     format: mp3
-                    sample_rate: 24000
+                    sample_rate: 48000
                   audio: //PExAA0DDYRvkpNfhv3JI5JZ...etc.
                   snippets:
                     - - audio: //PExAA0DDYRvkpNfhv3JI5JZ...etc.
+                        generation_id: 795c949a-1510-4a80-9646-7d0863b023ab
                         id: 37b1b1b1-1b1b-1b1b-1b1b-1b1b1b1b1b1b
                         text: >-
                           Beauty is no quality in things themselves: It exists
                           merely in the mind which contemplates them.
-                        generation_id: 795c949a-1510-4a80-9646-7d0863b023ab
+                        utterance_index: 0
               request_id: 66e01f90-4501-4aa0-bbaf-74f45dc15aa725906
     synthesize-file:
       path: /v0/tts/file
@@ -221,13 +222,18 @@ types:
     source:
       openapi: tts-openapi.yml
   AudioEncoding:
+    docs: >-
+      Encoding information about the generated audio, including the `format` and
+      `sample_rate`.
     properties:
       format:
         type: AudioFormatType
         docs: Format for the output audio.
       sample_rate:
         type: integer
-        docs: Sample rate of the generated audio.
+        docs: >-
+          The sample rate (`Hz`) of the generated audio. The default sample rate
+          is `48000 Hz`.
     source:
       openapi: tts-openapi.yml
   AudioFormatType:
@@ -260,9 +266,10 @@ types:
           multiple requests.
       snippets:
         docs: >-
-          A list of speech segments, each containing a portion of the original
-          text optimized for  natural speech delivery. These segments represent
-          the input text divided into more natural-sounding units.
+          A list of snippet groups where each group corresponds to an utterance
+          in the request. Each  group contains segmented snippets that represent
+          the original utterance divided into more natural-sounding units
+          optimized for speech delivery.
         type: list<list<Snippet>>
     source:
       openapi: tts-openapi.yml
@@ -273,8 +280,7 @@ types:
     source:
       openapi: tts-openapi.yml
   FormatMp3:
-    properties:
-      type: literal<"mp3">
+    properties: {}
     source:
       openapi: tts-openapi.yml
   PostedContext:
@@ -290,15 +296,18 @@ types:
       openapi: tts-openapi.yml
     inline: true
   Format:
-    discriminated: false
+    discriminant: type
+    base-properties: {}
     docs: Specifies the output audio file format.
     union:
-      - type: FormatMp3
-      - type: FormatPcm
-      - type: FormatWav
+      mp3:
+        type: FormatMp3
+      pcm:
+        type: FormatPcm
+      wav:
+        type: FormatWav
     source:
       openapi: tts-openapi.yml
-    inline: true
   PostedTts:
     properties:
       context:
@@ -338,7 +347,16 @@ types:
           as this can result in distorted output.
         default: true
       utterances:
-        docs: Utterances to be converted to speech output.
+        docs: >-
+          A list of **Utterances** to be converted to speech output.
+
+
+          An **Utterance** is a unit of  input for
+          [Octave](/docs/text-to-speech-tts/overview), and includes input
+          `text`, an  optional `description` to serve as the prompt for how the
+          speech should be delivered, an optional `voice` specification, and
+          additional controls to guide delivery for `speed` and
+          `trailing_silence`.
         type: list<PostedUtterance>
     source:
       openapi: tts-openapi.yml
@@ -378,8 +396,7 @@ types:
     source:
       openapi: tts-openapi.yml
   FormatPcm:
-    properties:
-      type: literal<"pcm">
+    properties: {}
     source:
       openapi: tts-openapi.yml
   Snippet:
@@ -438,12 +455,10 @@ types:
           accent').
 
           - If a Voice is specified in the request, this description serves as
-          acting instructions.
-
-          - If  no Voice is specified, a new voice is generated based on this
-          description.
-
-           See our  [prompting guide](/docs/text-to-speech-tts/prompting) for tips on crafting your descriptions.
+          acting instructions. For  tips on how to effectively guide speech
+          delivery, see our guide on [Acting
+          instructions](/docs/text-to-speech-tts/acting-instructions).
+           - If no Voice is specified, a new voice is generated based on this description. See our [prompting guide](/docs/text-to-speech-tts/prompting)  for tips on designing a voice.
         validation:
           maxLength: 1000
       speed:
@@ -543,8 +558,7 @@ types:
     source:
       openapi: tts-openapi.yml
   FormatWav:
-    properties:
-      type: literal<"wav">
+    properties: {}
     source:
       openapi: tts-openapi.yml
   ErrorResponse:
@@ -557,9 +571,29 @@ types:
   ReturnPagedVoices:
     docs: A paginated list Octave voices available for text-to-speech
     properties:
-      page_number: optional<integer>
-      page_size: optional<integer>
-      total_pages: optional<integer>
-      voices_page: optional<list<ReturnVoice>>
+      page_number:
+        type: optional<integer>
+        docs: >-
+          The page number of the returned list.
+
+
+          This value corresponds to the `page_number` parameter specified in the
+          request. Pagination uses zero-based indexing.
+      page_size:
+        type: optional<integer>
+        docs: >-
+          The maximum number of items returned per page.
+
+
+          This value corresponds to the `page_size` parameter specified in the
+          request.
+      total_pages:
+        type: optional<integer>
+        docs: The total number of pages in the collection.
+      voices_page:
+        type: optional<list<ReturnVoice>>
+        docs: >-
+          List of voices returned for the specified `page_number` and
+          `page_size`.
     source:
       openapi: tts-openapi.yml

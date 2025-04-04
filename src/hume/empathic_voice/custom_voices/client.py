@@ -3,6 +3,8 @@
 import typing
 from ...core.client_wrapper import SyncClientWrapper
 from ...core.request_options import RequestOptions
+from ...core.pagination import SyncPager
+from ..types.return_custom_voice import ReturnCustomVoice
 from ..types.return_paged_custom_voices import ReturnPagedCustomVoices
 from ...core.pydantic_utilities import parse_obj_as
 from ..errors.bad_request_error import BadRequestError
@@ -11,10 +13,10 @@ from json.decoder import JSONDecodeError
 from ...core.api_error import ApiError
 from ..types.posted_custom_voice_base_voice import PostedCustomVoiceBaseVoice
 from ..types.posted_custom_voice_parameters import PostedCustomVoiceParameters
-from ..types.return_custom_voice import ReturnCustomVoice
 from ...core.serialization import convert_and_respect_annotation_metadata
 from ...core.jsonable_encoder import jsonable_encoder
 from ...core.client_wrapper import AsyncClientWrapper
+from ...core.pagination import AsyncPager
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -31,7 +33,7 @@ class CustomVoicesClient:
         page_size: typing.Optional[int] = None,
         name: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> ReturnPagedCustomVoices:
+    ) -> SyncPager[ReturnCustomVoice]:
         """
         Fetches a paginated list of **Custom Voices**.
 
@@ -57,7 +59,7 @@ class CustomVoicesClient:
 
         Returns
         -------
-        ReturnPagedCustomVoices
+        SyncPager[ReturnCustomVoice]
             Success
 
         Examples
@@ -67,8 +69,14 @@ class CustomVoicesClient:
         client = HumeClient(
             api_key="YOUR_API_KEY",
         )
-        client.empathic_voice.custom_voices.list_custom_voices()
+        response = client.empathic_voice.custom_voices.list_custom_voices()
+        for item in response:
+            yield item
+        # alternatively, you can paginate page-by-page
+        for page in response.iter_pages():
+            yield page
         """
+        page_number = page_number if page_number is not None else 1
         _response = self._client_wrapper.httpx_client.request(
             "v0/evi/custom_voices",
             method="GET",
@@ -81,13 +89,22 @@ class CustomVoicesClient:
         )
         try:
             if 200 <= _response.status_code < 300:
-                return typing.cast(
+                _parsed_response = typing.cast(
                     ReturnPagedCustomVoices,
                     parse_obj_as(
                         type_=ReturnPagedCustomVoices,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
+                _has_next = True
+                _get_next = lambda: self.list_custom_voices(
+                    page_number=page_number + 1,
+                    page_size=page_size,
+                    name=name,
+                    request_options=request_options,
+                )
+                _items = _parsed_response.custom_voices_page
+                return SyncPager(has_next=_has_next, items=_items, get_next=_get_next)
             if _response.status_code == 400:
                 raise BadRequestError(
                     typing.cast(
@@ -464,7 +481,7 @@ class AsyncCustomVoicesClient:
         page_size: typing.Optional[int] = None,
         name: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> ReturnPagedCustomVoices:
+    ) -> AsyncPager[ReturnCustomVoice]:
         """
         Fetches a paginated list of **Custom Voices**.
 
@@ -490,7 +507,7 @@ class AsyncCustomVoicesClient:
 
         Returns
         -------
-        ReturnPagedCustomVoices
+        AsyncPager[ReturnCustomVoice]
             Success
 
         Examples
@@ -505,11 +522,17 @@ class AsyncCustomVoicesClient:
 
 
         async def main() -> None:
-            await client.empathic_voice.custom_voices.list_custom_voices()
+            response = await client.empathic_voice.custom_voices.list_custom_voices()
+            async for item in response:
+                yield item
+            # alternatively, you can paginate page-by-page
+            async for page in response.iter_pages():
+                yield page
 
 
         asyncio.run(main())
         """
+        page_number = page_number if page_number is not None else 1
         _response = await self._client_wrapper.httpx_client.request(
             "v0/evi/custom_voices",
             method="GET",
@@ -522,13 +545,22 @@ class AsyncCustomVoicesClient:
         )
         try:
             if 200 <= _response.status_code < 300:
-                return typing.cast(
+                _parsed_response = typing.cast(
                     ReturnPagedCustomVoices,
                     parse_obj_as(
                         type_=ReturnPagedCustomVoices,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
+                _has_next = True
+                _get_next = lambda: self.list_custom_voices(
+                    page_number=page_number + 1,
+                    page_size=page_size,
+                    name=name,
+                    request_options=request_options,
+                )
+                _items = _parsed_response.custom_voices_page
+                return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next)
             if _response.status_code == 400:
                 raise BadRequestError(
                     typing.cast(

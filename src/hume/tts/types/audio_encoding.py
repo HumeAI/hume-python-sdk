@@ -8,6 +8,10 @@ import typing
 
 
 class AudioEncoding(UniversalBaseModel):
+    """
+    Encoding information about the generated audio, including the `format` and `sample_rate`.
+    """
+
     format: AudioFormatType = pydantic.Field()
     """
     Format for the output audio.
@@ -15,7 +19,7 @@ class AudioEncoding(UniversalBaseModel):
 
     sample_rate: int = pydantic.Field()
     """
-    Sample rate of the generated audio.
+    The sample rate (`Hz`) of the generated audio. The default sample rate is `48000 Hz`.
     """
 
     if IS_PYDANTIC_V2:
