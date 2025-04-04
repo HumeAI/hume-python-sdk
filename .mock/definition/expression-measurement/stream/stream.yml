@@ -7,14 +7,14 @@ channel:
       type: string
       name: humeApiKey
   messages:
+    subscribe:
+      origin: server
+      body: SubscribeEvent
     publish:
       origin: client
       body:
         type: StreamModelsEndpointPayload
         docs: Models endpoint payload
-    subscribe:
-      origin: server
-      body: SubscribeEvent
   examples:
     - messages:
         - type: publish
@@ -22,209 +22,6 @@ channel:
         - type: subscribe
           body: {}
 types:
-  StreamFace:
-    docs: >
-      Configuration for the facial expression emotion model.
-
-
-      Note: Using the `reset_stream` parameter does not have any effect on face
-      identification. A single face identifier cache is maintained over a full
-      session whether `reset_stream` is used or not.
-    properties:
-      facs:
-        type: optional<map<string, unknown>>
-        docs: >-
-          Configuration for FACS predictions. If missing or null, no FACS
-          predictions will be generated.
-      descriptions:
-        type: optional<map<string, unknown>>
-        docs: >-
-          Configuration for Descriptions predictions. If missing or null, no
-          Descriptions predictions will be generated.
-      identify_faces:
-        type: optional<boolean>
-        docs: >
-          Whether to return identifiers for faces across frames. If true, unique
-          identifiers will be assigned to face bounding boxes to differentiate
-          different faces. If false, all faces will be tagged with an "unknown"
-          ID.
-        default: false
-      fps_pred:
-        type: optional<double>
-        docs: >
-          Number of frames per second to process. Other frames will be omitted
-          from the response.
-        default: 3
-      prob_threshold:
-        type: optional<double>
-        docs: >
-          Face detection probability threshold. Faces detected with a
-          probability less than this threshold will be omitted from the
-          response.
-        default: 3
-      min_face_size:
-        type: optional<double>
-        docs: >
-          Minimum bounding box side length in pixels to treat as a face. Faces
-          detected with a bounding box side length in pixels less than this
-          threshold will be omitted from the response.
-        default: 3
-    source:
-      openapi: streaming-asyncapi.yml
-    inline: true
-  StreamLanguage:
-    docs: Configuration for the language emotion model.
-    properties:
-      sentiment:
-        type: optional<map<string, unknown>>
-        docs: >-
-          Configuration for sentiment predictions. If missing or null, no
-          sentiment predictions will be generated.
-      toxicity:
-        type: optional<map<string, unknown>>
-        docs: >-
-          Configuration for toxicity predictions. If missing or null, no
-          toxicity predictions will be generated.
-      granularity:
-        type: optional<string>
-        docs: >-
-          The granularity at which to generate predictions. Values are `word`,
-          `sentence`, `utterance`, or `passage`. To get a single prediction for
-          the entire text of your streaming payload use `passage`. Default value
-          is `word`.
-    source:
-      openapi: streaming-asyncapi.yml
-    inline: true
-  Config:
-    docs: >
-      Configuration used to specify which models should be used and with what
-      settings.
-    properties:
-      burst:
-        type: optional<map<string, unknown>>
-        docs: |
-          Configuration for the vocal burst emotion model.
-
-          Note: Model configuration is not currently available in streaming.
-
-          Please use the default configuration by passing an empty object `{}`.
-      face:
-        type: optional<StreamFace>
-        docs: >
-          Configuration for the facial expression emotion model.
-
-
-          Note: Using the `reset_stream` parameter does not have any effect on
-          face identification. A single face identifier cache is maintained over
-          a full session whether `reset_stream` is used or not.
-      facemesh:
-        type: optional<map<string, unknown>>
-        docs: |
-          Configuration for the facemesh emotion model.
-
-          Note: Model configuration is not currently available in streaming.
-
-          Please use the default configuration by passing an empty object `{}`.
-      language:
-        type: optional<StreamLanguage>
-        docs: Configuration for the language emotion model.
-      prosody:
-        type: optional<map<string, unknown>>
-        docs: |
-          Configuration for the speech prosody emotion model.
-
-          Note: Model configuration is not currently available in streaming.
-
-          Please use the default configuration by passing an empty object `{}`.
-    source:
-      openapi: streaming-asyncapi.yml
-    inline: true
-  StreamModelsEndpointPayload:
-    docs: Models endpoint payload
-    properties:
-      data:
-        type: optional<string>
-      models:
-        type: optional<Config>
-        docs: >
-          Configuration used to specify which models should be used and with
-          what settings.
-      stream_window_ms:
-        type: optional<double>
-        docs: >
-          Length in milliseconds of streaming sliding window.
-
-
-          Extending the length of this window will prepend media context from
-          past payloads into the current payload.
-
-
-          For example, if on the first payload you send 500ms of data and on the
-          second payload you send an additional 500ms of data, a window of at
-          least 1000ms will allow the model to process all 1000ms of stream
-          data.
-
-
-          A window of 600ms would append the full 500ms of the second payload to
-          the last 100ms of the first payload.
-
-
-          Note: This feature is currently only supported for audio data and
-          audio models. For other file types and models this parameter will be
-          ignored.
-        default: 5000
-        validation:
-          min: 500
-          max: 10000
-      reset_stream:
-        type: optional<boolean>
-        docs: >
-          Whether to reset the streaming sliding window before processing the
-          current payload.
-
-
-          If this parameter is set to `true` then past context will be deleted
-          before processing the current payload.
-
-
-          Use reset_stream when one audio file is done being processed and you
-          do not want context to leak across files.
-        default: false
-      raw_text:
-        type: optional<boolean>
-        docs: >
-          Set to `true` to enable the data parameter to be parsed as raw text
-          rather than base64 encoded bytes.
-
-          This parameter is useful if you want to send text to be processed by
-          the language model, but it cannot be used with other file types like
-          audio, image, or video.
-        default: false
-      job_details:
-        type: optional<boolean>
-        docs: >
-          Set to `true` to get details about the job.
-
-
-          This parameter can be set in the same payload as data or it can be set
-          without data and models configuration to get the job details between
-          payloads.
-
-
-          This parameter is useful to get the unique job ID.
-        default: false
-      payload_id:
-        type: optional<string>
-        docs: >
-          Pass an arbitrary string as the payload ID and get it back at the top
-          level of the socket response.
-
-
-          This can be useful if you have multiple requests running
-          asynchronously and want to disambiguate responses as they are
-          received.
-    source:
-      openapi: streaming-asyncapi.yml
   StreamModelPredictionsJobDetails:
     docs: >
       If the job_details flag was set in the request, details about the current
@@ -432,6 +229,209 @@ types:
         docs: Error message
       - type: StreamWarningMessage
         docs: Warning message
+    source:
+      openapi: streaming-asyncapi.yml
+  StreamFace:
+    docs: >
+      Configuration for the facial expression emotion model.
+
+
+      Note: Using the `reset_stream` parameter does not have any effect on face
+      identification. A single face identifier cache is maintained over a full
+      session whether `reset_stream` is used or not.
+    properties:
+      facs:
+        type: optional<map<string, unknown>>
+        docs: >-
+          Configuration for FACS predictions. If missing or null, no FACS
+          predictions will be generated.
+      descriptions:
+        type: optional<map<string, unknown>>
+        docs: >-
+          Configuration for Descriptions predictions. If missing or null, no
+          Descriptions predictions will be generated.
+      identify_faces:
+        type: optional<boolean>
+        docs: >
+          Whether to return identifiers for faces across frames. If true, unique
+          identifiers will be assigned to face bounding boxes to differentiate
+          different faces. If false, all faces will be tagged with an "unknown"
+          ID.
+        default: false
+      fps_pred:
+        type: optional<double>
+        docs: >
+          Number of frames per second to process. Other frames will be omitted
+          from the response.
+        default: 3
+      prob_threshold:
+        type: optional<double>
+        docs: >
+          Face detection probability threshold. Faces detected with a
+          probability less than this threshold will be omitted from the
+          response.
+        default: 3
+      min_face_size:
+        type: optional<double>
+        docs: >
+          Minimum bounding box side length in pixels to treat as a face. Faces
+          detected with a bounding box side length in pixels less than this
+          threshold will be omitted from the response.
+        default: 3
+    source:
+      openapi: streaming-asyncapi.yml
+    inline: true
+  StreamLanguage:
+    docs: Configuration for the language emotion model.
+    properties:
+      sentiment:
+        type: optional<map<string, unknown>>
+        docs: >-
+          Configuration for sentiment predictions. If missing or null, no
+          sentiment predictions will be generated.
+      toxicity:
+        type: optional<map<string, unknown>>
+        docs: >-
+          Configuration for toxicity predictions. If missing or null, no
+          toxicity predictions will be generated.
+      granularity:
+        type: optional<string>
+        docs: >-
+          The granularity at which to generate predictions. Values are `word`,
+          `sentence`, `utterance`, or `passage`. To get a single prediction for
+          the entire text of your streaming payload use `passage`. Default value
+          is `word`.
+    source:
+      openapi: streaming-asyncapi.yml
+    inline: true
+  Config:
+    docs: >
+      Configuration used to specify which models should be used and with what
+      settings.
+    properties:
+      burst:
+        type: optional<map<string, unknown>>
+        docs: |
+          Configuration for the vocal burst emotion model.
+
+          Note: Model configuration is not currently available in streaming.
+
+          Please use the default configuration by passing an empty object `{}`.
+      face:
+        type: optional<StreamFace>
+        docs: >
+          Configuration for the facial expression emotion model.
+
+
+          Note: Using the `reset_stream` parameter does not have any effect on
+          face identification. A single face identifier cache is maintained over
+          a full session whether `reset_stream` is used or not.
+      facemesh:
+        type: optional<map<string, unknown>>
+        docs: |
+          Configuration for the facemesh emotion model.
+
+          Note: Model configuration is not currently available in streaming.
+
+          Please use the default configuration by passing an empty object `{}`.
+      language:
+        type: optional<StreamLanguage>
+        docs: Configuration for the language emotion model.
+      prosody:
+        type: optional<map<string, unknown>>
+        docs: |
+          Configuration for the speech prosody emotion model.
+
+          Note: Model configuration is not currently available in streaming.
+
+          Please use the default configuration by passing an empty object `{}`.
+    source:
+      openapi: streaming-asyncapi.yml
+    inline: true
+  StreamModelsEndpointPayload:
+    docs: Models endpoint payload
+    properties:
+      data:
+        type: optional<string>
+      models:
+        type: optional<Config>
+        docs: >
+          Configuration used to specify which models should be used and with
+          what settings.
+      stream_window_ms:
+        type: optional<double>
+        docs: >
+          Length in milliseconds of streaming sliding window.
+
+
+          Extending the length of this window will prepend media context from
+          past payloads into the current payload.
+
+
+          For example, if on the first payload you send 500ms of data and on the
+          second payload you send an additional 500ms of data, a window of at
+          least 1000ms will allow the model to process all 1000ms of stream
+          data.
+
+
+          A window of 600ms would append the full 500ms of the second payload to
+          the last 100ms of the first payload.
+
+
+          Note: This feature is currently only supported for audio data and
+          audio models. For other file types and models this parameter will be
+          ignored.
+        default: 5000
+        validation:
+          min: 500
+          max: 10000
+      reset_stream:
+        type: optional<boolean>
+        docs: >
+          Whether to reset the streaming sliding window before processing the
+          current payload.
+
+
+          If this parameter is set to `true` then past context will be deleted
+          before processing the current payload.
+
+
+          Use reset_stream when one audio file is done being processed and you
+          do not want context to leak across files.
+        default: false
+      raw_text:
+        type: optional<boolean>
+        docs: >
+          Set to `true` to enable the data parameter to be parsed as raw text
+          rather than base64 encoded bytes.
+
+          This parameter is useful if you want to send text to be processed by
+          the language model, but it cannot be used with other file types like
+          audio, image, or video.
+        default: false
+      job_details:
+        type: optional<boolean>
+        docs: >
+          Set to `true` to get details about the job.
+
+
+          This parameter can be set in the same payload as data or it can be set
+          without data and models configuration to get the job details between
+          payloads.
+
+
+          This parameter is useful to get the unique job ID.
+        default: false
+      payload_id:
+        type: optional<string>
+        docs: >
+          Pass an arbitrary string as the payload ID and get it back at the top
+          level of the socket response.
+
+
+          This can be useful if you have multiple requests running
+          asynchronously and want to disambiguate responses as they are
+          received.
     source:
       openapi: streaming-asyncapi.yml
 imports:
