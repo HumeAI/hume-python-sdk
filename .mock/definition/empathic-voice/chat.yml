@@ -113,12 +113,12 @@ channel:
         For more details, refer to the [Authentication Strategies
         Guide](/docs/introduction/api-key#authentication-strategies).
   messages:
-    publish:
-      origin: client
-      body: PublishEvent
     subscribe:
       origin: server
       body: SubscribeEvent
+    publish:
+      origin: client
+      body: PublishEvent
   examples:
     - messages:
         - type: publish
@@ -131,19 +131,6 @@ channel:
 imports:
   root: __package__.yml
 types:
-  PublishEvent:
-    discriminated: false
-    union:
-      - type: root.AudioInput
-      - type: root.SessionSettings
-      - type: root.UserInput
-      - type: root.AssistantInput
-      - type: root.ToolResponseMessage
-      - type: root.ToolErrorMessage
-      - type: root.PauseAssistantMessage
-      - type: root.ResumeAssistantMessage
-    source:
-      openapi: evi-asyncapi.json
   SubscribeEvent:
     discriminated: false
     union:
@@ -157,5 +144,18 @@ types:
       - type: root.ToolCallMessage
       - type: root.ToolResponseMessage
       - type: root.ToolErrorMessage
+    source:
+      openapi: evi-asyncapi.json
+  PublishEvent:
+    discriminated: false
+    union:
+      - type: root.AudioInput
+      - type: root.SessionSettings
+      - type: root.UserInput
+      - type: root.AssistantInput
+      - type: root.ToolResponseMessage
+      - type: root.ToolErrorMessage
+      - type: root.PauseAssistantMessage
+      - type: root.ResumeAssistantMessage
     source:
       openapi: evi-asyncapi.json

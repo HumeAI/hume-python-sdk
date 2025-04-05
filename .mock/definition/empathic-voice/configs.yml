@@ -113,7 +113,7 @@ service:
                         tightness: 5
                   language_model:
                     model_provider: ANTHROPIC
-                    model_resource: claude-3-5-sonnet-20240620
+                    model_resource: claude-3-7-sonnet
                     temperature: 1
                   ellm_model:
                     allow_short_responses: false
@@ -221,7 +221,7 @@ service:
               name: SAMPLE VOICE
             language_model:
               model_provider: ANTHROPIC
-              model_resource: claude-3-5-sonnet-20240620
+              model_resource: claude-3-7-sonnet
               temperature: 1
             event_messages:
               on_new_chat:
@@ -281,7 +281,7 @@ service:
                     tightness: 5
               language_model:
                 model_provider: ANTHROPIC
-                model_resource: claude-3-5-sonnet-20240620
+                model_resource: claude-3-7-sonnet
                 temperature: 1
               ellm_model:
                 allow_short_responses: false
@@ -413,7 +413,7 @@ service:
                         tightness: 5
                   language_model:
                     model_provider: ANTHROPIC
-                    model_resource: claude-3-5-sonnet-20240620
+                    model_resource: claude-3-7-sonnet
                     temperature: 1
                   ellm_model:
                     allow_short_responses: false
@@ -521,7 +521,7 @@ service:
               name: ITO
             language_model:
               model_provider: ANTHROPIC
-              model_resource: claude-3-5-sonnet-20240620
+              model_resource: claude-3-7-sonnet
               temperature: 1
             ellm_model:
               allow_short_responses: true
@@ -583,7 +583,7 @@ service:
                     tightness: 5
               language_model:
                 model_provider: ANTHROPIC
-                model_resource: claude-3-5-sonnet-20240620
+                model_resource: claude-3-7-sonnet
                 temperature: 1
               ellm_model:
                 allow_short_responses: true
@@ -658,6 +658,7 @@ service:
       response:
         docs: Success
         type: text
+        status-code: 200
       errors:
         - root.BadRequestError
       examples:
@@ -756,7 +757,7 @@ service:
                     tightness: 5
               language_model:
                 model_provider: ANTHROPIC
-                model_resource: claude-3-5-sonnet-20240620
+                model_resource: claude-3-7-sonnet
                 temperature: 1
               ellm_model:
                 allow_short_responses: false
@@ -919,7 +920,7 @@ service:
                     tightness: 5
               language_model:
                 model_provider: ANTHROPIC
-                model_resource: claude-3-5-sonnet-20240620
+                model_resource: claude-3-7-sonnet
                 temperature: 1
               ellm_model:
                 allow_short_responses: false
