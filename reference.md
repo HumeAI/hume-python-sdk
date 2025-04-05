@@ -68,7 +68,11 @@ client.tts.synthesize_json(
 <dl>
 <dd>
 
-**utterances:** `typing.Sequence[PostedUtterance]` — Utterances to be converted to speech output.
+**utterances:** `typing.Sequence[PostedUtterance]` 
+
+A list of **Utterances** to be converted to speech output.
+
+An **Utterance** is a unit of  input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an  optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
     
 </dd>
 </dl>
@@ -191,7 +195,11 @@ client.tts.synthesize_file(
 <dl>
 <dd>
 
-**utterances:** `typing.Sequence[PostedUtterance]` — Utterances to be converted to speech output.
+**utterances:** `typing.Sequence[PostedUtterance]` 
+
+A list of **Utterances** to be converted to speech output.
+
+An **Utterance** is a unit of  input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an  optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
     
 </dd>
 </dl>
@@ -312,7 +320,11 @@ client.tts.synthesize_file_streaming(
 <dl>
 <dd>
 
-**utterances:** `typing.Sequence[PostedUtterance]` — Utterances to be converted to speech output.
+**utterances:** `typing.Sequence[PostedUtterance]` 
+
+A list of **Utterances** to be converted to speech output.
+
+An **Utterance** is a unit of  input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an  optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
     
 </dd>
 </dl>
@@ -441,7 +453,11 @@ for chunk in response:
 <dl>
 <dd>
 
-**utterances:** `typing.Sequence[PostedUtterance]` — Utterances to be converted to speech output.
+**utterances:** `typing.Sequence[PostedUtterance]` 
+
+A list of **Utterances** to be converted to speech output.
+
+An **Utterance** is a unit of  input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an  optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
     
 </dd>
 </dl>
@@ -3119,7 +3135,7 @@ client.empathic_voice.configs.create_config(
     ),
     language_model=PostedLanguageModel(
         model_provider="ANTHROPIC",
-        model_resource="claude-3-5-sonnet-20240620",
+        model_resource="claude-3-7-sonnet",
         temperature=1.0,
     ),
     event_messages=PostedEventMessageSpecs(
@@ -3428,7 +3444,7 @@ client.empathic_voice.configs.create_config_version(
     ),
     language_model=PostedLanguageModel(
         model_provider="ANTHROPIC",
-        model_resource="claude-3-5-sonnet-20240620",
+        model_resource="claude-3-7-sonnet",
         temperature=1.0,
     ),
     ellm_model=PostedEllmModel(

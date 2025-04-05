@@ -214,7 +214,7 @@ class ConfigsClient:
             ),
             language_model=PostedLanguageModel(
                 model_provider="ANTHROPIC",
-                model_resource="claude-3-5-sonnet-20240620",
+                model_resource="claude-3-7-sonnet",
                 temperature=1.0,
             ),
             event_messages=PostedEventMessageSpecs(
@@ -482,7 +482,7 @@ class ConfigsClient:
             ),
             language_model=PostedLanguageModel(
                 model_provider="ANTHROPIC",
-                model_resource="claude-3-5-sonnet-20240620",
+                model_resource="claude-3-7-sonnet",
                 temperature=1.0,
             ),
             ellm_model=PostedEllmModel(
@@ -1096,7 +1096,7 @@ class AsyncConfigsClient:
                 ),
                 language_model=PostedLanguageModel(
                     model_provider="ANTHROPIC",
-                    model_resource="claude-3-5-sonnet-20240620",
+                    model_resource="claude-3-7-sonnet",
                     temperature=1.0,
                 ),
                 event_messages=PostedEventMessageSpecs(
@@ -1380,7 +1380,7 @@ class AsyncConfigsClient:
                 ),
                 language_model=PostedLanguageModel(
                     model_provider="ANTHROPIC",
-                    model_resource="claude-3-5-sonnet-20240620",
+                    model_resource="claude-3-7-sonnet",
                     temperature=1.0,
                 ),
                 ellm_model=PostedEllmModel(

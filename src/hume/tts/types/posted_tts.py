@@ -38,7 +38,9 @@ class PostedTts(UniversalBaseModel):
 
     utterances: typing.List[PostedUtterance] = pydantic.Field()
     """
-    Utterances to be converted to speech output.
+    A list of **Utterances** to be converted to speech output.
+    
+    An **Utterance** is a unit of  input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an  optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
     """
 
     if IS_PYDANTIC_V2:
