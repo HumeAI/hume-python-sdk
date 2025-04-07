@@ -15,6 +15,9 @@ service:
         Refer to our [voices
         guide](/docs/empathic-voice-interface-evi/configuration/voices) for
         details on creating a custom voice.
+      pagination:
+        offset: $request.page_number
+        results: $response.custom_voices_page
       source:
         openapi: evi-openapi.json
       display-name: List custom voices
