@@ -2,9 +2,9 @@
 
 from ...core.pydantic_utilities import UniversalBaseModel
 import typing
+import pydantic
 from .return_voice import ReturnVoice
 from ...core.pydantic_utilities import IS_PYDANTIC_V2
-import pydantic
 
 
 class ReturnPagedVoices(UniversalBaseModel):
@@ -12,10 +12,29 @@ class ReturnPagedVoices(UniversalBaseModel):
     A paginated list Octave voices available for text-to-speech
     """
 
-    page_number: typing.Optional[int] = None
-    page_size: typing.Optional[int] = None
-    total_pages: typing.Optional[int] = None
-    voices_page: typing.Optional[typing.List[ReturnVoice]] = None
+    page_number: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    The page number of the returned list.
+    
+    This value corresponds to the `page_number` parameter specified in the request. Pagination uses zero-based indexing.
+    """
+
+    page_size: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    The maximum number of items returned per page.
+    
+    This value corresponds to the `page_size` parameter specified in the request.
+    """
+
+    total_pages: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    The total number of pages in the collection.
+    """
+
+    voices_page: typing.Optional[typing.List[ReturnVoice]] = pydantic.Field(default=None)
+    """
+    List of voices returned for the specified `page_number` and `page_size`.
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

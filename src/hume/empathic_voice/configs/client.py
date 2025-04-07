@@ -3,6 +3,8 @@
 import typing
 from ...core.client_wrapper import SyncClientWrapper
 from ...core.request_options import RequestOptions
+from ...core.pagination import SyncPager
+from ..types.return_config import ReturnConfig
 from ..types.return_paged_configs import ReturnPagedConfigs
 from ...core.pydantic_utilities import parse_obj_as
 from ..errors.bad_request_error import BadRequestError
@@ -18,10 +20,10 @@ from ..types.posted_builtin_tool import PostedBuiltinTool
 from ..types.posted_event_message_specs import PostedEventMessageSpecs
 from ..types.posted_timeout_specs import PostedTimeoutSpecs
 from ..types.posted_webhook_spec import PostedWebhookSpec
-from ..types.return_config import ReturnConfig
 from ...core.serialization import convert_and_respect_annotation_metadata
 from ...core.jsonable_encoder import jsonable_encoder
 from ...core.client_wrapper import AsyncClientWrapper
+from ...core.pagination import AsyncPager
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -39,7 +41,7 @@ class ConfigsClient:
         restrict_to_most_recent: typing.Optional[bool] = None,
         name: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> ReturnPagedConfigs:
+    ) -> SyncPager[ReturnConfig]:
         """
         Fetches a paginated list of **Configs**.
 
@@ -68,7 +70,7 @@ class ConfigsClient:
 
         Returns
         -------
-        ReturnPagedConfigs
+        SyncPager[ReturnConfig]
             Success
 
         Examples
@@ -78,11 +80,17 @@ class ConfigsClient:
         client = HumeClient(
             api_key="YOUR_API_KEY",
         )
-        client.empathic_voice.configs.list_configs(
+        response = client.empathic_voice.configs.list_configs(
             page_number=0,
             page_size=1,
         )
+        for item in response:
+            yield item
+        # alternatively, you can paginate page-by-page
+        for page in response.iter_pages():
+            yield page
         """
+        page_number = page_number if page_number is not None else 1
         _response = self._client_wrapper.httpx_client.request(
             "v0/evi/configs",
             method="GET",
@@ -96,13 +104,23 @@ class ConfigsClient:
         )
         try:
             if 200 <= _response.status_code < 300:
-                return typing.cast(
+                _parsed_response = typing.cast(
                     ReturnPagedConfigs,
                     parse_obj_as(
                         type_=ReturnPagedConfigs,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
+                _has_next = True
+                _get_next = lambda: self.list_configs(
+                    page_number=page_number + 1,
+                    page_size=page_size,
+                    restrict_to_most_recent=restrict_to_most_recent,
+                    name=name,
+                    request_options=request_options,
+                )
+                _items = _parsed_response.configs_page
+                return SyncPager(has_next=_has_next, items=_items, get_next=_get_next)
             if _response.status_code == 400:
                 raise BadRequestError(
                     typing.cast(
@@ -214,7 +232,7 @@ class ConfigsClient:
             ),
             language_model=PostedLanguageModel(
                 model_provider="ANTHROPIC",
-                model_resource="claude-3-5-sonnet-20240620",
+                model_resource="claude-3-7-sonnet",
                 temperature=1.0,
             ),
             event_messages=PostedEventMessageSpecs(
@@ -307,7 +325,7 @@ class ConfigsClient:
         page_size: typing.Optional[int] = None,
         restrict_to_most_recent: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> ReturnPagedConfigs:
+    ) -> SyncPager[ReturnConfig]:
         """
         Fetches a list of a **Config's** versions.
 
@@ -336,7 +354,7 @@ class ConfigsClient:
 
         Returns
         -------
-        ReturnPagedConfigs
+        SyncPager[ReturnConfig]
             Success
 
         Examples
@@ -346,10 +364,16 @@ class ConfigsClient:
         client = HumeClient(
             api_key="YOUR_API_KEY",
         )
-        client.empathic_voice.configs.list_config_versions(
+        response = client.empathic_voice.configs.list_config_versions(
             id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
         )
+        for item in response:
+            yield item
+        # alternatively, you can paginate page-by-page
+        for page in response.iter_pages():
+            yield page
         """
+        page_number = page_number if page_number is not None else 1
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/configs/{jsonable_encoder(id)}",
             method="GET",
@@ -362,13 +386,23 @@ class ConfigsClient:
         )
         try:
             if 200 <= _response.status_code < 300:
-                return typing.cast(
+                _parsed_response = typing.cast(
                     ReturnPagedConfigs,
                     parse_obj_as(
                         type_=ReturnPagedConfigs,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
+                _has_next = True
+                _get_next = lambda: self.list_config_versions(
+                    id,
+                    page_number=page_number + 1,
+                    page_size=page_size,
+                    restrict_to_most_recent=restrict_to_most_recent,
+                    request_options=request_options,
+                )
+                _items = _parsed_response.configs_page
+                return SyncPager(has_next=_has_next, items=_items, get_next=_get_next)
             if _response.status_code == 400:
                 raise BadRequestError(
                     typing.cast(
@@ -482,7 +516,7 @@ class ConfigsClient:
             ),
             language_model=PostedLanguageModel(
                 model_provider="ANTHROPIC",
-                model_resource="claude-3-5-sonnet-20240620",
+                model_resource="claude-3-7-sonnet",
                 temperature=1.0,
             ),
             ellm_model=PostedEllmModel(
@@ -908,7 +942,7 @@ class AsyncConfigsClient:
         restrict_to_most_recent: typing.Optional[bool] = None,
         name: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> ReturnPagedConfigs:
+    ) -> AsyncPager[ReturnConfig]:
         """
         Fetches a paginated list of **Configs**.
 
@@ -937,7 +971,7 @@ class AsyncConfigsClient:
 
         Returns
         -------
-        ReturnPagedConfigs
+        AsyncPager[ReturnConfig]
             Success
 
         Examples
@@ -952,14 +986,20 @@ class AsyncConfigsClient:
 
 
         async def main() -> None:
-            await client.empathic_voice.configs.list_configs(
+            response = await client.empathic_voice.configs.list_configs(
                 page_number=0,
                 page_size=1,
             )
+            async for item in response:
+                yield item
+            # alternatively, you can paginate page-by-page
+            async for page in response.iter_pages():
+                yield page
 
 
         asyncio.run(main())
         """
+        page_number = page_number if page_number is not None else 1
         _response = await self._client_wrapper.httpx_client.request(
             "v0/evi/configs",
             method="GET",
@@ -973,13 +1013,23 @@ class AsyncConfigsClient:
         )
         try:
             if 200 <= _response.status_code < 300:
-                return typing.cast(
+                _parsed_response = typing.cast(
                     ReturnPagedConfigs,
                     parse_obj_as(
                         type_=ReturnPagedConfigs,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
+                _has_next = True
+                _get_next = lambda: self.list_configs(
+                    page_number=page_number + 1,
+                    page_size=page_size,
+                    restrict_to_most_recent=restrict_to_most_recent,
+                    name=name,
+                    request_options=request_options,
+                )
+                _items = _parsed_response.configs_page
+                return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next)
             if _response.status_code == 400:
                 raise BadRequestError(
                     typing.cast(
@@ -1096,7 +1146,7 @@ class AsyncConfigsClient:
                 ),
                 language_model=PostedLanguageModel(
                     model_provider="ANTHROPIC",
-                    model_resource="claude-3-5-sonnet-20240620",
+                    model_resource="claude-3-7-sonnet",
                     temperature=1.0,
                 ),
                 event_messages=PostedEventMessageSpecs(
@@ -1192,7 +1242,7 @@ class AsyncConfigsClient:
         page_size: typing.Optional[int] = None,
         restrict_to_most_recent: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> ReturnPagedConfigs:
+    ) -> AsyncPager[ReturnConfig]:
         """
         Fetches a list of a **Config's** versions.
 
@@ -1221,7 +1271,7 @@ class AsyncConfigsClient:
 
         Returns
         -------
-        ReturnPagedConfigs
+        AsyncPager[ReturnConfig]
             Success
 
         Examples
@@ -1236,13 +1286,19 @@ class AsyncConfigsClient:
 
 
         async def main() -> None:
-            await client.empathic_voice.configs.list_config_versions(
+            response = await client.empathic_voice.configs.list_config_versions(
                 id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
             )
+            async for item in response:
+                yield item
+            # alternatively, you can paginate page-by-page
+            async for page in response.iter_pages():
+                yield page
 
 
         asyncio.run(main())
         """
+        page_number = page_number if page_number is not None else 1
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/configs/{jsonable_encoder(id)}",
             method="GET",
@@ -1255,13 +1311,23 @@ class AsyncConfigsClient:
         )
         try:
             if 200 <= _response.status_code < 300:
-                return typing.cast(
+                _parsed_response = typing.cast(
                     ReturnPagedConfigs,
                     parse_obj_as(
                         type_=ReturnPagedConfigs,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
+                _has_next = True
+                _get_next = lambda: self.list_config_versions(
+                    id,
+                    page_number=page_number + 1,
+                    page_size=page_size,
+                    restrict_to_most_recent=restrict_to_most_recent,
+                    request_options=request_options,
+                )
+                _items = _parsed_response.configs_page
+                return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next)
             if _response.status_code == 400:
                 raise BadRequestError(
                     typing.cast(
@@ -1380,7 +1446,7 @@ class AsyncConfigsClient:
                 ),
                 language_model=PostedLanguageModel(
                     model_provider="ANTHROPIC",
-                    model_resource="claude-3-5-sonnet-20240620",
+                    model_resource="claude-3-7-sonnet",
                     temperature=1.0,
                 ),
                 ellm_model=PostedEllmModel(

@@ -6,51 +6,6 @@ import typing
 from ..utilities import validate_response
 
 
-async def test_list_custom_voices(client: HumeClient, async_client: AsyncHumeClient) -> None:
-    expected_response: typing.Any = {
-        "page_number": 1,
-        "page_size": 1,
-        "total_pages": 1,
-        "custom_voices_page": [
-            {
-                "id": "id",
-                "version": 1,
-                "name": "name",
-                "created_on": 1000000,
-                "modified_on": 1000000,
-                "base_voice": "ITO",
-                "parameter_model": "20241004-11parameter",
-                "parameters": {},
-            }
-        ],
-    }
-    expected_types: typing.Any = {
-        "page_number": "integer",
-        "page_size": "integer",
-        "total_pages": "integer",
-        "custom_voices_page": (
-            "list",
-            {
-                0: {
-                    "id": None,
-                    "version": "integer",
-                    "name": None,
-                    "created_on": None,
-                    "modified_on": None,
-                    "base_voice": None,
-                    "parameter_model": None,
-                    "parameters": {},
-                }
-            },
-        ),
-    }
-    response = client.empathic_voice.custom_voices.list_custom_voices()
-    validate_response(response, expected_response, expected_types)
-
-    async_response = await async_client.empathic_voice.custom_voices.list_custom_voices()
-    validate_response(async_response, expected_response, expected_types)
-
-
 async def test_create_custom_voice(client: HumeClient, async_client: AsyncHumeClient) -> None:
     expected_response: typing.Any = {
         "id": "id",
