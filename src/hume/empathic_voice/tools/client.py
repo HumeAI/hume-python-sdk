@@ -228,7 +228,7 @@ class ToolsClient:
         page_size: typing.Optional[int] = None,
         restrict_to_most_recent: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> ReturnPagedUserDefinedTools:
+    ) -> SyncPager[typing.Optional[ReturnUserDefinedTool]]:
         """
         Fetches a list of a **Tool's** versions.
 
@@ -257,7 +257,7 @@ class ToolsClient:
 
         Returns
         -------
-        ReturnPagedUserDefinedTools
+        SyncPager[typing.Optional[ReturnUserDefinedTool]]
             Success
 
         Examples
@@ -267,10 +267,16 @@ class ToolsClient:
         client = HumeClient(
             api_key="YOUR_API_KEY",
         )
-        client.empathic_voice.tools.list_tool_versions(
+        response = client.empathic_voice.tools.list_tool_versions(
             id="00183a3f-79ba-413d-9f3b-609864268bea",
         )
+        for item in response:
+            yield item
+        # alternatively, you can paginate page-by-page
+        for page in response.iter_pages():
+            yield page
         """
+        page_number = page_number if page_number is not None else 1
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/tools/{jsonable_encoder(id)}",
             method="GET",
@@ -283,13 +289,23 @@ class ToolsClient:
         )
         try:
             if 200 <= _response.status_code < 300:
-                return typing.cast(
+                _parsed_response = typing.cast(
                     ReturnPagedUserDefinedTools,
                     parse_obj_as(
                         type_=ReturnPagedUserDefinedTools,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
+                _has_next = True
+                _get_next = lambda: self.list_tool_versions(
+                    id,
+                    page_number=page_number + 1,
+                    page_size=page_size,
+                    restrict_to_most_recent=restrict_to_most_recent,
+                    request_options=request_options,
+                )
+                _items = _parsed_response.tools_page
+                return SyncPager(has_next=_has_next, items=_items, get_next=_get_next)
             if _response.status_code == 400:
                 raise BadRequestError(
                     typing.cast(
@@ -950,7 +966,7 @@ class AsyncToolsClient:
         page_size: typing.Optional[int] = None,
         restrict_to_most_recent: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> ReturnPagedUserDefinedTools:
+    ) -> AsyncPager[typing.Optional[ReturnUserDefinedTool]]:
         """
         Fetches a list of a **Tool's** versions.
 
@@ -979,7 +995,7 @@ class AsyncToolsClient:
 
         Returns
         -------
-        ReturnPagedUserDefinedTools
+        AsyncPager[typing.Optional[ReturnUserDefinedTool]]
             Success
 
         Examples
@@ -994,13 +1010,19 @@ class AsyncToolsClient:
 
 
         async def main() -> None:
-            await client.empathic_voice.tools.list_tool_versions(
+            response = await client.empathic_voice.tools.list_tool_versions(
                 id="00183a3f-79ba-413d-9f3b-609864268bea",
             )
+            async for item in response:
+                yield item
+            # alternatively, you can paginate page-by-page
+            async for page in response.iter_pages():
+                yield page
 
 
         asyncio.run(main())
         """
+        page_number = page_number if page_number is not None else 1
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/tools/{jsonable_encoder(id)}",
             method="GET",
@@ -1013,13 +1035,23 @@ class AsyncToolsClient:
         )
         try:
             if 200 <= _response.status_code < 300:
-                return typing.cast(
+                _parsed_response = typing.cast(
                     ReturnPagedUserDefinedTools,
                     parse_obj_as(
                         type_=ReturnPagedUserDefinedTools,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
+                _has_next = True
+                _get_next = lambda: self.list_tool_versions(
+                    id,
+                    page_number=page_number + 1,
+                    page_size=page_size,
+                    restrict_to_most_recent=restrict_to_most_recent,
+                    request_options=request_options,
+                )
+                _items = _parsed_response.tools_page
+                return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next)
             if _response.status_code == 400:
                 raise BadRequestError(
                     typing.cast(

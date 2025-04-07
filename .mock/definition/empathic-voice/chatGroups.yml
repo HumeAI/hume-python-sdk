@@ -9,6 +9,9 @@ service:
       method: GET
       auth: false
       docs: Fetches a paginated list of **Chat Groups**.
+      pagination:
+        offset: $request.page_number
+        results: $response.chat_groups_page
       source:
         openapi: evi-openapi.json
       display-name: List chat_groups
@@ -165,6 +168,9 @@ service:
       docs: >-
         Fetches a paginated list of **Chat** events associated with a **Chat
         Group**.
+      pagination:
+        offset: $request.page_number
+        results: $response.events_page
       source:
         openapi: evi-openapi.json
       path-parameters:

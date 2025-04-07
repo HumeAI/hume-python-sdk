@@ -68,7 +68,11 @@ client.tts.synthesize_json(
 <dl>
 <dd>
 
-**utterances:** `typing.Sequence[PostedUtterance]` — Utterances to be converted to speech output.
+**utterances:** `typing.Sequence[PostedUtterance]` 
+
+A list of **Utterances** to be converted to speech output.
+
+An **Utterance** is a unit of  input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an  optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
     
 </dd>
 </dl>
@@ -191,7 +195,11 @@ client.tts.synthesize_file(
 <dl>
 <dd>
 
-**utterances:** `typing.Sequence[PostedUtterance]` — Utterances to be converted to speech output.
+**utterances:** `typing.Sequence[PostedUtterance]` 
+
+A list of **Utterances** to be converted to speech output.
+
+An **Utterance** is a unit of  input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an  optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
     
 </dd>
 </dl>
@@ -312,7 +320,11 @@ client.tts.synthesize_file_streaming(
 <dl>
 <dd>
 
-**utterances:** `typing.Sequence[PostedUtterance]` — Utterances to be converted to speech output.
+**utterances:** `typing.Sequence[PostedUtterance]` 
+
+A list of **Utterances** to be converted to speech output.
+
+An **Utterance** is a unit of  input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an  optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
     
 </dd>
 </dl>
@@ -441,7 +453,11 @@ for chunk in response:
 <dl>
 <dd>
 
-**utterances:** `typing.Sequence[PostedUtterance]` — Utterances to be converted to speech output.
+**utterances:** `typing.Sequence[PostedUtterance]` 
+
+A list of **Utterances** to be converted to speech output.
+
+An **Utterance** is a unit of  input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an  optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
     
 </dd>
 </dl>
@@ -534,9 +550,14 @@ from hume import HumeClient
 client = HumeClient(
     api_key="YOUR_API_KEY",
 )
-client.tts.voices.list(
+response = client.tts.voices.list(
     provider="CUSTOM_VOICE",
 )
+for item in response:
+    yield item
+# alternatively, you can paginate page-by-page
+for page in response.iter_pages():
+    yield page
 
 ```
 </dd>
@@ -1010,9 +1031,14 @@ from hume import HumeClient
 client = HumeClient(
     api_key="YOUR_API_KEY",
 )
-client.empathic_voice.tools.list_tool_versions(
+response = client.empathic_voice.tools.list_tool_versions(
     id="00183a3f-79ba-413d-9f3b-609864268bea",
 )
+for item in response:
+    yield item
+# alternatively, you can paginate page-by-page
+for page in response.iter_pages():
+    yield page
 
 ```
 </dd>
@@ -2479,7 +2505,12 @@ from hume import HumeClient
 client = HumeClient(
     api_key="YOUR_API_KEY",
 )
-client.empathic_voice.custom_voices.list_custom_voices()
+response = client.empathic_voice.custom_voices.list_custom_voices()
+for item in response:
+    yield item
+# alternatively, you can paginate page-by-page
+for page in response.iter_pages():
+    yield page
 
 ```
 </dd>
@@ -2994,10 +3025,15 @@ from hume import HumeClient
 client = HumeClient(
     api_key="YOUR_API_KEY",
 )
-client.empathic_voice.configs.list_configs(
+response = client.empathic_voice.configs.list_configs(
     page_number=0,
     page_size=1,
 )
+for item in response:
+    yield item
+# alternatively, you can paginate page-by-page
+for page in response.iter_pages():
+    yield page
 
 ```
 </dd>
@@ -3119,7 +3155,7 @@ client.empathic_voice.configs.create_config(
     ),
     language_model=PostedLanguageModel(
         model_provider="ANTHROPIC",
-        model_resource="claude-3-5-sonnet-20240620",
+        model_resource="claude-3-7-sonnet",
         temperature=1.0,
     ),
     event_messages=PostedEventMessageSpecs(
@@ -3302,9 +3338,14 @@ from hume import HumeClient
 client = HumeClient(
     api_key="YOUR_API_KEY",
 )
-client.empathic_voice.configs.list_config_versions(
+response = client.empathic_voice.configs.list_config_versions(
     id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
 )
+for item in response:
+    yield item
+# alternatively, you can paginate page-by-page
+for page in response.iter_pages():
+    yield page
 
 ```
 </dd>
@@ -3428,7 +3469,7 @@ client.empathic_voice.configs.create_config_version(
     ),
     language_model=PostedLanguageModel(
         model_provider="ANTHROPIC",
-        model_resource="claude-3-5-sonnet-20240620",
+        model_resource="claude-3-7-sonnet",
         temperature=1.0,
     ),
     ellm_model=PostedEllmModel(
@@ -4326,12 +4367,17 @@ from hume import HumeClient
 client = HumeClient(
     api_key="YOUR_API_KEY",
 )
-client.empathic_voice.chat_groups.list_chat_groups(
+response = client.empathic_voice.chat_groups.list_chat_groups(
     page_number=0,
     page_size=1,
     ascending_order=True,
     config_id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
 )
+for item in response:
+    yield item
+# alternatively, you can paginate page-by-page
+for page in response.iter_pages():
+    yield page
 
 ```
 </dd>
@@ -4540,12 +4586,17 @@ from hume import HumeClient
 client = HumeClient(
     api_key="YOUR_API_KEY",
 )
-client.empathic_voice.chat_groups.list_chat_group_events(
+response = client.empathic_voice.chat_groups.list_chat_group_events(
     id="697056f0-6c7e-487d-9bd8-9c19df79f05f",
     page_number=0,
     page_size=3,
     ascending_order=True,
 )
+for item in response:
+    yield item
+# alternatively, you can paginate page-by-page
+for page in response.iter_pages():
+    yield page
 
 ```
 </dd>

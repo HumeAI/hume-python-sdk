@@ -46,7 +46,9 @@ class TtsClient:
         Parameters
         ----------
         utterances : typing.Sequence[PostedUtterance]
-            Utterances to be converted to speech output.
+            A list of **Utterances** to be converted to speech output.
+
+            An **Utterance** is a unit of  input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an  optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
 
         context : typing.Optional[PostedContext]
             Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
@@ -160,7 +162,9 @@ class TtsClient:
         Parameters
         ----------
         utterances : typing.Sequence[PostedUtterance]
-            Utterances to be converted to speech output.
+            A list of **Utterances** to be converted to speech output.
+
+            An **Utterance** is a unit of  input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an  optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
 
         context : typing.Optional[PostedContext]
             Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
@@ -264,7 +268,9 @@ class TtsClient:
         Parameters
         ----------
         utterances : typing.Sequence[PostedUtterance]
-            Utterances to be converted to speech output.
+            A list of **Utterances** to be converted to speech output.
+
+            An **Utterance** is a unit of  input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an  optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
 
         context : typing.Optional[PostedContext]
             Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
@@ -370,7 +376,9 @@ class TtsClient:
         Parameters
         ----------
         utterances : typing.Sequence[PostedUtterance]
-            Utterances to be converted to speech output.
+            A list of **Utterances** to be converted to speech output.
+
+            An **Utterance** is a unit of  input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an  optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
 
         context : typing.Optional[PostedContext]
             Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
@@ -499,7 +507,9 @@ class AsyncTtsClient:
         Parameters
         ----------
         utterances : typing.Sequence[PostedUtterance]
-            Utterances to be converted to speech output.
+            A list of **Utterances** to be converted to speech output.
+
+            An **Utterance** is a unit of  input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an  optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
 
         context : typing.Optional[PostedContext]
             Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
@@ -621,7 +631,9 @@ class AsyncTtsClient:
         Parameters
         ----------
         utterances : typing.Sequence[PostedUtterance]
-            Utterances to be converted to speech output.
+            A list of **Utterances** to be converted to speech output.
+
+            An **Utterance** is a unit of  input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an  optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
 
         context : typing.Optional[PostedContext]
             Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
@@ -733,7 +745,9 @@ class AsyncTtsClient:
         Parameters
         ----------
         utterances : typing.Sequence[PostedUtterance]
-            Utterances to be converted to speech output.
+            A list of **Utterances** to be converted to speech output.
+
+            An **Utterance** is a unit of  input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an  optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
 
         context : typing.Optional[PostedContext]
             Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
@@ -847,7 +861,9 @@ class AsyncTtsClient:
         Parameters
         ----------
         utterances : typing.Sequence[PostedUtterance]
-            Utterances to be converted to speech output.
+            A list of **Utterances** to be converted to speech output.
+
+            An **Utterance** is a unit of  input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an  optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
 
         context : typing.Optional[PostedContext]
             Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.

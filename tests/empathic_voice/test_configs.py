@@ -3,156 +3,13 @@
 from hume import HumeClient
 from hume import AsyncHumeClient
 import typing
-from ..utilities import validate_response
 from hume.empathic_voice import PostedConfigPromptSpec
 from hume.empathic_voice import PostedVoice
 from hume.empathic_voice import PostedLanguageModel
 from hume.empathic_voice import PostedEventMessageSpecs
 from hume.empathic_voice import PostedEventMessageSpec
+from ..utilities import validate_response
 from hume.empathic_voice import PostedEllmModel
-
-
-async def test_list_configs(client: HumeClient, async_client: AsyncHumeClient) -> None:
-    expected_response: typing.Any = {
-        "page_number": 0,
-        "page_size": 1,
-        "total_pages": 1,
-        "configs_page": [
-            {
-                "id": "1b60e1a0-cc59-424a-8d2c-189d354db3f3",
-                "version": 0,
-                "version_description": "",
-                "name": "Weather Assistant Config",
-                "created_on": 1715267200693,
-                "modified_on": 1715267200693,
-                "evi_version": "2",
-                "prompt": {
-                    "id": "af699d45-2985-42cc-91b9-af9e5da3bac5",
-                    "version": 0,
-                    "version_type": "FIXED",
-                    "version_description": "",
-                    "name": "Weather Assistant Prompt",
-                    "created_on": 1715267200693,
-                    "modified_on": 1715267200693,
-                    "text": "<role>You are an AI weather assistant providing users with accurate and up-to-date weather information. Respond to user queries concisely and clearly. Use simple language and avoid technical jargon. Provide temperature, precipitation, wind conditions, and any weather alerts. Include helpful tips if severe weather is expected.</role>",
-                },
-                "voice": {
-                    "provider": "HUME_AI",
-                    "name": "SAMPLE VOICE",
-                    "custom_voice": {
-                        "id": "00aa8ee9-c50e-4ea1-9af0-7b08ad451704",
-                        "version": 1,
-                        "name": "SAMPLE VOICE",
-                        "created_on": 1724704587367,
-                        "modified_on": 1725489961583,
-                        "base_voice": "KORA",
-                        "parameter_model": "20241004-11parameter",
-                        "parameters": {
-                            "gender": 0,
-                            "assertiveness": 20,
-                            "buoyancy": -30,
-                            "confidence": -40,
-                            "enthusiasm": 50,
-                            "nasality": 45,
-                            "relaxedness": -35,
-                            "smoothness": 25,
-                            "tepidity": 15,
-                            "tightness": 5,
-                        },
-                    },
-                },
-                "language_model": {
-                    "model_provider": "ANTHROPIC",
-                    "model_resource": "claude-3-5-sonnet-20240620",
-                    "temperature": 1,
-                },
-                "ellm_model": {"allow_short_responses": False},
-                "tools": [],
-                "builtin_tools": [],
-                "event_messages": {
-                    "on_new_chat": {"enabled": False, "text": ""},
-                    "on_inactivity_timeout": {"enabled": False, "text": ""},
-                    "on_max_duration_timeout": {"enabled": False, "text": ""},
-                },
-                "timeouts": {
-                    "inactivity": {"enabled": True, "duration_secs": 600},
-                    "max_duration": {"enabled": True, "duration_secs": 1800},
-                },
-            }
-        ],
-    }
-    expected_types: typing.Any = {
-        "page_number": "integer",
-        "page_size": "integer",
-        "total_pages": "integer",
-        "configs_page": (
-            "list",
-            {
-                0: {
-                    "id": None,
-                    "version": "integer",
-                    "version_description": None,
-                    "name": None,
-                    "created_on": None,
-                    "modified_on": None,
-                    "evi_version": None,
-                    "prompt": {
-                        "id": None,
-                        "version": "integer",
-                        "version_type": None,
-                        "version_description": None,
-                        "name": None,
-                        "created_on": None,
-                        "modified_on": None,
-                        "text": None,
-                    },
-                    "voice": {
-                        "provider": None,
-                        "name": None,
-                        "custom_voice": {
-                            "id": None,
-                            "version": "integer",
-                            "name": None,
-                            "created_on": None,
-                            "modified_on": None,
-                            "base_voice": None,
-                            "parameter_model": None,
-                            "parameters": {
-                                "gender": "integer",
-                                "assertiveness": "integer",
-                                "buoyancy": "integer",
-                                "confidence": "integer",
-                                "enthusiasm": "integer",
-                                "nasality": "integer",
-                                "relaxedness": "integer",
-                                "smoothness": "integer",
-                                "tepidity": "integer",
-                                "tightness": "integer",
-                            },
-                        },
-                    },
-                    "language_model": {"model_provider": None, "model_resource": None, "temperature": None},
-                    "ellm_model": {"allow_short_responses": None},
-                    "tools": ("list", {}),
-                    "builtin_tools": ("list", {}),
-                    "event_messages": {
-                        "on_new_chat": {"enabled": None, "text": None},
-                        "on_inactivity_timeout": {"enabled": None, "text": None},
-                        "on_max_duration_timeout": {"enabled": None, "text": None},
-                    },
-                    "timeouts": {
-                        "inactivity": {"enabled": None, "duration_secs": "integer"},
-                        "max_duration": {"enabled": None, "duration_secs": "integer"},
-                    },
-                }
-            },
-        ),
-    }
-    response = client.empathic_voice.configs.list_configs(page_number=0, page_size=1)
-    validate_response(response, expected_response, expected_types)
-
-    async_response = await async_client.empathic_voice.configs.list_configs(page_number=0, page_size=1)
-    validate_response(async_response, expected_response, expected_types)
 
 
 async def test_create_config(client: HumeClient, async_client: AsyncHumeClient) -> None:
@@ -199,11 +56,7 @@ async def test_create_config(client: HumeClient, async_client: AsyncHumeClient) 
                 },
             },
         },
-        "language_model": {
-            "model_provider": "ANTHROPIC",
-            "model_resource": "claude-3-5-sonnet-20240620",
-            "temperature": 1,
-        },
+        "language_model": {"model_provider": "ANTHROPIC", "model_resource": "claude-3-7-sonnet", "temperature": 1},
         "ellm_model": {"allow_short_responses": False},
         "tools": [],
         "builtin_tools": [],
@@ -280,7 +133,7 @@ async def test_create_config(client: HumeClient, async_client: AsyncHumeClient) 
         evi_version="2",
         voice=PostedVoice(provider="HUME_AI", name="SAMPLE VOICE"),
         language_model=PostedLanguageModel(
-            model_provider="ANTHROPIC", model_resource="claude-3-5-sonnet-20240620", temperature=1.0
+            model_provider="ANTHROPIC", model_resource="claude-3-7-sonnet", temperature=1.0
         ),
         event_messages=PostedEventMessageSpecs(
             on_new_chat=PostedEventMessageSpec(enabled=False, text=""),
@@ -296,158 +149,13 @@ async def test_create_config(client: HumeClient, async_client: AsyncHumeClient) 
         evi_version="2",
         voice=PostedVoice(provider="HUME_AI", name="SAMPLE VOICE"),
         language_model=PostedLanguageModel(
-            model_provider="ANTHROPIC", model_resource="claude-3-5-sonnet-20240620", temperature=1.0
+            model_provider="ANTHROPIC", model_resource="claude-3-7-sonnet", temperature=1.0
         ),
         event_messages=PostedEventMessageSpecs(
             on_new_chat=PostedEventMessageSpec(enabled=False, text=""),
             on_inactivity_timeout=PostedEventMessageSpec(enabled=False, text=""),
             on_max_duration_timeout=PostedEventMessageSpec(enabled=False, text=""),
         ),
-    )
-    validate_response(async_response, expected_response, expected_types)
-
-
-async def test_list_config_versions(client: HumeClient, async_client: AsyncHumeClient) -> None:
-    expected_response: typing.Any = {
-        "page_number": 0,
-        "page_size": 10,
-        "total_pages": 1,
-        "configs_page": [
-            {
-                "id": "1b60e1a0-cc59-424a-8d2c-189d354db3f3",
-                "version": 0,
-                "version_description": "",
-                "name": "Weather Assistant Config",
-                "created_on": 1715275452390,
-                "modified_on": 1715275452390,
-                "evi_version": "2",
-                "prompt": {
-                    "id": "af699d45-2985-42cc-91b9-af9e5da3bac5",
-                    "version": 0,
-                    "version_type": "FIXED",
-                    "version_description": "",
-                    "name": "Weather Assistant Prompt",
-                    "created_on": 1715267200693,
-                    "modified_on": 1715267200693,
-                    "text": "<role>You are an AI weather assistant providing users with accurate and up-to-date weather information. Respond to user queries concisely and clearly. Use simple language and avoid technical jargon. Provide temperature, precipitation, wind conditions, and any weather alerts. Include helpful tips if severe weather is expected.</role>",
-                },
-                "voice": {
-                    "provider": "HUME_AI",
-                    "name": "SAMPLE VOICE",
-                    "custom_voice": {
-                        "id": "00aa8ee9-c50e-4ea1-9af0-7b08ad451704",
-                        "version": 1,
-                        "name": "SAMPLE VOICE",
-                        "created_on": 1724704587367,
-                        "modified_on": 1725489961583,
-                        "base_voice": "KORA",
-                        "parameter_model": "20241004-11parameter",
-                        "parameters": {
-                            "gender": 0,
-                            "assertiveness": 20,
-                            "buoyancy": -30,
-                            "confidence": -40,
-                            "enthusiasm": 50,
-                            "nasality": 45,
-                            "relaxedness": -35,
-                            "smoothness": 25,
-                            "tepidity": 15,
-                            "tightness": 5,
-                        },
-                    },
-                },
-                "language_model": {
-                    "model_provider": "ANTHROPIC",
-                    "model_resource": "claude-3-5-sonnet-20240620",
-                    "temperature": 1,
-                },
-                "ellm_model": {"allow_short_responses": False},
-                "tools": [],
-                "builtin_tools": [],
-                "event_messages": {
-                    "on_new_chat": {"enabled": False, "text": ""},
-                    "on_inactivity_timeout": {"enabled": False, "text": ""},
-                    "on_max_duration_timeout": {"enabled": False, "text": ""},
-                },
-                "timeouts": {
-                    "inactivity": {"enabled": True, "duration_secs": 600},
-                    "max_duration": {"enabled": True, "duration_secs": 1800},
-                },
-            }
-        ],
-    }
-    expected_types: typing.Any = {
-        "page_number": "integer",
-        "page_size": "integer",
-        "total_pages": "integer",
-        "configs_page": (
-            "list",
-            {
-                0: {
-                    "id": None,
-                    "version": "integer",
-                    "version_description": None,
-                    "name": None,
-                    "created_on": None,
-                    "modified_on": None,
-                    "evi_version": None,
-                    "prompt": {
-                        "id": None,
-                        "version": "integer",
-                        "version_type": None,
-                        "version_description": None,
-                        "name": None,
-                        "created_on": None,
-                        "modified_on": None,
-                        "text": None,
-                    },
-                    "voice": {
-                        "provider": None,
-                        "name": None,
-                        "custom_voice": {
-                            "id": None,
-                            "version": "integer",
-                            "name": None,
-                            "created_on": None,
-                            "modified_on": None,
-                            "base_voice": None,
-                            "parameter_model": None,
-                            "parameters": {
-                                "gender": "integer",
-                                "assertiveness": "integer",
-                                "buoyancy": "integer",
-                                "confidence": "integer",
-                                "enthusiasm": "integer",
-                                "nasality": "integer",
-                                "relaxedness": "integer",
-                                "smoothness": "integer",
-                                "tepidity": "integer",
-                                "tightness": "integer",
-                            },
-                        },
-                    },
-                    "language_model": {"model_provider": None, "model_resource": None, "temperature": None},
-                    "ellm_model": {"allow_short_responses": None},
-                    "tools": ("list", {}),
-                    "builtin_tools": ("list", {}),
-                    "event_messages": {
-                        "on_new_chat": {"enabled": None, "text": None},
-                        "on_inactivity_timeout": {"enabled": None, "text": None},
-                        "on_max_duration_timeout": {"enabled": None, "text": None},
-                    },
-                    "timeouts": {
-                        "inactivity": {"enabled": None, "duration_secs": "integer"},
-                        "max_duration": {"enabled": None, "duration_secs": "integer"},
-                    },
-                }
-            },
-        ),
-    }
-    response = client.empathic_voice.configs.list_config_versions(id="1b60e1a0-cc59-424a-8d2c-189d354db3f3")
-    validate_response(response, expected_response, expected_types)
-
-    async_response = await async_client.empathic_voice.configs.list_config_versions(
-        id="1b60e1a0-cc59-424a-8d2c-189d354db3f3"
     )
     validate_response(async_response, expected_response, expected_types)
 
@@ -496,11 +204,7 @@ async def test_create_config_version(client: HumeClient, async_client: AsyncHume
                 },
             },
         },
-        "language_model": {
-            "model_provider": "ANTHROPIC",
-            "model_resource": "claude-3-5-sonnet-20240620",
-            "temperature": 1,
-        },
+        "language_model": {"model_provider": "ANTHROPIC", "model_resource": "claude-3-7-sonnet", "temperature": 1},
         "ellm_model": {"allow_short_responses": True},
         "tools": [],
         "builtin_tools": [],
@@ -578,7 +282,7 @@ async def test_create_config_version(client: HumeClient, async_client: AsyncHume
         prompt=PostedConfigPromptSpec(id="af699d45-2985-42cc-91b9-af9e5da3bac5", version=0),
         voice=PostedVoice(provider="HUME_AI", name="ITO"),
         language_model=PostedLanguageModel(
-            model_provider="ANTHROPIC", model_resource="claude-3-5-sonnet-20240620", temperature=1.0
+            model_provider="ANTHROPIC", model_resource="claude-3-7-sonnet", temperature=1.0
         ),
         ellm_model=PostedEllmModel(allow_short_responses=True),
         event_messages=PostedEventMessageSpecs(
@@ -596,7 +300,7 @@ async def test_create_config_version(client: HumeClient, async_client: AsyncHume
         prompt=PostedConfigPromptSpec(id="af699d45-2985-42cc-91b9-af9e5da3bac5", version=0),
         voice=PostedVoice(provider="HUME_AI", name="ITO"),
         language_model=PostedLanguageModel(
-            model_provider="ANTHROPIC", model_resource="claude-3-5-sonnet-20240620", temperature=1.0
+            model_provider="ANTHROPIC", model_resource="claude-3-7-sonnet", temperature=1.0
         ),
         ellm_model=PostedEllmModel(allow_short_responses=True),
         event_messages=PostedEventMessageSpecs(
@@ -682,11 +386,7 @@ async def test_get_config_version(client: HumeClient, async_client: AsyncHumeCli
                 },
             },
         },
-        "language_model": {
-            "model_provider": "ANTHROPIC",
-            "model_resource": "claude-3-5-sonnet-20240620",
-            "temperature": 1,
-        },
+        "language_model": {"model_provider": "ANTHROPIC", "model_resource": "claude-3-7-sonnet", "temperature": 1},
         "ellm_model": {"allow_short_responses": False},
         "tools": [],
         "builtin_tools": [],
@@ -825,11 +525,7 @@ async def test_update_config_description(client: HumeClient, async_client: Async
                 },
             },
         },
-        "language_model": {
-            "model_provider": "ANTHROPIC",
-            "model_resource": "claude-3-5-sonnet-20240620",
-            "temperature": 1,
-        },
+        "language_model": {"model_provider": "ANTHROPIC", "model_resource": "claude-3-7-sonnet", "temperature": 1},
         "ellm_model": {"allow_short_responses": False},
         "tools": [],
         "builtin_tools": [],
