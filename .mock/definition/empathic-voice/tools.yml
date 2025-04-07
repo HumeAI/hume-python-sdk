@@ -210,6 +210,9 @@ service:
         use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling)
         guide for comprehensive instructions on defining and integrating tools
         into EVI.
+      pagination:
+        offset: $request.page_number
+        results: $response.tools_page
       source:
         openapi: evi-openapi.json
       path-parameters:

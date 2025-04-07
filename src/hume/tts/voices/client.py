@@ -4,16 +4,18 @@ import typing
 from ...core.client_wrapper import SyncClientWrapper
 from ..types.voice_provider import VoiceProvider
 from ...core.request_options import RequestOptions
+from ...core.pagination import SyncPager
+from ..types.return_voice import ReturnVoice
 from ..types.return_paged_voices import ReturnPagedVoices
 from ...core.pydantic_utilities import parse_obj_as
 from ..errors.bad_request_error import BadRequestError
 from ..types.error_response import ErrorResponse
 from json.decoder import JSONDecodeError
 from ...core.api_error import ApiError
-from ..types.return_voice import ReturnVoice
 from ..errors.unprocessable_entity_error import UnprocessableEntityError
 from ..types.http_validation_error import HttpValidationError
 from ...core.client_wrapper import AsyncClientWrapper
+from ...core.pagination import AsyncPager
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -31,7 +33,7 @@ class VoicesClient:
         page_size: typing.Optional[int] = None,
         ascending_order: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> ReturnPagedVoices:
+    ) -> SyncPager[ReturnVoice]:
         """
         Lists voices in your **Voice Library**. Set provider to `HUME_AI` to list Hume's preset voices, or to `CUSTOM_VOICE` to a custom voice created in your account.
 
@@ -57,7 +59,7 @@ class VoicesClient:
 
         Returns
         -------
-        ReturnPagedVoices
+        SyncPager[ReturnVoice]
             Success
 
         Examples
@@ -67,10 +69,16 @@ class VoicesClient:
         client = HumeClient(
             api_key="YOUR_API_KEY",
         )
-        client.tts.voices.list(
+        response = client.tts.voices.list(
             provider="CUSTOM_VOICE",
         )
+        for item in response:
+            yield item
+        # alternatively, you can paginate page-by-page
+        for page in response.iter_pages():
+            yield page
         """
+        page_number = page_number if page_number is not None else 1
         _response = self._client_wrapper.httpx_client.request(
             "v0/tts/voices",
             method="GET",
@@ -84,13 +92,23 @@ class VoicesClient:
         )
         try:
             if 200 <= _response.status_code < 300:
-                return typing.cast(
+                _parsed_response = typing.cast(
                     ReturnPagedVoices,
                     parse_obj_as(
                         type_=ReturnPagedVoices,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
+                _has_next = True
+                _get_next = lambda: self.list(
+                    provider=provider,
+                    page_number=page_number + 1,
+                    page_size=page_size,
+                    ascending_order=ascending_order,
+                    request_options=request_options,
+                )
+                _items = _parsed_response.voices_page
+                return SyncPager(has_next=_has_next, items=_items, get_next=_get_next)
             if _response.status_code == 400:
                 raise BadRequestError(
                     typing.cast(
@@ -240,7 +258,7 @@ class AsyncVoicesClient:
         page_size: typing.Optional[int] = None,
         ascending_order: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> ReturnPagedVoices:
+    ) -> AsyncPager[ReturnVoice]:
         """
         Lists voices in your **Voice Library**. Set provider to `HUME_AI` to list Hume's preset voices, or to `CUSTOM_VOICE` to a custom voice created in your account.
 
@@ -266,7 +284,7 @@ class AsyncVoicesClient:
 
         Returns
         -------
-        ReturnPagedVoices
+        AsyncPager[ReturnVoice]
             Success
 
         Examples
@@ -281,13 +299,19 @@ class AsyncVoicesClient:
 
 
         async def main() -> None:
-            await client.tts.voices.list(
+            response = await client.tts.voices.list(
                 provider="CUSTOM_VOICE",
             )
+            async for item in response:
+                yield item
+            # alternatively, you can paginate page-by-page
+            async for page in response.iter_pages():
+                yield page
 
 
         asyncio.run(main())
         """
+        page_number = page_number if page_number is not None else 1
         _response = await self._client_wrapper.httpx_client.request(
             "v0/tts/voices",
             method="GET",
@@ -301,13 +325,23 @@ class AsyncVoicesClient:
         )
         try:
             if 200 <= _response.status_code < 300:
-                return typing.cast(
+                _parsed_response = typing.cast(
                     ReturnPagedVoices,
                     parse_obj_as(
                         type_=ReturnPagedVoices,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
+                _has_next = True
+                _get_next = lambda: self.list(
+                    provider=provider,
+                    page_number=page_number + 1,
+                    page_size=page_size,
+                    ascending_order=ascending_order,
+                    request_options=request_options,
+                )
+                _items = _parsed_response.voices_page
+                return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next)
             if _response.status_code == 400:
                 raise BadRequestError(
                     typing.cast(

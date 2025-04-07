@@ -3,6 +3,8 @@
 from ...core.client_wrapper import SyncClientWrapper
 import typing
 from ...core.request_options import RequestOptions
+from ...core.pagination import SyncPager
+from ..types.return_chat_group import ReturnChatGroup
 from ..types.return_paged_chat_groups import ReturnPagedChatGroups
 from ...core.pydantic_utilities import parse_obj_as
 from ..errors.bad_request_error import BadRequestError
@@ -11,9 +13,11 @@ from json.decoder import JSONDecodeError
 from ...core.api_error import ApiError
 from ..types.return_chat_group_paged_chats import ReturnChatGroupPagedChats
 from ...core.jsonable_encoder import jsonable_encoder
+from ..types.return_chat_event import ReturnChatEvent
 from ..types.return_chat_group_paged_events import ReturnChatGroupPagedEvents
 from ..types.return_chat_group_paged_audio_reconstructions import ReturnChatGroupPagedAudioReconstructions
 from ...core.client_wrapper import AsyncClientWrapper
+from ...core.pagination import AsyncPager
 
 
 class ChatGroupsClient:
@@ -28,7 +32,7 @@ class ChatGroupsClient:
         ascending_order: typing.Optional[bool] = None,
         config_id: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> ReturnPagedChatGroups:
+    ) -> SyncPager[ReturnChatGroup]:
         """
         Fetches a paginated list of **Chat Groups**.
 
@@ -57,7 +61,7 @@ class ChatGroupsClient:
 
         Returns
         -------
-        ReturnPagedChatGroups
+        SyncPager[ReturnChatGroup]
             Success
 
         Examples
@@ -67,13 +71,19 @@ class ChatGroupsClient:
         client = HumeClient(
             api_key="YOUR_API_KEY",
         )
-        client.empathic_voice.chat_groups.list_chat_groups(
+        response = client.empathic_voice.chat_groups.list_chat_groups(
             page_number=0,
             page_size=1,
             ascending_order=True,
             config_id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
         )
+        for item in response:
+            yield item
+        # alternatively, you can paginate page-by-page
+        for page in response.iter_pages():
+            yield page
         """
+        page_number = page_number if page_number is not None else 1
         _response = self._client_wrapper.httpx_client.request(
             "v0/evi/chat_groups",
             method="GET",
@@ -87,13 +97,23 @@ class ChatGroupsClient:
         )
         try:
             if 200 <= _response.status_code < 300:
-                return typing.cast(
+                _parsed_response = typing.cast(
                     ReturnPagedChatGroups,
                     parse_obj_as(
                         type_=ReturnPagedChatGroups,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
+                _has_next = True
+                _get_next = lambda: self.list_chat_groups(
+                    page_number=page_number + 1,
+                    page_size=page_size,
+                    ascending_order=ascending_order,
+                    config_id=config_id,
+                    request_options=request_options,
+                )
+                _items = _parsed_response.chat_groups_page
+                return SyncPager(has_next=_has_next, items=_items, get_next=_get_next)
             if _response.status_code == 400:
                 raise BadRequestError(
                     typing.cast(
@@ -203,7 +223,7 @@ class ChatGroupsClient:
         page_number: typing.Optional[int] = None,
         ascending_order: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> ReturnChatGroupPagedEvents:
+    ) -> SyncPager[ReturnChatEvent]:
         """
         Fetches a paginated list of **Chat** events associated with a **Chat Group**.
 
@@ -230,7 +250,7 @@ class ChatGroupsClient:
 
         Returns
         -------
-        ReturnChatGroupPagedEvents
+        SyncPager[ReturnChatEvent]
             Success
 
         Examples
@@ -240,13 +260,19 @@ class ChatGroupsClient:
         client = HumeClient(
             api_key="YOUR_API_KEY",
         )
-        client.empathic_voice.chat_groups.list_chat_group_events(
+        response = client.empathic_voice.chat_groups.list_chat_group_events(
             id="697056f0-6c7e-487d-9bd8-9c19df79f05f",
             page_number=0,
             page_size=3,
             ascending_order=True,
         )
+        for item in response:
+            yield item
+        # alternatively, you can paginate page-by-page
+        for page in response.iter_pages():
+            yield page
         """
+        page_number = page_number if page_number is not None else 1
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/chat_groups/{jsonable_encoder(id)}/events",
             method="GET",
@@ -259,13 +285,23 @@ class ChatGroupsClient:
         )
         try:
             if 200 <= _response.status_code < 300:
-                return typing.cast(
+                _parsed_response = typing.cast(
                     ReturnChatGroupPagedEvents,
                     parse_obj_as(
                         type_=ReturnChatGroupPagedEvents,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
+                _has_next = True
+                _get_next = lambda: self.list_chat_group_events(
+                    id,
+                    page_size=page_size,
+                    page_number=page_number + 1,
+                    ascending_order=ascending_order,
+                    request_options=request_options,
+                )
+                _items = _parsed_response.events_page
+                return SyncPager(has_next=_has_next, items=_items, get_next=_get_next)
             if _response.status_code == 400:
                 raise BadRequestError(
                     typing.cast(
@@ -380,7 +416,7 @@ class AsyncChatGroupsClient:
         ascending_order: typing.Optional[bool] = None,
         config_id: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> ReturnPagedChatGroups:
+    ) -> AsyncPager[ReturnChatGroup]:
         """
         Fetches a paginated list of **Chat Groups**.
 
@@ -409,7 +445,7 @@ class AsyncChatGroupsClient:
 
         Returns
         -------
-        ReturnPagedChatGroups
+        AsyncPager[ReturnChatGroup]
             Success
 
         Examples
@@ -424,16 +460,22 @@ class AsyncChatGroupsClient:
 
 
         async def main() -> None:
-            await client.empathic_voice.chat_groups.list_chat_groups(
+            response = await client.empathic_voice.chat_groups.list_chat_groups(
                 page_number=0,
                 page_size=1,
                 ascending_order=True,
                 config_id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
             )
+            async for item in response:
+                yield item
+            # alternatively, you can paginate page-by-page
+            async for page in response.iter_pages():
+                yield page
 
 
         asyncio.run(main())
         """
+        page_number = page_number if page_number is not None else 1
         _response = await self._client_wrapper.httpx_client.request(
             "v0/evi/chat_groups",
             method="GET",
@@ -447,13 +489,23 @@ class AsyncChatGroupsClient:
         )
         try:
             if 200 <= _response.status_code < 300:
-                return typing.cast(
+                _parsed_response = typing.cast(
                     ReturnPagedChatGroups,
                     parse_obj_as(
                         type_=ReturnPagedChatGroups,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
+                _has_next = True
+                _get_next = lambda: self.list_chat_groups(
+                    page_number=page_number + 1,
+                    page_size=page_size,
+                    ascending_order=ascending_order,
+                    config_id=config_id,
+                    request_options=request_options,
+                )
+                _items = _parsed_response.chat_groups_page
+                return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next)
             if _response.status_code == 400:
                 raise BadRequestError(
                     typing.cast(
@@ -571,7 +623,7 @@ class AsyncChatGroupsClient:
         page_number: typing.Optional[int] = None,
         ascending_order: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> ReturnChatGroupPagedEvents:
+    ) -> AsyncPager[ReturnChatEvent]:
         """
         Fetches a paginated list of **Chat** events associated with a **Chat Group**.
 
@@ -598,7 +650,7 @@ class AsyncChatGroupsClient:
 
         Returns
         -------
-        ReturnChatGroupPagedEvents
+        AsyncPager[ReturnChatEvent]
             Success
 
         Examples
@@ -613,16 +665,22 @@ class AsyncChatGroupsClient:
 
 
         async def main() -> None:
-            await client.empathic_voice.chat_groups.list_chat_group_events(
+            response = await client.empathic_voice.chat_groups.list_chat_group_events(
                 id="697056f0-6c7e-487d-9bd8-9c19df79f05f",
                 page_number=0,
                 page_size=3,
                 ascending_order=True,
             )
+            async for item in response:
+                yield item
+            # alternatively, you can paginate page-by-page
+            async for page in response.iter_pages():
+                yield page
 
 
         asyncio.run(main())
         """
+        page_number = page_number if page_number is not None else 1
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/chat_groups/{jsonable_encoder(id)}/events",
             method="GET",
@@ -635,13 +693,23 @@ class AsyncChatGroupsClient:
         )
         try:
             if 200 <= _response.status_code < 300:
-                return typing.cast(
+                _parsed_response = typing.cast(
                     ReturnChatGroupPagedEvents,
                     parse_obj_as(
                         type_=ReturnChatGroupPagedEvents,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
+                _has_next = True
+                _get_next = lambda: self.list_chat_group_events(
+                    id,
+                    page_size=page_size,
+                    page_number=page_number + 1,
+                    ascending_order=ascending_order,
+                    request_options=request_options,
+                )
+                _items = _parsed_response.events_page
+                return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next)
             if _response.status_code == 400:
                 raise BadRequestError(
                     typing.cast(

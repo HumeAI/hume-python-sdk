@@ -15,6 +15,9 @@ service:
         For more details on configuration options and how to configure EVI, see
         our [configuration
         guide](/docs/empathic-voice-interface-evi/configuration).
+      pagination:
+        offset: $request.page_number
+        results: $response.configs_page
       source:
         openapi: evi-openapi.json
       display-name: List configs
@@ -113,7 +116,7 @@ service:
                         tightness: 5
                   language_model:
                     model_provider: ANTHROPIC
-                    model_resource: claude-3-5-sonnet-20240620
+                    model_resource: claude-3-7-sonnet
                     temperature: 1
                   ellm_model:
                     allow_short_responses: false
@@ -221,7 +224,7 @@ service:
               name: SAMPLE VOICE
             language_model:
               model_provider: ANTHROPIC
-              model_resource: claude-3-5-sonnet-20240620
+              model_resource: claude-3-7-sonnet
               temperature: 1
             event_messages:
               on_new_chat:
@@ -281,7 +284,7 @@ service:
                     tightness: 5
               language_model:
                 model_provider: ANTHROPIC
-                model_resource: claude-3-5-sonnet-20240620
+                model_resource: claude-3-7-sonnet
                 temperature: 1
               ellm_model:
                 allow_short_responses: false
@@ -315,6 +318,9 @@ service:
         For more details on configuration options and how to configure EVI, see
         our [configuration
         guide](/docs/empathic-voice-interface-evi/configuration).
+      pagination:
+        offset: $request.page_number
+        results: $response.configs_page
       source:
         openapi: evi-openapi.json
       path-parameters:
@@ -413,7 +419,7 @@ service:
                         tightness: 5
                   language_model:
                     model_provider: ANTHROPIC
-                    model_resource: claude-3-5-sonnet-20240620
+                    model_resource: claude-3-7-sonnet
                     temperature: 1
                   ellm_model:
                     allow_short_responses: false
@@ -521,7 +527,7 @@ service:
               name: ITO
             language_model:
               model_provider: ANTHROPIC
-              model_resource: claude-3-5-sonnet-20240620
+              model_resource: claude-3-7-sonnet
               temperature: 1
             ellm_model:
               allow_short_responses: true
@@ -583,7 +589,7 @@ service:
                     tightness: 5
               language_model:
                 model_provider: ANTHROPIC
-                model_resource: claude-3-5-sonnet-20240620
+                model_resource: claude-3-7-sonnet
                 temperature: 1
               ellm_model:
                 allow_short_responses: true
@@ -756,7 +762,7 @@ service:
                     tightness: 5
               language_model:
                 model_provider: ANTHROPIC
-                model_resource: claude-3-5-sonnet-20240620
+                model_resource: claude-3-7-sonnet
                 temperature: 1
               ellm_model:
                 allow_short_responses: false
@@ -919,7 +925,7 @@ service:
                     tightness: 5
               language_model:
                 model_provider: ANTHROPIC
-                model_resource: claude-3-5-sonnet-20240620
+                model_resource: claude-3-7-sonnet
                 temperature: 1
               ellm_model:
                 allow_short_responses: false
