@@ -18,7 +18,6 @@ class BaseClientWrapper:
             "X-Fern-Language": "Python",
             "X-Fern-SDK-Name": "hume",
             "X-Fern-SDK-Version": version("hume"),
-            "X-Fern-Language": "Python",
             "X-Hume-Client-Name": "python_sdk",
             "X-Hume-Client-Version": version("hume"),
         }
