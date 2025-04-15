@@ -7,7 +7,7 @@ service:
     list-chats:
       path: /v0/evi/chats
       method: GET
-      auth: false
+      auth: true
       docs: Fetches a paginated list of **Chats**.
       pagination:
         offset: $request.page_number
@@ -83,7 +83,7 @@ service:
     list-chat-events:
       path: /v0/evi/chats/{id}
       method: GET
-      auth: false
+      auth: true
       docs: Fetches a paginated list of **Chat** events.
       pagination:
         offset: $request.page_number
@@ -469,7 +469,7 @@ service:
     get-audio:
       path: /v0/evi/chats/{id}/audio
       method: GET
-      auth: false
+      auth: true
       docs: >-
         Fetches the audio of a previous **Chat**. For more details, see our
         guide on audio reconstruction

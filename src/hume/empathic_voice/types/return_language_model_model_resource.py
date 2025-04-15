@@ -4,7 +4,7 @@ import typing
 
 ReturnLanguageModelModelResource = typing.Union[
     typing.Literal[
-        "claude-3-7-sonnet",
+        "claude-3-7-sonnet-latest",
         "claude-3-5-sonnet-latest",
         "claude-3-5-haiku-latest",
         "claude-3-5-sonnet-20240620",

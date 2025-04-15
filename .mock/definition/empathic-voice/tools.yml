@@ -7,7 +7,7 @@ service:
     list-tools:
       path: /v0/evi/tools
       method: GET
-      auth: false
+      auth: true
       docs: >-
         Fetches a paginated list of **Tools**.
 
@@ -109,7 +109,7 @@ service:
     create-tool:
       path: /v0/evi/tools
       method: POST
-      auth: false
+      auth: true
       docs: >-
         Creates a **Tool** that can be added to an [EVI
         configuration](/reference/empathic-voice-interface-evi/configs/create-config).
@@ -201,7 +201,7 @@ service:
     list-tool-versions:
       path: /v0/evi/tools/{id}
       method: GET
-      auth: false
+      auth: true
       docs: >-
         Fetches a list of a **Tool's** versions.
 
@@ -287,7 +287,7 @@ service:
     create-tool-version:
       path: /v0/evi/tools/{id}
       method: POST
-      auth: false
+      auth: true
       docs: >-
         Updates a **Tool** by creating a new version of the **Tool**.
 
@@ -380,7 +380,7 @@ service:
     delete-tool:
       path: /v0/evi/tools/{id}
       method: DELETE
-      auth: false
+      auth: true
       docs: >-
         Deletes a **Tool** and its versions.
 
@@ -404,7 +404,7 @@ service:
     update-tool-name:
       path: /v0/evi/tools/{id}
       method: PATCH
-      auth: false
+      auth: true
       docs: >-
         Updates the name of a **Tool**.
 
@@ -430,6 +430,8 @@ service:
         content-type: application/json
       response:
         docs: Success
+        type: text
+        status-code: 200
       errors:
         - root.BadRequestError
       examples:
@@ -440,7 +442,7 @@ service:
     get-tool-version:
       path: /v0/evi/tools/{id}/version/{version}
       method: GET
-      auth: false
+      auth: true
       docs: >-
         Fetches a specified version of a **Tool**.
 
@@ -504,7 +506,7 @@ service:
     delete-tool-version:
       path: /v0/evi/tools/{id}/version/{version}
       method: DELETE
-      auth: false
+      auth: true
       docs: >-
         Deletes a specified version of a **Tool**.
 
@@ -543,7 +545,7 @@ service:
     update-tool-description:
       path: /v0/evi/tools/{id}/version/{version}
       method: PATCH
-      auth: false
+      auth: true
       docs: >-
         Updates the description of a specified **Tool** version.
 

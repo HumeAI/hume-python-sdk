@@ -2407,8 +2407,8 @@ types:
       openapi: evi-openapi.json
   PostedLanguageModelModelResource:
     enum:
-      - value: claude-3-7-sonnet
-        name: Claude37Sonnet
+      - value: claude-3-7-sonnet-latest
+        name: Claude37SonnetLatest
       - value: claude-3-5-sonnet-latest
         name: Claude35SonnetLatest
       - value: claude-3-5-haiku-20241022-v1
@@ -2765,8 +2765,8 @@ types:
       openapi: evi-openapi.json
   ReturnLanguageModelModelResource:
     enum:
-      - value: claude-3-7-sonnet
-        name: Claude37Sonnet
+      - value: claude-3-7-sonnet-latest
+        name: Claude37SonnetLatest
       - value: claude-3-5-sonnet-latest
         name: Claude35SonnetLatest
       - value: claude-3-5-haiku-latest

@@ -56,7 +56,11 @@ async def test_create_config(client: HumeClient, async_client: AsyncHumeClient) 
                 },
             },
         },
-        "language_model": {"model_provider": "ANTHROPIC", "model_resource": "claude-3-7-sonnet", "temperature": 1},
+        "language_model": {
+            "model_provider": "ANTHROPIC",
+            "model_resource": "claude-3-7-sonnet-latest",
+            "temperature": 1,
+        },
         "ellm_model": {"allow_short_responses": False},
         "tools": [],
         "builtin_tools": [],
@@ -133,7 +137,7 @@ async def test_create_config(client: HumeClient, async_client: AsyncHumeClient) 
         evi_version="2",
         voice=PostedVoice(provider="HUME_AI", name="SAMPLE VOICE"),
         language_model=PostedLanguageModel(
-            model_provider="ANTHROPIC", model_resource="claude-3-7-sonnet", temperature=1.0
+            model_provider="ANTHROPIC", model_resource="claude-3-7-sonnet-latest", temperature=1.0
         ),
         event_messages=PostedEventMessageSpecs(
             on_new_chat=PostedEventMessageSpec(enabled=False, text=""),
@@ -149,7 +153,7 @@ async def test_create_config(client: HumeClient, async_client: AsyncHumeClient) 
         evi_version="2",
         voice=PostedVoice(provider="HUME_AI", name="SAMPLE VOICE"),
         language_model=PostedLanguageModel(
-            model_provider="ANTHROPIC", model_resource="claude-3-7-sonnet", temperature=1.0
+            model_provider="ANTHROPIC", model_resource="claude-3-7-sonnet-latest", temperature=1.0
         ),
         event_messages=PostedEventMessageSpecs(
             on_new_chat=PostedEventMessageSpec(enabled=False, text=""),
@@ -204,7 +208,11 @@ async def test_create_config_version(client: HumeClient, async_client: AsyncHume
                 },
             },
         },
-        "language_model": {"model_provider": "ANTHROPIC", "model_resource": "claude-3-7-sonnet", "temperature": 1},
+        "language_model": {
+            "model_provider": "ANTHROPIC",
+            "model_resource": "claude-3-7-sonnet-latest",
+            "temperature": 1,
+        },
         "ellm_model": {"allow_short_responses": True},
         "tools": [],
         "builtin_tools": [],
@@ -282,7 +290,7 @@ async def test_create_config_version(client: HumeClient, async_client: AsyncHume
         prompt=PostedConfigPromptSpec(id="af699d45-2985-42cc-91b9-af9e5da3bac5", version=0),
         voice=PostedVoice(provider="HUME_AI", name="ITO"),
         language_model=PostedLanguageModel(
-            model_provider="ANTHROPIC", model_resource="claude-3-7-sonnet", temperature=1.0
+            model_provider="ANTHROPIC", model_resource="claude-3-7-sonnet-latest", temperature=1.0
         ),
         ellm_model=PostedEllmModel(allow_short_responses=True),
         event_messages=PostedEventMessageSpecs(
@@ -300,7 +308,7 @@ async def test_create_config_version(client: HumeClient, async_client: AsyncHume
         prompt=PostedConfigPromptSpec(id="af699d45-2985-42cc-91b9-af9e5da3bac5", version=0),
         voice=PostedVoice(provider="HUME_AI", name="ITO"),
         language_model=PostedLanguageModel(
-            model_provider="ANTHROPIC", model_resource="claude-3-7-sonnet", temperature=1.0
+            model_provider="ANTHROPIC", model_resource="claude-3-7-sonnet-latest", temperature=1.0
         ),
         ellm_model=PostedEllmModel(allow_short_responses=True),
         event_messages=PostedEventMessageSpecs(
@@ -386,7 +394,11 @@ async def test_get_config_version(client: HumeClient, async_client: AsyncHumeCli
                 },
             },
         },
-        "language_model": {"model_provider": "ANTHROPIC", "model_resource": "claude-3-7-sonnet", "temperature": 1},
+        "language_model": {
+            "model_provider": "ANTHROPIC",
+            "model_resource": "claude-3-7-sonnet-latest",
+            "temperature": 1,
+        },
         "ellm_model": {"allow_short_responses": False},
         "tools": [],
         "builtin_tools": [],
@@ -525,7 +537,11 @@ async def test_update_config_description(client: HumeClient, async_client: Async
                 },
             },
         },
-        "language_model": {"model_provider": "ANTHROPIC", "model_resource": "claude-3-7-sonnet", "temperature": 1},
+        "language_model": {
+            "model_provider": "ANTHROPIC",
+            "model_resource": "claude-3-7-sonnet-latest",
+            "temperature": 1,
+        },
         "ellm_model": {"allow_short_responses": False},
         "tools": [],
         "builtin_tools": [],
