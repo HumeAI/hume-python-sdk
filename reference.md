@@ -3155,7 +3155,7 @@ client.empathic_voice.configs.create_config(
     ),
     language_model=PostedLanguageModel(
         model_provider="ANTHROPIC",
-        model_resource="claude-3-7-sonnet",
+        model_resource="claude-3-7-sonnet-latest",
         temperature=1.0,
     ),
     event_messages=PostedEventMessageSpecs(
@@ -3469,7 +3469,7 @@ client.empathic_voice.configs.create_config_version(
     ),
     language_model=PostedLanguageModel(
         model_provider="ANTHROPIC",
-        model_resource="claude-3-7-sonnet",
+        model_resource="claude-3-7-sonnet-latest",
         temperature=1.0,
     ),
     ellm_model=PostedEllmModel(
