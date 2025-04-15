@@ -4,7 +4,7 @@ import typing
 
 PostedLanguageModelModelResource = typing.Union[
     typing.Literal[
-        "claude-3-7-sonnet",
+        "claude-3-7-sonnet-latest",
         "claude-3-5-sonnet-latest",
         "claude-3-5-haiku-20241022-v1",
         "gemini-2.0-flash",
