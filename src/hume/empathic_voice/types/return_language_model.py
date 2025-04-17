@@ -2,9 +2,9 @@
 
 from ...core.pydantic_utilities import UniversalBaseModel
 import typing
-from .return_language_model_model_provider import ReturnLanguageModelModelProvider
+from .model_provider_enum import ModelProviderEnum
 import pydantic
-from .return_language_model_model_resource import ReturnLanguageModelModelResource
+from .language_model_type import LanguageModelType
 from ...core.pydantic_utilities import IS_PYDANTIC_V2
 
 
@@ -13,12 +13,12 @@ class ReturnLanguageModel(UniversalBaseModel):
     A specific LanguageModel
     """
 
-    model_provider: typing.Optional[ReturnLanguageModelModelProvider] = pydantic.Field(default=None)
+    model_provider: typing.Optional[ModelProviderEnum] = pydantic.Field(default=None)
     """
     The provider of the supplemental language model.
     """
 
-    model_resource: typing.Optional[ReturnLanguageModelModelResource] = pydantic.Field(default=None)
+    model_resource: typing.Optional[LanguageModelType] = pydantic.Field(default=None)
     """
     String that specifies the language model to use with `model_provider`.
     """

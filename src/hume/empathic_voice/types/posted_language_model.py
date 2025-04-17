@@ -2,9 +2,9 @@
 
 from ...core.pydantic_utilities import UniversalBaseModel
 import typing
-from .posted_language_model_model_provider import PostedLanguageModelModelProvider
+from .model_provider_enum import ModelProviderEnum
 import pydantic
-from .posted_language_model_model_resource import PostedLanguageModelModelResource
+from .language_model_type import LanguageModelType
 from ...core.pydantic_utilities import IS_PYDANTIC_V2
 
 
@@ -13,12 +13,12 @@ class PostedLanguageModel(UniversalBaseModel):
     A LanguageModel to be posted to the server
     """
 
-    model_provider: typing.Optional[PostedLanguageModelModelProvider] = pydantic.Field(default=None)
+    model_provider: typing.Optional[ModelProviderEnum] = pydantic.Field(default=None)
     """
     The provider of the supplemental language model.
     """
 
-    model_resource: typing.Optional[PostedLanguageModelModelResource] = pydantic.Field(default=None)
+    model_resource: typing.Optional[LanguageModelType] = pydantic.Field(default=None)
     """
     String that specifies the language model to use with `model_provider`.
     """
