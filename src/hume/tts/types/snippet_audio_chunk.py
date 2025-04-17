@@ -19,7 +19,7 @@ class SnippetAudioChunk(UniversalBaseModel):
 
     generation_id: str = pydantic.Field()
     """
-    The generation ID the parent snippet that this chunk corresponds to.
+    The generation ID of the parent snippet that this chunk corresponds to.
     """
 
     is_last_chunk: bool = pydantic.Field()
@@ -27,9 +27,19 @@ class SnippetAudioChunk(UniversalBaseModel):
     Whether or not this is the last chunk streamed back from the decoder for one input snippet.
     """
 
+    snippet_id: str = pydantic.Field()
+    """
+    The ID of the parent snippet that this chunk corresponds to.
+    """
+
+    text: str = pydantic.Field()
+    """
+    The text of the parent snippet that this chunk corresponds to.
+    """
+
     utterance_index: typing.Optional[int] = pydantic.Field(default=None)
     """
-    The index of the utterance in the request the parent snippet of this chunk corresponds to.
+    The index of the utterance in the request that the parent snippet of this chunk corresponds to.
     """
 
     if IS_PYDANTIC_V2:

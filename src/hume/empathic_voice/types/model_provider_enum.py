@@ -2,7 +2,7 @@
 
 import typing
 
-PostedLanguageModelModelProvider = typing.Union[
+ModelProviderEnum = typing.Union[
     typing.Literal[
         "GROQ", "OPEN_AI", "FIREWORKS", "ANTHROPIC", "CUSTOM_LANGUAGE_MODEL", "GOOGLE", "HUME_AI", "AMAZON_BEDROCK"
     ],
