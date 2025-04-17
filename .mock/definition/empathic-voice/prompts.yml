@@ -7,7 +7,7 @@ service:
     list-prompts:
       path: /v0/evi/prompts
       method: GET
-      auth: false
+      auth: true
       docs: >-
         Fetches a paginated list of **Prompts**.
 
@@ -100,7 +100,7 @@ service:
     create-prompt:
       path: /v0/evi/prompts
       method: POST
-      auth: false
+      auth: true
       docs: >-
         Creates a **Prompt** that can be added to an [EVI
         configuration](/reference/empathic-voice-interface-evi/configs/create-config).
@@ -174,7 +174,7 @@ service:
     list-prompt-versions:
       path: /v0/evi/prompts/{id}
       method: GET
-      auth: false
+      auth: true
       docs: >-
         Fetches a list of a **Prompt's** versions.
 
@@ -251,7 +251,7 @@ service:
     create-prompt-version:
       path: /v0/evi/prompts/{id}
       method: POST
-      auth: false
+      auth: true
       docs: >-
         Updates a **Prompt** by creating a new version of the **Prompt**.
 
@@ -328,7 +328,7 @@ service:
     delete-prompt:
       path: /v0/evi/prompts/{id}
       method: DELETE
-      auth: false
+      auth: true
       docs: >-
         Deletes a **Prompt** and its versions.
 
@@ -351,7 +351,7 @@ service:
     update-prompt-name:
       path: /v0/evi/prompts/{id}
       method: PATCH
-      auth: false
+      auth: true
       docs: >-
         Updates the name of a **Prompt**.
 
@@ -387,7 +387,7 @@ service:
     get-prompt-version:
       path: /v0/evi/prompts/{id}/version/{version}
       method: GET
-      auth: false
+      auth: true
       docs: >-
         Fetches a specified version of a **Prompt**.
 
@@ -446,7 +446,7 @@ service:
     delete-prompt-version:
       path: /v0/evi/prompts/{id}/version/{version}
       method: DELETE
-      auth: false
+      auth: true
       docs: >-
         Deletes a specified version of a **Prompt**.
 
@@ -485,7 +485,7 @@ service:
     update-prompt-description:
       path: /v0/evi/prompts/{id}/version/{version}
       method: PATCH
-      auth: false
+      auth: true
       docs: >-
         Updates the description of a **Prompt**.
 

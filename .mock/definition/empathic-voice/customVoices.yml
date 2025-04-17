@@ -7,7 +7,7 @@ service:
     list-custom-voices:
       path: /v0/evi/custom_voices
       method: GET
-      auth: false
+      auth: true
       docs: >-
         Fetches a paginated list of **Custom Voices**.
 
@@ -72,7 +72,7 @@ service:
     create-custom-voice:
       path: /v0/evi/custom_voices
       method: POST
-      auth: false
+      auth: true
       docs: >-
         Creates a **Custom Voice** that can be added to an [EVI
         configuration](/reference/empathic-voice-interface-evi/configs/create-config).
@@ -121,7 +121,7 @@ service:
     get-custom-voice:
       path: /v0/evi/custom_voices/{id}
       method: GET
-      auth: false
+      auth: true
       docs: >-
         Fetches a specific **Custom Voice** by ID.
 
@@ -168,7 +168,7 @@ service:
     create-custom-voice-version:
       path: /v0/evi/custom_voices/{id}
       method: POST
-      auth: false
+      auth: true
       docs: >-
         Updates a **Custom Voice** by creating a new version of the **Custom
         Voice**.
@@ -223,7 +223,7 @@ service:
     delete-custom-voice:
       path: /v0/evi/custom_voices/{id}
       method: DELETE
-      auth: false
+      auth: true
       docs: >-
         Deletes a **Custom Voice** and its versions.
 
@@ -246,7 +246,7 @@ service:
     update-custom-voice-name:
       path: /v0/evi/custom_voices/{id}
       method: PATCH
-      auth: false
+      auth: true
       docs: >-
         Updates the name of a **Custom Voice**.
 

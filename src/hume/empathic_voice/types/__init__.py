@@ -21,7 +21,9 @@ from .function_call_response_input import FunctionCallResponseInput
 from .http_validation_error import HttpValidationError
 from .inference import Inference
 from .json_message import JsonMessage
+from .language_model_type import LanguageModelType
 from .millisecond_interval import MillisecondInterval
+from .model_provider_enum import ModelProviderEnum
 from .pause_assistant_message import PauseAssistantMessage
 from .posted_builtin_tool import PostedBuiltinTool
 from .posted_builtin_tool_name import PostedBuiltinToolName
@@ -33,8 +35,6 @@ from .posted_ellm_model import PostedEllmModel
 from .posted_event_message_spec import PostedEventMessageSpec
 from .posted_event_message_specs import PostedEventMessageSpecs
 from .posted_language_model import PostedLanguageModel
-from .posted_language_model_model_provider import PostedLanguageModelModelProvider
-from .posted_language_model_model_resource import PostedLanguageModelModelResource
 from .posted_prompt_spec import PostedPromptSpec
 from .posted_timeout_spec import PostedTimeoutSpec
 from .posted_timeout_specs import PostedTimeoutSpecs
@@ -77,8 +77,6 @@ from .return_ellm_model import ReturnEllmModel
 from .return_event_message_spec import ReturnEventMessageSpec
 from .return_event_message_specs import ReturnEventMessageSpecs
 from .return_language_model import ReturnLanguageModel
-from .return_language_model_model_provider import ReturnLanguageModelModelProvider
-from .return_language_model_model_resource import ReturnLanguageModelModelResource
 from .return_paged_chat_groups import ReturnPagedChatGroups
 from .return_paged_chat_groups_pagination_direction import ReturnPagedChatGroupsPaginationDirection
 from .return_paged_chats import ReturnPagedChats
@@ -143,7 +141,9 @@ __all__ = [
     "HttpValidationError",
     "Inference",
     "JsonMessage",
+    "LanguageModelType",
     "MillisecondInterval",
+    "ModelProviderEnum",
     "PauseAssistantMessage",
     "PostedBuiltinTool",
     "PostedBuiltinToolName",
@@ -155,8 +155,6 @@ __all__ = [
     "PostedEventMessageSpec",
     "PostedEventMessageSpecs",
     "PostedLanguageModel",
-    "PostedLanguageModelModelProvider",
-    "PostedLanguageModelModelResource",
     "PostedPromptSpec",
     "PostedTimeoutSpec",
     "PostedTimeoutSpecs",
@@ -197,8 +195,6 @@ __all__ = [
     "ReturnEventMessageSpec",
     "ReturnEventMessageSpecs",
     "ReturnLanguageModel",
-    "ReturnLanguageModelModelProvider",
-    "ReturnLanguageModelModelResource",
     "ReturnPagedChatGroups",
     "ReturnPagedChatGroupsPaginationDirection",
     "ReturnPagedChats",

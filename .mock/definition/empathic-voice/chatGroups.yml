@@ -7,7 +7,7 @@ service:
     list-chat-groups:
       path: /v0/evi/chat_groups
       method: GET
-      auth: false
+      auth: true
       docs: Fetches a paginated list of **Chat Groups**.
       pagination:
         offset: $request.page_number
@@ -85,7 +85,7 @@ service:
     get-chat-group:
       path: /v0/evi/chat_groups/{id}
       method: GET
-      auth: false
+      auth: true
       docs: >-
         Fetches a **ChatGroup** by ID, including a paginated list of **Chats**
         associated with the **ChatGroup**.
@@ -164,7 +164,7 @@ service:
     list-chat-group-events:
       path: /v0/evi/chat_groups/{id}/events
       method: GET
-      auth: false
+      auth: true
       docs: >-
         Fetches a paginated list of **Chat** events associated with a **Chat
         Group**.
@@ -544,7 +544,7 @@ service:
     get-audio:
       path: /v0/evi/chat_groups/{id}/audio
       method: GET
-      auth: false
+      auth: true
       docs: >-
         Fetches a paginated list of audio for each **Chat** within the specified
         **Chat Group**. For more details, see our guide on audio reconstruction
