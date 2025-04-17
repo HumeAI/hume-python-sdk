@@ -1002,6 +1002,87 @@ types:
         type: optional<list<ValidationError>>
     source:
       openapi: evi-openapi.json
+  LanguageModelType:
+    enum:
+      - value: claude-3-7-sonnet-latest
+        name: Claude37SonnetLatest
+      - value: claude-3-5-sonnet-latest
+        name: Claude35SonnetLatest
+      - value: claude-3-5-haiku-latest
+        name: Claude35HaikuLatest
+      - value: claude-3-5-sonnet-20240620
+        name: Claude35Sonnet20240620
+      - value: claude-3-opus-20240229
+        name: Claude3Opus20240229
+      - value: claude-3-sonnet-20240229
+        name: Claude3Sonnet20240229
+      - value: claude-3-haiku-20240307
+        name: Claude3Haiku20240307
+      - value: us.anthropic.claude-3-5-haiku-20241022-v1:0
+        name: UsAnthropicClaude35Haiku20241022V10
+      - value: us.anthropic.claude-3-5-sonnet-20240620-v1:0
+        name: UsAnthropicClaude35Sonnet20240620V10
+      - value: us.anthropic.claude-3-haiku-20240307-v1:0
+        name: UsAnthropicClaude3Haiku20240307V10
+      - value: gemini-1.5-pro
+        name: Gemini15Pro
+      - value: gemini-1.5-flash
+        name: Gemini15Flash
+      - value: gemini-1.5-pro-002
+        name: Gemini15Pro002
+      - value: gemini-1.5-flash-002
+        name: Gemini15Flash002
+      - value: gemini-2.0-flash
+        name: Gemini20Flash
+      - value: gpt-4-turbo
+        name: Gpt4Turbo
+      - value: gpt-4-turbo-preview
+        name: Gpt4TurboPreview
+      - value: gpt-3.5-turbo-0125
+        name: Gpt35Turbo0125
+      - value: gpt-3.5-turbo
+        name: Gpt35Turbo
+      - value: gpt-4o
+        name: Gpt4O
+      - value: gpt-4o-mini
+        name: Gpt4OMini
+      - value: gemma-7b-it
+        name: Gemma7BIt
+      - value: llama3-8b-8192
+        name: Llama38B8192
+      - value: llama3-70b-8192
+        name: Llama370B8192
+      - value: llama-3.1-70b-versatile
+        name: Llama3170BVersatile
+      - value: llama-3.3-70b-versatile
+        name: Llama3370BVersatile
+      - value: llama-3.1-8b-instant
+        name: Llama318BInstant
+      - value: accounts/fireworks/models/mixtral-8x7b-instruct
+        name: AccountsFireworksModelsMixtral8X7BInstruct
+      - value: accounts/fireworks/models/llama-v3p1-405b-instruct
+        name: AccountsFireworksModelsLlamaV3P1405BInstruct
+      - value: accounts/fireworks/models/llama-v3p1-70b-instruct
+        name: AccountsFireworksModelsLlamaV3P170BInstruct
+      - value: accounts/fireworks/models/llama-v3p1-8b-instruct
+        name: AccountsFireworksModelsLlamaV3P18BInstruct
+      - ellm
+      - value: custom-language-model
+        name: CustomLanguageModel
+    source:
+      openapi: evi-openapi.json
+  ModelProviderEnum:
+    enum:
+      - GROQ
+      - OPEN_AI
+      - FIREWORKS
+      - ANTHROPIC
+      - CUSTOM_LANGUAGE_MODEL
+      - GOOGLE
+      - HUME_AI
+      - AMAZON_BEDROCK
+    source:
+      openapi: evi-openapi.json
   ValidationErrorLocItem:
     discriminated: false
     union:
@@ -2355,119 +2436,14 @@ types:
         docs: Text used to create a new prompt for a particular config.
     source:
       openapi: evi-openapi.json
-  PostedVoiceProvider:
-    enum:
-      - HUME_AI
-      - CUSTOM_VOICE
-    docs: >-
-      The provider of the voice to use. Supported values are `HUME_AI` and
-      `CUSTOM_VOICE`.
-    inline: true
-    source:
-      openapi: evi-openapi.json
-  PostedVoice:
-    docs: A Voice specification posted to the server
-    properties:
-      provider:
-        type: PostedVoiceProvider
-        docs: >-
-          The provider of the voice to use. Supported values are `HUME_AI` and
-          `CUSTOM_VOICE`.
-      name:
-        type: optional<string>
-        docs: >-
-          Specifies the name of the voice to use.
-
-
-          This can be either the name of a previously created Custom Voice or
-          one of our 8 base voices: `ITO`, `KORA`, `DACHER`, `AURA`, `FINN`,
-          `WHIMSY`, `STELLA`, or `SUNNY`.
-
-
-          The name will be automatically converted to uppercase (e.g., "Ito"
-          becomes "ITO"). If a name is not specified, then a [Custom
-          Voice](/reference/empathic-voice-interface-evi/configs/create-config#request.body.voice.custom_voice)
-          specification must be provided.
-      custom_voice: optional<PostedCustomVoice>
-    source:
-      openapi: evi-openapi.json
-  PostedLanguageModelModelProvider:
-    enum:
-      - GROQ
-      - OPEN_AI
-      - FIREWORKS
-      - ANTHROPIC
-      - CUSTOM_LANGUAGE_MODEL
-      - GOOGLE
-      - HUME_AI
-      - AMAZON_BEDROCK
-    docs: The provider of the supplemental language model.
-    inline: true
-    source:
-      openapi: evi-openapi.json
-  PostedLanguageModelModelResource:
-    enum:
-      - value: claude-3-7-sonnet
-        name: Claude37Sonnet
-      - value: claude-3-5-sonnet-latest
-        name: Claude35SonnetLatest
-      - value: claude-3-5-haiku-20241022-v1
-        name: Claude35Haiku20241022V1
-      - value: gemini-2.0-flash
-        name: Gemini20Flash
-      - value: claude-3-haiku-20240307
-        name: Claude3Haiku20240307
-      - value: gemini-1.5-pro
-        name: Gemini15Pro
-      - value: claude-3-5-sonnet-20240620
-        name: Claude35Sonnet20240620
-      - value: gpt-4o
-        name: Gpt4O
-      - value: gpt-4o-mini
-        name: Gpt4OMini
-      - value: gemini-1.5-flash
-        name: Gemini15Flash
-      - value: claude-3-5-haiku-latest
-        name: Claude35HaikuLatest
-      - value: llama-v3p1-70b-instruct
-        name: LlamaV3P170BInstruct
-      - value: llama-3.3-70b-versatile
-        name: Llama3370BVersatile
-      - value: llama-v3p1-405b-instruct
-        name: LlamaV3P1405BInstruct
-      - value: llama-v3p1-8b-instruct
-        name: LlamaV3P18BInstruct
-      - value: llama-3.1-8b-instant
-        name: Llama318BInstant
-      - value: mixtral-8x7b-instruct
-        name: Mixtral8X7BInstruct
-      - value: llama3-8b-8192
-        name: Llama38B8192
-      - value: llama3-70b-8192
-        name: Llama370B8192
-      - value: claude-3-opus-20240229
-        name: Claude3Opus20240229
-      - value: gpt-4-turbo
-        name: Gpt4Turbo
-      - value: claude-3-sonnet-20240229
-        name: Claude3Sonnet20240229
-      - value: claude-3-5-sonnet-20240620-v1
-        name: Claude35Sonnet20240620V1
-      - value: claude-3-haiku-20240307-v1
-        name: Claude3Haiku20240307V1
-      - ellm
-    docs: String that specifies the language model to use with `model_provider`.
-    inline: true
-    source:
-      openapi: evi-openapi.json
   PostedLanguageModel:
     docs: A LanguageModel to be posted to the server
     properties:
       model_provider:
-        type: optional<PostedLanguageModelModelProvider>
+        type: optional<ModelProviderEnum>
         docs: The provider of the supplemental language model.
       model_resource:
-        type: optional<PostedLanguageModelModelResource>
+        type: optional<LanguageModelType>
         docs: String that specifies the language model to use with `model_provider`.
       temperature:
         type: optional<float>
@@ -2719,129 +2695,14 @@ types:
         type: list<PostedWebhookEventType>
     source:
       openapi: evi-openapi.json
-  ReturnVoiceProvider:
-    enum:
-      - HUME_AI
-      - CUSTOM_VOICE
-    docs: >-
-      The provider of the voice to use. Supported values are `HUME_AI` and
-      `CUSTOM_VOICE`.
-    inline: true
-    source:
-      openapi: evi-openapi.json
-  ReturnVoice:
-    docs: A specific voice specification
-    properties:
-      provider:
-        type: ReturnVoiceProvider
-        docs: >-
-          The provider of the voice to use. Supported values are `HUME_AI` and
-          `CUSTOM_VOICE`.
-      name:
-        type: optional<string>
-        docs: >-
-          The name of the specified voice.
-
-
-          This will either be the name of a previously created Custom Voice or
-          one of our 8 base voices: `ITO`, `KORA`, `DACHER`, `AURA`, `FINN`,
-          `WHIMSY`, `STELLA`, or `SUNNY`.
-      custom_voice: optional<ReturnCustomVoice>
-    source:
-      openapi: evi-openapi.json
-  ReturnLanguageModelModelProvider:
-    enum:
-      - GROQ
-      - OPEN_AI
-      - FIREWORKS
-      - ANTHROPIC
-      - CUSTOM_LANGUAGE_MODEL
-      - GOOGLE
-      - HUME_AI
-      - AMAZON_BEDROCK
-    docs: The provider of the supplemental language model.
-    inline: true
-    source:
-      openapi: evi-openapi.json
-  ReturnLanguageModelModelResource:
-    enum:
-      - value: claude-3-7-sonnet
-        name: Claude37Sonnet
-      - value: claude-3-5-sonnet-latest
-        name: Claude35SonnetLatest
-      - value: claude-3-5-haiku-latest
-        name: Claude35HaikuLatest
-      - value: claude-3-5-sonnet-20240620
-        name: Claude35Sonnet20240620
-      - value: claude-3-opus-20240229
-        name: Claude3Opus20240229
-      - value: claude-3-sonnet-20240229
-        name: Claude3Sonnet20240229
-      - value: claude-3-haiku-20240307
-        name: Claude3Haiku20240307
-      - value: us.anthropic.claude-3-5-haiku-20241022-v1:0
-        name: UsAnthropicClaude35Haiku20241022V10
-      - value: us.anthropic.claude-3-5-sonnet-20240620-v1:0
-        name: UsAnthropicClaude35Sonnet20240620V10
-      - value: us.anthropic.claude-3-haiku-20240307-v1:0
-        name: UsAnthropicClaude3Haiku20240307V10
-      - value: gemini-1.5-pro
-        name: Gemini15Pro
-      - value: gemini-1.5-flash
-        name: Gemini15Flash
-      - value: gemini-1.5-pro-002
-        name: Gemini15Pro002
-      - value: gemini-1.5-flash-002
-        name: Gemini15Flash002
-      - value: gemini-2.0-flash
-        name: Gemini20Flash
-      - value: gpt-4-turbo
-        name: Gpt4Turbo
-      - value: gpt-4-turbo-preview
-        name: Gpt4TurboPreview
-      - value: gpt-3.5-turbo-0125
-        name: Gpt35Turbo0125
-      - value: gpt-3.5-turbo
-        name: Gpt35Turbo
-      - value: gpt-4o
-        name: Gpt4O
-      - value: gpt-4o-mini
-        name: Gpt4OMini
-      - value: gemma-7b-it
-        name: Gemma7BIt
-      - value: llama3-8b-8192
-        name: Llama38B8192
-      - value: llama3-70b-8192
-        name: Llama370B8192
-      - value: llama-3.1-70b-versatile
-        name: Llama3170BVersatile
-      - value: llama-3.3-70b-versatile
-        name: Llama3370BVersatile
-      - value: llama-3.1-8b-instant
-        name: Llama318BInstant
-      - value: accounts/fireworks/models/mixtral-8x7b-instruct
-        name: AccountsFireworksModelsMixtral8X7BInstruct
-      - value: accounts/fireworks/models/llama-v3p1-405b-instruct
-        name: AccountsFireworksModelsLlamaV3P1405BInstruct
-      - value: accounts/fireworks/models/llama-v3p1-70b-instruct
-        name: AccountsFireworksModelsLlamaV3P170BInstruct
-      - value: accounts/fireworks/models/llama-v3p1-8b-instruct
-        name: AccountsFireworksModelsLlamaV3P18BInstruct
-      - ellm
-      - value: custom-language-model
-        name: CustomLanguageModel
-    docs: String that specifies the language model to use with `model_provider`.
-    inline: true
-    source:
-      openapi: evi-openapi.json
   ReturnLanguageModel:
     docs: A specific LanguageModel
     properties:
       model_provider:
-        type: optional<ReturnLanguageModelModelProvider>
+        type: optional<ModelProviderEnum>
         docs: The provider of the supplemental language model.
       model_resource:
-        type: optional<ReturnLanguageModelModelResource>
+        type: optional<LanguageModelType>
         docs: String that specifies the language model to use with `model_provider`.
       temperature:
         type: optional<float>
@@ -3347,5 +3208,71 @@ types:
     docs: A Prompt associated with this Config.
     properties:
       version: optional<unknown>
+    source:
+      openapi: evi-openapi.json
+  PostedVoiceProvider:
+    enum:
+      - HUME_AI
+      - CUSTOM_VOICE
+    docs: >-
+      The provider of the voice to use. Supported values are `HUME_AI` and
+      `CUSTOM_VOICE`.
+    inline: true
+    source:
+      openapi: evi-openapi.json
+  PostedVoice:
+    docs: A Voice specification posted to the server
+    properties:
+      provider:
+        type: PostedVoiceProvider
+        docs: >-
+          The provider of the voice to use. Supported values are `HUME_AI` and
+          `CUSTOM_VOICE`.
+      name:
+        type: optional<string>
+        docs: >-
+          Specifies the name of the voice to use.
+
+
+          This can be either the name of a previously created Custom Voice or
+          one of our 8 base voices: `ITO`, `KORA`, `DACHER`, `AURA`, `FINN`,
+          `WHIMSY`, `STELLA`, or `SUNNY`.
+
+
+          The name will be automatically converted to uppercase (e.g., "Ito"
+          becomes "ITO"). If a name is not specified, then a [Custom
+          Voice](/reference/empathic-voice-interface-evi/configs/create-config#request.body.voice.custom_voice)
+          specification must be provided.
+      custom_voice: optional<PostedCustomVoice>
+    source:
+      openapi: evi-openapi.json
+  ReturnVoiceProvider:
+    enum:
+      - HUME_AI
+      - CUSTOM_VOICE
+    docs: >-
+      The provider of the voice to use. Supported values are `HUME_AI` and
+      `CUSTOM_VOICE`.
+    inline: true
+    source:
+      openapi: evi-openapi.json
+  ReturnVoice:
+    docs: A specific voice specification
+    properties:
+      provider:
+        type: ReturnVoiceProvider
+        docs: >-
+          The provider of the voice to use. Supported values are `HUME_AI` and
+          `CUSTOM_VOICE`.
+      name:
+        type: optional<string>
+        docs: >-
+          The name of the specified voice.
+
+
+          This will either be the name of a previously created Custom Voice or
+          one of our 8 base voices: `ITO`, `KORA`, `DACHER`, `AURA`, `FINN`,
+          `WHIMSY`, `STELLA`, or `SUNNY`.
+      custom_voice: optional<ReturnCustomVoice>
     source:
       openapi: evi-openapi.json
