@@ -120,19 +120,6 @@ This setting affects how the `snippets` array is structured in the response, whi
 <dl>
 <dd>
 
-**instant_mode:** `typing.Optional[bool]` 
-
-Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
-- Dynamic voice generation is not supported with this mode; a predefined  [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice)  must be specified in your request.
-- This mode is only supported for streaming endpoints (e.g.,  [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
-- With `instant_mode` enabled, **requests incur a 10% higher cost** due to increased compute and resource requirements.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -260,19 +247,6 @@ This setting affects how the `snippets` array is structured in the response, whi
 <dl>
 <dd>
 
-**instant_mode:** `typing.Optional[bool]` 
-
-Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
-- Dynamic voice generation is not supported with this mode; a predefined  [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice)  must be specified in your request.
-- This mode is only supported for streaming endpoints (e.g.,  [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
-- With `instant_mode` enabled, **requests incur a 10% higher cost** due to increased compute and resource requirements.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -391,19 +365,6 @@ Controls how audio output is segmented in the response.
 - When **disabled**  (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets. 
 
 This setting affects how the `snippets` array is structured in the response, which may be important  for applications that need to track the relationship between input text and generated audio segments. When  setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**instant_mode:** `typing.Optional[bool]` 
-
-Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
-- Dynamic voice generation is not supported with this mode; a predefined  [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice)  must be specified in your request.
-- This mode is only supported for streaming endpoints (e.g.,  [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
-- With `instant_mode` enabled, **requests incur a 10% higher cost** due to increased compute and resource requirements.
     
 </dd>
 </dl>
@@ -537,19 +498,6 @@ Controls how audio output is segmented in the response.
 - When **disabled**  (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets. 
 
 This setting affects how the `snippets` array is structured in the response, which may be important  for applications that need to track the relationship between input text and generated audio segments. When  setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**instant_mode:** `typing.Optional[bool]` 
-
-Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
-- Dynamic voice generation is not supported with this mode; a predefined  [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice)  must be specified in your request.
-- This mode is only supported for streaming endpoints (e.g.,  [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
-- With `instant_mode` enabled, **requests incur a 10% higher cost** due to increased compute and resource requirements.
     
 </dd>
 </dl>
@@ -3207,7 +3155,7 @@ client.empathic_voice.configs.create_config(
     ),
     language_model=PostedLanguageModel(
         model_provider="ANTHROPIC",
-        model_resource="claude-3-7-sonnet-latest",
+        model_resource="claude-3-7-sonnet",
         temperature=1.0,
     ),
     event_messages=PostedEventMessageSpecs(
@@ -3521,7 +3469,7 @@ client.empathic_voice.configs.create_config_version(
     ),
     language_model=PostedLanguageModel(
         model_provider="ANTHROPIC",
-        model_resource="claude-3-7-sonnet-latest",
+        model_resource="claude-3-7-sonnet",
         temperature=1.0,
     ),
     ellm_model=PostedEllmModel(
