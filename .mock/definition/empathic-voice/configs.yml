@@ -7,7 +7,7 @@ service:
     list-configs:
       path: /v0/evi/configs
       method: GET
-      auth: true
+      auth: false
       docs: >-
         Fetches a paginated list of **Configs**.
 
@@ -116,7 +116,7 @@ service:
                         tightness: 5
                   language_model:
                     model_provider: ANTHROPIC
-                    model_resource: claude-3-7-sonnet-latest
+                    model_resource: claude-3-7-sonnet
                     temperature: 1
                   ellm_model:
                     allow_short_responses: false
@@ -142,7 +142,7 @@ service:
     create-config:
       path: /v0/evi/configs
       method: POST
-      auth: true
+      auth: false
       docs: >-
         Creates a **Config** which can be applied to EVI.
 
@@ -224,7 +224,7 @@ service:
               name: SAMPLE VOICE
             language_model:
               model_provider: ANTHROPIC
-              model_resource: claude-3-7-sonnet-latest
+              model_resource: claude-3-7-sonnet
               temperature: 1
             event_messages:
               on_new_chat:
@@ -284,7 +284,7 @@ service:
                     tightness: 5
               language_model:
                 model_provider: ANTHROPIC
-                model_resource: claude-3-7-sonnet-latest
+                model_resource: claude-3-7-sonnet
                 temperature: 1
               ellm_model:
                 allow_short_responses: false
@@ -310,7 +310,7 @@ service:
     list-config-versions:
       path: /v0/evi/configs/{id}
       method: GET
-      auth: true
+      auth: false
       docs: >-
         Fetches a list of a **Config's** versions.
 
@@ -419,7 +419,7 @@ service:
                         tightness: 5
                   language_model:
                     model_provider: ANTHROPIC
-                    model_resource: claude-3-7-sonnet-latest
+                    model_resource: claude-3-7-sonnet
                     temperature: 1
                   ellm_model:
                     allow_short_responses: false
@@ -445,7 +445,7 @@ service:
     create-config-version:
       path: /v0/evi/configs/{id}
       method: POST
-      auth: true
+      auth: false
       docs: >-
         Updates a **Config** by creating a new version of the **Config**.
 
@@ -527,7 +527,7 @@ service:
               name: ITO
             language_model:
               model_provider: ANTHROPIC
-              model_resource: claude-3-7-sonnet-latest
+              model_resource: claude-3-7-sonnet
               temperature: 1
             ellm_model:
               allow_short_responses: true
@@ -589,7 +589,7 @@ service:
                     tightness: 5
               language_model:
                 model_provider: ANTHROPIC
-                model_resource: claude-3-7-sonnet-latest
+                model_resource: claude-3-7-sonnet
                 temperature: 1
               ellm_model:
                 allow_short_responses: true
@@ -615,7 +615,7 @@ service:
     delete-config:
       path: /v0/evi/configs/{id}
       method: DELETE
-      auth: true
+      auth: false
       docs: >-
         Deletes a **Config** and its versions.
 
@@ -638,7 +638,7 @@ service:
     update-config-name:
       path: /v0/evi/configs/{id}
       method: PATCH
-      auth: true
+      auth: false
       docs: >-
         Updates the name of a **Config**.
 
@@ -674,7 +674,7 @@ service:
     get-config-version:
       path: /v0/evi/configs/{id}/version/{version}
       method: GET
-      auth: true
+      auth: false
       docs: >-
         Fetches a specified version of a **Config**.
 
@@ -762,7 +762,7 @@ service:
                     tightness: 5
               language_model:
                 model_provider: ANTHROPIC
-                model_resource: claude-3-7-sonnet-latest
+                model_resource: claude-3-7-sonnet
                 temperature: 1
               ellm_model:
                 allow_short_responses: false
@@ -788,7 +788,7 @@ service:
     delete-config-version:
       path: /v0/evi/configs/{id}/version/{version}
       method: DELETE
-      auth: true
+      auth: false
       docs: >-
         Deletes a specified version of a **Config**.
 
@@ -827,7 +827,7 @@ service:
     update-config-description:
       path: /v0/evi/configs/{id}/version/{version}
       method: PATCH
-      auth: true
+      auth: false
       docs: >-
         Updates the description of a **Config**.
 
@@ -925,7 +925,7 @@ service:
                     tightness: 5
               language_model:
                 model_provider: ANTHROPIC
-                model_resource: claude-3-7-sonnet-latest
+                model_resource: claude-3-7-sonnet
                 temperature: 1
               ellm_model:
                 allow_short_responses: false
