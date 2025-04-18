@@ -120,11 +120,20 @@ This setting affects how the `snippets` array is structured in the response, whi
 <dl>
 <dd>
 
+**strip_headers:** `typing.Optional[bool]` — If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **instant_mode:** `typing.Optional[bool]` 
 
 Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
 - Dynamic voice generation is not supported with this mode; a predefined  [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice)  must be specified in your request.
 - This mode is only supported for streaming endpoints (e.g.,  [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+- Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
 - With `instant_mode` enabled, **requests incur a 10% higher cost** due to increased compute and resource requirements.
     
 </dd>
@@ -260,11 +269,20 @@ This setting affects how the `snippets` array is structured in the response, whi
 <dl>
 <dd>
 
+**strip_headers:** `typing.Optional[bool]` — If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **instant_mode:** `typing.Optional[bool]` 
 
 Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
 - Dynamic voice generation is not supported with this mode; a predefined  [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice)  must be specified in your request.
 - This mode is only supported for streaming endpoints (e.g.,  [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+- Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
 - With `instant_mode` enabled, **requests incur a 10% higher cost** due to increased compute and resource requirements.
     
 </dd>
@@ -398,11 +416,20 @@ This setting affects how the `snippets` array is structured in the response, whi
 <dl>
 <dd>
 
+**strip_headers:** `typing.Optional[bool]` — If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **instant_mode:** `typing.Optional[bool]` 
 
 Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
 - Dynamic voice generation is not supported with this mode; a predefined  [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice)  must be specified in your request.
 - This mode is only supported for streaming endpoints (e.g.,  [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+- Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
 - With `instant_mode` enabled, **requests incur a 10% higher cost** due to increased compute and resource requirements.
     
 </dd>
@@ -544,11 +571,20 @@ This setting affects how the `snippets` array is structured in the response, whi
 <dl>
 <dd>
 
+**strip_headers:** `typing.Optional[bool]` — If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **instant_mode:** `typing.Optional[bool]` 
 
 Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
 - Dynamic voice generation is not supported with this mode; a predefined  [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice)  must be specified in your request.
 - This mode is only supported for streaming endpoints (e.g.,  [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+- Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
 - With `instant_mode` enabled, **requests incur a 10% higher cost** due to increased compute and resource requirements.
     
 </dd>

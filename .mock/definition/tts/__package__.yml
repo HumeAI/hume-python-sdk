@@ -344,6 +344,14 @@ types:
           When  setting to `false`, avoid including utterances with long `text`,
           as this can result in distorted output.
         default: true
+      strip_headers:
+        type: optional<boolean>
+        docs: >-
+          If enabled, the audio for all the chunks of a generation, once
+          concatenated together, will constitute a single audio file. Otherwise,
+          if disabled, each chunk's audio will be its own audio file, each with
+          its own headers (if applicable).
+        default: false
       utterances:
         docs: >-
           A list of **Utterances** to be converted to speech output.
@@ -373,6 +381,10 @@ types:
           - This mode is only supported for streaming endpoints (e.g., 
           [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming),
           [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+
+          - Ensure only a single generation is requested
+          ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations)
+          must be `1` or omitted).
 
           - With `instant_mode` enabled, **requests incur a 10% higher cost**
           due to increased compute and resource requirements.
