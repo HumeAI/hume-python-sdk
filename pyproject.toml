@@ -1,31 +1,10 @@
 [tool.poetry]
 name = "hume"
-version = "0.8.3"
-description = "A Python SDK for Hume AI"
+version = "0.0.0"
+description = ""
 readme = "README.md"
 authors = []
-keywords = [
-    "hume",
-    "ai",
-    "evi",
-    "empathic",
-    "multimodal",
-    "expression",
-    "analysis",
-    "sentiment",
-    "voice",
-    "recognition",
-    "detection",
-    "emotion",
-    "interface",
-    "speech",
-    "audio",
-    "vision",
-    "expressive",
-    "embeddings",
-    "communication",
-    "learning"
-]
+keywords = []
 license = "MIT"
 classifiers = [
     "Intended Audience :: Developers",
@@ -50,8 +29,6 @@ packages = [
 ]
 
 [project.urls]
-Documentation = 'https://dev.hume.ai'
-Homepage = 'https://www.hume.ai/'
 Repository = 'https://github.com/HumeAI/hume-python-sdk'
 
 [tool.poetry.dependencies]
@@ -66,7 +43,7 @@ pydub = { version = "^0.25.1", optional = true}
 simpleaudio = { version = "^1.0.4", optional = true}
 sounddevice = { version = "^0.4.6", optional = true}
 typing_extensions = ">= 4.0.0"
-websockets = "^13.1"
+websockets = "13.1"
 
 [tool.poetry.dev-dependencies]
 mypy = "1.0.1"
