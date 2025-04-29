@@ -2,7 +2,7 @@
 
 import typing
 from ...core.client_wrapper import SyncClientWrapper
-from ..types.voice_provider import VoiceProvider
+from .types.voices_list_request_provider import VoicesListRequestProvider
 from ...core.request_options import RequestOptions
 from ...core.pagination import SyncPager
 from ..types.return_voice import ReturnVoice
@@ -28,19 +28,22 @@ class VoicesClient:
     def list(
         self,
         *,
-        provider: VoiceProvider,
+        provider: VoicesListRequestProvider,
         page_number: typing.Optional[int] = None,
         page_size: typing.Optional[int] = None,
         ascending_order: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[ReturnVoice]:
         """
-        Lists voices in your **Voice Library**. Set provider to `HUME_AI` to list Hume's preset voices, or to `CUSTOM_VOICE` to a custom voice created in your account.
+        Lists voices you have saved in your account, or voices from the [Voice Library](https://platform.hume.ai/tts/voice-library).
 
         Parameters
         ----------
-        provider : VoiceProvider
-            Specifies whether to return custom voices created in your account or shared voices provided by Hume
+        provider : VoicesListRequestProvider
+            Specify the voice provider to filter voices returned by the endpoint:
+
+            - **`HUME_AI`**: Lists preset, shared voices from Hume's [Voice Library](https://platform.hume.ai/tts/voice-library).
+            - **`CUSTOM_VOICE`**: Lists custom voices created and saved to your account.
 
         page_number : typing.Optional[int]
             Specifies the page number to retrieve, enabling pagination.
@@ -128,7 +131,9 @@ class VoicesClient:
         self, *, generation_id: str, name: str, request_options: typing.Optional[RequestOptions] = None
     ) -> ReturnVoice:
         """
-        Creates a new voice from a specified TTS generation ID and saves it to your **Voice Library**. This allows for consistent speech style and prosody across multiple requests.
+        Saves a new custom voice to your account using the specified TTS generation ID.
+
+        Once saved, this voice can be reused in subsequent TTS requests, ensuring consistent speech style and prosody. For more details on voice creation, see the [Voices Guide](/docs/text-to-speech-tts/voices).
 
         Parameters
         ----------
@@ -194,7 +199,7 @@ class VoicesClient:
 
     def delete(self, *, name: str, request_options: typing.Optional[RequestOptions] = None) -> None:
         """
-        Removes a custom voice from your **Voice Library**.
+        Deletes a previously generated custom voice.
 
         Parameters
         ----------
@@ -253,19 +258,22 @@ class AsyncVoicesClient:
     async def list(
         self,
         *,
-        provider: VoiceProvider,
+        provider: VoicesListRequestProvider,
         page_number: typing.Optional[int] = None,
         page_size: typing.Optional[int] = None,
         ascending_order: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[ReturnVoice]:
         """
-        Lists voices in your **Voice Library**. Set provider to `HUME_AI` to list Hume's preset voices, or to `CUSTOM_VOICE` to a custom voice created in your account.
+        Lists voices you have saved in your account, or voices from the [Voice Library](https://platform.hume.ai/tts/voice-library).
 
         Parameters
         ----------
-        provider : VoiceProvider
-            Specifies whether to return custom voices created in your account or shared voices provided by Hume
+        provider : VoicesListRequestProvider
+            Specify the voice provider to filter voices returned by the endpoint:
+
+            - **`HUME_AI`**: Lists preset, shared voices from Hume's [Voice Library](https://platform.hume.ai/tts/voice-library).
+            - **`CUSTOM_VOICE`**: Lists custom voices created and saved to your account.
 
         page_number : typing.Optional[int]
             Specifies the page number to retrieve, enabling pagination.
@@ -361,7 +369,9 @@ class AsyncVoicesClient:
         self, *, generation_id: str, name: str, request_options: typing.Optional[RequestOptions] = None
     ) -> ReturnVoice:
         """
-        Creates a new voice from a specified TTS generation ID and saves it to your **Voice Library**. This allows for consistent speech style and prosody across multiple requests.
+        Saves a new custom voice to your account using the specified TTS generation ID.
+
+        Once saved, this voice can be reused in subsequent TTS requests, ensuring consistent speech style and prosody. For more details on voice creation, see the [Voices Guide](/docs/text-to-speech-tts/voices).
 
         Parameters
         ----------
@@ -435,7 +445,7 @@ class AsyncVoicesClient:
 
     async def delete(self, *, name: str, request_options: typing.Optional[RequestOptions] = None) -> None:
         """
-        Removes a custom voice from your **Voice Library**.
+        Deletes a previously generated custom voice.
 
         Parameters
         ----------

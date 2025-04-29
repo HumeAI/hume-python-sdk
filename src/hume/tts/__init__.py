@@ -29,6 +29,7 @@ from .types import (
 )
 from .errors import BadRequestError, UnprocessableEntityError
 from . import voices
+from .voices import VoicesListRequestProvider
 
 __all__ = [
     "AudioEncoding",
@@ -58,5 +59,6 @@ __all__ = [
     "ValidationError",
     "ValidationErrorLocItem",
     "VoiceProvider",
+    "VoicesListRequestProvider",
     "voices",
 ]
