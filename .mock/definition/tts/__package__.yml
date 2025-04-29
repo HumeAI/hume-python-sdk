@@ -21,9 +21,9 @@ service:
       auth: true
       docs: >-
         Synthesizes one or more input texts into speech using the specified
-        voice. If no voice is provided,  a novel voice will be generated
+        voice. If no voice is provided, a novel voice will be generated
         dynamically. Optionally, additional context can be included to influence
-        the  speech's style and prosody. 
+        the speech's style and prosody.
 
 
         The response includes the base64-encoded audio and metadata in JSON
@@ -49,14 +49,14 @@ service:
                   the mind which contemplates them.
                 description: >-
                   Middle-aged masculine voice with a clear, rhythmic Scots lilt,
-                  rounded vowels, and a warm,  steady tone with an articulate,
+                  rounded vowels, and a warm, steady tone with an articulate,
                   academic quality.
             context:
               utterances:
                 - text: How can people see beauty so differently?
                   description: >-
                     A curious student with a clear and respectful tone, seeking
-                    clarification on Hume's  ideas with a straightforward
+                    clarification on Hume's ideas with a straightforward
                     question.
             format:
               type: mp3
@@ -86,9 +86,9 @@ service:
       auth: true
       docs: >-
         Synthesizes one or more input texts into speech using the specified
-        voice. If no voice is provided,  a novel voice will be generated
+        voice. If no voice is provided, a novel voice will be generated
         dynamically. Optionally, additional context can be included to influence
-        the  speech's style and prosody. 
+        the speech's style and prosody. 
 
 
         The response contains the generated audio file in the requested format.
@@ -113,7 +113,7 @@ service:
                   the mind which contemplates them.
                 description: >-
                   Middle-aged masculine voice with a clear, rhythmic Scots lilt,
-                  rounded vowels, and a warm,  steady tone with an articulate,
+                  rounded vowels, and a warm, steady tone with an articulate,
                   academic quality.
             context:
               generation_id: 09ad914d-8e7f-40f8-a279-e34f07f7dab2
@@ -126,7 +126,7 @@ service:
       auth: true
       docs: >-
         Streams synthesized speech using the specified voice. If no voice is
-        provided, a novel voice will be  generated dynamically. Optionally,
+        provided, a novel voice will be generated dynamically. Optionally,
         additional context can be included to influence the speech's style and
         prosody.
       source:
@@ -150,7 +150,7 @@ service:
                   the mind which contemplates them.
                 description: >-
                   Middle-aged masculine voice with a clear, rhythmic Scots lilt,
-                  rounded vowels, and a warm,  steady tone with an articulate,
+                  rounded vowels, and a warm, steady tone with an articulate,
                   academic quality.
             context:
               generation_id: 09ad914d-8e7f-40f8-a279-e34f07f7dab2
@@ -163,8 +163,8 @@ service:
       auth: true
       docs: >-
         Streams synthesized speech using the specified voice. If no voice is
-        provided,  a novel voice will be generated dynamically. Optionally,
-        additional context can be included to influence the  speech's style and
+        provided, a novel voice will be generated dynamically. Optionally,
+        additional context can be included to influence the speech's style and
         prosody. 
 
 
@@ -191,14 +191,14 @@ service:
                   the mind which contemplates them.
                 description: >-
                   Middle-aged masculine voice with a clear, rhythmic Scots lilt,
-                  rounded vowels, and a warm,  steady tone with an articulate,
+                  rounded vowels, and a warm, steady tone with an articulate,
                   academic quality.
             context:
               utterances:
                 - text: How can people see beauty so differently?
                   description: >-
                     A curious student with a clear and respectful tone, seeking
-                    clarification on Hume's  ideas with a straightforward
+                    clarification on Hume's ideas with a straightforward
                     question.
             format:
               type: mp3
@@ -267,7 +267,7 @@ types:
       snippets:
         docs: >-
           A list of snippet groups where each group corresponds to an utterance
-          in the request. Each  group contains segmented snippets that represent
+          in the request. Each group contains segmented snippets that represent
           the original utterance divided into more natural-sounding units
           optimized for speech delivery.
         type: list<list<Snippet>>
@@ -330,19 +330,19 @@ types:
           Controls how audio output is segmented in the response.
 
 
-          - When **enabled** (`true`),  input utterances are automatically split
+          - When **enabled** (`true`), input utterances are automatically split
           into natural-sounding speech segments.
 
 
-          - When **disabled**  (`false`), the response maintains a strict
+          - When **disabled** (`false`), the response maintains a strict
           one-to-one mapping between input utterances and output snippets. 
 
 
           This setting affects how the `snippets` array is structured in the
-          response, which may be important  for applications that need to track
-          the relationship between input text and generated audio segments.
-          When  setting to `false`, avoid including utterances with long `text`,
-          as this can result in distorted output.
+          response, which may be important for applications that need to track
+          the relationship between input text and generated audio segments. When
+          setting to `false`, avoid including utterances with long `text`, as
+          this can result in distorted output.
         default: true
       strip_headers:
         type: optional<boolean>
@@ -357,9 +357,9 @@ types:
           A list of **Utterances** to be converted to speech output.
 
 
-          An **Utterance** is a unit of  input for
+          An **Utterance** is a unit of input for
           [Octave](/docs/text-to-speech-tts/overview), and includes input
-          `text`, an  optional `description` to serve as the prompt for how the
+          `text`, an optional `description` to serve as the prompt for how the
           speech should be delivered, an optional `voice` specification, and
           additional controls to guide delivery for `speed` and
           `trailing_silence`.
@@ -374,11 +374,11 @@ types:
           mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
 
           - Dynamic voice generation is not supported with this mode; a
-          predefined 
-          [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) 
+          predefined
+          [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice)
           must be specified in your request.
 
-          - This mode is only supported for streaming endpoints (e.g., 
+          - This mode is only supported for streaming endpoints (e.g.,
           [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming),
           [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
 
@@ -399,7 +399,7 @@ types:
         type: optional<string>
         docs: >-
           A unique ID associated with this request for tracking and
-          troubleshooting. Use this ID when  contacting [support](/support) for
+          troubleshooting. Use this ID when contacting [support](/support) for
           troubleshooting assistance.
     source:
       openapi: tts-openapi.yml
@@ -414,16 +414,12 @@ types:
         docs: Name of the voice in the `Voice Library`.
       provider:
         type: optional<VoiceProvider>
-        docs: |-
-          Specifies the provider of the voice.
+        docs: >-
+          The provider associated with the created voice.
 
-           - **HUME_AI**:  Preset voices generated by Hume. 
 
-           - **CUSTOM_VOICE**: Voices you have generated and saved to your  `Voice library`.
-
-           If a provider is not specified, the provider will default to `CUSTOM_VOICE`. 
-
-            While Hume's preset voices are shared and usable by anyone, your custom voices are only available to calls  made with your API key.
+          Voices created through this endpoint will always have the provider set
+          to `CUSTOM_VOICE`, indicating a custom voice stored in your account.
     source:
       openapi: tts-openapi.yml
   FormatPcm:
@@ -490,15 +486,15 @@ types:
         type: optional<string>
         docs: >-
           Natural language instructions describing how the synthesized speech
-          should sound, including  but not limited to tone, intonation, pacing,
-          and accent (e.g., 'a soft, gentle voice with a strong British 
+          should sound, including but not limited to tone, intonation, pacing,
+          and accent (e.g., 'a soft, gentle voice with a strong British
           accent').
 
           - If a Voice is specified in the request, this description serves as
-          acting instructions. For  tips on how to effectively guide speech
+          acting instructions. For tips on how to effectively guide speech
           delivery, see our guide on [Acting
           instructions](/docs/text-to-speech-tts/acting-instructions).
-           - If no Voice is specified, a new voice is generated based on this description. See our [prompting guide](/docs/text-to-speech-tts/prompting)  for tips on designing a voice.
+           - If no Voice is specified, a new voice is generated based on this description. See our [prompting guide](/docs/text-to-speech-tts/prompting) for tips on designing a voice.
         validation:
           maxLength: 1000
       speed:
@@ -524,10 +520,10 @@ types:
         type: optional<PostedUtteranceVoice>
         docs: >-
           The `name` or `id` associated with a **Voice** from the **Voice
-          Library** to be used as the  speaker for this and all subsequent
+          Library** to be used as the speaker for this and all subsequent
           `utterances`, until the `voice` field is updated again.
 
-           See our  [voices guide](/docs/text-to-speech-tts/voices) for more details on generating and specifying **Voices**.
+           See our [voices guide](/docs/text-to-speech-tts/voices) for more details on generating and specifying **Voices**.
     source:
       openapi: tts-openapi.yml
   ValidationErrorLocItem:
@@ -550,38 +546,58 @@ types:
     properties:
       id:
         type: string
-        docs: The ID of a **Voice** within the **Voice Library**.
+        docs: The unique ID associated with the **Voice**.
       provider:
         type: optional<VoiceProvider>
-        docs: |-
-          Specifies the provider of the voice associated with this voice ID.
+        docs: >-
+          Specifies the source provider associated with the chosen voice.
 
-           - **HUME_AI**:  Preset voices generated by Hume. 
 
-           - **CUSTOM_VOICE**: Voices you have generated and saved to your  `Voice library`.
+          - **`HUME_AI`**: Select voices from Hume's [Voice
+          Library](https://platform.hume.ai/tts/voice-library), containing a
+          variety of preset, shared voices.
 
-           If a provider is not specified, the provider will default to `CUSTOM_VOICE`. 
+          - **`CUSTOM_VOICE`**: Select from voices you've personally generated
+          and saved in your account. 
 
-            While Hume's preset voices are shared and usable by anyone, your custom voices are only available to calls  made with your API key.
+
+          If no provider is explicitly set, the default provider is
+          `CUSTOM_VOICE`. When using voices from Hume's **Voice Library**, you
+          must explicitly set the provider to `HUME_AI`.
+
+
+          Preset voices from Hume's **Voice Library** are accessible by all
+          users. In contrast, your custom voices are private and accessible only
+          via requests authenticated with your API key.
     source:
       openapi: tts-openapi.yml
   PostedUtteranceVoiceWithName:
     properties:
       name:
         type: string
-        docs: The name of a **Voice** within the **Voice Library**.
+        docs: The name of a **Voice**.
       provider:
         type: optional<VoiceProvider>
-        docs: |-
-          Specifies the provider of the voice associated with this voice name.
+        docs: >-
+          Specifies the source provider associated with the chosen voice.
 
-           - **HUME_AI**:  Preset voices generated by Hume. 
 
-           - **CUSTOM_VOICE**: Voices you have generated and saved to your  `Voice library`.
+          - **`HUME_AI`**: Select voices from Hume's [Voice
+          Library](https://platform.hume.ai/tts/voice-library), containing a
+          variety of preset, shared voices.
 
-           If a provider is not specified, the provider will default to `CUSTOM_VOICE`. 
+          - **`CUSTOM_VOICE`**: Select from voices you've personally generated
+          and saved in your account. 
 
-            While Hume's preset voices are shared and usable by anyone, your custom voices are only available to calls  made with your API key.
+
+          If no provider is explicitly set, the default provider is
+          `CUSTOM_VOICE`. When using voices from Hume's **Voice Library**, you
+          must explicitly set the provider to `HUME_AI`.
+
+
+          Preset voices from Hume's **Voice Library** are accessible by all
+          users. In contrast, your custom voices are private and accessible only
+          via requests authenticated with your API key.
     source:
       openapi: tts-openapi.yml
   VoiceProvider:
