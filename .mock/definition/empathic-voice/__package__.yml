@@ -853,7 +853,7 @@ types:
   UserInput:
     docs: >-
       User text to insert into the conversation. Text sent through a User Input
-      message is treated as the user’s speech to EVI. EVI processes this input
+      message is treated as the user's speech to EVI. EVI processes this input
       and provides a corresponding response.
 
 
@@ -979,21 +979,6 @@ types:
       - type: ToolCallMessage
       - type: ToolResponseMessage
       - type: ToolErrorMessage
-    source:
-      openapi: evi-asyncapi.json
-  TtsInput:
-    properties:
-      type: optional<literal<"tts">>
-    source:
-      openapi: evi-asyncapi.json
-  TextInput:
-    properties:
-      type: optional<literal<"text_input">>
-    source:
-      openapi: evi-asyncapi.json
-  FunctionCallResponseInput:
-    properties:
-      type: optional<literal<"function_call_response">>
     source:
       openapi: evi-asyncapi.json
   HTTPValidationError:
@@ -3202,12 +3187,6 @@ types:
         docs: >-
           Duration in seconds for the timeout (e.g. 600 seconds represents 10
           minutes).
-    source:
-      openapi: evi-openapi.json
-  PostedPromptSpec:
-    docs: A Prompt associated with this Config.
-    properties:
-      version: optional<unknown>
     source:
       openapi: evi-openapi.json
   PostedVoiceProvider:
