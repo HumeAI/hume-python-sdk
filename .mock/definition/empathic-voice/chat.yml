@@ -47,6 +47,21 @@ channel:
 
         Include this parameter to apply a specific version of an EVI
         configuration. If omitted, the latest version will be applied.
+    enable_context_injection:
+      type: optional<boolean>
+      default: true
+      docs: >-
+        A flag to enable context injection. Set this query parameter to true to
+        have EVI inject context into the conversation. This is useful for
+        scenarios where you want to provide additional information to EVI to
+        help it better understand the user's request.
+    event_limit:
+      type: optional<integer>
+      docs: >-
+        The maximum number of chat events to return from chat history. By
+        default, the system returns up to 300 events (100 events per page × 3
+        pages). Set this parameter to a smaller value to limit the number of
+        events returned.
     resumed_chat_group_id:
       type: optional<string>
       docs: >-

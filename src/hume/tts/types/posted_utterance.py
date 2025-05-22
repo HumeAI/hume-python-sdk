@@ -10,9 +10,9 @@ from ...core.pydantic_utilities import IS_PYDANTIC_V2
 class PostedUtterance(UniversalBaseModel):
     description: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Natural language instructions describing how the synthesized speech should sound, including  but not limited to tone, intonation, pacing, and accent (e.g., 'a soft, gentle voice with a strong British  accent').
-    - If a Voice is specified in the request, this description serves as acting instructions. For  tips on how to effectively guide speech delivery, see our guide on [Acting instructions](/docs/text-to-speech-tts/acting-instructions).
-     - If no Voice is specified, a new voice is generated based on this description. See our [prompting guide](/docs/text-to-speech-tts/prompting)  for tips on designing a voice.
+    Natural language instructions describing how the synthesized speech should sound, including but not limited to tone, intonation, pacing, and accent (e.g., 'a soft, gentle voice with a strong British accent').
+    - If a Voice is specified in the request, this description serves as acting instructions. For tips on how to effectively guide speech delivery, see our guide on [Acting instructions](/docs/text-to-speech-tts/acting-instructions).
+     - If no Voice is specified, a new voice is generated based on this description. See our [prompting guide](/docs/text-to-speech-tts/prompting) for tips on designing a voice.
     """
 
     speed: typing.Optional[float] = pydantic.Field(default=None)
@@ -32,9 +32,9 @@ class PostedUtterance(UniversalBaseModel):
 
     voice: typing.Optional[PostedUtteranceVoice] = pydantic.Field(default=None)
     """
-    The `name` or `id` associated with a **Voice** from the **Voice Library** to be used as the  speaker for this and all subsequent `utterances`, until the `voice` field is updated again.
+    The `name` or `id` associated with a **Voice** from the **Voice Library** to be used as the speaker for this and all subsequent `utterances`, until the `voice` field is updated again.
     
-     See our  [voices guide](/docs/text-to-speech-tts/voices) for more details on generating and specifying **Voices**.
+     See our [voices guide](/docs/text-to-speech-tts/voices) for more details on generating and specifying **Voices**.
     """
 
     if IS_PYDANTIC_V2:
