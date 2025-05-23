@@ -449,7 +449,7 @@ types:
       - tr
       - uk
     source:
-      openapi: batch-openapi.json
+      openapi: batch-files-openapi.yml
   BoundingBox:
     docs: A bounding box around a face.
     properties:
@@ -631,12 +631,6 @@ types:
     source:
       openapi: batch-openapi.json
   Face:
-    docs: >-
-      The Facial Emotional Expression model analyzes human facial expressions in
-      images and videos. Results will be provided per frame for video files.
-
-
-      Recommended input file types: `.png`, `.jpeg`, `.mp4`
     properties:
       fps_pred:
         type: optional<double>
@@ -677,7 +671,7 @@ types:
           created by each job.
         default: false
     source:
-      openapi: batch-openapi.json
+      openapi: batch-files-openapi.yml
   FacePrediction:
     properties:
       frame:
@@ -755,37 +749,11 @@ types:
       - utterance
       - conversational_turn
     docs: >-
-      The granularity at which to generate predictions. The `granularity` field
-      is ignored if transcription is not enabled or if the `window` field has
-      been set.
-
-
-      - `word`: At the word level, our model provides a separate output for each
-      word, offering the most granular insight into emotional expression during
-      speech. 
-
-
-      - `sentence`: At the sentence level of granularity, we annotate the
-      emotional tone of each spoken sentence with our Prosody and Emotional
-      Language models. 
-
-
-      - `utterance`: Utterance-level granularity is between word- and
-      sentence-level. It takes into account natural pauses or breaks in speech,
-      providing more rapidly updated measures of emotional expression within a
-      flowing conversation. For text inputs, utterance-level granularity will
-      produce results identical to sentence-level granularity. 
-
-
-      - `conversational_turn`: Conversational turn-level granularity provides a
-      distinct output for each change in speaker. It captures the full sequence
-      of words and sentences spoken uninterrupted by each person. This approach
-      provides a higher-level view of the emotional dynamics in a
-      multi-participant dialogue. For text inputs, specifying conversational
-      turn-level granularity for our Emotional Language model will produce
-      results for the entire passage.
+      The granularity at which to generate predictions. `utterance` corresponds
+      to a natural pause or break in conversation, while `conversational_turn`
+      corresponds to a change in speaker.
     source:
-      openapi: batch-openapi.json
+      openapi: batch-files-openapi.yml
   GroupedPredictionsBurstPrediction:
     properties:
       id:
@@ -864,14 +832,7 @@ types:
       openapi: batch-openapi.json
   InferenceBaseRequest:
     properties:
-      models:
-        type: optional<Models>
-        docs: >-
-          Specify the models to use for inference.
-
-
-          If this field is not explicitly set, then all models will run by
-          default.
+      models: optional<Models>
       transcription: optional<Transcription>
       urls:
         type: optional<list<string>>
@@ -883,11 +844,12 @@ types:
 
           If you wish to supply more than 100 URLs, consider providing them as
           an archive (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`).
+      registry_files:
+        type: optional<list<string>>
+        docs: List of File IDs corresponding to the files in the asset registry.
       text:
         type: optional<list<string>>
-        docs: >-
-          Text supplied directly to our Emotional Language and NER models for
-          analysis.
+        docs: Text to supply directly to our language and NER models.
       callback_url:
         type: optional<string>
         docs: >-
@@ -900,7 +862,7 @@ types:
           completion/failure.
         default: false
     source:
-      openapi: batch-openapi.json
+      openapi: batch-files-openapi.yml
   InferencePrediction:
     properties:
       file:
@@ -1025,13 +987,6 @@ types:
     source:
       openapi: batch-files-openapi.yml
   Language:
-    docs: >-
-      The Emotional Language model analyzes passages of text. This also supports
-      audio and video files by transcribing and then directly analyzing the
-      transcribed text.
-
-
-      Recommended input filetypes: `.txt`, `.mp3`, `.wav`, `.mp4`
     properties:
       granularity: optional<Granularity>
       sentiment: optional<Unconfigurable>
@@ -1045,7 +1000,7 @@ types:
           `unknown` ID.
         default: false
     source:
-      openapi: batch-openapi.json
+      openapi: batch-files-openapi.yml
   LanguagePrediction:
     properties:
       text:
@@ -1090,7 +1045,6 @@ types:
     source:
       openapi: batch-openapi.json
   Models:
-    docs: The models used for inference.
     properties:
       face: optional<Face>
       burst: optional<Unconfigurable>
@@ -1099,7 +1053,7 @@ types:
       ner: optional<Ner>
       facemesh: optional<Unconfigurable>
     source:
-      openapi: batch-openapi.json
+      openapi: batch-files-openapi.yml
   ModelsPredictions:
     properties:
       face: optional<PredictionsOptionalNullFacePrediction>
@@ -1111,13 +1065,6 @@ types:
     source:
       openapi: batch-openapi.json
   Ner:
-    docs: >-
-      The NER (Named-entity Recognition) model identifies real-world objects and
-      concepts in passages of text. This also supports audio and video files by
-      transcribing and then directly analyzing the transcribed text.
-
-
-      Recommended input filetypes: `.txt`, `.mp3`, `.wav`, `.mp4`
     properties:
       identify_speakers:
         type: optional<boolean>
@@ -1128,7 +1075,7 @@ types:
           `unknown` ID.
         default: false
     source:
-      openapi: batch-openapi.json
+      openapi: batch-files-openapi.yml
   NerPrediction:
     properties:
       entity:
@@ -1219,12 +1166,6 @@ types:
     source:
       openapi: batch-openapi.json
   Prosody:
-    docs: >-
-      The Speech Prosody model analyzes the intonation, stress, and rhythm of
-      spoken word.
-
-
-      Recommended input file types: `.wav`, `.mp3`, `.mp4`
     properties:
       granularity: optional<Granularity>
       window: optional<Window>
@@ -1237,7 +1178,7 @@ types:
           `unknown` ID.
         default: false
     source:
-      openapi: batch-openapi.json
+      openapi: batch-files-openapi.yml
   ProsodyPrediction:
     properties:
       text:
@@ -1620,79 +1561,8 @@ types:
     source:
       openapi: batch-openapi.json
   Transcription:
-    docs: |-
-      Transcription-related configuration options.
-
-      To disable transcription, explicitly set this field to `null`.
     properties:
-      language:
-        type: optional<Bcp47Tag>
-        docs: >-
-          By default, we use an automated language detection method for our
-          Speech Prosody, Language, and NER models. However, if you know what
-          language is being spoken in your media samples, you can specify it via
-          its BCP-47 tag and potentially obtain more accurate results.
-
-
-          You can specify any of the following languages:
-
-          - Chinese: `zh`
-
-          - Danish: `da`
-
-          - Dutch: `nl`
-
-          - English: `en`
-
-          - English (Australia): `en-AU`
-
-          - English (India): `en-IN`
-
-          - English (New Zealand): `en-NZ`
-
-          - English (United Kingdom): `en-GB`
-
-          - French: `fr`
-
-          - French (Canada): `fr-CA`
-
-          - German: `de`
-
-          - Hindi: `hi`
-
-          - Hindi (Roman Script): `hi-Latn`
-
-          - Indonesian: `id`
-
-          - Italian: `it`
-
-          - Japanese: `ja`
-
-          - Korean: `ko`
-
-          - Norwegian: `no`
-
-          - Polish: `pl`
-
-          - Portuguese: `pt`
-
-          - Portuguese (Brazil): `pt-BR`
-
-          - Portuguese (Portugal): `pt-PT`
-
-          - Russian: `ru`
-
-          - Spanish: `es`
-
-          - Spanish (Latin America): `es-419`
-
-          - Swedish: `sv`
-
-          - Tamil: `ta`
-
-          - Turkish: `tr`
-
-          - Ukrainian: `uk`
+      language: optional<Bcp47Tag>
       identify_speakers:
         type: optional<boolean>
         docs: >-
@@ -1712,7 +1582,7 @@ types:
           min: 0
           max: 1
     source:
-      openapi: batch-openapi.json
+      openapi: batch-files-openapi.yml
   TranscriptionMetadata:
     docs: Transcription metadata for your media file.
     properties:
@@ -1793,14 +1663,6 @@ types:
     source:
       openapi: batch-openapi.json
   Window:
-    docs: >-
-      Generate predictions based on time.
-
-
-      Setting the `window` field allows for a 'sliding window' approach, where a
-      fixed-size window moves across the audio or video file in defined steps.
-      This enables continuous analysis of prosody within subsets of the file,
-      providing dynamic and localized insights into emotional expression.
     properties:
       length:
         type: optional<double>
@@ -1815,4 +1677,4 @@ types:
         validation:
           min: 0.5
     source:
-      openapi: batch-openapi.json
+      openapi: batch-files-openapi.yml
