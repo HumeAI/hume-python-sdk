@@ -5,6 +5,7 @@ import typing
 import httpx
 
 from .http_client import AsyncHttpClient, HttpClient
+from importlib.metadata import version
 
 
 class BaseClientWrapper:
@@ -17,7 +18,7 @@ class BaseClientWrapper:
         headers: typing.Dict[str, str] = {
             "X-Fern-Language": "Python",
             "X-Fern-SDK-Name": "hume",
-            "X-Fern-SDK-Version": "1.0.0",
+            "X-Fern-SDK-Version": version("hume"),
         }
         if self.api_key is not None and include_auth:
             headers["X-Hume-Api-Key"] = self.api_key
