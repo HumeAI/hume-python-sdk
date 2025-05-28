@@ -1,3 +1,4 @@
+# THIS FILE IS MANUALLY MAINTAINED: see .fernignore
 """Async client for handling messages to and from an EVI connection."""
 
 import asyncio

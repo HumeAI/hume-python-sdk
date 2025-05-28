@@ -1,3 +1,4 @@
+# THIS FILE IS MANUALLY MAINTAINED: see .fernignore
 from hume.expression_measurement.batch.client_with_utils import AsyncBatchClientWithUtils, BatchClientWithUtils
 from .client import AsyncExpressionMeasurementClient, ExpressionMeasurementClient
 from .stream.socket_client import AsyncStreamClientWithWebsocket

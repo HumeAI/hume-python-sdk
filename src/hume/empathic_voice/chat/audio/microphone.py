@@ -1,3 +1,5 @@
+# THIS FILE IS MANUALLY MAINTAINED: see .fernignore
+
 """Abstraction for handling microphone input."""
 
 from __future__ import annotations

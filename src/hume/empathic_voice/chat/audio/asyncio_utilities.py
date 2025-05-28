@@ -1,3 +1,4 @@
+# THIS FILE IS MANUALLY MAINTAINED: see .fernignore
 import dataclasses
 from asyncio import Queue as BaseQueue
 from typing import AsyncGenerator, AsyncIterator, Generic, TypeVar

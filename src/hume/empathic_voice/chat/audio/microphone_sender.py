@@ -1,3 +1,4 @@
+# THIS FILE IS MANUALLY MAINTAINED: see .fernignore
 import logging
 from dataclasses import dataclass
 from typing import Protocol
