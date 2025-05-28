@@ -1,3 +1,5 @@
+# THIS FILE IS MANUALLY MAINTAINED: see .fernignore
+
 import base64
 from contextlib import asynccontextmanager
 import json

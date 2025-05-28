@@ -1,3 +1,4 @@
+# THIS FILE IS MANUALLY MAINTAINED: see .fernignore
 from __future__ import annotations
 
 import logging

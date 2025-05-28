@@ -1,3 +1,4 @@
+# THIS FILE IS MANUALLY MAINTAINED: see .fernignore
 """Utilities for audio playback."""
 
 import asyncio
