@@ -3,19 +3,13 @@
 from ....core.pydantic_utilities import UniversalBaseModel
 import typing
 from .models import Models
-import pydantic
 from .transcription import Transcription
+import pydantic
 from ....core.pydantic_utilities import IS_PYDANTIC_V2
 
 
 class InferenceBaseRequest(UniversalBaseModel):
-    models: typing.Optional[Models] = pydantic.Field(default=None)
-    """
-    Specify the models to use for inference.
-    
-    If this field is not explicitly set, then all models will run by default.
-    """
-
+    models: typing.Optional[Models] = None
     transcription: typing.Optional[Transcription] = None
     urls: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
     """
@@ -24,9 +18,14 @@ class InferenceBaseRequest(UniversalBaseModel):
     If you wish to supply more than 100 URLs, consider providing them as an archive (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`).
     """
 
+    registry_files: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
+    """
+    List of File IDs corresponding to the files in the asset registry.
+    """
+
     text: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
     """
-    Text supplied directly to our Emotional Language and NER models for analysis.
+    Text to supply directly to our language and NER models.
     """
 
     callback_url: typing.Optional[str] = pydantic.Field(default=None)

@@ -29,11 +29,11 @@ class PostedTts(UniversalBaseModel):
     """
     Controls how audio output is segmented in the response.
     
-    - When **enabled** (`true`),  input utterances are automatically split into natural-sounding speech segments.
+    - When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.
     
-    - When **disabled**  (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets. 
+    - When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets. 
     
-    This setting affects how the `snippets` array is structured in the response, which may be important  for applications that need to track the relationship between input text and generated audio segments. When  setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
+    This setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
     """
 
     strip_headers: typing.Optional[bool] = pydantic.Field(default=None)
@@ -45,14 +45,14 @@ class PostedTts(UniversalBaseModel):
     """
     A list of **Utterances** to be converted to speech output.
     
-    An **Utterance** is a unit of  input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an  optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
+    An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
     """
 
     instant_mode: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
-    - Dynamic voice generation is not supported with this mode; a predefined  [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice)  must be specified in your request.
-    - This mode is only supported for streaming endpoints (e.g.,  [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+    - Dynamic voice generation is not supported with this mode; a predefined [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified in your request.
+    - This mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
     - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
     - With `instant_mode` enabled, **requests incur a 10% higher cost** due to increased compute and resource requirements.
     """

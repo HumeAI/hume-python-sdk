@@ -20,7 +20,7 @@ class AssistantMessage(UniversalBaseModel):
 
     from_text: bool = pydantic.Field()
     """
-    Indicates if this message was inserted into the conversation as text from an [Assistant Input message](/reference/empathic-voice-interface-evi/chat/chat#send.Assistant%20Input.text).
+    Indicates if this message was inserted into the conversation as text from an [Assistant Input message](/reference/empathic-voice-interface-evi/chat/chat#send.AssistantInput.text).
     """
 
     id: typing.Optional[str] = pydantic.Field(default=None)
