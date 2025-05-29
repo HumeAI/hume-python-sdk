@@ -12,10 +12,6 @@ import pydantic
 
 
 class Models(UniversalBaseModel):
-    """
-    The models used for inference.
-    """
-
     face: typing.Optional[Face] = None
     burst: typing.Optional[Unconfigurable] = None
     prosody: typing.Optional[Prosody] = None
