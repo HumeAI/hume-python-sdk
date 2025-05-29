@@ -133,6 +133,7 @@ class BatchClient:
         models: typing.Optional[Models] = OMIT,
         transcription: typing.Optional[Transcription] = OMIT,
         urls: typing.Optional[typing.Sequence[str]] = OMIT,
+        registry_files: typing.Optional[typing.Sequence[str]] = OMIT,
         text: typing.Optional[typing.Sequence[str]] = OMIT,
         callback_url: typing.Optional[str] = OMIT,
         notify: typing.Optional[bool] = OMIT,
@@ -144,9 +145,6 @@ class BatchClient:
         Parameters
         ----------
         models : typing.Optional[Models]
-            Specify the models to use for inference.
-
-            If this field is not explicitly set, then all models will run by default.
 
         transcription : typing.Optional[Transcription]
 
@@ -155,8 +153,11 @@ class BatchClient:
 
             If you wish to supply more than 100 URLs, consider providing them as an archive (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`).
 
+        registry_files : typing.Optional[typing.Sequence[str]]
+            List of File IDs corresponding to the files in the asset registry.
+
         text : typing.Optional[typing.Sequence[str]]
-            Text supplied directly to our Emotional Language and NER models for analysis.
+            Text to supply directly to our language and NER models.
 
         callback_url : typing.Optional[str]
             If provided, a `POST` request will be made to the URL with the generated predictions on completion or the error message on failure.
@@ -193,6 +194,7 @@ class BatchClient:
                     object_=transcription, annotation=Transcription, direction="write"
                 ),
                 "urls": urls,
+                "registry_files": registry_files,
                 "text": text,
                 "callback_url": callback_url,
                 "notify": notify,
@@ -525,6 +527,7 @@ class AsyncBatchClient:
         models: typing.Optional[Models] = OMIT,
         transcription: typing.Optional[Transcription] = OMIT,
         urls: typing.Optional[typing.Sequence[str]] = OMIT,
+        registry_files: typing.Optional[typing.Sequence[str]] = OMIT,
         text: typing.Optional[typing.Sequence[str]] = OMIT,
         callback_url: typing.Optional[str] = OMIT,
         notify: typing.Optional[bool] = OMIT,
@@ -536,9 +539,6 @@ class AsyncBatchClient:
         Parameters
         ----------
         models : typing.Optional[Models]
-            Specify the models to use for inference.
-
-            If this field is not explicitly set, then all models will run by default.
 
         transcription : typing.Optional[Transcription]
 
@@ -547,8 +547,11 @@ class AsyncBatchClient:
 
             If you wish to supply more than 100 URLs, consider providing them as an archive (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`).
 
+        registry_files : typing.Optional[typing.Sequence[str]]
+            List of File IDs corresponding to the files in the asset registry.
+
         text : typing.Optional[typing.Sequence[str]]
-            Text supplied directly to our Emotional Language and NER models for analysis.
+            Text to supply directly to our language and NER models.
 
         callback_url : typing.Optional[str]
             If provided, a `POST` request will be made to the URL with the generated predictions on completion or the error message on failure.
@@ -593,6 +596,7 @@ class AsyncBatchClient:
                     object_=transcription, annotation=Transcription, direction="write"
                 ),
                 "urls": urls,
+                "registry_files": registry_files,
                 "text": text,
                 "callback_url": callback_url,
                 "notify": notify,

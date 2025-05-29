@@ -46,7 +46,7 @@ types:
           inflections and tones to the text based on the user’s expressions and
           the context of the conversation. The synthesized audio is streamed
           back to the user as an [Assistant
-          Message](/reference/empathic-voice-interface-evi/chat/chat#receive.Assistant%20Message.type).
+          Message](/reference/empathic-voice-interface-evi/chat/chat#receive.AssistantMessage.type).
       type:
         type: literal<"assistant_input">
         docs: >-
@@ -68,7 +68,7 @@ types:
         docs: >-
           Indicates if this message was inserted into the conversation as text
           from an [Assistant Input
-          message](/reference/empathic-voice-interface-evi/chat/chat#send.Assistant%20Input.text).
+          message](/reference/empathic-voice-interface-evi/chat/chat#send.AssistantInput.text).
       id:
         type: optional<string>
         docs: >-
@@ -443,7 +443,7 @@ types:
 
           Once this message is sent, EVI will not respond until a [Resume
           Assistant
-          message](/reference/empathic-voice-interface-evi/chat/chat#send.Resume%20Assistant%20Message.type)
+          message](/reference/empathic-voice-interface-evi/chat/chat#send.ResumeAssistantMessage.type)
           is sent. When paused, EVI won’t respond, but transcriptions of your
           audio inputs will still be recorded.
     source:
@@ -710,9 +710,9 @@ types:
         docs: >-
           Indicates whether a response to the tool call is required from the
           developer, either in the form of a [Tool Response
-          message](/reference/empathic-voice-interface-evi/chat/chat#send.Tool%20Response%20Message.type)
+          message](/reference/empathic-voice-interface-evi/chat/chat#send.ToolResponseMessage.type)
           or a [Tool Error
-          message](/reference/empathic-voice-interface-evi/chat/chat#send.Tool%20Error%20Message.type).
+          message](/reference/empathic-voice-interface-evi/chat/chat#send.ToolErrorMessage.type).
       tool_call_id:
         type: string
         docs: >-
@@ -773,7 +773,7 @@ types:
           invocation, ensuring that the Tool Error message is linked to the
           appropriate tool call request. The specified `tool_call_id` must match
           the one received in the [Tool Call
-          message](/reference/empathic-voice-interface-evi/chat/chat#receive.Tool%20Call%20Message.type).
+          message](/reference/empathic-voice-interface-evi/chat/chat#receive.ToolCallMessage.type).
       tool_type:
         type: optional<ToolType>
         docs: >-
@@ -787,7 +787,7 @@ types:
 
 
           Upon receiving a [Tool Call
-          message](/reference/empathic-voice-interface-evi/chat/chat#receive.Tool%20Call%20Message.type)
+          message](/reference/empathic-voice-interface-evi/chat/chat#receive.ToolCallMessage.type)
           and failing to invoke the function, this message is sent to notify EVI
           of the tool's failure.
     source:
@@ -815,7 +815,7 @@ types:
           invocation, ensuring that the correct response is linked to the
           appropriate request. The specified `tool_call_id` must match the one
           received in the [Tool Call
-          message](/reference/empathic-voice-interface-evi/chat/chat#receive.Tool%20Call%20Message.tool_call_id).
+          message](/reference/empathic-voice-interface-evi/chat/chat#receive.ToolCallMessage.tool_call_id).
       tool_name:
         type: optional<string>
         docs: >-
@@ -825,7 +825,7 @@ types:
           Include this optional field to help the supplemental LLM identify
           which tool generated the response. The specified `tool_name` must
           match the one received in the [Tool Call
-          message](/reference/empathic-voice-interface-evi/chat/chat#receive.Tool%20Call%20Message.type).
+          message](/reference/empathic-voice-interface-evi/chat/chat#receive.ToolCallMessage.type).
       tool_type:
         type: optional<ToolType>
         docs: >-
@@ -839,7 +839,7 @@ types:
 
 
           Upon receiving a [Tool Call
-          message](/reference/empathic-voice-interface-evi/chat/chat#receive.Tool%20Call%20Message.type)
+          message](/reference/empathic-voice-interface-evi/chat/chat#receive.ToolCallMessage.type)
           and successfully invoking the function, this message is sent to convey
           the result of the function call back to EVI.
     source:
@@ -853,7 +853,7 @@ types:
   UserInput:
     docs: >-
       User text to insert into the conversation. Text sent through a User Input
-      message is treated as the user’s speech to EVI. EVI processes this input
+      message is treated as the user's speech to EVI. EVI processes this input
       and provides a corresponding response.
 
 
@@ -922,7 +922,7 @@ types:
         docs: >-
           Indicates if this message was inserted into the conversation as text
           from a [User
-          Input](/reference/empathic-voice-interface-evi/chat/chat#send.User%20Input.text)
+          Input](/reference/empathic-voice-interface-evi/chat/chat#send.UserInput.text)
           message.
       interim:
         type: boolean
@@ -934,7 +934,7 @@ types:
           context. Interim messages are useful to detect if the user is
           interrupting during audio playback on the client. Even without a
           finalized transcription, along with
-          [UserInterrupt](/reference/empathic-voice-interface-evi/chat/chat#receive.User%20Interruption.type)
+          [UserInterrupt](/reference/empathic-voice-interface-evi/chat/chat#receive.UserInterruption.type)
           messages, interim `UserMessages` are useful for detecting if the user
           is interrupting during audio playback on the client, signaling to stop
           playback in your application. Interim `UserMessages` will only be
@@ -960,9 +960,9 @@ types:
           This message contains both a transcript of the user’s input and the
           expression measurement predictions if the input was sent as an [Audio
           Input
-          message](/reference/empathic-voice-interface-evi/chat/chat#send.Audio%20Input.type).
+          message](/reference/empathic-voice-interface-evi/chat/chat#send.AudioInput.type).
           Expression measurement predictions are not provided for a [User Input
-          message](/reference/empathic-voice-interface-evi/chat/chat#send.User%20Input.type),
+          message](/reference/empathic-voice-interface-evi/chat/chat#send.UserInput.type),
           as the prosody model relies on audio input and cannot process text
           alone.
     source:
@@ -979,21 +979,6 @@ types:
       - type: ToolCallMessage
       - type: ToolResponseMessage
       - type: ToolErrorMessage
-    source:
-      openapi: evi-asyncapi.json
-  TtsInput:
-    properties:
-      type: optional<literal<"tts">>
-    source:
-      openapi: evi-asyncapi.json
-  TextInput:
-    properties:
-      type: optional<literal<"text_input">>
-    source:
-      openapi: evi-asyncapi.json
-  FunctionCallResponseInput:
-    properties:
-      type: optional<literal<"function_call_response">>
     source:
       openapi: evi-asyncapi.json
   HTTPValidationError:
@@ -3202,12 +3187,6 @@ types:
         docs: >-
           Duration in seconds for the timeout (e.g. 600 seconds represents 10
           minutes).
-    source:
-      openapi: evi-openapi.json
-  PostedPromptSpec:
-    docs: A Prompt associated with this Config.
-    properties:
-      version: optional<unknown>
     source:
       openapi: evi-openapi.json
   PostedVoiceProvider:

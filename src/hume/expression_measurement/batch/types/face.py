@@ -8,12 +8,6 @@ from ....core.pydantic_utilities import IS_PYDANTIC_V2
 
 
 class Face(UniversalBaseModel):
-    """
-    The Facial Emotional Expression model analyzes human facial expressions in images and videos. Results will be provided per frame for video files.
-
-    Recommended input file types: `.png`, `.jpeg`, `.mp4`
-    """
-
     fps_pred: typing.Optional[float] = pydantic.Field(default=None)
     """
     Number of frames per second to process. Other frames will be omitted from the response. Set to `0` to process every frame.
