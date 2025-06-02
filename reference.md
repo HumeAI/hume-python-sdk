@@ -12,7 +12,7 @@
 <dl>
 <dd>
 
-Synthesizes one or more input texts into speech using the specified voice. If no voice is provided,  a novel voice will be generated dynamically. Optionally, additional context can be included to influence the  speech's style and prosody. 
+Synthesizes one or more input texts into speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
 
 The response includes the base64-encoded audio and metadata in JSON format.
 </dd>
@@ -39,14 +39,14 @@ client.tts.synthesize_json(
     utterances=[
         PostedUtterance(
             text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
-            description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm,  steady tone with an articulate, academic quality.",
+            description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm, steady tone with an articulate, academic quality.",
         )
     ],
     context=PostedContextWithUtterances(
         utterances=[
             PostedUtterance(
                 text="How can people see beauty so differently?",
-                description="A curious student with a clear and respectful tone, seeking clarification on Hume's  ideas with a straightforward question.",
+                description="A curious student with a clear and respectful tone, seeking clarification on Hume's ideas with a straightforward question.",
             )
         ],
     ),
@@ -72,7 +72,7 @@ client.tts.synthesize_json(
 
 A list of **Utterances** to be converted to speech output.
 
-An **Utterance** is a unit of  input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an  optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
+An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
     
 </dd>
 </dl>
@@ -108,11 +108,11 @@ An **Utterance** is a unit of  input for [Octave](/docs/text-to-speech-tts/overv
 
 Controls how audio output is segmented in the response.
 
-- When **enabled** (`true`),  input utterances are automatically split into natural-sounding speech segments.
+- When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.
 
-- When **disabled**  (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets. 
+- When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets. 
 
-This setting affects how the `snippets` array is structured in the response, which may be important  for applications that need to track the relationship between input text and generated audio segments. When  setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
+This setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
     
 </dd>
 </dl>
@@ -131,8 +131,8 @@ This setting affects how the `snippets` array is structured in the response, whi
 **instant_mode:** `typing.Optional[bool]` 
 
 Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
-- Dynamic voice generation is not supported with this mode; a predefined  [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice)  must be specified in your request.
-- This mode is only supported for streaming endpoints (e.g.,  [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+- Dynamic voice generation is not supported with this mode; a predefined [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified in your request.
+- This mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
 - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
 - With `instant_mode` enabled, **requests incur a 10% higher cost** due to increased compute and resource requirements.
     
@@ -166,7 +166,7 @@ Enables ultra-low latency streaming, significantly reducing the time until the f
 <dl>
 <dd>
 
-Synthesizes one or more input texts into speech using the specified voice. If no voice is provided,  a novel voice will be generated dynamically. Optionally, additional context can be included to influence the  speech's style and prosody. 
+Synthesizes one or more input texts into speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody. 
 
 The response contains the generated audio file in the requested format.
 </dd>
@@ -193,7 +193,7 @@ client.tts.synthesize_file(
     utterances=[
         PostedUtterance(
             text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
-            description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm,  steady tone with an articulate, academic quality.",
+            description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm, steady tone with an articulate, academic quality.",
         )
     ],
     context=PostedContextWithGenerationId(
@@ -221,7 +221,7 @@ client.tts.synthesize_file(
 
 A list of **Utterances** to be converted to speech output.
 
-An **Utterance** is a unit of  input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an  optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
+An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
     
 </dd>
 </dl>
@@ -257,11 +257,11 @@ An **Utterance** is a unit of  input for [Octave](/docs/text-to-speech-tts/overv
 
 Controls how audio output is segmented in the response.
 
-- When **enabled** (`true`),  input utterances are automatically split into natural-sounding speech segments.
+- When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.
 
-- When **disabled**  (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets. 
+- When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets. 
 
-This setting affects how the `snippets` array is structured in the response, which may be important  for applications that need to track the relationship between input text and generated audio segments. When  setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
+This setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
     
 </dd>
 </dl>
@@ -280,8 +280,8 @@ This setting affects how the `snippets` array is structured in the response, whi
 **instant_mode:** `typing.Optional[bool]` 
 
 Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
-- Dynamic voice generation is not supported with this mode; a predefined  [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice)  must be specified in your request.
-- This mode is only supported for streaming endpoints (e.g.,  [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+- Dynamic voice generation is not supported with this mode; a predefined [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified in your request.
+- This mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
 - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
 - With `instant_mode` enabled, **requests incur a 10% higher cost** due to increased compute and resource requirements.
     
@@ -315,7 +315,7 @@ Enables ultra-low latency streaming, significantly reducing the time until the f
 <dl>
 <dd>
 
-Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be  generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
+Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
 </dd>
 </dl>
 </dd>
@@ -340,7 +340,7 @@ client.tts.synthesize_file_streaming(
     utterances=[
         PostedUtterance(
             text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
-            description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm,  steady tone with an articulate, academic quality.",
+            description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm, steady tone with an articulate, academic quality.",
         )
     ],
     context=PostedContextWithGenerationId(
@@ -368,7 +368,7 @@ client.tts.synthesize_file_streaming(
 
 A list of **Utterances** to be converted to speech output.
 
-An **Utterance** is a unit of  input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an  optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
+An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
     
 </dd>
 </dl>
@@ -404,11 +404,11 @@ An **Utterance** is a unit of  input for [Octave](/docs/text-to-speech-tts/overv
 
 Controls how audio output is segmented in the response.
 
-- When **enabled** (`true`),  input utterances are automatically split into natural-sounding speech segments.
+- When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.
 
-- When **disabled**  (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets. 
+- When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets. 
 
-This setting affects how the `snippets` array is structured in the response, which may be important  for applications that need to track the relationship between input text and generated audio segments. When  setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
+This setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
     
 </dd>
 </dl>
@@ -427,8 +427,8 @@ This setting affects how the `snippets` array is structured in the response, whi
 **instant_mode:** `typing.Optional[bool]` 
 
 Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
-- Dynamic voice generation is not supported with this mode; a predefined  [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice)  must be specified in your request.
-- This mode is only supported for streaming endpoints (e.g.,  [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+- Dynamic voice generation is not supported with this mode; a predefined [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified in your request.
+- This mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
 - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
 - With `instant_mode` enabled, **requests incur a 10% higher cost** due to increased compute and resource requirements.
     
@@ -462,7 +462,7 @@ Enables ultra-low latency streaming, significantly reducing the time until the f
 <dl>
 <dd>
 
-Streams synthesized speech using the specified voice. If no voice is provided,  a novel voice will be generated dynamically. Optionally, additional context can be included to influence the  speech's style and prosody. 
+Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody. 
 
 The response is a stream of JSON objects including audio encoded in base64.
 </dd>
@@ -489,14 +489,14 @@ response = client.tts.synthesize_json_streaming(
     utterances=[
         PostedUtterance(
             text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
-            description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm,  steady tone with an articulate, academic quality.",
+            description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm, steady tone with an articulate, academic quality.",
         )
     ],
     context=PostedContextWithUtterances(
         utterances=[
             PostedUtterance(
                 text="How can people see beauty so differently?",
-                description="A curious student with a clear and respectful tone, seeking clarification on Hume's  ideas with a straightforward question.",
+                description="A curious student with a clear and respectful tone, seeking clarification on Hume's ideas with a straightforward question.",
             )
         ],
     ),
@@ -523,7 +523,7 @@ for chunk in response:
 
 A list of **Utterances** to be converted to speech output.
 
-An **Utterance** is a unit of  input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an  optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
+An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
     
 </dd>
 </dl>
@@ -559,11 +559,11 @@ An **Utterance** is a unit of  input for [Octave](/docs/text-to-speech-tts/overv
 
 Controls how audio output is segmented in the response.
 
-- When **enabled** (`true`),  input utterances are automatically split into natural-sounding speech segments.
+- When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.
 
-- When **disabled**  (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets. 
+- When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets. 
 
-This setting affects how the `snippets` array is structured in the response, which may be important  for applications that need to track the relationship between input text and generated audio segments. When  setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
+This setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
     
 </dd>
 </dl>
@@ -582,8 +582,8 @@ This setting affects how the `snippets` array is structured in the response, whi
 **instant_mode:** `typing.Optional[bool]` 
 
 Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
-- Dynamic voice generation is not supported with this mode; a predefined  [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice)  must be specified in your request.
-- This mode is only supported for streaming endpoints (e.g.,  [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+- Dynamic voice generation is not supported with this mode; a predefined [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified in your request.
+- This mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
 - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
 - With `instant_mode` enabled, **requests incur a 10% higher cost** due to increased compute and resource requirements.
     
@@ -618,7 +618,7 @@ Enables ultra-low latency streaming, significantly reducing the time until the f
 <dl>
 <dd>
 
-Lists voices in your **Voice Library**. Set provider to `HUME_AI` to list Hume's preset voices, or to `CUSTOM_VOICE` to a custom voice created in your account.
+Lists voices you have saved in your account, or voices from the [Voice Library](https://platform.hume.ai/tts/voice-library).
 </dd>
 </dl>
 </dd>
@@ -661,7 +661,12 @@ for page in response.iter_pages():
 <dl>
 <dd>
 
-**provider:** `VoiceProvider` — Specifies whether to return custom voices created in your account or shared voices provided by Hume
+**provider:** `VoiceProvider` 
+
+Specify the voice provider to filter voices returned by the endpoint:
+
+- **`HUME_AI`**: Lists preset, shared voices from Hume's [Voice Library](https://platform.hume.ai/tts/voice-library).
+- **`CUSTOM_VOICE`**: Lists custom voices created and saved to your account.
     
 </dd>
 </dl>
@@ -725,7 +730,9 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dl>
 <dd>
 
-Creates a new voice from a specified TTS generation ID and saves it to your **Voice Library**. This allows for consistent speech style and prosody across multiple requests.
+Saves a new custom voice to your account using the specified TTS generation ID.
+
+Once saved, this voice can be reused in subsequent TTS requests, ensuring consistent speech style and prosody. For more details on voice creation, see the [Voices Guide](/docs/text-to-speech-tts/voices).
 </dd>
 </dl>
 </dd>
@@ -804,7 +811,7 @@ client.tts.voices.create(
 <dl>
 <dd>
 
-Removes a custom voice from your **Voice Library**.
+Deletes a previously generated custom voice.
 </dd>
 </dl>
 </dd>
@@ -4815,9 +4822,9 @@ client.empathic_voice.chat_groups.get_audio(
 
 **page_number:** `typing.Optional[int]` 
 
-Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+Specifies the page number to retrieve, enabling pagination.
 
-For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
     
 </dd>
 </dl>
@@ -4827,9 +4834,9 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 
 **page_size:** `typing.Optional[int]` 
 
-Specifies the page number to retrieve, enabling pagination.
+Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
 
-This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
+For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
     
 </dd>
 </dl>
@@ -5046,10 +5053,6 @@ client.expression_measurement.batch.start_inference_job(
 <dd>
 
 **models:** `typing.Optional[Models]` 
-
-Specify the models to use for inference.
-
-If this field is not explicitly set, then all models will run by default.
     
 </dd>
 </dl>
@@ -5077,7 +5080,15 @@ If you wish to supply more than 100 URLs, consider providing them as an archive 
 <dl>
 <dd>
 
-**text:** `typing.Optional[typing.Sequence[str]]` — Text supplied directly to our Emotional Language and NER models for analysis.
+**registry_files:** `typing.Optional[typing.Sequence[str]]` — List of File IDs corresponding to the files in the asset registry.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**text:** `typing.Optional[typing.Sequence[str]]` — Text to supply directly to our language and NER models.
     
 </dd>
 </dl>
