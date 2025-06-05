@@ -20,7 +20,7 @@ class AssistantInput(UniversalBaseModel):
     """
     Assistant text to synthesize into spoken audio and insert into the conversation.
     
-    EVI uses this text to generate spoken audio using our proprietary expressive text-to-speech model. Our model adds appropriate emotional inflections and tones to the text based on the user’s expressions and the context of the conversation. The synthesized audio is streamed back to the user as an [Assistant Message](/reference/empathic-voice-interface-evi/chat/chat#receive.Assistant%20Message.type).
+    EVI uses this text to generate spoken audio using our proprietary expressive text-to-speech model. Our model adds appropriate emotional inflections and tones to the text based on the user’s expressions and the context of the conversation. The synthesized audio is streamed back to the user as an [Assistant Message](/reference/empathic-voice-interface-evi/chat/chat#receive.AssistantMessage.type).
     """
 
     type: typing.Literal["assistant_input"] = pydantic.Field(default="assistant_input")

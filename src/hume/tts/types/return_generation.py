@@ -32,7 +32,7 @@ class ReturnGeneration(UniversalBaseModel):
 
     snippets: typing.List[typing.List[Snippet]] = pydantic.Field()
     """
-    A list of snippet groups where each group corresponds to an utterance in the request. Each  group contains segmented snippets that represent the original utterance divided into more natural-sounding units optimized for speech delivery.
+    A list of snippet groups where each group corresponds to an utterance in the request. Each group contains segmented snippets that represent the original utterance divided into more natural-sounding units optimized for speech delivery.
     """
 
     if IS_PYDANTIC_V2:

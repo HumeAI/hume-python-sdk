@@ -9,12 +9,6 @@ from ....core.pydantic_utilities import IS_PYDANTIC_V2
 
 
 class Language(UniversalBaseModel):
-    """
-    The Emotional Language model analyzes passages of text. This also supports audio and video files by transcribing and then directly analyzing the transcribed text.
-
-    Recommended input filetypes: `.txt`, `.mp3`, `.wav`, `.mp4`
-    """
-
     granularity: typing.Optional[Granularity] = None
     sentiment: typing.Optional[Unconfigurable] = None
     toxicity: typing.Optional[Unconfigurable] = None
