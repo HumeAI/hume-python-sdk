@@ -17,7 +17,6 @@ from .emotion_scores import EmotionScores
 from .encoding import Encoding
 from .error_level import ErrorLevel
 from .error_response import ErrorResponse
-from .function_call_response_input import FunctionCallResponseInput
 from .http_validation_error import HttpValidationError
 from .inference import Inference
 from .json_message import JsonMessage
@@ -35,7 +34,6 @@ from .posted_ellm_model import PostedEllmModel
 from .posted_event_message_spec import PostedEventMessageSpec
 from .posted_event_message_specs import PostedEventMessageSpecs
 from .posted_language_model import PostedLanguageModel
-from .posted_prompt_spec import PostedPromptSpec
 from .posted_timeout_spec import PostedTimeoutSpec
 from .posted_timeout_specs import PostedTimeoutSpecs
 from .posted_timeout_specs_inactivity import PostedTimeoutSpecsInactivity
@@ -99,13 +97,11 @@ from .return_webhook_spec import ReturnWebhookSpec
 from .role import Role
 from .session_settings import SessionSettings
 from .session_settings_variables_value import SessionSettingsVariablesValue
-from .text_input import TextInput
 from .tool import Tool
 from .tool_call_message import ToolCallMessage
 from .tool_error_message import ToolErrorMessage
 from .tool_response_message import ToolResponseMessage
 from .tool_type import ToolType
-from .tts_input import TtsInput
 from .user_input import UserInput
 from .user_interruption import UserInterruption
 from .user_message import UserMessage
@@ -137,7 +133,6 @@ __all__ = [
     "Encoding",
     "ErrorLevel",
     "ErrorResponse",
-    "FunctionCallResponseInput",
     "HttpValidationError",
     "Inference",
     "JsonMessage",
@@ -155,7 +150,6 @@ __all__ = [
     "PostedEventMessageSpec",
     "PostedEventMessageSpecs",
     "PostedLanguageModel",
-    "PostedPromptSpec",
     "PostedTimeoutSpec",
     "PostedTimeoutSpecs",
     "PostedTimeoutSpecsInactivity",
@@ -217,13 +211,11 @@ __all__ = [
     "Role",
     "SessionSettings",
     "SessionSettingsVariablesValue",
-    "TextInput",
     "Tool",
     "ToolCallMessage",
     "ToolErrorMessage",
     "ToolResponseMessage",
     "ToolType",
-    "TtsInput",
     "UserInput",
     "UserInterruption",
     "UserMessage",
