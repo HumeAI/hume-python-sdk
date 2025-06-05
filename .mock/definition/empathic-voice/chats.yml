@@ -20,6 +20,7 @@ service:
         query-parameters:
           page_number:
             type: optional<integer>
+            default: 0
             docs: >-
               Specifies the page number to retrieve, enabling pagination.
 
@@ -110,6 +111,7 @@ service:
               up to 10 items. Defaults to 10.
           page_number:
             type: optional<integer>
+            default: 0
             docs: >-
               Specifies the page number to retrieve, enabling pagination.
 

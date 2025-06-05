@@ -26,6 +26,7 @@ service:
         query-parameters:
           page_number:
             type: optional<integer>
+            default: 0
             docs: >-
               Specifies the page number to retrieve, enabling pagination.
 
@@ -333,6 +334,7 @@ service:
         query-parameters:
           page_number:
             type: optional<integer>
+            default: 0
             docs: >-
               Specifies the page number to retrieve, enabling pagination.
 
@@ -664,6 +666,7 @@ service:
       response:
         docs: Success
         type: text
+        status-code: 200
       errors:
         - root.BadRequestError
       examples:
