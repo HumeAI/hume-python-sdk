@@ -1,5 +1,5 @@
 channel:
-  path: /v0/stream/models
+  path: /models
   url: prod
   auth: false
   headers:
