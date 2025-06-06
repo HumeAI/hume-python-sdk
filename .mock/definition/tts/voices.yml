@@ -1,3 +1,10 @@
+types:
+  VoicesListRequestProvider:
+    enum:
+      - HUME_AI
+      - CUSTOM_VOICE
+    source:
+      openapi: tts-openapi.yml
 imports:
   root: __package__.yml
 service:
@@ -9,9 +16,8 @@ service:
       method: GET
       auth: true
       docs: >-
-        Lists voices in your **Voice Library**. Set provider to `HUME_AI` to
-        list Hume's preset voices, or to `CUSTOM_VOICE` to a custom voice
-        created in your account.
+        Lists voices you have saved in your account, or voices from the [Voice
+        Library](https://platform.hume.ai/tts/voice-library).
       pagination:
         offset: $request.page_number
         results: $response.voices_page
@@ -22,10 +28,17 @@ service:
         name: VoicesListRequest
         query-parameters:
           provider:
-            type: root.VoiceProvider
+            type: VoicesListRequestProvider
             docs: >-
-              Specifies whether to return custom voices created in your account
-              or shared voices provided by Hume
+              Specify the voice provider to filter voices returned by the
+              endpoint:
+
+
+              - **`HUME_AI`**: Lists preset, shared voices from Hume's [Voice
+              Library](https://platform.hume.ai/tts/voice-library).
+
+              - **`CUSTOM_VOICE`**: Lists custom voices created and saved to
+              your account.
           page_number:
             type: optional<integer>
             docs: >-
@@ -74,9 +87,13 @@ service:
       method: POST
       auth: true
       docs: >-
-        Creates a new voice from a specified TTS generation ID and saves it to
-        your **Voice Library**. This allows for consistent speech style and
-        prosody across multiple requests.
+        Saves a new custom voice to your account using the specified TTS
+        generation ID.
+
+
+        Once saved, this voice can be reused in subsequent TTS requests,
+        ensuring consistent speech style and prosody. For more details on voice
+        creation, see the [Voices Guide](/docs/text-to-speech-tts/voices).
       source:
         openapi: tts-openapi.yml
       display-name: Create voice
@@ -113,7 +130,7 @@ service:
       path: /v0/tts/voices
       method: DELETE
       auth: true
-      docs: Removes a custom voice from your **Voice Library**.
+      docs: Deletes a previously generated custom voice.
       source:
         openapi: tts-openapi.yml
       display-name: Delete voice
