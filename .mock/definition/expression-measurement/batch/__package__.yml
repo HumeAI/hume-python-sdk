@@ -449,7 +449,7 @@ types:
       - tr
       - uk
     source:
-      openapi: batch-openapi.json
+      openapi: batch-files-openapi.yml
   BoundingBox:
     docs: A bounding box around a face.
     properties:
@@ -677,7 +677,7 @@ types:
           created by each job.
         default: false
     source:
-      openapi: batch-openapi.json
+      openapi: batch-files-openapi.yml
   FacePrediction:
     properties:
       frame:
@@ -785,7 +785,7 @@ types:
       turn-level granularity for our Emotional Language model will produce
       results for the entire passage.
     source:
-      openapi: batch-openapi.json
+      openapi: batch-files-openapi.yml
   GroupedPredictionsBurstPrediction:
     properties:
       id:
@@ -900,7 +900,7 @@ types:
           completion/failure.
         default: false
     source:
-      openapi: batch-openapi.json
+      openapi: batch-files-openapi.yml
   InferencePrediction:
     properties:
       file:
@@ -1045,7 +1045,7 @@ types:
           `unknown` ID.
         default: false
     source:
-      openapi: batch-openapi.json
+      openapi: batch-files-openapi.yml
   LanguagePrediction:
     properties:
       text:
@@ -1099,7 +1099,7 @@ types:
       ner: optional<Ner>
       facemesh: optional<Unconfigurable>
     source:
-      openapi: batch-openapi.json
+      openapi: batch-files-openapi.yml
   ModelsPredictions:
     properties:
       face: optional<PredictionsOptionalNullFacePrediction>
@@ -1128,7 +1128,7 @@ types:
           `unknown` ID.
         default: false
     source:
-      openapi: batch-openapi.json
+      openapi: batch-files-openapi.yml
   NerPrediction:
     properties:
       entity:
@@ -1237,7 +1237,7 @@ types:
           `unknown` ID.
         default: false
     source:
-      openapi: batch-openapi.json
+      openapi: batch-files-openapi.yml
   ProsodyPrediction:
     properties:
       text:
@@ -1712,7 +1712,7 @@ types:
           min: 0
           max: 1
     source:
-      openapi: batch-openapi.json
+      openapi: batch-files-openapi.yml
   TranscriptionMetadata:
     docs: Transcription metadata for your media file.
     properties:
@@ -1815,4 +1815,4 @@ types:
         validation:
           min: 0.5
     source:
-      openapi: batch-openapi.json
+      openapi: batch-files-openapi.yml
