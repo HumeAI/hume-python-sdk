@@ -2,6 +2,7 @@ imports:
   root: __package__.yml
 webhooks:
   chatEnded:
+    audiences: []
     method: POST
     display-name: Chat Ended
     headers: {}
@@ -17,6 +18,7 @@ webhooks:
           event_name: chat_ended
     docs: Sent when an EVI chat ends.
   chatStarted:
+    audiences: []
     method: POST
     display-name: Chat Started
     headers: {}
