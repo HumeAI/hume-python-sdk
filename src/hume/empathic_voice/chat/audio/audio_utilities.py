@@ -4,6 +4,7 @@
 import asyncio
 from io import BytesIO
 from typing import Optional
+from exceptiongroup import ExceptionGroup
 
 from hume.core.api_error import ApiError
 

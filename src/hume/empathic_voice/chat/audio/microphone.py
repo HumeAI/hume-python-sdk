@@ -9,6 +9,7 @@ import contextlib
 import dataclasses
 import logging
 from typing import AsyncIterator, ClassVar, Iterator, List
+from exceptiongroup import ExceptionGroup
 
 from hume.core.api_error import ApiError
 from hume.empathic_voice.chat.audio.asyncio_utilities import Stream
