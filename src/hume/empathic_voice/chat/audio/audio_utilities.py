@@ -3,15 +3,19 @@
 
 import asyncio
 from io import BytesIO
+from typing import Optional
+from exceptiongroup import ExceptionGroup
 
 from hume.core.api_error import ApiError
 
+_import_error: Optional[ModuleNotFoundError] = None
 try:
     import pydub.playback
     from pydub import AudioSegment
-    _HAS_AUDIO_DEPENDENCIES = True
-except ModuleNotFoundError:
-    _HAS_AUDIO_DEPENDENCIES = False
+except ModuleNotFoundError as e:
+    _import_error = e
+
+
 
 
 # NOTE:
@@ -26,7 +30,7 @@ async def play_audio(byte_str: bytes) -> None:
     Args:
         byte_str (bytes): Byte string of audio data.
     """
-    if not _HAS_AUDIO_DEPENDENCIES:
-        raise ApiError(body='Run `pip install "hume[microphone]"` to install dependencies required to use audio playback.')
+    if _import_error:
+        raise ExceptionGroup('Run `pip install "hume[microphone]"` to install dependencies required to use audio playback.', [_import_error])
     segment = AudioSegment.from_file(BytesIO(byte_str)) # type: ignore
     await asyncio.to_thread(pydub.playback.play, segment)

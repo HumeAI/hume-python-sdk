@@ -8,22 +8,26 @@ import asyncio
 import contextlib
 import dataclasses
 import logging
-from typing import AsyncIterator, ClassVar, Iterator
+from typing import AsyncIterator, ClassVar, Iterator, List
+from exceptiongroup import ExceptionGroup
 
 from hume.core.api_error import ApiError
 from hume.empathic_voice.chat.audio.asyncio_utilities import Stream
 
+_FAILED_IMPORTS: List[ModuleNotFoundError] = []
+
 try:
     import _cffi_backend as cffi_backend # type: ignore
-    import sounddevice # type: ignore
     from _cffi_backend import \
         _CDataBase as CDataBase  # pylint: disable=no-name-in-module
-    from sounddevice import CallbackFlags, RawInputStream
+except ModuleNotFoundError as e:
+    _FAILED_IMPORTS.append(e)
 
-    _HAS_AUDIO_DEPENDENCIES = True
-except ModuleNotFoundError:
-    _HAS_AUDIO_DEPENDENCIES = False
-
+try:
+    import sounddevice # type: ignore
+    from sounddevice import CallbackFlags, RawInputStream # type: ignore
+except ModuleNotFoundError as e:
+    _FAILED_IMPORTS.append(e)
 
 logger = logging.getLogger(__name__)
 
@@ -50,8 +54,8 @@ class Microphone:
         Args:
             device (int | None): Input device ID.
         """
-        if not _HAS_AUDIO_DEPENDENCIES:
-            raise ApiError(body='Run `pip install "hume[microphone]"` to install dependencies required to use microphone playback.')
+        if _FAILED_IMPORTS:
+            raise ExceptionGroup("Importing audio libraries failed. Ensure you have installed the hume[microphone] extra `pip install 'hume[microphone]'` to use audio features.", _FAILED_IMPORTS)
 
         if device is None:
             device = sounddevice.default.device[0]
