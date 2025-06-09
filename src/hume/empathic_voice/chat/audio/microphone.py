@@ -24,8 +24,8 @@ except ModuleNotFoundError as e:
     _FAILED_IMPORTS.append(e)
 
 try:
-    import sounddevice
-    from sounddevice import CallbackFlags, RawInputStream
+    import sounddevice # type: ignore
+    from sounddevice import CallbackFlags, RawInputStream # type: ignore
 except ModuleNotFoundError as e:
     _FAILED_IMPORTS.append(e)
 
