@@ -291,7 +291,7 @@ Enables ultra-low latency streaming, significantly reducing the time until the f
 <dl>
 <dd>
 
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
     
 </dd>
 </dl>
@@ -438,7 +438,7 @@ Enables ultra-low latency streaming, significantly reducing the time until the f
 <dl>
 <dd>
 
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
     
 </dd>
 </dl>
@@ -502,7 +502,7 @@ response = client.tts.synthesize_json_streaming(
     ),
     format=FormatMp3(),
 )
-for chunk in response:
+for chunk in response.data:
     yield chunk
 
 ```
