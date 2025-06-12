@@ -43,16 +43,6 @@ def _wav_info(blob: "ReadableBuffer") -> tuple[bytes, int, int]:
         return wf.readframes(nframes), rate, nch
 
 
-def _open_stream(sample_rate: int, n_channels: int, callback=None, on_done=None):
-    return sd.RawOutputStream(
-        samplerate=sample_rate,
-        channels=n_channels,
-        dtype=_S16_DTYPE,
-        callback=callback,
-        finished_callback=on_done,
-    )
-
-
 async def play_audio(blob: bytes) -> None:
     async def _one_chunk():
         yield blob
@@ -79,18 +69,18 @@ async def _stream_pcm(
     """Generic PCM player: pulls raw PCM from chunks and plays via sounddevice."""
     _need_deps()
     loop = asyncio.get_running_loop()
-    done_evt = asyncio.Event()
+    done_event = asyncio.Event()
 
     def finished():
-        loop.call_soon_threadsafe(done_evt.set)
+        loop.call_soon_threadsafe(done_event.set)
 
-    pcm_q: queue.Queue[Optional[bytes]] = queue.Queue(maxsize=8)
+    pcm_queue: queue.Queue[Optional[bytes]] = queue.Queue(maxsize=8)
 
     # pump PCM into the queue
     async def feeder():
         async for data in pcm_chunks:
-            pcm_q.put(data)
-        pcm_q.put(None)
+            pcm_queue.put(data)
+        pcm_queue.put(None)
 
     # consume queue in sounddevice callback
     async def player():
@@ -99,15 +89,20 @@ async def _stream_pcm(
             nonlocal buf
             need = frames * n_channels * _BYTES_PER_SAMP
             while len(buf) < need:
-                part = pcm_q.get()
+                part = pcm_queue.get()
                 if part is None:
                     raise sd.CallbackStop
                 buf += part
             outdata[:] = buf[:need]
             buf = buf[need:]
 
-        with _open_stream(sample_rate, n_channels, callback=cb, on_done=finished):
-            await done_evt.wait()
+        with sd.RawOutputStream(
+          samplerate=sample_rate,
+          channels=n_channels,
+          dtype=_S16_DTYPE,
+          callback=cb,
+          on_done=finished):
+            await done_event.wait()
 
     await asyncio.gather(feeder(), player())
 
@@ -118,11 +113,11 @@ async def _stream_pcm_raw(
     n_channels: int,
 ) -> None:
     """Stream raw PCM data by creating a proper PCM generator like WAV/MP3 do."""
-    ait = chunks.__aiter__()
+    iterator = chunks.__aiter__()
     
     async def pcm_gen():
         yield first
-        async for chunk in ait:
+        async for chunk in iterator:
             yield chunk
     
     await _stream_pcm(pcm_gen(), sample_rate, n_channels)
@@ -133,15 +128,15 @@ async def _stream_wav(
 ) -> None:
     # build header + ensure we have 44 bytes
     header = bytearray(first)
-    ait = chunks.__aiter__()
+    iterator = chunks.__aiter__()
     while len(header) < 44:
-        header.extend(await anext(ait))
+        header.extend(await anext(iterator))
 
     frames0, sample_rate, n_channels = _wav_info(header)
 
     async def pcm_gen():
         yield frames0
-        async for c in ait:
+        async for c in iterator:
             yield c
 
     await _stream_pcm(pcm_gen(), sample_rate, n_channels)
@@ -160,18 +155,18 @@ async def _stream_mp3(
         stdout=asyncio.subprocess.PIPE,
     )
 
-    ait = chunks.__aiter__()
+    iterator = chunks.__aiter__()
 
     # feed MP3 into ffmpeg
     async def feed():
         assert proc.stdin
         proc.stdin.write(first)
-        async for chunk in ait:
+        async for chunk in iterator:
             proc.stdin.write(chunk)
             await proc.stdin.drain()
         proc.stdin.close()
 
-    async def pcm_gen():
+    async def pcm_generator():
         assert proc.stdout
         # start feeding in background
         feed_task = asyncio.create_task(feed())
@@ -184,5 +179,5 @@ async def _stream_mp3(
         await feed_task
         await proc.wait()
 
-    await _stream_pcm(pcm_gen(), 48_000, 2)
+    await _stream_pcm(pcm_generator(), 48_000, 2)
 
