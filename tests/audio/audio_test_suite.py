@@ -38,7 +38,7 @@ def detect_environment():
     # Audio dependencies
     print("\nAudio Dependencies:")
     try:
-        import sounddevice as sd
+        import sounddevice as sd  # type: ignore
         print(f"✅ sounddevice {sd.__version__}")
         
         # Audio backend info
@@ -76,7 +76,7 @@ def detect_environment():
     
     # CFFI backend (required by sounddevice)
     try:
-        import _cffi_backend
+        import _cffi_backend  # type: ignore
         print("✅ CFFI backend available")
     except ImportError:
         print("❌ CFFI backend missing")
