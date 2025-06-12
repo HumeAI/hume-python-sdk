@@ -14,7 +14,6 @@ from pathlib import Path
 from hume.empathic_voice.chat.audio.audio_utilities import play_audio, play_audio_streaming  
 from hume.empathic_voice.chat.audio.microphone import Microphone
 from hume.empathic_voice.chat.audio.microphone_sender import MicrophoneSender
-from hume.empathic_voice.chat.socket_client import ChatWebsocketConnection
 
 def detect_environment():
     """Detect and print environment information relevant to audio functionality."""
@@ -208,16 +207,18 @@ async def test_7_sender():
     """Test 7: MicrophoneSender with mock socket."""
     print("\n🎙️ TEST 7: Microphone Sender (5s)")
     
-    class MockSocket(ChatWebsocketConnection):
-        def __init__(self):
-            pass
+    chunks_collected = []
+    
+    class MockSocket:
         async def _send(self, data: bytes):
-            print(f"MockSocket: Sending {len(data)} bytes")
-            await play_audio(data)  # Play raw PCM directly
+            chunks_collected.append(data)
     
     with Microphone.context() as mic:
+        print(f"Recording at {mic.sample_rate}Hz, {mic.num_channels} channels")
         sender = MicrophoneSender.new(microphone=mic, allow_interrupt=True)
         socket = MockSocket()
+        
+        print("Recording...")
         try:
             task = asyncio.create_task(sender.send(socket=socket))
             await asyncio.sleep(5.0)
@@ -225,7 +226,18 @@ async def test_7_sender():
             await task
         except asyncio.CancelledError:
             pass
-    assert ask("Did you hear real-time playback?")
+        
+        # Play back all collected chunks
+        if chunks_collected:
+            print("Playing back recorded audio...")
+            from hume.empathic_voice.chat.audio.audio_utilities import _stream_pcm
+            
+            async def collected_chunks():
+                yield b''.join(chunks_collected)
+                
+            await _stream_pcm(collected_chunks(), mic.sample_rate, mic.num_channels)
+        
+    assert ask("Did you hear your voice played back after recording?")
 
 async def main():
     if len(sys.argv) > 1 and sys.argv[1] == "--list":
