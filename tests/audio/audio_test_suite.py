@@ -15,6 +15,49 @@ from hume.empathic_voice.chat.audio.audio_utilities import play_audio, play_audi
 from hume.empathic_voice.chat.audio.microphone import Microphone
 from hume.empathic_voice.chat.audio.microphone_sender import MicrophoneSender
 
+def select_audio_device():
+    """Let user select audio output device."""
+    try:
+        import sounddevice as sd  # type: ignore
+        
+        devices = sd.query_devices()
+        output_devices = [(i, d) for i, d in enumerate(devices) if d['max_output_channels'] > 0]
+        
+        if not output_devices:
+            print("❌ No output devices found")
+            return None
+            
+        print("\n🔊 Available Audio Output Devices:")
+        print("=" * 40)
+        
+        for i, (device_id, device) in enumerate(output_devices):
+            default_marker = " (default)" if device_id == sd.default.device[1] else ""
+            print(f"{i}: {device['name']}{default_marker}")
+        
+        print(f"{len(output_devices)}: Use system default")
+        
+        while True:
+            try:
+                choice = input(f"\nSelect device (0-{len(output_devices)}): ").strip()
+                choice_num = int(choice)
+                
+                if choice_num == len(output_devices):
+                    print("Using system default device")
+                    return None
+                elif 0 <= choice_num < len(output_devices):
+                    device_id, device = output_devices[choice_num]
+                    print(f"Selected: {device['name']}")
+                    return device_id
+                else:
+                    print(f"Invalid choice. Enter 0-{len(output_devices)}")
+            except (ValueError, KeyboardInterrupt):
+                print("\nUsing system default device")
+                return None
+                
+    except ImportError:
+        print("❌ sounddevice not available")
+        return None
+
 def detect_environment():
     """Detect and print environment information relevant to audio functionality."""
     print("🔍 Environment Detection")
@@ -132,10 +175,10 @@ def ask(question: str) -> bool:
     finally:
         termios.tcsetattr(fd, termios.TCSADRAIN, old)
 
-async def play_file(path: str):
+async def play_file(path: str, device=None):
     """Play any audio file."""
     with open(path, 'rb') as f:
-        await play_audio(f.read())
+        await play_audio(f.read(), device=device)
 
 async def chunks_from_file(path: str):
     """Split file into chunks for streaming."""
@@ -146,35 +189,35 @@ async def chunks_from_file(path: str):
         yield data[i:i+chunk_size]
         await asyncio.sleep(0.2)
 
-async def test_1_wav():
+async def test_1_wav(device=None):
     """Test 1: WAV playback.""" 
     print("\n🎵 TEST 1: WAV Format")
-    await play_file("sample.wav")
+    await play_file("sample.wav", device=device)
     assert ask("Did WAV file play correctly?")
 
-async def test_2_mp3():
+async def test_2_mp3(device=None):
     """Test 2: MP3 playback.""" 
     print("\n🎵 TEST 2: MP3 Format")
-    await play_file("sample.mp3")
+    await play_file("sample.mp3", device=device)
     assert ask("Did MP3 file play correctly?")
 
-async def test_3_pcm():
+async def test_3_pcm(device=None):
     """Test 3: PCM playback.""" 
     print("\n🎵 TEST 3: PCM Format")
-    await play_file("sample.pcm")
+    await play_file("sample.pcm", device=device)
     assert ask("Did PCM file play correctly?")
 
-async def test_4_streaming():
+async def test_4_streaming(device=None):
     """Test 4: Streaming playback."""
     print("\n🚀 TEST 4: Streaming")
-    await play_audio_streaming(chunks_from_file("sample.wav"))
+    await play_audio_streaming(chunks_from_file("sample.wav"), device=device)
     assert ask("Did streaming work without gaps?")
 
-async def test_5_cancellation():
+async def test_5_cancellation(device=None):
     """Test 5: Audio cancellation."""
     print("\n⏹️ TEST 5: Cancellation (stopping in 2s)")
     try:
-        task = asyncio.create_task(play_audio_streaming(chunks_from_file("sample.wav")))
+        task = asyncio.create_task(play_audio_streaming(chunks_from_file("sample.wav"), device=device))
         await asyncio.sleep(2.0)
         task.cancel()
         await task
@@ -182,7 +225,7 @@ async def test_5_cancellation():
         pass
     assert ask("Did cancellation work cleanly?")
 
-async def test_6_recording():
+async def test_6_recording(device=None):
     """Test 6: Recording with playback."""
     print("\n🎤 TEST 6: Recording (5s)")
     chunks = []
@@ -200,10 +243,10 @@ async def test_6_recording():
         async def recorded_chunks():
             yield b''.join(chunks)
             
-        await _stream_pcm(recorded_chunks(), mic.sample_rate, mic.num_channels)
+        await _stream_pcm(recorded_chunks(), mic.sample_rate, mic.num_channels, device=device)
     assert ask("Did recording and playback work?")
 
-async def test_7_sender():
+async def test_7_sender(device=None):
     """Test 7: MicrophoneSender with mock socket."""
     print("\n🎙️ TEST 7: Microphone Sender (5s)")
     
@@ -235,7 +278,7 @@ async def test_7_sender():
             async def collected_chunks():
                 yield b''.join(chunks_collected)
                 
-            await _stream_pcm(collected_chunks(), mic.sample_rate, mic.num_channels)
+            await _stream_pcm(collected_chunks(), mic.sample_rate, mic.num_channels, device=device)
         
     assert ask("Did you hear your voice played back after recording?")
 
@@ -246,6 +289,9 @@ async def main():
     
     # Print environment information
     detect_environment()
+    
+    # Let user select audio device
+    selected_device = select_audio_device()
         
     files = ["sample.wav", "sample.mp3", "sample.pcm"]
     missing = [f for f in files if not Path(f).exists()]
@@ -258,11 +304,11 @@ async def main():
     if len(sys.argv) > 1:
         # Run specific tests
         for arg in sys.argv[1:]:
-            await tests[int(arg)-1]()
+            await tests[int(arg)-1](device=selected_device)
     else:
         # Run all tests
         for test in tests:
-            await test()
+            await test(device=selected_device)
     
     print("✅ All tests completed!")
 

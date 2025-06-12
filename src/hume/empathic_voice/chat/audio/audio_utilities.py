@@ -43,28 +43,30 @@ def _wav_info(blob: "ReadableBuffer") -> tuple[bytes, int, int]:
         return wf.readframes(nframes), rate, nch
 
 
-async def play_audio(blob: bytes) -> None:
+async def play_audio(blob: bytes, device: Optional[int] = None) -> None:
     async def _one_chunk():
         yield blob
-    await play_audio_streaming(_one_chunk().__aiter__())
+    await play_audio_streaming(_one_chunk().__aiter__(), device=device)
 
 async def play_audio_streaming(
     chunks: AsyncIterable[bytes],
+    device: Optional[int] = None,
 ) -> None:
     _need_deps()
     first = await anext(chunks.__aiter__())          # may raise StopAsyncIteration
 
     if _looks_like_mp3(first):
-        await _stream_mp3(chunks, first)
+        await _stream_mp3(chunks, first, device=device)
     elif _looks_like_wav(first):
-        await _stream_wav(chunks, first)
+        await _stream_wav(chunks, first, device=device)
     else:
-        await _stream_pcm_raw(chunks, first, 48000, 1)
+        await _stream_pcm_raw(chunks, first, 48000, 1, device=device)
 
 async def _stream_pcm(
     pcm_chunks: AsyncIterable[bytes],
     sample_rate: int,
     n_channels: int,
+    device: Optional[int] = None,
 ) -> None:
     """Generic PCM player: pulls raw PCM from chunks and plays via sounddevice."""
     _need_deps()
@@ -101,6 +103,7 @@ async def _stream_pcm(
           channels=n_channels,
           dtype=_S16_DTYPE,
           callback=cb,
+          device=device,
           on_done=finished):
             await done_event.wait()
 
@@ -111,6 +114,7 @@ async def _stream_pcm_raw(
     first: bytes,
     sample_rate: int,
     n_channels: int,
+    device: Optional[int] = None,
 ) -> None:
     """Stream raw PCM data by creating a proper PCM generator like WAV/MP3 do."""
     iterator = chunks.__aiter__()
@@ -120,11 +124,12 @@ async def _stream_pcm_raw(
         async for chunk in iterator:
             yield chunk
     
-    await _stream_pcm(pcm_gen(), sample_rate, n_channels)
+    await _stream_pcm(pcm_gen(), sample_rate, n_channels, device=device)
 
 async def _stream_wav(
     chunks: AsyncIterable[bytes],
     first: bytes,
+    device: Optional[int] = None,
 ) -> None:
     # build header + ensure we have 44 bytes
     header = bytearray(first)
@@ -139,11 +144,12 @@ async def _stream_wav(
         async for c in iterator:
             yield c
 
-    await _stream_pcm(pcm_gen(), sample_rate, n_channels)
+    await _stream_pcm(pcm_gen(), sample_rate, n_channels, device=device)
 
 async def _stream_mp3(
     chunks: AsyncIterable[bytes],
     first: bytes,
+    device: Optional[int] = None,
 ) -> None:
     cmd = (
         "ffmpeg -hide_banner -loglevel error -i pipe:0 "
@@ -179,5 +185,5 @@ async def _stream_mp3(
         await feed_task
         await proc.wait()
 
-    await _stream_pcm(pcm_generator(), 48_000, 2)
+    await _stream_pcm(pcm_generator(), 48_000, 2, device=device)
 
