@@ -69,7 +69,7 @@ async def play_audio_streaming(
     elif _looks_like_wav(first):
         await _stream_wav(chunks, first)
     else:
-        await _stream_pcm(chunks, 48000, 1)
+        await _stream_pcm_raw(chunks, first, 48000, 1)
 
 async def _stream_pcm(
     pcm_chunks: AsyncIterable[bytes],
@@ -110,6 +110,22 @@ async def _stream_pcm(
             await done_evt.wait()
 
     await asyncio.gather(feeder(), player())
+
+async def _stream_pcm_raw(
+    chunks: AsyncIterable[bytes],
+    first: bytes,
+    sample_rate: int,
+    n_channels: int,
+) -> None:
+    """Stream raw PCM data by creating a proper PCM generator like WAV/MP3 do."""
+    ait = chunks.__aiter__()
+    
+    async def pcm_gen():
+        yield first
+        async for chunk in ait:
+            yield chunk
+    
+    await _stream_pcm(pcm_gen(), sample_rate, n_channels)
 
 async def _stream_wav(
     chunks: AsyncIterable[bytes],
