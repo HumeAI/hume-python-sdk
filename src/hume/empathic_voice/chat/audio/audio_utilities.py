@@ -49,14 +49,13 @@ async def play_audio(blob: bytes, device: Optional[int] = None) -> None:
     await play_audio_streaming(_one_chunk().__aiter__(), device=device)
 
 
-
-
 async def play_audio_streaming(
     chunks: AsyncIterable[bytes],
     device: Optional[int] = None,
 ) -> None:
     _need_deps()
-    first = await anext(chunks.__aiter__())          # may raise StopAsyncIteration
+    iterator = chunks.__aiter__()
+    first = await iterator.__anext__()
 
     if _looks_like_mp3(first):
         await _stream_mp3(chunks, first, device=device)
@@ -125,7 +124,7 @@ async def _stream_wav(
     header = bytearray(first)
     iterator = chunks.__aiter__()
     while len(header) < 44:
-        header.extend(await anext(iterator))
+        header.extend(await iterator.__anext__())
 
     frames0, sample_rate, n_channels = _wav_info(header)
 
