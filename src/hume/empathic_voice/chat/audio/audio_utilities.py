@@ -48,6 +48,9 @@ async def play_audio(blob: bytes, device: Optional[int] = None) -> None:
         yield blob
     await play_audio_streaming(_one_chunk().__aiter__(), device=device)
 
+
+
+
 async def play_audio_streaming(
     chunks: AsyncIterable[bytes],
     device: Optional[int] = None,
@@ -60,7 +63,11 @@ async def play_audio_streaming(
     elif _looks_like_wav(first):
         await _stream_wav(chunks, first, device=device)
     else:
-        await _stream_pcm_raw(chunks, first, 48000, 1, device=device)
+        async def _reassembled():
+            yield first
+            async for chunk in chunks:
+                yield chunk
+        await _stream_pcm(_reassembled(), 48000, 1, device=device)
 
 async def _stream_pcm(
     pcm_chunks: AsyncIterable[bytes],
@@ -104,27 +111,10 @@ async def _stream_pcm(
           dtype=_S16_DTYPE,
           callback=cb,
           device=device,
-          on_done=finished):
+          finished_callback=finished):
             await done_event.wait()
 
     await asyncio.gather(feeder(), player())
-
-async def _stream_pcm_raw(
-    chunks: AsyncIterable[bytes],
-    first: bytes,
-    sample_rate: int,
-    n_channels: int,
-    device: Optional[int] = None,
-) -> None:
-    """Stream raw PCM data by creating a proper PCM generator like WAV/MP3 do."""
-    iterator = chunks.__aiter__()
-    
-    async def pcm_gen():
-        yield first
-        async for chunk in iterator:
-            yield chunk
-    
-    await _stream_pcm(pcm_gen(), sample_rate, n_channels, device=device)
 
 async def _stream_wav(
     chunks: AsyncIterable[bytes],
