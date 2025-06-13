@@ -9,11 +9,16 @@ Usage:
     python tests/audio/audio_test_suite.py [test_numbers...]
 """
 
-import asyncio, sys, time, termios, tty, platform, shutil, subprocess
+import asyncio, sys, time, termios, tty, platform, shutil, subprocess, os
 from pathlib import Path
-from hume.empathic_voice.chat.audio.audio_utilities import play_audio, play_audio_streaming  
+from hume.empathic_voice.chat.audio.audio_utilities import play_audio # play_audio_streaming  
 from hume.empathic_voice.chat.audio.microphone import Microphone
 from hume.empathic_voice.chat.audio.microphone_sender import MicrophoneSender
+
+test_dir = os.path.dirname(os.path.abspath(__file__))
+WAV_SAMPLE = str(Path(test_dir) / "sample.wav")
+MP3_SAMPLE = str(Path(test_dir) / "sample.mp3")
+PCM_SAMPLE = str(Path(test_dir) / "sample.pcm")
 
 def select_audio_device():
     """Let user select audio output device."""
@@ -192,32 +197,32 @@ async def chunks_from_file(path: str):
 async def test_1_wav(device=None):
     """Test 1: WAV playback.""" 
     print("\n🎵 TEST 1: WAV Format")
-    await play_file("sample.wav", device=device)
+    await play_file(WAV_SAMPLE, device=device)
     assert ask("Did WAV file play correctly?")
 
 async def test_2_mp3(device=None):
     """Test 2: MP3 playback.""" 
     print("\n🎵 TEST 2: MP3 Format")
-    await play_file("sample.mp3", device=device)
+    await play_file(MP3_SAMPLE, device=device)
     assert ask("Did MP3 file play correctly?")
 
 async def test_3_pcm(device=None):
     """Test 3: PCM playback.""" 
     print("\n🎵 TEST 3: PCM Format")
-    await play_file("sample.pcm", device=device)
+    await play_file(PCM_SAMPLE, device=device)
     assert ask("Did PCM file play correctly?")
 
 async def test_4_streaming(device=None):
     """Test 4: Streaming playback."""
     print("\n🚀 TEST 4: Streaming")
-    await play_audio_streaming(chunks_from_file("sample.wav"), device=device)
+    await play_audio_streaming(chunks_from_file(WAV_SAMPLE), device=device)
     assert ask("Did streaming work without gaps?")
 
 async def test_5_cancellation(device=None):
     """Test 5: Audio cancellation."""
     print("\n⏹️ TEST 5: Cancellation (stopping in 2s)")
     try:
-        task = asyncio.create_task(play_audio_streaming(chunks_from_file("sample.wav"), device=device))
+        task = asyncio.create_task(play_audio_streaming(chunks_from_file(WAV_SAMPLE), device=device))
         await asyncio.sleep(2.0)
         task.cancel()
         await task
@@ -292,12 +297,6 @@ async def main():
     
     # Let user select audio device
     selected_device = select_audio_device()
-        
-    files = ["sample.wav", "sample.mp3", "sample.pcm"]
-    missing = [f for f in files if not Path(f).exists()]
-    if missing:
-        print(f"❌ Missing: {missing}")
-        return
         
     tests = [test_1_wav, test_2_mp3, test_3_pcm, test_4_streaming, test_5_cancellation, test_6_recording, test_7_sender]
     
