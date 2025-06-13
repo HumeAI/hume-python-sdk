@@ -96,7 +96,7 @@ class BatchClientWithUtils(BatchClient):
         if json is not None:
             files["json"] = jsonlib.dumps(jsonable_encoder(json)).encode("utf-8")
 
-        _response = self._client_wrapper.httpx_client.request(
+        _response = self._raw_client._client_wrapper.httpx_client.request(
             "v0/batch/jobs",
             method="POST",
             files=files,
@@ -201,7 +201,7 @@ class AsyncBatchClientWithUtils(AsyncBatchClient):
         if json is not None:
             files["json"] = jsonlib.dumps(jsonable_encoder(json)).encode("utf-8")
 
-        _response = await self._client_wrapper.httpx_client.request(
+        _response = await self._raw_client._client_wrapper.httpx_client.request(
             "v0/batch/jobs",
             method="POST",
             files=files,

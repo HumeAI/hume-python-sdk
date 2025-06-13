@@ -202,6 +202,7 @@ service:
               type: optional<list<optional<root.PostedBuiltinTool>>>
               docs: List of built-in tools associated with this Config.
             event_messages: optional<root.PostedEventMessageSpecs>
+            nudges: optional<root.PostedNudgeSpec>
             timeouts: optional<root.PostedTimeoutSpecs>
             webhooks:
               type: optional<list<optional<root.PostedWebhookSpec>>>
@@ -505,6 +506,7 @@ service:
               docs: List of built-in tools associated with this Config version.
             event_messages: optional<root.PostedEventMessageSpecs>
             timeouts: optional<root.PostedTimeoutSpecs>
+            nudges: optional<root.PostedNudgeSpec>
             webhooks:
               type: optional<list<optional<root.PostedWebhookSpec>>>
               docs: Webhook config specifications for each subscriber.

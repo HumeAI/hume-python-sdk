@@ -80,6 +80,20 @@ An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overvi
 <dl>
 <dd>
 
+**access_token:** `typing.Optional[str]` 
+
+Access token used for authenticating the client. If not provided, an `api_key` must be provided to authenticate.
+
+The access token is generated using both an API key and a Secret key, which provides an additional layer of security compared to using just an API key.
+
+For more details, refer to the [Authentication Strategies Guide](/docs/introduction/api-key#authentication-strategies).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **context:** `typing.Optional[PostedContext]` — Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
     
 </dd>
@@ -291,7 +305,7 @@ Enables ultra-low latency streaming, significantly reducing the time until the f
 <dl>
 <dd>
 
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
     
 </dd>
 </dl>
@@ -438,7 +452,7 @@ Enables ultra-low latency streaming, significantly reducing the time until the f
 <dl>
 <dd>
 
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
     
 </dd>
 </dl>
@@ -502,7 +516,7 @@ response = client.tts.synthesize_json_streaming(
     ),
     format=FormatMp3(),
 )
-for chunk in response:
+for chunk in response.data:
     yield chunk
 
 ```
@@ -3371,6 +3385,14 @@ Hume's eLLM (empathic Large Language Model) is a multimodal language model that 
 <dl>
 <dd>
 
+**nudges:** `typing.Optional[PostedNudgeSpec]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **timeouts:** `typing.Optional[PostedTimeoutSpecs]` 
     
 </dd>
@@ -3689,6 +3711,14 @@ Hume's eLLM (empathic Large Language Model) is a multimodal language model that 
 <dd>
 
 **timeouts:** `typing.Optional[PostedTimeoutSpecs]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**nudges:** `typing.Optional[PostedNudgeSpec]` 
     
 </dd>
 </dl>
