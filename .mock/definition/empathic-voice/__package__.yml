@@ -1182,6 +1182,7 @@ types:
       - USER_TIMEOUT
       - INACTIVITY_TIMEOUT
       - MAX_DURATION_TIMEOUT
+      - SILENCE_TIMEOUT
       - ERROR
     source:
       openapi: evi-openapi.json
@@ -1869,6 +1870,7 @@ types:
         docs: List of built-in tools associated with this Config.
       event_messages: optional<ReturnEventMessageSpecs>
       timeouts: optional<ReturnTimeoutSpecs>
+      nudges: optional<ReturnNudgeSpec>
       webhooks:
         type: optional<list<optional<ReturnWebhookSpec>>>
         docs: Map of webhooks associated with this config.
@@ -2564,6 +2566,17 @@ types:
           the time limit for the chat has been reached.
     source:
       openapi: evi-openapi.json
+  PostedNudgeSpec:
+    docs: A nudge specification posted to the server
+    properties:
+      enabled:
+        type: optional<boolean>
+        docs: EVI will nudge user after inactivity
+      interval_secs:
+        type: optional<integer>
+        docs: Time interval in seconds after which the nudge will be sent.
+    source:
+      openapi: evi-openapi.json
   PostedTimeoutSpecsInactivity:
     docs: >-
       Specifies the duration of user inactivity (in seconds) after which the EVI
@@ -2813,6 +2826,17 @@ types:
 
           Accepts a minimum value of 30 seconds and a maximum value of 1,800
           seconds.
+    source:
+      openapi: evi-openapi.json
+  ReturnNudgeSpec:
+    docs: A specific nudge configuration returned from the server
+    properties:
+      enabled:
+        type: boolean
+        docs: EVI will nudge user after inactivity
+      interval_secs:
+        type: optional<integer>
+        docs: Time interval in seconds after which the nudge will be sent.
     source:
       openapi: evi-openapi.json
   ReturnWebhookEventType:
