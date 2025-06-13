@@ -34,6 +34,23 @@ service:
       request:
         body:
           type: PostedTts
+        query-parameters:
+          access_token:
+            type: optional<string>
+            default: ''
+            docs: >-
+              Access token used for authenticating the client. If not provided,
+              an `api_key` must be provided to authenticate.
+
+
+              The access token is generated using both an API key and a Secret
+              key, which provides an additional layer of security compared to
+              using just an API key.
+
+
+              For more details, refer to the [Authentication Strategies
+              Guide](/docs/introduction/api-key#authentication-strategies).
+        name: SynthesizeJsonRequest
         content-type: application/json
       response:
         docs: Successful Response
@@ -443,6 +460,11 @@ types:
       text:
         type: string
         docs: The text for this **Snippet**.
+      transcribed_text:
+        type: optional<string>
+        docs: >-
+          The transcribed text of the generated audio. It is only present if
+          `instant_mode` is set to `false`.
       utterance_index:
         type: optional<integer>
         docs: The index of the utterance in the request this snippet corresponds to.
@@ -472,6 +494,12 @@ types:
       text:
         type: string
         docs: The text of the parent snippet that this chunk corresponds to.
+      transcribed_text:
+        type: optional<string>
+        docs: >-
+          The transcribed text of the generated audio of the parent snippet that
+          this chunk corresponds to. It is only present if `instant_mode` is set
+          to `false`.
       utterance_index:
         type: optional<integer>
         docs: >-
