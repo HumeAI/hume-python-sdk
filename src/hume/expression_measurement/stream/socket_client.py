@@ -211,9 +211,10 @@ class AsyncStreamClientWithWebsocket:
         if api_key is None:
             raise ValueError("An API key is required to connect to the streaming API.")
 
+        base = self.client_wrapper.get_base_url().replace('https://', 'wss://').replace('http://', 'ws://')
         try:
             async with websockets.connect(  # type: ignore[attr-defined]
-                "wss://api.hume.ai/v0/stream/models",
+                f"{base}/v0/stream/models",
                 extra_headers={
                     **self.client_wrapper.get_headers(include_auth=False),
                     "X-Hume-Api-Key": api_key,

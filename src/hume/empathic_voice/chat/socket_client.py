@@ -231,7 +231,8 @@ class AsyncChatClientWithWebsocket:
         elif api_key is not None:
             query_params = query_params.add("apiKey", api_key)
 
-        return f"wss://api.hume.ai/v0/evi/chat?{query_params}"
+        base = self.client_wrapper.get_base_url().replace('https://', 'wss://').replace('http://', 'ws://')
+        return f"{base}/v0/evi/chat?{query_params}"
 
     @asynccontextmanager
     async def connect(
@@ -378,7 +379,7 @@ class AsyncChatClientWithWebsocket:
         encoded_auth = base64.b64encode(auth.encode()).decode()
         _response = await self.client_wrapper.httpx_client.request(
             method="POST",
-            base_url="https://api.hume.ai/",
+            base_url=self.client_wrapper.get_base_url(),
             path="oauth2-cc/token",
             headers={"Authorization": f"Basic {encoded_auth}"},
             data={"grant_type": "client_credentials"},
