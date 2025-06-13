@@ -1182,6 +1182,7 @@ types:
       - USER_TIMEOUT
       - INACTIVITY_TIMEOUT
       - MAX_DURATION_TIMEOUT
+      - SILENCE_TIMEOUT
       - ERROR
     source:
       openapi: evi-openapi.json
@@ -1869,6 +1870,7 @@ types:
         docs: List of built-in tools associated with this Config.
       event_messages: optional<ReturnEventMessageSpecs>
       timeouts: optional<ReturnTimeoutSpecs>
+      nudges: optional<ReturnTimeoutSpec>
       webhooks:
         type: optional<list<optional<ReturnWebhookSpec>>>
         docs: Map of webhooks associated with this config.
@@ -2564,6 +2566,17 @@ types:
           the time limit for the chat has been reached.
     source:
       openapi: evi-openapi.json
+  PostedNudgeSpec:
+    docs: A nudge specification posted to the server
+    properties:
+      enabled:
+        type: optional<boolean>
+        docs: EVI will nudge user after inactivity
+      interval_secs:
+        type: optional<integer>
+        docs: Time interval in seconds after which the nudge will be sent.
+    source:
+      openapi: evi-openapi.json
   PostedTimeoutSpecsInactivity:
     docs: >-
       Specifies the duration of user inactivity (in seconds) after which the EVI
@@ -2794,7 +2807,7 @@ types:
       is automatically disconnected.
     properties:
       inactivity:
-        type: ReturnTimeoutSpec
+        type: optional<ReturnTimeoutSpec>
         docs: >-
           Specifies the duration of user inactivity (in seconds) after which the
           EVI WebSocket connection will be automatically disconnected. Default
@@ -2804,7 +2817,7 @@ types:
           Accepts a minimum value of 30 seconds and a maximum value of 1,800
           seconds.
       max_duration:
-        type: ReturnTimeoutSpec
+        type: optional<ReturnTimeoutSpec>
         docs: >-
           Specifies the maximum allowed duration (in seconds) for an EVI
           WebSocket connection before it is automatically disconnected. Default
@@ -2813,6 +2826,25 @@ types:
 
           Accepts a minimum value of 30 seconds and a maximum value of 1,800
           seconds.
+    source:
+      openapi: evi-openapi.json
+  ReturnTimeoutSpec:
+    docs: A specific nudge configuration returned from the server
+    properties:
+      enabled:
+        type: boolean
+        docs: >-
+          Boolean indicating if this timeout is enabled.
+
+
+          If set to false, EVI will not timeout due to a specified duration
+          being reached. However, the conversation will eventually disconnect
+          after 1,800 seconds (30 minutes), which is the maximum WebSocket
+          duration limit for EVI.
+      interval_secs:
+        type: optional<integer>
+        docs: Time interval in seconds after which the nudge will be sent.
+      duration_secs: optional<unknown>
     source:
       openapi: evi-openapi.json
   ReturnWebhookEventType:
@@ -3167,26 +3199,6 @@ types:
           Text to use as the event message when the corresponding event occurs.
           If no text is specified, EVI will generate an appropriate message
           based on its current context and the system prompt.
-    source:
-      openapi: evi-openapi.json
-  ReturnTimeoutSpec:
-    docs: A specific timeout configuration to be returned from the server
-    properties:
-      enabled:
-        type: boolean
-        docs: >-
-          Boolean indicating if this timeout is enabled.
-
-
-          If set to false, EVI will not timeout due to a specified duration
-          being reached. However, the conversation will eventually disconnect
-          after 1,800 seconds (30 minutes), which is the maximum WebSocket
-          duration limit for EVI.
-      duration_secs:
-        type: optional<integer>
-        docs: >-
-          Duration in seconds for the timeout (e.g. 600 seconds represents 10
-          minutes).
     source:
       openapi: evi-openapi.json
   PostedVoiceProvider:
