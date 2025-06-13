@@ -3,6 +3,8 @@
 import typing
 
 WebhookEventChatStatus = typing.Union[
-    typing.Literal["ACTIVE", "USER_ENDED", "USER_TIMEOUT", "INACTIVITY_TIMEOUT", "MAX_DURATION_TIMEOUT", "ERROR"],
+    typing.Literal[
+        "ACTIVE", "USER_ENDED", "USER_TIMEOUT", "INACTIVITY_TIMEOUT", "MAX_DURATION_TIMEOUT", "SILENCE_TIMEOUT", "ERROR"
+    ],
     typing.Any,
 ]
