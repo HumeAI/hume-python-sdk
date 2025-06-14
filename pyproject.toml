@@ -125,5 +125,5 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.extras]
 examples=["jupyter"]
-microphone=["pydub", "simpleaudio", "sounddevice"]
+microphone=["sounddevice"]
 legacy=["pydub"]
