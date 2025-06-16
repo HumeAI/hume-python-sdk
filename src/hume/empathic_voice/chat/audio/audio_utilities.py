@@ -1,4 +1,4 @@
-# THIS FILE IS MANUALLY MAINTAINED: see .fernignore
+# Tsrc/hume/empathic_voice/chat/audio/audio_utilities.pyHIS FILE IS MANUALLY MAINTAINED: see .fernignore
 """
 * WAV/PCM handled with `wave` module
 * MP3 decoded by shelling out to ffmpeg (`ffmpeg` must be in $PATH)
@@ -7,6 +7,7 @@
 from __future__ import annotations
 import asyncio, io, wave, queue, shlex
 from typing import TYPE_CHECKING, AsyncIterable, Optional
+from hume.legacy._voice.microphone.audio_utilities import play_audio as play_audio_legacy
 
 _missing: Optional[Exception] = None
 try:
@@ -27,6 +28,7 @@ def _need_deps() -> None:
 
 _S16_DTYPE = "int16"
 _BYTES_PER_SAMP = 2
+_DEFAULT_BLOCKSIZE = 256
 
 def _looks_like_mp3(buf: bytes) -> bool:
     return buf[:3] == b"ID3" or buf[:2] in (b"\xff\xfb", b"\xff\xf3", b"\xff\xf2")
@@ -43,15 +45,22 @@ def _wav_info(blob: "ReadableBuffer") -> tuple[bytes, int, int]:
         return wf.readframes(nframes), rate, nch
 
 
-async def play_audio(blob: bytes, device: Optional[int] = None) -> None:
+async def play_audio(
+    blob: bytes,
+    *,
+    device: Optional[int] = None,
+    blocksize = None
+) -> None:
     async def _one_chunk():
         yield blob
-    await play_audio_streaming(_one_chunk().__aiter__(), device=device)
+    await play_audio_streaming(_one_chunk().__aiter__(), device=device, blocksize=blocksize)
 
 
 async def play_audio_streaming(
     chunks: AsyncIterable[bytes],
+    *, 
     device: Optional[int] = None,
+    blocksize: Optional[int] = None,
 ) -> None:
     _need_deps()
     iterator = chunks.__aiter__()
@@ -66,13 +75,14 @@ async def play_audio_streaming(
             yield first
             async for chunk in chunks:
                 yield chunk
-        await _stream_pcm(_reassembled(), 48000, 1, device=device)
+        await _stream_pcm(_reassembled(), 48000, 1, device=device, blocksize=blocksize)
 
 async def _stream_pcm(
     pcm_chunks: AsyncIterable[bytes],
     sample_rate: int,
     n_channels: int,
     device: Optional[int] = None,
+    blocksize: Optional[int] = _DEFAULT_BLOCKSIZE,
 ) -> None:
     """Generic PCM player: pulls raw PCM from chunks and plays via sounddevice."""
     _need_deps()
@@ -82,7 +92,7 @@ async def _stream_pcm(
     def finished():
         loop.call_soon_threadsafe(done_event.set)
 
-    pcm_queue: queue.Queue[Optional[bytes]] = queue.Queue(maxsize=8)
+    pcm_queue: queue.Queue[Optional[bytes]] = queue.Queue(maxsize=32)
 
     # pump PCM into the queue
     async def feeder():
@@ -109,6 +119,7 @@ async def _stream_pcm(
           channels=n_channels,
           dtype=_S16_DTYPE,
           callback=cb,
+          blocksize=blocksize,
           device=device,
           finished_callback=finished):
             await done_event.wait()
@@ -175,4 +186,3 @@ async def _stream_mp3(
         await proc.wait()
 
     await _stream_pcm(pcm_generator(), 48_000, 2, device=device)
-

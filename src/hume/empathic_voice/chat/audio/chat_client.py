@@ -4,8 +4,8 @@
 import asyncio
 import logging
 from dataclasses import dataclass
+from typing import AsyncIterable
 
-from hume.empathic_voice.chat.audio.asyncio_utilities import Stream
 from hume.empathic_voice.chat.audio.audio_utilities import play_audio
 from hume.empathic_voice.chat.audio.microphone_sender import Sender
 from hume.empathic_voice.chat.socket_client import ChatWebsocketConnection
@@ -17,10 +17,10 @@ class ChatClient:
     """Async client for handling messages to and from an EVI connection."""
 
     sender: Sender
-    byte_strs: Stream[bytes]
+    byte_strs: AsyncIterable[bytes]
 
     @classmethod
-    def new(cls, *, sender: Sender, byte_strs: Stream[bytes]) -> "ChatClient":
+    def new(cls, *, sender: Sender, byte_strs: AsyncIterable[bytes]) -> "ChatClient":
         """Create a new chat client.
 
         Args:

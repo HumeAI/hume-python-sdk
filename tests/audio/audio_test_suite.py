@@ -14,6 +14,7 @@ from pathlib import Path
 from hume.empathic_voice.chat.audio.audio_utilities import play_audio, play_audio_streaming  
 from hume.empathic_voice.chat.audio.microphone import Microphone
 from hume.empathic_voice.chat.audio.microphone_sender import MicrophoneSender
+from hume.empathic_voice.chat.socket_client import ChatWebsocketConnection
 
 test_dir = os.path.dirname(os.path.abspath(__file__))
 WAV_SAMPLE = str(Path(test_dir) / "sample.wav")
@@ -189,7 +190,7 @@ async def chunks_from_file(path: str):
     """Split file into chunks for streaming."""
     with open(path, 'rb') as f:
         data = f.read()
-    chunk_size = len(data) // 5  # 5 chunks
+    chunk_size = len(data) // 5
     for i in range(0, len(data), chunk_size):
         yield data[i:i+chunk_size]
         await asyncio.sleep(0.2)
@@ -230,6 +231,7 @@ async def test_5_cancellation(device=None):
         pass
     assert ask("Did cancellation work cleanly?")
 
+
 async def test_6_recording(device=None):
     """Test 6: Recording with playback."""
     print("\n🎤 TEST 6: Recording (5s)")
@@ -257,7 +259,9 @@ async def test_7_sender(device=None):
     
     chunks_collected = []
     
-    class MockSocket:
+    class MockSocket(ChatWebsocketConnection):
+        def __init__(self, *args, **kwargs):
+            pass
         async def _send(self, data: bytes):
             chunks_collected.append(data)
     
