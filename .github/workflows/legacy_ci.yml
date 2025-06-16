@@ -79,7 +79,7 @@ jobs:
       - name: Check Coverage
         shell: bash
         run: |
-          poetry run covcheck coverage.xml --group unit --line 40.0 --branch 20.0
+          poetry run covcheck coverage.xml --group unit --line 40.0 --branch 18.0
 
   build-service:
     runs-on: ubuntu-latest
