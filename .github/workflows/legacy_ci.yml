@@ -103,7 +103,7 @@ jobs:
         shell: bash
         run: |
           sudo apt-get --yes update
-          sudo apt-get --yes install ffmpeg
+          sudo apt-get --yes install libasound2-dev libportaudio2 ffmpeg
 
       - name: Install Python dependencies
         shell: bash
@@ -137,7 +137,7 @@ jobs:
         run: |
           poetry run covcheck coverage.xml --group service --line 40.0 --branch 20.0
 
-  build-microphone:
+  build-microphone-legacy:
     runs-on: ubuntu-latest
 
     strategy:
@@ -166,6 +166,7 @@ jobs:
           if [ -d /poetryenvs ]; then rm -rf ~/poetryenvs; fi
           poetry config virtualenvs.path ~/poetryenvs
           poetry install -E microphone
+          poetry install -E legacy
 
       - name: Run pytest
         shell: bash
