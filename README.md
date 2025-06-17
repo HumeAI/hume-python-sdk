@@ -16,11 +16,8 @@
 
 ## Migration Guide for Version 0.7.0 and Above
 
-We've released version `0.7.0` of the SDK with significant architectural changes. This update introduces `AsyncHumeClient` and `HumeClient`, improves type safety and async support, and provides more granular configuration options. To help you transition, we've prepared a comprehensive migration guide:
-
-**[View the Migration Guide](https://github.com/HumeAI/hume-python-sdk/wiki/Python-SDK-Migration-Guide)**
-
-Please review this guide before updating, as it covers breaking changes and provides examples for updating your code. Legacy functionality is preserved for backward compatibility. If you have any questions, please open an issue or contact our support team.
+There were major breaking changes in version `0.7.0` of the SDK. If upgrading from a previous version, please 
+**[View the Migration Guide](https://github.com/HumeAI/hume-python-sdk/wiki/Python-SDK-Migration-Guide)**. That release deprecated several interfaces and moved them to the `hume[legacy]` package extra. The `legacy` extra was removed in `0.9.0`. The last version to include `legacy` was `0.8.6`.
 
 ## Documentation
 
@@ -92,21 +89,6 @@ client = AsyncHumeClient()
 async with aiofiles.open('artifacts.zip', mode='wb') as file:
     async for chunk in client.expression_measurement.batch.get_job_artifacts(id="my-job-id"):
         await file.write(chunk)
-```
-
-## Legacy SDK
-
-If you want to continue using the legacy SDKs, simply import them from
-the `hume.legacy` module.
-
-```python
-from hume.legacy import HumeVoiceClient, VoiceConfig
-
-client = HumeVoiceClient("<your-api-key>")
-config = client.empathic_voice.configs.get_config_version(
-    id="id",
-    version=1,
-)
 ```
 
 ## Namespaces
