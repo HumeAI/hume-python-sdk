@@ -50,7 +50,7 @@ jobs:
       - name: Install system dependencies for audio
         run: |
           sudo apt-get --yes update
-          sudo apt-get --yes install ffmpeg
+          sudo apt-get --yes install libportaudio2
       - name: Bootstrap poetry
         run: |
           curl -sSL https://install.python-poetry.org | python - -y --version 1.5.1
