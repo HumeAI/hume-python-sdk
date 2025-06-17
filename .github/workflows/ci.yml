@@ -16,8 +16,8 @@ jobs:
           curl -sSL https://install.python-poetry.org | python - -y --version 1.5.1
       - name: Install dependencies
         run: poetry install
-      - name: Type check everything except audio utilities and legacy
-        run: poetry run mypy . --exclude 'src/hume/empathic_voice/chat/audio' --exclude 'src/hume/legacy/microphone'
+      - name: Type check everything except audio utilities
+        run: poetry run mypy . --exclude 'src/hume/empathic_voice/chat/audio'
   compile-with-audio:
     runs-on: ubuntu-24.04
     steps:
@@ -30,7 +30,6 @@ jobs:
       - name: Install system dependencies for audio
         run: |
           sudo apt-get --yes update
-          sudo apt-get --yes install libasound2-dev libportaudio2 ffmpeg
       - name: Bootstrap poetry
         run: |
           curl -sSL https://install.python-poetry.org | python - -y --version 1.5.1
@@ -50,7 +49,7 @@ jobs:
       - name: Install system dependencies for audio
         run: |
           sudo apt-get --yes update
-          sudo apt-get --yes install libasound2-dev libportaudio2 ffmpeg
+          sudo apt-get --yes install ffmpeg
       - name: Bootstrap poetry
         run: |
           curl -sSL https://install.python-poetry.org | python - -y --version 1.5.1
@@ -59,7 +58,7 @@ jobs:
       - name: Install Fern
         run: npm install -g fern-api
       - name: Test
-        run: fern test --command "poetry run pytest -rP . --ignore ./tests/custom/_legacy"
+        run: fern test --command "poetry run pytest -rP ."
 
   publish:
     needs: [compile-without-audio, compile-with-audio, test]
