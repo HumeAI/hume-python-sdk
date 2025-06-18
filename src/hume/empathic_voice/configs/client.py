@@ -160,6 +160,7 @@ class ConfigsClient:
         event_messages : typing.Optional[PostedEventMessageSpecs]
 
         nudges : typing.Optional[PostedNudgeSpec]
+            Configures nudges, brief audio prompts that can guide conversations when users pause or need encouragement to continue speaking. Nudges help create more natural, flowing interactions by providing gentle conversational cues.
 
         timeouts : typing.Optional[PostedTimeoutSpecs]
 
@@ -799,6 +800,7 @@ class AsyncConfigsClient:
         event_messages : typing.Optional[PostedEventMessageSpecs]
 
         nudges : typing.Optional[PostedNudgeSpec]
+            Configures nudges, brief audio prompts that can guide conversations when users pause or need encouragement to continue speaking. Nudges help create more natural, flowing interactions by providing gentle conversational cues.
 
         timeouts : typing.Optional[PostedTimeoutSpecs]
 

@@ -18,8 +18,10 @@ class PostedNudgeSpec(UniversalBaseModel):
 
     interval_secs: typing.Optional[int] = pydantic.Field(default=None)
     """
-    Time interval in seconds after which the nudge will be sent.
+    The interval of inactivity (in seconds) before a nudge is triggered.
     """
+
+    enable: typing.Optional[typing.Optional[typing.Any]] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
