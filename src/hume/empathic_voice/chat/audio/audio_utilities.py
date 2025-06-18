@@ -7,7 +7,6 @@
 from __future__ import annotations
 import asyncio, io, wave, queue, shlex
 from typing import TYPE_CHECKING, AsyncIterable, Optional
-from hume.legacy._voice.microphone.audio_utilities import play_audio as play_audio_legacy
 
 _missing: Optional[Exception] = None
 try:

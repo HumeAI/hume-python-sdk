@@ -1,1 +1,0 @@
-EvalData = dict[str, str]
