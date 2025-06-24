@@ -202,7 +202,13 @@ service:
               type: optional<list<optional<root.PostedBuiltinTool>>>
               docs: List of built-in tools associated with this Config.
             event_messages: optional<root.PostedEventMessageSpecs>
-            nudges: optional<root.PostedNudgeSpec>
+            nudges:
+              type: optional<root.PostedNudgeSpec>
+              docs: >-
+                Configures nudges, brief audio prompts that can guide
+                conversations when users pause or need encouragement to continue
+                speaking. Nudges help create more natural, flowing interactions
+                by providing gentle conversational cues. 
             timeouts: optional<root.PostedTimeoutSpecs>
             webhooks:
               type: optional<list<optional<root.PostedWebhookSpec>>>
@@ -668,6 +674,7 @@ service:
       response:
         docs: Success
         type: text
+        status-code: 200
       errors:
         - root.BadRequestError
       examples:

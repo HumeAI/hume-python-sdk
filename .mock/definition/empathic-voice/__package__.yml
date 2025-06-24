@@ -2574,7 +2574,8 @@ types:
         docs: EVI will nudge user after inactivity
       interval_secs:
         type: optional<integer>
-        docs: Time interval in seconds after which the nudge will be sent.
+        docs: The interval of inactivity (in seconds) before a nudge is triggered.
+      enable: optional<unknown>
     source:
       openapi: evi-openapi.json
   PostedTimeoutSpecsInactivity:

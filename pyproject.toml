@@ -3,7 +3,7 @@ name = "hume"
 
 [tool.poetry]
 name = "hume"
-version = "0.9.0"
+version = "0.9.1"
 description = "A Python SDK for Hume AI"
 readme = "README.md"
 authors = []
@@ -89,14 +89,6 @@ types-aiofiles = "^24.1.0.20240626"
 [tool.pytest.ini_options]
 testpaths = [ "tests" ]
 asyncio_mode = "auto"
-markers = [
-    "asyncio: Uses async features",
-    "batch: Uses the Hume batch API",
-    "service: Authenticates with Hume APIs",
-    "stream: Uses the Hume streaming API",
-    "voice: Uses EVI",
-    "microphone"
-]
 
 [tool.mypy]
 plugins = ["pydantic.mypy"]
