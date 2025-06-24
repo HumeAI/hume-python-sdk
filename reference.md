@@ -3385,7 +3385,7 @@ Hume's eLLM (empathic Large Language Model) is a multimodal language model that 
 <dl>
 <dd>
 
-**nudges:** `typing.Optional[PostedNudgeSpec]` 
+**nudges:** `typing.Optional[PostedNudgeSpec]` — Configures nudges, brief audio prompts that can guide conversations when users pause or need encouragement to continue speaking. Nudges help create more natural, flowing interactions by providing gentle conversational cues. 
     
 </dd>
 </dl>
