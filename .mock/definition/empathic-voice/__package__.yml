@@ -2571,10 +2571,12 @@ types:
     properties:
       enabled:
         type: optional<boolean>
-        docs: EVI will nudge user after inactivity
+        docs: >-
+          If true, EVI will 'nudge' the user to speak after a determined
+          interval of silence.
       interval_secs:
         type: optional<integer>
-        docs: Time interval in seconds after which the nudge will be sent.
+        docs: The interval of inactivity (in seconds) before a nudge is triggered.
     source:
       openapi: evi-openapi.json
   PostedTimeoutSpecsInactivity:
