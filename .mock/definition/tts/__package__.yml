@@ -390,22 +390,19 @@ types:
           see our documentation on [instant
           mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
 
-          - Dynamic voice generation is not supported with this mode; a
-          predefined
+          - A
           [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice)
-          must be specified in your request.
+          must be specified when instant mode is enabled. Dynamic voice
+          generation is not supported with this mode.
 
-          - This mode is only supported for streaming endpoints (e.g.,
+          - Instant mode is only supported for streaming endpoints (e.g.,
           [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming),
           [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
 
           - Ensure only a single generation is requested
           ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations)
           must be `1` or omitted).
-
-          - With `instant_mode` enabled, **requests incur a 10% higher cost**
-          due to increased compute and resource requirements.
-        default: false
+        default: true
     source:
       openapi: tts-openapi.yml
   ReturnTts:
@@ -514,14 +511,20 @@ types:
         docs: >-
           Natural language instructions describing how the synthesized speech
           should sound, including but not limited to tone, intonation, pacing,
-          and accent (e.g., 'a soft, gentle voice with a strong British
-          accent').
+          and accent.
 
-          - If a Voice is specified in the request, this description serves as
-          acting instructions. For tips on how to effectively guide speech
-          delivery, see our guide on [Acting
+
+          **This field behaves differently depending on whether a voice is
+          specified**:
+
+          - **Voice specified**: the description will serve as acting directions
+          for delivery. Keep directions concise—100 characters or fewer—for best
+          results. See our guide on [acting
           instructions](/docs/text-to-speech-tts/acting-instructions).
-           - If no Voice is specified, a new voice is generated based on this description. See our [prompting guide](/docs/text-to-speech-tts/prompting) for tips on designing a voice.
+
+          - **Voice not specified**: the description will serve as a voice
+          prompt for generating a voice. See our [prompting
+          guide](/docs/text-to-speech-tts/prompting) for design tips.
         validation:
           maxLength: 1000
       speed:
