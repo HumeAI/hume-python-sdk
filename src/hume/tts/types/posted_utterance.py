@@ -10,9 +10,11 @@ from .posted_utterance_voice import PostedUtteranceVoice
 class PostedUtterance(UniversalBaseModel):
     description: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Natural language instructions describing how the synthesized speech should sound, including but not limited to tone, intonation, pacing, and accent (e.g., 'a soft, gentle voice with a strong British accent').
-    - If a Voice is specified in the request, this description serves as acting instructions. For tips on how to effectively guide speech delivery, see our guide on [Acting instructions](/docs/text-to-speech-tts/acting-instructions).
-     - If no Voice is specified, a new voice is generated based on this description. See our [prompting guide](/docs/text-to-speech-tts/prompting) for tips on designing a voice.
+    Natural language instructions describing how the synthesized speech should sound, including but not limited to tone, intonation, pacing, and accent.
+    
+    **This field behaves differently depending on whether a voice is specified**:
+    - **Voice specified**: the description will serve as acting directions for delivery. Keep directions concise—100 characters or fewer—for best results. See our guide on [acting instructions](/docs/text-to-speech-tts/acting-instructions).
+    - **Voice not specified**: the description will serve as a voice prompt for generating a voice. See our [prompting guide](/docs/text-to-speech-tts/prompting) for design tips.
     """
 
     speed: typing.Optional[float] = pydantic.Field(default=None)
