@@ -13,8 +13,8 @@ service:
 
 
         Refer to our [voices
-        guide](/docs/empathic-voice-interface-evi/configuration/voices) for
-        details on creating a custom voice.
+        guide](/docs/speech-to-speech-evi/configuration/voices) for details on
+        creating a custom voice.
       pagination:
         offset: $request.page_number
         results: $response.custom_voices_page
@@ -76,12 +76,12 @@ service:
       auth: true
       docs: >-
         Creates a **Custom Voice** that can be added to an [EVI
-        configuration](/reference/empathic-voice-interface-evi/configs/create-config).
+        configuration](/reference/speech-to-speech-evi/configs/create-config).
 
 
         Refer to our [voices
-        guide](/docs/empathic-voice-interface-evi/configuration/voices) for
-        details on creating a custom voice.
+        guide](/docs/speech-to-speech-evi/configuration/voices) for details on
+        creating a custom voice.
       source:
         openapi: evi-openapi.json
       display-name: Create custom voice
@@ -128,8 +128,8 @@ service:
 
 
         Refer to our [voices
-        guide](/docs/empathic-voice-interface-evi/configuration/voices) for
-        details on creating a custom voice.
+        guide](/docs/speech-to-speech-evi/configuration/voices) for details on
+        creating a custom voice.
       source:
         openapi: evi-openapi.json
       path-parameters:
@@ -176,8 +176,8 @@ service:
 
 
         Refer to our [voices
-        guide](/docs/empathic-voice-interface-evi/configuration/voices) for
-        details on creating a custom voice.
+        guide](/docs/speech-to-speech-evi/configuration/voices) for details on
+        creating a custom voice.
       source:
         openapi: evi-openapi.json
       path-parameters:
@@ -230,8 +230,8 @@ service:
 
 
         Refer to our [voices
-        guide](/docs/empathic-voice-interface-evi/configuration/voices) for
-        details on creating a custom voice.
+        guide](/docs/speech-to-speech-evi/configuration/voices) for details on
+        creating a custom voice.
       source:
         openapi: evi-openapi.json
       path-parameters:
@@ -253,8 +253,8 @@ service:
 
 
         Refer to our [voices
-        guide](/docs/empathic-voice-interface-evi/configuration/voices) for
-        details on creating a custom voice.
+        guide](/docs/speech-to-speech-evi/configuration/voices) for details on
+        creating a custom voice.
       source:
         openapi: evi-openapi.json
       path-parameters:

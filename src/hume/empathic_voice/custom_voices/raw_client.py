@@ -37,7 +37,7 @@ class RawCustomVoicesClient:
         """
         Fetches a paginated list of **Custom Voices**.
 
-        Refer to our [voices guide](/docs/empathic-voice-interface-evi/configuration/voices) for details on creating a custom voice.
+        Refer to our [voices guide](/docs/speech-to-speech-evi/configuration/voices) for details on creating a custom voice.
 
         Parameters
         ----------
@@ -119,9 +119,9 @@ class RawCustomVoicesClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ReturnCustomVoice]:
         """
-        Creates a **Custom Voice** that can be added to an [EVI configuration](/reference/empathic-voice-interface-evi/configs/create-config).
+        Creates a **Custom Voice** that can be added to an [EVI configuration](/reference/speech-to-speech-evi/configs/create-config).
 
-        Refer to our [voices guide](/docs/empathic-voice-interface-evi/configuration/voices) for details on creating a custom voice.
+        Refer to our [voices guide](/docs/speech-to-speech-evi/configuration/voices) for details on creating a custom voice.
 
         Parameters
         ----------
@@ -193,7 +193,7 @@ class RawCustomVoicesClient:
         """
         Fetches a specific **Custom Voice** by ID.
 
-        Refer to our [voices guide](/docs/empathic-voice-interface-evi/configuration/voices) for details on creating a custom voice.
+        Refer to our [voices guide](/docs/speech-to-speech-evi/configuration/voices) for details on creating a custom voice.
 
         Parameters
         ----------
@@ -251,7 +251,7 @@ class RawCustomVoicesClient:
         """
         Updates a **Custom Voice** by creating a new version of the **Custom Voice**.
 
-        Refer to our [voices guide](/docs/empathic-voice-interface-evi/configuration/voices) for details on creating a custom voice.
+        Refer to our [voices guide](/docs/speech-to-speech-evi/configuration/voices) for details on creating a custom voice.
 
         Parameters
         ----------
@@ -326,7 +326,7 @@ class RawCustomVoicesClient:
         """
         Deletes a **Custom Voice** and its versions.
 
-        Refer to our [voices guide](/docs/empathic-voice-interface-evi/configuration/voices) for details on creating a custom voice.
+        Refer to our [voices guide](/docs/speech-to-speech-evi/configuration/voices) for details on creating a custom voice.
 
         Parameters
         ----------
@@ -370,7 +370,7 @@ class RawCustomVoicesClient:
         """
         Updates the name of a **Custom Voice**.
 
-        Refer to our [voices guide](/docs/empathic-voice-interface-evi/configuration/voices) for details on creating a custom voice.
+        Refer to our [voices guide](/docs/speech-to-speech-evi/configuration/voices) for details on creating a custom voice.
 
         Parameters
         ----------
@@ -435,7 +435,7 @@ class AsyncRawCustomVoicesClient:
         """
         Fetches a paginated list of **Custom Voices**.
 
-        Refer to our [voices guide](/docs/empathic-voice-interface-evi/configuration/voices) for details on creating a custom voice.
+        Refer to our [voices guide](/docs/speech-to-speech-evi/configuration/voices) for details on creating a custom voice.
 
         Parameters
         ----------
@@ -520,9 +520,9 @@ class AsyncRawCustomVoicesClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ReturnCustomVoice]:
         """
-        Creates a **Custom Voice** that can be added to an [EVI configuration](/reference/empathic-voice-interface-evi/configs/create-config).
+        Creates a **Custom Voice** that can be added to an [EVI configuration](/reference/speech-to-speech-evi/configs/create-config).
 
-        Refer to our [voices guide](/docs/empathic-voice-interface-evi/configuration/voices) for details on creating a custom voice.
+        Refer to our [voices guide](/docs/speech-to-speech-evi/configuration/voices) for details on creating a custom voice.
 
         Parameters
         ----------
@@ -594,7 +594,7 @@ class AsyncRawCustomVoicesClient:
         """
         Fetches a specific **Custom Voice** by ID.
 
-        Refer to our [voices guide](/docs/empathic-voice-interface-evi/configuration/voices) for details on creating a custom voice.
+        Refer to our [voices guide](/docs/speech-to-speech-evi/configuration/voices) for details on creating a custom voice.
 
         Parameters
         ----------
@@ -652,7 +652,7 @@ class AsyncRawCustomVoicesClient:
         """
         Updates a **Custom Voice** by creating a new version of the **Custom Voice**.
 
-        Refer to our [voices guide](/docs/empathic-voice-interface-evi/configuration/voices) for details on creating a custom voice.
+        Refer to our [voices guide](/docs/speech-to-speech-evi/configuration/voices) for details on creating a custom voice.
 
         Parameters
         ----------
@@ -727,7 +727,7 @@ class AsyncRawCustomVoicesClient:
         """
         Deletes a **Custom Voice** and its versions.
 
-        Refer to our [voices guide](/docs/empathic-voice-interface-evi/configuration/voices) for details on creating a custom voice.
+        Refer to our [voices guide](/docs/speech-to-speech-evi/configuration/voices) for details on creating a custom voice.
 
         Parameters
         ----------
@@ -771,7 +771,7 @@ class AsyncRawCustomVoicesClient:
         """
         Updates the name of a **Custom Voice**.
 
-        Refer to our [voices guide](/docs/empathic-voice-interface-evi/configuration/voices) for details on creating a custom voice.
+        Refer to our [voices guide](/docs/speech-to-speech-evi/configuration/voices) for details on creating a custom voice.
 
         Parameters
         ----------

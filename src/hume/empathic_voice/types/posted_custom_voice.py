@@ -12,9 +12,9 @@ class PostedCustomVoice(UniversalBaseModel):
     """
     A Custom Voice specification to be associated with this Config.
 
-    If a Custom Voice specification is not provided then the [name](/reference/empathic-voice-interface-evi/configs/create-config#request.body.voice.name) of a base voice or previously created Custom Voice must be provided.
+    If a Custom Voice specification is not provided then the [name](/reference/speech-to-speech-evi/configs/create-config#request.body.voice.name) of a base voice or previously created Custom Voice must be provided.
 
-     See our [Voices guide](/docs/empathic-voice-interface-evi/configuration/voices) for a tutorial on how to craft a Custom Voice.
+     See our [Voices guide](/docs/speech-to-speech-evi/configuration/voices) for a tutorial on how to craft a Custom Voice.
     """
 
     name: str = pydantic.Field()

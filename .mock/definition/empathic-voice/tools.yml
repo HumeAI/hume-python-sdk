@@ -13,7 +13,7 @@ service:
 
 
         Refer to our [tool
-        use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling)
+        use](/docs/speech-to-speech-evi/features/tool-use#function-calling)
         guide for comprehensive instructions on defining and integrating tools
         into EVI.
       pagination:
@@ -113,11 +113,11 @@ service:
       auth: true
       docs: >-
         Creates a **Tool** that can be added to an [EVI
-        configuration](/reference/empathic-voice-interface-evi/configs/create-config).
+        configuration](/reference/speech-to-speech-evi/configs/create-config).
 
 
         Refer to our [tool
-        use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling)
+        use](/docs/speech-to-speech-evi/features/tool-use#function-calling)
         guide for comprehensive instructions on defining and integrating tools
         into EVI.
       source:
@@ -208,7 +208,7 @@ service:
 
 
         Refer to our [tool
-        use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling)
+        use](/docs/speech-to-speech-evi/features/tool-use#function-calling)
         guide for comprehensive instructions on defining and integrating tools
         into EVI.
       pagination:
@@ -295,7 +295,7 @@ service:
 
 
         Refer to our [tool
-        use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling)
+        use](/docs/speech-to-speech-evi/features/tool-use#function-calling)
         guide for comprehensive instructions on defining and integrating tools
         into EVI.
       source:
@@ -388,7 +388,7 @@ service:
 
 
         Refer to our [tool
-        use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling)
+        use](/docs/speech-to-speech-evi/features/tool-use#function-calling)
         guide for comprehensive instructions on defining and integrating tools
         into EVI.
       source:
@@ -412,7 +412,7 @@ service:
 
 
         Refer to our [tool
-        use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling)
+        use](/docs/speech-to-speech-evi/features/tool-use#function-calling)
         guide for comprehensive instructions on defining and integrating tools
         into EVI.
       source:
@@ -450,7 +450,7 @@ service:
 
 
         Refer to our [tool
-        use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling)
+        use](/docs/speech-to-speech-evi/features/tool-use#function-calling)
         guide for comprehensive instructions on defining and integrating tools
         into EVI.
       source:
@@ -514,7 +514,7 @@ service:
 
 
         Refer to our [tool
-        use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling)
+        use](/docs/speech-to-speech-evi/features/tool-use#function-calling)
         guide for comprehensive instructions on defining and integrating tools
         into EVI.
       source:
@@ -553,7 +553,7 @@ service:
 
 
         Refer to our [tool
-        use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling)
+        use](/docs/speech-to-speech-evi/features/tool-use#function-calling)
         guide for comprehensive instructions on defining and integrating tools
         into EVI.
       source:

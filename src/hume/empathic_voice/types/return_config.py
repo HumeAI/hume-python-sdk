@@ -37,7 +37,7 @@ class ReturnConfig(UniversalBaseModel):
 
     evi_version: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Specifies the EVI version to use. Use `"1"` for version 1, or `"2"` for the latest enhanced version. For a detailed comparison of the two versions, refer to our [guide](/docs/empathic-voice-interface-evi/configuration/evi-version).
+    Specifies the EVI version to use. Use `"1"` for version 1, or `"2"` for the latest enhanced version. For a detailed comparison of the two versions, refer to our [guide](/docs/speech-to-speech-evi/configuration/evi-version).
     """
 
     version_description: typing.Optional[str] = pydantic.Field(default=None)

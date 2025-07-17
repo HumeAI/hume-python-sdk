@@ -1406,7 +1406,7 @@ types:
 
 
           For help writing a system prompt, see our [Prompting
-          Guide](/docs/empathic-voice-interface-evi/guides/prompting).
+          Guide](/docs/speech-to-speech-evi/guides/prompting).
     source:
       openapi: evi-openapi.json
   ReturnPagedCustomVoices:
@@ -1565,10 +1565,10 @@ types:
 
 
       If a Custom Voice specification is not provided then the
-      [name](/reference/empathic-voice-interface-evi/configs/create-config#request.body.voice.name)
+      [name](/reference/speech-to-speech-evi/configs/create-config#request.body.voice.name)
       of a base voice or previously created Custom Voice must be provided.
 
-       See our [Voices guide](/docs/empathic-voice-interface-evi/configuration/voices) for a tutorial on how to craft a Custom Voice.
+       See our [Voices guide](/docs/speech-to-speech-evi/configuration/voices) for a tutorial on how to craft a Custom Voice.
     properties:
       name:
         type: string
@@ -1822,7 +1822,7 @@ types:
           Specifies the EVI version to use. Use `"1"` for version 1, or `"2"`
           for the latest enhanced version. For a detailed comparison of the two
           versions, refer to our
-          [guide](/docs/empathic-voice-interface-evi/configuration/evi-version).
+          [guide](/docs/speech-to-speech-evi/configuration/evi-version).
       version_description:
         type: optional<string>
         docs: An optional description of the Config version.
@@ -2492,7 +2492,7 @@ types:
 
 
       For more information, see our guide on [using built-in
-      tools](/docs/empathic-voice-interface-evi/features/tool-use#using-built-in-tools).
+      tools](/docs/speech-to-speech-evi/features/tool-use#using-built-in-tools).
     inline: true
     source:
       openapi: evi-openapi.json
@@ -2514,7 +2514,7 @@ types:
 
 
           For more information, see our guide on [using built-in
-          tools](/docs/empathic-voice-interface-evi/features/tool-use#using-built-in-tools).
+          tools](/docs/speech-to-speech-evi/features/tool-use#using-built-in-tools).
       fallback_content:
         type: optional<string>
         docs: >-
@@ -2690,7 +2690,7 @@ types:
 
 
           See our [webhooks
-          guide](/docs/empathic-voice-interface-evi/configuration/build-a-configuration#supported-events)
+          guide](/docs/speech-to-speech-evi/configuration/build-a-configuration#supported-events)
           for more information on supported events.
         type: list<PostedWebhookEventType>
     source:
@@ -2864,7 +2864,7 @@ types:
 
 
           See our [webhooks
-          guide](/docs/empathic-voice-interface-evi/configuration/build-a-configuration#supported-events)
+          guide](/docs/speech-to-speech-evi/configuration/build-a-configuration#supported-events)
           for more information on supported events.
         type: list<ReturnWebhookEventType>
     source:
@@ -3246,7 +3246,7 @@ types:
 
           The name will be automatically converted to uppercase (e.g., "Ito"
           becomes "ITO"). If a name is not specified, then a [Custom
-          Voice](/reference/empathic-voice-interface-evi/configs/create-config#request.body.voice.custom_voice)
+          Voice](/reference/speech-to-speech-evi/configs/create-config#request.body.voice.custom_voice)
           specification must be provided.
       custom_voice: optional<PostedCustomVoice>
     source:
