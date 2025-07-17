@@ -1004,6 +1004,7 @@ types:
       - type: ToolCallMessage
       - type: ToolResponseMessage
       - type: ToolErrorMessage
+      - type: AssistantProsody
     source:
       openapi: evi-asyncapi.json
   HTTPValidationError:
