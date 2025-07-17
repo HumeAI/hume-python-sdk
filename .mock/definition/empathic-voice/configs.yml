@@ -13,8 +13,7 @@ service:
 
 
         For more details on configuration options and how to configure EVI, see
-        our [configuration
-        guide](/docs/empathic-voice-interface-evi/configuration).
+        our [configuration guide](/docs/speech-to-speech-evi/configuration).
       pagination:
         offset: $request.page_number
         results: $response.configs_page
@@ -77,7 +76,7 @@ service:
                   name: Weather Assistant Config
                   created_on: 1715267200693
                   modified_on: 1715267200693
-                  evi_version: '2'
+                  evi_version: '3'
                   prompt:
                     id: af699d45-2985-42cc-91b9-af9e5da3bac5
                     version: 0
@@ -95,26 +94,8 @@ service:
                       Include helpful tips if severe weather is expected.</role>
                   voice:
                     provider: HUME_AI
-                    name: SAMPLE VOICE
-                    custom_voice:
-                      id: 00aa8ee9-c50e-4ea1-9af0-7b08ad451704
-                      version: 1
-                      name: SAMPLE VOICE
-                      created_on: 1724704587367
-                      modified_on: 1725489961583
-                      base_voice: KORA
-                      parameter_model: 20241004-11parameter
-                      parameters:
-                        gender: 0
-                        assertiveness: 20
-                        buoyancy: -30
-                        confidence: -40
-                        enthusiasm: 50
-                        nasality: 45
-                        relaxedness: -35
-                        smoothness: 25
-                        tepidity: 15
-                        tightness: 5
+                    name: Ava Song
+                    id: 5bb7de05-c8fe-426a-8fcc-ba4fc4ce9f9c
                   language_model:
                     model_provider: ANTHROPIC
                     model_resource: claude-3-7-sonnet-latest
@@ -149,8 +130,7 @@ service:
 
 
         For more details on configuration options and how to configure EVI, see
-        our [configuration
-        guide](/docs/empathic-voice-interface-evi/configuration).
+        our [configuration guide](/docs/speech-to-speech-evi/configuration).
       source:
         openapi: evi-openapi.json
       display-name: Create config
@@ -164,7 +144,7 @@ service:
                 Specifies the EVI version to use. Use `"1"` for version 1, or
                 `"2"` for the latest enhanced version. For a detailed comparison
                 of the two versions, refer to our
-                [guide](/docs/empathic-voice-interface-evi/configuration/evi-version).
+                [guide](/docs/speech-to-speech-evi/configuration/evi-version).
             name:
               type: string
               docs: Name applied to all versions of a particular Config.
@@ -173,7 +153,7 @@ service:
               docs: An optional description of the Config version.
             prompt: optional<root.PostedConfigPromptSpec>
             voice:
-              type: optional<root.PostedVoice>
+              type: optional<root.VoiceRef>
               docs: A voice specification associated with this Config.
             language_model:
               type: optional<root.PostedLanguageModel>
@@ -226,10 +206,10 @@ service:
             prompt:
               id: af699d45-2985-42cc-91b9-af9e5da3bac5
               version: 0
-            evi_version: '2'
+            evi_version: '3'
             voice:
               provider: HUME_AI
-              name: SAMPLE VOICE
+              name: Ava Song
             language_model:
               model_provider: ANTHROPIC
               model_resource: claude-3-7-sonnet-latest
@@ -252,7 +232,7 @@ service:
               name: Weather Assistant Config
               created_on: 1715275452390
               modified_on: 1715275452390
-              evi_version: '2'
+              evi_version: '3'
               prompt:
                 id: af699d45-2985-42cc-91b9-af9e5da3bac5
                 version: 0
@@ -270,26 +250,8 @@ service:
                   severe weather is expected.</role>
               voice:
                 provider: HUME_AI
-                name: SAMPLE VOICE
-                custom_voice:
-                  id: 00aa8ee9-c50e-4ea1-9af0-7b08ad451704
-                  version: 1
-                  name: SAMPLE VOICE
-                  created_on: 1724704587367
-                  modified_on: 1725489961583
-                  base_voice: KORA
-                  parameter_model: 20241004-11parameter
-                  parameters:
-                    gender: 0
-                    assertiveness: 20
-                    buoyancy: -30
-                    confidence: -40
-                    enthusiasm: 50
-                    nasality: 45
-                    relaxedness: -35
-                    smoothness: 25
-                    tepidity: 15
-                    tightness: 5
+                name: Ava Song
+                id: 5bb7de05-c8fe-426a-8fcc-ba4fc4ce9f9c
               language_model:
                 model_provider: ANTHROPIC
                 model_resource: claude-3-7-sonnet-latest
@@ -324,8 +286,7 @@ service:
 
 
         For more details on configuration options and how to configure EVI, see
-        our [configuration
-        guide](/docs/empathic-voice-interface-evi/configuration).
+        our [configuration guide](/docs/speech-to-speech-evi/configuration).
       pagination:
         offset: $request.page_number
         results: $response.configs_page
@@ -388,7 +349,7 @@ service:
                   name: Weather Assistant Config
                   created_on: 1715275452390
                   modified_on: 1715275452390
-                  evi_version: '2'
+                  evi_version: '3'
                   prompt:
                     id: af699d45-2985-42cc-91b9-af9e5da3bac5
                     version: 0
@@ -406,26 +367,8 @@ service:
                       Include helpful tips if severe weather is expected.</role>
                   voice:
                     provider: HUME_AI
-                    name: SAMPLE VOICE
-                    custom_voice:
-                      id: 00aa8ee9-c50e-4ea1-9af0-7b08ad451704
-                      version: 1
-                      name: SAMPLE VOICE
-                      created_on: 1724704587367
-                      modified_on: 1725489961583
-                      base_voice: KORA
-                      parameter_model: 20241004-11parameter
-                      parameters:
-                        gender: 0
-                        assertiveness: 20
-                        buoyancy: -30
-                        confidence: -40
-                        enthusiasm: 50
-                        nasality: 45
-                        relaxedness: -35
-                        smoothness: 25
-                        tepidity: 15
-                        tightness: 5
+                    name: Ava Song
+                    id: 5bb7de05-c8fe-426a-8fcc-ba4fc4ce9f9c
                   language_model:
                     model_provider: ANTHROPIC
                     model_resource: claude-3-7-sonnet-latest
@@ -460,8 +403,7 @@ service:
 
 
         For more details on configuration options and how to configure EVI, see
-        our [configuration
-        guide](/docs/empathic-voice-interface-evi/configuration).
+        our [configuration guide](/docs/speech-to-speech-evi/configuration).
       source:
         openapi: evi-openapi.json
       path-parameters:
@@ -481,7 +423,7 @@ service:
               docs: An optional description of the Config version.
             prompt: optional<root.PostedConfigPromptSpec>
             voice:
-              type: optional<root.PostedVoice>
+              type: optional<root.VoiceRef>
               docs: A voice specification associated with this Config version.
             language_model:
               type: optional<root.PostedLanguageModel>
@@ -528,13 +470,13 @@ service:
             id: 1b60e1a0-cc59-424a-8d2c-189d354db3f3
           request:
             version_description: This is an updated version of the Weather Assistant Config.
-            evi_version: '2'
+            evi_version: '3'
             prompt:
               id: af699d45-2985-42cc-91b9-af9e5da3bac5
               version: 0
             voice:
               provider: HUME_AI
-              name: ITO
+              name: Ava Song
             language_model:
               model_provider: ANTHROPIC
               model_resource: claude-3-7-sonnet-latest
@@ -559,7 +501,7 @@ service:
               name: Weather Assistant Config
               created_on: 1715275452390
               modified_on: 1722642242998
-              evi_version: '2'
+              evi_version: '3'
               prompt:
                 id: af699d45-2985-42cc-91b9-af9e5da3bac5
                 version: 0
@@ -577,26 +519,8 @@ service:
                   severe weather is expected.</role>
               voice:
                 provider: HUME_AI
-                name: ITO
-                custom_voice:
-                  id: 00aa8ee9-c50e-4ea1-9af0-7b08ad451704
-                  version: 1
-                  name: SAMPLE VOICE
-                  created_on: 1724704587367
-                  modified_on: 1725489961583
-                  base_voice: KORA
-                  parameter_model: 20241004-11parameter
-                  parameters:
-                    gender: 0
-                    assertiveness: 20
-                    buoyancy: -30
-                    confidence: -40
-                    enthusiasm: 50
-                    nasality: 45
-                    relaxedness: -35
-                    smoothness: 25
-                    tepidity: 15
-                    tightness: 5
+                name: Ava Song
+                id: 5bb7de05-c8fe-426a-8fcc-ba4fc4ce9f9c
               language_model:
                 model_provider: ANTHROPIC
                 model_resource: claude-3-7-sonnet-latest
@@ -631,8 +555,7 @@ service:
 
 
         For more details on configuration options and how to configure EVI, see
-        our [configuration
-        guide](/docs/empathic-voice-interface-evi/configuration).
+        our [configuration guide](/docs/speech-to-speech-evi/configuration).
       source:
         openapi: evi-openapi.json
       path-parameters:
@@ -654,8 +577,7 @@ service:
 
 
         For more details on configuration options and how to configure EVI, see
-        our [configuration
-        guide](/docs/empathic-voice-interface-evi/configuration).
+        our [configuration guide](/docs/speech-to-speech-evi/configuration).
       source:
         openapi: evi-openapi.json
       path-parameters:
@@ -691,8 +613,7 @@ service:
 
 
         For more details on configuration options and how to configure EVI, see
-        our [configuration
-        guide](/docs/empathic-voice-interface-evi/configuration).
+        our [configuration guide](/docs/speech-to-speech-evi/configuration).
       source:
         openapi: evi-openapi.json
       path-parameters:
@@ -733,7 +654,7 @@ service:
               name: Weather Assistant Config
               created_on: 1715275452390
               modified_on: 1715275452390
-              evi_version: '2'
+              evi_version: '3'
               prompt:
                 id: af699d45-2985-42cc-91b9-af9e5da3bac5
                 version: 0
@@ -751,26 +672,8 @@ service:
                   severe weather is expected.</role>
               voice:
                 provider: HUME_AI
-                name: SAMPLE VOICE
-                custom_voice:
-                  id: 00aa8ee9-c50e-4ea1-9af0-7b08ad451704
-                  version: 1
-                  name: SAMPLE VOICE
-                  created_on: 1724704587367
-                  modified_on: 1725489961583
-                  base_voice: KORA
-                  parameter_model: 20241004-11parameter
-                  parameters:
-                    gender: 0
-                    assertiveness: 20
-                    buoyancy: -30
-                    confidence: -40
-                    enthusiasm: 50
-                    nasality: 45
-                    relaxedness: -35
-                    smoothness: 25
-                    tepidity: 15
-                    tightness: 5
+                name: Ava Song
+                id: 5bb7de05-c8fe-426a-8fcc-ba4fc4ce9f9c
               language_model:
                 model_provider: ANTHROPIC
                 model_resource: claude-3-7-sonnet-latest
@@ -805,8 +708,7 @@ service:
 
 
         For more details on configuration options and how to configure EVI, see
-        our [configuration
-        guide](/docs/empathic-voice-interface-evi/configuration).
+        our [configuration guide](/docs/speech-to-speech-evi/configuration).
       source:
         openapi: evi-openapi.json
       path-parameters:
@@ -844,8 +746,7 @@ service:
 
 
         For more details on configuration options and how to configure EVI, see
-        our [configuration
-        guide](/docs/empathic-voice-interface-evi/configuration).
+        our [configuration guide](/docs/speech-to-speech-evi/configuration).
       source:
         openapi: evi-openapi.json
       path-parameters:
@@ -896,7 +797,7 @@ service:
               name: Weather Assistant Config
               created_on: 1715275452390
               modified_on: 1715275452390
-              evi_version: '2'
+              evi_version: '3'
               prompt:
                 id: af699d45-2985-42cc-91b9-af9e5da3bac5
                 version: 0
@@ -914,26 +815,8 @@ service:
                   severe weather is expected.</role>
               voice:
                 provider: HUME_AI
-                name: SAMPLE VOICE
-                custom_voice:
-                  id: 00aa8ee9-c50e-4ea1-9af0-7b08ad451704
-                  version: 1
-                  name: SAMPLE VOICE
-                  created_on: 1724704587367
-                  modified_on: 1725489961583
-                  base_voice: KORA
-                  parameter_model: 20241004-11parameter
-                  parameters:
-                    gender: 0
-                    assertiveness: 20
-                    buoyancy: -30
-                    confidence: -40
-                    enthusiasm: 50
-                    nasality: 45
-                    relaxedness: -35
-                    smoothness: 25
-                    tepidity: 15
-                    tightness: 5
+                name: Ava Song
+                id: 5bb7de05-c8fe-426a-8fcc-ba4fc4ce9f9c
               language_model:
                 model_provider: ANTHROPIC
                 model_resource: claude-3-7-sonnet-latest

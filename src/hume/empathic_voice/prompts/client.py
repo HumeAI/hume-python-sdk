@@ -40,7 +40,7 @@ class PromptsClient:
         """
         Fetches a paginated list of **Prompts**.
 
-        See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
 
         Parameters
         ----------
@@ -102,9 +102,9 @@ class PromptsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Optional[ReturnPrompt]:
         """
-        Creates a **Prompt** that can be added to an [EVI configuration](/reference/empathic-voice-interface-evi/configs/create-config).
+        Creates a **Prompt** that can be added to an [EVI configuration](/reference/speech-to-speech-evi/configs/create-config).
 
-        See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
 
         Parameters
         ----------
@@ -116,7 +116,7 @@ class PromptsClient:
 
             You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles.
 
-            For help writing a system prompt, see our [Prompting Guide](/docs/empathic-voice-interface-evi/guides/prompting).
+            For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).
 
         version_description : typing.Optional[str]
             An optional description of the Prompt version.
@@ -158,7 +158,7 @@ class PromptsClient:
         """
         Fetches a list of a **Prompt's** versions.
 
-        See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
 
         Parameters
         ----------
@@ -217,7 +217,7 @@ class PromptsClient:
         """
         Updates a **Prompt** by creating a new version of the **Prompt**.
 
-        See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
 
         Parameters
         ----------
@@ -229,7 +229,7 @@ class PromptsClient:
 
             You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles.
 
-            For help writing a system prompt, see our [Prompting Guide](/docs/empathic-voice-interface-evi/guides/prompting).
+            For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).
 
         version_description : typing.Optional[str]
             An optional description of the Prompt version.
@@ -264,7 +264,7 @@ class PromptsClient:
         """
         Deletes a **Prompt** and its versions.
 
-        See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
 
         Parameters
         ----------
@@ -296,7 +296,7 @@ class PromptsClient:
         """
         Updates the name of a **Prompt**.
 
-        See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
 
         Parameters
         ----------
@@ -335,7 +335,7 @@ class PromptsClient:
         """
         Fetches a specified version of a **Prompt**.
 
-        See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
 
         Parameters
         ----------
@@ -378,7 +378,7 @@ class PromptsClient:
         """
         Deletes a specified version of a **Prompt**.
 
-        See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
 
         Parameters
         ----------
@@ -425,7 +425,7 @@ class PromptsClient:
         """
         Updates the description of a **Prompt**.
 
-        See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
 
         Parameters
         ----------
@@ -496,7 +496,7 @@ class AsyncPromptsClient:
         """
         Fetches a paginated list of **Prompts**.
 
-        See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
 
         Parameters
         ----------
@@ -567,9 +567,9 @@ class AsyncPromptsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Optional[ReturnPrompt]:
         """
-        Creates a **Prompt** that can be added to an [EVI configuration](/reference/empathic-voice-interface-evi/configs/create-config).
+        Creates a **Prompt** that can be added to an [EVI configuration](/reference/speech-to-speech-evi/configs/create-config).
 
-        See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
 
         Parameters
         ----------
@@ -581,7 +581,7 @@ class AsyncPromptsClient:
 
             You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles.
 
-            For help writing a system prompt, see our [Prompting Guide](/docs/empathic-voice-interface-evi/guides/prompting).
+            For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).
 
         version_description : typing.Optional[str]
             An optional description of the Prompt version.
@@ -631,7 +631,7 @@ class AsyncPromptsClient:
         """
         Fetches a list of a **Prompt's** versions.
 
-        See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
 
         Parameters
         ----------
@@ -698,7 +698,7 @@ class AsyncPromptsClient:
         """
         Updates a **Prompt** by creating a new version of the **Prompt**.
 
-        See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
 
         Parameters
         ----------
@@ -710,7 +710,7 @@ class AsyncPromptsClient:
 
             You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles.
 
-            For help writing a system prompt, see our [Prompting Guide](/docs/empathic-voice-interface-evi/guides/prompting).
+            For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).
 
         version_description : typing.Optional[str]
             An optional description of the Prompt version.
@@ -753,7 +753,7 @@ class AsyncPromptsClient:
         """
         Deletes a **Prompt** and its versions.
 
-        See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
 
         Parameters
         ----------
@@ -795,7 +795,7 @@ class AsyncPromptsClient:
         """
         Updates the name of a **Prompt**.
 
-        See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
 
         Parameters
         ----------
@@ -842,7 +842,7 @@ class AsyncPromptsClient:
         """
         Fetches a specified version of a **Prompt**.
 
-        See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
 
         Parameters
         ----------
@@ -893,7 +893,7 @@ class AsyncPromptsClient:
         """
         Deletes a specified version of a **Prompt**.
 
-        See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
 
         Parameters
         ----------
@@ -948,7 +948,7 @@ class AsyncPromptsClient:
         """
         Updates the description of a **Prompt**.
 
-        See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
 
         Parameters
         ----------

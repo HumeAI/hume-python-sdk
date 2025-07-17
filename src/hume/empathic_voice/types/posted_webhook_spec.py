@@ -21,7 +21,7 @@ class PostedWebhookSpec(UniversalBaseModel):
     """
     The list of events the specified URL is subscribed to. 
     
-    See our [webhooks guide](/docs/empathic-voice-interface-evi/configuration/build-a-configuration#supported-events) for more information on supported events.
+    See our [webhooks guide](/docs/speech-to-speech-evi/configuration/build-a-configuration#supported-events) for more information on supported events.
     """
 
     if IS_PYDANTIC_V2:

@@ -4,7 +4,6 @@ from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .chat_groups.client import AsyncChatGroupsClient, ChatGroupsClient
 from .chats.client import AsyncChatsClient, ChatsClient
 from .configs.client import AsyncConfigsClient, ConfigsClient
-from .custom_voices.client import AsyncCustomVoicesClient, CustomVoicesClient
 from .prompts.client import AsyncPromptsClient, PromptsClient
 from .raw_client import AsyncRawEmpathicVoiceClient, RawEmpathicVoiceClient
 from .tools.client import AsyncToolsClient, ToolsClient
@@ -16,8 +15,6 @@ class EmpathicVoiceClient:
         self.tools = ToolsClient(client_wrapper=client_wrapper)
 
         self.prompts = PromptsClient(client_wrapper=client_wrapper)
-
-        self.custom_voices = CustomVoicesClient(client_wrapper=client_wrapper)
 
         self.configs = ConfigsClient(client_wrapper=client_wrapper)
 
@@ -43,8 +40,6 @@ class AsyncEmpathicVoiceClient:
         self.tools = AsyncToolsClient(client_wrapper=client_wrapper)
 
         self.prompts = AsyncPromptsClient(client_wrapper=client_wrapper)
-
-        self.custom_voices = AsyncCustomVoicesClient(client_wrapper=client_wrapper)
 
         self.configs = AsyncConfigsClient(client_wrapper=client_wrapper)
 

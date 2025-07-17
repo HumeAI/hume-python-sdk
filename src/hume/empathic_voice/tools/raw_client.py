@@ -35,7 +35,7 @@ class RawToolsClient:
         """
         Fetches a paginated list of **Tools**.
 
-        Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 
         Parameters
         ----------
@@ -124,9 +124,9 @@ class RawToolsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[typing.Optional[ReturnUserDefinedTool]]:
         """
-        Creates a **Tool** that can be added to an [EVI configuration](/reference/empathic-voice-interface-evi/configs/create-config).
+        Creates a **Tool** that can be added to an [EVI configuration](/reference/speech-to-speech-evi/configs/create-config).
 
-        Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 
         Parameters
         ----------
@@ -211,7 +211,7 @@ class RawToolsClient:
         """
         Fetches a list of a **Tool's** versions.
 
-        Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 
         Parameters
         ----------
@@ -301,7 +301,7 @@ class RawToolsClient:
         """
         Updates a **Tool** by creating a new version of the **Tool**.
 
-        Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 
         Parameters
         ----------
@@ -377,7 +377,7 @@ class RawToolsClient:
         """
         Deletes a **Tool** and its versions.
 
-        Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 
         Parameters
         ----------
@@ -421,7 +421,7 @@ class RawToolsClient:
         """
         Updates the name of a **Tool**.
 
-        Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 
         Parameters
         ----------
@@ -476,7 +476,7 @@ class RawToolsClient:
         """
         Fetches a specified version of a **Tool**.
 
-        Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 
         Parameters
         ----------
@@ -537,7 +537,7 @@ class RawToolsClient:
         """
         Deletes a specified version of a **Tool**.
 
-        Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 
         Parameters
         ----------
@@ -593,7 +593,7 @@ class RawToolsClient:
         """
         Updates the description of a specified **Tool** version.
 
-        Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 
         Parameters
         ----------
@@ -675,7 +675,7 @@ class AsyncRawToolsClient:
         """
         Fetches a paginated list of **Tools**.
 
-        Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 
         Parameters
         ----------
@@ -767,9 +767,9 @@ class AsyncRawToolsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[typing.Optional[ReturnUserDefinedTool]]:
         """
-        Creates a **Tool** that can be added to an [EVI configuration](/reference/empathic-voice-interface-evi/configs/create-config).
+        Creates a **Tool** that can be added to an [EVI configuration](/reference/speech-to-speech-evi/configs/create-config).
 
-        Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 
         Parameters
         ----------
@@ -854,7 +854,7 @@ class AsyncRawToolsClient:
         """
         Fetches a list of a **Tool's** versions.
 
-        Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 
         Parameters
         ----------
@@ -947,7 +947,7 @@ class AsyncRawToolsClient:
         """
         Updates a **Tool** by creating a new version of the **Tool**.
 
-        Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 
         Parameters
         ----------
@@ -1025,7 +1025,7 @@ class AsyncRawToolsClient:
         """
         Deletes a **Tool** and its versions.
 
-        Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 
         Parameters
         ----------
@@ -1069,7 +1069,7 @@ class AsyncRawToolsClient:
         """
         Updates the name of a **Tool**.
 
-        Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 
         Parameters
         ----------
@@ -1124,7 +1124,7 @@ class AsyncRawToolsClient:
         """
         Fetches a specified version of a **Tool**.
 
-        Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 
         Parameters
         ----------
@@ -1185,7 +1185,7 @@ class AsyncRawToolsClient:
         """
         Deletes a specified version of a **Tool**.
 
-        Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 
         Parameters
         ----------
@@ -1241,7 +1241,7 @@ class AsyncRawToolsClient:
         """
         Updates the description of a specified **Tool** version.
 
-        Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 
         Parameters
         ----------

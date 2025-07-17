@@ -12,13 +12,17 @@ from .return_nudge_spec import ReturnNudgeSpec
 from .return_prompt import ReturnPrompt
 from .return_timeout_specs import ReturnTimeoutSpecs
 from .return_user_defined_tool import ReturnUserDefinedTool
-from .return_voice import ReturnVoice
 from .return_webhook_spec import ReturnWebhookSpec
 
 
 class ReturnConfig(UniversalBaseModel):
     """
     A specific config version returned from the server
+    """
+
+    name: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Name applied to all versions of a particular Config.
     """
 
     id: typing.Optional[str] = pydantic.Field(default=None)
@@ -37,17 +41,28 @@ class ReturnConfig(UniversalBaseModel):
 
     evi_version: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Specifies the EVI version to use. Use `"1"` for version 1, or `"2"` for the latest enhanced version. For a detailed comparison of the two versions, refer to our [guide](/docs/empathic-voice-interface-evi/configuration/evi-version).
+    Specifies the EVI version to use. Use `"1"` for version 1, or `"2"` for the latest enhanced version. For a detailed comparison of the two versions, refer to our [guide](/docs/speech-to-speech-evi/configuration/evi-version).
     """
 
-    version_description: typing.Optional[str] = pydantic.Field(default=None)
+    timeouts: typing.Optional[ReturnTimeoutSpecs] = None
+    nudges: typing.Optional[ReturnNudgeSpec] = None
+    ellm_model: typing.Optional[ReturnEllmModel] = pydantic.Field(default=None)
     """
-    An optional description of the Config version.
+    The eLLM setup associated with this Config.
+    
+    Hume's eLLM (empathic Large Language Model) is a multimodal language model that takes into account both expression measures and language. The eLLM generates short, empathic language responses and guides text-to-speech (TTS) prosody.
     """
 
-    name: typing.Optional[str] = pydantic.Field(default=None)
+    voice: typing.Optional[typing.Optional[typing.Any]] = None
+    prompt: typing.Optional[ReturnPrompt] = None
+    tools: typing.Optional[typing.List[typing.Optional[ReturnUserDefinedTool]]] = pydantic.Field(default=None)
     """
-    Name applied to all versions of a particular Config.
+    List of user-defined tools associated with this Config.
+    """
+
+    webhooks: typing.Optional[typing.List[typing.Optional[ReturnWebhookSpec]]] = pydantic.Field(default=None)
+    """
+    Map of webhooks associated with this config.
     """
 
     created_on: typing.Optional[int] = pydantic.Field(default=None)
@@ -60,29 +75,11 @@ class ReturnConfig(UniversalBaseModel):
     Time at which the Config was last modified. Measured in seconds since the Unix epoch.
     """
 
-    prompt: typing.Optional[ReturnPrompt] = None
-    voice: typing.Optional[ReturnVoice] = pydantic.Field(default=None)
-    """
-    A voice specification associated with this Config.
-    """
-
     language_model: typing.Optional[ReturnLanguageModel] = pydantic.Field(default=None)
     """
     The supplemental language model associated with this Config.
     
     This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
-    """
-
-    ellm_model: typing.Optional[ReturnEllmModel] = pydantic.Field(default=None)
-    """
-    The eLLM setup associated with this Config.
-    
-    Hume's eLLM (empathic Large Language Model) is a multimodal language model that takes into account both expression measures and language. The eLLM generates short, empathic language responses and guides text-to-speech (TTS) prosody.
-    """
-
-    tools: typing.Optional[typing.List[typing.Optional[ReturnUserDefinedTool]]] = pydantic.Field(default=None)
-    """
-    List of user-defined tools associated with this Config.
     """
 
     builtin_tools: typing.Optional[typing.List[typing.Optional[ReturnBuiltinTool]]] = pydantic.Field(default=None)
@@ -91,11 +88,9 @@ class ReturnConfig(UniversalBaseModel):
     """
 
     event_messages: typing.Optional[ReturnEventMessageSpecs] = None
-    timeouts: typing.Optional[ReturnTimeoutSpecs] = None
-    nudges: typing.Optional[ReturnNudgeSpec] = None
-    webhooks: typing.Optional[typing.List[typing.Optional[ReturnWebhookSpec]]] = pydantic.Field(default=None)
+    version_description: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Map of webhooks associated with this config.
+    An optional description of the Config version.
     """
 
     if IS_PYDANTIC_V2:

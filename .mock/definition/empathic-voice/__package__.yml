@@ -92,6 +92,31 @@ types:
           output.
     source:
       openapi: evi-asyncapi.json
+  AssistantProsody:
+    docs: When provided, the output is an Assistant Prosody message.
+    properties:
+      custom_session_id:
+        type: optional<string>
+        docs: >-
+          Used to manage conversational state, correlate frontend and backend
+          data, and persist conversations across EVI sessions.
+      id:
+        type: optional<string>
+        docs: Unique identifier for the segment.
+      models:
+        type: Inference
+        docs: Inference model results.
+      type:
+        type: literal<"assistant_prosody">
+        docs: >-
+          The type of message sent through the socket; for an Assistant Prosody
+          message, this must be `assistant_PROSODY`.
+
+
+          This message the expression measurement predictions of the assistant's
+          audio output.
+    source:
+      openapi: evi-asyncapi.json
   AudioConfiguration:
     properties:
       channels:
@@ -1340,22 +1365,30 @@ types:
         type: list<optional<ReturnPrompt>>
     source:
       openapi: evi-openapi.json
-  ReturnPromptVersionType:
-    enum:
-      - FIXED
-      - LATEST
-    docs: >-
-      Versioning method for a Prompt. Either `FIXED` for using a fixed version
-      number or `LATEST` for auto-updating to the latest version.
-    inline: true
-    source:
-      openapi: evi-openapi.json
   ReturnPrompt:
     docs: A Prompt associated with this Config.
     properties:
+      name:
+        type: string
+        docs: Name applied to all versions of a particular Prompt.
       id:
         type: string
         docs: Identifier for a Prompt. Formatted as a UUID.
+      text:
+        type: string
+        docs: >-
+          Instructions used to shape EVI’s behavior, responses, and style.
+
+
+          You can use the Prompt to define a specific goal or role for EVI,
+          specifying how it should act or what it should focus on during the
+          conversation. For example, EVI can be instructed to act as a customer
+          support representative, a fitness coach, or a travel advisor, each
+          with its own set of behaviors and response styles.
+
+
+          For help writing a system prompt, see our [Prompting
+          Guide](/docs/speech-to-speech-evi/guides/prompting).
       version:
         type: integer
         docs: >-
@@ -1376,12 +1409,6 @@ types:
         docs: >-
           Versioning method for a Prompt. Either `FIXED` for using a fixed
           version number or `LATEST` for auto-updating to the latest version.
-      version_description:
-        type: optional<string>
-        docs: An optional description of the Prompt version.
-      name:
-        type: string
-        docs: Name applied to all versions of a particular Prompt.
       created_on:
         type: long
         docs: >-
@@ -1392,378 +1419,9 @@ types:
         docs: >-
           Time at which the Prompt was last modified. Measured in seconds since
           the Unix epoch.
-      text:
-        type: string
-        docs: >-
-          Instructions used to shape EVI’s behavior, responses, and style.
-
-
-          You can use the Prompt to define a specific goal or role for EVI,
-          specifying how it should act or what it should focus on during the
-          conversation. For example, EVI can be instructed to act as a customer
-          support representative, a fitness coach, or a travel advisor, each
-          with its own set of behaviors and response styles.
-
-
-          For help writing a system prompt, see our [Prompting
-          Guide](/docs/empathic-voice-interface-evi/guides/prompting).
-    source:
-      openapi: evi-openapi.json
-  ReturnPagedCustomVoices:
-    docs: A paginated list of custom voices returned from the server
-    properties:
-      page_number:
-        type: integer
-        docs: >-
-          The page number of the returned list.
-
-
-          This value corresponds to the `page_number` parameter specified in the
-          request. Pagination uses zero-based indexing.
-      page_size:
-        type: integer
-        docs: >-
-          The maximum number of items returned per page.
-
-
-          This value corresponds to the `page_size` parameter specified in the
-          request.
-      total_pages:
-        type: integer
-        docs: The total number of pages in the collection.
-      custom_voices_page:
-        docs: List of Custom Voices for the specified `page_number` and `page_size`.
-        type: list<ReturnCustomVoice>
-    source:
-      openapi: evi-openapi.json
-  PostedCustomVoiceBaseVoice:
-    enum:
-      - ITO
-      - KORA
-      - DACHER
-      - AURA
-      - FINN
-      - WHIMSY
-      - STELLA
-      - SUNNY
-    docs: Specifies the base voice used to create the Custom Voice.
-    inline: true
-    source:
-      openapi: evi-openapi.json
-  PostedCustomVoiceParameters:
-    docs: >-
-      The specified attributes of a Custom Voice. 
-
-
-      If no parameters are specified then all attributes will be set to their
-      defaults, meaning no modfications will be made to the base voice.
-    properties:
-      gender:
-        type: optional<integer>
-        docs: >-
-          The perceived tonality of the voice, reflecting characteristics
-          typically associated with masculinity and femininity.
-
-
-          The default value is `0`, with a minimum of `-100` (more masculine)
-          and a maximum of `100` (more feminine). A value of `0` leaves this
-          parameter unchanged from the base voice.
-      assertiveness:
-        type: optional<integer>
-        docs: >-
-          The perceived firmness of the voice, ranging between whiny and bold.
-
-
-          The default value is `0`, with a minimum of `-100` (whiny) and a
-          maximum of `100` (bold). A value of `0` leaves this parameter
-          unchanged from the base voice.
-      buoyancy:
-        type: optional<integer>
-        docs: >-
-          The perceived density of the voice, ranging between deflated and
-          buoyant.
-
-
-          The default value is `0`, with a minimum of `-100` (deflated) and a
-          maximum of `100` (buoyant). A value of `0` leaves this parameter
-          unchanged from the base voice.
-      confidence:
-        type: optional<integer>
-        docs: >-
-          The perceived assuredness of the voice, ranging between shy and
-          confident.
-
-
-          The default value is `0`, with a minimum of `-100` (shy) and a maximum
-          of `100` (confident). A value of `0` leaves this parameter unchanged
-          from the base voice.
-      enthusiasm:
-        type: optional<integer>
-        docs: >-
-          The perceived excitement within the voice, ranging between calm and
-          enthusiastic.
-
-
-          The default value is `0`, with a minimum of `-100` (calm) and a
-          maximum of `100` (enthusiastic). A value of `0` leaves this parameter
-          unchanged from the base voice.
-      nasality:
-        type: optional<integer>
-        docs: >-
-          The perceived openness of the voice, ranging between clear and nasal.
-
-
-          The default value is `0`, with a minimum of `-100` (clear) and a
-          maximum of `100` (nasal). A value of `0` leaves this parameter
-          unchanged from the base voice.
-      relaxedness:
-        type: optional<integer>
-        docs: >-
-          The perceived stress within the voice, ranging between tense and
-          relaxed.
-
-
-          The default value is `0`, with a minimum of `-100` (tense) and a
-          maximum of `100` (relaxed). A value of `0` leaves this parameter
-          unchanged from the base voice.
-      smoothness:
-        type: optional<integer>
-        docs: >-
-          The perceived texture of the voice, ranging between smooth and
-          staccato.
-
-
-          The default value is `0`, with a minimum of `-100` (smooth) and a
-          maximum of `100` (staccato). A value of `0` leaves this parameter
-          unchanged from the base voice.
-      tepidity:
-        type: optional<integer>
-        docs: >-
-          The perceived liveliness behind the voice, ranging between tepid and
-          vigorous.
-
-
-          The default value is `0`, with a minimum of `-100` (tepid) and a
-          maximum of `100` (vigorous). A value of `0` leaves this parameter
-          unchanged from the base voice.
-      tightness:
-        type: optional<integer>
-        docs: >-
-          The perceived containment of the voice, ranging between tight and
-          breathy.
-
-
-          The default value is `0`, with a minimum of `-100` (tight) and a
-          maximum of `100` (breathy). A value of `0` leaves this parameter
-          unchanged from the base voice.
-    source:
-      openapi: evi-openapi.json
-    inline: true
-  PostedCustomVoice:
-    docs: >-
-      A Custom Voice specification to be associated with this Config.
-
-
-      If a Custom Voice specification is not provided then the
-      [name](/reference/empathic-voice-interface-evi/configs/create-config#request.body.voice.name)
-      of a base voice or previously created Custom Voice must be provided.
-
-       See our [Voices guide](/docs/empathic-voice-interface-evi/configuration/voices) for a tutorial on how to craft a Custom Voice.
-    properties:
-      name:
-        type: string
-        docs: >-
-          The name of the Custom Voice. Maximum length of 75 characters. Will be
-          converted to all-uppercase. (e.g., "sample voice" becomes "SAMPLE
-          VOICE")
-      base_voice:
-        type: PostedCustomVoiceBaseVoice
-        docs: Specifies the base voice used to create the Custom Voice.
-      parameter_model:
-        type: literal<"20241004-11parameter">
-        docs: >-
-          The name of the parameter model used to define which attributes are
-          used by the `parameters` field. Currently, only `20241004-11parameter`
-          is supported as the parameter model.
-      parameters:
-        type: optional<PostedCustomVoiceParameters>
-        docs: >-
-          The specified attributes of a Custom Voice. 
-
-
-          If no parameters are specified then all attributes will be set to
-          their defaults, meaning no modfications will be made to the base
-          voice.
-    source:
-      openapi: evi-openapi.json
-  ReturnCustomVoiceBaseVoice:
-    enum:
-      - ITO
-      - KORA
-      - DACHER
-      - AURA
-      - FINN
-      - WHIMSY
-      - STELLA
-      - SUNNY
-    docs: The base voice used to create the Custom Voice.
-    inline: true
-    source:
-      openapi: evi-openapi.json
-  ReturnCustomVoiceParameters:
-    docs: >-
-      The specified attributes of a Custom Voice. If a parameter's value is `0`
-      (default), it will not be included in the response.
-    properties:
-      gender:
-        type: optional<integer>
-        docs: >-
-          The perceived tonality of the voice, reflecting characteristics
-          typically associated with masculinity and femininity.
-
-
-          The default value is `0`, with a minimum of `-100` (more masculine)
-          and a maximum of `100` (more feminine). A value of `0` leaves this
-          parameter unchanged from the base voice.
-      assertiveness:
-        type: optional<integer>
-        docs: >-
-          The perceived firmness of the voice, ranging between whiny and bold.
-
-
-          The default value is `0`, with a minimum of `-100` (whiny) and a
-          maximum of `100` (bold). A value of `0` leaves this parameter
-          unchanged from the base voice.
-      buoyancy:
-        type: optional<integer>
-        docs: >-
-          The perceived density of the voice, ranging between deflated and
-          buoyant.
-
-
-          The default value is `0`, with a minimum of `-100` (deflated) and a
-          maximum of `100` (buoyant). A value of `0` leaves this parameter
-          unchanged from the base voice.
-      confidence:
-        type: optional<integer>
-        docs: >-
-          The perceived assuredness of the voice, ranging between shy and
-          confident.
-
-
-          The default value is `0`, with a minimum of `-100` (shy) and a maximum
-          of `100` (confident). A value of `0` leaves this parameter unchanged
-          from the base voice.
-      enthusiasm:
-        type: optional<integer>
-        docs: >-
-          The perceived excitement within the voice, ranging between calm and
-          enthusiastic.
-
-
-          The default value is `0`, with a minimum of `-100` (calm) and a
-          maximum of `100` (enthusiastic). A value of `0` leaves this parameter
-          unchanged from the base voice.
-      nasality:
-        type: optional<integer>
-        docs: >-
-          The perceived openness of the voice, ranging between clear and nasal.
-
-
-          The default value is `0`, with a minimum of `-100` (clear) and a
-          maximum of `100` (nasal). A value of `0` leaves this parameter
-          unchanged from the base voice.
-      relaxedness:
-        type: optional<integer>
-        docs: >-
-          The perceived stress within the voice, ranging between tense and
-          relaxed.
-
-
-          The default value is `0`, with a minimum of `-100` (tense) and a
-          maximum of `100` (relaxed). A value of `0` leaves this parameter
-          unchanged from the base voice.
-      smoothness:
-        type: optional<integer>
-        docs: >-
-          The perceived texture of the voice, ranging between smooth and
-          staccato.
-
-
-          The default value is `0`, with a minimum of `-100` (smooth) and a
-          maximum of `100` (staccato). A value of `0` leaves this parameter
-          unchanged from the base voice.
-      tepidity:
-        type: optional<integer>
-        docs: >-
-          The perceived liveliness behind the voice, ranging between tepid and
-          vigorous.
-
-
-          The default value is `0`, with a minimum of `-100` (tepid) and a
-          maximum of `100` (vigorous). A value of `0` leaves this parameter
-          unchanged from the base voice.
-      tightness:
-        type: optional<integer>
-        docs: >-
-          The perceived containment of the voice, ranging between tight and
-          breathy.
-
-
-          The default value is `0`, with a minimum of `-100` (tight) and a
-          maximum of `100` (breathy). A value of `0` leaves this parameter
-          unchanged from the base voice.
-    source:
-      openapi: evi-openapi.json
-    inline: true
-  ReturnCustomVoice:
-    docs: A Custom Voice specification associated with this Config.
-    properties:
-      id:
-        type: string
-        docs: Identifier for a Custom Voice. Formatted as a UUID.
-      version:
-        type: integer
-        docs: >-
-          Version number for a Custom Voice.
-
-
-          Custom Voices, Prompts, Configs, and Tools are versioned. This
-          versioning system supports iterative development, allowing you to
-          progressively refine configurations and revert to previous versions if
-          needed.
-
-
-          Version numbers are integer values representing different iterations
-          of the Custom Voice. Each update to the Custom Voice increments its
-          version number.
-      name:
-        type: string
-        docs: The name of the Custom Voice. Maximum length of 75 characters.
-      created_on:
-        type: long
-        docs: >-
-          Time at which the Custom Voice was created. Measured in seconds since
-          the Unix epoch.
-      modified_on:
-        type: long
-        docs: >-
-          Time at which the Custom Voice was last modified. Measured in seconds
-          since the Unix epoch.
-      base_voice:
-        type: ReturnCustomVoiceBaseVoice
-        docs: The base voice used to create the Custom Voice.
-      parameter_model:
-        type: literal<"20241004-11parameter">
-        docs: >-
-          The name of the parameter model used to define which attributes are
-          used by the `parameters` field. Currently, only `20241004-11parameter`
-          is supported as the parameter model.
-      parameters:
-        type: ReturnCustomVoiceParameters
-        docs: >-
-          The specified attributes of a Custom Voice. If a parameter's value is
-          `0` (default), it will not be included in the response.
+      version_description:
+        type: optional<string>
+        docs: An optional description of the Prompt version.
     source:
       openapi: evi-openapi.json
   ReturnPagedConfigs:
@@ -1798,6 +1456,9 @@ types:
   ReturnConfig:
     docs: A specific config version returned from the server
     properties:
+      name:
+        type: optional<string>
+        docs: Name applied to all versions of a particular Config.
       id:
         type: optional<string>
         docs: Identifier for a Config. Formatted as a UUID.
@@ -1822,36 +1483,9 @@ types:
           Specifies the EVI version to use. Use `"1"` for version 1, or `"2"`
           for the latest enhanced version. For a detailed comparison of the two
           versions, refer to our
-          [guide](/docs/empathic-voice-interface-evi/configuration/evi-version).
-      version_description:
-        type: optional<string>
-        docs: An optional description of the Config version.
-      name:
-        type: optional<string>
-        docs: Name applied to all versions of a particular Config.
-      created_on:
-        type: optional<long>
-        docs: >-
-          Time at which the Config was created. Measured in seconds since the
-          Unix epoch.
-      modified_on:
-        type: optional<long>
-        docs: >-
-          Time at which the Config was last modified. Measured in seconds since
-          the Unix epoch.
-      prompt: optional<ReturnPrompt>
-      voice:
-        type: optional<ReturnVoice>
-        docs: A voice specification associated with this Config.
-      language_model:
-        type: optional<ReturnLanguageModel>
-        docs: >-
-          The supplemental language model associated with this Config.
-
-
-          This model is used to generate longer, more detailed responses from
-          EVI. Choosing an appropriate supplemental language model for your use
-          case is crucial for generating fast, high-quality responses from EVI.
+          [guide](/docs/speech-to-speech-evi/configuration/evi-version).
+      timeouts: optional<ReturnTimeoutSpecs>
+      nudges: optional<ReturnNudgeSpec>
       ellm_model:
         type: optional<ReturnEllmModel>
         docs: >-
@@ -1862,18 +1496,40 @@ types:
           model that takes into account both expression measures and language.
           The eLLM generates short, empathic language responses and guides
           text-to-speech (TTS) prosody.
+      voice: optional<unknown>
+      prompt: optional<ReturnPrompt>
       tools:
         type: optional<list<optional<ReturnUserDefinedTool>>>
         docs: List of user-defined tools associated with this Config.
+      webhooks:
+        type: optional<list<optional<ReturnWebhookSpec>>>
+        docs: Map of webhooks associated with this config.
+      created_on:
+        type: optional<long>
+        docs: >-
+          Time at which the Config was created. Measured in seconds since the
+          Unix epoch.
+      modified_on:
+        type: optional<long>
+        docs: >-
+          Time at which the Config was last modified. Measured in seconds since
+          the Unix epoch.
+      language_model:
+        type: optional<ReturnLanguageModel>
+        docs: >-
+          The supplemental language model associated with this Config.
+
+
+          This model is used to generate longer, more detailed responses from
+          EVI. Choosing an appropriate supplemental language model for your use
+          case is crucial for generating fast, high-quality responses from EVI.
       builtin_tools:
         type: optional<list<optional<ReturnBuiltinTool>>>
         docs: List of built-in tools associated with this Config.
       event_messages: optional<ReturnEventMessageSpecs>
-      timeouts: optional<ReturnTimeoutSpecs>
-      nudges: optional<ReturnNudgeSpec>
-      webhooks:
-        type: optional<list<optional<ReturnWebhookSpec>>>
-        docs: Map of webhooks associated with this config.
+      version_description:
+        type: optional<string>
+        docs: An optional description of the Config version.
     source:
       openapi: evi-openapi.json
   ReturnPagedChatsPaginationDirection:
@@ -2405,6 +2061,16 @@ types:
         type: list<ReturnChatAudioReconstruction>
     source:
       openapi: evi-openapi.json
+  ReturnPromptVersionType:
+    enum:
+      - FIXED
+      - LATEST
+    docs: >-
+      Versioning method for a Prompt. Either `FIXED` for using a fixed version
+      number or `LATEST` for auto-updating to the latest version.
+    inline: true
+    source:
+      openapi: evi-openapi.json
   PostedConfigPromptSpec:
     docs: >-
       Identifies which prompt to use in a a config OR how to create a new prompt
@@ -2492,7 +2158,7 @@ types:
 
 
       For more information, see our guide on [using built-in
-      tools](/docs/empathic-voice-interface-evi/features/tool-use#using-built-in-tools).
+      tools](/docs/speech-to-speech-evi/features/tool-use#using-built-in-tools).
     inline: true
     source:
       openapi: evi-openapi.json
@@ -2514,7 +2180,7 @@ types:
 
 
           For more information, see our guide on [using built-in
-          tools](/docs/empathic-voice-interface-evi/features/tool-use#using-built-in-tools).
+          tools](/docs/speech-to-speech-evi/features/tool-use#using-built-in-tools).
       fallback_content:
         type: optional<string>
         docs: >-
@@ -2690,7 +2356,7 @@ types:
 
 
           See our [webhooks
-          guide](/docs/empathic-voice-interface-evi/configuration/build-a-configuration#supported-events)
+          guide](/docs/speech-to-speech-evi/configuration/build-a-configuration#supported-events)
           for more information on supported events.
         type: list<PostedWebhookEventType>
     source:
@@ -2864,7 +2530,7 @@ types:
 
 
           See our [webhooks
-          guide](/docs/empathic-voice-interface-evi/configuration/build-a-configuration#supported-events)
+          guide](/docs/speech-to-speech-evi/configuration/build-a-configuration#supported-events)
           for more information on supported events.
         type: list<ReturnWebhookEventType>
     source:
@@ -3215,69 +2881,36 @@ types:
           minutes).
     source:
       openapi: evi-openapi.json
-  PostedVoiceProvider:
+  VoiceProvider:
     enum:
       - HUME_AI
       - CUSTOM_VOICE
-    docs: >-
-      The provider of the voice to use. Supported values are `HUME_AI` and
-      `CUSTOM_VOICE`.
-    inline: true
     source:
       openapi: evi-openapi.json
-  PostedVoice:
-    docs: A Voice specification posted to the server
+  VoiceId:
     properties:
+      id:
+        type: string
+        docs: ID of the voice in the `Voice Library`.
       provider:
-        type: PostedVoiceProvider
-        docs: >-
-          The provider of the voice to use. Supported values are `HUME_AI` and
-          `CUSTOM_VOICE`.
-      name:
-        type: optional<string>
-        docs: >-
-          Specifies the name of the voice to use.
-
-
-          This can be either the name of a previously created Custom Voice or
-          one of our 8 base voices: `ITO`, `KORA`, `DACHER`, `AURA`, `FINN`,
-          `WHIMSY`, `STELLA`, or `SUNNY`.
-
-
-          The name will be automatically converted to uppercase (e.g., "Ito"
-          becomes "ITO"). If a name is not specified, then a [Custom
-          Voice](/reference/empathic-voice-interface-evi/configs/create-config#request.body.voice.custom_voice)
-          specification must be provided.
-      custom_voice: optional<PostedCustomVoice>
+        type: optional<VoiceProvider>
+        docs: Model provider associated with this Voice ID.
     source:
       openapi: evi-openapi.json
-  ReturnVoiceProvider:
-    enum:
-      - HUME_AI
-      - CUSTOM_VOICE
-    docs: >-
-      The provider of the voice to use. Supported values are `HUME_AI` and
-      `CUSTOM_VOICE`.
-    inline: true
-    source:
-      openapi: evi-openapi.json
-  ReturnVoice:
-    docs: A specific voice specification
+  VoiceName:
     properties:
-      provider:
-        type: ReturnVoiceProvider
-        docs: >-
-          The provider of the voice to use. Supported values are `HUME_AI` and
-          `CUSTOM_VOICE`.
       name:
-        type: optional<string>
-        docs: >-
-          The name of the specified voice.
-
-
-          This will either be the name of a previously created Custom Voice or
-          one of our 8 base voices: `ITO`, `KORA`, `DACHER`, `AURA`, `FINN`,
-          `WHIMSY`, `STELLA`, or `SUNNY`.
-      custom_voice: optional<ReturnCustomVoice>
+        type: string
+        docs: Name of the voice in the `Voice Library`.
+      provider:
+        type: optional<VoiceProvider>
+        docs: Model provider associated with this Voice Name.
+    source:
+      openapi: evi-openapi.json
+  VoiceRef:
+    discriminated: false
+    union:
+      - type: VoiceId
+      - type: VoiceName
     source:
       openapi: evi-openapi.json

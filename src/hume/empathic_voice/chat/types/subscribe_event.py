@@ -4,6 +4,7 @@ import typing
 
 from ...types.assistant_end import AssistantEnd
 from ...types.assistant_message import AssistantMessage
+from ...types.assistant_prosody import AssistantProsody
 from ...types.audio_output import AudioOutput
 from ...types.chat_metadata import ChatMetadata
 from ...types.tool_call_message import ToolCallMessage
@@ -16,6 +17,7 @@ from ...types.web_socket_error import WebSocketError
 SubscribeEvent = typing.Union[
     AssistantEnd,
     AssistantMessage,
+    AssistantProsody,
     AudioOutput,
     ChatMetadata,
     WebSocketError,

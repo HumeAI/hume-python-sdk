@@ -5,6 +5,7 @@
 from .assistant_end import AssistantEnd
 from .assistant_input import AssistantInput
 from .assistant_message import AssistantMessage
+from .assistant_prosody import AssistantProsody
 from .audio_configuration import AudioConfiguration
 from .audio_input import AudioInput
 from .audio_output import AudioOutput
@@ -29,9 +30,6 @@ from .pause_assistant_message import PauseAssistantMessage
 from .posted_builtin_tool import PostedBuiltinTool
 from .posted_builtin_tool_name import PostedBuiltinToolName
 from .posted_config_prompt_spec import PostedConfigPromptSpec
-from .posted_custom_voice import PostedCustomVoice
-from .posted_custom_voice_base_voice import PostedCustomVoiceBaseVoice
-from .posted_custom_voice_parameters import PostedCustomVoiceParameters
 from .posted_ellm_model import PostedEllmModel
 from .posted_event_message_spec import PostedEventMessageSpec
 from .posted_event_message_specs import PostedEventMessageSpecs
@@ -42,8 +40,6 @@ from .posted_timeout_specs import PostedTimeoutSpecs
 from .posted_timeout_specs_inactivity import PostedTimeoutSpecsInactivity
 from .posted_timeout_specs_max_duration import PostedTimeoutSpecsMaxDuration
 from .posted_user_defined_tool_spec import PostedUserDefinedToolSpec
-from .posted_voice import PostedVoice
-from .posted_voice_provider import PostedVoiceProvider
 from .posted_webhook_event_type import PostedWebhookEventType
 from .posted_webhook_spec import PostedWebhookSpec
 from .prosody_inference import ProsodyInference
@@ -71,9 +67,6 @@ from .return_chat_paged_events_status import ReturnChatPagedEventsStatus
 from .return_chat_status import ReturnChatStatus
 from .return_config import ReturnConfig
 from .return_config_spec import ReturnConfigSpec
-from .return_custom_voice import ReturnCustomVoice
-from .return_custom_voice_base_voice import ReturnCustomVoiceBaseVoice
-from .return_custom_voice_parameters import ReturnCustomVoiceParameters
 from .return_ellm_model import ReturnEllmModel
 from .return_event_message_spec import ReturnEventMessageSpec
 from .return_event_message_specs import ReturnEventMessageSpecs
@@ -84,7 +77,6 @@ from .return_paged_chat_groups_pagination_direction import ReturnPagedChatGroups
 from .return_paged_chats import ReturnPagedChats
 from .return_paged_chats_pagination_direction import ReturnPagedChatsPaginationDirection
 from .return_paged_configs import ReturnPagedConfigs
-from .return_paged_custom_voices import ReturnPagedCustomVoices
 from .return_paged_prompts import ReturnPagedPrompts
 from .return_paged_user_defined_tools import ReturnPagedUserDefinedTools
 from .return_prompt import ReturnPrompt
@@ -94,8 +86,6 @@ from .return_timeout_specs import ReturnTimeoutSpecs
 from .return_user_defined_tool import ReturnUserDefinedTool
 from .return_user_defined_tool_tool_type import ReturnUserDefinedToolToolType
 from .return_user_defined_tool_version_type import ReturnUserDefinedToolVersionType
-from .return_voice import ReturnVoice
-from .return_voice_provider import ReturnVoiceProvider
 from .return_webhook_event_type import ReturnWebhookEventType
 from .return_webhook_spec import ReturnWebhookSpec
 from .role import Role
@@ -111,6 +101,10 @@ from .user_interruption import UserInterruption
 from .user_message import UserMessage
 from .validation_error import ValidationError
 from .validation_error_loc_item import ValidationErrorLocItem
+from .voice_id import VoiceId
+from .voice_name import VoiceName
+from .voice_provider import VoiceProvider
+from .voice_ref import VoiceRef
 from .web_socket_error import WebSocketError
 from .webhook_event import WebhookEvent
 from .webhook_event_base import WebhookEventBase
@@ -123,6 +117,7 @@ __all__ = [
     "AssistantEnd",
     "AssistantInput",
     "AssistantMessage",
+    "AssistantProsody",
     "AudioConfiguration",
     "AudioInput",
     "AudioOutput",
@@ -147,9 +142,6 @@ __all__ = [
     "PostedBuiltinTool",
     "PostedBuiltinToolName",
     "PostedConfigPromptSpec",
-    "PostedCustomVoice",
-    "PostedCustomVoiceBaseVoice",
-    "PostedCustomVoiceParameters",
     "PostedEllmModel",
     "PostedEventMessageSpec",
     "PostedEventMessageSpecs",
@@ -160,8 +152,6 @@ __all__ = [
     "PostedTimeoutSpecsInactivity",
     "PostedTimeoutSpecsMaxDuration",
     "PostedUserDefinedToolSpec",
-    "PostedVoice",
-    "PostedVoiceProvider",
     "PostedWebhookEventType",
     "PostedWebhookSpec",
     "ProsodyInference",
@@ -187,9 +177,6 @@ __all__ = [
     "ReturnChatStatus",
     "ReturnConfig",
     "ReturnConfigSpec",
-    "ReturnCustomVoice",
-    "ReturnCustomVoiceBaseVoice",
-    "ReturnCustomVoiceParameters",
     "ReturnEllmModel",
     "ReturnEventMessageSpec",
     "ReturnEventMessageSpecs",
@@ -200,7 +187,6 @@ __all__ = [
     "ReturnPagedChats",
     "ReturnPagedChatsPaginationDirection",
     "ReturnPagedConfigs",
-    "ReturnPagedCustomVoices",
     "ReturnPagedPrompts",
     "ReturnPagedUserDefinedTools",
     "ReturnPrompt",
@@ -210,8 +196,6 @@ __all__ = [
     "ReturnUserDefinedTool",
     "ReturnUserDefinedToolToolType",
     "ReturnUserDefinedToolVersionType",
-    "ReturnVoice",
-    "ReturnVoiceProvider",
     "ReturnWebhookEventType",
     "ReturnWebhookSpec",
     "Role",
@@ -227,6 +211,10 @@ __all__ = [
     "UserMessage",
     "ValidationError",
     "ValidationErrorLocItem",
+    "VoiceId",
+    "VoiceName",
+    "VoiceProvider",
+    "VoiceRef",
     "WebSocketError",
     "WebhookEvent",
     "WebhookEventBase",
