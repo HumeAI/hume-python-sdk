@@ -19,7 +19,7 @@ class PostedBuiltinTool(UniversalBaseModel):
     - **web_search:** enables EVI to search the web for up-to-date information when applicable.
     - **hang_up:** closes the WebSocket connection when appropriate (e.g., after detecting a farewell in the conversation).
     
-    For more information, see our guide on [using built-in tools](/docs/empathic-voice-interface-evi/features/tool-use#using-built-in-tools).
+    For more information, see our guide on [using built-in tools](/docs/speech-to-speech-evi/features/tool-use#using-built-in-tools).
     """
 
     fallback_content: typing.Optional[str] = pydantic.Field(default=None)

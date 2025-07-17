@@ -46,7 +46,7 @@ class RawConfigsClient:
         """
         Fetches a paginated list of **Configs**.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
@@ -145,12 +145,12 @@ class RawConfigsClient:
         """
         Creates a **Config** which can be applied to EVI.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
         evi_version : str
-            Specifies the EVI version to use. Use `"1"` for version 1, or `"2"` for the latest enhanced version. For a detailed comparison of the two versions, refer to our [guide](/docs/empathic-voice-interface-evi/configuration/evi-version).
+            Specifies the EVI version to use. Use `"1"` for version 1, or `"2"` for the latest enhanced version. For a detailed comparison of the two versions, refer to our [guide](/docs/speech-to-speech-evi/configuration/evi-version).
 
         name : str
             Name applied to all versions of a particular Config.
@@ -283,7 +283,7 @@ class RawConfigsClient:
         """
         Fetches a list of a **Config's** versions.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
@@ -381,7 +381,7 @@ class RawConfigsClient:
         """
         Updates a **Config** by creating a new version of the **Config**.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
@@ -509,7 +509,7 @@ class RawConfigsClient:
         """
         Deletes a **Config** and its versions.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
@@ -553,7 +553,7 @@ class RawConfigsClient:
         """
         Updates the name of a **Config**.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
@@ -608,7 +608,7 @@ class RawConfigsClient:
         """
         Fetches a specified version of a **Config**.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
@@ -667,7 +667,7 @@ class RawConfigsClient:
         """
         Deletes a specified version of a **Config**.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
@@ -723,7 +723,7 @@ class RawConfigsClient:
         """
         Updates the description of a **Config**.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
@@ -803,7 +803,7 @@ class AsyncRawConfigsClient:
         """
         Fetches a paginated list of **Configs**.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
@@ -905,12 +905,12 @@ class AsyncRawConfigsClient:
         """
         Creates a **Config** which can be applied to EVI.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
         evi_version : str
-            Specifies the EVI version to use. Use `"1"` for version 1, or `"2"` for the latest enhanced version. For a detailed comparison of the two versions, refer to our [guide](/docs/empathic-voice-interface-evi/configuration/evi-version).
+            Specifies the EVI version to use. Use `"1"` for version 1, or `"2"` for the latest enhanced version. For a detailed comparison of the two versions, refer to our [guide](/docs/speech-to-speech-evi/configuration/evi-version).
 
         name : str
             Name applied to all versions of a particular Config.
@@ -1043,7 +1043,7 @@ class AsyncRawConfigsClient:
         """
         Fetches a list of a **Config's** versions.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
@@ -1144,7 +1144,7 @@ class AsyncRawConfigsClient:
         """
         Updates a **Config** by creating a new version of the **Config**.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
@@ -1274,7 +1274,7 @@ class AsyncRawConfigsClient:
         """
         Deletes a **Config** and its versions.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
@@ -1318,7 +1318,7 @@ class AsyncRawConfigsClient:
         """
         Updates the name of a **Config**.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
@@ -1373,7 +1373,7 @@ class AsyncRawConfigsClient:
         """
         Fetches a specified version of a **Config**.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
@@ -1432,7 +1432,7 @@ class AsyncRawConfigsClient:
         """
         Deletes a specified version of a **Config**.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
@@ -1488,7 +1488,7 @@ class AsyncRawConfigsClient:
         """
         Updates the description of a **Config**.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------

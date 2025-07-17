@@ -145,10 +145,9 @@ This setting affects how the `snippets` array is structured in the response, whi
 **instant_mode:** `typing.Optional[bool]` 
 
 Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
-- Dynamic voice generation is not supported with this mode; a predefined [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified in your request.
-- This mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+- A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+- Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
 - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
-- With `instant_mode` enabled, **requests incur a 10% higher cost** due to increased compute and resource requirements.
     
 </dd>
 </dl>
@@ -294,10 +293,9 @@ This setting affects how the `snippets` array is structured in the response, whi
 **instant_mode:** `typing.Optional[bool]` 
 
 Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
-- Dynamic voice generation is not supported with this mode; a predefined [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified in your request.
-- This mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+- A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+- Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
 - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
-- With `instant_mode` enabled, **requests incur a 10% higher cost** due to increased compute and resource requirements.
     
 </dd>
 </dl>
@@ -345,7 +343,7 @@ Streams synthesized speech using the specified voice. If no voice is provided, a
 
 ```python
 from hume import HumeClient
-from hume.tts import FormatMp3, PostedContextWithGenerationId, PostedUtterance
+from hume.tts import PostedUtterance, PostedUtteranceVoiceWithName
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -354,14 +352,12 @@ client.tts.synthesize_file_streaming(
     utterances=[
         PostedUtterance(
             text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
-            description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm, steady tone with an articulate, academic quality.",
+            voice=PostedUtteranceVoiceWithName(
+                name="Male English Actor",
+                provider="HUME_AI",
+            ),
         )
     ],
-    context=PostedContextWithGenerationId(
-        generation_id="09ad914d-8e7f-40f8-a279-e34f07f7dab2",
-    ),
-    format=FormatMp3(),
-    num_generations=1,
 )
 
 ```
@@ -441,10 +437,9 @@ This setting affects how the `snippets` array is structured in the response, whi
 **instant_mode:** `typing.Optional[bool]` 
 
 Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
-- Dynamic voice generation is not supported with this mode; a predefined [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified in your request.
-- This mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+- A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+- Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
 - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
-- With `instant_mode` enabled, **requests incur a 10% higher cost** due to increased compute and resource requirements.
     
 </dd>
 </dl>
@@ -494,7 +489,7 @@ The response is a stream of JSON objects including audio encoded in base64.
 
 ```python
 from hume import HumeClient
-from hume.tts import FormatMp3, PostedContextWithUtterances, PostedUtterance
+from hume.tts import PostedUtterance, PostedUtteranceVoiceWithName
 
 client = HumeClient(
     api_key="YOUR_API_KEY",
@@ -503,18 +498,12 @@ response = client.tts.synthesize_json_streaming(
     utterances=[
         PostedUtterance(
             text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
-            description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm, steady tone with an articulate, academic quality.",
+            voice=PostedUtteranceVoiceWithName(
+                name="Male English Actor",
+                provider="HUME_AI",
+            ),
         )
     ],
-    context=PostedContextWithUtterances(
-        utterances=[
-            PostedUtterance(
-                text="How can people see beauty so differently?",
-                description="A curious student with a clear and respectful tone, seeking clarification on Hume's ideas with a straightforward question.",
-            )
-        ],
-    ),
-    format=FormatMp3(),
 )
 for chunk in response.data:
     yield chunk
@@ -596,10 +585,9 @@ This setting affects how the `snippets` array is structured in the response, whi
 **instant_mode:** `typing.Optional[bool]` 
 
 Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
-- Dynamic voice generation is not supported with this mode; a predefined [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified in your request.
-- This mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+- A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+- Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
 - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
-- With `instant_mode` enabled, **requests incur a 10% higher cost** due to increased compute and resource requirements.
     
 </dd>
 </dl>
@@ -898,7 +886,7 @@ client.tts.voices.delete(
 
 Fetches a paginated list of **Tools**.
 
-Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 </dd>
 </dl>
 </dd>
@@ -1006,9 +994,9 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dl>
 <dd>
 
-Creates a **Tool** that can be added to an [EVI configuration](/reference/empathic-voice-interface-evi/configs/create-config).
+Creates a **Tool** that can be added to an [EVI configuration](/reference/speech-to-speech-evi/configs/create-config).
 
-Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 </dd>
 </dl>
 </dd>
@@ -1120,7 +1108,7 @@ These parameters define the inputs needed for the Tool’s execution, including 
 
 Fetches a list of a **Tool's** versions.
 
-Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 </dd>
 </dl>
 </dd>
@@ -1229,7 +1217,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 
 Updates a **Tool** by creating a new version of the **Tool**.
 
-Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 </dd>
 </dl>
 </dd>
@@ -1341,7 +1329,7 @@ These parameters define the inputs needed for the Tool’s execution, including 
 
 Deletes a **Tool** and its versions.
 
-Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 </dd>
 </dl>
 </dd>
@@ -1413,7 +1401,7 @@ client.empathic_voice.tools.delete_tool(
 
 Updates the name of a **Tool**.
 
-Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 </dd>
 </dl>
 </dd>
@@ -1494,7 +1482,7 @@ client.empathic_voice.tools.update_tool_name(
 
 Fetches a specified version of a **Tool**.
 
-Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 </dd>
 </dl>
 </dd>
@@ -1581,7 +1569,7 @@ Version numbers are integer values representing different iterations of the Tool
 
 Deletes a specified version of a **Tool**.
 
-Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 </dd>
 </dl>
 </dd>
@@ -1668,7 +1656,7 @@ Version numbers are integer values representing different iterations of the Tool
 
 Updates the description of a specified **Tool** version.
 
-Refer to our [tool use](/docs/empathic-voice-interface-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
 </dd>
 </dl>
 </dd>
@@ -1765,7 +1753,7 @@ Version numbers are integer values representing different iterations of the Tool
 
 Fetches a paginated list of **Prompts**.
 
-See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
+See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
 </dd>
 </dl>
 </dd>
@@ -1873,9 +1861,9 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dl>
 <dd>
 
-Creates a **Prompt** that can be added to an [EVI configuration](/reference/empathic-voice-interface-evi/configs/create-config).
+Creates a **Prompt** that can be added to an [EVI configuration](/reference/speech-to-speech-evi/configs/create-config).
 
-See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
+See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
 </dd>
 </dl>
 </dd>
@@ -1928,7 +1916,7 @@ Instructions used to shape EVI’s behavior, responses, and style.
 
 You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles.
 
-For help writing a system prompt, see our [Prompting Guide](/docs/empathic-voice-interface-evi/guides/prompting).
+For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).
     
 </dd>
 </dl>
@@ -1970,7 +1958,7 @@ For help writing a system prompt, see our [Prompting Guide](/docs/empathic-voice
 
 Fetches a list of a **Prompt's** versions.
 
-See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
+See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
 </dd>
 </dl>
 </dd>
@@ -2074,7 +2062,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 
 Updates a **Prompt** by creating a new version of the **Prompt**.
 
-See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
+See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
 </dd>
 </dl>
 </dd>
@@ -2128,7 +2116,7 @@ Instructions used to shape EVI’s behavior, responses, and style for this versi
 
 You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles.
 
-For help writing a system prompt, see our [Prompting Guide](/docs/empathic-voice-interface-evi/guides/prompting).
+For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).
     
 </dd>
 </dl>
@@ -2170,7 +2158,7 @@ For help writing a system prompt, see our [Prompting Guide](/docs/empathic-voice
 
 Deletes a **Prompt** and its versions.
 
-See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
+See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
 </dd>
 </dl>
 </dd>
@@ -2242,7 +2230,7 @@ client.empathic_voice.prompts.delete_prompt(
 
 Updates the name of a **Prompt**.
 
-See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
+See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
 </dd>
 </dl>
 </dd>
@@ -2323,7 +2311,7 @@ client.empathic_voice.prompts.update_prompt_name(
 
 Fetches a specified version of a **Prompt**.
 
-See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
+See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
 </dd>
 </dl>
 </dd>
@@ -2410,7 +2398,7 @@ Version numbers are integer values representing different iterations of the Prom
 
 Deletes a specified version of a **Prompt**.
 
-See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
+See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
 </dd>
 </dl>
 </dd>
@@ -2497,7 +2485,7 @@ Version numbers are integer values representing different iterations of the Prom
 
 Updates the description of a **Prompt**.
 
-See our [prompting guide](/docs/empathic-voice-interface-evi/guides/phone-calling) for tips on crafting your system prompt.
+See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
 </dd>
 </dl>
 </dd>
@@ -2594,7 +2582,7 @@ Version numbers are integer values representing different iterations of the Prom
 
 Fetches a paginated list of **Custom Voices**.
 
-Refer to our [voices guide](/docs/empathic-voice-interface-evi/configuration/voices) for details on creating a custom voice.
+Refer to our [voices guide](/docs/speech-to-speech-evi/configuration/voices) for details on creating a custom voice.
 </dd>
 </dl>
 </dd>
@@ -2691,9 +2679,9 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dl>
 <dd>
 
-Creates a **Custom Voice** that can be added to an [EVI configuration](/reference/empathic-voice-interface-evi/configs/create-config).
+Creates a **Custom Voice** that can be added to an [EVI configuration](/reference/speech-to-speech-evi/configs/create-config).
 
-Refer to our [voices guide](/docs/empathic-voice-interface-evi/configuration/voices) for details on creating a custom voice.
+Refer to our [voices guide](/docs/speech-to-speech-evi/configuration/voices) for details on creating a custom voice.
 </dd>
 </dl>
 </dd>
@@ -2786,7 +2774,7 @@ If no parameters are specified then all attributes will be set to their defaults
 
 Fetches a specific **Custom Voice** by ID.
 
-Refer to our [voices guide](/docs/empathic-voice-interface-evi/configuration/voices) for details on creating a custom voice.
+Refer to our [voices guide](/docs/speech-to-speech-evi/configuration/voices) for details on creating a custom voice.
 </dd>
 </dl>
 </dd>
@@ -2858,7 +2846,7 @@ client.empathic_voice.custom_voices.get_custom_voice(
 
 Updates a **Custom Voice** by creating a new version of the **Custom Voice**.
 
-Refer to our [voices guide](/docs/empathic-voice-interface-evi/configuration/voices) for details on creating a custom voice.
+Refer to our [voices guide](/docs/speech-to-speech-evi/configuration/voices) for details on creating a custom voice.
 </dd>
 </dl>
 </dd>
@@ -2960,7 +2948,7 @@ If no parameters are specified then all attributes will be set to their defaults
 
 Deletes a **Custom Voice** and its versions.
 
-Refer to our [voices guide](/docs/empathic-voice-interface-evi/configuration/voices) for details on creating a custom voice.
+Refer to our [voices guide](/docs/speech-to-speech-evi/configuration/voices) for details on creating a custom voice.
 </dd>
 </dl>
 </dd>
@@ -3032,7 +3020,7 @@ client.empathic_voice.custom_voices.delete_custom_voice(
 
 Updates the name of a **Custom Voice**.
 
-Refer to our [voices guide](/docs/empathic-voice-interface-evi/configuration/voices) for details on creating a custom voice.
+Refer to our [voices guide](/docs/speech-to-speech-evi/configuration/voices) for details on creating a custom voice.
 </dd>
 </dl>
 </dd>
@@ -3114,7 +3102,7 @@ client.empathic_voice.custom_voices.update_custom_voice_name(
 
 Fetches a paginated list of **Configs**.
 
-For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 </dd>
 </dl>
 </dd>
@@ -3224,7 +3212,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 
 Creates a **Config** which can be applied to EVI.
 
-For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 </dd>
 </dl>
 </dd>
@@ -3297,7 +3285,7 @@ client.empathic_voice.configs.create_config(
 <dl>
 <dd>
 
-**evi_version:** `str` — Specifies the EVI version to use. Use `"1"` for version 1, or `"2"` for the latest enhanced version. For a detailed comparison of the two versions, refer to our [guide](/docs/empathic-voice-interface-evi/configuration/evi-version).
+**evi_version:** `str` — Specifies the EVI version to use. Use `"1"` for version 1, or `"2"` for the latest enhanced version. For a detailed comparison of the two versions, refer to our [guide](/docs/speech-to-speech-evi/configuration/evi-version).
     
 </dd>
 </dl>
@@ -3435,7 +3423,7 @@ Hume's eLLM (empathic Large Language Model) is a multimodal language model that 
 
 Fetches a list of a **Config's** versions.
 
-For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 </dd>
 </dl>
 </dd>
@@ -3544,7 +3532,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 
 Updates a **Config** by creating a new version of the **Config**.
 
-For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 </dd>
 </dl>
 </dd>
@@ -3760,7 +3748,7 @@ Hume's eLLM (empathic Large Language Model) is a multimodal language model that 
 
 Deletes a **Config** and its versions.
 
-For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 </dd>
 </dl>
 </dd>
@@ -3832,7 +3820,7 @@ client.empathic_voice.configs.delete_config(
 
 Updates the name of a **Config**.
 
-For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 </dd>
 </dl>
 </dd>
@@ -3913,7 +3901,7 @@ client.empathic_voice.configs.update_config_name(
 
 Fetches a specified version of a **Config**.
 
-For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 </dd>
 </dl>
 </dd>
@@ -4000,7 +3988,7 @@ Version numbers are integer values representing different iterations of the Conf
 
 Deletes a specified version of a **Config**.
 
-For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 </dd>
 </dl>
 </dd>
@@ -4087,7 +4075,7 @@ Version numbers are integer values representing different iterations of the Conf
 
 Updates the description of a **Config**.
 
-For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 </dd>
 </dl>
 </dd>
@@ -4401,7 +4389,7 @@ This parameter uses zero-based indexing. For example, setting `page_number` to 0
 <dl>
 <dd>
 
-Fetches the audio of a previous **Chat**. For more details, see our guide on audio reconstruction [here](/docs/empathic-voice-interface-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
+Fetches the audio of a previous **Chat**. For more details, see our guide on audio reconstruction [here](/docs/speech-to-speech-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
 </dd>
 </dl>
 </dd>
@@ -4801,7 +4789,7 @@ This parameter uses zero-based indexing. For example, setting `page_number` to 0
 <dl>
 <dd>
 
-Fetches a paginated list of audio for each **Chat** within the specified **Chat Group**. For more details, see our guide on audio reconstruction [here](/docs/empathic-voice-interface-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
+Fetches a paginated list of audio for each **Chat** within the specified **Chat Group**. For more details, see our guide on audio reconstruction [here](/docs/speech-to-speech-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
 </dd>
 </dl>
 </dd>

@@ -24,7 +24,7 @@ class PostedVoice(UniversalBaseModel):
     
     This can be either the name of a previously created Custom Voice or one of our 8 base voices: `ITO`, `KORA`, `DACHER`, `AURA`, `FINN`, `WHIMSY`, `STELLA`, or `SUNNY`.
     
-    The name will be automatically converted to uppercase (e.g., "Ito" becomes "ITO"). If a name is not specified, then a [Custom Voice](/reference/empathic-voice-interface-evi/configs/create-config#request.body.voice.custom_voice) specification must be provided.
+    The name will be automatically converted to uppercase (e.g., "Ito" becomes "ITO"). If a name is not specified, then a [Custom Voice](/reference/speech-to-speech-evi/configs/create-config#request.body.voice.custom_voice) specification must be provided.
     """
 
     custom_voice: typing.Optional[PostedCustomVoice] = None

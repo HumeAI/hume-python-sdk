@@ -230,7 +230,7 @@ class ChatGroupsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnChatGroupPagedAudioReconstructions:
         """
-        Fetches a paginated list of audio for each **Chat** within the specified **Chat Group**. For more details, see our guide on audio reconstruction [here](/docs/empathic-voice-interface-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
+        Fetches a paginated list of audio for each **Chat** within the specified **Chat Group**. For more details, see our guide on audio reconstruction [here](/docs/speech-to-speech-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
 
         Parameters
         ----------
@@ -526,7 +526,7 @@ class AsyncChatGroupsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnChatGroupPagedAudioReconstructions:
         """
-        Fetches a paginated list of audio for each **Chat** within the specified **Chat Group**. For more details, see our guide on audio reconstruction [here](/docs/empathic-voice-interface-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
+        Fetches a paginated list of audio for each **Chat** within the specified **Chat Group**. For more details, see our guide on audio reconstruction [here](/docs/speech-to-speech-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
 
         Parameters
         ----------
