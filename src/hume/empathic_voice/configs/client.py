@@ -13,9 +13,9 @@ from ..types.posted_language_model import PostedLanguageModel
 from ..types.posted_nudge_spec import PostedNudgeSpec
 from ..types.posted_timeout_specs import PostedTimeoutSpecs
 from ..types.posted_user_defined_tool_spec import PostedUserDefinedToolSpec
-from ..types.posted_voice import PostedVoice
 from ..types.posted_webhook_spec import PostedWebhookSpec
 from ..types.return_config import ReturnConfig
+from ..types.voice_ref import VoiceRef
 from .raw_client import AsyncRawConfigsClient, RawConfigsClient
 
 # this is used as the default value for optional parameters
@@ -49,7 +49,7 @@ class ConfigsClient:
         """
         Fetches a paginated list of **Configs**.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
@@ -109,7 +109,7 @@ class ConfigsClient:
         name: str,
         version_description: typing.Optional[str] = OMIT,
         prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
-        voice: typing.Optional[PostedVoice] = OMIT,
+        voice: typing.Optional[VoiceRef] = OMIT,
         language_model: typing.Optional[PostedLanguageModel] = OMIT,
         ellm_model: typing.Optional[PostedEllmModel] = OMIT,
         tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
@@ -123,12 +123,12 @@ class ConfigsClient:
         """
         Creates a **Config** which can be applied to EVI.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
         evi_version : str
-            Specifies the EVI version to use. Use `"1"` for version 1, or `"2"` for the latest enhanced version. For a detailed comparison of the two versions, refer to our [guide](/docs/empathic-voice-interface-evi/configuration/evi-version).
+            Specifies the EVI version to use. Use `"1"` for version 1, or `"2"` for the latest enhanced version. For a detailed comparison of the two versions, refer to our [guide](/docs/speech-to-speech-evi/configuration/evi-version).
 
         name : str
             Name applied to all versions of a particular Config.
@@ -138,7 +138,7 @@ class ConfigsClient:
 
         prompt : typing.Optional[PostedConfigPromptSpec]
 
-        voice : typing.Optional[PostedVoice]
+        voice : typing.Optional[VoiceRef]
             A voice specification associated with this Config.
 
         language_model : typing.Optional[PostedLanguageModel]
@@ -183,7 +183,7 @@ class ConfigsClient:
             PostedEventMessageSpec,
             PostedEventMessageSpecs,
             PostedLanguageModel,
-            PostedVoice,
+            VoiceName,
         )
 
         client = HumeClient(
@@ -195,10 +195,10 @@ class ConfigsClient:
                 id="af699d45-2985-42cc-91b9-af9e5da3bac5",
                 version=0,
             ),
-            evi_version="2",
-            voice=PostedVoice(
+            evi_version="3",
+            voice=VoiceName(
                 provider="HUME_AI",
-                name="SAMPLE VOICE",
+                name="Ava Song",
             ),
             language_model=PostedLanguageModel(
                 model_provider="ANTHROPIC",
@@ -251,7 +251,7 @@ class ConfigsClient:
         """
         Fetches a list of a **Config's** versions.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
@@ -310,7 +310,7 @@ class ConfigsClient:
         evi_version: str,
         version_description: typing.Optional[str] = OMIT,
         prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
-        voice: typing.Optional[PostedVoice] = OMIT,
+        voice: typing.Optional[VoiceRef] = OMIT,
         language_model: typing.Optional[PostedLanguageModel] = OMIT,
         ellm_model: typing.Optional[PostedEllmModel] = OMIT,
         tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
@@ -324,7 +324,7 @@ class ConfigsClient:
         """
         Updates a **Config** by creating a new version of the **Config**.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
@@ -339,7 +339,7 @@ class ConfigsClient:
 
         prompt : typing.Optional[PostedConfigPromptSpec]
 
-        voice : typing.Optional[PostedVoice]
+        voice : typing.Optional[VoiceRef]
             A voice specification associated with this Config version.
 
         language_model : typing.Optional[PostedLanguageModel]
@@ -384,7 +384,7 @@ class ConfigsClient:
             PostedEventMessageSpec,
             PostedEventMessageSpecs,
             PostedLanguageModel,
-            PostedVoice,
+            VoiceName,
         )
 
         client = HumeClient(
@@ -393,14 +393,14 @@ class ConfigsClient:
         client.empathic_voice.configs.create_config_version(
             id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
             version_description="This is an updated version of the Weather Assistant Config.",
-            evi_version="2",
+            evi_version="3",
             prompt=PostedConfigPromptSpec(
                 id="af699d45-2985-42cc-91b9-af9e5da3bac5",
                 version=0,
             ),
-            voice=PostedVoice(
+            voice=VoiceName(
                 provider="HUME_AI",
-                name="ITO",
+                name="Ava Song",
             ),
             language_model=PostedLanguageModel(
                 model_provider="ANTHROPIC",
@@ -448,7 +448,7 @@ class ConfigsClient:
         """
         Deletes a **Config** and its versions.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
@@ -480,7 +480,7 @@ class ConfigsClient:
         """
         Updates the name of a **Config**.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
@@ -519,7 +519,7 @@ class ConfigsClient:
         """
         Fetches a specified version of a **Config**.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
@@ -562,7 +562,7 @@ class ConfigsClient:
         """
         Deletes a specified version of a **Config**.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
@@ -609,7 +609,7 @@ class ConfigsClient:
         """
         Updates the description of a **Config**.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
@@ -680,7 +680,7 @@ class AsyncConfigsClient:
         """
         Fetches a paginated list of **Configs**.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
@@ -749,7 +749,7 @@ class AsyncConfigsClient:
         name: str,
         version_description: typing.Optional[str] = OMIT,
         prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
-        voice: typing.Optional[PostedVoice] = OMIT,
+        voice: typing.Optional[VoiceRef] = OMIT,
         language_model: typing.Optional[PostedLanguageModel] = OMIT,
         ellm_model: typing.Optional[PostedEllmModel] = OMIT,
         tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
@@ -763,12 +763,12 @@ class AsyncConfigsClient:
         """
         Creates a **Config** which can be applied to EVI.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
         evi_version : str
-            Specifies the EVI version to use. Use `"1"` for version 1, or `"2"` for the latest enhanced version. For a detailed comparison of the two versions, refer to our [guide](/docs/empathic-voice-interface-evi/configuration/evi-version).
+            Specifies the EVI version to use. Use `"1"` for version 1, or `"2"` for the latest enhanced version. For a detailed comparison of the two versions, refer to our [guide](/docs/speech-to-speech-evi/configuration/evi-version).
 
         name : str
             Name applied to all versions of a particular Config.
@@ -778,7 +778,7 @@ class AsyncConfigsClient:
 
         prompt : typing.Optional[PostedConfigPromptSpec]
 
-        voice : typing.Optional[PostedVoice]
+        voice : typing.Optional[VoiceRef]
             A voice specification associated with this Config.
 
         language_model : typing.Optional[PostedLanguageModel]
@@ -825,7 +825,7 @@ class AsyncConfigsClient:
             PostedEventMessageSpec,
             PostedEventMessageSpecs,
             PostedLanguageModel,
-            PostedVoice,
+            VoiceName,
         )
 
         client = AsyncHumeClient(
@@ -840,10 +840,10 @@ class AsyncConfigsClient:
                     id="af699d45-2985-42cc-91b9-af9e5da3bac5",
                     version=0,
                 ),
-                evi_version="2",
-                voice=PostedVoice(
+                evi_version="3",
+                voice=VoiceName(
                     provider="HUME_AI",
-                    name="SAMPLE VOICE",
+                    name="Ava Song",
                 ),
                 language_model=PostedLanguageModel(
                     model_provider="ANTHROPIC",
@@ -899,7 +899,7 @@ class AsyncConfigsClient:
         """
         Fetches a list of a **Config's** versions.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
@@ -967,7 +967,7 @@ class AsyncConfigsClient:
         evi_version: str,
         version_description: typing.Optional[str] = OMIT,
         prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
-        voice: typing.Optional[PostedVoice] = OMIT,
+        voice: typing.Optional[VoiceRef] = OMIT,
         language_model: typing.Optional[PostedLanguageModel] = OMIT,
         ellm_model: typing.Optional[PostedEllmModel] = OMIT,
         tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
@@ -981,7 +981,7 @@ class AsyncConfigsClient:
         """
         Updates a **Config** by creating a new version of the **Config**.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
@@ -996,7 +996,7 @@ class AsyncConfigsClient:
 
         prompt : typing.Optional[PostedConfigPromptSpec]
 
-        voice : typing.Optional[PostedVoice]
+        voice : typing.Optional[VoiceRef]
             A voice specification associated with this Config version.
 
         language_model : typing.Optional[PostedLanguageModel]
@@ -1043,7 +1043,7 @@ class AsyncConfigsClient:
             PostedEventMessageSpec,
             PostedEventMessageSpecs,
             PostedLanguageModel,
-            PostedVoice,
+            VoiceName,
         )
 
         client = AsyncHumeClient(
@@ -1055,14 +1055,14 @@ class AsyncConfigsClient:
             await client.empathic_voice.configs.create_config_version(
                 id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
                 version_description="This is an updated version of the Weather Assistant Config.",
-                evi_version="2",
+                evi_version="3",
                 prompt=PostedConfigPromptSpec(
                     id="af699d45-2985-42cc-91b9-af9e5da3bac5",
                     version=0,
                 ),
-                voice=PostedVoice(
+                voice=VoiceName(
                     provider="HUME_AI",
-                    name="ITO",
+                    name="Ava Song",
                 ),
                 language_model=PostedLanguageModel(
                     model_provider="ANTHROPIC",
@@ -1113,7 +1113,7 @@ class AsyncConfigsClient:
         """
         Deletes a **Config** and its versions.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
@@ -1155,7 +1155,7 @@ class AsyncConfigsClient:
         """
         Updates the name of a **Config**.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
@@ -1202,7 +1202,7 @@ class AsyncConfigsClient:
         """
         Fetches a specified version of a **Config**.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
@@ -1253,7 +1253,7 @@ class AsyncConfigsClient:
         """
         Deletes a specified version of a **Config**.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------
@@ -1308,7 +1308,7 @@ class AsyncConfigsClient:
         """
         Updates the description of a **Config**.
 
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/empathic-voice-interface-evi/configuration).
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
 
         Parameters
         ----------

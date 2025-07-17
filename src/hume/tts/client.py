@@ -87,10 +87,9 @@ class TtsClient:
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
-            - Dynamic voice generation is not supported with this mode; a predefined [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified in your request.
-            - This mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+            - A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+            - Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
             - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
-            - With `instant_mode` enabled, **requests incur a 10% higher cost** due to increased compute and resource requirements.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -187,10 +186,9 @@ class TtsClient:
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
-            - Dynamic voice generation is not supported with this mode; a predefined [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified in your request.
-            - This mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+            - A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+            - Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
             - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
-            - With `instant_mode` enabled, **requests incur a 10% higher cost** due to increased compute and resource requirements.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
@@ -279,10 +277,9 @@ class TtsClient:
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
-            - Dynamic voice generation is not supported with this mode; a predefined [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified in your request.
-            - This mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+            - A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+            - Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
             - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
-            - With `instant_mode` enabled, **requests incur a 10% higher cost** due to increased compute and resource requirements.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
@@ -295,7 +292,7 @@ class TtsClient:
         Examples
         --------
         from hume import HumeClient
-        from hume.tts import FormatMp3, PostedContextWithGenerationId, PostedUtterance
+        from hume.tts import PostedUtterance, PostedUtteranceVoiceWithName
 
         client = HumeClient(
             api_key="YOUR_API_KEY",
@@ -304,14 +301,12 @@ class TtsClient:
             utterances=[
                 PostedUtterance(
                     text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
-                    description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm, steady tone with an articulate, academic quality.",
+                    voice=PostedUtteranceVoiceWithName(
+                        name="Male English Actor",
+                        provider="HUME_AI",
+                    ),
                 )
             ],
-            context=PostedContextWithGenerationId(
-                generation_id="09ad914d-8e7f-40f8-a279-e34f07f7dab2",
-            ),
-            format=FormatMp3(),
-            num_generations=1,
         )
         """
         with self._raw_client.synthesize_file_streaming(
@@ -373,10 +368,9 @@ class TtsClient:
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
-            - Dynamic voice generation is not supported with this mode; a predefined [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified in your request.
-            - This mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+            - A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+            - Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
             - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
-            - With `instant_mode` enabled, **requests incur a 10% higher cost** due to increased compute and resource requirements.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -389,7 +383,7 @@ class TtsClient:
         Examples
         --------
         from hume import HumeClient
-        from hume.tts import FormatMp3, PostedContextWithUtterances, PostedUtterance
+        from hume.tts import PostedUtterance, PostedUtteranceVoiceWithName
 
         client = HumeClient(
             api_key="YOUR_API_KEY",
@@ -398,18 +392,12 @@ class TtsClient:
             utterances=[
                 PostedUtterance(
                     text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
-                    description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm, steady tone with an articulate, academic quality.",
+                    voice=PostedUtteranceVoiceWithName(
+                        name="Male English Actor",
+                        provider="HUME_AI",
+                    ),
                 )
             ],
-            context=PostedContextWithUtterances(
-                utterances=[
-                    PostedUtterance(
-                        text="How can people see beauty so differently?",
-                        description="A curious student with a clear and respectful tone, seeking clarification on Hume's ideas with a straightforward question.",
-                    )
-                ],
-            ),
-            format=FormatMp3(),
         )
         for chunk in response:
             yield chunk
@@ -498,10 +486,9 @@ class AsyncTtsClient:
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
-            - Dynamic voice generation is not supported with this mode; a predefined [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified in your request.
-            - This mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+            - A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+            - Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
             - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
-            - With `instant_mode` enabled, **requests incur a 10% higher cost** due to increased compute and resource requirements.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -606,10 +593,9 @@ class AsyncTtsClient:
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
-            - Dynamic voice generation is not supported with this mode; a predefined [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified in your request.
-            - This mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+            - A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+            - Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
             - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
-            - With `instant_mode` enabled, **requests incur a 10% higher cost** due to increased compute and resource requirements.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
@@ -707,10 +693,9 @@ class AsyncTtsClient:
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
-            - Dynamic voice generation is not supported with this mode; a predefined [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified in your request.
-            - This mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+            - A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+            - Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
             - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
-            - With `instant_mode` enabled, **requests incur a 10% higher cost** due to increased compute and resource requirements.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
@@ -725,7 +710,7 @@ class AsyncTtsClient:
         import asyncio
 
         from hume import AsyncHumeClient
-        from hume.tts import FormatMp3, PostedContextWithGenerationId, PostedUtterance
+        from hume.tts import PostedUtterance, PostedUtteranceVoiceWithName
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
@@ -737,14 +722,12 @@ class AsyncTtsClient:
                 utterances=[
                     PostedUtterance(
                         text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
-                        description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm, steady tone with an articulate, academic quality.",
+                        voice=PostedUtteranceVoiceWithName(
+                            name="Male English Actor",
+                            provider="HUME_AI",
+                        ),
                     )
                 ],
-                context=PostedContextWithGenerationId(
-                    generation_id="09ad914d-8e7f-40f8-a279-e34f07f7dab2",
-                ),
-                format=FormatMp3(),
-                num_generations=1,
             )
 
 
@@ -810,10 +793,9 @@ class AsyncTtsClient:
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
-            - Dynamic voice generation is not supported with this mode; a predefined [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified in your request.
-            - This mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+            - A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+            - Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
             - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
-            - With `instant_mode` enabled, **requests incur a 10% higher cost** due to increased compute and resource requirements.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -828,7 +810,7 @@ class AsyncTtsClient:
         import asyncio
 
         from hume import AsyncHumeClient
-        from hume.tts import FormatMp3, PostedContextWithUtterances, PostedUtterance
+        from hume.tts import PostedUtterance, PostedUtteranceVoiceWithName
 
         client = AsyncHumeClient(
             api_key="YOUR_API_KEY",
@@ -840,18 +822,12 @@ class AsyncTtsClient:
                 utterances=[
                     PostedUtterance(
                         text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
-                        description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm, steady tone with an articulate, academic quality.",
+                        voice=PostedUtteranceVoiceWithName(
+                            name="Male English Actor",
+                            provider="HUME_AI",
+                        ),
                     )
                 ],
-                context=PostedContextWithUtterances(
-                    utterances=[
-                        PostedUtterance(
-                            text="How can people see beauty so differently?",
-                            description="A curious student with a clear and respectful tone, seeking clarification on Hume's ideas with a straightforward question.",
-                        )
-                    ],
-                ),
-                format=FormatMp3(),
             )
             async for chunk in response:
                 yield chunk

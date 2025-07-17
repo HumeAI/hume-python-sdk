@@ -156,6 +156,7 @@ types:
     union:
       - type: root.AssistantEnd
       - type: root.AssistantMessage
+      - type: root.AssistantProsody
       - type: root.AudioOutput
       - type: root.ChatMetadata
       - type: root.WebSocketError

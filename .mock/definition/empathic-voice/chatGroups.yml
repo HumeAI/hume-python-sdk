@@ -551,7 +551,7 @@ service:
       docs: >-
         Fetches a paginated list of audio for each **Chat** within the specified
         **Chat Group**. For more details, see our guide on audio reconstruction
-        [here](/docs/empathic-voice-interface-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
+        [here](/docs/speech-to-speech-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
       source:
         openapi: evi-openapi.json
       path-parameters:

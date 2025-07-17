@@ -12,9 +12,23 @@ class ReturnPrompt(UniversalBaseModel):
     A Prompt associated with this Config.
     """
 
+    name: str = pydantic.Field()
+    """
+    Name applied to all versions of a particular Prompt.
+    """
+
     id: str = pydantic.Field()
     """
     Identifier for a Prompt. Formatted as a UUID.
+    """
+
+    text: str = pydantic.Field()
+    """
+    Instructions used to shape EVI’s behavior, responses, and style.
+    
+    You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles.
+    
+    For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).
     """
 
     version: int = pydantic.Field()
@@ -31,16 +45,6 @@ class ReturnPrompt(UniversalBaseModel):
     Versioning method for a Prompt. Either `FIXED` for using a fixed version number or `LATEST` for auto-updating to the latest version.
     """
 
-    version_description: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    An optional description of the Prompt version.
-    """
-
-    name: str = pydantic.Field()
-    """
-    Name applied to all versions of a particular Prompt.
-    """
-
     created_on: int = pydantic.Field()
     """
     Time at which the Prompt was created. Measured in seconds since the Unix epoch.
@@ -51,13 +55,9 @@ class ReturnPrompt(UniversalBaseModel):
     Time at which the Prompt was last modified. Measured in seconds since the Unix epoch.
     """
 
-    text: str = pydantic.Field()
+    version_description: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Instructions used to shape EVI’s behavior, responses, and style.
-    
-    You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles.
-    
-    For help writing a system prompt, see our [Prompting Guide](/docs/empathic-voice-interface-evi/guides/prompting).
+    An optional description of the Prompt version.
     """
 
     if IS_PYDANTIC_V2:
