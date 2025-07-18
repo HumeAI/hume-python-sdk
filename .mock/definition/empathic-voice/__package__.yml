@@ -952,20 +952,20 @@ types:
       interim:
         type: boolean
         docs: >-
-          Indicates if this message contains an immediate and unfinalized
-          transcript of the user’s audio input. If it does, words may be
-          repeated across successive `UserMessage` messages as our transcription
-          model becomes more confident about what was said with additional
-          context. Interim messages are useful to detect if the user is
-          interrupting during audio playback on the client. Even without a
-          finalized transcription, along with
-          [UserInterrupt](/reference/empathic-voice-interface-evi/chat/chat#receive.UserInterruption.type)
-          messages, interim `UserMessages` are useful for detecting if the user
-          is interrupting during audio playback on the client, signaling to stop
-          playback in your application. Interim `UserMessages` will only be
-          received if the
-          [verbose_transcription](/reference/empathic-voice-interface-evi/chat/chat#request.query.verbose_transcription)
-          query parameter is set to `true` in the handshake request.
+          Indicates whether this `UserMessage` contains an interim (unfinalized)
+          transcript.
+
+
+          - `true`: the transcript is provisional; words may be repeated or
+          refined in subsequent `UserMessage` responses as additional audio is
+          processed.
+
+          - `false`: the transcript is final and complete.
+
+
+          Interim transcripts are only sent when the
+          [`verbose_transcription`](/reference/empathic-voice-interface-evi/chat/chat#request.query.verbose_transcription)
+          query parameter is set to `true` in the initial handshake.
       message:
         type: ChatMessage
         docs: Transcript of the message.
