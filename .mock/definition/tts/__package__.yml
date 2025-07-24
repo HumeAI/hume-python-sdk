@@ -513,7 +513,9 @@ types:
           maxLength: 1000
       speed:
         type: optional<double>
-        docs: Speed multiplier for the synthesized speech.
+        docs: >-
+          Speed multiplier for the synthesized speech. Extreme values below 1
+          and above 1.5 may sometimes cause instability to the generated output.
         default: 1
         validation:
           min: 0.25
