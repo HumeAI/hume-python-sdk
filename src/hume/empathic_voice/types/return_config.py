@@ -39,6 +39,24 @@ class ReturnConfig(UniversalBaseModel):
     Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
     """
 
+    version_description: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    An optional description of the Config version.
+    """
+
+    language_model: typing.Optional[ReturnLanguageModel] = pydantic.Field(default=None)
+    """
+    The supplemental language model associated with this Config.
+    
+    This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
+    """
+
+    builtin_tools: typing.Optional[typing.List[typing.Optional[ReturnBuiltinTool]]] = pydantic.Field(default=None)
+    """
+    List of built-in tools associated with this Config.
+    """
+
+    event_messages: typing.Optional[ReturnEventMessageSpecs] = None
     evi_version: typing.Optional[str] = pydantic.Field(default=None)
     """
     Specifies the EVI version to use. Use `"1"` for version 1, or `"2"` for the latest enhanced version. For a detailed comparison of the two versions, refer to our [guide](/docs/speech-to-speech-evi/configuration/evi-version).
@@ -73,24 +91,6 @@ class ReturnConfig(UniversalBaseModel):
     modified_on: typing.Optional[int] = pydantic.Field(default=None)
     """
     Time at which the Config was last modified. Measured in seconds since the Unix epoch.
-    """
-
-    language_model: typing.Optional[ReturnLanguageModel] = pydantic.Field(default=None)
-    """
-    The supplemental language model associated with this Config.
-    
-    This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
-    """
-
-    builtin_tools: typing.Optional[typing.List[typing.Optional[ReturnBuiltinTool]]] = pydantic.Field(default=None)
-    """
-    List of built-in tools associated with this Config.
-    """
-
-    event_messages: typing.Optional[ReturnEventMessageSpecs] = None
-    version_description: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    An optional description of the Config version.
     """
 
     if IS_PYDANTIC_V2:
