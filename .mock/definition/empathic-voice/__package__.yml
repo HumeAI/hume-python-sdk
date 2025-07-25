@@ -952,20 +952,20 @@ types:
       interim:
         type: boolean
         docs: >-
-          Indicates if this message contains an immediate and unfinalized
-          transcript of the user’s audio input. If it does, words may be
-          repeated across successive `UserMessage` messages as our transcription
-          model becomes more confident about what was said with additional
-          context. Interim messages are useful to detect if the user is
-          interrupting during audio playback on the client. Even without a
-          finalized transcription, along with
-          [UserInterrupt](/reference/empathic-voice-interface-evi/chat/chat#receive.UserInterruption.type)
-          messages, interim `UserMessages` are useful for detecting if the user
-          is interrupting during audio playback on the client, signaling to stop
-          playback in your application. Interim `UserMessages` will only be
-          received if the
-          [verbose_transcription](/reference/empathic-voice-interface-evi/chat/chat#request.query.verbose_transcription)
-          query parameter is set to `true` in the handshake request.
+          Indicates whether this `UserMessage` contains an interim (unfinalized)
+          transcript.
+
+
+          - `true`: the transcript is provisional; words may be repeated or
+          refined in subsequent `UserMessage` responses as additional audio is
+          processed.
+
+          - `false`: the transcript is final and complete.
+
+
+          Interim transcripts are only sent when the
+          [`verbose_transcription`](/reference/empathic-voice-interface-evi/chat/chat#request.query.verbose_transcription)
+          query parameter is set to `true` in the initial handshake.
       message:
         type: ChatMessage
         docs: Transcript of the message.
@@ -1405,6 +1405,9 @@ types:
           Version numbers are integer values representing different iterations
           of the Prompt. Each update to the Prompt increments its version
           number.
+      version_description:
+        type: optional<string>
+        docs: An optional description of the Prompt version.
       version_type:
         type: ReturnPromptVersionType
         docs: >-
@@ -1420,9 +1423,6 @@ types:
         docs: >-
           Time at which the Prompt was last modified. Measured in seconds since
           the Unix epoch.
-      version_description:
-        type: optional<string>
-        docs: An optional description of the Prompt version.
     source:
       openapi: evi-openapi.json
   ReturnPagedConfigs:
@@ -1478,6 +1478,22 @@ types:
           Version numbers are integer values representing different iterations
           of the Config. Each update to the Config increments its version
           number.
+      version_description:
+        type: optional<string>
+        docs: An optional description of the Config version.
+      language_model:
+        type: optional<ReturnLanguageModel>
+        docs: >-
+          The supplemental language model associated with this Config.
+
+
+          This model is used to generate longer, more detailed responses from
+          EVI. Choosing an appropriate supplemental language model for your use
+          case is crucial for generating fast, high-quality responses from EVI.
+      builtin_tools:
+        type: optional<list<optional<ReturnBuiltinTool>>>
+        docs: List of built-in tools associated with this Config.
+      event_messages: optional<ReturnEventMessageSpecs>
       evi_version:
         type: optional<string>
         docs: >-
@@ -1515,22 +1531,6 @@ types:
         docs: >-
           Time at which the Config was last modified. Measured in seconds since
           the Unix epoch.
-      language_model:
-        type: optional<ReturnLanguageModel>
-        docs: >-
-          The supplemental language model associated with this Config.
-
-
-          This model is used to generate longer, more detailed responses from
-          EVI. Choosing an appropriate supplemental language model for your use
-          case is crucial for generating fast, high-quality responses from EVI.
-      builtin_tools:
-        type: optional<list<optional<ReturnBuiltinTool>>>
-        docs: List of built-in tools associated with this Config.
-      event_messages: optional<ReturnEventMessageSpecs>
-      version_description:
-        type: optional<string>
-        docs: An optional description of the Config version.
     source:
       openapi: evi-openapi.json
   ReturnPagedChatsPaginationDirection:
