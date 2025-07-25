@@ -952,20 +952,20 @@ types:
       interim:
         type: boolean
         docs: >-
-          Indicates if this message contains an immediate and unfinalized
-          transcript of the user’s audio input. If it does, words may be
-          repeated across successive `UserMessage` messages as our transcription
-          model becomes more confident about what was said with additional
-          context. Interim messages are useful to detect if the user is
-          interrupting during audio playback on the client. Even without a
-          finalized transcription, along with
-          [UserInterrupt](/reference/empathic-voice-interface-evi/chat/chat#receive.UserInterruption.type)
-          messages, interim `UserMessages` are useful for detecting if the user
-          is interrupting during audio playback on the client, signaling to stop
-          playback in your application. Interim `UserMessages` will only be
-          received if the
-          [verbose_transcription](/reference/empathic-voice-interface-evi/chat/chat#request.query.verbose_transcription)
-          query parameter is set to `true` in the handshake request.
+          Indicates whether this `UserMessage` contains an interim (unfinalized)
+          transcript.
+
+
+          - `true`: the transcript is provisional; words may be repeated or
+          refined in subsequent `UserMessage` responses as additional audio is
+          processed.
+
+          - `false`: the transcript is final and complete.
+
+
+          Interim transcripts are only sent when the
+          [`verbose_transcription`](/reference/empathic-voice-interface-evi/chat/chat#request.query.verbose_transcription)
+          query parameter is set to `true` in the initial handshake.
       message:
         type: ChatMessage
         docs: Transcript of the message.
@@ -1029,12 +1029,16 @@ types:
         name: Claude3Sonnet20240229
       - value: claude-3-haiku-20240307
         name: Claude3Haiku20240307
+      - value: claude-sonnet-4-20250514
+        name: ClaudeSonnet420250514
       - value: us.anthropic.claude-3-5-haiku-20241022-v1:0
         name: UsAnthropicClaude35Haiku20241022V10
       - value: us.anthropic.claude-3-5-sonnet-20240620-v1:0
         name: UsAnthropicClaude35Sonnet20240620V10
       - value: us.anthropic.claude-3-haiku-20240307-v1:0
         name: UsAnthropicClaude3Haiku20240307V10
+      - value: qwen-3-235b-a22b
+        name: Qwen3235BA22B
       - value: gemini-1.5-pro
         name: Gemini15Pro
       - value: gemini-1.5-flash
@@ -1045,6 +1049,10 @@ types:
         name: Gemini15Flash002
       - value: gemini-2.0-flash
         name: Gemini20Flash
+      - value: gemini-2.5-flash
+        name: Gemini25Flash
+      - value: gemini-2.5-flash-preview-04-17
+        name: Gemini25FlashPreview0417
       - value: gpt-4-turbo
         name: Gpt4Turbo
       - value: gpt-4-turbo-preview
@@ -1069,6 +1077,8 @@ types:
         name: Llama3370BVersatile
       - value: llama-3.1-8b-instant
         name: Llama318BInstant
+      - value: moonshotai/kimi-k2-instruct
+        name: MoonshotaiKimiK2Instruct
       - value: accounts/fireworks/models/mixtral-8x7b-instruct
         name: AccountsFireworksModelsMixtral8X7BInstruct
       - value: accounts/fireworks/models/llama-v3p1-405b-instruct
@@ -1077,9 +1087,21 @@ types:
         name: AccountsFireworksModelsLlamaV3P170BInstruct
       - value: accounts/fireworks/models/llama-v3p1-8b-instruct
         name: AccountsFireworksModelsLlamaV3P18BInstruct
+      - sonar
+      - value: sonar-pro
+        name: SonarPro
+      - sambanova
+      - value: DeepSeek-R1-Distill-Llama-70B
+        name: DeepSeekR1DistillLlama70B
+      - value: Llama-4-Maverick-17B-128E-Instruct
+        name: Llama4Maverick17B128EInstruct
+      - value: Qwen3-32B
+        name: Qwen332B
       - ellm
       - value: custom-language-model
         name: CustomLanguageModel
+      - value: hume-evi-3-web-search
+        name: HumeEvi3WebSearch
     source:
       openapi: evi-openapi.json
   ModelProviderEnum:
@@ -1092,6 +1114,9 @@ types:
       - GOOGLE
       - HUME_AI
       - AMAZON_BEDROCK
+      - PERPLEXITY
+      - SAMBANOVA
+      - CEREBRAS
     source:
       openapi: evi-openapi.json
   ValidationErrorLocItem:
@@ -1405,6 +1430,9 @@ types:
           Version numbers are integer values representing different iterations
           of the Prompt. Each update to the Prompt increments its version
           number.
+      version_description:
+        type: optional<string>
+        docs: An optional description of the Prompt version.
       version_type:
         type: ReturnPromptVersionType
         docs: >-
@@ -1420,9 +1448,6 @@ types:
         docs: >-
           Time at which the Prompt was last modified. Measured in seconds since
           the Unix epoch.
-      version_description:
-        type: optional<string>
-        docs: An optional description of the Prompt version.
     source:
       openapi: evi-openapi.json
   ReturnPagedConfigs:
@@ -1478,6 +1503,22 @@ types:
           Version numbers are integer values representing different iterations
           of the Config. Each update to the Config increments its version
           number.
+      version_description:
+        type: optional<string>
+        docs: An optional description of the Config version.
+      language_model:
+        type: optional<ReturnLanguageModel>
+        docs: >-
+          The supplemental language model associated with this Config.
+
+
+          This model is used to generate longer, more detailed responses from
+          EVI. Choosing an appropriate supplemental language model for your use
+          case is crucial for generating fast, high-quality responses from EVI.
+      builtin_tools:
+        type: optional<list<optional<ReturnBuiltinTool>>>
+        docs: List of built-in tools associated with this Config.
+      event_messages: optional<ReturnEventMessageSpecs>
       evi_version:
         type: optional<string>
         docs: >-
@@ -1515,22 +1556,6 @@ types:
         docs: >-
           Time at which the Config was last modified. Measured in seconds since
           the Unix epoch.
-      language_model:
-        type: optional<ReturnLanguageModel>
-        docs: >-
-          The supplemental language model associated with this Config.
-
-
-          This model is used to generate longer, more detailed responses from
-          EVI. Choosing an appropriate supplemental language model for your use
-          case is crucial for generating fast, high-quality responses from EVI.
-      builtin_tools:
-        type: optional<list<optional<ReturnBuiltinTool>>>
-        docs: List of built-in tools associated with this Config.
-      event_messages: optional<ReturnEventMessageSpecs>
-      version_description:
-        type: optional<string>
-        docs: An optional description of the Config version.
     source:
       openapi: evi-openapi.json
   ReturnPagedChatsPaginationDirection:
