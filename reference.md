@@ -2765,7 +2765,11 @@ client.empathic_voice.configs.create_config(
 <dl>
 <dd>
 
-**evi_version:** `str` — Specifies the EVI version to use. Use `"1"` for version 1, or `"2"` for the latest enhanced version. For a detailed comparison of the two versions, refer to our [guide](/docs/speech-to-speech-evi/configuration/evi-version).
+**evi_version:** `str` 
+
+Specifies the EVI version to use. See our [EVI Version  Guide](/docs/speech-to-speech-evi/configuration/evi-version) for differences between versions.
+
+**We're officially sunsetting EVI versions 1 and 2 on August 30, 2025**. To keep things running smoothly, be sure to [migrate to EVI 3](/docs/speech-to-speech-evi/configuration/evi-version#migrating-to-evi-3) before then.
     
 </dd>
 </dl>
