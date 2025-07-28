@@ -19,7 +19,7 @@ class PostedUtterance(UniversalBaseModel):
 
     speed: typing.Optional[float] = pydantic.Field(default=None)
     """
-    Speed multiplier for the synthesized speech.
+    Speed multiplier for the synthesized speech. Extreme values below 0.75 and above 1.5 may sometimes cause instability to the generated output.
     """
 
     text: str = pydantic.Field()
