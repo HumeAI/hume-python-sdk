@@ -39,11 +39,6 @@ class ReturnConfig(UniversalBaseModel):
     Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
     """
 
-    version_description: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    An optional description of the Config version.
-    """
-
     language_model: typing.Optional[ReturnLanguageModel] = pydantic.Field(default=None)
     """
     The supplemental language model associated with this Config.
@@ -56,7 +51,6 @@ class ReturnConfig(UniversalBaseModel):
     List of built-in tools associated with this Config.
     """
 
-    event_messages: typing.Optional[ReturnEventMessageSpecs] = None
     evi_version: typing.Optional[str] = pydantic.Field(default=None)
     """
     Specifies the EVI version to use. See our [EVI Version  Guide](/docs/speech-to-speech-evi/configuration/evi-version) for differences between versions.
@@ -65,7 +59,7 @@ class ReturnConfig(UniversalBaseModel):
     """
 
     timeouts: typing.Optional[ReturnTimeoutSpecs] = None
-    nudges: typing.Optional[ReturnNudgeSpec] = None
+    event_messages: typing.Optional[ReturnEventMessageSpecs] = None
     ellm_model: typing.Optional[ReturnEllmModel] = pydantic.Field(default=None)
     """
     The eLLM setup associated with this Config.
@@ -73,16 +67,14 @@ class ReturnConfig(UniversalBaseModel):
     Hume's eLLM (empathic Large Language Model) is a multimodal language model that takes into account both expression measures and language. The eLLM generates short, empathic language responses and guides text-to-speech (TTS) prosody.
     """
 
-    voice: typing.Optional[typing.Optional[typing.Any]] = None
-    prompt: typing.Optional[ReturnPrompt] = None
-    tools: typing.Optional[typing.List[typing.Optional[ReturnUserDefinedTool]]] = pydantic.Field(default=None)
-    """
-    List of user-defined tools associated with this Config.
-    """
-
     webhooks: typing.Optional[typing.List[typing.Optional[ReturnWebhookSpec]]] = pydantic.Field(default=None)
     """
     Map of webhooks associated with this config.
+    """
+
+    version_description: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    An optional description of the Config version.
     """
 
     created_on: typing.Optional[int] = pydantic.Field(default=None)
@@ -93,6 +85,14 @@ class ReturnConfig(UniversalBaseModel):
     modified_on: typing.Optional[int] = pydantic.Field(default=None)
     """
     Time at which the Config was last modified. Measured in seconds since the Unix epoch.
+    """
+
+    nudges: typing.Optional[ReturnNudgeSpec] = None
+    voice: typing.Optional[typing.Optional[typing.Any]] = None
+    prompt: typing.Optional[ReturnPrompt] = None
+    tools: typing.Optional[typing.List[typing.Optional[ReturnUserDefinedTool]]] = pydantic.Field(default=None)
+    """
+    List of user-defined tools associated with this Config.
     """
 
     if IS_PYDANTIC_V2:

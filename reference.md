@@ -871,6 +871,63 @@ client.tts.voices.delete(
 </dl>
 </details>
 
+## EmpathicVoice
+<details><summary><code>client.empathic_voice.<a href="src/hume/empathic_voice/client.py">custom_language_model_supports_tool_use_v_0_evi_custom_language_model_supports_tool_use_post</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.custom_language_model_supports_tool_use_v_0_evi_custom_language_model_supports_tool_use_post(
+    model_resource="model_resource",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**model_resource:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## EmpathicVoice Tools
 <details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">list_tools</a>(...)</code></summary>
 <dl>

@@ -452,40 +452,7 @@ types:
     source:
       openapi: tts-openapi.yml
   SnippetAudioChunk:
-    properties:
-      audio:
-        type: string
-        docs: The generated audio output chunk in the requested format.
-      chunk_index:
-        type: integer
-        docs: The index of the audio chunk in the snippet.
-      generation_id:
-        type: string
-        docs: >-
-          The generation ID of the parent snippet that this chunk corresponds
-          to.
-      is_last_chunk:
-        type: boolean
-        docs: >-
-          Whether or not this is the last chunk streamed back from the decoder
-          for one input snippet.
-      snippet_id:
-        type: string
-        docs: The ID of the parent snippet that this chunk corresponds to.
-      text:
-        type: string
-        docs: The text of the parent snippet that this chunk corresponds to.
-      transcribed_text:
-        type: optional<string>
-        docs: >-
-          The transcribed text of the generated audio of the parent snippet that
-          this chunk corresponds to. It is only present if `instant_mode` is set
-          to `false`.
-      utterance_index:
-        type: optional<integer>
-        docs: >-
-          The index of the utterance in the request that the parent snippet of
-          this chunk corresponds to.
+    properties: {}
     source:
       openapi: tts-openapi.yml
   PostedUtterance:

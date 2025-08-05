@@ -40,14 +40,14 @@ class ReturnPrompt(UniversalBaseModel):
     Version numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number.
     """
 
-    version_description: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    An optional description of the Prompt version.
-    """
-
     version_type: ReturnPromptVersionType = pydantic.Field()
     """
     Versioning method for a Prompt. Either `FIXED` for using a fixed version number or `LATEST` for auto-updating to the latest version.
+    """
+
+    version_description: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    An optional description of the Prompt version.
     """
 
     created_on: int = pydantic.Field()

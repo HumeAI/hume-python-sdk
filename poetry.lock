@@ -1721,18 +1721,18 @@ files = [
 
 [[package]]
 name = "notebook"
-version = "7.4.4"
+version = "7.4.5"
 description = "Jupyter Notebook - A web-based notebook environment for interactive computing"
 optional = true
 python-versions = ">=3.8"
 files = [
-    {file = "notebook-7.4.4-py3-none-any.whl", hash = "sha256:32840f7f777b6bff79bb101159336e9b332bdbfba1495b8739e34d1d65cbc1c0"},
-    {file = "notebook-7.4.4.tar.gz", hash = "sha256:392fd501e266f2fb3466c6fcd3331163a2184968cb5c5accf90292e01dfe528c"},
+    {file = "notebook-7.4.5-py3-none-any.whl", hash = "sha256:351635461aca9dad08cf8946a4216f963e2760cc1bf7b1aaaecb23afc33ec046"},
+    {file = "notebook-7.4.5.tar.gz", hash = "sha256:7c2c4ea245913c3ad8ab3e5d36b34a842c06e524556f5c2e1f5d7d08c986615e"},
 ]
 
 [package.dependencies]
 jupyter-server = ">=2.4.0,<3"
-jupyterlab = ">=4.4.4,<4.5"
+jupyterlab = ">=4.4.5,<4.5"
 jupyterlab-server = ">=2.27.1,<3"
 notebook-shim = ">=0.2,<0.3"
 tornado = ">=6.2.0"
