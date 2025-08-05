@@ -91,6 +91,7 @@ from .return_webhook_spec import ReturnWebhookSpec
 from .role import Role
 from .session_settings import SessionSettings
 from .session_settings_variables_value import SessionSettingsVariablesValue
+from .supports_tool_use import SupportsToolUse
 from .tool import Tool
 from .tool_call_message import ToolCallMessage
 from .tool_error_message import ToolErrorMessage
@@ -201,6 +202,7 @@ __all__ = [
     "Role",
     "SessionSettings",
     "SessionSettingsVariablesValue",
+    "SupportsToolUse",
     "Tool",
     "ToolCallMessage",
     "ToolErrorMessage",
