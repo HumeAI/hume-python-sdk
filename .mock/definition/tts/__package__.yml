@@ -513,11 +513,13 @@ types:
           maxLength: 1000
       speed:
         type: optional<double>
-        docs: Speed multiplier for the synthesized speech.
+        docs: >-
+          Speed multiplier for the synthesized speech. Extreme values below 0.75
+          and above 1.5 may sometimes cause instability to the generated output.
         default: 1
         validation:
-          min: 0.25
-          max: 3
+          min: 0.5
+          max: 2
       text:
         type: string
         docs: The input text to be synthesized into speech.
@@ -526,7 +528,7 @@ types:
       trailing_silence:
         type: optional<double>
         docs: Duration of trailing silence (in seconds) to add to this utterance
-        default: 0.35
+        default: 0
         validation:
           min: 0
           max: 5
