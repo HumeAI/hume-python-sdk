@@ -4,21 +4,6 @@ channel:
   auth: false
   docs: Chat with Empathic Voice Interface (EVI)
   query-parameters:
-    access_token:
-      type: optional<string>
-      default: ''
-      docs: >-
-        Access token used for authenticating the client. If not provided, an
-        `api_key` must be provided to authenticate.
-
-
-        The access token is generated using both an API key and a Secret key,
-        which provides an additional layer of security compared to using just an
-        API key.
-
-
-        For more details, refer to the [Authentication Strategies
-        Guide](/docs/introduction/api-key#authentication-strategies).
     config_id:
       type: optional<string>
       docs: >-
@@ -47,13 +32,6 @@ channel:
 
         Include this parameter to apply a specific version of an EVI
         configuration. If omitted, the latest version will be applied.
-    event_limit:
-      type: optional<integer>
-      docs: >-
-        The maximum number of chat events to return from chat history. By
-        default, the system returns up to 300 events (100 events per page × 3
-        pages). Set this parameter to a smaller value to limit the number of
-        events returned.
     resumed_chat_group_id:
       type: optional<string>
       docs: >-
@@ -98,6 +76,12 @@ channel:
         Use the GET `/v0/evi/chat_groups` endpoint to obtain the Chat Group IDs
         of all Chat Groups associated with an API key. This endpoint returns a
         list of all available chat groups.
+    voice_id:
+      type: optional<string>
+      docs: >-
+        The name or ID of the voice from the `Voice Library` to be used as the
+        speaker for this EVI session. This will override the speaker set in the
+        selected configuration.
     verbose_transcription:
       type: optional<boolean>
       default: false
@@ -109,6 +93,28 @@ channel:
         field on a
         [UserMessage](/reference/empathic-voice-interface-evi/chat/chat#receive.UserMessage.type)
         denotes whether the message is "interim" or "final."
+    event_limit:
+      type: optional<integer>
+      docs: >-
+        The maximum number of chat events to return from chat history. By
+        default, the system returns up to 300 events (100 events per page × 3
+        pages). Set this parameter to a smaller value to limit the number of
+        events returned.
+    access_token:
+      type: optional<string>
+      default: ''
+      docs: >-
+        Access token used for authenticating the client. If not provided, an
+        `api_key` must be provided to authenticate.
+
+
+        The access token is generated using both an API key and a Secret key,
+        which provides an additional layer of security compared to using just an
+        API key.
+
+
+        For more details, refer to the [Authentication Strategies
+        Guide](/docs/introduction/api-key#authentication-strategies).
     api_key:
       type: optional<string>
       default: ''
@@ -130,8 +136,8 @@ channel:
     - messages:
         - type: publish
           body:
-            data: data
             type: audio_input
+            data: data
         - type: subscribe
           body:
             type: assistant_end

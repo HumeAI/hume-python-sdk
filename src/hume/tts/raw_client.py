@@ -31,10 +31,9 @@ class RawTtsClient:
         self,
         *,
         utterances: typing.Sequence[PostedUtterance],
-        access_token: typing.Optional[str] = None,
         context: typing.Optional[PostedContext] = OMIT,
-        format: typing.Optional[Format] = OMIT,
         num_generations: typing.Optional[int] = OMIT,
+        format: typing.Optional[Format] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
@@ -52,21 +51,14 @@ class RawTtsClient:
 
             An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
 
-        access_token : typing.Optional[str]
-            Access token used for authenticating the client. If not provided, an `api_key` must be provided to authenticate.
-
-            The access token is generated using both an API key and a Secret key, which provides an additional layer of security compared to using just an API key.
-
-            For more details, refer to the [Authentication Strategies Guide](/docs/introduction/api-key#authentication-strategies).
-
         context : typing.Optional[PostedContext]
             Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
 
-        format : typing.Optional[Format]
-            Specifies the output audio file format.
-
         num_generations : typing.Optional[int]
             Number of generations of the audio to produce.
+
+        format : typing.Optional[Format]
+            Specifies the output audio file format.
 
         split_utterances : typing.Optional[bool]
             Controls how audio output is segmented in the response.
@@ -97,20 +89,17 @@ class RawTtsClient:
         _response = self._client_wrapper.httpx_client.request(
             "v0/tts",
             method="POST",
-            params={
-                "access_token": access_token,
-            },
             json={
                 "context": convert_and_respect_annotation_metadata(
                     object_=context, annotation=PostedContext, direction="write"
                 ),
-                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
-                "num_generations": num_generations,
-                "split_utterances": split_utterances,
-                "strip_headers": strip_headers,
                 "utterances": convert_and_respect_annotation_metadata(
                     object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
                 ),
+                "num_generations": num_generations,
+                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
+                "split_utterances": split_utterances,
+                "strip_headers": strip_headers,
                 "instant_mode": instant_mode,
             },
             headers={
@@ -151,8 +140,8 @@ class RawTtsClient:
         *,
         utterances: typing.Sequence[PostedUtterance],
         context: typing.Optional[PostedContext] = OMIT,
-        format: typing.Optional[Format] = OMIT,
         num_generations: typing.Optional[int] = OMIT,
+        format: typing.Optional[Format] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
@@ -173,11 +162,11 @@ class RawTtsClient:
         context : typing.Optional[PostedContext]
             Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
 
-        format : typing.Optional[Format]
-            Specifies the output audio file format.
-
         num_generations : typing.Optional[int]
             Number of generations of the audio to produce.
+
+        format : typing.Optional[Format]
+            Specifies the output audio file format.
 
         split_utterances : typing.Optional[bool]
             Controls how audio output is segmented in the response.
@@ -212,122 +201,13 @@ class RawTtsClient:
                 "context": convert_and_respect_annotation_metadata(
                     object_=context, annotation=PostedContext, direction="write"
                 ),
-                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
-                "num_generations": num_generations,
-                "split_utterances": split_utterances,
-                "strip_headers": strip_headers,
                 "utterances": convert_and_respect_annotation_metadata(
                     object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
                 ),
-                "instant_mode": instant_mode,
-            },
-            headers={
-                "content-type": "application/json",
-            },
-            request_options=request_options,
-            omit=OMIT,
-        ) as _response:
-
-            def _stream() -> HttpResponse[typing.Iterator[bytes]]:
-                try:
-                    if 200 <= _response.status_code < 300:
-                        _chunk_size = request_options.get("chunk_size", None) if request_options is not None else None
-                        return HttpResponse(
-                            response=_response, data=(_chunk for _chunk in _response.iter_bytes(chunk_size=_chunk_size))
-                        )
-                    _response.read()
-                    if _response.status_code == 422:
-                        raise UnprocessableEntityError(
-                            headers=dict(_response.headers),
-                            body=typing.cast(
-                                HttpValidationError,
-                                parse_obj_as(
-                                    type_=HttpValidationError,  # type: ignore
-                                    object_=_response.json(),
-                                ),
-                            ),
-                        )
-                    _response_json = _response.json()
-                except JSONDecodeError:
-                    raise ApiError(
-                        status_code=_response.status_code, headers=dict(_response.headers), body=_response.text
-                    )
-                raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
-
-            yield _stream()
-
-    @contextlib.contextmanager
-    def synthesize_file_streaming(
-        self,
-        *,
-        utterances: typing.Sequence[PostedUtterance],
-        context: typing.Optional[PostedContext] = OMIT,
-        format: typing.Optional[Format] = OMIT,
-        num_generations: typing.Optional[int] = OMIT,
-        split_utterances: typing.Optional[bool] = OMIT,
-        strip_headers: typing.Optional[bool] = OMIT,
-        instant_mode: typing.Optional[bool] = OMIT,
-        request_options: typing.Optional[RequestOptions] = None,
-    ) -> typing.Iterator[HttpResponse[typing.Iterator[bytes]]]:
-        """
-        Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
-
-        Parameters
-        ----------
-        utterances : typing.Sequence[PostedUtterance]
-            A list of **Utterances** to be converted to speech output.
-
-            An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
-
-        context : typing.Optional[PostedContext]
-            Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
-
-        format : typing.Optional[Format]
-            Specifies the output audio file format.
-
-        num_generations : typing.Optional[int]
-            Number of generations of the audio to produce.
-
-        split_utterances : typing.Optional[bool]
-            Controls how audio output is segmented in the response.
-
-            - When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.
-
-            - When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets.
-
-            This setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
-
-        strip_headers : typing.Optional[bool]
-            If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
-
-        instant_mode : typing.Optional[bool]
-            Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
-            - A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
-            - Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
-            - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
-
-        Returns
-        -------
-        typing.Iterator[HttpResponse[typing.Iterator[bytes]]]
-            OK
-        """
-        with self._client_wrapper.httpx_client.stream(
-            "v0/tts/stream/file",
-            method="POST",
-            json={
-                "context": convert_and_respect_annotation_metadata(
-                    object_=context, annotation=PostedContext, direction="write"
-                ),
-                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
                 "num_generations": num_generations,
+                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
                 "split_utterances": split_utterances,
                 "strip_headers": strip_headers,
-                "utterances": convert_and_respect_annotation_metadata(
-                    object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
-                ),
                 "instant_mode": instant_mode,
             },
             headers={
@@ -371,8 +251,8 @@ class RawTtsClient:
         *,
         utterances: typing.Sequence[PostedUtterance],
         context: typing.Optional[PostedContext] = OMIT,
-        format: typing.Optional[Format] = OMIT,
         num_generations: typing.Optional[int] = OMIT,
+        format: typing.Optional[Format] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
@@ -393,11 +273,11 @@ class RawTtsClient:
         context : typing.Optional[PostedContext]
             Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
 
-        format : typing.Optional[Format]
-            Specifies the output audio file format.
-
         num_generations : typing.Optional[int]
             Number of generations of the audio to produce.
+
+        format : typing.Optional[Format]
+            Specifies the output audio file format.
 
         split_utterances : typing.Optional[bool]
             Controls how audio output is segmented in the response.
@@ -432,13 +312,13 @@ class RawTtsClient:
                 "context": convert_and_respect_annotation_metadata(
                     object_=context, annotation=PostedContext, direction="write"
                 ),
-                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
-                "num_generations": num_generations,
-                "split_utterances": split_utterances,
-                "strip_headers": strip_headers,
                 "utterances": convert_and_respect_annotation_metadata(
                     object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
                 ),
+                "num_generations": num_generations,
+                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
+                "split_utterances": split_utterances,
+                "strip_headers": strip_headers,
                 "instant_mode": instant_mode,
             },
             headers={
@@ -490,6 +370,115 @@ class RawTtsClient:
 
             yield _stream()
 
+    @contextlib.contextmanager
+    def synthesize_file_streaming(
+        self,
+        *,
+        utterances: typing.Sequence[PostedUtterance],
+        context: typing.Optional[PostedContext] = OMIT,
+        num_generations: typing.Optional[int] = OMIT,
+        format: typing.Optional[Format] = OMIT,
+        split_utterances: typing.Optional[bool] = OMIT,
+        strip_headers: typing.Optional[bool] = OMIT,
+        instant_mode: typing.Optional[bool] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> typing.Iterator[HttpResponse[typing.Iterator[bytes]]]:
+        """
+        Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
+
+        Parameters
+        ----------
+        utterances : typing.Sequence[PostedUtterance]
+            A list of **Utterances** to be converted to speech output.
+
+            An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
+
+        context : typing.Optional[PostedContext]
+            Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+
+        num_generations : typing.Optional[int]
+            Number of generations of the audio to produce.
+
+        format : typing.Optional[Format]
+            Specifies the output audio file format.
+
+        split_utterances : typing.Optional[bool]
+            Controls how audio output is segmented in the response.
+
+            - When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.
+
+            - When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets.
+
+            This setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
+
+        strip_headers : typing.Optional[bool]
+            If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+
+        instant_mode : typing.Optional[bool]
+            Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
+            - A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+            - Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+            - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
+
+        Returns
+        -------
+        typing.Iterator[HttpResponse[typing.Iterator[bytes]]]
+            OK
+        """
+        with self._client_wrapper.httpx_client.stream(
+            "v0/tts/stream/file",
+            method="POST",
+            json={
+                "context": convert_and_respect_annotation_metadata(
+                    object_=context, annotation=PostedContext, direction="write"
+                ),
+                "utterances": convert_and_respect_annotation_metadata(
+                    object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
+                ),
+                "num_generations": num_generations,
+                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
+                "split_utterances": split_utterances,
+                "strip_headers": strip_headers,
+                "instant_mode": instant_mode,
+            },
+            headers={
+                "content-type": "application/json",
+            },
+            request_options=request_options,
+            omit=OMIT,
+        ) as _response:
+
+            def _stream() -> HttpResponse[typing.Iterator[bytes]]:
+                try:
+                    if 200 <= _response.status_code < 300:
+                        _chunk_size = request_options.get("chunk_size", None) if request_options is not None else None
+                        return HttpResponse(
+                            response=_response, data=(_chunk for _chunk in _response.iter_bytes(chunk_size=_chunk_size))
+                        )
+                    _response.read()
+                    if _response.status_code == 422:
+                        raise UnprocessableEntityError(
+                            headers=dict(_response.headers),
+                            body=typing.cast(
+                                HttpValidationError,
+                                parse_obj_as(
+                                    type_=HttpValidationError,  # type: ignore
+                                    object_=_response.json(),
+                                ),
+                            ),
+                        )
+                    _response_json = _response.json()
+                except JSONDecodeError:
+                    raise ApiError(
+                        status_code=_response.status_code, headers=dict(_response.headers), body=_response.text
+                    )
+                raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+            yield _stream()
+
 
 class AsyncRawTtsClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -499,10 +488,9 @@ class AsyncRawTtsClient:
         self,
         *,
         utterances: typing.Sequence[PostedUtterance],
-        access_token: typing.Optional[str] = None,
         context: typing.Optional[PostedContext] = OMIT,
-        format: typing.Optional[Format] = OMIT,
         num_generations: typing.Optional[int] = OMIT,
+        format: typing.Optional[Format] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
@@ -520,21 +508,14 @@ class AsyncRawTtsClient:
 
             An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
 
-        access_token : typing.Optional[str]
-            Access token used for authenticating the client. If not provided, an `api_key` must be provided to authenticate.
-
-            The access token is generated using both an API key and a Secret key, which provides an additional layer of security compared to using just an API key.
-
-            For more details, refer to the [Authentication Strategies Guide](/docs/introduction/api-key#authentication-strategies).
-
         context : typing.Optional[PostedContext]
             Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
 
-        format : typing.Optional[Format]
-            Specifies the output audio file format.
-
         num_generations : typing.Optional[int]
             Number of generations of the audio to produce.
+
+        format : typing.Optional[Format]
+            Specifies the output audio file format.
 
         split_utterances : typing.Optional[bool]
             Controls how audio output is segmented in the response.
@@ -565,20 +546,17 @@ class AsyncRawTtsClient:
         _response = await self._client_wrapper.httpx_client.request(
             "v0/tts",
             method="POST",
-            params={
-                "access_token": access_token,
-            },
             json={
                 "context": convert_and_respect_annotation_metadata(
                     object_=context, annotation=PostedContext, direction="write"
                 ),
-                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
-                "num_generations": num_generations,
-                "split_utterances": split_utterances,
-                "strip_headers": strip_headers,
                 "utterances": convert_and_respect_annotation_metadata(
                     object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
                 ),
+                "num_generations": num_generations,
+                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
+                "split_utterances": split_utterances,
+                "strip_headers": strip_headers,
                 "instant_mode": instant_mode,
             },
             headers={
@@ -619,8 +597,8 @@ class AsyncRawTtsClient:
         *,
         utterances: typing.Sequence[PostedUtterance],
         context: typing.Optional[PostedContext] = OMIT,
-        format: typing.Optional[Format] = OMIT,
         num_generations: typing.Optional[int] = OMIT,
+        format: typing.Optional[Format] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
@@ -641,11 +619,11 @@ class AsyncRawTtsClient:
         context : typing.Optional[PostedContext]
             Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
 
-        format : typing.Optional[Format]
-            Specifies the output audio file format.
-
         num_generations : typing.Optional[int]
             Number of generations of the audio to produce.
+
+        format : typing.Optional[Format]
+            Specifies the output audio file format.
 
         split_utterances : typing.Optional[bool]
             Controls how audio output is segmented in the response.
@@ -680,123 +658,13 @@ class AsyncRawTtsClient:
                 "context": convert_and_respect_annotation_metadata(
                     object_=context, annotation=PostedContext, direction="write"
                 ),
-                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
-                "num_generations": num_generations,
-                "split_utterances": split_utterances,
-                "strip_headers": strip_headers,
                 "utterances": convert_and_respect_annotation_metadata(
                     object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
                 ),
-                "instant_mode": instant_mode,
-            },
-            headers={
-                "content-type": "application/json",
-            },
-            request_options=request_options,
-            omit=OMIT,
-        ) as _response:
-
-            async def _stream() -> AsyncHttpResponse[typing.AsyncIterator[bytes]]:
-                try:
-                    if 200 <= _response.status_code < 300:
-                        _chunk_size = request_options.get("chunk_size", None) if request_options is not None else None
-                        return AsyncHttpResponse(
-                            response=_response,
-                            data=(_chunk async for _chunk in _response.aiter_bytes(chunk_size=_chunk_size)),
-                        )
-                    await _response.aread()
-                    if _response.status_code == 422:
-                        raise UnprocessableEntityError(
-                            headers=dict(_response.headers),
-                            body=typing.cast(
-                                HttpValidationError,
-                                parse_obj_as(
-                                    type_=HttpValidationError,  # type: ignore
-                                    object_=_response.json(),
-                                ),
-                            ),
-                        )
-                    _response_json = _response.json()
-                except JSONDecodeError:
-                    raise ApiError(
-                        status_code=_response.status_code, headers=dict(_response.headers), body=_response.text
-                    )
-                raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
-
-            yield await _stream()
-
-    @contextlib.asynccontextmanager
-    async def synthesize_file_streaming(
-        self,
-        *,
-        utterances: typing.Sequence[PostedUtterance],
-        context: typing.Optional[PostedContext] = OMIT,
-        format: typing.Optional[Format] = OMIT,
-        num_generations: typing.Optional[int] = OMIT,
-        split_utterances: typing.Optional[bool] = OMIT,
-        strip_headers: typing.Optional[bool] = OMIT,
-        instant_mode: typing.Optional[bool] = OMIT,
-        request_options: typing.Optional[RequestOptions] = None,
-    ) -> typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[bytes]]]:
-        """
-        Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
-
-        Parameters
-        ----------
-        utterances : typing.Sequence[PostedUtterance]
-            A list of **Utterances** to be converted to speech output.
-
-            An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
-
-        context : typing.Optional[PostedContext]
-            Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
-
-        format : typing.Optional[Format]
-            Specifies the output audio file format.
-
-        num_generations : typing.Optional[int]
-            Number of generations of the audio to produce.
-
-        split_utterances : typing.Optional[bool]
-            Controls how audio output is segmented in the response.
-
-            - When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.
-
-            - When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets.
-
-            This setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
-
-        strip_headers : typing.Optional[bool]
-            If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
-
-        instant_mode : typing.Optional[bool]
-            Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
-            - A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
-            - Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
-            - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
-
-        Returns
-        -------
-        typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[bytes]]]
-            OK
-        """
-        async with self._client_wrapper.httpx_client.stream(
-            "v0/tts/stream/file",
-            method="POST",
-            json={
-                "context": convert_and_respect_annotation_metadata(
-                    object_=context, annotation=PostedContext, direction="write"
-                ),
-                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
                 "num_generations": num_generations,
+                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
                 "split_utterances": split_utterances,
                 "strip_headers": strip_headers,
-                "utterances": convert_and_respect_annotation_metadata(
-                    object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
-                ),
                 "instant_mode": instant_mode,
             },
             headers={
@@ -841,8 +709,8 @@ class AsyncRawTtsClient:
         *,
         utterances: typing.Sequence[PostedUtterance],
         context: typing.Optional[PostedContext] = OMIT,
-        format: typing.Optional[Format] = OMIT,
         num_generations: typing.Optional[int] = OMIT,
+        format: typing.Optional[Format] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
@@ -863,11 +731,11 @@ class AsyncRawTtsClient:
         context : typing.Optional[PostedContext]
             Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
 
-        format : typing.Optional[Format]
-            Specifies the output audio file format.
-
         num_generations : typing.Optional[int]
             Number of generations of the audio to produce.
+
+        format : typing.Optional[Format]
+            Specifies the output audio file format.
 
         split_utterances : typing.Optional[bool]
             Controls how audio output is segmented in the response.
@@ -902,13 +770,13 @@ class AsyncRawTtsClient:
                 "context": convert_and_respect_annotation_metadata(
                     object_=context, annotation=PostedContext, direction="write"
                 ),
-                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
-                "num_generations": num_generations,
-                "split_utterances": split_utterances,
-                "strip_headers": strip_headers,
                 "utterances": convert_and_respect_annotation_metadata(
                     object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
                 ),
+                "num_generations": num_generations,
+                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
+                "split_utterances": split_utterances,
+                "strip_headers": strip_headers,
                 "instant_mode": instant_mode,
             },
             headers={
@@ -939,6 +807,116 @@ class AsyncRawTtsClient:
                             return
 
                         return AsyncHttpResponse(response=_response, data=_iter())
+                    await _response.aread()
+                    if _response.status_code == 422:
+                        raise UnprocessableEntityError(
+                            headers=dict(_response.headers),
+                            body=typing.cast(
+                                HttpValidationError,
+                                parse_obj_as(
+                                    type_=HttpValidationError,  # type: ignore
+                                    object_=_response.json(),
+                                ),
+                            ),
+                        )
+                    _response_json = _response.json()
+                except JSONDecodeError:
+                    raise ApiError(
+                        status_code=_response.status_code, headers=dict(_response.headers), body=_response.text
+                    )
+                raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+            yield await _stream()
+
+    @contextlib.asynccontextmanager
+    async def synthesize_file_streaming(
+        self,
+        *,
+        utterances: typing.Sequence[PostedUtterance],
+        context: typing.Optional[PostedContext] = OMIT,
+        num_generations: typing.Optional[int] = OMIT,
+        format: typing.Optional[Format] = OMIT,
+        split_utterances: typing.Optional[bool] = OMIT,
+        strip_headers: typing.Optional[bool] = OMIT,
+        instant_mode: typing.Optional[bool] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[bytes]]]:
+        """
+        Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
+
+        Parameters
+        ----------
+        utterances : typing.Sequence[PostedUtterance]
+            A list of **Utterances** to be converted to speech output.
+
+            An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
+
+        context : typing.Optional[PostedContext]
+            Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+
+        num_generations : typing.Optional[int]
+            Number of generations of the audio to produce.
+
+        format : typing.Optional[Format]
+            Specifies the output audio file format.
+
+        split_utterances : typing.Optional[bool]
+            Controls how audio output is segmented in the response.
+
+            - When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.
+
+            - When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets.
+
+            This setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
+
+        strip_headers : typing.Optional[bool]
+            If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+
+        instant_mode : typing.Optional[bool]
+            Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
+            - A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+            - Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+            - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
+
+        Returns
+        -------
+        typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[bytes]]]
+            OK
+        """
+        async with self._client_wrapper.httpx_client.stream(
+            "v0/tts/stream/file",
+            method="POST",
+            json={
+                "context": convert_and_respect_annotation_metadata(
+                    object_=context, annotation=PostedContext, direction="write"
+                ),
+                "utterances": convert_and_respect_annotation_metadata(
+                    object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
+                ),
+                "num_generations": num_generations,
+                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
+                "split_utterances": split_utterances,
+                "strip_headers": strip_headers,
+                "instant_mode": instant_mode,
+            },
+            headers={
+                "content-type": "application/json",
+            },
+            request_options=request_options,
+            omit=OMIT,
+        ) as _response:
+
+            async def _stream() -> AsyncHttpResponse[typing.AsyncIterator[bytes]]:
+                try:
+                    if 200 <= _response.status_code < 300:
+                        _chunk_size = request_options.get("chunk_size", None) if request_options is not None else None
+                        return AsyncHttpResponse(
+                            response=_response,
+                            data=(_chunk async for _chunk in _response.aiter_bytes(chunk_size=_chunk_size)),
+                        )
                     await _response.aread()
                     if _response.status_code == 422:
                         raise UnprocessableEntityError(
