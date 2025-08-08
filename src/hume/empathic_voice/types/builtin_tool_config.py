@@ -8,12 +8,11 @@ from .built_in_tool import BuiltInTool
 
 
 class BuiltinToolConfig(UniversalBaseModel):
+    name: BuiltInTool
     fallback_content: typing.Optional[str] = pydantic.Field(default=None)
     """
     Optional text passed to the supplemental LLM if the tool call fails. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation.
     """
-
-    name: BuiltInTool
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
