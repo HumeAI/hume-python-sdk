@@ -90,7 +90,6 @@ from .types import (
     Role,
     SessionSettings,
     SessionSettingsVariablesValue,
-    SupportsToolUse,
     Tool,
     ToolCallMessage,
     ToolErrorMessage,
@@ -113,7 +112,7 @@ from .types import (
     WebhookEventChatStarted,
     WebhookEventChatStatus,
 )
-from .errors import BadRequestError, UnprocessableEntityError
+from .errors import BadRequestError
 from . import chat, chat_groups, chats, configs, prompts, tools
 from .chat import PublishEvent, SubscribeEvent
 
@@ -208,13 +207,11 @@ __all__ = [
     "SessionSettings",
     "SessionSettingsVariablesValue",
     "SubscribeEvent",
-    "SupportsToolUse",
     "Tool",
     "ToolCallMessage",
     "ToolErrorMessage",
     "ToolResponseMessage",
     "ToolType",
-    "UnprocessableEntityError",
     "UserInput",
     "UserInterruption",
     "UserMessage",

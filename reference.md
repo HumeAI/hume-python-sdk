@@ -80,20 +80,6 @@ An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overvi
 <dl>
 <dd>
 
-**access_token:** `typing.Optional[str]` 
-
-Access token used for authenticating the client. If not provided, an `api_key` must be provided to authenticate.
-
-The access token is generated using both an API key and a Secret key, which provides an additional layer of security compared to using just an API key.
-
-For more details, refer to the [Authentication Strategies Guide](/docs/introduction/api-key#authentication-strategies).
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
 **context:** `typing.Optional[PostedContext]` — Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
     
 </dd>
@@ -102,7 +88,7 @@ For more details, refer to the [Authentication Strategies Guide](/docs/introduct
 <dl>
 <dd>
 
-**format:** `typing.Optional[Format]` — Specifies the output audio file format.
+**num_generations:** `typing.Optional[int]` — Number of generations of the audio to produce.
     
 </dd>
 </dl>
@@ -110,7 +96,7 @@ For more details, refer to the [Authentication Strategies Guide](/docs/introduct
 <dl>
 <dd>
 
-**num_generations:** `typing.Optional[int]` — Number of generations of the audio to produce.
+**format:** `typing.Optional[Format]` — Specifies the output audio file format.
     
 </dd>
 </dl>
@@ -127,6 +113,14 @@ Controls how audio output is segmented in the response.
 - When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets. 
 
 This setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**multi_speaker:** `typing.Optional[bool]` — If enabled, consecutive utterances with the different voices will be generated with compounding context that takes into account the previous utterances.
     
 </dd>
 </dl>
@@ -250,7 +244,7 @@ An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overvi
 <dl>
 <dd>
 
-**format:** `typing.Optional[Format]` — Specifies the output audio file format.
+**num_generations:** `typing.Optional[int]` — Number of generations of the audio to produce.
     
 </dd>
 </dl>
@@ -258,7 +252,7 @@ An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overvi
 <dl>
 <dd>
 
-**num_generations:** `typing.Optional[int]` — Number of generations of the audio to produce.
+**format:** `typing.Optional[Format]` — Specifies the output audio file format.
     
 </dd>
 </dl>
@@ -282,143 +276,7 @@ This setting affects how the `snippets` array is structured in the response, whi
 <dl>
 <dd>
 
-**strip_headers:** `typing.Optional[bool]` — If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**instant_mode:** `typing.Optional[bool]` 
-
-Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
-- A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
-- Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
-- Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.tts.<a href="src/hume/tts/client.py">synthesize_file_streaming</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-from hume.tts import PostedUtterance, PostedUtteranceVoiceWithName
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.tts.synthesize_file_streaming(
-    utterances=[
-        PostedUtterance(
-            text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
-            voice=PostedUtteranceVoiceWithName(
-                name="Male English Actor",
-                provider="HUME_AI",
-            ),
-        )
-    ],
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**utterances:** `typing.Sequence[PostedUtterance]` 
-
-A list of **Utterances** to be converted to speech output.
-
-An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**context:** `typing.Optional[PostedContext]` — Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**format:** `typing.Optional[Format]` — Specifies the output audio file format.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**num_generations:** `typing.Optional[int]` — Number of generations of the audio to produce.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**split_utterances:** `typing.Optional[bool]` 
-
-Controls how audio output is segmented in the response.
-
-- When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.
-
-- When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets. 
-
-This setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
+**multi_speaker:** `typing.Optional[bool]` — If enabled, consecutive utterances with the different voices will be generated with compounding context that takes into account the previous utterances.
     
 </dd>
 </dl>
@@ -542,7 +400,7 @@ An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overvi
 <dl>
 <dd>
 
-**format:** `typing.Optional[Format]` — Specifies the output audio file format.
+**num_generations:** `typing.Optional[int]` — Number of generations of the audio to produce.
     
 </dd>
 </dl>
@@ -550,7 +408,7 @@ An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overvi
 <dl>
 <dd>
 
-**num_generations:** `typing.Optional[int]` — Number of generations of the audio to produce.
+**format:** `typing.Optional[Format]` — Specifies the output audio file format.
     
 </dd>
 </dl>
@@ -567,6 +425,14 @@ Controls how audio output is segmented in the response.
 - When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets. 
 
 This setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**multi_speaker:** `typing.Optional[bool]` — If enabled, consecutive utterances with the different voices will be generated with compounding context that takes into account the previous utterances.
     
 </dd>
 </dl>
@@ -596,6 +462,158 @@ Enables ultra-low latency streaming, significantly reducing the time until the f
 <dd>
 
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.tts.<a href="src/hume/tts/client.py">synthesize_file_streaming</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+from hume.tts import PostedUtterance, PostedUtteranceVoiceWithName
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.tts.synthesize_file_streaming(
+    utterances=[
+        PostedUtterance(
+            text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
+            voice=PostedUtteranceVoiceWithName(
+                name="Male English Actor",
+                provider="HUME_AI",
+            ),
+        )
+    ],
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**utterances:** `typing.Sequence[PostedUtterance]` 
+
+A list of **Utterances** to be converted to speech output.
+
+An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**context:** `typing.Optional[PostedContext]` — Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**num_generations:** `typing.Optional[int]` — Number of generations of the audio to produce.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `typing.Optional[Format]` — Specifies the output audio file format.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**split_utterances:** `typing.Optional[bool]` 
+
+Controls how audio output is segmented in the response.
+
+- When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.
+
+- When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets. 
+
+This setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**multi_speaker:** `typing.Optional[bool]` — If enabled, consecutive utterances with the different voices will be generated with compounding context that takes into account the previous utterances.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**strip_headers:** `typing.Optional[bool]` — If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**instant_mode:** `typing.Optional[bool]` 
+
+Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
+- A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+- Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+- Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
     
 </dd>
 </dl>
@@ -852,63 +870,6 @@ client.tts.voices.delete(
 <dd>
 
 **name:** `str` — Name of the voice to delete
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-## EmpathicVoice
-<details><summary><code>client.empathic_voice.<a href="src/hume/empathic_voice/client.py">custom_language_model_supports_tool_use_v_0_evi_custom_language_model_supports_tool_use_post</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.empathic_voice.custom_language_model_supports_tool_use_v_0_evi_custom_language_model_supports_tool_use_post(
-    model_resource="model_resource",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**model_resource:** `str` 
     
 </dd>
 </dl>
