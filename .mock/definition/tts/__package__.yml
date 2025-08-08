@@ -137,37 +137,6 @@ service:
             format:
               type: mp3
             num_generations: 1
-    synthesize-file-streaming:
-      path: /v0/tts/stream/file
-      method: POST
-      auth: true
-      docs: >-
-        Streams synthesized speech using the specified voice. If no voice is
-        provided, a novel voice will be generated dynamically. Optionally,
-        additional context can be included to influence the speech's style and
-        prosody.
-      source:
-        openapi: tts-openapi.yml
-      display-name: Text-to-speech (Streamed File)
-      request:
-        body:
-          type: PostedTts
-        content-type: application/json
-      response:
-        docs: OK
-        type: file
-        status-code: 200
-      errors:
-        - UnprocessableEntityError
-      examples:
-        - request:
-            utterances:
-              - text: >-
-                  Beauty is no quality in things themselves: It exists merely in
-                  the mind which contemplates them.
-                voice:
-                  name: Male English Actor
-                  provider: HUME_AI
     synthesize-json-streaming:
       path: /v0/tts/stream/json
       method: POST
@@ -192,6 +161,37 @@ service:
         docs: Successful Response
         type: SnippetAudioChunk
         format: json
+      errors:
+        - UnprocessableEntityError
+      examples:
+        - request:
+            utterances:
+              - text: >-
+                  Beauty is no quality in things themselves: It exists merely in
+                  the mind which contemplates them.
+                voice:
+                  name: Male English Actor
+                  provider: HUME_AI
+    synthesize-file-streaming:
+      path: /v0/tts/stream/file
+      method: POST
+      auth: true
+      docs: >-
+        Streams synthesized speech using the specified voice. If no voice is
+        provided, a novel voice will be generated dynamically. Optionally,
+        additional context can be included to influence the speech's style and
+        prosody.
+      source:
+        openapi: tts-openapi.yml
+      display-name: Text-to-speech (Streamed File)
+      request:
+        body:
+          type: PostedTts
+        content-type: application/json
+      response:
+        docs: OK
+        type: file
+        status-code: 200
       errors:
         - UnprocessableEntityError
       examples:
@@ -246,25 +246,25 @@ types:
       openapi: tts-openapi.yml
   ReturnGeneration:
     properties:
-      audio:
-        type: string
-        docs: >-
-          The generated audio output in the requested format, encoded as a
-          base64 string.
-      duration:
-        type: double
-        docs: Duration of the generated audio in seconds.
-      encoding:
-        type: AudioEncoding
-      file_size:
-        type: integer
-        docs: Size of the generated audio in bytes.
       generation_id:
         type: string
         docs: >-
           A unique ID associated with this TTS generation that can be used as
           context for generating consistent speech style and prosody across
           multiple requests.
+      duration:
+        type: double
+        docs: Duration of the generated audio in seconds.
+      file_size:
+        type: integer
+        docs: Size of the generated audio in bytes.
+      encoding:
+        type: AudioEncoding
+      audio:
+        type: string
+        docs: >-
+          The generated audio output in the requested format, encoded as a
+          base64 string.
       snippets:
         docs: >-
           A list of snippet groups where each group corresponds to an utterance
@@ -281,8 +281,7 @@ types:
     source:
       openapi: tts-openapi.yml
   FormatMp3:
-    properties:
-      type: literal<"mp3">
+    properties: {}
     source:
       openapi: tts-openapi.yml
   PostedContext:
@@ -298,15 +297,18 @@ types:
       openapi: tts-openapi.yml
     inline: true
   Format:
-    discriminated: false
+    discriminant: type
+    base-properties: {}
     docs: Specifies the output audio file format.
     union:
-      - type: FormatMp3
-      - type: FormatPcm
-      - type: FormatWav
+      mp3:
+        type: FormatMp3
+      pcm:
+        type: FormatPcm
+      wav:
+        type: FormatWav
     source:
       openapi: tts-openapi.yml
-    inline: true
   PostedTts:
     properties:
       context:
@@ -315,9 +317,18 @@ types:
           Utterances to use as context for generating consistent speech style
           and prosody across multiple requests. These will not be converted to
           speech output.
-      format:
-        type: optional<Format>
-        docs: Specifies the output audio file format.
+      utterances:
+        docs: >-
+          A list of **Utterances** to be converted to speech output.
+
+
+          An **Utterance** is a unit of input for
+          [Octave](/docs/text-to-speech-tts/overview), and includes input
+          `text`, an optional `description` to serve as the prompt for how the
+          speech should be delivered, an optional `voice` specification, and
+          additional controls to guide delivery for `speed` and
+          `trailing_silence`.
+        type: list<PostedUtterance>
       num_generations:
         type: optional<integer>
         docs: Number of generations of the audio to produce.
@@ -325,6 +336,9 @@ types:
         validation:
           min: 1
           max: 5
+      format:
+        type: optional<Format>
+        docs: Specifies the output audio file format.
       split_utterances:
         type: optional<boolean>
         docs: >-
@@ -345,6 +359,13 @@ types:
           setting to `false`, avoid including utterances with long `text`, as
           this can result in distorted output.
         default: true
+      multi_speaker:
+        type: optional<boolean>
+        docs: >-
+          If enabled, consecutive utterances with the different voices will be
+          generated with compounding context that takes into account the
+          previous utterances.
+        default: true
       strip_headers:
         type: optional<boolean>
         docs: >-
@@ -353,18 +374,6 @@ types:
           if disabled, each chunk's audio will be its own audio file, each with
           its own headers (if applicable).
         default: false
-      utterances:
-        docs: >-
-          A list of **Utterances** to be converted to speech output.
-
-
-          An **Utterance** is a unit of input for
-          [Octave](/docs/text-to-speech-tts/overview), and includes input
-          `text`, an optional `description` to serve as the prompt for how the
-          speech should be delivered, an optional `voice` specification, and
-          additional controls to guide delivery for `speed` and
-          `trailing_silence`.
-        type: list<PostedUtterance>
       instant_mode:
         type: optional<boolean>
         docs: >-
@@ -391,14 +400,14 @@ types:
       openapi: tts-openapi.yml
   ReturnTts:
     properties:
-      generations:
-        type: list<ReturnGeneration>
       request_id:
         type: optional<string>
         docs: >-
           A unique ID associated with this request for tracking and
           troubleshooting. Use this ID when contacting [support](/support) for
           troubleshooting assistance.
+      generations:
+        type: list<ReturnGeneration>
     source:
       openapi: tts-openapi.yml
   ReturnVoice:
@@ -421,34 +430,33 @@ types:
     source:
       openapi: tts-openapi.yml
   FormatPcm:
-    properties:
-      type: literal<"pcm">
+    properties: {}
     source:
       openapi: tts-openapi.yml
   Snippet:
     properties:
-      audio:
-        type: string
-        docs: >-
-          The segmented audio output in the requested format, encoded as a
-          base64 string.
-      generation_id:
-        type: string
-        docs: The generation ID this snippet corresponds to.
       id:
         type: string
         docs: A unique ID associated with this **Snippet**.
       text:
         type: string
         docs: The text for this **Snippet**.
+      generation_id:
+        type: string
+        docs: The generation ID this snippet corresponds to.
+      utterance_index:
+        type: optional<integer>
+        docs: The index of the utterance in the request this snippet corresponds to.
       transcribed_text:
         type: optional<string>
         docs: >-
           The transcribed text of the generated audio. It is only present if
           `instant_mode` is set to `false`.
-      utterance_index:
-        type: optional<integer>
-        docs: The index of the utterance in the request this snippet corresponds to.
+      audio:
+        type: string
+        docs: >-
+          The segmented audio output in the requested format, encoded as a
+          base64 string.
     source:
       openapi: tts-openapi.yml
   SnippetAudioChunk:
@@ -457,6 +465,11 @@ types:
       openapi: tts-openapi.yml
   PostedUtterance:
     properties:
+      text:
+        type: string
+        docs: The input text to be synthesized into speech.
+        validation:
+          maxLength: 5000
       description:
         type: optional<string>
         docs: >-
@@ -478,6 +491,14 @@ types:
           guide](/docs/text-to-speech-tts/prompting) for design tips.
         validation:
           maxLength: 1000
+      voice:
+        type: optional<PostedUtteranceVoice>
+        docs: >-
+          The `name` or `id` associated with a **Voice** from the **Voice
+          Library** to be used as the speaker for this and all subsequent
+          `utterances`, until the `voice` field is updated again.
+
+           See our [voices guide](/docs/text-to-speech-tts/voices) for more details on generating and specifying **Voices**.
       speed:
         type: optional<double>
         docs: >-
@@ -487,11 +508,6 @@ types:
         validation:
           min: 0.5
           max: 2
-      text:
-        type: string
-        docs: The input text to be synthesized into speech.
-        validation:
-          maxLength: 5000
       trailing_silence:
         type: optional<double>
         docs: Duration of trailing silence (in seconds) to add to this utterance
@@ -499,14 +515,6 @@ types:
         validation:
           min: 0
           max: 5
-      voice:
-        type: optional<PostedUtteranceVoice>
-        docs: >-
-          The `name` or `id` associated with a **Voice** from the **Voice
-          Library** to be used as the speaker for this and all subsequent
-          `utterances`, until the `voice` field is updated again.
-
-           See our [voices guide](/docs/text-to-speech-tts/voices) for more details on generating and specifying **Voices**.
     source:
       openapi: tts-openapi.yml
   ValidationErrorLocItem:
@@ -583,12 +591,7 @@ types:
           via requests authenticated with your API key.
     source:
       openapi: tts-openapi.yml
-  VoiceProvider:
-    enum:
-      - HUME_AI
-      - CUSTOM_VOICE
-    source:
-      openapi: tts-openapi.yml
+  VoiceProvider: string
   PostedUtteranceVoice:
     discriminated: false
     union:
@@ -597,8 +600,7 @@ types:
     source:
       openapi: tts-openapi.yml
   FormatWav:
-    properties:
-      type: literal<"wav">
+    properties: {}
     source:
       openapi: tts-openapi.yml
   ErrorResponse:
