@@ -9,6 +9,9 @@ from .assistant_prosody import AssistantProsody
 from .audio_configuration import AudioConfiguration
 from .audio_input import AudioInput
 from .audio_output import AudioOutput
+from .body_custom_language_model_supports_tool_use_v_0_evi_custom_language_model_supports_tool_use_post import (
+    BodyCustomLanguageModelSupportsToolUseV0EviCustomLanguageModelSupportsToolUsePost,
+)
 from .built_in_tool import BuiltInTool
 from .builtin_tool_config import BuiltinToolConfig
 from .chat_message import ChatMessage
@@ -122,6 +125,7 @@ __all__ = [
     "AudioConfiguration",
     "AudioInput",
     "AudioOutput",
+    "BodyCustomLanguageModelSupportsToolUseV0EviCustomLanguageModelSupportsToolUsePost",
     "BuiltInTool",
     "BuiltinToolConfig",
     "ChatMessage",
