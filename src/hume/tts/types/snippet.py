@@ -7,16 +7,6 @@ from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
 class Snippet(UniversalBaseModel):
-    audio: str = pydantic.Field()
-    """
-    The segmented audio output in the requested format, encoded as a base64 string.
-    """
-
-    generation_id: str = pydantic.Field()
-    """
-    The generation ID this snippet corresponds to.
-    """
-
     id: str = pydantic.Field()
     """
     A unique ID associated with this **Snippet**.
@@ -27,14 +17,24 @@ class Snippet(UniversalBaseModel):
     The text for this **Snippet**.
     """
 
-    transcribed_text: typing.Optional[str] = pydantic.Field(default=None)
+    generation_id: str = pydantic.Field()
     """
-    The transcribed text of the generated audio. It is only present if `instant_mode` is set to `false`.
+    The generation ID this snippet corresponds to.
     """
 
     utterance_index: typing.Optional[int] = pydantic.Field(default=None)
     """
     The index of the utterance in the request this snippet corresponds to.
+    """
+
+    transcribed_text: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The transcribed text of the generated audio. It is only present if `instant_mode` is set to `false`.
+    """
+
+    audio: str = pydantic.Field()
+    """
+    The segmented audio output in the requested format, encoded as a base64 string.
     """
 
     if IS_PYDANTIC_V2:

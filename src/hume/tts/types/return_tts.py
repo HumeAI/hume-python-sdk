@@ -8,11 +8,12 @@ from .return_generation import ReturnGeneration
 
 
 class ReturnTts(UniversalBaseModel):
-    generations: typing.List[ReturnGeneration]
     request_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     A unique ID associated with this request for tracking and troubleshooting. Use this ID when contacting [support](/support) for troubleshooting assistance.
     """
+
+    generations: typing.List[ReturnGeneration]
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
