@@ -16,29 +16,13 @@ class SessionSettings(UniversalBaseModel):
     Settings for this chat session.
     """
 
-    audio: typing.Optional[AudioConfiguration] = pydantic.Field(default=None)
+    type: typing.Literal["session_settings"] = pydantic.Field(default="session_settings")
     """
-    Configuration details for the audio input used during the session. Ensures the audio is being correctly set up for processing.
+    The type of message sent through the socket; must be `session_settings` for our server to correctly identify and process it as a Session Settings message.
     
-    This optional field is only required when the audio input is encoded in PCM Linear 16 (16-bit, little-endian, signed PCM WAV data). For detailed instructions on how to configure session settings for PCM Linear 16 audio, please refer to the [Session Settings guide](/docs/empathic-voice-interface-evi/configuration/session-settings).
-    """
-
-    builtin_tools: typing.Optional[typing.List[BuiltinToolConfig]] = pydantic.Field(default=None)
-    """
-    List of built-in tools to enable for the session.
+    Session settings are temporary and apply only to the current Chat session. These settings can be adjusted dynamically based on the requirements of each session to ensure optimal performance and user experience.
     
-    Tools are resources used by EVI to perform various tasks, such as searching the web or calling external APIs. Built-in tools, like web search, are natively integrated, while user-defined tools are created and invoked by the user. To learn more, see our [Tool Use Guide](/docs/empathic-voice-interface-evi/features/tool-use).
-    
-    Currently, the only built-in tool Hume provides is **Web Search**. When enabled, Web Search equips EVI with the ability to search the web for up-to-date information.
-    """
-
-    context: typing.Optional[Context] = pydantic.Field(default=None)
-    """
-    Allows developers to inject additional context into the conversation, which is appended to the end of user messages for the session.
-    
-    When included in a Session Settings message, the provided context can be used to remind the LLM of its role in every user message, prevent it from forgetting important details, or add new relevant information to the conversation.
-    
-    Set to `null` to disable context injection.
+    For more information, please refer to the [Session Settings guide](/docs/empathic-voice-interface-evi/configuration/session-settings).
     """
 
     custom_session_id: typing.Optional[str] = pydantic.Field(default=None)
@@ -50,14 +34,6 @@ class SessionSettings(UniversalBaseModel):
     It is recommended to pass a `custom_session_id` if you are using a Custom Language Model. Please see our guide to [using a custom language model](/docs/empathic-voice-interface-evi/guides/custom-language-model) with EVI to learn more.
     """
 
-    language_model_api_key: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    Third party API key for the supplemental language model.
-    
-    When provided, EVI will use this key instead of Hume’s API key for the supplemental LLM. This allows you to bypass rate limits and utilize your own API key as needed.
-    """
-
-    metadata: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = None
     system_prompt: typing.Optional[str] = pydantic.Field(default=None)
     """
     Instructions used to shape EVI’s behavior, responses, and style for the session.
@@ -69,6 +45,29 @@ class SessionSettings(UniversalBaseModel):
     For help writing a system prompt, see our [Prompting Guide](/docs/empathic-voice-interface-evi/guides/prompting).
     """
 
+    context: typing.Optional[Context] = pydantic.Field(default=None)
+    """
+    Allows developers to inject additional context into the conversation, which is appended to the end of user messages for the session.
+    
+    When included in a Session Settings message, the provided context can be used to remind the LLM of its role in every user message, prevent it from forgetting important details, or add new relevant information to the conversation.
+    
+    Set to `null` to disable context injection.
+    """
+
+    audio: typing.Optional[AudioConfiguration] = pydantic.Field(default=None)
+    """
+    Configuration details for the audio input used during the session. Ensures the audio is being correctly set up for processing.
+    
+    This optional field is only required when the audio input is encoded in PCM Linear 16 (16-bit, little-endian, signed PCM WAV data). For detailed instructions on how to configure session settings for PCM Linear 16 audio, please refer to the [Session Settings guide](/docs/empathic-voice-interface-evi/configuration/session-settings).
+    """
+
+    language_model_api_key: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Third party API key for the supplemental language model.
+    
+    When provided, EVI will use this key instead of Hume’s API key for the supplemental LLM. This allows you to bypass rate limits and utilize your own API key as needed.
+    """
+
     tools: typing.Optional[typing.List[Tool]] = pydantic.Field(default=None)
     """
     List of user-defined tools to enable for the session.
@@ -76,15 +75,16 @@ class SessionSettings(UniversalBaseModel):
     Tools are resources used by EVI to perform various tasks, such as searching the web or calling external APIs. Built-in tools, like web search, are natively integrated, while user-defined tools are created and invoked by the user. To learn more, see our [Tool Use Guide](/docs/empathic-voice-interface-evi/features/tool-use).
     """
 
-    type: typing.Literal["session_settings"] = pydantic.Field(default="session_settings")
+    builtin_tools: typing.Optional[typing.List[BuiltinToolConfig]] = pydantic.Field(default=None)
     """
-    The type of message sent through the socket; must be `session_settings` for our server to correctly identify and process it as a Session Settings message.
+    List of built-in tools to enable for the session.
     
-    Session settings are temporary and apply only to the current Chat session. These settings can be adjusted dynamically based on the requirements of each session to ensure optimal performance and user experience.
+    Tools are resources used by EVI to perform various tasks, such as searching the web or calling external APIs. Built-in tools, like web search, are natively integrated, while user-defined tools are created and invoked by the user. To learn more, see our [Tool Use Guide](/docs/empathic-voice-interface-evi/features/tool-use).
     
-    For more information, please refer to the [Session Settings guide](/docs/empathic-voice-interface-evi/configuration/session-settings).
+    Currently, the only built-in tool Hume provides is **Web Search**. When enabled, Web Search equips EVI with the ability to search the web for up-to-date information.
     """
 
+    metadata: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = None
     variables: typing.Optional[typing.Dict[str, SessionSettingsVariablesValue]] = pydantic.Field(default=None)
     """
     This field allows you to assign values to dynamic variables referenced in your system prompt.

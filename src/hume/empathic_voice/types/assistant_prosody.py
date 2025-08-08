@@ -12,14 +12,16 @@ class AssistantProsody(UniversalBaseModel):
     When provided, the output is an Assistant Prosody message.
     """
 
+    type: typing.Literal["assistant_prosody"] = pydantic.Field(default="assistant_prosody")
+    """
+    The type of message sent through the socket; for an Assistant Prosody message, this must be `assistant_PROSODY`.
+    
+    This message the expression measurement predictions of the assistant's audio output.
+    """
+
     custom_session_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
-    """
-
-    id: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    Unique identifier for the segment.
     """
 
     models: Inference = pydantic.Field()
@@ -27,11 +29,9 @@ class AssistantProsody(UniversalBaseModel):
     Inference model results.
     """
 
-    type: typing.Literal["assistant_prosody"] = pydantic.Field(default="assistant_prosody")
+    id: typing.Optional[str] = pydantic.Field(default=None)
     """
-    The type of message sent through the socket; for an Assistant Prosody message, this must be `assistant_PROSODY`.
-    
-    This message the expression measurement predictions of the assistant's audio output.
+    Unique identifier for the segment.
     """
 
     if IS_PYDANTIC_V2:

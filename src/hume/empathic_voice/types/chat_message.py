@@ -10,14 +10,14 @@ from .tool_call_message import ToolCallMessage
 
 
 class ChatMessage(UniversalBaseModel):
-    content: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    Transcript of the message.
-    """
-
     role: Role = pydantic.Field()
     """
     Role of who is providing the message.
+    """
+
+    content: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Transcript of the message.
     """
 
     tool_call: typing.Optional[ToolCallMessage] = pydantic.Field(default=None)
