@@ -10,6 +10,7 @@ from .types import (
     AudioConfiguration,
     AudioInput,
     AudioOutput,
+    BodyCustomLanguageModelSupportsToolUseV0EviCustomLanguageModelSupportsToolUsePost,
     BuiltInTool,
     BuiltinToolConfig,
     ChatMessage,
@@ -113,7 +114,7 @@ from .types import (
     WebhookEventChatStarted,
     WebhookEventChatStatus,
 )
-from .errors import BadRequestError, UnprocessableEntityError
+from .errors import BadRequestError
 from . import chat, chat_groups, chats, configs, prompts, tools
 from .chat import PublishEvent, SubscribeEvent
 
@@ -126,6 +127,7 @@ __all__ = [
     "AudioInput",
     "AudioOutput",
     "BadRequestError",
+    "BodyCustomLanguageModelSupportsToolUseV0EviCustomLanguageModelSupportsToolUsePost",
     "BuiltInTool",
     "BuiltinToolConfig",
     "ChatMessage",
@@ -214,7 +216,6 @@ __all__ = [
     "ToolErrorMessage",
     "ToolResponseMessage",
     "ToolType",
-    "UnprocessableEntityError",
     "UserInput",
     "UserInterruption",
     "UserMessage",

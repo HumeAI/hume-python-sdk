@@ -8,14 +8,9 @@ from .tool_type import ToolType
 
 
 class Tool(UniversalBaseModel):
-    description: typing.Optional[str] = pydantic.Field(default=None)
+    type: ToolType = pydantic.Field()
     """
-    An optional description of what the tool does, used by the supplemental LLM to choose when and how to call the function.
-    """
-
-    fallback_content: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    Optional text passed to the supplemental LLM if the tool call fails. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation.
+    Type of tool. Set to `function` for user-defined tools.
     """
 
     name: str = pydantic.Field()
@@ -30,9 +25,14 @@ class Tool(UniversalBaseModel):
     These parameters define the inputs needed for the tool’s execution, including the expected data type and description for each input field. Structured as a JSON schema, this format ensures the tool receives data in the expected format.
     """
 
-    type: ToolType = pydantic.Field()
+    description: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Type of tool. Set to `function` for user-defined tools.
+    An optional description of what the tool does, used by the supplemental LLM to choose when and how to call the function.
+    """
+
+    fallback_content: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Optional text passed to the supplemental LLM if the tool call fails. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation.
     """
 
     if IS_PYDANTIC_V2:
