@@ -566,7 +566,12 @@ types:
           via requests authenticated with your API key.
     source:
       openapi: tts-openapi.yml
-  VoiceProvider: string
+  VoiceProvider:
+    enum:
+      - HUME_AI
+      - CUSTOM_VOICE
+    source:
+      openapi: tts-openapi.yml
   PostedUtteranceVoice:
     discriminated: false
     union:
