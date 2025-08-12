@@ -50,6 +50,11 @@ class ChatConnectOptions(typing.TypedDict, total=False):
 
     verbose_transcription: typing.Optional[bool]
 
+    """
+    ID of the Voice to use for this chat. If specified, will override the voice set in the Config
+    """
+    voice_id: typing.Optional[str]
+
 
 class ChatWebsocketConnection:
     DEFAULT_NUM_CHANNELS: typing.ClassVar[int] = 1
