@@ -29,7 +29,7 @@ types:
 
           EVI uses this text to generate spoken audio using our proprietary
           expressive text-to-speech model. Our model adds appropriate emotional
-          inflections and tones to the text based on the user’s expressions and
+          inflections and tones to the text based on the user's expressions and
           the context of the conversation. The synthesized audio is streamed
           back to the user as an [Assistant
           Message](/reference/empathic-voice-interface-evi/chat/chat#receive.AssistantMessage.type).
@@ -75,7 +75,7 @@ types:
           Base64 encoded audio input to insert into the conversation.
 
 
-          The content of an Audio Input message is treated as the user’s speech
+          The content of an Audio Input message is treated as the user's speech
           to EVI and must be streamed continuously. Pre-recorded audio files are
           not supported.
 
@@ -166,7 +166,7 @@ types:
           Once this message is sent, EVI will not respond until a [Resume
           Assistant
           message](/reference/empathic-voice-interface-evi/chat/chat#send.ResumeAssistantMessage.type)
-          is sent. When paused, EVI won’t respond, but transcriptions of your
+          is sent. When paused, EVI won't respond, but transcriptions of your
           audio inputs will still be recorded.
       custom_session_id:
         type: optional<string>
@@ -250,7 +250,7 @@ types:
       system_prompt:
         type: optional<string>
         docs: >-
-          Instructions used to shape EVI’s behavior, responses, and style for
+          Instructions used to shape EVI's behavior, responses, and style for
           the session.
 
 
@@ -301,7 +301,7 @@ types:
           Third party API key for the supplemental language model.
 
 
-          When provided, EVI will use this key instead of Hume’s API key for the
+          When provided, EVI will use this key instead of Hume's API key for the
           supplemental LLM. This allows you to bypass rate limits and utilize
           your own API key as needed.
       tools:
@@ -367,7 +367,7 @@ types:
           Parameters of the tool. Is a stringified JSON schema.
 
 
-          These parameters define the inputs needed for the tool’s execution,
+          These parameters define the inputs needed for the tool's execution,
           including the expected data type and description for each input field.
           Structured as a JSON schema, this format ensures the tool receives
           data in the expected format.
@@ -521,7 +521,7 @@ types:
         type: string
         docs: >-
           User text to insert into the conversation. Text sent through a User
-          Input message is treated as the user’s speech to EVI. EVI processes
+          Input message is treated as the user's speech to EVI. EVI processes
           this input and provides a corresponding response.
 
 
@@ -540,7 +540,7 @@ types:
           message, this must be `assistant_end`.
 
 
-          This message indicates the conclusion of the assistant’s response,
+          This message indicates the conclusion of the assistant's response,
           signaling that the assistant has finished speaking for the current
           conversational turn.
       custom_session_id:
@@ -560,8 +560,8 @@ types:
           this must be `assistant_message`.
 
 
-          This message contains both a transcript of the assistant’s response
-          and the expression measurement predictions of the assistant’s audio
+          This message contains both a transcript of the assistant's response
+          and the expression measurement predictions of the assistant's audio
           output.
       custom_session_id:
         type: optional<string>
@@ -860,7 +860,7 @@ types:
           Parameters of the tool.
 
 
-          These parameters define the inputs needed for the tool’s execution,
+          These parameters define the inputs needed for the tool's execution,
           including the expected data type and description for each input field.
           Structured as a stringified JSON schema, this format ensures the tool
           receives data in the expected format.
@@ -912,7 +912,7 @@ types:
           message, this must be `user_interruption`.
 
 
-          This message indicates the user has interrupted the assistant’s
+          This message indicates the user has interrupted the assistant's
           response. EVI detects the interruption in real-time and sends this
           message to signal the interruption event. This message allows the
           system to stop the current audio playback, clear the audio queue, and
@@ -937,7 +937,7 @@ types:
           must be `user_message`.
 
 
-          This message contains both a transcript of the user’s input and the
+          This message contains both a transcript of the user's input and the
           expression measurement predictions if the input was sent as an [Audio
           Input
           message](/reference/empathic-voice-interface-evi/chat/chat#send.AudioInput.type).
@@ -1363,7 +1363,7 @@ types:
           Tool.
 
 
-          These parameters define the inputs needed for the Tool’s execution,
+          These parameters define the inputs needed for the Tool's execution,
           including the expected data type and description for each input field.
           Structured as a stringified JSON schema, this format ensures the tool
           receives data in the expected format.
@@ -1410,17 +1410,15 @@ types:
       text:
         type: string
         docs: >-
-          Instructions used to shape EVI’s behavior, responses, and style.
+          Instructions used to shape EVI's behavior, responses, and style.
 
 
           You can use the Prompt to define a specific goal or role for EVI,
           specifying how it should act or what it should focus on during the
           conversation. For example, EVI can be instructed to act as a customer
           support representative, a fitness coach, or a travel advisor, each
-          with its own set of behaviors and response styles.
-
-
-          For help writing a system prompt, see our [Prompting
+          with its own set of behaviors and response styles. For help writing a
+          system prompt, see our [Prompting
           Guide](/docs/speech-to-speech-evi/guides/prompting).
       version:
         type: integer
@@ -2142,7 +2140,7 @@ types:
           The model temperature, with values between 0 to 1 (inclusive).
 
 
-          Controls the randomness of the LLM’s output, with values closer to 0
+          Controls the randomness of the LLM's output, with values closer to 0
           yielding focused, deterministic responses and values closer to 1
           producing more creative, diverse responses.
     source:
@@ -2293,6 +2291,11 @@ types:
       Accepts a minimum value of 30 seconds and a maximum value of 1,800
       seconds.
     properties:
+      duration_secs:
+        type: optional<integer>
+        docs: >-
+          Duration in seconds for the timeout (e.g. 600 seconds represents 10
+          minutes).
       enabled:
         type: boolean
         docs: >-
@@ -2303,11 +2306,6 @@ types:
           user inactivity being reached. However, the conversation will
           eventually disconnect after 1,800 seconds (30 minutes), which is the
           maximum WebSocket duration limit for EVI.
-      duration_secs:
-        type: optional<integer>
-        docs: >-
-          Duration in seconds for the timeout (e.g. 600 seconds represents 10
-          minutes).
     source:
       openapi: evi-openapi.json
     inline: true
@@ -2321,6 +2319,11 @@ types:
       Accepts a minimum value of 30 seconds and a maximum value of 1,800
       seconds.
     properties:
+      duration_secs:
+        type: optional<integer>
+        docs: >-
+          Duration in seconds for the timeout (e.g. 600 seconds represents 10
+          minutes).
       enabled:
         type: boolean
         docs: >-
@@ -2331,11 +2334,6 @@ types:
           duration being reached. However, the conversation will eventually
           disconnect after 1,800 seconds (30 minutes), which is the maximum
           WebSocket duration limit for EVI.
-      duration_secs:
-        type: optional<integer>
-        docs: >-
-          Duration in seconds for the timeout (e.g. 600 seconds represents 10
-          minutes).
     source:
       openapi: evi-openapi.json
     inline: true
@@ -2414,7 +2412,7 @@ types:
           The model temperature, with values between 0 to 1 (inclusive).
 
 
-          Controls the randomness of the LLM’s output, with values closer to 0
+          Controls the randomness of the LLM's output, with values closer to 0
           yielding focused, deterministic responses and values closer to 1
           producing more creative, diverse responses.
     source:

@@ -1036,7 +1036,7 @@ client.empathic_voice.tools.create_tool(
 
 Stringified JSON defining the parameters used by this version of the Tool.
 
-These parameters define the inputs needed for the Tool’s execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.
+These parameters define the inputs needed for the Tool's execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.
     
 </dd>
 </dl>
@@ -1257,7 +1257,7 @@ client.empathic_voice.tools.create_tool_version(
 
 Stringified JSON defining the parameters used by this version of the Tool.
 
-These parameters define the inputs needed for the Tool’s execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.
+These parameters define the inputs needed for the Tool's execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.
     
 </dd>
 </dl>
@@ -1898,7 +1898,7 @@ client.empathic_voice.prompts.create_prompt(
 
 **text:** `str` 
 
-Instructions used to shape EVI’s behavior, responses, and style.
+Instructions used to shape EVI's behavior, responses, and style.
 
 You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles.
 
@@ -2098,7 +2098,7 @@ client.empathic_voice.prompts.create_prompt_version(
 
 **text:** `str` 
 
-Instructions used to shape EVI’s behavior, responses, and style for this version of the Prompt.
+Instructions used to shape EVI's behavior, responses, and style for this version of the Prompt.
 
 You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles.
 

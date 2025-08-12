@@ -22,7 +22,7 @@ class Tool(UniversalBaseModel):
     """
     Parameters of the tool. Is a stringified JSON schema.
     
-    These parameters define the inputs needed for the tool’s execution, including the expected data type and description for each input field. Structured as a JSON schema, this format ensures the tool receives data in the expected format.
+    These parameters define the inputs needed for the tool's execution, including the expected data type and description for each input field. Structured as a JSON schema, this format ensures the tool receives data in the expected format.
     """
 
     description: typing.Optional[str] = pydantic.Field(default=None)

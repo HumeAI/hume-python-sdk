@@ -13,16 +13,16 @@ class PostedTimeoutSpecsInactivity(UniversalBaseModel):
     Accepts a minimum value of 30 seconds and a maximum value of 1,800 seconds.
     """
 
+    duration_secs: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    Duration in seconds for the timeout (e.g. 600 seconds represents 10 minutes).
+    """
+
     enabled: bool = pydantic.Field()
     """
     Boolean indicating if this timeout is enabled.
     
     If set to false, EVI will not timeout due to a specified duration of user inactivity being reached. However, the conversation will eventually disconnect after 1,800 seconds (30 minutes), which is the maximum WebSocket duration limit for EVI.
-    """
-
-    duration_secs: typing.Optional[int] = pydantic.Field(default=None)
-    """
-    Duration in seconds for the timeout (e.g. 600 seconds represents 10 minutes).
     """
 
     if IS_PYDANTIC_V2:
