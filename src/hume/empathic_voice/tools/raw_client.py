@@ -136,7 +136,7 @@ class RawToolsClient:
         parameters : str
             Stringified JSON defining the parameters used by this version of the Tool.
 
-            These parameters define the inputs needed for the Tool’s execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.
+            These parameters define the inputs needed for the Tool's execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.
 
         version_description : typing.Optional[str]
             An optional description of the Tool version.
@@ -311,7 +311,7 @@ class RawToolsClient:
         parameters : str
             Stringified JSON defining the parameters used by this version of the Tool.
 
-            These parameters define the inputs needed for the Tool’s execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.
+            These parameters define the inputs needed for the Tool's execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.
 
         version_description : typing.Optional[str]
             An optional description of the Tool version.
@@ -779,7 +779,7 @@ class AsyncRawToolsClient:
         parameters : str
             Stringified JSON defining the parameters used by this version of the Tool.
 
-            These parameters define the inputs needed for the Tool’s execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.
+            These parameters define the inputs needed for the Tool's execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.
 
         version_description : typing.Optional[str]
             An optional description of the Tool version.
@@ -957,7 +957,7 @@ class AsyncRawToolsClient:
         parameters : str
             Stringified JSON defining the parameters used by this version of the Tool.
 
-            These parameters define the inputs needed for the Tool’s execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.
+            These parameters define the inputs needed for the Tool's execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.
 
         version_description : typing.Optional[str]
             An optional description of the Tool version.

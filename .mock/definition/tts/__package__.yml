@@ -264,8 +264,7 @@ types:
     source:
       openapi: tts-openapi.yml
   FormatMp3:
-    properties:
-      type: literal<"mp3">
+    properties: {}
     source:
       openapi: tts-openapi.yml
   PostedContext:
@@ -281,15 +280,18 @@ types:
       openapi: tts-openapi.yml
     inline: true
   Format:
-    discriminated: false
+    discriminant: type
+    base-properties: {}
     docs: Specifies the output audio file format.
     union:
-      - type: FormatMp3
-      - type: FormatPcm
-      - type: FormatWav
+      mp3:
+        type: FormatMp3
+      pcm:
+        type: FormatPcm
+      wav:
+        type: FormatWav
     source:
       openapi: tts-openapi.yml
-    inline: true
   PostedTts:
     properties:
       context:
@@ -404,8 +406,7 @@ types:
     source:
       openapi: tts-openapi.yml
   FormatPcm:
-    properties:
-      type: literal<"pcm">
+    properties: {}
     source:
       openapi: tts-openapi.yml
   Snippet:
@@ -580,8 +581,7 @@ types:
     source:
       openapi: tts-openapi.yml
   FormatWav:
-    properties:
-      type: literal<"wav">
+    properties: {}
     source:
       openapi: tts-openapi.yml
   ErrorResponse:

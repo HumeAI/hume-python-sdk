@@ -132,7 +132,7 @@ class RawPromptsClient:
             Name applied to all versions of a particular Prompt.
 
         text : str
-            Instructions used to shape EVI’s behavior, responses, and style.
+            Instructions used to shape EVI's behavior, responses, and style.
 
             You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles.
 
@@ -286,7 +286,7 @@ class RawPromptsClient:
             Identifier for a Prompt. Formatted as a UUID.
 
         text : str
-            Instructions used to shape EVI’s behavior, responses, and style for this version of the Prompt.
+            Instructions used to shape EVI's behavior, responses, and style for this version of the Prompt.
 
             You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles.
 
@@ -746,7 +746,7 @@ class AsyncRawPromptsClient:
             Name applied to all versions of a particular Prompt.
 
         text : str
-            Instructions used to shape EVI’s behavior, responses, and style.
+            Instructions used to shape EVI's behavior, responses, and style.
 
             You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles.
 
@@ -900,7 +900,7 @@ class AsyncRawPromptsClient:
             Identifier for a Prompt. Formatted as a UUID.
 
         text : str
-            Instructions used to shape EVI’s behavior, responses, and style for this version of the Prompt.
+            Instructions used to shape EVI's behavior, responses, and style for this version of the Prompt.
 
             You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles.
 

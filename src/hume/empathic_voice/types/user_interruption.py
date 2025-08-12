@@ -15,7 +15,7 @@ class UserInterruption(UniversalBaseModel):
     """
     The type of message sent through the socket; for a User Interruption message, this must be `user_interruption`.
     
-    This message indicates the user has interrupted the assistant’s response. EVI detects the interruption in real-time and sends this message to signal the interruption event. This message allows the system to stop the current audio playback, clear the audio queue, and prepare to handle new user input.
+    This message indicates the user has interrupted the assistant's response. EVI detects the interruption in real-time and sends this message to signal the interruption event. This message allows the system to stop the current audio playback, clear the audio queue, and prepare to handle new user input.
     """
 
     custom_session_id: typing.Optional[str] = pydantic.Field(default=None)
