@@ -17,7 +17,7 @@ class AssistantMessage(UniversalBaseModel):
     """
     The type of message sent through the socket; for an Assistant Message, this must be `assistant_message`.
     
-    This message contains both a transcript of the assistant’s response and the expression measurement predictions of the assistant’s audio output.
+    This message contains both a transcript of the assistant's response and the expression measurement predictions of the assistant's audio output.
     """
 
     custom_session_id: typing.Optional[str] = pydantic.Field(default=None)

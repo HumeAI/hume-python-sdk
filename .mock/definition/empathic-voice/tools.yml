@@ -145,7 +145,7 @@ service:
                 the Tool.
 
 
-                These parameters define the inputs needed for the Tool’s
+                These parameters define the inputs needed for the Tool's
                 execution, including the expected data type and description for
                 each input field. Structured as a stringified JSON schema, this
                 format ensures the Tool receives data in the expected format.
@@ -324,7 +324,7 @@ service:
                 the Tool.
 
 
-                These parameters define the inputs needed for the Tool’s
+                These parameters define the inputs needed for the Tool's
                 execution, including the expected data type and description for
                 each input field. Structured as a stringified JSON schema, this
                 format ensures the Tool receives data in the expected format.

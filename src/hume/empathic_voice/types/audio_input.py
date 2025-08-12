@@ -27,7 +27,7 @@ class AudioInput(UniversalBaseModel):
     """
     Base64 encoded audio input to insert into the conversation.
     
-    The content of an Audio Input message is treated as the user’s speech to EVI and must be streamed continuously. Pre-recorded audio files are not supported.
+    The content of an Audio Input message is treated as the user's speech to EVI and must be streamed continuously. Pre-recorded audio files are not supported.
     
     For optimal transcription quality, the audio data should be transmitted in small chunks.
     

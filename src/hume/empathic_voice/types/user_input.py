@@ -25,7 +25,7 @@ class UserInput(UniversalBaseModel):
 
     text: str = pydantic.Field()
     """
-    User text to insert into the conversation. Text sent through a User Input message is treated as the user’s speech to EVI. EVI processes this input and provides a corresponding response.
+    User text to insert into the conversation. Text sent through a User Input message is treated as the user's speech to EVI. EVI processes this input and provides a corresponding response.
     
     Expression measurement results are not available for User Input messages, as the prosody model relies on audio input and cannot process text alone.
     """

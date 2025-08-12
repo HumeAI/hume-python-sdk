@@ -126,7 +126,7 @@ service:
             text:
               type: string
               docs: >-
-                Instructions used to shape EVI’s behavior, responses, and style.
+                Instructions used to shape EVI's behavior, responses, and style.
 
 
                 You can use the Prompt to define a specific goal or role for
@@ -278,7 +278,7 @@ service:
             text:
               type: string
               docs: >-
-                Instructions used to shape EVI’s behavior, responses, and style
+                Instructions used to shape EVI's behavior, responses, and style
                 for this version of the Prompt.
 
 
