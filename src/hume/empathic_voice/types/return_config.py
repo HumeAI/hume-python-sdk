@@ -12,6 +12,7 @@ from .return_nudge_spec import ReturnNudgeSpec
 from .return_prompt import ReturnPrompt
 from .return_timeout_specs import ReturnTimeoutSpecs
 from .return_user_defined_tool import ReturnUserDefinedTool
+from .return_voice import ReturnVoice
 from .return_webhook_spec import ReturnWebhookSpec
 
 
@@ -78,7 +79,11 @@ class ReturnConfig(UniversalBaseModel):
     Hume's eLLM (empathic Large Language Model) is a multimodal language model that takes into account both expression measures and language. The eLLM generates short, empathic language responses and guides text-to-speech (TTS) prosody.
     """
 
-    voice: typing.Optional[typing.Optional[typing.Any]] = None
+    voice: typing.Optional[ReturnVoice] = pydantic.Field(default=None)
+    """
+    A voice specification associated with this Config.
+    """
+
     prompt: typing.Optional[ReturnPrompt] = None
     webhooks: typing.Optional[typing.List[typing.Optional[ReturnWebhookSpec]]] = pydantic.Field(default=None)
     """
