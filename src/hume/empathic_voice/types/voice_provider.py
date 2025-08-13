@@ -2,4 +2,4 @@
 
 import typing
 
-VoiceProvider = typing.Union[typing.Literal["HUME_AI", "CUSTOM_VOICE", "OCTAVE_COMBINED"], typing.Any]
+VoiceProvider = typing.Union[typing.Literal["HUME_AI", "CUSTOM_VOICE"], typing.Any]

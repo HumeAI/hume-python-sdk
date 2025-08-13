@@ -4,9 +4,58 @@ import typing
 
 import pydantic
 from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .audio_format_type import AudioFormatType
+from .snippet import Snippet
 
 
 class SnippetAudioChunk(UniversalBaseModel):
+    generation_id: str = pydantic.Field()
+    """
+    The generation ID of the parent snippet that this chunk corresponds to.
+    """
+
+    snippet_id: str = pydantic.Field()
+    """
+    The ID of the parent snippet that this chunk corresponds to.
+    """
+
+    text: str = pydantic.Field()
+    """
+    The text of the parent snippet that this chunk corresponds to.
+    """
+
+    transcribed_text: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The transcribed text of the generated audio of the parent snippet that this chunk corresponds to. It is only present if `instant_mode` is set to `false`.
+    """
+
+    chunk_index: int = pydantic.Field()
+    """
+    The index of the audio chunk in the snippet.
+    """
+
+    audio: str = pydantic.Field()
+    """
+    The generated audio output chunk in the requested format.
+    """
+
+    audio_format: AudioFormatType = pydantic.Field()
+    """
+    The generated audio output format.
+    """
+
+    is_last_chunk: bool = pydantic.Field()
+    """
+    Whether or not this is the last chunk streamed back from the decoder for one input snippet.
+    """
+
+    utterance_index: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    The index of the utterance in the request that the parent snippet of this chunk corresponds to.
+    """
+
+    snippet: Snippet
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

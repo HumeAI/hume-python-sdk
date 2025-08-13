@@ -15,7 +15,7 @@ service:
         offset: $request.page_number
         results: $response.voices_page
       source:
-        openapi: tts-openapi.yml
+        openapi: tts-openapi.json
       display-name: List voices
       request:
         name: VoicesListRequest
@@ -70,11 +70,11 @@ service:
               page_size: 10
               total_pages: 1
               voices_page:
-                - name: David Hume
-                  id: c42352c0-4566-455d-b180-0f654b65b525
+                - id: c42352c0-4566-455d-b180-0f654b65b525
+                  name: David Hume
                   provider: CUSTOM_VOICE
-                - name: Goliath Hume
-                  id: d87352b0-26a3-4b11-081b-d157a5674d19
+                - id: d87352b0-26a3-4b11-081b-d157a5674d19
+                  name: Goliath Hume
                   provider: CUSTOM_VOICE
     create:
       path: /v0/tts/voices
@@ -89,7 +89,7 @@ service:
         ensuring consistent speech style and prosody. For more details on voice
         creation, see the [Voices Guide](/docs/text-to-speech-tts/voices).
       source:
-        openapi: tts-openapi.yml
+        openapi: tts-openapi.json
       display-name: Create voice
       request:
         name: PostedVoice
@@ -117,8 +117,8 @@ service:
             name: David Hume
           response:
             body:
-              name: David Hume
               id: c42352c0-4566-455d-b180-0f654b65b525
+              name: David Hume
               provider: CUSTOM_VOICE
     delete:
       path: /v0/tts/voices
@@ -126,7 +126,7 @@ service:
       auth: true
       docs: Deletes a previously generated custom voice.
       source:
-        openapi: tts-openapi.yml
+        openapi: tts-openapi.json
       display-name: Delete voice
       request:
         name: VoicesDeleteRequest
@@ -140,4 +140,4 @@ service:
         - query-parameters:
             name: David Hume
   source:
-    openapi: tts-openapi.yml
+    openapi: tts-openapi.json

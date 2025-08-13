@@ -36,12 +36,6 @@ client = HumeClient(
     api_key="YOUR_API_KEY",
 )
 client.tts.synthesize_json(
-    utterances=[
-        PostedUtterance(
-            text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
-            description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm, steady tone with an articulate, academic quality.",
-        )
-    ],
     context=PostedContextWithUtterances(
         utterances=[
             PostedUtterance(
@@ -52,6 +46,12 @@ client.tts.synthesize_json(
     ),
     format=FormatMp3(),
     num_generations=1,
+    utterances=[
+        PostedUtterance(
+            text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
+            description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm, steady tone with an articulate, academic quality.",
+        )
+    ],
 )
 
 ```
@@ -189,17 +189,17 @@ client = HumeClient(
     api_key="YOUR_API_KEY",
 )
 client.tts.synthesize_file(
+    context=PostedContextWithGenerationId(
+        generation_id="09ad914d-8e7f-40f8-a279-e34f07f7dab2",
+    ),
+    format=FormatMp3(),
+    num_generations=1,
     utterances=[
         PostedUtterance(
             text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
             description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm, steady tone with an articulate, academic quality.",
         )
     ],
-    context=PostedContextWithGenerationId(
-        generation_id="09ad914d-8e7f-40f8-a279-e34f07f7dab2",
-    ),
-    format=FormatMp3(),
-    num_generations=1,
 )
 
 ```

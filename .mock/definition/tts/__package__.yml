@@ -29,7 +29,7 @@ service:
         The response includes the base64-encoded audio and metadata in JSON
         format.
       source:
-        openapi: tts-openapi.yml
+        openapi: tts-openapi.json
       display-name: Text-to-speech (Json)
       request:
         body:
@@ -43,14 +43,6 @@ service:
         - UnprocessableEntityError
       examples:
         - request:
-            utterances:
-              - text: >-
-                  Beauty is no quality in things themselves: It exists merely in
-                  the mind which contemplates them.
-                description: >-
-                  Middle-aged masculine voice with a clear, rhythmic Scots lilt,
-                  rounded vowels, and a warm, steady tone with an articulate,
-                  academic quality.
             context:
               utterances:
                 - text: How can people see beauty so differently?
@@ -61,16 +53,24 @@ service:
             format:
               type: mp3
             num_generations: 1
+            utterances:
+              - text: >-
+                  Beauty is no quality in things themselves: It exists merely in
+                  the mind which contemplates them.
+                description: >-
+                  Middle-aged masculine voice with a clear, rhythmic Scots lilt,
+                  rounded vowels, and a warm, steady tone with an articulate,
+                  academic quality.
           response:
             body:
               generations:
-                - generation_id: 795c949a-1510-4a80-9646-7d0863b023ab
+                - audio: //PExAA0DDYRvkpNfhv3JI5JZ...etc.
                   duration: 7.44225
-                  file_size: 120192
                   encoding:
                     format: mp3
                     sample_rate: 48000
-                  audio: //PExAA0DDYRvkpNfhv3JI5JZ...etc.
+                  file_size: 120192
+                  generation_id: 795c949a-1510-4a80-9646-7d0863b023ab
                   snippets:
                     - - audio: //PExAA0DDYRvkpNfhv3JI5JZ...etc.
                         generation_id: 795c949a-1510-4a80-9646-7d0863b023ab
@@ -93,7 +93,7 @@ service:
 
         The response contains the generated audio file in the requested format.
       source:
-        openapi: tts-openapi.yml
+        openapi: tts-openapi.json
       display-name: Text-to-speech (File)
       request:
         body:
@@ -107,6 +107,11 @@ service:
         - UnprocessableEntityError
       examples:
         - request:
+            context:
+              generation_id: 09ad914d-8e7f-40f8-a279-e34f07f7dab2
+            format:
+              type: mp3
+            num_generations: 1
             utterances:
               - text: >-
                   Beauty is no quality in things themselves: It exists merely in
@@ -115,11 +120,6 @@ service:
                   Middle-aged masculine voice with a clear, rhythmic Scots lilt,
                   rounded vowels, and a warm, steady tone with an articulate,
                   academic quality.
-            context:
-              generation_id: 09ad914d-8e7f-40f8-a279-e34f07f7dab2
-            format:
-              type: mp3
-            num_generations: 1
     synthesize-json-streaming:
       path: /v0/tts/stream/json
       method: POST
@@ -134,7 +134,7 @@ service:
         The response is a stream of JSON objects including audio encoded in
         base64.
       source:
-        openapi: tts-openapi.yml
+        openapi: tts-openapi.json
       display-name: Text-to-speech (Streamed JSON)
       request:
         body:
@@ -165,7 +165,7 @@ service:
         additional context can be included to influence the speech's style and
         prosody.
       source:
-        openapi: tts-openapi.yml
+        openapi: tts-openapi.json
       display-name: Text-to-speech (Streamed File)
       request:
         body:
@@ -187,7 +187,7 @@ service:
                   name: Male English Actor
                   provider: HUME_AI
   source:
-    openapi: tts-openapi.yml
+    openapi: tts-openapi.json
 types:
   PostedContextWithGenerationId:
     properties:
@@ -198,13 +198,13 @@ types:
           consistent speech style and prosody across multiple requests.
           Including context may increase audio generation times.
     source:
-      openapi: tts-openapi.yml
+      openapi: tts-openapi.json
   PostedContextWithUtterances:
     properties:
       utterances:
         type: list<PostedUtterance>
     source:
-      openapi: tts-openapi.yml
+      openapi: tts-openapi.json
   AudioEncoding:
     docs: >-
       Encoding information about the generated audio, including the `format` and
@@ -219,14 +219,14 @@ types:
           The sample rate (`Hz`) of the generated audio. The default sample rate
           is `48000 Hz`.
     source:
-      openapi: tts-openapi.yml
+      openapi: tts-openapi.json
   AudioFormatType:
     enum:
       - mp3
       - pcm
       - wav
     source:
-      openapi: tts-openapi.yml
+      openapi: tts-openapi.json
   ReturnGeneration:
     properties:
       generation_id:
@@ -256,18 +256,18 @@ types:
           optimized for speech delivery.
         type: list<list<Snippet>>
     source:
-      openapi: tts-openapi.yml
+      openapi: tts-openapi.json
   HTTPValidationError:
     properties:
       detail:
         type: optional<list<ValidationError>>
     source:
-      openapi: tts-openapi.yml
+      openapi: tts-openapi.json
   FormatMp3:
     properties:
       type: literal<"mp3">
     source:
-      openapi: tts-openapi.yml
+      openapi: tts-openapi.json
   PostedContext:
     discriminated: false
     docs: >-
@@ -278,7 +278,7 @@ types:
       - type: PostedContextWithGenerationId
       - type: PostedContextWithUtterances
     source:
-      openapi: tts-openapi.yml
+      openapi: tts-openapi.json
     inline: true
   Format:
     discriminated: false
@@ -288,7 +288,7 @@ types:
       - type: FormatPcm
       - type: FormatWav
     source:
-      openapi: tts-openapi.yml
+      openapi: tts-openapi.json
     inline: true
   PostedTts:
     properties:
@@ -371,7 +371,7 @@ types:
           must be `1` or omitted).
         default: true
     source:
-      openapi: tts-openapi.yml
+      openapi: tts-openapi.json
   ReturnTts:
     properties:
       request_id:
@@ -383,7 +383,7 @@ types:
       generations:
         type: list<ReturnGeneration>
     source:
-      openapi: tts-openapi.yml
+      openapi: tts-openapi.json
   ReturnVoice:
     docs: An Octave voice available for text-to-speech
     properties:
@@ -402,12 +402,12 @@ types:
           Voices created through this endpoint will always have the provider set
           to `CUSTOM_VOICE`, indicating a custom voice stored in your account.
     source:
-      openapi: tts-openapi.yml
+      openapi: tts-openapi.json
   FormatPcm:
     properties:
       type: literal<"pcm">
     source:
-      openapi: tts-openapi.yml
+      openapi: tts-openapi.json
   Snippet:
     properties:
       id:
@@ -433,11 +433,49 @@ types:
           The segmented audio output in the requested format, encoded as a
           base64 string.
     source:
-      openapi: tts-openapi.yml
+      openapi: tts-openapi.json
   SnippetAudioChunk:
-    properties: {}
+    properties:
+      generation_id:
+        type: string
+        docs: >-
+          The generation ID of the parent snippet that this chunk corresponds
+          to.
+      snippet_id:
+        type: string
+        docs: The ID of the parent snippet that this chunk corresponds to.
+      text:
+        type: string
+        docs: The text of the parent snippet that this chunk corresponds to.
+      transcribed_text:
+        type: optional<string>
+        docs: >-
+          The transcribed text of the generated audio of the parent snippet that
+          this chunk corresponds to. It is only present if `instant_mode` is set
+          to `false`.
+      chunk_index:
+        type: integer
+        docs: The index of the audio chunk in the snippet.
+      audio:
+        type: string
+        docs: The generated audio output chunk in the requested format.
+      audio_format:
+        type: AudioFormatType
+        docs: The generated audio output format.
+      is_last_chunk:
+        type: boolean
+        docs: >-
+          Whether or not this is the last chunk streamed back from the decoder
+          for one input snippet.
+      utterance_index:
+        type: optional<integer>
+        docs: >-
+          The index of the utterance in the request that the parent snippet of
+          this chunk corresponds to.
+      snippet:
+        type: Snippet
     source:
-      openapi: tts-openapi.yml
+      openapi: tts-openapi.json
   PostedUtterance:
     properties:
       text:
@@ -491,14 +529,14 @@ types:
           min: 0
           max: 5
     source:
-      openapi: tts-openapi.yml
+      openapi: tts-openapi.json
   ValidationErrorLocItem:
     discriminated: false
     union:
       - string
       - integer
     source:
-      openapi: tts-openapi.yml
+      openapi: tts-openapi.json
     inline: true
   ValidationError:
     properties:
@@ -507,7 +545,7 @@ types:
       msg: string
       type: string
     source:
-      openapi: tts-openapi.yml
+      openapi: tts-openapi.json
   PostedUtteranceVoiceWithId:
     properties:
       id:
@@ -536,7 +574,7 @@ types:
           users. In contrast, your custom voices are private and accessible only
           via requests authenticated with your API key.
     source:
-      openapi: tts-openapi.yml
+      openapi: tts-openapi.json
   PostedUtteranceVoiceWithName:
     properties:
       name:
@@ -565,32 +603,32 @@ types:
           users. In contrast, your custom voices are private and accessible only
           via requests authenticated with your API key.
     source:
-      openapi: tts-openapi.yml
+      openapi: tts-openapi.json
   VoiceProvider:
     enum:
       - HUME_AI
       - CUSTOM_VOICE
     source:
-      openapi: tts-openapi.yml
+      openapi: tts-openapi.json
   PostedUtteranceVoice:
     discriminated: false
     union:
       - type: PostedUtteranceVoiceWithId
       - type: PostedUtteranceVoiceWithName
     source:
-      openapi: tts-openapi.yml
+      openapi: tts-openapi.json
   FormatWav:
     properties:
       type: literal<"wav">
     source:
-      openapi: tts-openapi.yml
+      openapi: tts-openapi.json
   ErrorResponse:
     properties:
       error: optional<string>
       message: optional<string>
       code: optional<string>
     source:
-      openapi: tts-openapi.yml
+      openapi: tts-openapi.json
   ReturnPagedVoices:
     docs: A paginated list Octave voices available for text-to-speech
     properties:
@@ -619,4 +657,4 @@ types:
           List of voices returned for the specified `page_number` and
           `page_size`.
     source:
-      openapi: tts-openapi.yml
+      openapi: tts-openapi.json

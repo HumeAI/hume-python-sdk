@@ -86,6 +86,7 @@ from .return_timeout_specs import ReturnTimeoutSpecs
 from .return_user_defined_tool import ReturnUserDefinedTool
 from .return_user_defined_tool_tool_type import ReturnUserDefinedToolToolType
 from .return_user_defined_tool_version_type import ReturnUserDefinedToolVersionType
+from .return_voice import ReturnVoice
 from .return_webhook_event_type import ReturnWebhookEventType
 from .return_webhook_spec import ReturnWebhookSpec
 from .role import Role
@@ -196,6 +197,7 @@ __all__ = [
     "ReturnUserDefinedTool",
     "ReturnUserDefinedToolToolType",
     "ReturnUserDefinedToolVersionType",
+    "ReturnVoice",
     "ReturnWebhookEventType",
     "ReturnWebhookSpec",
     "Role",

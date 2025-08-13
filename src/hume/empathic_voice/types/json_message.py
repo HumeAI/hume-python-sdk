@@ -16,6 +16,7 @@ from .web_socket_error import WebSocketError
 JsonMessage = typing.Union[
     AssistantEnd,
     AssistantMessage,
+    AssistantProsody,
     ChatMetadata,
     WebSocketError,
     UserInterruption,
@@ -23,5 +24,4 @@ JsonMessage = typing.Union[
     ToolCallMessage,
     ToolResponseMessage,
     ToolErrorMessage,
-    AssistantProsody,
 ]

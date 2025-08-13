@@ -142,8 +142,8 @@ types:
       openapi: evi-asyncapi.json
   ContextType:
     enum:
-      - temporary
       - persistent
+      - temporary
     source:
       openapi: evi-asyncapi.json
   Encoding:
@@ -990,6 +990,7 @@ types:
     union:
       - type: AssistantEnd
       - type: AssistantMessage
+      - type: AssistantProsody
       - type: ChatMetadata
       - type: WebSocketError
       - type: UserInterruption
@@ -997,7 +998,6 @@ types:
       - type: ToolCallMessage
       - type: ToolResponseMessage
       - type: ToolErrorMessage
-      - type: AssistantProsody
     source:
       openapi: evi-asyncapi.json
   HTTPValidationError:
@@ -1140,6 +1140,26 @@ types:
         type: list<ValidationErrorLocItem>
       msg: string
       type: string
+    source:
+      openapi: evi-openapi.json
+  VoiceId:
+    properties:
+      id:
+        type: string
+        docs: ID of the voice in the `Voice Library`.
+      provider:
+        type: optional<VoiceProvider>
+        docs: Model provider associated with this Voice ID.
+    source:
+      openapi: evi-openapi.json
+  VoiceName:
+    properties:
+      name:
+        type: string
+        docs: Name of the voice in the `Voice Library`.
+      provider:
+        type: optional<VoiceProvider>
+        docs: Model provider associated with this Voice Name.
     source:
       openapi: evi-openapi.json
   WebhookEventChatEnded:
@@ -1551,7 +1571,9 @@ types:
           model that takes into account both expression measures and language.
           The eLLM generates short, empathic language responses and guides
           text-to-speech (TTS) prosody.
-      voice: optional<unknown>
+      voice:
+        type: optional<ReturnVoice>
+        docs: A voice specification associated with this Config.
       prompt: optional<ReturnPrompt>
       webhooks:
         type: optional<list<optional<ReturnWebhookSpec>>>
@@ -2928,37 +2950,24 @@ types:
           minutes).
     source:
       openapi: evi-openapi.json
-  VoiceProvider:
-    enum:
-      - HUME_AI
-      - CUSTOM_VOICE
-      - OCTAVE_COMBINED
-    source:
-      openapi: evi-openapi.json
-  VoiceId:
-    properties:
-      id:
-        type: string
-        docs: ID of the voice in the `Voice Library`.
-      provider:
-        type: optional<VoiceProvider>
-        docs: Model provider associated with this Voice ID.
-    source:
-      openapi: evi-openapi.json
-  VoiceName:
-    properties:
-      name:
-        type: string
-        docs: Name of the voice in the `Voice Library`.
-      provider:
-        type: optional<VoiceProvider>
-        docs: Model provider associated with this Voice Name.
-    source:
-      openapi: evi-openapi.json
   VoiceRef:
     discriminated: false
     union:
       - type: VoiceId
       - type: VoiceName
+    source:
+      openapi: evi-openapi.json
+  ReturnVoice:
+    docs: An Octave voice available for text-to-speech
+    properties:
+      id: optional<string>
+      name: optional<string>
+      provider: optional<VoiceProvider>
+    source:
+      openapi: evi-openapi.json
+  VoiceProvider:
+    enum:
+      - HUME_AI
+      - CUSTOM_VOICE
     source:
       openapi: evi-openapi.json
