@@ -46,11 +46,13 @@ class ChatClient:
                 # first chunk we skip the first 44 bytes.
                 if not first:
                     byte_str = byte_str[44:]
-                await self.sender.on_audio_begin()
                 yield byte_str
-                await self.sender.on_audio_end()
                 first = False
-        await play_audio_streaming(iterable())
+        await play_audio_streaming(
+            iterable(),
+            on_playback_active=self.sender.on_audio_begin,
+            on_playback_idle=self.sender.on_audio_end
+        )
 
     async def run(self, *, socket: ChatWebsocketConnection) -> None:
         """Run the chat client.
