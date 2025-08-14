@@ -6,7 +6,7 @@ import logging
 from dataclasses import dataclass
 from typing import AsyncIterable
 
-from hume.empathic_voice.chat.audio.audio_utilities import play_audio
+from hume.empathic_voice.chat.audio.audio_utilities import play_audio_streaming
 from hume.empathic_voice.chat.audio.microphone_sender import Sender
 from hume.empathic_voice.chat.socket_client import ChatWebsocketConnection
 
@@ -30,10 +30,27 @@ class ChatClient:
         return cls(sender=sender, byte_strs=byte_strs)
 
     async def _play(self) -> None:
-        async for byte_str in self.byte_strs:
-            await self.sender.on_audio_begin()
-            await play_audio(byte_str)
-            await self.sender.on_audio_end()
+        async def iterable() -> AsyncIterable[bytes]:
+            first = True
+            async for byte_str in self.byte_strs:
+                # Each chunk of audio data sent from evi is a .wav
+                # file. We want to concatenate these as one long .wav
+                # stream rather than playing each individual .wav file
+                # and starting and stopping the audio player for each
+                # chunk.
+                # 
+                # Every .wav file starts with a 44 byte header that
+                # declares metadata like the sample rate and the number
+                # of channels. We assume that the first .wav header
+                # applies for the entire stream, so for all but the
+                # first chunk we skip the first 44 bytes.
+                if not first:
+                    byte_str = byte_str[44:]
+                await self.sender.on_audio_begin()
+                yield byte_str
+                await self.sender.on_audio_end()
+                first = False
+        await play_audio_streaming(iterable())
 
     async def run(self, *, socket: ChatWebsocketConnection) -> None:
         """Run the chat client.

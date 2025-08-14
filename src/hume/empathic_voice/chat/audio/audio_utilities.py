@@ -1,4 +1,4 @@
-# Tsrc/hume/empathic_voice/chat/audio/audio_utilities.pyHIS FILE IS MANUALLY MAINTAINED: see .fernignore
+# THIS FILE IS MANUALLY MAINTAINED: see .fernignore
 """
 * WAV/PCM handled with `wave` module
 * MP3 decoded by shelling out to ffmpeg (`ffmpeg` must be in $PATH)
@@ -48,11 +48,12 @@ async def play_audio(
     blob: bytes,
     *,
     device: Optional[int] = None,
-    blocksize = None
+    blocksize = None,
+    sample_rate: int = 48000,
 ) -> None:
     async def _one_chunk():
         yield blob
-    await play_audio_streaming(_one_chunk().__aiter__(), device=device, blocksize=blocksize)
+    await play_audio_streaming(_one_chunk().__aiter__(), device=device, blocksize=blocksize, sample_rate=sample_rate)
 
 
 async def play_audio_streaming(
@@ -60,6 +61,7 @@ async def play_audio_streaming(
     *, 
     device: Optional[int] = None,
     blocksize: Optional[int] = None,
+    sample_rate: int = 48000,
 ) -> None:
     _need_deps()
     iterator = chunks.__aiter__()
@@ -74,7 +76,7 @@ async def play_audio_streaming(
             yield first
             async for chunk in chunks:
                 yield chunk
-        await _stream_pcm(_reassembled(), 48000, 1, device=device, blocksize=blocksize)
+        await _stream_pcm(_reassembled(), sample_rate, 1, device=device, blocksize=blocksize)
 
 async def _stream_pcm(
     pcm_chunks: AsyncIterable[bytes],
@@ -102,16 +104,33 @@ async def _stream_pcm(
     # consume queue in sounddevice callback
     async def player():
         buf = b""
+        finished = False
         def cb(outdata, frames, *_):
-            nonlocal buf
+            nonlocal buf, finished
             need = frames * n_channels * _BYTES_PER_SAMP
             while len(buf) < need:
-                part = pcm_queue.get()
-                if part is None:
-                    raise sd.CallbackStop
-                buf += part
-            outdata[:] = buf[:need]
-            buf = buf[need:]
+                try:
+                    part = pcm_queue.get_nowait()
+                    if part is None:
+                        finished = True
+                        break
+                    buf += part
+                except queue.Empty:
+                    # No data available, break to fill remaining with silence
+                    break
+            
+            if len(buf) >= need:
+                # We have enough data
+                outdata[:] = buf[:need]
+                buf = buf[need:]
+            elif finished:
+                # Stream is finished, stop playback
+                raise sd.CallbackStop
+            else:
+                # Not enough data and stream not finished - fill with silence
+                silence = b'\x00' * (need - len(buf))
+                outdata[:] = buf + silence
+                buf = b""
 
         with sd.RawOutputStream(
           samplerate=sample_rate,
