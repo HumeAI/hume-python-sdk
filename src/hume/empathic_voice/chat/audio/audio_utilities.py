@@ -1,4 +1,4 @@
-# Tsrc/hume/empathic_voice/chat/audio/audio_utilities.pyHIS FILE IS MANUALLY MAINTAINED: see .fernignore
+# THIS FILE IS MANUALLY MAINTAINED: see .fernignore
 """
 * WAV/PCM handled with `wave` module
 * MP3 decoded by shelling out to ffmpeg (`ffmpeg` must be in $PATH)
@@ -6,7 +6,7 @@
 
 from __future__ import annotations
 import asyncio, io, wave, queue, shlex
-from typing import TYPE_CHECKING, AsyncIterable, Optional
+from typing import TYPE_CHECKING, AsyncIterable, Optional, Callable, Awaitable
 
 _missing: Optional[Exception] = None
 try:
@@ -48,11 +48,12 @@ async def play_audio(
     blob: bytes,
     *,
     device: Optional[int] = None,
-    blocksize = None
+    blocksize = None,
+    sample_rate: int = 48000,
 ) -> None:
     async def _one_chunk():
         yield blob
-    await play_audio_streaming(_one_chunk().__aiter__(), device=device, blocksize=blocksize)
+    await play_audio_streaming(_one_chunk().__aiter__(), device=device, blocksize=blocksize, sample_rate=sample_rate)
 
 
 async def play_audio_streaming(
@@ -60,21 +61,30 @@ async def play_audio_streaming(
     *, 
     device: Optional[int] = None,
     blocksize: Optional[int] = None,
+    sample_rate: int = 48000,
+    on_playback_active: Optional[Callable[[], Awaitable[None]]] = None,
+    on_playback_idle: Optional[Callable[[], Awaitable[None]]] = None,
 ) -> None:
     _need_deps()
     iterator = chunks.__aiter__()
     first = await iterator.__anext__()
 
+    if on_playback_active:
+        await on_playback_active()
+
     if _looks_like_mp3(first):
-        await _stream_mp3(chunks, first, device=device)
+        await _stream_mp3(chunks, first, device=device, on_playback_active=on_playback_active, on_playback_idle=on_playback_idle)
     elif _looks_like_wav(first):
-        await _stream_wav(chunks, first, device=device)
+        await _stream_wav(chunks, first, device=device, on_playback_active=on_playback_active, on_playback_idle=on_playback_idle)
     else:
         async def _reassembled():
             yield first
             async for chunk in chunks:
                 yield chunk
-        await _stream_pcm(_reassembled(), 48000, 1, device=device, blocksize=blocksize)
+        await _stream_pcm(_reassembled(), sample_rate, 1, device=device, blocksize=blocksize, on_playback_active=on_playback_active, on_playback_idle=on_playback_idle)
+    
+    if on_playback_idle:
+        await on_playback_idle()
 
 async def _stream_pcm(
     pcm_chunks: AsyncIterable[bytes],
@@ -82,6 +92,8 @@ async def _stream_pcm(
     n_channels: int,
     device: Optional[int] = None,
     blocksize: Optional[int] = _DEFAULT_BLOCKSIZE,
+    on_playback_active: Optional[Callable[[], Awaitable[None]]] = None,
+    on_playback_idle: Optional[Callable[[], Awaitable[None]]] = None,
 ) -> None:
     """Generic PCM player: pulls raw PCM from chunks and plays via sounddevice."""
     _need_deps()
@@ -102,16 +114,39 @@ async def _stream_pcm(
     # consume queue in sounddevice callback
     async def player():
         buf = b""
+        finished = False
+        was_idle = False
         def cb(outdata, frames, *_):
-            nonlocal buf
+            nonlocal buf, finished, was_idle
             need = frames * n_channels * _BYTES_PER_SAMP
             while len(buf) < need:
-                part = pcm_queue.get()
-                if part is None:
-                    raise sd.CallbackStop
-                buf += part
-            outdata[:] = buf[:need]
-            buf = buf[need:]
+                try:
+                    part = pcm_queue.get_nowait()
+                    if part is None:
+                        finished = True
+                        break
+                    buf += part
+                    if was_idle and on_playback_active:
+                        was_idle = False
+                        loop.call_soon_threadsafe(lambda: asyncio.create_task(on_playback_active()))
+                except queue.Empty:
+                    if not was_idle and on_playback_idle:
+                        was_idle = True
+                        loop.call_soon_threadsafe(lambda: asyncio.create_task(on_playback_idle()))
+                    break
+            
+            if len(buf) >= need:
+                # We have enough data
+                outdata[:] = buf[:need]
+                buf = buf[need:]
+            elif finished:
+                # Stream is finished, stop playback
+                raise sd.CallbackStop
+            else:
+                # Not enough data and stream not finished - fill with silence
+                silence = b'\x00' * (need - len(buf))
+                outdata[:] = buf + silence
+                buf = b""
 
         with sd.RawOutputStream(
           samplerate=sample_rate,
@@ -129,6 +164,8 @@ async def _stream_wav(
     chunks: AsyncIterable[bytes],
     first: bytes,
     device: Optional[int] = None,
+    on_playback_active: Optional[Callable[[], Awaitable[None]]] = None,
+    on_playback_idle: Optional[Callable[[], Awaitable[None]]] = None,
 ) -> None:
     # build header + ensure we have 44 bytes
     header = bytearray(first)
@@ -143,12 +180,14 @@ async def _stream_wav(
         async for c in iterator:
             yield c
 
-    await _stream_pcm(pcm_gen(), sample_rate, n_channels, device=device)
+    await _stream_pcm(pcm_gen(), sample_rate, n_channels, device=device, on_playback_active=on_playback_active, on_playback_idle=on_playback_idle)
 
 async def _stream_mp3(
     chunks: AsyncIterable[bytes],
     first: bytes,
     device: Optional[int] = None,
+    on_playback_active: Optional[Callable[[], Awaitable[None]]] = None,
+    on_playback_idle: Optional[Callable[[], Awaitable[None]]] = None,
 ) -> None:
     cmd = (
         "ffmpeg -hide_banner -loglevel error -i pipe:0 "
@@ -184,4 +223,4 @@ async def _stream_mp3(
         await feed_task
         await proc.wait()
 
-    await _stream_pcm(pcm_generator(), 48_000, 2, device=device)
+    await _stream_pcm(pcm_generator(), 48_000, 2, device=device, on_playback_active=on_playback_active, on_playback_idle=on_playback_idle)
