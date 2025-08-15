@@ -16,7 +16,7 @@ class ToolResponseMessage(UniversalBaseModel):
     """
     The type of message sent through the socket; for a Tool Response message, this must be `tool_response`.
     
-    Upon receiving a [Tool Call message](/reference/empathic-voice-interface-evi/chat/chat#receive.ToolCallMessage.type) and successfully invoking the function, this message is sent to convey the result of the function call back to EVI.
+    Upon receiving a [Tool Call message](/reference/speech-to-speech-evi/chat#receive.ToolCallMessage) and successfully invoking the function, this message is sent to convey the result of the function call back to EVI.
     """
 
     custom_session_id: typing.Optional[str] = pydantic.Field(default=None)
@@ -28,7 +28,7 @@ class ToolResponseMessage(UniversalBaseModel):
     """
     The unique identifier for a specific tool call instance.
     
-    This ID is used to track the request and response of a particular tool invocation, ensuring that the correct response is linked to the appropriate request. The specified `tool_call_id` must match the one received in the [Tool Call message](/reference/empathic-voice-interface-evi/chat/chat#receive.ToolCallMessage.tool_call_id).
+    This ID is used to track the request and response of a particular tool invocation, ensuring that the correct response is linked to the appropriate request. The specified `tool_call_id` must match the one received in the [Tool Call message](/reference/speech-to-speech-evi/chat#receive.ToolCallMessage.tool_call_id).
     """
 
     content: str = pydantic.Field()
@@ -40,7 +40,7 @@ class ToolResponseMessage(UniversalBaseModel):
     """
     Name of the tool.
     
-    Include this optional field to help the supplemental LLM identify which tool generated the response. The specified `tool_name` must match the one received in the [Tool Call message](/reference/empathic-voice-interface-evi/chat/chat#receive.ToolCallMessage.type).
+    Include this optional field to help the supplemental LLM identify which tool generated the response. The specified `tool_name` must match the one received in the [Tool Call message](/reference/speech-to-speech-evi/chat#receive.ToolCallMessage).
     """
 
     tool_type: typing.Optional[ToolType] = pydantic.Field(default=None)

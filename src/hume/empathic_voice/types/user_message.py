@@ -18,7 +18,7 @@ class UserMessage(UniversalBaseModel):
     """
     The type of message sent through the socket; for a User Message, this must be `user_message`.
     
-    This message contains both a transcript of the user's input and the expression measurement predictions if the input was sent as an [Audio Input message](/reference/empathic-voice-interface-evi/chat/chat#send.AudioInput.type). Expression measurement predictions are not provided for a [User Input message](/reference/empathic-voice-interface-evi/chat/chat#send.UserInput.type), as the prosody model relies on audio input and cannot process text alone.
+    This message contains both a transcript of the user's input and the expression measurement predictions if the input was sent as an [Audio Input message](/reference/speech-to-speech-evi/chat#send.AudioInput). Expression measurement predictions are not provided for a [User Input message](/reference/speech-to-speech-evi/chat#send.UserInput), as the prosody model relies on audio input and cannot process text alone.
     """
 
     custom_session_id: typing.Optional[str] = pydantic.Field(default=None)
@@ -43,7 +43,7 @@ class UserMessage(UniversalBaseModel):
 
     from_text: bool = pydantic.Field()
     """
-    Indicates if this message was inserted into the conversation as text from a [User Input](/reference/empathic-voice-interface-evi/chat/chat#send.UserInput.text) message.
+    Indicates if this message was inserted into the conversation as text from a [User Input](/reference/speech-to-speech-evi/chat#send.UserInput.text) message.
     """
 
     interim: bool = pydantic.Field()
@@ -53,7 +53,7 @@ class UserMessage(UniversalBaseModel):
     - `true`: the transcript is provisional; words may be repeated or refined in subsequent `UserMessage` responses as additional audio is processed.
     - `false`: the transcript is final and complete.
     
-    Interim transcripts are only sent when the [`verbose_transcription`](/reference/empathic-voice-interface-evi/chat/chat#request.query.verbose_transcription) query parameter is set to `true` in the initial handshake.
+    Interim transcripts are only sent when the [`verbose_transcription`](/reference/speech-to-speech-evi/chat#request.query.verbose_transcription) query parameter is set to `true` in the initial handshake.
     """
 
     if IS_PYDANTIC_V2:

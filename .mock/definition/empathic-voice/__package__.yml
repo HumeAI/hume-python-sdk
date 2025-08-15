@@ -32,7 +32,7 @@ types:
           inflections and tones to the text based on the user's expressions and
           the context of the conversation. The synthesized audio is streamed
           back to the user as an [Assistant
-          Message](/reference/empathic-voice-interface-evi/chat/chat#receive.AssistantMessage.type).
+          Message](/reference/speech-to-speech-evi/chat#receive.AssistantMessage).
     source:
       openapi: evi-asyncapi.json
   AudioConfiguration:
@@ -165,7 +165,7 @@ types:
 
           Once this message is sent, EVI will not respond until a [Resume
           Assistant
-          message](/reference/empathic-voice-interface-evi/chat/chat#send.ResumeAssistantMessage.type)
+          message](/reference/speech-to-speech-evi/chat#send.ResumeAssistantMessage)
           is sent. When paused, EVI won't respond, but transcriptions of your
           audio inputs will still be recorded.
       custom_session_id:
@@ -228,7 +228,7 @@ types:
 
 
           For more information, please refer to the [Session Settings
-          guide](/docs/empathic-voice-interface-evi/configuration/session-settings).
+          guide](/docs/speech-to-speech-evi/configuration/session-settings).
       custom_session_id:
         type: optional<string>
         docs: >-
@@ -245,8 +245,8 @@ types:
           It is recommended to pass a `custom_session_id` if you are using a
           Custom Language Model. Please see our guide to [using a custom
           language
-          model](/docs/empathic-voice-interface-evi/guides/custom-language-model)
-          with EVI to learn more.
+          model](/docs/speech-to-speech-evi/guides/custom-language-model) with
+          EVI to learn more.
       system_prompt:
         type: optional<string>
         docs: >-
@@ -268,7 +268,7 @@ types:
 
 
           For help writing a system prompt, see our [Prompting
-          Guide](/docs/empathic-voice-interface-evi/guides/prompting).
+          Guide](/docs/speech-to-speech-evi/guides/prompting).
       context:
         type: optional<Context>
         docs: >-
@@ -294,7 +294,7 @@ types:
           in PCM Linear 16 (16-bit, little-endian, signed PCM WAV data). For
           detailed instructions on how to configure session settings for PCM
           Linear 16 audio, please refer to the [Session Settings
-          guide](/docs/empathic-voice-interface-evi/configuration/session-settings).
+          guide](/docs/speech-to-speech-evi/configuration/session-settings).
       language_model_api_key:
         type: optional<string>
         docs: >-
@@ -314,7 +314,7 @@ types:
           searching the web or calling external APIs. Built-in tools, like web
           search, are natively integrated, while user-defined tools are created
           and invoked by the user. To learn more, see our [Tool Use
-          Guide](/docs/empathic-voice-interface-evi/features/tool-use).
+          Guide](/docs/speech-to-speech-evi/features/tool-use).
       builtin_tools:
         type: optional<list<BuiltinToolConfig>>
         docs: >-
@@ -325,7 +325,7 @@ types:
           searching the web or calling external APIs. Built-in tools, like web
           search, are natively integrated, while user-defined tools are created
           and invoked by the user. To learn more, see our [Tool Use
-          Guide](/docs/empathic-voice-interface-evi/features/tool-use).
+          Guide](/docs/speech-to-speech-evi/features/tool-use).
 
 
           Currently, the only built-in tool Hume provides is **Web Search**.
@@ -350,7 +350,7 @@ types:
           Using this field, you can personalize responses based on
           session-specific details. For more guidance, see our [guide on using
           dynamic
-          variables](/docs/empathic-voice-interface-evi/features/dynamic-variables).
+          variables](/docs/speech-to-speech-evi/features/dynamic-variables).
     source:
       openapi: evi-asyncapi.json
   Tool:
@@ -395,7 +395,7 @@ types:
 
 
           Upon receiving a [Tool Call
-          message](/reference/empathic-voice-interface-evi/chat/chat#receive.ToolCallMessage.type)
+          message](/reference/speech-to-speech-evi/chat#receive.ToolCallMessage)
           and failing to invoke the function, this message is sent to notify EVI
           of the tool's failure.
       custom_session_id:
@@ -418,7 +418,7 @@ types:
           invocation, ensuring that the Tool Error message is linked to the
           appropriate tool call request. The specified `tool_call_id` must match
           the one received in the [Tool Call
-          message](/reference/empathic-voice-interface-evi/chat/chat#receive.ToolCallMessage.type).
+          message](/reference/speech-to-speech-evi/chat#receive.ToolCallMessage).
       content:
         type: optional<string>
         docs: >-
@@ -449,7 +449,7 @@ types:
 
 
           Upon receiving a [Tool Call
-          message](/reference/empathic-voice-interface-evi/chat/chat#receive.ToolCallMessage.type)
+          message](/reference/speech-to-speech-evi/chat#receive.ToolCallMessage)
           and successfully invoking the function, this message is sent to convey
           the result of the function call back to EVI.
       custom_session_id:
@@ -467,7 +467,7 @@ types:
           invocation, ensuring that the correct response is linked to the
           appropriate request. The specified `tool_call_id` must match the one
           received in the [Tool Call
-          message](/reference/empathic-voice-interface-evi/chat/chat#receive.ToolCallMessage.tool_call_id).
+          message](/reference/speech-to-speech-evi/chat#receive.ToolCallMessage.tool_call_id).
       content:
         type: string
         docs: >-
@@ -482,7 +482,7 @@ types:
           Include this optional field to help the supplemental LLM identify
           which tool generated the response. The specified `tool_name` must
           match the one received in the [Tool Call
-          message](/reference/empathic-voice-interface-evi/chat/chat#receive.ToolCallMessage.type).
+          message](/reference/speech-to-speech-evi/chat#receive.ToolCallMessage).
       tool_type:
         type: optional<ToolType>
         docs: >-
@@ -584,7 +584,7 @@ types:
         docs: >-
           Indicates if this message was inserted into the conversation as text
           from an [Assistant Input
-          message](/reference/empathic-voice-interface-evi/chat/chat#send.AssistantInput.text).
+          message](/reference/speech-to-speech-evi/chat#send.AssistantInput.text).
     source:
       openapi: evi-asyncapi.json
   AssistantProsody:
@@ -693,14 +693,14 @@ types:
 
 
           Used to resume a Chat when passed in the
-          [resumed_chat_group_id](/reference/empathic-voice-interface-evi/chat/chat#request.query.resumed_chat_group_id)
+          [resumed_chat_group_id](/reference/speech-to-speech-evi/chat#request.query.resumed_chat_group_id)
           query parameter of a subsequent connection request. This allows EVI to
           continue the conversation from where it left off within the Chat
           Group.
 
 
           Learn more about [supporting chat
-          resumability](/docs/empathic-voice-interface-evi/faq#does-evi-support-chat-resumability)
+          resumability](/docs/speech-to-speech-evi/faq#does-evi-support-chat-resumability)
           from the EVI FAQ.
       chat_id:
         type: string
@@ -897,9 +897,9 @@ types:
         docs: >-
           Indicates whether a response to the tool call is required from the
           developer, either in the form of a [Tool Response
-          message](/reference/empathic-voice-interface-evi/chat/chat#send.ToolResponseMessage.type)
+          message](/reference/speech-to-speech-evi/chat#send.ToolResponseMessage)
           or a [Tool Error
-          message](/reference/empathic-voice-interface-evi/chat/chat#send.ToolErrorMessage.type).
+          message](/reference/speech-to-speech-evi/chat#send.ToolErrorMessage).
     source:
       openapi: evi-asyncapi.json
   UserInterruption:
@@ -939,12 +939,10 @@ types:
 
           This message contains both a transcript of the user's input and the
           expression measurement predictions if the input was sent as an [Audio
-          Input
-          message](/reference/empathic-voice-interface-evi/chat/chat#send.AudioInput.type).
+          Input message](/reference/speech-to-speech-evi/chat#send.AudioInput).
           Expression measurement predictions are not provided for a [User Input
-          message](/reference/empathic-voice-interface-evi/chat/chat#send.UserInput.type),
-          as the prosody model relies on audio input and cannot process text
-          alone.
+          message](/reference/speech-to-speech-evi/chat#send.UserInput), as the
+          prosody model relies on audio input and cannot process text alone.
       custom_session_id:
         type: optional<string>
         docs: >-
@@ -964,7 +962,7 @@ types:
         docs: >-
           Indicates if this message was inserted into the conversation as text
           from a [User
-          Input](/reference/empathic-voice-interface-evi/chat/chat#send.UserInput.text)
+          Input](/reference/speech-to-speech-evi/chat#send.UserInput.text)
           message.
       interim:
         type: boolean
@@ -981,7 +979,7 @@ types:
 
 
           Interim transcripts are only sent when the
-          [`verbose_transcription`](/reference/empathic-voice-interface-evi/chat/chat#request.query.verbose_transcription)
+          [`verbose_transcription`](/reference/speech-to-speech-evi/chat#request.query.verbose_transcription)
           query parameter is set to `true` in the initial handshake.
     source:
       openapi: evi-asyncapi.json
