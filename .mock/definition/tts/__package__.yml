@@ -473,7 +473,7 @@ types:
           The index of the utterance in the request that the parent snippet of
           this chunk corresponds to.
       snippet:
-        type: Snippet
+        type: optional<Snippet>
     source:
       openapi: tts-openapi.json
   PostedUtterance:

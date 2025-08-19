@@ -54,7 +54,7 @@ class SnippetAudioChunk(UniversalBaseModel):
     The index of the utterance in the request that the parent snippet of this chunk corresponds to.
     """
 
-    snippet: Snippet
+    snippet: typing.Optional[Snippet] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
