@@ -50,7 +50,7 @@ class ToolCallMessage(UniversalBaseModel):
 
     response_required: bool = pydantic.Field()
     """
-    Indicates whether a response to the tool call is required from the developer, either in the form of a [Tool Response message](/reference/empathic-voice-interface-evi/chat/chat#send.ToolResponseMessage.type) or a [Tool Error message](/reference/empathic-voice-interface-evi/chat/chat#send.ToolErrorMessage.type).
+    Indicates whether a response to the tool call is required from the developer, either in the form of a [Tool Response message](/reference/speech-to-speech-evi/chat#send.ToolResponseMessage) or a [Tool Error message](/reference/speech-to-speech-evi/chat#send.ToolErrorMessage).
     """
 
     if IS_PYDANTIC_V2:
