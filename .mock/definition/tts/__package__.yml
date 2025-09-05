@@ -189,6 +189,175 @@ service:
   source:
     openapi: tts-openapi.json
 types:
+  InputMessage:
+    docs: Input message type for the TTS stream.
+    properties:
+      text:
+        type: optional<string>
+        docs: The input text to be converted to speech output.
+        default: ''
+        validation:
+          maxLength: 5000
+      description:
+        type: optional<string>
+        docs: >-
+          Natural language instructions describing how the text should be spoken
+          by the model (e.g., `"a soft, gentle voice with a strong British
+          accent"`).
+        validation:
+          maxLength: 1000
+      voice:
+        type: optional<PostedUtteranceVoice>
+        docs: >-
+          The name or ID of the voice from the `Voice Library` to be used as the
+          speaker for this and all subsequent utterances, until the `"voice"`
+          field is updated again.
+      speed:
+        type: optional<double>
+        docs: A relative measure of how fast this utterance should be spoken.
+        default: 1
+        validation:
+          min: 0.25
+          max: 3
+      trailing_silence:
+        type: optional<double>
+        docs: Duration of trailing silence (in seconds) to add to this utterance
+        default: 0
+        validation:
+          min: 0
+          max: 5
+      flush:
+        type: optional<boolean>
+        docs: >-
+          Force the generation of audio regardless of how much text has been
+          supplied.
+        default: false
+      close:
+        type: optional<boolean>
+        docs: Force the generation of audio and close the stream.
+        default: false
+    source:
+      openapi: tts-asyncapi.json
+  PostedUtteranceVoiceWithId:
+    properties:
+      id:
+        type: string
+        docs: The unique ID associated with the **Voice**.
+      provider:
+        type: optional<VoiceProvider>
+        docs: >-
+          Specifies the source provider associated with the chosen voice.
+
+
+          - **`HUME_AI`**: Select voices from Hume's [Voice
+          Library](https://platform.hume.ai/tts/voice-library), containing a
+          variety of preset, shared voices.
+
+          - **`CUSTOM_VOICE`**: Select from voices you've personally generated
+          and saved in your account. 
+
+
+          If no provider is explicitly set, the default provider is
+          `CUSTOM_VOICE`. When using voices from Hume's **Voice Library**, you
+          must explicitly set the provider to `HUME_AI`.
+
+
+          Preset voices from Hume's **Voice Library** are accessible by all
+          users. In contrast, your custom voices are private and accessible only
+          via requests authenticated with your API key.
+    source:
+      openapi: tts-openapi.json
+  PostedUtteranceVoiceWithName:
+    properties:
+      name:
+        type: string
+        docs: The name of a **Voice**.
+      provider:
+        type: optional<VoiceProvider>
+        docs: >-
+          Specifies the source provider associated with the chosen voice.
+
+
+          - **`HUME_AI`**: Select voices from Hume's [Voice
+          Library](https://platform.hume.ai/tts/voice-library), containing a
+          variety of preset, shared voices.
+
+          - **`CUSTOM_VOICE`**: Select from voices you've personally generated
+          and saved in your account. 
+
+
+          If no provider is explicitly set, the default provider is
+          `CUSTOM_VOICE`. When using voices from Hume's **Voice Library**, you
+          must explicitly set the provider to `HUME_AI`.
+
+
+          Preset voices from Hume's **Voice Library** are accessible by all
+          users. In contrast, your custom voices are private and accessible only
+          via requests authenticated with your API key.
+    source:
+      openapi: tts-openapi.json
+  VoiceProvider:
+    enum:
+      - HUME_AI
+      - CUSTOM_VOICE
+    source:
+      openapi: tts-openapi.json
+  PostedUtteranceVoice:
+    discriminated: false
+    union:
+      - type: PostedUtteranceVoiceWithId
+      - type: PostedUtteranceVoiceWithName
+    source:
+      openapi: tts-openapi.json
+  AudioFormatType:
+    enum:
+      - mp3
+      - pcm
+      - wav
+    source:
+      openapi: tts-openapi.json
+  SnippetAudioChunk:
+    properties:
+      generation_id:
+        type: string
+        docs: >-
+          The generation ID of the parent snippet that this chunk corresponds
+          to.
+      snippet_id:
+        type: string
+        docs: The ID of the parent snippet that this chunk corresponds to.
+      text:
+        type: string
+        docs: The text of the parent snippet that this chunk corresponds to.
+      transcribed_text:
+        type: optional<string>
+        docs: >-
+          The transcribed text of the generated audio of the parent snippet that
+          this chunk corresponds to. It is only present if `instant_mode` is set
+          to `false`.
+      chunk_index:
+        type: integer
+        docs: The index of the audio chunk in the snippet.
+      audio:
+        type: string
+        docs: The generated audio output chunk in the requested format.
+      audio_format:
+        type: AudioFormatType
+        docs: The generated audio output format.
+      is_last_chunk:
+        type: boolean
+        docs: >-
+          Whether or not this is the last chunk streamed back from the decoder
+          for one input snippet.
+      utterance_index:
+        type: optional<integer>
+        docs: >-
+          The index of the utterance in the request that the parent snippet of
+          this chunk corresponds to.
+      snippet:
+        type: optional<Snippet>
+    source:
+      openapi: tts-openapi.json
   PostedContextWithGenerationId:
     properties:
       generation_id:
@@ -218,13 +387,6 @@ types:
         docs: >-
           The sample rate (`Hz`) of the generated audio. The default sample rate
           is `48000 Hz`.
-    source:
-      openapi: tts-openapi.json
-  AudioFormatType:
-    enum:
-      - mp3
-      - pcm
-      - wav
     source:
       openapi: tts-openapi.json
   ReturnGeneration:
@@ -434,48 +596,6 @@ types:
           base64 string.
     source:
       openapi: tts-openapi.json
-  SnippetAudioChunk:
-    properties:
-      generation_id:
-        type: string
-        docs: >-
-          The generation ID of the parent snippet that this chunk corresponds
-          to.
-      snippet_id:
-        type: string
-        docs: The ID of the parent snippet that this chunk corresponds to.
-      text:
-        type: string
-        docs: The text of the parent snippet that this chunk corresponds to.
-      transcribed_text:
-        type: optional<string>
-        docs: >-
-          The transcribed text of the generated audio of the parent snippet that
-          this chunk corresponds to. It is only present if `instant_mode` is set
-          to `false`.
-      chunk_index:
-        type: integer
-        docs: The index of the audio chunk in the snippet.
-      audio:
-        type: string
-        docs: The generated audio output chunk in the requested format.
-      audio_format:
-        type: AudioFormatType
-        docs: The generated audio output format.
-      is_last_chunk:
-        type: boolean
-        docs: >-
-          Whether or not this is the last chunk streamed back from the decoder
-          for one input snippet.
-      utterance_index:
-        type: optional<integer>
-        docs: >-
-          The index of the utterance in the request that the parent snippet of
-          this chunk corresponds to.
-      snippet:
-        type: Snippet
-    source:
-      openapi: tts-openapi.json
   PostedUtterance:
     properties:
       text:
@@ -544,77 +664,6 @@ types:
         type: list<ValidationErrorLocItem>
       msg: string
       type: string
-    source:
-      openapi: tts-openapi.json
-  PostedUtteranceVoiceWithId:
-    properties:
-      id:
-        type: string
-        docs: The unique ID associated with the **Voice**.
-      provider:
-        type: optional<VoiceProvider>
-        docs: >-
-          Specifies the source provider associated with the chosen voice.
-
-
-          - **`HUME_AI`**: Select voices from Hume's [Voice
-          Library](https://platform.hume.ai/tts/voice-library), containing a
-          variety of preset, shared voices.
-
-          - **`CUSTOM_VOICE`**: Select from voices you've personally generated
-          and saved in your account. 
-
-
-          If no provider is explicitly set, the default provider is
-          `CUSTOM_VOICE`. When using voices from Hume's **Voice Library**, you
-          must explicitly set the provider to `HUME_AI`.
-
-
-          Preset voices from Hume's **Voice Library** are accessible by all
-          users. In contrast, your custom voices are private and accessible only
-          via requests authenticated with your API key.
-    source:
-      openapi: tts-openapi.json
-  PostedUtteranceVoiceWithName:
-    properties:
-      name:
-        type: string
-        docs: The name of a **Voice**.
-      provider:
-        type: optional<VoiceProvider>
-        docs: >-
-          Specifies the source provider associated with the chosen voice.
-
-
-          - **`HUME_AI`**: Select voices from Hume's [Voice
-          Library](https://platform.hume.ai/tts/voice-library), containing a
-          variety of preset, shared voices.
-
-          - **`CUSTOM_VOICE`**: Select from voices you've personally generated
-          and saved in your account. 
-
-
-          If no provider is explicitly set, the default provider is
-          `CUSTOM_VOICE`. When using voices from Hume's **Voice Library**, you
-          must explicitly set the provider to `HUME_AI`.
-
-
-          Preset voices from Hume's **Voice Library** are accessible by all
-          users. In contrast, your custom voices are private and accessible only
-          via requests authenticated with your API key.
-    source:
-      openapi: tts-openapi.json
-  VoiceProvider:
-    enum:
-      - HUME_AI
-      - CUSTOM_VOICE
-    source:
-      openapi: tts-openapi.json
-  PostedUtteranceVoice:
-    discriminated: false
-    union:
-      - type: PostedUtteranceVoiceWithId
-      - type: PostedUtteranceVoiceWithName
     source:
       openapi: tts-openapi.json
   FormatWav:
