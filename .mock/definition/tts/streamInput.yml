@@ -1,0 +1,56 @@
+imports:
+  root: __package__.yml
+channel:
+  path: /stream/input
+  url: prod
+  auth: false
+  docs: Generate emotionally expressive speech.
+  query-parameters:
+    context_generation_id:
+      type: optional<string>
+      docs: >-
+        The ID of a prior TTS generation to use as context for generating
+        consistent speech style and prosody across multiple requests. Including
+        context may increase audio generation times.
+    format_type: root.AudioFormatType
+    strip_headers:
+      type: optional<boolean>
+      default: false
+      docs: >-
+        If enabled, the audio for all the chunks of a generation, once
+        concatenated together, will constitute a single audio file. Otherwise,
+        if disabled, each chunk's audio will be its own audio file, each with
+        its own headers (if applicable).
+    instant_mode:
+      type: optional<boolean>
+      default: true
+      docs: >-
+        Accelerates processing to reduce streaming latency.Incurs approximately
+        10% additional cost while preserving full voice quality.
+    no_binary:
+      type: optional<boolean>
+      default: false
+      docs: If enabled, no binary websocket messages will be sent to the client.
+  messages:
+    publish:
+      origin: client
+      body:
+        type: root.PublishTts
+    subscribe:
+      origin: server
+      body:
+        type: root.SnippetAudioChunk
+  examples:
+    - messages:
+        - type: publish
+          body: {}
+        - type: subscribe
+          body:
+            request_id: request_id
+            generation_id: generation_id
+            snippet_id: snippet_id
+            text: text
+            chunk_index: 1
+            audio: audio
+            audio_format: mp3
+            is_last_chunk: true
