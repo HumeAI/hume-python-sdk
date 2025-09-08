@@ -18,6 +18,7 @@ from .posted_utterance import PostedUtterance
 from .posted_utterance_voice import PostedUtteranceVoice
 from .posted_utterance_voice_with_id import PostedUtteranceVoiceWithId
 from .posted_utterance_voice_with_name import PostedUtteranceVoiceWithName
+from .publish_tts import PublishTts
 from .return_generation import ReturnGeneration
 from .return_paged_voices import ReturnPagedVoices
 from .return_tts import ReturnTts
@@ -45,6 +46,7 @@ __all__ = [
     "PostedUtteranceVoice",
     "PostedUtteranceVoiceWithId",
     "PostedUtteranceVoiceWithName",
+    "PublishTts",
     "ReturnGeneration",
     "ReturnPagedVoices",
     "ReturnTts",
