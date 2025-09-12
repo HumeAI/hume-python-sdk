@@ -9,6 +9,15 @@ from .snippet import Snippet
 
 
 class SnippetAudioChunk(UniversalBaseModel):
+    """
+    Metadata for a chunk of generated audio.
+    """
+
+    request_id: str = pydantic.Field()
+    """
+    ID of the initiating request.
+    """
+
     generation_id: str = pydantic.Field()
     """
     The generation ID of the parent snippet that this chunk corresponds to.

@@ -317,7 +317,11 @@ types:
     source:
       openapi: tts-openapi.json
   SnippetAudioChunk:
+    docs: Metadata for a chunk of generated audio.
     properties:
+      request_id:
+        type: string
+        docs: ID of the initiating request.
       generation_id:
         type: string
         docs: >-

@@ -351,6 +351,11 @@ types:
           session-specific details. For more guidance, see our [guide on using
           dynamic
           variables](/docs/speech-to-speech-evi/features/dynamic-variables).
+      voice_id:
+        type: optional<string>
+        docs: >-
+          Allows you to change the voice during an active chat. Updating the
+          voice does not affect chat context or conversation history.
     source:
       openapi: evi-asyncapi.json
   Tool:
