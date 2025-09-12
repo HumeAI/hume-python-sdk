@@ -35,7 +35,7 @@ channel:
     publish:
       origin: client
       body:
-        type: root.PublishTts
+        type: root.InputMessage
     subscribe:
       origin: server
       body:

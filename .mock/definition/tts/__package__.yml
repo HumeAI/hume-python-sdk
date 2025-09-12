@@ -189,7 +189,7 @@ service:
   source:
     openapi: tts-openapi.json
 types:
-  PublishTts:
+  InputMessage:
     docs: Input message type for the TTS stream.
     properties:
       text:

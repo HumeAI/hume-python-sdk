@@ -7,7 +7,7 @@ from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .posted_utterance_voice import PostedUtteranceVoice
 
 
-class PublishTts(UniversalBaseModel):
+class InputMessage(UniversalBaseModel):
     """
     Input message type for the TTS stream.
     """
