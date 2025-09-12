@@ -10,6 +10,7 @@ from .format_mp_3 import FormatMp3
 from .format_pcm import FormatPcm
 from .format_wav import FormatWav
 from .http_validation_error import HttpValidationError
+from .input_message import InputMessage
 from .posted_context import PostedContext
 from .posted_context_with_generation_id import PostedContextWithGenerationId
 from .posted_context_with_utterances import PostedContextWithUtterances
@@ -18,7 +19,6 @@ from .posted_utterance import PostedUtterance
 from .posted_utterance_voice import PostedUtteranceVoice
 from .posted_utterance_voice_with_id import PostedUtteranceVoiceWithId
 from .posted_utterance_voice_with_name import PostedUtteranceVoiceWithName
-from .publish_tts import PublishTts
 from .return_generation import ReturnGeneration
 from .return_paged_voices import ReturnPagedVoices
 from .return_tts import ReturnTts
@@ -38,6 +38,7 @@ __all__ = [
     "FormatPcm",
     "FormatWav",
     "HttpValidationError",
+    "InputMessage",
     "PostedContext",
     "PostedContextWithGenerationId",
     "PostedContextWithUtterances",
@@ -46,7 +47,6 @@ __all__ = [
     "PostedUtteranceVoice",
     "PostedUtteranceVoiceWithId",
     "PostedUtteranceVoiceWithName",
-    "PublishTts",
     "ReturnGeneration",
     "ReturnPagedVoices",
     "ReturnTts",
