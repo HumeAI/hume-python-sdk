@@ -25,8 +25,11 @@ channel:
       type: optional<boolean>
       default: true
       docs: >-
-        Accelerates processing to reduce streaming latency.Incurs approximately
-        10% additional cost while preserving full voice quality.
+        Enables ultra-low latency streaming, significantly reducing the time
+        until the first audio chunk is received. Recommended for real-time
+        applications requiring immediate audio playback. For further details,
+        see our documentation on [instant
+        mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
     no_binary:
       type: optional<boolean>
       default: false
