@@ -94,6 +94,11 @@ class SessionSettings(UniversalBaseModel):
     Using this field, you can personalize responses based on session-specific details. For more guidance, see our [guide on using dynamic variables](/docs/speech-to-speech-evi/features/dynamic-variables).
     """
 
+    voice_id: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Allows you to change the voice during an active chat. Updating the voice does not affect chat context or conversation history.
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:
