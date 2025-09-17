@@ -100,7 +100,7 @@ async def _stream_pcm(
     loop = asyncio.get_running_loop()
     done_event = asyncio.Event()
 
-    def finished():
+    def finished_cb():
         loop.call_soon_threadsafe(done_event.set)
 
     pcm_queue: queue.Queue[Optional[bytes]] = queue.Queue(maxsize=32)
@@ -155,7 +155,7 @@ async def _stream_pcm(
           callback=cb,
           blocksize=blocksize,
           device=device,
-          finished_callback=finished):
+          finished_callback=finished_cb):
             await done_event.wait()
 
     await asyncio.gather(feeder(), player())
