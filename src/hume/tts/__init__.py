@@ -31,7 +31,7 @@ from .types import (
     VoiceProvider,
 )
 from .errors import BadRequestError, UnprocessableEntityError
-from . import voices
+from . import stream_input, voices
 
 __all__ = [
     "AudioEncoding",
@@ -62,5 +62,6 @@ __all__ = [
     "ValidationError",
     "ValidationErrorLocItem",
     "VoiceProvider",
+    "stream_input",
     "voices",
 ]

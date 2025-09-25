@@ -2,7 +2,7 @@
 
 # Accommodate custom auth scheme
 
-src/hume/core/client_wrapper.py
+# src/hume/core/client_wrapper.py
 
 # Pending generator upgrade
 
@@ -10,20 +10,20 @@ README.md
 
 # Custom Client Modifications
 
-tests/custom
-src/hume/client.py
-src/hume/core/websocket.py
-src/hume/expression_measurement/socket_client.py
-src/hume/expression_measurement/stream/socket_client.py
-src/hume/empathic_voice/socket_client.py
-src/hume/empathic_voice/chat/socket_client.py
-src/hume/expression_measurement/batch/client_with_utils.py
-src/hume/empathic_voice/chat/audio/microphone.py
-src/hume/empathic_voice/chat/audio/microphone_interface.py
-src/hume/empathic_voice/chat/audio/microphone_sender.py
-src/hume/empathic_voice/chat/audio/audio_utilities.py
-src/hume/empathic_voice/chat/audio/asyncio_utilities.py
-src/hume/empathic_voice/chat/audio/chat_client.py
+# tests/custom
+# src/hume/client.py
+# src/hume/core/websocket.py
+# src/hume/expression_measurement/socket_client.py
+# src/hume/expression_measurement/stream/socket_client.py
+# src/hume/empathic_voice/socket_client.py
+# src/hume/empathic_voice/chat/socket_client.py
+# src/hume/expression_measurement/batch/client_with_utils.py
+# src/hume/empathic_voice/chat/audio/microphone.py
+# src/hume/empathic_voice/chat/audio/microphone_interface.py
+# src/hume/empathic_voice/chat/audio/microphone_sender.py
+# src/hume/empathic_voice/chat/audio/audio_utilities.py
+# src/hume/empathic_voice/chat/audio/asyncio_utilities.py
+# src/hume/empathic_voice/chat/audio/chat_client.py
 
 # Customize the GitHub workflow to run only Fern tests (not legacy)
 

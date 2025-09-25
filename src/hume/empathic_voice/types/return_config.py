@@ -40,14 +40,14 @@ class ReturnConfig(UniversalBaseModel):
     Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
     """
 
-    tools: typing.Optional[typing.List[typing.Optional[ReturnUserDefinedTool]]] = pydantic.Field(default=None)
-    """
-    List of user-defined tools associated with this Config.
-    """
-
     version_description: typing.Optional[str] = pydantic.Field(default=None)
     """
     An optional description of the Config version.
+    """
+
+    tools: typing.Optional[typing.List[typing.Optional[ReturnUserDefinedTool]]] = pydantic.Field(default=None)
+    """
+    List of user-defined tools associated with this Config.
     """
 
     language_model: typing.Optional[ReturnLanguageModel] = pydantic.Field(default=None)
