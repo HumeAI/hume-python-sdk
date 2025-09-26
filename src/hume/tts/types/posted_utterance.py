@@ -8,11 +8,6 @@ from .posted_utterance_voice import PostedUtteranceVoice
 
 
 class PostedUtterance(UniversalBaseModel):
-    text: str = pydantic.Field()
-    """
-    The input text to be synthesized into speech.
-    """
-
     description: typing.Optional[str] = pydantic.Field(default=None)
     """
     Natural language instructions describing how the synthesized speech should sound, including but not limited to tone, intonation, pacing, and accent.
@@ -22,21 +17,26 @@ class PostedUtterance(UniversalBaseModel):
     - **Voice not specified**: the description will serve as a voice prompt for generating a voice. See our [prompting guide](/docs/text-to-speech-tts/prompting) for design tips.
     """
 
-    voice: typing.Optional[PostedUtteranceVoice] = pydantic.Field(default=None)
-    """
-    The `name` or `id` associated with a **Voice** from the **Voice Library** to be used as the speaker for this and all subsequent `utterances`, until the `voice` field is updated again.
-    
-     See our [voices guide](/docs/text-to-speech-tts/voices) for more details on generating and specifying **Voices**.
-    """
-
     speed: typing.Optional[float] = pydantic.Field(default=None)
     """
     Speed multiplier for the synthesized speech. Extreme values below 0.75 and above 1.5 may sometimes cause instability to the generated output.
     """
 
+    text: str = pydantic.Field()
+    """
+    The input text to be synthesized into speech.
+    """
+
     trailing_silence: typing.Optional[float] = pydantic.Field(default=None)
     """
     Duration of trailing silence (in seconds) to add to this utterance
+    """
+
+    voice: typing.Optional[PostedUtteranceVoice] = pydantic.Field(default=None)
+    """
+    The `name` or `id` associated with a **Voice** from the **Voice Library** to be used as the speaker for this and all subsequent `utterances`, until the `voice` field is updated again.
+    
+     See our [voices guide](/docs/text-to-speech-tts/voices) for more details on generating and specifying **Voices**.
     """
 
     if IS_PYDANTIC_V2:

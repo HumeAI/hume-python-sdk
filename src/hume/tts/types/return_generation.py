@@ -9,9 +9,9 @@ from .snippet import Snippet
 
 
 class ReturnGeneration(UniversalBaseModel):
-    generation_id: str = pydantic.Field()
+    audio: str = pydantic.Field()
     """
-    A unique ID associated with this TTS generation that can be used as context for generating consistent speech style and prosody across multiple requests.
+    The generated audio output in the requested format, encoded as a base64 string.
     """
 
     duration: float = pydantic.Field()
@@ -19,15 +19,15 @@ class ReturnGeneration(UniversalBaseModel):
     Duration of the generated audio in seconds.
     """
 
+    encoding: AudioEncoding
     file_size: int = pydantic.Field()
     """
     Size of the generated audio in bytes.
     """
 
-    encoding: AudioEncoding
-    audio: str = pydantic.Field()
+    generation_id: str = pydantic.Field()
     """
-    The generated audio output in the requested format, encoded as a base64 string.
+    A unique ID associated with this TTS generation that can be used as context for generating consistent speech style and prosody across multiple requests.
     """
 
     snippets: typing.List[typing.List[Snippet]] = pydantic.Field()

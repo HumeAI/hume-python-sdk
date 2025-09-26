@@ -8,6 +8,13 @@ from .context_type import ContextType
 
 
 class Context(UniversalBaseModel):
+    text: str = pydantic.Field()
+    """
+    The context to be injected into the conversation. Helps inform the LLM's response by providing relevant information about the ongoing conversation.
+    
+    This text will be appended to the end of [user_messages](/reference/speech-to-speech-evi/chat#receive.UserMessage.message.content) based on the chosen persistence level. For example, if you want to remind EVI of its role as a helpful weather assistant, the context you insert will be appended to the end of user messages as `{Context: You are a helpful weather assistant}`.
+    """
+
     type: typing.Optional[ContextType] = pydantic.Field(default=None)
     """
     The persistence level of the injected context. Specifies how long the injected context will remain active in the session.
@@ -15,13 +22,6 @@ class Context(UniversalBaseModel):
     - **Temporary**: Context that is only applied to the following assistant response.
     
     - **Persistent**: Context that is applied to all subsequent assistant responses for the remainder of the Chat.
-    """
-
-    text: str = pydantic.Field()
-    """
-    The context to be injected into the conversation. Helps inform the LLM's response by providing relevant information about the ongoing conversation.
-    
-    This text will be appended to the end of [user_messages](/reference/speech-to-speech-evi/chat#receive.UserMessage.message.content) based on the chosen persistence level. For example, if you want to remind EVI of its role as a helpful weather assistant, the context you insert will be appended to the end of user messages as `{Context: You are a helpful weather assistant}`.
     """
 
     if IS_PYDANTIC_V2:

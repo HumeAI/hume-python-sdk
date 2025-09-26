@@ -6,6 +6,7 @@ from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
 from .raw_client import AsyncRawTtsClient, RawTtsClient
 from .types.format import Format
+from .types.octave_version import OctaveVersion
 from .types.posted_context import PostedContext
 from .types.posted_utterance import PostedUtterance
 from .types.return_tts import ReturnTts
@@ -37,10 +38,11 @@ class TtsClient:
         *,
         utterances: typing.Sequence[PostedUtterance],
         context: typing.Optional[PostedContext] = OMIT,
-        num_generations: typing.Optional[int] = OMIT,
         format: typing.Optional[Format] = OMIT,
+        num_generations: typing.Optional[int] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
+        version: typing.Optional[OctaveVersion] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnTts:
@@ -59,11 +61,11 @@ class TtsClient:
         context : typing.Optional[PostedContext]
             Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
 
-        num_generations : typing.Optional[int]
-            Number of generations of the audio to produce.
-
         format : typing.Optional[Format]
             Specifies the output audio file format.
+
+        num_generations : typing.Optional[int]
+            Number of generations of the audio to produce.
 
         split_utterances : typing.Optional[bool]
             Controls how audio output is segmented in the response.
@@ -76,6 +78,8 @@ class TtsClient:
 
         strip_headers : typing.Optional[bool]
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+
+        version : typing.Optional[OctaveVersion]
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
@@ -121,10 +125,11 @@ class TtsClient:
         _response = self._raw_client.synthesize_json(
             utterances=utterances,
             context=context,
-            num_generations=num_generations,
             format=format,
+            num_generations=num_generations,
             split_utterances=split_utterances,
             strip_headers=strip_headers,
+            version=version,
             instant_mode=instant_mode,
             request_options=request_options,
         )
@@ -135,10 +140,11 @@ class TtsClient:
         *,
         utterances: typing.Sequence[PostedUtterance],
         context: typing.Optional[PostedContext] = OMIT,
-        num_generations: typing.Optional[int] = OMIT,
         format: typing.Optional[Format] = OMIT,
+        num_generations: typing.Optional[int] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
+        version: typing.Optional[OctaveVersion] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Iterator[bytes]:
@@ -157,11 +163,11 @@ class TtsClient:
         context : typing.Optional[PostedContext]
             Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
 
-        num_generations : typing.Optional[int]
-            Number of generations of the audio to produce.
-
         format : typing.Optional[Format]
             Specifies the output audio file format.
+
+        num_generations : typing.Optional[int]
+            Number of generations of the audio to produce.
 
         split_utterances : typing.Optional[bool]
             Controls how audio output is segmented in the response.
@@ -174,6 +180,8 @@ class TtsClient:
 
         strip_headers : typing.Optional[bool]
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+
+        version : typing.Optional[OctaveVersion]
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
@@ -214,10 +222,104 @@ class TtsClient:
         with self._raw_client.synthesize_file(
             utterances=utterances,
             context=context,
-            num_generations=num_generations,
             format=format,
+            num_generations=num_generations,
             split_utterances=split_utterances,
             strip_headers=strip_headers,
+            version=version,
+            instant_mode=instant_mode,
+            request_options=request_options,
+        ) as r:
+            yield from r.data
+
+    def synthesize_file_streaming(
+        self,
+        *,
+        utterances: typing.Sequence[PostedUtterance],
+        context: typing.Optional[PostedContext] = OMIT,
+        format: typing.Optional[Format] = OMIT,
+        num_generations: typing.Optional[int] = OMIT,
+        split_utterances: typing.Optional[bool] = OMIT,
+        strip_headers: typing.Optional[bool] = OMIT,
+        version: typing.Optional[OctaveVersion] = OMIT,
+        instant_mode: typing.Optional[bool] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> typing.Iterator[bytes]:
+        """
+        Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
+
+        Parameters
+        ----------
+        utterances : typing.Sequence[PostedUtterance]
+            A list of **Utterances** to be converted to speech output.
+
+            An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
+
+        context : typing.Optional[PostedContext]
+            Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+
+        format : typing.Optional[Format]
+            Specifies the output audio file format.
+
+        num_generations : typing.Optional[int]
+            Number of generations of the audio to produce.
+
+        split_utterances : typing.Optional[bool]
+            Controls how audio output is segmented in the response.
+
+            - When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.
+
+            - When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets.
+
+            This setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
+
+        strip_headers : typing.Optional[bool]
+            If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+
+        version : typing.Optional[OctaveVersion]
+
+        instant_mode : typing.Optional[bool]
+            Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
+            - A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+            - Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+            - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
+
+        Returns
+        -------
+        typing.Iterator[bytes]
+            OK
+
+        Examples
+        --------
+        from hume import HumeClient
+        from hume.tts import PostedUtterance, PostedUtteranceVoiceWithName
+
+        client = HumeClient(
+            api_key="YOUR_API_KEY",
+        )
+        client.tts.synthesize_file_streaming(
+            utterances=[
+                PostedUtterance(
+                    text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
+                    voice=PostedUtteranceVoiceWithName(
+                        name="Male English Actor",
+                        provider="HUME_AI",
+                    ),
+                )
+            ],
+        )
+        """
+        with self._raw_client.synthesize_file_streaming(
+            utterances=utterances,
+            context=context,
+            format=format,
+            num_generations=num_generations,
+            split_utterances=split_utterances,
+            strip_headers=strip_headers,
+            version=version,
             instant_mode=instant_mode,
             request_options=request_options,
         ) as r:
@@ -228,10 +330,11 @@ class TtsClient:
         *,
         utterances: typing.Sequence[PostedUtterance],
         context: typing.Optional[PostedContext] = OMIT,
-        num_generations: typing.Optional[int] = OMIT,
         format: typing.Optional[Format] = OMIT,
+        num_generations: typing.Optional[int] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
+        version: typing.Optional[OctaveVersion] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Iterator[SnippetAudioChunk]:
@@ -250,11 +353,11 @@ class TtsClient:
         context : typing.Optional[PostedContext]
             Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
 
-        num_generations : typing.Optional[int]
-            Number of generations of the audio to produce.
-
         format : typing.Optional[Format]
             Specifies the output audio file format.
+
+        num_generations : typing.Optional[int]
+            Number of generations of the audio to produce.
 
         split_utterances : typing.Optional[bool]
             Controls how audio output is segmented in the response.
@@ -267,6 +370,8 @@ class TtsClient:
 
         strip_headers : typing.Optional[bool]
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+
+        version : typing.Optional[OctaveVersion]
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
@@ -307,99 +412,11 @@ class TtsClient:
         with self._raw_client.synthesize_json_streaming(
             utterances=utterances,
             context=context,
-            num_generations=num_generations,
             format=format,
+            num_generations=num_generations,
             split_utterances=split_utterances,
             strip_headers=strip_headers,
-            instant_mode=instant_mode,
-            request_options=request_options,
-        ) as r:
-            yield from r.data
-
-    def synthesize_file_streaming(
-        self,
-        *,
-        utterances: typing.Sequence[PostedUtterance],
-        context: typing.Optional[PostedContext] = OMIT,
-        num_generations: typing.Optional[int] = OMIT,
-        format: typing.Optional[Format] = OMIT,
-        split_utterances: typing.Optional[bool] = OMIT,
-        strip_headers: typing.Optional[bool] = OMIT,
-        instant_mode: typing.Optional[bool] = OMIT,
-        request_options: typing.Optional[RequestOptions] = None,
-    ) -> typing.Iterator[bytes]:
-        """
-        Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
-
-        Parameters
-        ----------
-        utterances : typing.Sequence[PostedUtterance]
-            A list of **Utterances** to be converted to speech output.
-
-            An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
-
-        context : typing.Optional[PostedContext]
-            Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
-
-        num_generations : typing.Optional[int]
-            Number of generations of the audio to produce.
-
-        format : typing.Optional[Format]
-            Specifies the output audio file format.
-
-        split_utterances : typing.Optional[bool]
-            Controls how audio output is segmented in the response.
-
-            - When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.
-
-            - When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets.
-
-            This setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
-
-        strip_headers : typing.Optional[bool]
-            If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
-
-        instant_mode : typing.Optional[bool]
-            Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
-            - A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
-            - Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
-            - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
-
-        Returns
-        -------
-        typing.Iterator[bytes]
-            OK
-
-        Examples
-        --------
-        from hume import HumeClient
-        from hume.tts import PostedUtterance, PostedUtteranceVoiceWithName
-
-        client = HumeClient(
-            api_key="YOUR_API_KEY",
-        )
-        client.tts.synthesize_file_streaming(
-            utterances=[
-                PostedUtterance(
-                    text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
-                    voice=PostedUtteranceVoiceWithName(
-                        name="Male English Actor",
-                        provider="HUME_AI",
-                    ),
-                )
-            ],
-        )
-        """
-        with self._raw_client.synthesize_file_streaming(
-            utterances=utterances,
-            context=context,
-            num_generations=num_generations,
-            format=format,
-            split_utterances=split_utterances,
-            strip_headers=strip_headers,
+            version=version,
             instant_mode=instant_mode,
             request_options=request_options,
         ) as r:
@@ -427,10 +444,11 @@ class AsyncTtsClient:
         *,
         utterances: typing.Sequence[PostedUtterance],
         context: typing.Optional[PostedContext] = OMIT,
-        num_generations: typing.Optional[int] = OMIT,
         format: typing.Optional[Format] = OMIT,
+        num_generations: typing.Optional[int] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
+        version: typing.Optional[OctaveVersion] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnTts:
@@ -449,11 +467,11 @@ class AsyncTtsClient:
         context : typing.Optional[PostedContext]
             Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
 
-        num_generations : typing.Optional[int]
-            Number of generations of the audio to produce.
-
         format : typing.Optional[Format]
             Specifies the output audio file format.
+
+        num_generations : typing.Optional[int]
+            Number of generations of the audio to produce.
 
         split_utterances : typing.Optional[bool]
             Controls how audio output is segmented in the response.
@@ -466,6 +484,8 @@ class AsyncTtsClient:
 
         strip_headers : typing.Optional[bool]
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+
+        version : typing.Optional[OctaveVersion]
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
@@ -519,10 +539,11 @@ class AsyncTtsClient:
         _response = await self._raw_client.synthesize_json(
             utterances=utterances,
             context=context,
-            num_generations=num_generations,
             format=format,
+            num_generations=num_generations,
             split_utterances=split_utterances,
             strip_headers=strip_headers,
+            version=version,
             instant_mode=instant_mode,
             request_options=request_options,
         )
@@ -533,10 +554,11 @@ class AsyncTtsClient:
         *,
         utterances: typing.Sequence[PostedUtterance],
         context: typing.Optional[PostedContext] = OMIT,
-        num_generations: typing.Optional[int] = OMIT,
         format: typing.Optional[Format] = OMIT,
+        num_generations: typing.Optional[int] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
+        version: typing.Optional[OctaveVersion] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.AsyncIterator[bytes]:
@@ -555,11 +577,11 @@ class AsyncTtsClient:
         context : typing.Optional[PostedContext]
             Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
 
-        num_generations : typing.Optional[int]
-            Number of generations of the audio to produce.
-
         format : typing.Optional[Format]
             Specifies the output audio file format.
+
+        num_generations : typing.Optional[int]
+            Number of generations of the audio to produce.
 
         split_utterances : typing.Optional[bool]
             Controls how audio output is segmented in the response.
@@ -572,6 +594,8 @@ class AsyncTtsClient:
 
         strip_headers : typing.Optional[bool]
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+
+        version : typing.Optional[OctaveVersion]
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
@@ -620,10 +644,113 @@ class AsyncTtsClient:
         async with self._raw_client.synthesize_file(
             utterances=utterances,
             context=context,
-            num_generations=num_generations,
             format=format,
+            num_generations=num_generations,
             split_utterances=split_utterances,
             strip_headers=strip_headers,
+            version=version,
+            instant_mode=instant_mode,
+            request_options=request_options,
+        ) as r:
+            async for _chunk in r.data:
+                yield _chunk
+
+    async def synthesize_file_streaming(
+        self,
+        *,
+        utterances: typing.Sequence[PostedUtterance],
+        context: typing.Optional[PostedContext] = OMIT,
+        format: typing.Optional[Format] = OMIT,
+        num_generations: typing.Optional[int] = OMIT,
+        split_utterances: typing.Optional[bool] = OMIT,
+        strip_headers: typing.Optional[bool] = OMIT,
+        version: typing.Optional[OctaveVersion] = OMIT,
+        instant_mode: typing.Optional[bool] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> typing.AsyncIterator[bytes]:
+        """
+        Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
+
+        Parameters
+        ----------
+        utterances : typing.Sequence[PostedUtterance]
+            A list of **Utterances** to be converted to speech output.
+
+            An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
+
+        context : typing.Optional[PostedContext]
+            Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+
+        format : typing.Optional[Format]
+            Specifies the output audio file format.
+
+        num_generations : typing.Optional[int]
+            Number of generations of the audio to produce.
+
+        split_utterances : typing.Optional[bool]
+            Controls how audio output is segmented in the response.
+
+            - When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.
+
+            - When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets.
+
+            This setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
+
+        strip_headers : typing.Optional[bool]
+            If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+
+        version : typing.Optional[OctaveVersion]
+
+        instant_mode : typing.Optional[bool]
+            Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
+            - A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+            - Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+            - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
+
+        Returns
+        -------
+        typing.AsyncIterator[bytes]
+            OK
+
+        Examples
+        --------
+        import asyncio
+
+        from hume import AsyncHumeClient
+        from hume.tts import PostedUtterance, PostedUtteranceVoiceWithName
+
+        client = AsyncHumeClient(
+            api_key="YOUR_API_KEY",
+        )
+
+
+        async def main() -> None:
+            await client.tts.synthesize_file_streaming(
+                utterances=[
+                    PostedUtterance(
+                        text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
+                        voice=PostedUtteranceVoiceWithName(
+                            name="Male English Actor",
+                            provider="HUME_AI",
+                        ),
+                    )
+                ],
+            )
+
+
+        asyncio.run(main())
+        """
+        async with self._raw_client.synthesize_file_streaming(
+            utterances=utterances,
+            context=context,
+            format=format,
+            num_generations=num_generations,
+            split_utterances=split_utterances,
+            strip_headers=strip_headers,
+            version=version,
             instant_mode=instant_mode,
             request_options=request_options,
         ) as r:
@@ -635,10 +762,11 @@ class AsyncTtsClient:
         *,
         utterances: typing.Sequence[PostedUtterance],
         context: typing.Optional[PostedContext] = OMIT,
-        num_generations: typing.Optional[int] = OMIT,
         format: typing.Optional[Format] = OMIT,
+        num_generations: typing.Optional[int] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
+        version: typing.Optional[OctaveVersion] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.AsyncIterator[SnippetAudioChunk]:
@@ -657,11 +785,11 @@ class AsyncTtsClient:
         context : typing.Optional[PostedContext]
             Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
 
-        num_generations : typing.Optional[int]
-            Number of generations of the audio to produce.
-
         format : typing.Optional[Format]
             Specifies the output audio file format.
+
+        num_generations : typing.Optional[int]
+            Number of generations of the audio to produce.
 
         split_utterances : typing.Optional[bool]
             Controls how audio output is segmented in the response.
@@ -674,6 +802,8 @@ class AsyncTtsClient:
 
         strip_headers : typing.Optional[bool]
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+
+        version : typing.Optional[OctaveVersion]
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
@@ -722,108 +852,11 @@ class AsyncTtsClient:
         async with self._raw_client.synthesize_json_streaming(
             utterances=utterances,
             context=context,
-            num_generations=num_generations,
             format=format,
+            num_generations=num_generations,
             split_utterances=split_utterances,
             strip_headers=strip_headers,
-            instant_mode=instant_mode,
-            request_options=request_options,
-        ) as r:
-            async for _chunk in r.data:
-                yield _chunk
-
-    async def synthesize_file_streaming(
-        self,
-        *,
-        utterances: typing.Sequence[PostedUtterance],
-        context: typing.Optional[PostedContext] = OMIT,
-        num_generations: typing.Optional[int] = OMIT,
-        format: typing.Optional[Format] = OMIT,
-        split_utterances: typing.Optional[bool] = OMIT,
-        strip_headers: typing.Optional[bool] = OMIT,
-        instant_mode: typing.Optional[bool] = OMIT,
-        request_options: typing.Optional[RequestOptions] = None,
-    ) -> typing.AsyncIterator[bytes]:
-        """
-        Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
-
-        Parameters
-        ----------
-        utterances : typing.Sequence[PostedUtterance]
-            A list of **Utterances** to be converted to speech output.
-
-            An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
-
-        context : typing.Optional[PostedContext]
-            Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
-
-        num_generations : typing.Optional[int]
-            Number of generations of the audio to produce.
-
-        format : typing.Optional[Format]
-            Specifies the output audio file format.
-
-        split_utterances : typing.Optional[bool]
-            Controls how audio output is segmented in the response.
-
-            - When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.
-
-            - When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets.
-
-            This setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
-
-        strip_headers : typing.Optional[bool]
-            If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
-
-        instant_mode : typing.Optional[bool]
-            Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
-            - A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
-            - Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
-            - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
-
-        Returns
-        -------
-        typing.AsyncIterator[bytes]
-            OK
-
-        Examples
-        --------
-        import asyncio
-
-        from hume import AsyncHumeClient
-        from hume.tts import PostedUtterance, PostedUtteranceVoiceWithName
-
-        client = AsyncHumeClient(
-            api_key="YOUR_API_KEY",
-        )
-
-
-        async def main() -> None:
-            await client.tts.synthesize_file_streaming(
-                utterances=[
-                    PostedUtterance(
-                        text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
-                        voice=PostedUtteranceVoiceWithName(
-                            name="Male English Actor",
-                            provider="HUME_AI",
-                        ),
-                    )
-                ],
-            )
-
-
-        asyncio.run(main())
-        """
-        async with self._raw_client.synthesize_file_streaming(
-            utterances=utterances,
-            context=context,
-            num_generations=num_generations,
-            format=format,
-            split_utterances=split_utterances,
-            strip_headers=strip_headers,
+            version=version,
             instant_mode=instant_mode,
             request_options=request_options,
         ) as r:

@@ -11,26 +11,14 @@ class WebSocketError(UniversalBaseModel):
     When provided, the output is an error message.
     """
 
-    type: typing.Literal["error"] = pydantic.Field(default="error")
-    """
-    The type of message sent through the socket; for a Web Socket Error message, this must be `error`.
-    
-    This message indicates a disruption in the WebSocket connection, such as an unexpected disconnection, protocol error, or data transmission issue.
-    """
-
-    custom_session_id: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
-    """
-
     code: str = pydantic.Field()
     """
     Error code. Identifies the type of error encountered.
     """
 
-    slug: str = pydantic.Field()
+    custom_session_id: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Short, human-readable identifier and description for the error. See a complete list of error slugs on the [Errors page](/docs/resources/errors).
+    Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
     """
 
     message: str = pydantic.Field()
@@ -41,6 +29,18 @@ class WebSocketError(UniversalBaseModel):
     request_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     ID of the initiating request.
+    """
+
+    slug: str = pydantic.Field()
+    """
+    Short, human-readable identifier and description for the error. See a complete list of error slugs on the [Errors page](/docs/resources/errors).
+    """
+
+    type: typing.Literal["error"] = pydantic.Field(default="error")
+    """
+    The type of message sent through the socket; for a Web Socket Error message, this must be `error`.
+    
+    This message indicates a disruption in the WebSocket connection, such as an unexpected disconnection, protocol error, or data transmission issue.
     """
 
     if IS_PYDANTIC_V2:

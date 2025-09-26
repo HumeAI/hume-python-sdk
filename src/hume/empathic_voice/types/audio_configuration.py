@@ -8,14 +8,14 @@ from .encoding import Encoding
 
 
 class AudioConfiguration(UniversalBaseModel):
-    encoding: Encoding = pydantic.Field(default="linear16")
-    """
-    Encoding format of the audio input, such as `linear16`.
-    """
-
     channels: int = pydantic.Field()
     """
     Number of audio channels.
+    """
+
+    encoding: Encoding = pydantic.Field(default="linear16")
+    """
+    Encoding format of the audio input, such as `linear16`.
     """
 
     sample_rate: int = pydantic.Field()
