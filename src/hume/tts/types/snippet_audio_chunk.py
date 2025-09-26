@@ -13,9 +13,19 @@ class SnippetAudioChunk(UniversalBaseModel):
     Metadata for a chunk of generated audio.
     """
 
-    request_id: str = pydantic.Field()
+    audio: str = pydantic.Field()
     """
-    ID of the initiating request.
+    The generated audio output chunk in the requested format.
+    """
+
+    audio_format: AudioFormatType = pydantic.Field()
+    """
+    The generated audio output format.
+    """
+
+    chunk_index: int = pydantic.Field()
+    """
+    The index of the audio chunk in the snippet.
     """
 
     generation_id: str = pydantic.Field()
@@ -23,6 +33,17 @@ class SnippetAudioChunk(UniversalBaseModel):
     The generation ID of the parent snippet that this chunk corresponds to.
     """
 
+    is_last_chunk: bool = pydantic.Field()
+    """
+    Whether or not this is the last chunk streamed back from the decoder for one input snippet.
+    """
+
+    request_id: str = pydantic.Field()
+    """
+    ID of the initiating request.
+    """
+
+    snippet: typing.Optional[Snippet] = None
     snippet_id: str = pydantic.Field()
     """
     The ID of the parent snippet that this chunk corresponds to.
@@ -38,32 +59,11 @@ class SnippetAudioChunk(UniversalBaseModel):
     The transcribed text of the generated audio of the parent snippet that this chunk corresponds to. It is only present if `instant_mode` is set to `false`.
     """
 
-    chunk_index: int = pydantic.Field()
-    """
-    The index of the audio chunk in the snippet.
-    """
-
-    audio: str = pydantic.Field()
-    """
-    The generated audio output chunk in the requested format.
-    """
-
-    audio_format: AudioFormatType = pydantic.Field()
-    """
-    The generated audio output format.
-    """
-
-    is_last_chunk: bool = pydantic.Field()
-    """
-    Whether or not this is the last chunk streamed back from the decoder for one input snippet.
-    """
-
+    type: typing.Optional[typing.Literal["audio"]] = None
     utterance_index: typing.Optional[int] = pydantic.Field(default=None)
     """
     The index of the utterance in the request that the parent snippet of this chunk corresponds to.
     """
-
-    snippet: typing.Optional[Snippet] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

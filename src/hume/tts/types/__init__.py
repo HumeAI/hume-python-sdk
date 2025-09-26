@@ -10,6 +10,7 @@ from .format_mp_3 import FormatMp3
 from .format_pcm import FormatPcm
 from .format_wav import FormatWav
 from .http_validation_error import HttpValidationError
+from .octave_version import OctaveVersion
 from .posted_context import PostedContext
 from .posted_context_with_generation_id import PostedContextWithGenerationId
 from .posted_context_with_utterances import PostedContextWithUtterances
@@ -38,6 +39,7 @@ __all__ = [
     "FormatPcm",
     "FormatWav",
     "HttpValidationError",
+    "OctaveVersion",
     "PostedContext",
     "PostedContextWithGenerationId",
     "PostedContextWithUtterances",

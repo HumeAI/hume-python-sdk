@@ -13,11 +13,6 @@ class UserInput(UniversalBaseModel):
     Expression measurement results are not available for User Input messages, as the prosody model relies on audio input and cannot process text alone.
     """
 
-    type: typing.Literal["user_input"] = pydantic.Field(default="user_input")
-    """
-    The type of message sent through the socket; must be `user_input` for our server to correctly identify and process it as a User Input message.
-    """
-
     custom_session_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
@@ -28,6 +23,11 @@ class UserInput(UniversalBaseModel):
     User text to insert into the conversation. Text sent through a User Input message is treated as the user's speech to EVI. EVI processes this input and provides a corresponding response.
     
     Expression measurement results are not available for User Input messages, as the prosody model relies on audio input and cannot process text alone.
+    """
+
+    type: typing.Literal["user_input"] = pydantic.Field(default="user_input")
+    """
+    The type of message sent through the socket; must be `user_input` for our server to correctly identify and process it as a User Input message.
     """
 
     if IS_PYDANTIC_V2:

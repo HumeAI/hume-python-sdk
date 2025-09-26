@@ -34,6 +34,31 @@ channel:
       type: optional<boolean>
       default: false
       docs: If enabled, no binary websocket messages will be sent to the client.
+    access_token:
+      type: optional<string>
+      default: ''
+      docs: >-
+        Access token used for authenticating the client. If not provided, an
+        `api_key` must be provided to authenticate.
+
+
+        The access token is generated using both an API key and a Secret key,
+        which provides an additional layer of security compared to using just an
+        API key.
+
+
+        For more details, refer to the [Authentication Strategies
+        Guide](/docs/introduction/api-key#authentication-strategies).
+    api_key:
+      type: optional<string>
+      default: ''
+      docs: >-
+        API key used for authenticating the client. If not provided, an
+        `access_token` must be provided to authenticate.
+
+
+        For more details, refer to the [Authentication Strategies
+        Guide](/docs/introduction/api-key#authentication-strategies).
   messages:
     publish:
       origin: client
