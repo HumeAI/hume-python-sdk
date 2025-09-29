@@ -1027,6 +1027,8 @@ types:
         name: Claude3Haiku20240307
       - value: claude-sonnet-4-20250514
         name: ClaudeSonnet420250514
+      - value: claude-sonnet-4-5-20250929
+        name: ClaudeSonnet4520250929
       - value: us.anthropic.claude-3-5-haiku-20241022-v1:0
         name: UsAnthropicClaude35Haiku20241022V10
       - value: us.anthropic.claude-3-5-sonnet-20240620-v1:0
@@ -1119,6 +1121,8 @@ types:
         name: Llama4Maverick17B128EInstruct
       - value: Qwen3-32B
         name: Qwen332B
+      - value: grok-4-fast-non-reasoning-latest
+        name: Grok4FastNonReasoningLatest
       - ellm
       - value: custom-language-model
         name: CustomLanguageModel
@@ -1470,9 +1474,6 @@ types:
           Version numbers are integer values representing different iterations
           of the Prompt. Each update to the Prompt increments its version
           number.
-      version_description:
-        type: optional<string>
-        docs: An optional description of the Prompt version.
       version_type:
         type: ReturnPromptVersionType
         docs: >-
@@ -1488,6 +1489,9 @@ types:
         docs: >-
           Time at which the Prompt was last modified. Measured in seconds since
           the Unix epoch.
+      version_description:
+        type: optional<string>
+        docs: An optional description of the Prompt version.
     source:
       openapi: evi-openapi.json
   ReturnPagedConfigs:
@@ -1543,12 +1547,6 @@ types:
           Version numbers are integer values representing different iterations
           of the Config. Each update to the Config increments its version
           number.
-      tools:
-        type: optional<list<optional<ReturnUserDefinedTool>>>
-        docs: List of user-defined tools associated with this Config.
-      version_description:
-        type: optional<string>
-        docs: An optional description of the Config version.
       language_model:
         type: optional<ReturnLanguageModel>
         docs: >-
@@ -1603,6 +1601,12 @@ types:
         docs: >-
           Time at which the Config was last modified. Measured in seconds since
           the Unix epoch.
+      version_description:
+        type: optional<string>
+        docs: An optional description of the Config version.
+      tools:
+        type: optional<list<optional<ReturnUserDefinedTool>>>
+        docs: List of user-defined tools associated with this Config.
     source:
       openapi: evi-openapi.json
   ReturnPagedChatsPaginationDirection:

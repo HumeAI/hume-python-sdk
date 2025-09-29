@@ -96,6 +96,14 @@ An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overvi
 <dl>
 <dd>
 
+**include_timestamp_types:** `typing.Optional[typing.Sequence[TimestampType]]` — The set of timestamp types to include in the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **num_generations:** `typing.Optional[int]` — Number of generations of the audio to produce.
     
 </dd>
@@ -128,7 +136,7 @@ This setting affects how the `snippets` array is structured in the response, whi
 <dl>
 <dd>
 
-**version:** `typing.Optional[OctaveVersion]` 
+**version:** `typing.Optional[OctaveVersion]` — The version of the Octave Model to use. 1 for the legacy model, 2 for the new model.
     
 </dd>
 </dl>
@@ -252,6 +260,14 @@ An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overvi
 <dl>
 <dd>
 
+**include_timestamp_types:** `typing.Optional[typing.Sequence[TimestampType]]` — The set of timestamp types to include in the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **num_generations:** `typing.Optional[int]` — Number of generations of the audio to produce.
     
 </dd>
@@ -284,7 +300,7 @@ This setting affects how the `snippets` array is structured in the response, whi
 <dl>
 <dd>
 
-**version:** `typing.Optional[OctaveVersion]` 
+**version:** `typing.Optional[OctaveVersion]` — The version of the Octave Model to use. 1 for the legacy model, 2 for the new model.
     
 </dd>
 </dl>
@@ -404,6 +420,14 @@ An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overvi
 <dl>
 <dd>
 
+**include_timestamp_types:** `typing.Optional[typing.Sequence[TimestampType]]` — The set of timestamp types to include in the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **num_generations:** `typing.Optional[int]` — Number of generations of the audio to produce.
     
 </dd>
@@ -436,7 +460,7 @@ This setting affects how the `snippets` array is structured in the response, whi
 <dl>
 <dd>
 
-**version:** `typing.Optional[OctaveVersion]` 
+**version:** `typing.Optional[OctaveVersion]` — The version of the Octave Model to use. 1 for the legacy model, 2 for the new model.
     
 </dd>
 </dl>
@@ -560,6 +584,14 @@ An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overvi
 <dl>
 <dd>
 
+**include_timestamp_types:** `typing.Optional[typing.Sequence[TimestampType]]` — The set of timestamp types to include in the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **num_generations:** `typing.Optional[int]` — Number of generations of the audio to produce.
     
 </dd>
@@ -592,7 +624,7 @@ This setting affects how the `snippets` array is structured in the response, whi
 <dl>
 <dd>
 
-**version:** `typing.Optional[OctaveVersion]` 
+**version:** `typing.Optional[OctaveVersion]` — The version of the Octave Model to use. 1 for the legacy model, 2 for the new model.
     
 </dd>
 </dl>
@@ -2783,7 +2815,7 @@ client.empathic_voice.configs.create_config(
 <dl>
 <dd>
 
-**evi_version:** `str` — EVI version to use. Only version `3` is supported.
+**evi_version:** `str` — EVI version to use. Only versions `3` and `4-mini` are supported.
     
 </dd>
 </dl>
