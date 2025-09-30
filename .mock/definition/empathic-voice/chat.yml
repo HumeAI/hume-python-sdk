@@ -98,6 +98,17 @@ channel:
         Use the GET `/v0/evi/chat_groups` endpoint to obtain the Chat Group IDs
         of all Chat Groups associated with an API key. This endpoint returns a
         list of all available chat groups.
+    session_settings[audio][channels]: optional<integer>
+    session_settings[audio][encoding]: optional<string>
+    session_settings[audio][sample_rate]: optional<integer>
+    session_settings[context][text]: optional<string>
+    session_settings[context][type]: optional<string>
+    session_settings[custom_session_id]: optional<string>
+    session_settings[event_limit]: optional<integer>
+    session_settings[language_model_api_key]: optional<string>
+    session_settings[system_prompt]: optional<string>
+    session_settings[variables]: optional<string>
+    session_settings[voice_id]: optional<string>
     verbose_transcription:
       type: optional<boolean>
       default: false

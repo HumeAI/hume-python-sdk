@@ -10,6 +10,7 @@ from .format_mp_3 import FormatMp3
 from .format_pcm import FormatPcm
 from .format_wav import FormatWav
 from .http_validation_error import HttpValidationError
+from .millisecond_interval import MillisecondInterval
 from .octave_version import OctaveVersion
 from .posted_context import PostedContext
 from .posted_context_with_generation_id import PostedContextWithGenerationId
@@ -26,6 +27,10 @@ from .return_tts import ReturnTts
 from .return_voice import ReturnVoice
 from .snippet import Snippet
 from .snippet_audio_chunk import SnippetAudioChunk
+from .timestamp import Timestamp
+from .timestamp_message import TimestampMessage
+from .timestamp_type import TimestampType
+from .tts_output import TtsOutput
 from .validation_error import ValidationError
 from .validation_error_loc_item import ValidationErrorLocItem
 from .voice_provider import VoiceProvider
@@ -39,6 +44,7 @@ __all__ = [
     "FormatPcm",
     "FormatWav",
     "HttpValidationError",
+    "MillisecondInterval",
     "OctaveVersion",
     "PostedContext",
     "PostedContextWithGenerationId",
@@ -55,6 +61,10 @@ __all__ = [
     "ReturnVoice",
     "Snippet",
     "SnippetAudioChunk",
+    "Timestamp",
+    "TimestampMessage",
+    "TimestampType",
+    "TtsOutput",
     "ValidationError",
     "ValidationErrorLocItem",
     "VoiceProvider",

@@ -4,6 +4,7 @@ import typing
 
 import pydantic
 from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .timestamp import Timestamp
 
 
 class Snippet(UniversalBaseModel):
@@ -25,6 +26,11 @@ class Snippet(UniversalBaseModel):
     text: str = pydantic.Field()
     """
     The text for this **Snippet**.
+    """
+
+    timestamps: typing.List[Timestamp] = pydantic.Field()
+    """
+    A list of word or phoneme level timestamps for the generated audio.
     """
 
     transcribed_text: typing.Optional[str] = pydantic.Field(default=None)
