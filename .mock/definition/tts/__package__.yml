@@ -30,7 +30,7 @@ service:
         format.
       source:
         openapi: tts-openapi.json
-      display-name: Text-to-speech (Json)
+      display-name: Text-to-Speech (Json)
       request:
         body:
           type: PostedTts
@@ -79,6 +79,7 @@ service:
                           Beauty is no quality in things themselves: It exists
                           merely in the mind which contemplates them.
                         utterance_index: 0
+                        timestamps: []
               request_id: 66e01f90-4501-4aa0-bbaf-74f45dc15aa725906
     synthesize-file:
       path: /v0/tts/file
@@ -94,7 +95,7 @@ service:
         The response contains the generated audio file in the requested format.
       source:
         openapi: tts-openapi.json
-      display-name: Text-to-speech (File)
+      display-name: Text-to-Speech (File)
       request:
         body:
           type: PostedTts
@@ -131,7 +132,7 @@ service:
         prosody.
       source:
         openapi: tts-openapi.json
-      display-name: Text-to-speech (Streamed File)
+      display-name: Text-to-Speech (Streamed File)
       request:
         body:
           type: PostedTts
@@ -166,14 +167,14 @@ service:
         base64.
       source:
         openapi: tts-openapi.json
-      display-name: Text-to-speech (Streamed JSON)
+      display-name: Text-to-Speech (Streamed JSON)
       request:
         body:
           type: PostedTts
         content-type: application/json
       response-stream:
         docs: Successful Response
-        type: SnippetAudioChunk
+        type: SynthesizeJsonStreamingResponse
         format: json
       errors:
         - UnprocessableEntityError
@@ -189,15 +190,27 @@ service:
   source:
     openapi: tts-openapi.json
 types:
+  SynthesizeJsonStreamingResponse:
+    discriminated: false
+    union:
+      - type: TimestampMessage
+      - type: SnippetAudioChunk
+    source:
+      openapi: tts-openapi.json
+  AudioFormatType:
+    enum:
+      - mp3
+      - pcm
+      - wav
+    source:
+      openapi: tts-openapi.json
   PublishTts:
     docs: Input message type for the TTS stream.
     properties:
-      text:
-        type: optional<string>
-        docs: The input text to be converted to speech output.
-        default: ''
-        validation:
-          maxLength: 5000
+      close:
+        type: optional<boolean>
+        docs: Force the generation of audio and close the stream.
+        default: false
       description:
         type: optional<string>
         docs: >-
@@ -206,12 +219,12 @@ types:
           accent"`).
         validation:
           maxLength: 1000
-      voice:
-        type: optional<PostedUtteranceVoice>
+      flush:
+        type: optional<boolean>
         docs: >-
-          The name or ID of the voice from the `Voice Library` to be used as the
-          speaker for this and all subsequent utterances, until the `"voice"`
-          field is updated again.
+          Force the generation of audio regardless of how much text has been
+          supplied.
+        default: false
       speed:
         type: optional<double>
         docs: A relative measure of how fast this utterance should be spoken.
@@ -219,6 +232,12 @@ types:
         validation:
           min: 0.25
           max: 3
+      text:
+        type: optional<string>
+        docs: The input text to be converted to speech output.
+        default: ''
+        validation:
+          maxLength: 5000
       trailing_silence:
         type: optional<double>
         docs: Duration of trailing silence (in seconds) to add to this utterance
@@ -226,18 +245,108 @@ types:
         validation:
           min: 0
           max: 5
-      flush:
-        type: optional<boolean>
+      voice:
+        type: optional<PostedUtteranceVoice>
         docs: >-
-          Force the generation of audio regardless of how much text has been
-          supplied.
-        default: false
-      close:
-        type: optional<boolean>
-        docs: Force the generation of audio and close the stream.
-        default: false
+          The name or ID of the voice from the `Voice Library` to be used as the
+          speaker for this and all subsequent utterances, until the `"voice"`
+          field is updated again.
     source:
       openapi: tts-asyncapi.json
+  MillisecondInterval:
+    properties:
+      begin:
+        type: integer
+        docs: Start time of the interval in milliseconds.
+      end:
+        type: integer
+        docs: End time of the interval in milliseconds.
+    source:
+      openapi: tts-openapi.json
+  TimestampMessage:
+    docs: A word or phoneme level timestamp for the generated audio.
+    properties:
+      generation_id:
+        type: string
+        docs: >-
+          The generation ID of the parent snippet that this chunk corresponds
+          to.
+      request_id:
+        type: string
+        docs: ID of the initiating request.
+      snippet_id:
+        type: string
+        docs: The ID of the parent snippet that this chunk corresponds to.
+      timestamp:
+        type: Timestamp
+        docs: A word or phoneme level timestamp for the generated audio.
+      type:
+        type: literal<"timestamp">
+    source:
+      openapi: tts-openapi.json
+  SnippetAudioChunk:
+    docs: Metadata for a chunk of generated audio.
+    properties:
+      audio:
+        type: string
+        docs: The generated audio output chunk in the requested format.
+      audio_format:
+        type: AudioFormatType
+        docs: The generated audio output format.
+      chunk_index:
+        type: integer
+        docs: The index of the audio chunk in the snippet.
+      generation_id:
+        type: string
+        docs: >-
+          The generation ID of the parent snippet that this chunk corresponds
+          to.
+      is_last_chunk:
+        type: boolean
+        docs: >-
+          Whether or not this is the last chunk streamed back from the decoder
+          for one input snippet.
+      request_id:
+        type: string
+        docs: ID of the initiating request.
+      snippet:
+        type: optional<Snippet>
+      snippet_id:
+        type: string
+        docs: The ID of the parent snippet that this chunk corresponds to.
+      text:
+        type: string
+        docs: The text of the parent snippet that this chunk corresponds to.
+      transcribed_text:
+        type: optional<string>
+        docs: >-
+          The transcribed text of the generated audio of the parent snippet that
+          this chunk corresponds to. It is only present if `instant_mode` is set
+          to `false`.
+      type:
+        type: literal<"audio">
+      utterance_index:
+        type: optional<integer>
+        docs: >-
+          The index of the utterance in the request that the parent snippet of
+          this chunk corresponds to.
+    source:
+      openapi: tts-openapi.json
+  Timestamp:
+    properties:
+      text: string
+      time:
+        type: MillisecondInterval
+      type:
+        type: TimestampType
+    source:
+      openapi: tts-openapi.json
+  TimestampType:
+    enum:
+      - word
+      - phoneme
+    source:
+      openapi: tts-openapi.json
   PostedUtteranceVoiceWithId:
     properties:
       id:
@@ -309,59 +418,12 @@ types:
       - type: PostedUtteranceVoiceWithName
     source:
       openapi: tts-openapi.json
-  AudioFormatType:
+  OctaveVersion:
     enum:
-      - mp3
-      - pcm
-      - wav
-    source:
-      openapi: tts-openapi.json
-  SnippetAudioChunk:
-    docs: Metadata for a chunk of generated audio.
-    properties:
-      audio:
-        type: string
-        docs: The generated audio output chunk in the requested format.
-      audio_format:
-        type: AudioFormatType
-        docs: The generated audio output format.
-      chunk_index:
-        type: integer
-        docs: The index of the audio chunk in the snippet.
-      generation_id:
-        type: string
-        docs: >-
-          The generation ID of the parent snippet that this chunk corresponds
-          to.
-      is_last_chunk:
-        type: boolean
-        docs: >-
-          Whether or not this is the last chunk streamed back from the decoder
-          for one input snippet.
-      request_id:
-        type: string
-        docs: ID of the initiating request.
-      snippet:
-        type: optional<Snippet>
-      snippet_id:
-        type: string
-        docs: The ID of the parent snippet that this chunk corresponds to.
-      text:
-        type: string
-        docs: The text of the parent snippet that this chunk corresponds to.
-      transcribed_text:
-        type: optional<string>
-        docs: >-
-          The transcribed text of the generated audio of the parent snippet that
-          this chunk corresponds to. It is only present if `instant_mode` is set
-          to `false`.
-      type:
-        type: optional<literal<"audio">>
-      utterance_index:
-        type: optional<integer>
-        docs: >-
-          The index of the utterance in the request that the parent snippet of
-          this chunk corresponds to.
+      - value: '1'
+        name: One
+      - value: '2'
+        name: Two
     source:
       openapi: tts-openapi.json
   PostedContextWithGenerationId:
@@ -469,6 +531,9 @@ types:
       format:
         type: optional<Format>
         docs: Specifies the output audio file format.
+      include_timestamp_types:
+        type: optional<list<TimestampType>>
+        docs: The set of timestamp types to include in the response.
       num_generations:
         type: optional<integer>
         docs: Number of generations of the audio to produce.
@@ -518,6 +583,9 @@ types:
         type: list<PostedUtterance>
       version:
         type: optional<OctaveVersion>
+        docs: >-
+          The version of the Octave Model to use. 1 for the legacy model, 2 for
+          the new model.
       instant_mode:
         type: optional<boolean>
         docs: >-
@@ -554,7 +622,6 @@ types:
           troubleshooting assistance.
     source:
       openapi: tts-openapi.json
-  OctaveVersion: string
   ReturnVoice:
     docs: An Octave voice available for text-to-speech
     properties:
@@ -595,6 +662,9 @@ types:
       text:
         type: string
         docs: The text for this **Snippet**.
+      timestamps:
+        docs: A list of word or phoneme level timestamps for the generated audio.
+        type: list<Timestamp>
       transcribed_text:
         type: optional<string>
         docs: >-
