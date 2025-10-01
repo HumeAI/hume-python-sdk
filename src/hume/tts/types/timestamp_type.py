@@ -2,4 +2,4 @@
 
 import typing
 
-OctaveVersion = typing.Union[typing.Literal["1", "2"], typing.Any]
+TimestampType = typing.Union[typing.Literal["word", "phoneme"], typing.Any]
