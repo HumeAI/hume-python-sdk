@@ -16,8 +16,10 @@ from hume.core.websocket import (
     OnOpenCloseHandlerType,
 )
 from hume.empathic_voice.chat.types.publish_event import PublishEvent
+from hume.empathic_voice.types.context_type import ContextType
 from hume.empathic_voice.types.pause_assistant_message import PauseAssistantMessage
 from hume.empathic_voice.types.resume_assistant_message import ResumeAssistantMessage
+from hume.empathic_voice.types.session_settings_variables_value import SessionSettingsVariablesValue
 from hume.empathic_voice.types.tool_error_message import ToolErrorMessage
 from hume.empathic_voice.types.tool_response_message import ToolResponseMessage
 
@@ -29,6 +31,29 @@ from ..types.user_input import UserInput
 from ...core.pydantic_utilities import parse_obj_as
 from ...core.client_wrapper import AsyncClientWrapper
 from ...core.api_error import ApiError
+
+
+
+class ChatConnectSessionSettingsAudio(typing.TypedDict, total=False):
+    channels: typing.Optional[int]
+    encoding: typing.Optional[str]
+    sample_rate: typing.Optional[int]
+
+
+class ChatConnectSessionSettingsContext(typing.TypedDict, total=False):
+    text: typing.Optional[str]
+    type: ContextType
+
+
+class ChatConnectSessionSettings(typing.TypedDict, total=False):
+    audio: typing.Optional[ChatConnectSessionSettingsAudio]
+    context: typing.Optional[ChatConnectSessionSettingsContext]
+    custom_session_id: typing.Optional[str]
+    event_limit: typing.Optional[int]
+    language_model_api_key: typing.Optional[str]
+    system_prompt: typing.Optional[str]
+    variables: typing.Optional[typing.Dict[str, SessionSettingsVariablesValue]]
+    voice_id: typing.Optional[str]
 
 
 class ChatConnectOptions(typing.TypedDict, total=False):
@@ -54,6 +79,12 @@ class ChatConnectOptions(typing.TypedDict, total=False):
     ID of the Voice to use for this chat. If specified, will override the voice set in the Config
     """
     voice_id: typing.Optional[str]
+
+    session_settings: typing.Optional[ChatConnectSessionSettings]
+    """
+    Session settings to apply at connection time. Supports all SessionSettings fields except
+    builtin_tools, type, metadata, and tools. Additionally supports event_limit.
+    """
 
 
 class ChatWebsocketConnection:
@@ -223,7 +254,8 @@ class AsyncChatClientWithWebsocket:
             maybe_verbose_transcription = options.get("verbose_transcription")
             if maybe_verbose_transcription is not None:
                 query_params = query_params.add(
-                    "verbose_transcription", "true" if maybe_verbose_transcription else "false"
+                    "verbose_transcription",
+                    "true" if maybe_verbose_transcription else "false",
                 )
             maybe_secret_key = options.get("secret_key")
             if maybe_secret_key is not None and api_key is not None:
@@ -233,6 +265,82 @@ class AsyncChatClientWithWebsocket:
                 )
             elif api_key is not None:
                 query_params = query_params.add("apiKey", api_key)
+
+            maybe_voice_id = options.get("voice_id")
+            if maybe_voice_id is not None:
+                query_params = query_params.add("voice_id", maybe_voice_id)
+
+            maybe_session_settings = options.get("session_settings")
+            if maybe_session_settings is not None:
+                # Handle audio settings
+                audio = maybe_session_settings.get("audio")
+                if audio is not None:
+                    channels = audio.get("channels")
+                    if channels is not None:
+                        query_params = query_params.add(
+                            "session_settings[audio][channels]", str(channels)
+                        )
+                    encoding = audio.get("encoding")
+                    if encoding is not None:
+                        query_params = query_params.add(
+                            "session_settings[audio][encoding]", str(encoding)
+                        )
+                    sample_rate = audio.get("sample_rate")
+                    if sample_rate is not None:
+                        query_params = query_params.add(
+                            "session_settings[audio][sample_rate]", str(sample_rate)
+                        )
+
+                # Handle context settings
+                context = maybe_session_settings.get("context")
+                if context is not None:
+                    text = context.get("text")
+                    if text is not None:
+                        query_params = query_params.add(
+                            "session_settings[context][text]", str(text)
+                        )
+                    context_type = context.get("type")
+                    if context_type is not None:
+                        query_params = query_params.add(
+                            "session_settings[context][type]", str(context_type)
+                        )
+
+                # Handle top-level session settings
+                custom_session_id = maybe_session_settings.get("custom_session_id")
+                if custom_session_id is not None:
+                    query_params = query_params.add(
+                        "session_settings[custom_session_id]", str(custom_session_id)
+                    )
+
+                event_limit = maybe_session_settings.get("event_limit")
+                if event_limit is not None:
+                    query_params = query_params.add(
+                        "session_settings[event_limit]", str(event_limit)
+                    )
+
+                language_model_api_key = maybe_session_settings.get("language_model_api_key")
+                if language_model_api_key is not None:
+                    query_params = query_params.add(
+                        "session_settings[language_model_api_key]", str(language_model_api_key)
+                    )
+
+                system_prompt = maybe_session_settings.get("system_prompt")
+                if system_prompt is not None:
+                    query_params = query_params.add(
+                        "session_settings[system_prompt]", str(system_prompt)
+                    )
+
+                variables = maybe_session_settings.get("variables")
+                if variables is not None:
+                    query_params = query_params.add(
+                        "session_settings[variables]", json.dumps(variables)
+                    )
+
+                voice_id_setting = maybe_session_settings.get("voice_id")
+                if voice_id_setting is not None:
+                    query_params = query_params.add(
+                        "session_settings[voice_id]", str(voice_id_setting)
+                    )
         elif api_key is not None:
             query_params = query_params.add("apiKey", api_key)
 
