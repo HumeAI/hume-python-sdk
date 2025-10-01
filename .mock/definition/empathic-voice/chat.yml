@@ -98,17 +98,111 @@ channel:
         Use the GET `/v0/evi/chat_groups` endpoint to obtain the Chat Group IDs
         of all Chat Groups associated with an API key. This endpoint returns a
         list of all available chat groups.
-    session_settings[audio][channels]: optional<integer>
-    session_settings[audio][encoding]: optional<string>
-    session_settings[audio][sample_rate]: optional<integer>
-    session_settings[context][text]: optional<string>
-    session_settings[context][type]: optional<string>
-    session_settings[custom_session_id]: optional<string>
-    session_settings[event_limit]: optional<integer>
-    session_settings[language_model_api_key]: optional<string>
-    session_settings[system_prompt]: optional<string>
-    session_settings[variables]: optional<string>
-    session_settings[voice_id]: optional<string>
+    session_settings[audio][channels]:
+      type: optional<integer>
+      docs: Sets number of audio channels for audio input.
+    session_settings[audio][encoding]:
+      type: optional<string>
+      docs: Sets encoding format of the audio input, such as `linear16`.
+    session_settings[audio][sample_rate]:
+      type: optional<integer>
+      docs: >-
+        Sets the sample rate for audio input. (Number of samples per second in
+        the audio input, measured in Hertz.)
+    session_settings[context][text]:
+      type: optional<string>
+      docs: >-
+        The context to be injected into the conversation. Helps inform the LLM's
+        response by providing relevant information about the ongoing
+        conversation.
+
+
+        This text will be appended to the end of
+        [user_messages](/reference/speech-to-speech-evi/chat#receive.UserMessage.message.content)
+        based on the chosen persistence level. For example, if you want to
+        remind EVI of its role as a helpful weather assistant, the context you
+        insert will be appended to the end of user messages as `{Context: You
+        are a helpful weather assistant}`.
+    session_settings[context][type]:
+      type: optional<string>
+      docs: >-
+        The persistence level of the injected context. Specifies how long the
+        injected context will remain active in the session.
+
+
+        - **Temporary**: Context that is only applied to the following assistant
+        response.
+
+
+        - **Persistent**: Context that is applied to all subsequent assistant
+        responses for the remainder of the Chat.
+    session_settings[custom_session_id]:
+      type: optional<string>
+      docs: >-
+        Used to manage conversational state, correlate frontend and backend
+        data, and persist conversations across EVI sessions.
+    session_settings[event_limit]:
+      type: optional<integer>
+      docs: >-
+        The maximum number of chat events to return from chat history. By
+        default, the system returns up to 300 events (100 events per page × 3
+        pages). Set this parameter to a smaller value to limit the number of
+        events returned.
+    session_settings[language_model_api_key]:
+      type: optional<string>
+      docs: >-
+        Third party API key for the supplemental language model.
+
+
+        When provided, EVI will use this key instead of Hume's API key for the
+        supplemental LLM. This allows you to bypass rate limits and utilize your
+        own API key as needed.
+    session_settings[system_prompt]:
+      type: optional<string>
+      docs: >-
+        Instructions used to shape EVI's behavior, responses, and style for the
+        session.
+
+
+        When included in a Session Settings message, the provided Prompt
+        overrides the existing one specified in the EVI configuration. If no
+        Prompt was defined in the configuration, this Prompt will be the one
+        used for the session.
+
+
+        You can use the Prompt to define a specific goal or role for EVI,
+        specifying how it should act or what it should focus on during the
+        conversation. For example, EVI can be instructed to act as a customer
+        support representative, a fitness coach, or a travel advisor, each with
+        its own set of behaviors and response styles.
+
+
+        For help writing a system prompt, see our [Prompting
+        Guide](/docs/speech-to-speech-evi/guides/prompting).
+    session_settings[variables]:
+      type: optional<string>
+      docs: >-
+        This field allows you to assign values to dynamic variables referenced
+        in your system prompt.
+
+
+        Each key represents the variable name, and the corresponding value is
+        the specific content you wish to assign to that variable within the
+        session. While the values for variables can be strings, numbers, or
+        booleans, the value will ultimately be converted to a string when
+        injected into your system prompt.
+
+
+        Using this field, you can personalize responses based on
+        session-specific details. For more guidance, see our [guide on using
+        dynamic
+        variables](/docs/speech-to-speech-evi/features/dynamic-variables).
+    session_settings[voice_id]:
+      type: optional<string>
+      docs: >-
+        The name or ID of the voice from the `Voice Library` to be used as the
+        speaker for this EVI session. This will override the speaker set in the
+        selected configuration.
     verbose_transcription:
       type: optional<boolean>
       default: false
