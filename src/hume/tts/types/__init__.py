@@ -27,10 +27,10 @@ from .return_tts import ReturnTts
 from .return_voice import ReturnVoice
 from .snippet import Snippet
 from .snippet_audio_chunk import SnippetAudioChunk
+from .synthesize_json_streaming_response import SynthesizeJsonStreamingResponse
 from .timestamp import Timestamp
 from .timestamp_message import TimestampMessage
 from .timestamp_type import TimestampType
-from .tts_output import TtsOutput
 from .validation_error import ValidationError
 from .validation_error_loc_item import ValidationErrorLocItem
 from .voice_provider import VoiceProvider
@@ -61,10 +61,10 @@ __all__ = [
     "ReturnVoice",
     "Snippet",
     "SnippetAudioChunk",
+    "SynthesizeJsonStreamingResponse",
     "Timestamp",
     "TimestampMessage",
     "TimestampType",
-    "TtsOutput",
     "ValidationError",
     "ValidationErrorLocItem",
     "VoiceProvider",
