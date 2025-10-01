@@ -69,7 +69,30 @@ channel:
       origin: client
       body:
         type: root.PublishTts
+    subscribe:
+      origin: server
+      body: SubscribeEvent
   examples:
     - messages:
         - type: publish
           body: {}
+        - type: subscribe
+          body:
+            generation_id: generation_id
+            request_id: request_id
+            snippet_id: snippet_id
+            timestamp:
+              text: text
+              time:
+                begin: 1
+                end: 1
+              type: word
+            type: timestamp
+types:
+  SubscribeEvent:
+    discriminated: false
+    union:
+      - type: root.TimestampMessage
+      - type: root.SnippetAudioChunk
+    source:
+      openapi: tts-asyncapi.json
