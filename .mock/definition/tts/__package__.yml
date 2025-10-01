@@ -174,7 +174,7 @@ service:
         content-type: application/json
       response-stream:
         docs: Successful Response
-        type: TtsOutput
+        type: SynthesizeJsonStreamingResponse
         format: json
       errors:
         - UnprocessableEntityError
@@ -190,7 +190,7 @@ service:
   source:
     openapi: tts-openapi.json
 types:
-  TtsOutput:
+  SynthesizeJsonStreamingResponse:
     discriminated: false
     union:
       - type: TimestampMessage
