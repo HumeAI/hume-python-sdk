@@ -8,7 +8,6 @@ from .format import Format
 from .octave_version import OctaveVersion
 from .posted_context import PostedContext
 from .posted_utterance import PostedUtterance
-from .timestamp_type import TimestampType
 
 
 class PostedTts(UniversalBaseModel):
@@ -20,11 +19,6 @@ class PostedTts(UniversalBaseModel):
     format: typing.Optional[Format] = pydantic.Field(default=None)
     """
     Specifies the output audio file format.
-    """
-
-    include_timestamp_types: typing.Optional[typing.List[TimestampType]] = pydantic.Field(default=None)
-    """
-    The set of timestamp types to include in the response.
     """
 
     num_generations: typing.Optional[int] = pydantic.Field(default=None)
@@ -55,11 +49,7 @@ class PostedTts(UniversalBaseModel):
     An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
     """
 
-    version: typing.Optional[OctaveVersion] = pydantic.Field(default=None)
-    """
-    The version of the Octave Model to use. 1 for the legacy model, 2 for the new model.
-    """
-
+    version: typing.Optional[OctaveVersion] = None
     instant_mode: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 

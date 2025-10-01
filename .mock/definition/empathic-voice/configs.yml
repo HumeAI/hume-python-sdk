@@ -140,9 +140,7 @@ service:
           properties:
             evi_version:
               type: string
-              docs: >-
-                EVI version to use. Only versions `3` and `4-mini` are
-                supported.
+              docs: EVI version to use. Only version `3` is supported.
             name:
               type: string
               docs: Name applied to all versions of a particular Config.

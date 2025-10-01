@@ -18,8 +18,7 @@ from .types.octave_version import OctaveVersion
 from .types.posted_context import PostedContext
 from .types.posted_utterance import PostedUtterance
 from .types.return_tts import ReturnTts
-from .types.timestamp_type import TimestampType
-from .types.tts_output import TtsOutput
+from .types.snippet_audio_chunk import SnippetAudioChunk
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -35,7 +34,6 @@ class RawTtsClient:
         utterances: typing.Sequence[PostedUtterance],
         context: typing.Optional[PostedContext] = OMIT,
         format: typing.Optional[Format] = OMIT,
-        include_timestamp_types: typing.Optional[typing.Sequence[TimestampType]] = OMIT,
         num_generations: typing.Optional[int] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
@@ -61,9 +59,6 @@ class RawTtsClient:
         format : typing.Optional[Format]
             Specifies the output audio file format.
 
-        include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
-            The set of timestamp types to include in the response.
-
         num_generations : typing.Optional[int]
             Number of generations of the audio to produce.
 
@@ -80,7 +75,6 @@ class RawTtsClient:
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
 
         version : typing.Optional[OctaveVersion]
-            The version of the Octave Model to use. 1 for the legacy model, 2 for the new model.
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
@@ -104,7 +98,6 @@ class RawTtsClient:
                     object_=context, annotation=PostedContext, direction="write"
                 ),
                 "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
-                "include_timestamp_types": include_timestamp_types,
                 "num_generations": num_generations,
                 "split_utterances": split_utterances,
                 "strip_headers": strip_headers,
@@ -153,7 +146,6 @@ class RawTtsClient:
         utterances: typing.Sequence[PostedUtterance],
         context: typing.Optional[PostedContext] = OMIT,
         format: typing.Optional[Format] = OMIT,
-        include_timestamp_types: typing.Optional[typing.Sequence[TimestampType]] = OMIT,
         num_generations: typing.Optional[int] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
@@ -179,9 +171,6 @@ class RawTtsClient:
         format : typing.Optional[Format]
             Specifies the output audio file format.
 
-        include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
-            The set of timestamp types to include in the response.
-
         num_generations : typing.Optional[int]
             Number of generations of the audio to produce.
 
@@ -198,7 +187,6 @@ class RawTtsClient:
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
 
         version : typing.Optional[OctaveVersion]
-            The version of the Octave Model to use. 1 for the legacy model, 2 for the new model.
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
@@ -222,7 +210,6 @@ class RawTtsClient:
                     object_=context, annotation=PostedContext, direction="write"
                 ),
                 "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
-                "include_timestamp_types": include_timestamp_types,
                 "num_generations": num_generations,
                 "split_utterances": split_utterances,
                 "strip_headers": strip_headers,
@@ -274,7 +261,6 @@ class RawTtsClient:
         utterances: typing.Sequence[PostedUtterance],
         context: typing.Optional[PostedContext] = OMIT,
         format: typing.Optional[Format] = OMIT,
-        include_timestamp_types: typing.Optional[typing.Sequence[TimestampType]] = OMIT,
         num_generations: typing.Optional[int] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
@@ -298,9 +284,6 @@ class RawTtsClient:
         format : typing.Optional[Format]
             Specifies the output audio file format.
 
-        include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
-            The set of timestamp types to include in the response.
-
         num_generations : typing.Optional[int]
             Number of generations of the audio to produce.
 
@@ -317,7 +300,6 @@ class RawTtsClient:
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
 
         version : typing.Optional[OctaveVersion]
-            The version of the Octave Model to use. 1 for the legacy model, 2 for the new model.
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
@@ -341,7 +323,6 @@ class RawTtsClient:
                     object_=context, annotation=PostedContext, direction="write"
                 ),
                 "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
-                "include_timestamp_types": include_timestamp_types,
                 "num_generations": num_generations,
                 "split_utterances": split_utterances,
                 "strip_headers": strip_headers,
@@ -393,14 +374,13 @@ class RawTtsClient:
         utterances: typing.Sequence[PostedUtterance],
         context: typing.Optional[PostedContext] = OMIT,
         format: typing.Optional[Format] = OMIT,
-        include_timestamp_types: typing.Optional[typing.Sequence[TimestampType]] = OMIT,
         num_generations: typing.Optional[int] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
         version: typing.Optional[OctaveVersion] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> typing.Iterator[HttpResponse[typing.Iterator[TtsOutput]]]:
+    ) -> typing.Iterator[HttpResponse[typing.Iterator[SnippetAudioChunk]]]:
         """
         Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
 
@@ -419,9 +399,6 @@ class RawTtsClient:
         format : typing.Optional[Format]
             Specifies the output audio file format.
 
-        include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
-            The set of timestamp types to include in the response.
-
         num_generations : typing.Optional[int]
             Number of generations of the audio to produce.
 
@@ -438,7 +415,6 @@ class RawTtsClient:
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
 
         version : typing.Optional[OctaveVersion]
-            The version of the Octave Model to use. 1 for the legacy model, 2 for the new model.
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
@@ -451,7 +427,7 @@ class RawTtsClient:
 
         Yields
         ------
-        typing.Iterator[HttpResponse[typing.Iterator[TtsOutput]]]
+        typing.Iterator[HttpResponse[typing.Iterator[SnippetAudioChunk]]]
             Successful Response
         """
         with self._client_wrapper.httpx_client.stream(
@@ -462,7 +438,6 @@ class RawTtsClient:
                     object_=context, annotation=PostedContext, direction="write"
                 ),
                 "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
-                "include_timestamp_types": include_timestamp_types,
                 "num_generations": num_generations,
                 "split_utterances": split_utterances,
                 "strip_headers": strip_headers,
@@ -479,7 +454,7 @@ class RawTtsClient:
             omit=OMIT,
         ) as _response:
 
-            def _stream() -> HttpResponse[typing.Iterator[TtsOutput]]:
+            def _stream() -> HttpResponse[typing.Iterator[SnippetAudioChunk]]:
                 try:
                     if 200 <= _response.status_code < 300:
 
@@ -489,9 +464,9 @@ class RawTtsClient:
                                     if len(_text) == 0:
                                         continue
                                     yield typing.cast(
-                                        TtsOutput,
+                                        SnippetAudioChunk,
                                         parse_obj_as(
-                                            type_=TtsOutput,  # type: ignore
+                                            type_=SnippetAudioChunk,  # type: ignore
                                             object_=json.loads(_text),
                                         ),
                                     )
@@ -532,7 +507,6 @@ class AsyncRawTtsClient:
         utterances: typing.Sequence[PostedUtterance],
         context: typing.Optional[PostedContext] = OMIT,
         format: typing.Optional[Format] = OMIT,
-        include_timestamp_types: typing.Optional[typing.Sequence[TimestampType]] = OMIT,
         num_generations: typing.Optional[int] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
@@ -558,9 +532,6 @@ class AsyncRawTtsClient:
         format : typing.Optional[Format]
             Specifies the output audio file format.
 
-        include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
-            The set of timestamp types to include in the response.
-
         num_generations : typing.Optional[int]
             Number of generations of the audio to produce.
 
@@ -577,7 +548,6 @@ class AsyncRawTtsClient:
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
 
         version : typing.Optional[OctaveVersion]
-            The version of the Octave Model to use. 1 for the legacy model, 2 for the new model.
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
@@ -601,7 +571,6 @@ class AsyncRawTtsClient:
                     object_=context, annotation=PostedContext, direction="write"
                 ),
                 "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
-                "include_timestamp_types": include_timestamp_types,
                 "num_generations": num_generations,
                 "split_utterances": split_utterances,
                 "strip_headers": strip_headers,
@@ -650,7 +619,6 @@ class AsyncRawTtsClient:
         utterances: typing.Sequence[PostedUtterance],
         context: typing.Optional[PostedContext] = OMIT,
         format: typing.Optional[Format] = OMIT,
-        include_timestamp_types: typing.Optional[typing.Sequence[TimestampType]] = OMIT,
         num_generations: typing.Optional[int] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
@@ -676,9 +644,6 @@ class AsyncRawTtsClient:
         format : typing.Optional[Format]
             Specifies the output audio file format.
 
-        include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
-            The set of timestamp types to include in the response.
-
         num_generations : typing.Optional[int]
             Number of generations of the audio to produce.
 
@@ -695,7 +660,6 @@ class AsyncRawTtsClient:
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
 
         version : typing.Optional[OctaveVersion]
-            The version of the Octave Model to use. 1 for the legacy model, 2 for the new model.
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
@@ -719,7 +683,6 @@ class AsyncRawTtsClient:
                     object_=context, annotation=PostedContext, direction="write"
                 ),
                 "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
-                "include_timestamp_types": include_timestamp_types,
                 "num_generations": num_generations,
                 "split_utterances": split_utterances,
                 "strip_headers": strip_headers,
@@ -772,7 +735,6 @@ class AsyncRawTtsClient:
         utterances: typing.Sequence[PostedUtterance],
         context: typing.Optional[PostedContext] = OMIT,
         format: typing.Optional[Format] = OMIT,
-        include_timestamp_types: typing.Optional[typing.Sequence[TimestampType]] = OMIT,
         num_generations: typing.Optional[int] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
@@ -796,9 +758,6 @@ class AsyncRawTtsClient:
         format : typing.Optional[Format]
             Specifies the output audio file format.
 
-        include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
-            The set of timestamp types to include in the response.
-
         num_generations : typing.Optional[int]
             Number of generations of the audio to produce.
 
@@ -815,7 +774,6 @@ class AsyncRawTtsClient:
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
 
         version : typing.Optional[OctaveVersion]
-            The version of the Octave Model to use. 1 for the legacy model, 2 for the new model.
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
@@ -839,7 +797,6 @@ class AsyncRawTtsClient:
                     object_=context, annotation=PostedContext, direction="write"
                 ),
                 "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
-                "include_timestamp_types": include_timestamp_types,
                 "num_generations": num_generations,
                 "split_utterances": split_utterances,
                 "strip_headers": strip_headers,
@@ -892,14 +849,13 @@ class AsyncRawTtsClient:
         utterances: typing.Sequence[PostedUtterance],
         context: typing.Optional[PostedContext] = OMIT,
         format: typing.Optional[Format] = OMIT,
-        include_timestamp_types: typing.Optional[typing.Sequence[TimestampType]] = OMIT,
         num_generations: typing.Optional[int] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
         version: typing.Optional[OctaveVersion] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[TtsOutput]]]:
+    ) -> typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[SnippetAudioChunk]]]:
         """
         Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
 
@@ -918,9 +874,6 @@ class AsyncRawTtsClient:
         format : typing.Optional[Format]
             Specifies the output audio file format.
 
-        include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
-            The set of timestamp types to include in the response.
-
         num_generations : typing.Optional[int]
             Number of generations of the audio to produce.
 
@@ -937,7 +890,6 @@ class AsyncRawTtsClient:
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
 
         version : typing.Optional[OctaveVersion]
-            The version of the Octave Model to use. 1 for the legacy model, 2 for the new model.
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
@@ -950,7 +902,7 @@ class AsyncRawTtsClient:
 
         Yields
         ------
-        typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[TtsOutput]]]
+        typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[SnippetAudioChunk]]]
             Successful Response
         """
         async with self._client_wrapper.httpx_client.stream(
@@ -961,7 +913,6 @@ class AsyncRawTtsClient:
                     object_=context, annotation=PostedContext, direction="write"
                 ),
                 "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
-                "include_timestamp_types": include_timestamp_types,
                 "num_generations": num_generations,
                 "split_utterances": split_utterances,
                 "strip_headers": strip_headers,
@@ -978,7 +929,7 @@ class AsyncRawTtsClient:
             omit=OMIT,
         ) as _response:
 
-            async def _stream() -> AsyncHttpResponse[typing.AsyncIterator[TtsOutput]]:
+            async def _stream() -> AsyncHttpResponse[typing.AsyncIterator[SnippetAudioChunk]]:
                 try:
                     if 200 <= _response.status_code < 300:
 
@@ -988,9 +939,9 @@ class AsyncRawTtsClient:
                                     if len(_text) == 0:
                                         continue
                                     yield typing.cast(
-                                        TtsOutput,
+                                        SnippetAudioChunk,
                                         parse_obj_as(
-                                            type_=TtsOutput,  # type: ignore
+                                            type_=SnippetAudioChunk,  # type: ignore
                                             object_=json.loads(_text),
                                         ),
                                     )

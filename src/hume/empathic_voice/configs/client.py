@@ -128,7 +128,7 @@ class ConfigsClient:
         Parameters
         ----------
         evi_version : str
-            EVI version to use. Only versions `3` and `4-mini` are supported.
+            EVI version to use. Only version `3` is supported.
 
         name : str
             Name applied to all versions of a particular Config.
@@ -768,7 +768,7 @@ class AsyncConfigsClient:
         Parameters
         ----------
         evi_version : str
-            EVI version to use. Only versions `3` and `4-mini` are supported.
+            EVI version to use. Only version `3` is supported.
 
         name : str
             Name applied to all versions of a particular Config.

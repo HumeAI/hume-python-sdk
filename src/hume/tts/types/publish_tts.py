@@ -12,9 +12,9 @@ class PublishTts(UniversalBaseModel):
     Input message type for the TTS stream.
     """
 
-    close: typing.Optional[bool] = pydantic.Field(default=None)
+    text: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Force the generation of audio and close the stream.
+    The input text to be converted to speech output.
     """
 
     description: typing.Optional[str] = pydantic.Field(default=None)
@@ -22,9 +22,9 @@ class PublishTts(UniversalBaseModel):
     Natural language instructions describing how the text should be spoken by the model (e.g., `"a soft, gentle voice with a strong British accent"`).
     """
 
-    flush: typing.Optional[bool] = pydantic.Field(default=None)
+    voice: typing.Optional[PostedUtteranceVoice] = pydantic.Field(default=None)
     """
-    Force the generation of audio regardless of how much text has been supplied.
+    The name or ID of the voice from the `Voice Library` to be used as the speaker for this and all subsequent utterances, until the `"voice"` field is updated again.
     """
 
     speed: typing.Optional[float] = pydantic.Field(default=None)
@@ -32,19 +32,19 @@ class PublishTts(UniversalBaseModel):
     A relative measure of how fast this utterance should be spoken.
     """
 
-    text: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    The input text to be converted to speech output.
-    """
-
     trailing_silence: typing.Optional[float] = pydantic.Field(default=None)
     """
     Duration of trailing silence (in seconds) to add to this utterance
     """
 
-    voice: typing.Optional[PostedUtteranceVoice] = pydantic.Field(default=None)
+    flush: typing.Optional[bool] = pydantic.Field(default=None)
     """
-    The name or ID of the voice from the `Voice Library` to be used as the speaker for this and all subsequent utterances, until the `"voice"` field is updated again.
+    Force the generation of audio regardless of how much text has been supplied.
+    """
+
+    close: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    Force the generation of audio and close the stream.
     """
 
     if IS_PYDANTIC_V2:
