@@ -18,8 +18,8 @@ from .types.octave_version import OctaveVersion
 from .types.posted_context import PostedContext
 from .types.posted_utterance import PostedUtterance
 from .types.return_tts import ReturnTts
+from .types.synthesize_json_streaming_response import SynthesizeJsonStreamingResponse
 from .types.timestamp_type import TimestampType
-from .types.tts_output import TtsOutput
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -400,7 +400,7 @@ class RawTtsClient:
         version: typing.Optional[OctaveVersion] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> typing.Iterator[HttpResponse[typing.Iterator[TtsOutput]]]:
+    ) -> typing.Iterator[HttpResponse[typing.Iterator[SynthesizeJsonStreamingResponse]]]:
         """
         Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
 
@@ -451,7 +451,7 @@ class RawTtsClient:
 
         Yields
         ------
-        typing.Iterator[HttpResponse[typing.Iterator[TtsOutput]]]
+        typing.Iterator[HttpResponse[typing.Iterator[SynthesizeJsonStreamingResponse]]]
             Successful Response
         """
         with self._client_wrapper.httpx_client.stream(
@@ -479,7 +479,7 @@ class RawTtsClient:
             omit=OMIT,
         ) as _response:
 
-            def _stream() -> HttpResponse[typing.Iterator[TtsOutput]]:
+            def _stream() -> HttpResponse[typing.Iterator[SynthesizeJsonStreamingResponse]]:
                 try:
                     if 200 <= _response.status_code < 300:
 
@@ -489,9 +489,9 @@ class RawTtsClient:
                                     if len(_text) == 0:
                                         continue
                                     yield typing.cast(
-                                        TtsOutput,
+                                        SynthesizeJsonStreamingResponse,
                                         parse_obj_as(
-                                            type_=TtsOutput,  # type: ignore
+                                            type_=SynthesizeJsonStreamingResponse,  # type: ignore
                                             object_=json.loads(_text),
                                         ),
                                     )
@@ -899,7 +899,7 @@ class AsyncRawTtsClient:
         version: typing.Optional[OctaveVersion] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[TtsOutput]]]:
+    ) -> typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[SynthesizeJsonStreamingResponse]]]:
         """
         Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
 
@@ -950,7 +950,7 @@ class AsyncRawTtsClient:
 
         Yields
         ------
-        typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[TtsOutput]]]
+        typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[SynthesizeJsonStreamingResponse]]]
             Successful Response
         """
         async with self._client_wrapper.httpx_client.stream(
@@ -978,7 +978,7 @@ class AsyncRawTtsClient:
             omit=OMIT,
         ) as _response:
 
-            async def _stream() -> AsyncHttpResponse[typing.AsyncIterator[TtsOutput]]:
+            async def _stream() -> AsyncHttpResponse[typing.AsyncIterator[SynthesizeJsonStreamingResponse]]:
                 try:
                     if 200 <= _response.status_code < 300:
 
@@ -988,9 +988,9 @@ class AsyncRawTtsClient:
                                     if len(_text) == 0:
                                         continue
                                     yield typing.cast(
-                                        TtsOutput,
+                                        SynthesizeJsonStreamingResponse,
                                         parse_obj_as(
-                                            type_=TtsOutput,  # type: ignore
+                                            type_=SynthesizeJsonStreamingResponse,  # type: ignore
                                             object_=json.loads(_text),
                                         ),
                                     )

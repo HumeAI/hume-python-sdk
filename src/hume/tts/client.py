@@ -10,8 +10,8 @@ from .types.octave_version import OctaveVersion
 from .types.posted_context import PostedContext
 from .types.posted_utterance import PostedUtterance
 from .types.return_tts import ReturnTts
+from .types.synthesize_json_streaming_response import SynthesizeJsonStreamingResponse
 from .types.timestamp_type import TimestampType
-from .types.tts_output import TtsOutput
 from .voices.client import AsyncVoicesClient, VoicesClient
 
 # this is used as the default value for optional parameters
@@ -357,7 +357,7 @@ class TtsClient:
         version: typing.Optional[OctaveVersion] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> typing.Iterator[TtsOutput]:
+    ) -> typing.Iterator[SynthesizeJsonStreamingResponse]:
         """
         Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
 
@@ -408,7 +408,7 @@ class TtsClient:
 
         Yields
         ------
-        typing.Iterator[TtsOutput]
+        typing.Iterator[SynthesizeJsonStreamingResponse]
             Successful Response
 
         Examples
@@ -813,7 +813,7 @@ class AsyncTtsClient:
         version: typing.Optional[OctaveVersion] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> typing.AsyncIterator[TtsOutput]:
+    ) -> typing.AsyncIterator[SynthesizeJsonStreamingResponse]:
         """
         Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
 
@@ -864,7 +864,7 @@ class AsyncTtsClient:
 
         Yields
         ------
-        typing.AsyncIterator[TtsOutput]
+        typing.AsyncIterator[SynthesizeJsonStreamingResponse]
             Successful Response
 
         Examples
