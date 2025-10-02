@@ -7,7 +7,6 @@ service:
     list-tools:
       path: /v0/evi/tools
       method: GET
-      auth: true
       docs: >-
         Fetches a paginated list of **Tools**.
 
@@ -110,7 +109,6 @@ service:
     create-tool:
       path: /v0/evi/tools
       method: POST
-      auth: true
       docs: >-
         Creates a **Tool** that can be added to an [EVI
         configuration](/reference/speech-to-speech-evi/configs/create-config).
@@ -202,7 +200,6 @@ service:
     list-tool-versions:
       path: /v0/evi/tools/{id}
       method: GET
-      auth: true
       docs: >-
         Fetches a list of a **Tool's** versions.
 
@@ -289,7 +286,6 @@ service:
     create-tool-version:
       path: /v0/evi/tools/{id}
       method: POST
-      auth: true
       docs: >-
         Updates a **Tool** by creating a new version of the **Tool**.
 
@@ -382,7 +378,6 @@ service:
     delete-tool:
       path: /v0/evi/tools/{id}
       method: DELETE
-      auth: true
       docs: >-
         Deletes a **Tool** and its versions.
 
@@ -406,7 +401,6 @@ service:
     update-tool-name:
       path: /v0/evi/tools/{id}
       method: PATCH
-      auth: true
       docs: >-
         Updates the name of a **Tool**.
 
@@ -444,7 +438,6 @@ service:
     get-tool-version:
       path: /v0/evi/tools/{id}/version/{version}
       method: GET
-      auth: true
       docs: >-
         Fetches a specified version of a **Tool**.
 
@@ -508,7 +501,6 @@ service:
     delete-tool-version:
       path: /v0/evi/tools/{id}/version/{version}
       method: DELETE
-      auth: true
       docs: >-
         Deletes a specified version of a **Tool**.
 
@@ -547,7 +539,6 @@ service:
     update-tool-description:
       path: /v0/evi/tools/{id}/version/{version}
       method: PATCH
-      auth: true
       docs: >-
         Updates the description of a specified **Tool** version.
 

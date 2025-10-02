@@ -18,7 +18,6 @@ service:
     synthesize-json:
       path: /v0/tts
       method: POST
-      auth: true
       docs: >-
         Synthesizes one or more input texts into speech using the specified
         voice. If no voice is provided, a novel voice will be generated
@@ -84,7 +83,6 @@ service:
     synthesize-file:
       path: /v0/tts/file
       method: POST
-      auth: true
       docs: >-
         Synthesizes one or more input texts into speech using the specified
         voice. If no voice is provided, a novel voice will be generated
@@ -124,7 +122,6 @@ service:
     synthesize-file-streaming:
       path: /v0/tts/stream/file
       method: POST
-      auth: true
       docs: >-
         Streams synthesized speech using the specified voice. If no voice is
         provided, a novel voice will be generated dynamically. Optionally,
@@ -155,7 +152,6 @@ service:
     synthesize-json-streaming:
       path: /v0/tts/stream/json
       method: POST
-      auth: true
       docs: >-
         Streams synthesized speech using the specified voice. If no voice is
         provided, a novel voice will be generated dynamically. Optionally,
