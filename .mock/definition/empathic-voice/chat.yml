@@ -214,12 +214,6 @@ channel:
         field on a
         [UserMessage](/reference/speech-to-speech-evi/chat#receive.UserMessage)
         denotes whether the message is "interim" or "final."
-    voice_id:
-      type: optional<string>
-      docs: >-
-        The name or ID of the voice from the `Voice Library` to be used as the
-        speaker for this EVI session. This will override the speaker set in the
-        selected configuration.
     api_key:
       type: optional<string>
       default: ''
