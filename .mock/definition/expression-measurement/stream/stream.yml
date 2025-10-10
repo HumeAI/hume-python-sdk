@@ -142,8 +142,7 @@ types:
   StreamModelsEndpointPayload:
     docs: Models endpoint payload
     properties:
-      data:
-        type: optional<string>
+      data: optional<string>
       models:
         type: optional<Config>
         docs: >
