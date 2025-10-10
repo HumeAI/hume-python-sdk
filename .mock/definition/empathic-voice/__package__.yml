@@ -600,8 +600,7 @@ types:
           When provided, EVI will use this key instead of Hume's API key for the
           supplemental LLM. This allows you to bypass rate limits and utilize
           your own API key as needed.
-      metadata:
-        type: optional<map<string, unknown>>
+      metadata: optional<map<string, unknown>>
       system_prompt:
         type: optional<string>
         docs: >-
