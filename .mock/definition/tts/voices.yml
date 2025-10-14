@@ -7,7 +7,6 @@ service:
     list:
       path: /v0/tts/voices
       method: GET
-      auth: true
       docs: >-
         Lists voices you have saved in your account, or voices from the [Voice
         Library](https://platform.hume.ai/tts/voice-library).
@@ -79,7 +78,6 @@ service:
     create:
       path: /v0/tts/voices
       method: POST
-      auth: true
       docs: >-
         Saves a new custom voice to your account using the specified TTS
         generation ID.
@@ -123,7 +121,6 @@ service:
     delete:
       path: /v0/tts/voices
       method: DELETE
-      auth: true
       docs: Deletes a previously generated custom voice.
       source:
         openapi: tts-openapi.json
