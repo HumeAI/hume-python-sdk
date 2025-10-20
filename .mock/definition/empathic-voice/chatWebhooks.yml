@@ -11,6 +11,9 @@ webhooks:
       - payload:
           chat_group_id: chat_group_id
           chat_id: chat_id
+          config_id: null
+          caller_number: null
+          custom_session_id: null
           duration_seconds: 1
           end_reason: ACTIVE
           end_time: 1
@@ -25,6 +28,9 @@ webhooks:
       - payload:
           chat_group_id: chat_group_id
           chat_id: chat_id
+          config_id: null
+          caller_number: null
           chat_start_type: new_chat_group
+          custom_session_id: null
           start_time: 1
     docs: Sent when an EVI chat is started.
