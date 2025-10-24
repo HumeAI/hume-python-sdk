@@ -37,7 +37,8 @@ from .types import (
     VoiceProvider,
 )
 from .errors import BadRequestError, UnprocessableEntityError
-from . import voices
+from . import stream_input, voices
+from .stream_input import SubscribeEvent
 
 __all__ = [
     "AudioEncoding",
@@ -66,6 +67,7 @@ __all__ = [
     "ReturnVoice",
     "Snippet",
     "SnippetAudioChunk",
+    "SubscribeEvent",
     "Timestamp",
     "TimestampMessage",
     "TimestampType",
@@ -74,5 +76,6 @@ __all__ = [
     "ValidationError",
     "ValidationErrorLocItem",
     "VoiceProvider",
+    "stream_input",
     "voices",
 ]

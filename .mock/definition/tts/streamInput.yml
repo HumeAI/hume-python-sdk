@@ -53,7 +53,23 @@ channel:
         concatenated together, will constitute a single audio file. Otherwise,
         if disabled, each chunk's audio will be its own audio file, each with
         its own headers (if applicable).
-    version: root.OctaveVersion
+    version:
+      type: root.OctaveVersion
+      docs: >-
+        Selects the Octave model version used to synthesize speech for this
+        request. If you omit this field, Hume automatically routes the request
+        to the most appropriate model. Setting a specific version ensures stable
+        and repeatable behavior across requests.
+
+
+        Use `2` to opt into the latest Octave capabilities. When you specify
+        version `2`, you must also provide a `voice`. Requests that set
+        `version: 2` without a voice will be rejected.
+
+
+        For a comparison of Octave versions, see the [Octave
+        versions](/docs/text-to-speech-tts/overview#octave-versions) section in
+        the TTS overview.
     api_key:
       type: optional<string>
       default: ''
@@ -69,7 +85,30 @@ channel:
       origin: client
       body:
         type: root.PublishTts
+    subscribe:
+      origin: server
+      body: SubscribeEvent
   examples:
     - messages:
         - type: publish
           body: {}
+        - type: subscribe
+          body:
+            generation_id: generation_id
+            request_id: request_id
+            snippet_id: snippet_id
+            timestamp:
+              text: text
+              time:
+                begin: 1
+                end: 1
+              type: word
+            type: timestamp
+types:
+  SubscribeEvent:
+    discriminated: false
+    union:
+      - type: root.TimestampMessage
+      - type: root.SnippetAudioChunk
+    source:
+      openapi: tts-asyncapi.json
