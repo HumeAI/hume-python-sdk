@@ -67,6 +67,7 @@ class RawPromptsClient:
 
         _response = self._client_wrapper.httpx_client.request(
             "v0/evi/prompts",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
                 "page_number": page_number,
@@ -151,6 +152,7 @@ class RawPromptsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             "v0/evi/prompts",
+            base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
                 "name": name,
@@ -233,6 +235,7 @@ class RawPromptsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/prompts/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
                 "page_number": page_number,
@@ -305,6 +308,7 @@ class RawPromptsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/prompts/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
                 "version_description": version_description,
@@ -364,6 +368,7 @@ class RawPromptsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/prompts/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="DELETE",
             request_options=request_options,
         )
@@ -412,6 +417,7 @@ class RawPromptsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/prompts/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="PATCH",
             json={
                 "name": name,
@@ -471,6 +477,7 @@ class RawPromptsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/prompts/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             request_options=request_options,
         )
@@ -531,6 +538,7 @@ class RawPromptsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/prompts/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="DELETE",
             request_options=request_options,
         )
@@ -591,6 +599,7 @@ class RawPromptsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/prompts/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="PATCH",
             json={
                 "version_description": version_description,
@@ -678,6 +687,7 @@ class AsyncRawPromptsClient:
 
         _response = await self._client_wrapper.httpx_client.request(
             "v0/evi/prompts",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
                 "page_number": page_number,
@@ -765,6 +775,7 @@ class AsyncRawPromptsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             "v0/evi/prompts",
+            base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
                 "name": name,
@@ -847,6 +858,7 @@ class AsyncRawPromptsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/prompts/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
                 "page_number": page_number,
@@ -919,6 +931,7 @@ class AsyncRawPromptsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/prompts/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
                 "version_description": version_description,
@@ -980,6 +993,7 @@ class AsyncRawPromptsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/prompts/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="DELETE",
             request_options=request_options,
         )
@@ -1028,6 +1042,7 @@ class AsyncRawPromptsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/prompts/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="PATCH",
             json={
                 "name": name,
@@ -1087,6 +1102,7 @@ class AsyncRawPromptsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/prompts/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             request_options=request_options,
         )
@@ -1147,6 +1163,7 @@ class AsyncRawPromptsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/prompts/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="DELETE",
             request_options=request_options,
         )
@@ -1207,6 +1224,7 @@ class AsyncRawPromptsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/prompts/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="PATCH",
             json={
                 "version_description": version_description,

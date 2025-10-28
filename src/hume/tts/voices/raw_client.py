@@ -69,6 +69,7 @@ class RawVoicesClient:
 
         _response = self._client_wrapper.httpx_client.request(
             "v0/tts/voices",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
                 "provider": provider,
@@ -141,6 +142,7 @@ class RawVoicesClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             "v0/tts/voices",
+            base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
                 "generation_id": generation_id,
@@ -196,6 +198,7 @@ class RawVoicesClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             "v0/tts/voices",
+            base_url=self._client_wrapper.get_environment().base,
             method="DELETE",
             params={
                 "name": name,
@@ -270,6 +273,7 @@ class AsyncRawVoicesClient:
 
         _response = await self._client_wrapper.httpx_client.request(
             "v0/tts/voices",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
                 "provider": provider,
@@ -345,6 +349,7 @@ class AsyncRawVoicesClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             "v0/tts/voices",
+            base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
                 "generation_id": generation_id,
@@ -402,6 +407,7 @@ class AsyncRawVoicesClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             "v0/tts/voices",
+            base_url=self._client_wrapper.get_environment().base,
             method="DELETE",
             params={
                 "name": name,
