@@ -2,29 +2,76 @@
 
 # isort: skip_file
 
-from .types import (
-    Config,
-    JobDetails,
-    StreamErrorMessage,
-    StreamFace,
-    StreamLanguage,
-    StreamModelPredictions,
-    StreamModelPredictionsBurst,
-    StreamModelPredictionsBurstPredictionsItem,
-    StreamModelPredictionsFace,
-    StreamModelPredictionsFacePredictionsItem,
-    StreamModelPredictionsFacemesh,
-    StreamModelPredictionsFacemeshPredictionsItem,
-    StreamModelPredictionsJobDetails,
-    StreamModelPredictionsLanguage,
-    StreamModelPredictionsLanguagePredictionsItem,
-    StreamModelPredictionsProsody,
-    StreamModelPredictionsProsodyPredictionsItem,
-    StreamModelsEndpointPayload,
-    StreamWarningMessage,
-    StreamWarningMessageJobDetails,
-    SubscribeEvent,
-)
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .types import (
+        Config,
+        JobDetails,
+        StreamErrorMessage,
+        StreamFace,
+        StreamLanguage,
+        StreamModelPredictions,
+        StreamModelPredictionsBurst,
+        StreamModelPredictionsBurstPredictionsItem,
+        StreamModelPredictionsFace,
+        StreamModelPredictionsFacePredictionsItem,
+        StreamModelPredictionsFacemesh,
+        StreamModelPredictionsFacemeshPredictionsItem,
+        StreamModelPredictionsJobDetails,
+        StreamModelPredictionsLanguage,
+        StreamModelPredictionsLanguagePredictionsItem,
+        StreamModelPredictionsProsody,
+        StreamModelPredictionsProsodyPredictionsItem,
+        StreamModelsEndpointPayload,
+        StreamWarningMessage,
+        StreamWarningMessageJobDetails,
+        SubscribeEvent,
+    )
+_dynamic_imports: typing.Dict[str, str] = {
+    "Config": ".types",
+    "JobDetails": ".types",
+    "StreamErrorMessage": ".types",
+    "StreamFace": ".types",
+    "StreamLanguage": ".types",
+    "StreamModelPredictions": ".types",
+    "StreamModelPredictionsBurst": ".types",
+    "StreamModelPredictionsBurstPredictionsItem": ".types",
+    "StreamModelPredictionsFace": ".types",
+    "StreamModelPredictionsFacePredictionsItem": ".types",
+    "StreamModelPredictionsFacemesh": ".types",
+    "StreamModelPredictionsFacemeshPredictionsItem": ".types",
+    "StreamModelPredictionsJobDetails": ".types",
+    "StreamModelPredictionsLanguage": ".types",
+    "StreamModelPredictionsLanguagePredictionsItem": ".types",
+    "StreamModelPredictionsProsody": ".types",
+    "StreamModelPredictionsProsodyPredictionsItem": ".types",
+    "StreamModelsEndpointPayload": ".types",
+    "StreamWarningMessage": ".types",
+    "StreamWarningMessageJobDetails": ".types",
+    "SubscribeEvent": ".types",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        result = getattr(module, attr_name)
+        return result
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "Config",
