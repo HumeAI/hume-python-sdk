@@ -18,7 +18,6 @@ service:
     synthesize-json:
       path: /v0/tts
       method: POST
-      auth: true
       docs: >-
         Synthesizes one or more input texts into speech using the specified
         voice. If no voice is provided, a novel voice will be generated
@@ -84,7 +83,6 @@ service:
     synthesize-file:
       path: /v0/tts/file
       method: POST
-      auth: true
       docs: >-
         Synthesizes one or more input texts into speech using the specified
         voice. If no voice is provided, a novel voice will be generated
@@ -124,7 +122,6 @@ service:
     synthesize-file-streaming:
       path: /v0/tts/stream/file
       method: POST
-      auth: true
       docs: >-
         Streams synthesized speech using the specified voice. If no voice is
         provided, a novel voice will be generated dynamically. Optionally,
@@ -155,7 +152,6 @@ service:
     synthesize-json-streaming:
       path: /v0/tts/stream/json
       method: POST
-      auth: true
       docs: >-
         Streams synthesized speech using the specified voice. If no voice is
         provided, a novel voice will be generated dynamically. Optionally,
@@ -190,13 +186,6 @@ service:
   source:
     openapi: tts-openapi.json
 types:
-  TtsOutput:
-    discriminated: false
-    union:
-      - type: TimestampMessage
-      - type: SnippetAudioChunk
-    source:
-      openapi: tts-openapi.json
   AudioFormatType:
     enum:
       - mp3
@@ -280,8 +269,7 @@ types:
       timestamp:
         type: Timestamp
         docs: A word or phoneme level timestamp for the generated audio.
-      type:
-        type: literal<"timestamp">
+      type: literal<"timestamp">
     source:
       openapi: tts-openapi.json
   SnippetAudioChunk:
@@ -309,8 +297,7 @@ types:
       request_id:
         type: string
         docs: ID of the initiating request.
-      snippet:
-        type: optional<Snippet>
+      snippet: optional<Snippet>
       snippet_id:
         type: string
         docs: The ID of the parent snippet that this chunk corresponds to.
@@ -323,8 +310,7 @@ types:
           The transcribed text of the generated audio of the parent snippet that
           this chunk corresponds to. It is only present if `instant_mode` is set
           to `false`.
-      type:
-        type: literal<"audio">
+      type: literal<"audio">
       utterance_index:
         type: optional<integer>
         docs: >-
@@ -424,6 +410,57 @@ types:
         name: One
       - value: '2'
         name: Two
+    docs: >-
+      Selects the Octave model version used to synthesize speech for this
+      request. If you omit this field, Hume automatically routes the request to
+      the most appropriate model. Setting a specific version ensures stable and
+      repeatable behavior across requests.
+
+
+      Use `2` to opt into the latest Octave capabilities. When you specify
+      version `2`, you must also provide a `voice`. Requests that set `version:
+      2` without a voice will be rejected.
+
+
+      For a comparison of Octave versions, see the [Octave
+      versions](/docs/text-to-speech-tts/overview#octave-versions) section in
+      the TTS overview.
+    source:
+      openapi: tts-openapi.json
+  TtsOutput:
+    discriminated: false
+    union:
+      - type: TimestampMessage
+      - type: SnippetAudioChunk
+    source:
+      openapi: tts-openapi.json
+  Snippet:
+    properties:
+      audio:
+        type: string
+        docs: >-
+          The segmented audio output in the requested format, encoded as a
+          base64 string.
+      generation_id:
+        type: string
+        docs: The generation ID this snippet corresponds to.
+      id:
+        type: string
+        docs: A unique ID associated with this **Snippet**.
+      text:
+        type: string
+        docs: The text for this **Snippet**.
+      timestamps:
+        docs: A list of word or phoneme level timestamps for the generated audio.
+        type: list<Timestamp>
+      transcribed_text:
+        type: optional<string>
+        docs: >-
+          The transcribed text of the generated audio. It is only present if
+          `instant_mode` is set to `false`.
+      utterance_index:
+        type: optional<integer>
+        docs: The index of the utterance in the request this snippet corresponds to.
     source:
       openapi: tts-openapi.json
   PostedContextWithGenerationId:
@@ -584,8 +621,20 @@ types:
       version:
         type: optional<OctaveVersion>
         docs: >-
-          The version of the Octave Model to use. 1 for the legacy model, 2 for
-          the new model.
+          Selects the Octave model version used to synthesize speech for this
+          request. If you omit this field, Hume automatically routes the request
+          to the most appropriate model. Setting a specific version ensures
+          stable and repeatable behavior across requests.
+
+
+          Use `2` to opt into the latest Octave capabilities. When you specify
+          version `2`, you must also provide a `voice`. Requests that set
+          `version: 2` without a voice will be rejected.
+
+
+          For a comparison of Octave versions, see the [Octave
+          versions](/docs/text-to-speech-tts/overview#octave-versions) section
+          in the TTS overview.
       instant_mode:
         type: optional<boolean>
         docs: >-
@@ -644,35 +693,6 @@ types:
   FormatPcm:
     properties:
       type: literal<"pcm">
-    source:
-      openapi: tts-openapi.json
-  Snippet:
-    properties:
-      audio:
-        type: string
-        docs: >-
-          The segmented audio output in the requested format, encoded as a
-          base64 string.
-      generation_id:
-        type: string
-        docs: The generation ID this snippet corresponds to.
-      id:
-        type: string
-        docs: A unique ID associated with this **Snippet**.
-      text:
-        type: string
-        docs: The text for this **Snippet**.
-      timestamps:
-        docs: A list of word or phoneme level timestamps for the generated audio.
-        type: list<Timestamp>
-      transcribed_text:
-        type: optional<string>
-        docs: >-
-          The transcribed text of the generated audio. It is only present if
-          `instant_mode` is set to `false`.
-      utterance_index:
-        type: optional<integer>
-        docs: The index of the utterance in the request this snippet corresponds to.
     source:
       openapi: tts-openapi.json
   PostedUtterance:

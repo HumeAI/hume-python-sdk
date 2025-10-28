@@ -2,117 +2,260 @@
 
 # isort: skip_file
 
-from .assistant_end import AssistantEnd
-from .assistant_input import AssistantInput
-from .assistant_message import AssistantMessage
-from .assistant_prosody import AssistantProsody
-from .audio_configuration import AudioConfiguration
-from .audio_input import AudioInput
-from .audio_output import AudioOutput
-from .built_in_tool import BuiltInTool
-from .builtin_tool_config import BuiltinToolConfig
-from .chat_message import ChatMessage
-from .chat_message_tool_result import ChatMessageToolResult
-from .chat_metadata import ChatMetadata
-from .context import Context
-from .context_type import ContextType
-from .emotion_scores import EmotionScores
-from .encoding import Encoding
-from .error_level import ErrorLevel
-from .error_response import ErrorResponse
-from .http_validation_error import HttpValidationError
-from .inference import Inference
-from .json_message import JsonMessage
-from .language_model_type import LanguageModelType
-from .millisecond_interval import MillisecondInterval
-from .model_provider_enum import ModelProviderEnum
-from .pause_assistant_message import PauseAssistantMessage
-from .posted_builtin_tool import PostedBuiltinTool
-from .posted_builtin_tool_name import PostedBuiltinToolName
-from .posted_config_prompt_spec import PostedConfigPromptSpec
-from .posted_ellm_model import PostedEllmModel
-from .posted_event_message_spec import PostedEventMessageSpec
-from .posted_event_message_specs import PostedEventMessageSpecs
-from .posted_language_model import PostedLanguageModel
-from .posted_nudge_spec import PostedNudgeSpec
-from .posted_timeout_spec import PostedTimeoutSpec
-from .posted_timeout_specs import PostedTimeoutSpecs
-from .posted_timeout_specs_inactivity import PostedTimeoutSpecsInactivity
-from .posted_timeout_specs_max_duration import PostedTimeoutSpecsMaxDuration
-from .posted_user_defined_tool_spec import PostedUserDefinedToolSpec
-from .posted_webhook_event_type import PostedWebhookEventType
-from .posted_webhook_spec import PostedWebhookSpec
-from .prosody_inference import ProsodyInference
-from .resume_assistant_message import ResumeAssistantMessage
-from .return_builtin_tool import ReturnBuiltinTool
-from .return_builtin_tool_tool_type import ReturnBuiltinToolToolType
-from .return_chat import ReturnChat
-from .return_chat_audio_reconstruction import ReturnChatAudioReconstruction
-from .return_chat_audio_reconstruction_status import ReturnChatAudioReconstructionStatus
-from .return_chat_event import ReturnChatEvent
-from .return_chat_event_role import ReturnChatEventRole
-from .return_chat_event_type import ReturnChatEventType
-from .return_chat_group import ReturnChatGroup
-from .return_chat_group_paged_audio_reconstructions import ReturnChatGroupPagedAudioReconstructions
-from .return_chat_group_paged_audio_reconstructions_pagination_direction import (
-    ReturnChatGroupPagedAudioReconstructionsPaginationDirection,
-)
-from .return_chat_group_paged_chats import ReturnChatGroupPagedChats
-from .return_chat_group_paged_chats_pagination_direction import ReturnChatGroupPagedChatsPaginationDirection
-from .return_chat_group_paged_events import ReturnChatGroupPagedEvents
-from .return_chat_group_paged_events_pagination_direction import ReturnChatGroupPagedEventsPaginationDirection
-from .return_chat_paged_events import ReturnChatPagedEvents
-from .return_chat_paged_events_pagination_direction import ReturnChatPagedEventsPaginationDirection
-from .return_chat_paged_events_status import ReturnChatPagedEventsStatus
-from .return_chat_status import ReturnChatStatus
-from .return_config import ReturnConfig
-from .return_config_spec import ReturnConfigSpec
-from .return_ellm_model import ReturnEllmModel
-from .return_event_message_spec import ReturnEventMessageSpec
-from .return_event_message_specs import ReturnEventMessageSpecs
-from .return_language_model import ReturnLanguageModel
-from .return_nudge_spec import ReturnNudgeSpec
-from .return_paged_chat_groups import ReturnPagedChatGroups
-from .return_paged_chat_groups_pagination_direction import ReturnPagedChatGroupsPaginationDirection
-from .return_paged_chats import ReturnPagedChats
-from .return_paged_chats_pagination_direction import ReturnPagedChatsPaginationDirection
-from .return_paged_configs import ReturnPagedConfigs
-from .return_paged_prompts import ReturnPagedPrompts
-from .return_paged_user_defined_tools import ReturnPagedUserDefinedTools
-from .return_prompt import ReturnPrompt
-from .return_prompt_version_type import ReturnPromptVersionType
-from .return_timeout_spec import ReturnTimeoutSpec
-from .return_timeout_specs import ReturnTimeoutSpecs
-from .return_user_defined_tool import ReturnUserDefinedTool
-from .return_user_defined_tool_tool_type import ReturnUserDefinedToolToolType
-from .return_user_defined_tool_version_type import ReturnUserDefinedToolVersionType
-from .return_voice import ReturnVoice
-from .return_webhook_event_type import ReturnWebhookEventType
-from .return_webhook_spec import ReturnWebhookSpec
-from .role import Role
-from .session_settings import SessionSettings
-from .session_settings_variables_value import SessionSettingsVariablesValue
-from .tool import Tool
-from .tool_call_message import ToolCallMessage
-from .tool_error_message import ToolErrorMessage
-from .tool_response_message import ToolResponseMessage
-from .tool_type import ToolType
-from .user_input import UserInput
-from .user_interruption import UserInterruption
-from .user_message import UserMessage
-from .validation_error import ValidationError
-from .validation_error_loc_item import ValidationErrorLocItem
-from .voice_id import VoiceId
-from .voice_name import VoiceName
-from .voice_provider import VoiceProvider
-from .voice_ref import VoiceRef
-from .web_socket_error import WebSocketError
-from .webhook_event import WebhookEvent
-from .webhook_event_base import WebhookEventBase
-from .webhook_event_chat_ended import WebhookEventChatEnded
-from .webhook_event_chat_start_type import WebhookEventChatStartType
-from .webhook_event_chat_started import WebhookEventChatStarted
-from .webhook_event_chat_status import WebhookEventChatStatus
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .assistant_end import AssistantEnd
+    from .assistant_input import AssistantInput
+    from .assistant_message import AssistantMessage
+    from .assistant_prosody import AssistantProsody
+    from .audio_configuration import AudioConfiguration
+    from .audio_input import AudioInput
+    from .audio_output import AudioOutput
+    from .built_in_tool import BuiltInTool
+    from .builtin_tool_config import BuiltinToolConfig
+    from .chat_message import ChatMessage
+    from .chat_message_tool_result import ChatMessageToolResult
+    from .chat_metadata import ChatMetadata
+    from .connect_session_settings import ConnectSessionSettings
+    from .connect_session_settings_audio import ConnectSessionSettingsAudio
+    from .connect_session_settings_context import ConnectSessionSettingsContext
+    from .connect_session_settings_variables_value import ConnectSessionSettingsVariablesValue
+    from .context import Context
+    from .context_type import ContextType
+    from .emotion_scores import EmotionScores
+    from .encoding import Encoding
+    from .error_level import ErrorLevel
+    from .error_response import ErrorResponse
+    from .http_validation_error import HttpValidationError
+    from .inference import Inference
+    from .json_message import JsonMessage
+    from .language_model_type import LanguageModelType
+    from .millisecond_interval import MillisecondInterval
+    from .model_provider_enum import ModelProviderEnum
+    from .pause_assistant_message import PauseAssistantMessage
+    from .posted_builtin_tool import PostedBuiltinTool
+    from .posted_builtin_tool_name import PostedBuiltinToolName
+    from .posted_config_prompt_spec import PostedConfigPromptSpec
+    from .posted_ellm_model import PostedEllmModel
+    from .posted_event_message_spec import PostedEventMessageSpec
+    from .posted_event_message_specs import PostedEventMessageSpecs
+    from .posted_language_model import PostedLanguageModel
+    from .posted_nudge_spec import PostedNudgeSpec
+    from .posted_timeout_spec import PostedTimeoutSpec
+    from .posted_timeout_specs import PostedTimeoutSpecs
+    from .posted_timeout_specs_inactivity import PostedTimeoutSpecsInactivity
+    from .posted_timeout_specs_max_duration import PostedTimeoutSpecsMaxDuration
+    from .posted_user_defined_tool_spec import PostedUserDefinedToolSpec
+    from .posted_webhook_event_type import PostedWebhookEventType
+    from .posted_webhook_spec import PostedWebhookSpec
+    from .prosody_inference import ProsodyInference
+    from .resume_assistant_message import ResumeAssistantMessage
+    from .return_builtin_tool import ReturnBuiltinTool
+    from .return_builtin_tool_tool_type import ReturnBuiltinToolToolType
+    from .return_chat import ReturnChat
+    from .return_chat_audio_reconstruction import ReturnChatAudioReconstruction
+    from .return_chat_audio_reconstruction_status import ReturnChatAudioReconstructionStatus
+    from .return_chat_event import ReturnChatEvent
+    from .return_chat_event_role import ReturnChatEventRole
+    from .return_chat_event_type import ReturnChatEventType
+    from .return_chat_group import ReturnChatGroup
+    from .return_chat_group_paged_audio_reconstructions import ReturnChatGroupPagedAudioReconstructions
+    from .return_chat_group_paged_audio_reconstructions_pagination_direction import (
+        ReturnChatGroupPagedAudioReconstructionsPaginationDirection,
+    )
+    from .return_chat_group_paged_chats import ReturnChatGroupPagedChats
+    from .return_chat_group_paged_chats_pagination_direction import ReturnChatGroupPagedChatsPaginationDirection
+    from .return_chat_group_paged_events import ReturnChatGroupPagedEvents
+    from .return_chat_group_paged_events_pagination_direction import ReturnChatGroupPagedEventsPaginationDirection
+    from .return_chat_paged_events import ReturnChatPagedEvents
+    from .return_chat_paged_events_pagination_direction import ReturnChatPagedEventsPaginationDirection
+    from .return_chat_paged_events_status import ReturnChatPagedEventsStatus
+    from .return_chat_status import ReturnChatStatus
+    from .return_config import ReturnConfig
+    from .return_config_spec import ReturnConfigSpec
+    from .return_ellm_model import ReturnEllmModel
+    from .return_event_message_spec import ReturnEventMessageSpec
+    from .return_event_message_specs import ReturnEventMessageSpecs
+    from .return_language_model import ReturnLanguageModel
+    from .return_nudge_spec import ReturnNudgeSpec
+    from .return_paged_chat_groups import ReturnPagedChatGroups
+    from .return_paged_chat_groups_pagination_direction import ReturnPagedChatGroupsPaginationDirection
+    from .return_paged_chats import ReturnPagedChats
+    from .return_paged_chats_pagination_direction import ReturnPagedChatsPaginationDirection
+    from .return_paged_configs import ReturnPagedConfigs
+    from .return_paged_prompts import ReturnPagedPrompts
+    from .return_paged_user_defined_tools import ReturnPagedUserDefinedTools
+    from .return_prompt import ReturnPrompt
+    from .return_prompt_version_type import ReturnPromptVersionType
+    from .return_timeout_spec import ReturnTimeoutSpec
+    from .return_timeout_specs import ReturnTimeoutSpecs
+    from .return_user_defined_tool import ReturnUserDefinedTool
+    from .return_user_defined_tool_tool_type import ReturnUserDefinedToolToolType
+    from .return_user_defined_tool_version_type import ReturnUserDefinedToolVersionType
+    from .return_voice import ReturnVoice
+    from .return_webhook_event_type import ReturnWebhookEventType
+    from .return_webhook_spec import ReturnWebhookSpec
+    from .role import Role
+    from .session_settings import SessionSettings
+    from .session_settings_variables_value import SessionSettingsVariablesValue
+    from .tool import Tool
+    from .tool_call_message import ToolCallMessage
+    from .tool_error_message import ToolErrorMessage
+    from .tool_response_message import ToolResponseMessage
+    from .tool_type import ToolType
+    from .user_input import UserInput
+    from .user_interruption import UserInterruption
+    from .user_message import UserMessage
+    from .validation_error import ValidationError
+    from .validation_error_loc_item import ValidationErrorLocItem
+    from .voice_id import VoiceId
+    from .voice_name import VoiceName
+    from .voice_provider import VoiceProvider
+    from .voice_ref import VoiceRef
+    from .web_socket_error import WebSocketError
+    from .webhook_event import WebhookEvent
+    from .webhook_event_base import WebhookEventBase
+    from .webhook_event_chat_ended import WebhookEventChatEnded
+    from .webhook_event_chat_start_type import WebhookEventChatStartType
+    from .webhook_event_chat_started import WebhookEventChatStarted
+    from .webhook_event_chat_status import WebhookEventChatStatus
+_dynamic_imports: typing.Dict[str, str] = {
+    "AssistantEnd": ".assistant_end",
+    "AssistantInput": ".assistant_input",
+    "AssistantMessage": ".assistant_message",
+    "AssistantProsody": ".assistant_prosody",
+    "AudioConfiguration": ".audio_configuration",
+    "AudioInput": ".audio_input",
+    "AudioOutput": ".audio_output",
+    "BuiltInTool": ".built_in_tool",
+    "BuiltinToolConfig": ".builtin_tool_config",
+    "ChatMessage": ".chat_message",
+    "ChatMessageToolResult": ".chat_message_tool_result",
+    "ChatMetadata": ".chat_metadata",
+    "ConnectSessionSettings": ".connect_session_settings",
+    "ConnectSessionSettingsAudio": ".connect_session_settings_audio",
+    "ConnectSessionSettingsContext": ".connect_session_settings_context",
+    "ConnectSessionSettingsVariablesValue": ".connect_session_settings_variables_value",
+    "Context": ".context",
+    "ContextType": ".context_type",
+    "EmotionScores": ".emotion_scores",
+    "Encoding": ".encoding",
+    "ErrorLevel": ".error_level",
+    "ErrorResponse": ".error_response",
+    "HttpValidationError": ".http_validation_error",
+    "Inference": ".inference",
+    "JsonMessage": ".json_message",
+    "LanguageModelType": ".language_model_type",
+    "MillisecondInterval": ".millisecond_interval",
+    "ModelProviderEnum": ".model_provider_enum",
+    "PauseAssistantMessage": ".pause_assistant_message",
+    "PostedBuiltinTool": ".posted_builtin_tool",
+    "PostedBuiltinToolName": ".posted_builtin_tool_name",
+    "PostedConfigPromptSpec": ".posted_config_prompt_spec",
+    "PostedEllmModel": ".posted_ellm_model",
+    "PostedEventMessageSpec": ".posted_event_message_spec",
+    "PostedEventMessageSpecs": ".posted_event_message_specs",
+    "PostedLanguageModel": ".posted_language_model",
+    "PostedNudgeSpec": ".posted_nudge_spec",
+    "PostedTimeoutSpec": ".posted_timeout_spec",
+    "PostedTimeoutSpecs": ".posted_timeout_specs",
+    "PostedTimeoutSpecsInactivity": ".posted_timeout_specs_inactivity",
+    "PostedTimeoutSpecsMaxDuration": ".posted_timeout_specs_max_duration",
+    "PostedUserDefinedToolSpec": ".posted_user_defined_tool_spec",
+    "PostedWebhookEventType": ".posted_webhook_event_type",
+    "PostedWebhookSpec": ".posted_webhook_spec",
+    "ProsodyInference": ".prosody_inference",
+    "ResumeAssistantMessage": ".resume_assistant_message",
+    "ReturnBuiltinTool": ".return_builtin_tool",
+    "ReturnBuiltinToolToolType": ".return_builtin_tool_tool_type",
+    "ReturnChat": ".return_chat",
+    "ReturnChatAudioReconstruction": ".return_chat_audio_reconstruction",
+    "ReturnChatAudioReconstructionStatus": ".return_chat_audio_reconstruction_status",
+    "ReturnChatEvent": ".return_chat_event",
+    "ReturnChatEventRole": ".return_chat_event_role",
+    "ReturnChatEventType": ".return_chat_event_type",
+    "ReturnChatGroup": ".return_chat_group",
+    "ReturnChatGroupPagedAudioReconstructions": ".return_chat_group_paged_audio_reconstructions",
+    "ReturnChatGroupPagedAudioReconstructionsPaginationDirection": ".return_chat_group_paged_audio_reconstructions_pagination_direction",
+    "ReturnChatGroupPagedChats": ".return_chat_group_paged_chats",
+    "ReturnChatGroupPagedChatsPaginationDirection": ".return_chat_group_paged_chats_pagination_direction",
+    "ReturnChatGroupPagedEvents": ".return_chat_group_paged_events",
+    "ReturnChatGroupPagedEventsPaginationDirection": ".return_chat_group_paged_events_pagination_direction",
+    "ReturnChatPagedEvents": ".return_chat_paged_events",
+    "ReturnChatPagedEventsPaginationDirection": ".return_chat_paged_events_pagination_direction",
+    "ReturnChatPagedEventsStatus": ".return_chat_paged_events_status",
+    "ReturnChatStatus": ".return_chat_status",
+    "ReturnConfig": ".return_config",
+    "ReturnConfigSpec": ".return_config_spec",
+    "ReturnEllmModel": ".return_ellm_model",
+    "ReturnEventMessageSpec": ".return_event_message_spec",
+    "ReturnEventMessageSpecs": ".return_event_message_specs",
+    "ReturnLanguageModel": ".return_language_model",
+    "ReturnNudgeSpec": ".return_nudge_spec",
+    "ReturnPagedChatGroups": ".return_paged_chat_groups",
+    "ReturnPagedChatGroupsPaginationDirection": ".return_paged_chat_groups_pagination_direction",
+    "ReturnPagedChats": ".return_paged_chats",
+    "ReturnPagedChatsPaginationDirection": ".return_paged_chats_pagination_direction",
+    "ReturnPagedConfigs": ".return_paged_configs",
+    "ReturnPagedPrompts": ".return_paged_prompts",
+    "ReturnPagedUserDefinedTools": ".return_paged_user_defined_tools",
+    "ReturnPrompt": ".return_prompt",
+    "ReturnPromptVersionType": ".return_prompt_version_type",
+    "ReturnTimeoutSpec": ".return_timeout_spec",
+    "ReturnTimeoutSpecs": ".return_timeout_specs",
+    "ReturnUserDefinedTool": ".return_user_defined_tool",
+    "ReturnUserDefinedToolToolType": ".return_user_defined_tool_tool_type",
+    "ReturnUserDefinedToolVersionType": ".return_user_defined_tool_version_type",
+    "ReturnVoice": ".return_voice",
+    "ReturnWebhookEventType": ".return_webhook_event_type",
+    "ReturnWebhookSpec": ".return_webhook_spec",
+    "Role": ".role",
+    "SessionSettings": ".session_settings",
+    "SessionSettingsVariablesValue": ".session_settings_variables_value",
+    "Tool": ".tool",
+    "ToolCallMessage": ".tool_call_message",
+    "ToolErrorMessage": ".tool_error_message",
+    "ToolResponseMessage": ".tool_response_message",
+    "ToolType": ".tool_type",
+    "UserInput": ".user_input",
+    "UserInterruption": ".user_interruption",
+    "UserMessage": ".user_message",
+    "ValidationError": ".validation_error",
+    "ValidationErrorLocItem": ".validation_error_loc_item",
+    "VoiceId": ".voice_id",
+    "VoiceName": ".voice_name",
+    "VoiceProvider": ".voice_provider",
+    "VoiceRef": ".voice_ref",
+    "WebSocketError": ".web_socket_error",
+    "WebhookEvent": ".webhook_event",
+    "WebhookEventBase": ".webhook_event_base",
+    "WebhookEventChatEnded": ".webhook_event_chat_ended",
+    "WebhookEventChatStartType": ".webhook_event_chat_start_type",
+    "WebhookEventChatStarted": ".webhook_event_chat_started",
+    "WebhookEventChatStatus": ".webhook_event_chat_status",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        result = getattr(module, attr_name)
+        return result
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "AssistantEnd",
@@ -127,6 +270,10 @@ __all__ = [
     "ChatMessage",
     "ChatMessageToolResult",
     "ChatMetadata",
+    "ConnectSessionSettings",
+    "ConnectSessionSettingsAudio",
+    "ConnectSessionSettingsContext",
+    "ConnectSessionSettingsVariablesValue",
     "Context",
     "ContextType",
     "EmotionScores",
