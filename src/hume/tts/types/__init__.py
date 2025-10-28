@@ -2,38 +2,96 @@
 
 # isort: skip_file
 
-from .audio_encoding import AudioEncoding
-from .audio_format_type import AudioFormatType
-from .error_response import ErrorResponse
-from .format import Format
-from .format_mp_3 import FormatMp3
-from .format_pcm import FormatPcm
-from .format_wav import FormatWav
-from .http_validation_error import HttpValidationError
-from .millisecond_interval import MillisecondInterval
-from .octave_version import OctaveVersion
-from .posted_context import PostedContext
-from .posted_context_with_generation_id import PostedContextWithGenerationId
-from .posted_context_with_utterances import PostedContextWithUtterances
-from .posted_tts import PostedTts
-from .posted_utterance import PostedUtterance
-from .posted_utterance_voice import PostedUtteranceVoice
-from .posted_utterance_voice_with_id import PostedUtteranceVoiceWithId
-from .posted_utterance_voice_with_name import PostedUtteranceVoiceWithName
-from .publish_tts import PublishTts
-from .return_generation import ReturnGeneration
-from .return_paged_voices import ReturnPagedVoices
-from .return_tts import ReturnTts
-from .return_voice import ReturnVoice
-from .snippet import Snippet
-from .snippet_audio_chunk import SnippetAudioChunk
-from .timestamp import Timestamp
-from .timestamp_message import TimestampMessage
-from .timestamp_type import TimestampType
-from .tts_output import TtsOutput
-from .validation_error import ValidationError
-from .validation_error_loc_item import ValidationErrorLocItem
-from .voice_provider import VoiceProvider
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .audio_encoding import AudioEncoding
+    from .audio_format_type import AudioFormatType
+    from .error_response import ErrorResponse
+    from .format import Format
+    from .format_mp_3 import FormatMp3
+    from .format_pcm import FormatPcm
+    from .format_wav import FormatWav
+    from .http_validation_error import HttpValidationError
+    from .millisecond_interval import MillisecondInterval
+    from .octave_version import OctaveVersion
+    from .posted_context import PostedContext
+    from .posted_context_with_generation_id import PostedContextWithGenerationId
+    from .posted_context_with_utterances import PostedContextWithUtterances
+    from .posted_tts import PostedTts
+    from .posted_utterance import PostedUtterance
+    from .posted_utterance_voice import PostedUtteranceVoice
+    from .posted_utterance_voice_with_id import PostedUtteranceVoiceWithId
+    from .posted_utterance_voice_with_name import PostedUtteranceVoiceWithName
+    from .publish_tts import PublishTts
+    from .return_generation import ReturnGeneration
+    from .return_paged_voices import ReturnPagedVoices
+    from .return_tts import ReturnTts
+    from .return_voice import ReturnVoice
+    from .snippet import Snippet
+    from .snippet_audio_chunk import SnippetAudioChunk
+    from .timestamp import Timestamp
+    from .timestamp_message import TimestampMessage
+    from .timestamp_type import TimestampType
+    from .tts_output import TtsOutput
+    from .validation_error import ValidationError
+    from .validation_error_loc_item import ValidationErrorLocItem
+    from .voice_provider import VoiceProvider
+_dynamic_imports: typing.Dict[str, str] = {
+    "AudioEncoding": ".audio_encoding",
+    "AudioFormatType": ".audio_format_type",
+    "ErrorResponse": ".error_response",
+    "Format": ".format",
+    "FormatMp3": ".format_mp_3",
+    "FormatPcm": ".format_pcm",
+    "FormatWav": ".format_wav",
+    "HttpValidationError": ".http_validation_error",
+    "MillisecondInterval": ".millisecond_interval",
+    "OctaveVersion": ".octave_version",
+    "PostedContext": ".posted_context",
+    "PostedContextWithGenerationId": ".posted_context_with_generation_id",
+    "PostedContextWithUtterances": ".posted_context_with_utterances",
+    "PostedTts": ".posted_tts",
+    "PostedUtterance": ".posted_utterance",
+    "PostedUtteranceVoice": ".posted_utterance_voice",
+    "PostedUtteranceVoiceWithId": ".posted_utterance_voice_with_id",
+    "PostedUtteranceVoiceWithName": ".posted_utterance_voice_with_name",
+    "PublishTts": ".publish_tts",
+    "ReturnGeneration": ".return_generation",
+    "ReturnPagedVoices": ".return_paged_voices",
+    "ReturnTts": ".return_tts",
+    "ReturnVoice": ".return_voice",
+    "Snippet": ".snippet",
+    "SnippetAudioChunk": ".snippet_audio_chunk",
+    "Timestamp": ".timestamp",
+    "TimestampMessage": ".timestamp_message",
+    "TimestampType": ".timestamp_type",
+    "TtsOutput": ".tts_output",
+    "ValidationError": ".validation_error",
+    "ValidationErrorLocItem": ".validation_error_loc_item",
+    "VoiceProvider": ".voice_provider",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        result = getattr(module, attr_name)
+        return result
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "AudioEncoding",

@@ -95,6 +95,7 @@ class RawBatchClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             "v0/batch/jobs",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
                 "limit": limit,
@@ -168,6 +169,7 @@ class RawBatchClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             "v0/batch/jobs",
+            base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
                 "models": convert_and_respect_annotation_metadata(object_=models, annotation=Models, direction="write"),
@@ -222,6 +224,7 @@ class RawBatchClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"v0/batch/jobs/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             request_options=request_options,
         )
@@ -261,6 +264,7 @@ class RawBatchClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"v0/batch/jobs/{jsonable_encoder(id)}/predictions",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             request_options=request_options,
         )
@@ -301,6 +305,7 @@ class RawBatchClient:
         """
         with self._client_wrapper.httpx_client.stream(
             f"v0/batch/jobs/{jsonable_encoder(id)}/artifacts",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             request_options=request_options,
         ) as _response:
@@ -350,6 +355,7 @@ class RawBatchClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             "v0/batch/jobs",
+            base_url=self._client_wrapper.get_environment().base,
             method="POST",
             data={
                 "json": json,
@@ -446,6 +452,7 @@ class AsyncRawBatchClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             "v0/batch/jobs",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
                 "limit": limit,
@@ -519,6 +526,7 @@ class AsyncRawBatchClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             "v0/batch/jobs",
+            base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
                 "models": convert_and_respect_annotation_metadata(object_=models, annotation=Models, direction="write"),
@@ -573,6 +581,7 @@ class AsyncRawBatchClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/batch/jobs/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             request_options=request_options,
         )
@@ -612,6 +621,7 @@ class AsyncRawBatchClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/batch/jobs/{jsonable_encoder(id)}/predictions",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             request_options=request_options,
         )
@@ -652,6 +662,7 @@ class AsyncRawBatchClient:
         """
         async with self._client_wrapper.httpx_client.stream(
             f"v0/batch/jobs/{jsonable_encoder(id)}/artifacts",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             request_options=request_options,
         ) as _response:
@@ -702,6 +713,7 @@ class AsyncRawBatchClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             "v0/batch/jobs",
+            base_url=self._client_wrapper.get_environment().base,
             method="POST",
             data={
                 "json": json,

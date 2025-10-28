@@ -2,135 +2,282 @@
 
 # isort: skip_file
 
-from .alternative import Alternative
-from .bcp_47_tag import Bcp47Tag
-from .bounding_box import BoundingBox
-from .burst_prediction import BurstPrediction
-from .classification import Classification
-from .completed_embedding_generation import CompletedEmbeddingGeneration
-from .completed_inference import CompletedInference
-from .completed_state import CompletedState
-from .completed_tl_inference import CompletedTlInference
-from .completed_training import CompletedTraining
-from .custom_model import CustomModel
-from .custom_model_id import CustomModelId
-from .custom_model_prediction import CustomModelPrediction
-from .custom_model_request import CustomModelRequest
-from .custom_model_version_id import CustomModelVersionId
-from .custom_models_inference_job import CustomModelsInferenceJob
-from .custom_models_training_job import CustomModelsTrainingJob
-from .dataset import Dataset
-from .dataset_id import DatasetId
-from .dataset_version_id import DatasetVersionId
-from .descriptions_score import DescriptionsScore
-from .direction import Direction
-from .embedding_generation_base_request import EmbeddingGenerationBaseRequest
-from .embedding_generation_job import EmbeddingGenerationJob
-from .emotion_score import EmotionScore
-from .error import Error
-from .evaluation_args import EvaluationArgs
-from .face import Face
-from .face_prediction import FacePrediction
-from .facemesh_prediction import FacemeshPrediction
-from .facs_score import FacsScore
-from .failed import Failed
-from .failed_state import FailedState
-from .file import File
-from .granularity import Granularity
-from .grouped_predictions_burst_prediction import GroupedPredictionsBurstPrediction
-from .grouped_predictions_face_prediction import GroupedPredictionsFacePrediction
-from .grouped_predictions_facemesh_prediction import GroupedPredictionsFacemeshPrediction
-from .grouped_predictions_language_prediction import GroupedPredictionsLanguagePrediction
-from .grouped_predictions_ner_prediction import GroupedPredictionsNerPrediction
-from .grouped_predictions_prosody_prediction import GroupedPredictionsProsodyPrediction
-from .in_progress import InProgress
-from .in_progress_state import InProgressState
-from .inference_base_request import InferenceBaseRequest
-from .inference_job import InferenceJob
-from .inference_prediction import InferencePrediction
-from .inference_request import InferenceRequest
-from .inference_results import InferenceResults
-from .inference_source_predict_result import InferenceSourcePredictResult
-from .job_embedding_generation import JobEmbeddingGeneration
-from .job_id import JobId
-from .job_inference import JobInference
-from .job_tl_inference import JobTlInference
-from .job_training import JobTraining
-from .language import Language
-from .language_prediction import LanguagePrediction
-from .models import Models
-from .models_predictions import ModelsPredictions
-from .ner import Ner
-from .ner_prediction import NerPrediction
-from .null import Null
-from .position_interval import PositionInterval
-from .predictions_optional_null_burst_prediction import PredictionsOptionalNullBurstPrediction
-from .predictions_optional_null_face_prediction import PredictionsOptionalNullFacePrediction
-from .predictions_optional_null_facemesh_prediction import PredictionsOptionalNullFacemeshPrediction
-from .predictions_optional_transcription_metadata_language_prediction import (
-    PredictionsOptionalTranscriptionMetadataLanguagePrediction,
-)
-from .predictions_optional_transcription_metadata_ner_prediction import (
-    PredictionsOptionalTranscriptionMetadataNerPrediction,
-)
-from .predictions_optional_transcription_metadata_prosody_prediction import (
-    PredictionsOptionalTranscriptionMetadataProsodyPrediction,
-)
-from .prosody import Prosody
-from .prosody_prediction import ProsodyPrediction
-from .queued import Queued
-from .queued_state import QueuedState
-from .registry_file_detail import RegistryFileDetail
-from .regression import Regression
-from .sentiment_score import SentimentScore
-from .sort_by import SortBy
-from .source import Source
-from .source_file import SourceFile
-from .source_text_source import SourceTextSource
-from .source_url import SourceUrl
-from .state_embedding_generation import StateEmbeddingGeneration
-from .state_embedding_generation_completed_embedding_generation import (
-    StateEmbeddingGenerationCompletedEmbeddingGeneration,
-)
-from .state_embedding_generation_failed import StateEmbeddingGenerationFailed
-from .state_embedding_generation_in_progress import StateEmbeddingGenerationInProgress
-from .state_embedding_generation_queued import StateEmbeddingGenerationQueued
-from .state_inference import StateInference
-from .state_tl_inference import StateTlInference
-from .state_tl_inference_completed_tl_inference import StateTlInferenceCompletedTlInference
-from .state_tl_inference_failed import StateTlInferenceFailed
-from .state_tl_inference_in_progress import StateTlInferenceInProgress
-from .state_tl_inference_queued import StateTlInferenceQueued
-from .state_training import StateTraining
-from .state_training_completed_training import StateTrainingCompletedTraining
-from .state_training_failed import StateTrainingFailed
-from .state_training_in_progress import StateTrainingInProgress
-from .state_training_queued import StateTrainingQueued
-from .status import Status
-from .tag import Tag
-from .target import Target
-from .task import Task
-from .task_classification import TaskClassification
-from .task_regression import TaskRegression
-from .text_source import TextSource
-from .time_interval import TimeInterval
-from .tl_inference_base_request import TlInferenceBaseRequest
-from .tl_inference_prediction import TlInferencePrediction
-from .tl_inference_results import TlInferenceResults
-from .tl_inference_source_predict_result import TlInferenceSourcePredictResult
-from .toxicity_score import ToxicityScore
-from .training_base_request import TrainingBaseRequest
-from .training_custom_model import TrainingCustomModel
-from .transcription import Transcription
-from .transcription_metadata import TranscriptionMetadata
-from .type import Type
-from .unconfigurable import Unconfigurable
-from .union_job import UnionJob
-from .union_predict_result import UnionPredictResult
-from .url import Url
-from .validation_args import ValidationArgs
-from .when import When
-from .window import Window
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .alternative import Alternative
+    from .bcp_47_tag import Bcp47Tag
+    from .bounding_box import BoundingBox
+    from .burst_prediction import BurstPrediction
+    from .classification import Classification
+    from .completed_embedding_generation import CompletedEmbeddingGeneration
+    from .completed_inference import CompletedInference
+    from .completed_state import CompletedState
+    from .completed_tl_inference import CompletedTlInference
+    from .completed_training import CompletedTraining
+    from .custom_model import CustomModel
+    from .custom_model_id import CustomModelId
+    from .custom_model_prediction import CustomModelPrediction
+    from .custom_model_request import CustomModelRequest
+    from .custom_model_version_id import CustomModelVersionId
+    from .custom_models_inference_job import CustomModelsInferenceJob
+    from .custom_models_training_job import CustomModelsTrainingJob
+    from .dataset import Dataset
+    from .dataset_id import DatasetId
+    from .dataset_version_id import DatasetVersionId
+    from .descriptions_score import DescriptionsScore
+    from .direction import Direction
+    from .embedding_generation_base_request import EmbeddingGenerationBaseRequest
+    from .embedding_generation_job import EmbeddingGenerationJob
+    from .emotion_score import EmotionScore
+    from .error import Error
+    from .evaluation_args import EvaluationArgs
+    from .face import Face
+    from .face_prediction import FacePrediction
+    from .facemesh_prediction import FacemeshPrediction
+    from .facs_score import FacsScore
+    from .failed import Failed
+    from .failed_state import FailedState
+    from .file import File
+    from .granularity import Granularity
+    from .grouped_predictions_burst_prediction import GroupedPredictionsBurstPrediction
+    from .grouped_predictions_face_prediction import GroupedPredictionsFacePrediction
+    from .grouped_predictions_facemesh_prediction import GroupedPredictionsFacemeshPrediction
+    from .grouped_predictions_language_prediction import GroupedPredictionsLanguagePrediction
+    from .grouped_predictions_ner_prediction import GroupedPredictionsNerPrediction
+    from .grouped_predictions_prosody_prediction import GroupedPredictionsProsodyPrediction
+    from .in_progress import InProgress
+    from .in_progress_state import InProgressState
+    from .inference_base_request import InferenceBaseRequest
+    from .inference_job import InferenceJob
+    from .inference_prediction import InferencePrediction
+    from .inference_request import InferenceRequest
+    from .inference_results import InferenceResults
+    from .inference_source_predict_result import InferenceSourcePredictResult
+    from .job_embedding_generation import JobEmbeddingGeneration
+    from .job_id import JobId
+    from .job_inference import JobInference
+    from .job_tl_inference import JobTlInference
+    from .job_training import JobTraining
+    from .language import Language
+    from .language_prediction import LanguagePrediction
+    from .models import Models
+    from .models_predictions import ModelsPredictions
+    from .ner import Ner
+    from .ner_prediction import NerPrediction
+    from .null import Null
+    from .position_interval import PositionInterval
+    from .predictions_optional_null_burst_prediction import PredictionsOptionalNullBurstPrediction
+    from .predictions_optional_null_face_prediction import PredictionsOptionalNullFacePrediction
+    from .predictions_optional_null_facemesh_prediction import PredictionsOptionalNullFacemeshPrediction
+    from .predictions_optional_transcription_metadata_language_prediction import (
+        PredictionsOptionalTranscriptionMetadataLanguagePrediction,
+    )
+    from .predictions_optional_transcription_metadata_ner_prediction import (
+        PredictionsOptionalTranscriptionMetadataNerPrediction,
+    )
+    from .predictions_optional_transcription_metadata_prosody_prediction import (
+        PredictionsOptionalTranscriptionMetadataProsodyPrediction,
+    )
+    from .prosody import Prosody
+    from .prosody_prediction import ProsodyPrediction
+    from .queued import Queued
+    from .queued_state import QueuedState
+    from .registry_file_detail import RegistryFileDetail
+    from .regression import Regression
+    from .sentiment_score import SentimentScore
+    from .sort_by import SortBy
+    from .source import Source
+    from .source_file import SourceFile
+    from .source_text_source import SourceTextSource
+    from .source_url import SourceUrl
+    from .state_embedding_generation import StateEmbeddingGeneration
+    from .state_embedding_generation_completed_embedding_generation import (
+        StateEmbeddingGenerationCompletedEmbeddingGeneration,
+    )
+    from .state_embedding_generation_failed import StateEmbeddingGenerationFailed
+    from .state_embedding_generation_in_progress import StateEmbeddingGenerationInProgress
+    from .state_embedding_generation_queued import StateEmbeddingGenerationQueued
+    from .state_inference import StateInference
+    from .state_tl_inference import StateTlInference
+    from .state_tl_inference_completed_tl_inference import StateTlInferenceCompletedTlInference
+    from .state_tl_inference_failed import StateTlInferenceFailed
+    from .state_tl_inference_in_progress import StateTlInferenceInProgress
+    from .state_tl_inference_queued import StateTlInferenceQueued
+    from .state_training import StateTraining
+    from .state_training_completed_training import StateTrainingCompletedTraining
+    from .state_training_failed import StateTrainingFailed
+    from .state_training_in_progress import StateTrainingInProgress
+    from .state_training_queued import StateTrainingQueued
+    from .status import Status
+    from .tag import Tag
+    from .target import Target
+    from .task import Task
+    from .task_classification import TaskClassification
+    from .task_regression import TaskRegression
+    from .text_source import TextSource
+    from .time_interval import TimeInterval
+    from .tl_inference_base_request import TlInferenceBaseRequest
+    from .tl_inference_prediction import TlInferencePrediction
+    from .tl_inference_results import TlInferenceResults
+    from .tl_inference_source_predict_result import TlInferenceSourcePredictResult
+    from .toxicity_score import ToxicityScore
+    from .training_base_request import TrainingBaseRequest
+    from .training_custom_model import TrainingCustomModel
+    from .transcription import Transcription
+    from .transcription_metadata import TranscriptionMetadata
+    from .type import Type
+    from .unconfigurable import Unconfigurable
+    from .union_job import UnionJob
+    from .union_predict_result import UnionPredictResult
+    from .url import Url
+    from .validation_args import ValidationArgs
+    from .when import When
+    from .window import Window
+_dynamic_imports: typing.Dict[str, str] = {
+    "Alternative": ".alternative",
+    "Bcp47Tag": ".bcp_47_tag",
+    "BoundingBox": ".bounding_box",
+    "BurstPrediction": ".burst_prediction",
+    "Classification": ".classification",
+    "CompletedEmbeddingGeneration": ".completed_embedding_generation",
+    "CompletedInference": ".completed_inference",
+    "CompletedState": ".completed_state",
+    "CompletedTlInference": ".completed_tl_inference",
+    "CompletedTraining": ".completed_training",
+    "CustomModel": ".custom_model",
+    "CustomModelId": ".custom_model_id",
+    "CustomModelPrediction": ".custom_model_prediction",
+    "CustomModelRequest": ".custom_model_request",
+    "CustomModelVersionId": ".custom_model_version_id",
+    "CustomModelsInferenceJob": ".custom_models_inference_job",
+    "CustomModelsTrainingJob": ".custom_models_training_job",
+    "Dataset": ".dataset",
+    "DatasetId": ".dataset_id",
+    "DatasetVersionId": ".dataset_version_id",
+    "DescriptionsScore": ".descriptions_score",
+    "Direction": ".direction",
+    "EmbeddingGenerationBaseRequest": ".embedding_generation_base_request",
+    "EmbeddingGenerationJob": ".embedding_generation_job",
+    "EmotionScore": ".emotion_score",
+    "Error": ".error",
+    "EvaluationArgs": ".evaluation_args",
+    "Face": ".face",
+    "FacePrediction": ".face_prediction",
+    "FacemeshPrediction": ".facemesh_prediction",
+    "FacsScore": ".facs_score",
+    "Failed": ".failed",
+    "FailedState": ".failed_state",
+    "File": ".file",
+    "Granularity": ".granularity",
+    "GroupedPredictionsBurstPrediction": ".grouped_predictions_burst_prediction",
+    "GroupedPredictionsFacePrediction": ".grouped_predictions_face_prediction",
+    "GroupedPredictionsFacemeshPrediction": ".grouped_predictions_facemesh_prediction",
+    "GroupedPredictionsLanguagePrediction": ".grouped_predictions_language_prediction",
+    "GroupedPredictionsNerPrediction": ".grouped_predictions_ner_prediction",
+    "GroupedPredictionsProsodyPrediction": ".grouped_predictions_prosody_prediction",
+    "InProgress": ".in_progress",
+    "InProgressState": ".in_progress_state",
+    "InferenceBaseRequest": ".inference_base_request",
+    "InferenceJob": ".inference_job",
+    "InferencePrediction": ".inference_prediction",
+    "InferenceRequest": ".inference_request",
+    "InferenceResults": ".inference_results",
+    "InferenceSourcePredictResult": ".inference_source_predict_result",
+    "JobEmbeddingGeneration": ".job_embedding_generation",
+    "JobId": ".job_id",
+    "JobInference": ".job_inference",
+    "JobTlInference": ".job_tl_inference",
+    "JobTraining": ".job_training",
+    "Language": ".language",
+    "LanguagePrediction": ".language_prediction",
+    "Models": ".models",
+    "ModelsPredictions": ".models_predictions",
+    "Ner": ".ner",
+    "NerPrediction": ".ner_prediction",
+    "Null": ".null",
+    "PositionInterval": ".position_interval",
+    "PredictionsOptionalNullBurstPrediction": ".predictions_optional_null_burst_prediction",
+    "PredictionsOptionalNullFacePrediction": ".predictions_optional_null_face_prediction",
+    "PredictionsOptionalNullFacemeshPrediction": ".predictions_optional_null_facemesh_prediction",
+    "PredictionsOptionalTranscriptionMetadataLanguagePrediction": ".predictions_optional_transcription_metadata_language_prediction",
+    "PredictionsOptionalTranscriptionMetadataNerPrediction": ".predictions_optional_transcription_metadata_ner_prediction",
+    "PredictionsOptionalTranscriptionMetadataProsodyPrediction": ".predictions_optional_transcription_metadata_prosody_prediction",
+    "Prosody": ".prosody",
+    "ProsodyPrediction": ".prosody_prediction",
+    "Queued": ".queued",
+    "QueuedState": ".queued_state",
+    "RegistryFileDetail": ".registry_file_detail",
+    "Regression": ".regression",
+    "SentimentScore": ".sentiment_score",
+    "SortBy": ".sort_by",
+    "Source": ".source",
+    "SourceFile": ".source_file",
+    "SourceTextSource": ".source_text_source",
+    "SourceUrl": ".source_url",
+    "StateEmbeddingGeneration": ".state_embedding_generation",
+    "StateEmbeddingGenerationCompletedEmbeddingGeneration": ".state_embedding_generation_completed_embedding_generation",
+    "StateEmbeddingGenerationFailed": ".state_embedding_generation_failed",
+    "StateEmbeddingGenerationInProgress": ".state_embedding_generation_in_progress",
+    "StateEmbeddingGenerationQueued": ".state_embedding_generation_queued",
+    "StateInference": ".state_inference",
+    "StateTlInference": ".state_tl_inference",
+    "StateTlInferenceCompletedTlInference": ".state_tl_inference_completed_tl_inference",
+    "StateTlInferenceFailed": ".state_tl_inference_failed",
+    "StateTlInferenceInProgress": ".state_tl_inference_in_progress",
+    "StateTlInferenceQueued": ".state_tl_inference_queued",
+    "StateTraining": ".state_training",
+    "StateTrainingCompletedTraining": ".state_training_completed_training",
+    "StateTrainingFailed": ".state_training_failed",
+    "StateTrainingInProgress": ".state_training_in_progress",
+    "StateTrainingQueued": ".state_training_queued",
+    "Status": ".status",
+    "Tag": ".tag",
+    "Target": ".target",
+    "Task": ".task",
+    "TaskClassification": ".task_classification",
+    "TaskRegression": ".task_regression",
+    "TextSource": ".text_source",
+    "TimeInterval": ".time_interval",
+    "TlInferenceBaseRequest": ".tl_inference_base_request",
+    "TlInferencePrediction": ".tl_inference_prediction",
+    "TlInferenceResults": ".tl_inference_results",
+    "TlInferenceSourcePredictResult": ".tl_inference_source_predict_result",
+    "ToxicityScore": ".toxicity_score",
+    "TrainingBaseRequest": ".training_base_request",
+    "TrainingCustomModel": ".training_custom_model",
+    "Transcription": ".transcription",
+    "TranscriptionMetadata": ".transcription_metadata",
+    "Type": ".type",
+    "Unconfigurable": ".unconfigurable",
+    "UnionJob": ".union_job",
+    "UnionPredictResult": ".union_predict_result",
+    "Url": ".url",
+    "ValidationArgs": ".validation_args",
+    "When": ".when",
+    "Window": ".window",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        result = getattr(module, attr_name)
+        return result
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "Alternative",
