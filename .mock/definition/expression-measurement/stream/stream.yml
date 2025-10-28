@@ -1,6 +1,6 @@
 channel:
   path: /models
-  url: prod
+  url: stream
   auth: false
   headers:
     X-Hume-Api-Key:
@@ -142,8 +142,7 @@ types:
   StreamModelsEndpointPayload:
     docs: Models endpoint payload
     properties:
-      data:
-        type: optional<string>
+      data: optional<string>
       models:
         type: optional<Config>
         docs: >

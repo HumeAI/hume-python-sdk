@@ -1,9 +1,15 @@
 name: api
 error-discrimination:
   strategy: status-code
-default-environment: Production
+default-environment: prod
+default-url: Base
 environments:
-  Production: https://api.hume.ai
+  prod:
+    urls:
+      Base: https://api.hume.ai/
+      evi: wss://api.hume.ai/v0/evi
+      tts: wss://api.hume.ai/v0/tts
+      stream: wss://api.hume.ai/v0/stream
 auth: HeaderAuthScheme
 auth-schemes:
   HeaderAuthScheme:
