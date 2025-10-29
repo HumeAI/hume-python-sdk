@@ -12,7 +12,7 @@ from ...core.request_options import RequestOptions
 from ...core.serialization import convert_and_respect_annotation_metadata
 from ..types.connect_session_settings import ConnectSessionSettings
 from .raw_client import AsyncRawChatClient, RawChatClient
-from .socket_client import AsyncChatClientWithWebsocket 
+from .socket_client import AsyncChatSocketClient, ChatSocketClient
 
 try:
     from websockets.legacy.client import connect as websockets_client_connect  # type: ignore
@@ -22,7 +22,143 @@ except ImportError:
 
 class ChatClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
-        raise NotImplementedError("Synchronous client is not supported yet.")
+        self._raw_client = RawChatClient(client_wrapper=client_wrapper)
+
+    @property
+    def with_raw_response(self) -> RawChatClient:
+        """
+        Retrieves a raw implementation of this client that returns raw responses.
+
+        Returns
+        -------
+        RawChatClient
+        """
+        return self._raw_client
+
+    @contextmanager
+    def connect(
+        self,
+        *,
+        access_token: typing.Optional[str] = None,
+        config_id: typing.Optional[str] = None,
+        config_version: typing.Optional[int] = None,
+        event_limit: typing.Optional[int] = None,
+        resumed_chat_group_id: typing.Optional[str] = None,
+        verbose_transcription: typing.Optional[bool] = None,
+        api_key: typing.Optional[str] = None,
+        session_settings: ConnectSessionSettings,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> typing.Iterator[ChatSocketClient]:
+        """
+        Chat with Empathic Voice Interface (EVI)
+
+        Parameters
+        ----------
+        access_token : typing.Optional[str]
+            Access token used for authenticating the client. If not provided, an `api_key` must be provided to authenticate.
+
+            The access token is generated using both an API key and a Secret key, which provides an additional layer of security compared to using just an API key.
+
+            For more details, refer to the [Authentication Strategies Guide](/docs/introduction/api-key#authentication-strategies).
+
+        config_id : typing.Optional[str]
+            The unique identifier for an EVI configuration.
+
+            Include this ID in your connection request to equip EVI with the Prompt, Language Model, Voice, and Tools associated with the specified configuration. If omitted, EVI will apply [default configuration settings](/docs/speech-to-speech-evi/configuration/build-a-configuration#default-configuration).
+
+            For help obtaining this ID, see our [Configuration Guide](/docs/speech-to-speech-evi/configuration).
+
+        config_version : typing.Optional[int]
+            The version number of the EVI configuration specified by the `config_id`.
+
+            Configs, as well as Prompts and Tools, are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+
+            Include this parameter to apply a specific version of an EVI configuration. If omitted, the latest version will be applied.
+
+        event_limit : typing.Optional[int]
+            The maximum number of chat events to return from chat history. By default, the system returns up to 300 events (100 events per page × 3 pages). Set this parameter to a smaller value to limit the number of events returned.
+
+        resumed_chat_group_id : typing.Optional[str]
+            The unique identifier for a Chat Group. Use this field to preserve context from a previous Chat session.
+
+            A Chat represents a single session from opening to closing a WebSocket connection. In contrast, a Chat Group is a series of resumed Chats that collectively represent a single conversation spanning multiple sessions. Each Chat includes a Chat Group ID, which is used to preserve the context of previous Chat sessions when starting a new one.
+
+            Including the Chat Group ID in the `resumed_chat_group_id` query parameter is useful for seamlessly resuming a Chat after unexpected network disconnections and for picking up conversations exactly where you left off at a later time. This ensures preserved context across multiple sessions.
+
+            There are three ways to obtain the Chat Group ID:
+
+            - [Chat Metadata](/reference/speech-to-speech-evi/chat#receive.ChatMetadata): Upon establishing a WebSocket connection with EVI, the user receives a Chat Metadata message. This message contains a `chat_group_id`, which can be used to resume conversations within this chat group in future sessions.
+
+            - [List Chats endpoint](/reference/speech-to-speech-evi/chats/list-chats): Use the GET `/v0/evi/chats` endpoint to obtain the Chat Group ID of individual Chat sessions. This endpoint lists all available Chat sessions and their associated Chat Group ID.
+
+            - [List Chat Groups endpoint](/reference/speech-to-speech-evi/chat-groups/list-chat-groups): Use the GET `/v0/evi/chat_groups` endpoint to obtain the Chat Group IDs of all Chat Groups associated with an API key. This endpoint returns a list of all available chat groups.
+
+        verbose_transcription : typing.Optional[bool]
+            A flag to enable verbose transcription. Set this query parameter to `true` to have unfinalized user transcripts be sent to the client as interim UserMessage messages. The [interim](/reference/speech-to-speech-evi/chat#receive.UserMessage.interim) field on a [UserMessage](/reference/speech-to-speech-evi/chat#receive.UserMessage) denotes whether the message is "interim" or "final."
+
+        api_key : typing.Optional[str]
+            API key used for authenticating the client. If not provided, an `access_token` must be provided to authenticate.
+
+            For more details, refer to the [Authentication Strategies Guide](/docs/introduction/api-key#authentication-strategies).
+
+        session_settings : ConnectSessionSettings
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ChatSocketClient
+        """
+        ws_url = self._raw_client._client_wrapper.get_environment().evi + "/chat"
+        query_params = httpx.QueryParams()
+        if access_token is not None:
+            query_params = query_params.add("access_token", access_token)
+        if config_id is not None:
+            query_params = query_params.add("config_id", config_id)
+        if config_version is not None:
+            query_params = query_params.add("config_version", config_version)
+        if event_limit is not None:
+            query_params = query_params.add("event_limit", event_limit)
+        if resumed_chat_group_id is not None:
+            query_params = query_params.add("resumed_chat_group_id", resumed_chat_group_id)
+        if verbose_transcription is not None:
+            query_params = query_params.add("verbose_transcription", verbose_transcription)
+        if api_key is not None:
+            query_params = query_params.add("api_key", api_key)
+        if (
+            convert_and_respect_annotation_metadata(
+                object_=session_settings, annotation=ConnectSessionSettings, direction="write"
+            )
+            is not None
+        ):
+            query_params = query_params.add(
+                "session_settings",
+                convert_and_respect_annotation_metadata(
+                    object_=session_settings, annotation=ConnectSessionSettings, direction="write"
+                ),
+            )
+        ws_url = ws_url + f"?{query_params}"
+        headers = self._raw_client._client_wrapper.get_headers()
+        if request_options and "additional_headers" in request_options:
+            headers.update(request_options["additional_headers"])
+        try:
+            with websockets_sync_client.connect(ws_url, additional_headers=headers) as protocol:
+                yield ChatSocketClient(websocket=protocol)
+        except websockets.exceptions.InvalidStatusCode as exc:
+            status_code: int = exc.status_code
+            if status_code == 401:
+                raise ApiError(
+                    status_code=status_code,
+                    headers=dict(headers),
+                    body="Websocket initialized with invalid credentials.",
+                )
+            raise ApiError(
+                status_code=status_code,
+                headers=dict(headers),
+                body="Unexpected error when initializing websocket connection.",
+            )
+
 
 class AsyncChatClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -52,7 +188,7 @@ class AsyncChatClient:
         api_key: typing.Optional[str] = None,
         session_settings: ConnectSessionSettings,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> typing.AsyncIterator[AsyncChatClientWithWebsocket]:
+    ) -> typing.AsyncIterator[AsyncChatSocketClient]:
         """
         Chat with Empathic Voice Interface (EVI)
 
@@ -148,7 +284,7 @@ class AsyncChatClient:
             headers.update(request_options["additional_headers"])
         try:
             async with websockets_client_connect(ws_url, extra_headers=headers) as protocol:
-                yield AsyncChatClientWithWebsocket(client_wrapper=self._raw_client._client_wrapper)
+                yield AsyncChatSocketClient(websocket=protocol)
         except websockets.exceptions.InvalidStatusCode as exc:
             status_code: int = exc.status_code
             if status_code == 401:
