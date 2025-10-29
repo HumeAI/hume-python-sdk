@@ -28,7 +28,7 @@ class HumeClient(BaseHumeClient):
 
 
 
-        Defaults to HumeClientEnvironment.PRODUCTION
+        Defaults to HumeClientEnvironment.PROD
 
 
 
@@ -54,15 +54,17 @@ class HumeClient(BaseHumeClient):
     def __init__(
         self,
         *,
-        base_url: typing.Optional[str] = None,
-        environment: HumeClientEnvironment = HumeClientEnvironment.PRODUCTION,
+        # TODO: this was removed by the generator?
+        # base_url: typing.Optional[str] = None,
+        environment: HumeClientEnvironment = HumeClientEnvironment.PROD,
         api_key: typing.Optional[str] = None,
         timeout: typing.Optional[float] = None,
         follow_redirects: typing.Optional[bool] = True,
         httpx_client: typing.Optional[httpx.Client] = None
     ):
         super().__init__(
-            base_url=base_url,
+            # TODO: this was removed by the generator?
+            # base_url=base_url,
             environment=environment,
             api_key=api_key,
             timeout=timeout,
@@ -88,7 +90,7 @@ class AsyncHumeClient(AsyncBaseHumeClient):
         The base url to use for requests from the client.
     environment : HumeClientEnvironment
         The environment to use for requests from the client. from .environment import HumeClientEnvironment
-        Defaults to HumeClientEnvironment.PRODUCTION
+        Defaults to HumeClientEnvironment.PROD
     api_key : typing.Optional[str]
     timeout : typing.Optional[float]
         The timeout to be used, in seconds, for requests by default the timeout is 60 seconds, unless a custom httpx client is used, in which case a default is not set.
@@ -107,15 +109,17 @@ class AsyncHumeClient(AsyncBaseHumeClient):
     def __init__(
         self,
         *,
-        base_url: typing.Optional[str] = None,
-        environment: HumeClientEnvironment = HumeClientEnvironment.PRODUCTION,
+        # TODO: this was removed by the generator?
+        # base_url: typing.Optional[str] = None,
+        environment: HumeClientEnvironment = HumeClientEnvironment.PROD,
         api_key: typing.Optional[str] = None,
         timeout: typing.Optional[float] = None,
         follow_redirects: typing.Optional[bool] = True,
         httpx_client: typing.Optional[httpx.AsyncClient] = None
     ):
         super().__init__(
-            base_url=base_url,
+            # TODO: this was removed by the generator?
+            # base_url=base_url,
             environment=environment,
             api_key=api_key,
             timeout=timeout,
