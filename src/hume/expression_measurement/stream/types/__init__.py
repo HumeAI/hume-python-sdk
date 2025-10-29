@@ -2,15 +2,50 @@
 
 # isort: skip_file
 
-from .emotion_embedding import EmotionEmbedding
-from .emotion_embedding_item import EmotionEmbeddingItem
-from .sentiment import Sentiment
-from .sentiment_item import SentimentItem
-from .stream_bounding_box import StreamBoundingBox
-from .text_position import TextPosition
-from .time_range import TimeRange
-from .toxicity import Toxicity
-from .toxicity_item import ToxicityItem
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .emotion_embedding import EmotionEmbedding
+    from .emotion_embedding_item import EmotionEmbeddingItem
+    from .sentiment import Sentiment
+    from .sentiment_item import SentimentItem
+    from .stream_bounding_box import StreamBoundingBox
+    from .text_position import TextPosition
+    from .time_range import TimeRange
+    from .toxicity import Toxicity
+    from .toxicity_item import ToxicityItem
+_dynamic_imports: typing.Dict[str, str] = {
+    "EmotionEmbedding": ".emotion_embedding",
+    "EmotionEmbeddingItem": ".emotion_embedding_item",
+    "Sentiment": ".sentiment",
+    "SentimentItem": ".sentiment_item",
+    "StreamBoundingBox": ".stream_bounding_box",
+    "TextPosition": ".text_position",
+    "TimeRange": ".time_range",
+    "Toxicity": ".toxicity",
+    "ToxicityItem": ".toxicity_item",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        result = getattr(module, attr_name)
+        return result
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "EmotionEmbedding",

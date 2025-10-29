@@ -2,41 +2,98 @@
 
 # isort: skip_file
 
-from .types import (
-    EmotionEmbedding,
-    EmotionEmbeddingItem,
-    Sentiment,
-    SentimentItem,
-    StreamBoundingBox,
-    TextPosition,
-    TimeRange,
-    Toxicity,
-    ToxicityItem,
-)
-from . import stream
-from .stream import (
-    Config,
-    JobDetails,
-    StreamErrorMessage,
-    StreamFace,
-    StreamLanguage,
-    StreamModelPredictions,
-    StreamModelPredictionsBurst,
-    StreamModelPredictionsBurstPredictionsItem,
-    StreamModelPredictionsFace,
-    StreamModelPredictionsFacePredictionsItem,
-    StreamModelPredictionsFacemesh,
-    StreamModelPredictionsFacemeshPredictionsItem,
-    StreamModelPredictionsJobDetails,
-    StreamModelPredictionsLanguage,
-    StreamModelPredictionsLanguagePredictionsItem,
-    StreamModelPredictionsProsody,
-    StreamModelPredictionsProsodyPredictionsItem,
-    StreamModelsEndpointPayload,
-    StreamWarningMessage,
-    StreamWarningMessageJobDetails,
-    SubscribeEvent,
-)
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .types import (
+        EmotionEmbedding,
+        EmotionEmbeddingItem,
+        Sentiment,
+        SentimentItem,
+        StreamBoundingBox,
+        TextPosition,
+        TimeRange,
+        Toxicity,
+        ToxicityItem,
+    )
+    from . import stream
+    from .stream import (
+        Config,
+        JobDetails,
+        StreamErrorMessage,
+        StreamFace,
+        StreamLanguage,
+        StreamModelPredictions,
+        StreamModelPredictionsBurst,
+        StreamModelPredictionsBurstPredictionsItem,
+        StreamModelPredictionsFace,
+        StreamModelPredictionsFacePredictionsItem,
+        StreamModelPredictionsFacemesh,
+        StreamModelPredictionsFacemeshPredictionsItem,
+        StreamModelPredictionsJobDetails,
+        StreamModelPredictionsLanguage,
+        StreamModelPredictionsLanguagePredictionsItem,
+        StreamModelPredictionsProsody,
+        StreamModelPredictionsProsodyPredictionsItem,
+        StreamModelsEndpointPayload,
+        StreamWarningMessage,
+        StreamWarningMessageJobDetails,
+        SubscribeEvent,
+    )
+_dynamic_imports: typing.Dict[str, str] = {
+    "Config": ".stream",
+    "EmotionEmbedding": ".types",
+    "EmotionEmbeddingItem": ".types",
+    "JobDetails": ".stream",
+    "Sentiment": ".types",
+    "SentimentItem": ".types",
+    "StreamBoundingBox": ".types",
+    "StreamErrorMessage": ".stream",
+    "StreamFace": ".stream",
+    "StreamLanguage": ".stream",
+    "StreamModelPredictions": ".stream",
+    "StreamModelPredictionsBurst": ".stream",
+    "StreamModelPredictionsBurstPredictionsItem": ".stream",
+    "StreamModelPredictionsFace": ".stream",
+    "StreamModelPredictionsFacePredictionsItem": ".stream",
+    "StreamModelPredictionsFacemesh": ".stream",
+    "StreamModelPredictionsFacemeshPredictionsItem": ".stream",
+    "StreamModelPredictionsJobDetails": ".stream",
+    "StreamModelPredictionsLanguage": ".stream",
+    "StreamModelPredictionsLanguagePredictionsItem": ".stream",
+    "StreamModelPredictionsProsody": ".stream",
+    "StreamModelPredictionsProsodyPredictionsItem": ".stream",
+    "StreamModelsEndpointPayload": ".stream",
+    "StreamWarningMessage": ".stream",
+    "StreamWarningMessageJobDetails": ".stream",
+    "SubscribeEvent": ".stream",
+    "TextPosition": ".types",
+    "TimeRange": ".types",
+    "Toxicity": ".types",
+    "ToxicityItem": ".types",
+    "stream": ".",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        result = getattr(module, attr_name)
+        return result
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "Config",

@@ -2,27 +2,74 @@
 
 # isort: skip_file
 
-from .config import Config
-from .job_details import JobDetails
-from .stream_error_message import StreamErrorMessage
-from .stream_face import StreamFace
-from .stream_language import StreamLanguage
-from .stream_model_predictions import StreamModelPredictions
-from .stream_model_predictions_burst import StreamModelPredictionsBurst
-from .stream_model_predictions_burst_predictions_item import StreamModelPredictionsBurstPredictionsItem
-from .stream_model_predictions_face import StreamModelPredictionsFace
-from .stream_model_predictions_face_predictions_item import StreamModelPredictionsFacePredictionsItem
-from .stream_model_predictions_facemesh import StreamModelPredictionsFacemesh
-from .stream_model_predictions_facemesh_predictions_item import StreamModelPredictionsFacemeshPredictionsItem
-from .stream_model_predictions_job_details import StreamModelPredictionsJobDetails
-from .stream_model_predictions_language import StreamModelPredictionsLanguage
-from .stream_model_predictions_language_predictions_item import StreamModelPredictionsLanguagePredictionsItem
-from .stream_model_predictions_prosody import StreamModelPredictionsProsody
-from .stream_model_predictions_prosody_predictions_item import StreamModelPredictionsProsodyPredictionsItem
-from .stream_models_endpoint_payload import StreamModelsEndpointPayload
-from .stream_warning_message import StreamWarningMessage
-from .stream_warning_message_job_details import StreamWarningMessageJobDetails
-from .subscribe_event import SubscribeEvent
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .config import Config
+    from .job_details import JobDetails
+    from .stream_error_message import StreamErrorMessage
+    from .stream_face import StreamFace
+    from .stream_language import StreamLanguage
+    from .stream_model_predictions import StreamModelPredictions
+    from .stream_model_predictions_burst import StreamModelPredictionsBurst
+    from .stream_model_predictions_burst_predictions_item import StreamModelPredictionsBurstPredictionsItem
+    from .stream_model_predictions_face import StreamModelPredictionsFace
+    from .stream_model_predictions_face_predictions_item import StreamModelPredictionsFacePredictionsItem
+    from .stream_model_predictions_facemesh import StreamModelPredictionsFacemesh
+    from .stream_model_predictions_facemesh_predictions_item import StreamModelPredictionsFacemeshPredictionsItem
+    from .stream_model_predictions_job_details import StreamModelPredictionsJobDetails
+    from .stream_model_predictions_language import StreamModelPredictionsLanguage
+    from .stream_model_predictions_language_predictions_item import StreamModelPredictionsLanguagePredictionsItem
+    from .stream_model_predictions_prosody import StreamModelPredictionsProsody
+    from .stream_model_predictions_prosody_predictions_item import StreamModelPredictionsProsodyPredictionsItem
+    from .stream_models_endpoint_payload import StreamModelsEndpointPayload
+    from .stream_warning_message import StreamWarningMessage
+    from .stream_warning_message_job_details import StreamWarningMessageJobDetails
+    from .subscribe_event import SubscribeEvent
+_dynamic_imports: typing.Dict[str, str] = {
+    "Config": ".config",
+    "JobDetails": ".job_details",
+    "StreamErrorMessage": ".stream_error_message",
+    "StreamFace": ".stream_face",
+    "StreamLanguage": ".stream_language",
+    "StreamModelPredictions": ".stream_model_predictions",
+    "StreamModelPredictionsBurst": ".stream_model_predictions_burst",
+    "StreamModelPredictionsBurstPredictionsItem": ".stream_model_predictions_burst_predictions_item",
+    "StreamModelPredictionsFace": ".stream_model_predictions_face",
+    "StreamModelPredictionsFacePredictionsItem": ".stream_model_predictions_face_predictions_item",
+    "StreamModelPredictionsFacemesh": ".stream_model_predictions_facemesh",
+    "StreamModelPredictionsFacemeshPredictionsItem": ".stream_model_predictions_facemesh_predictions_item",
+    "StreamModelPredictionsJobDetails": ".stream_model_predictions_job_details",
+    "StreamModelPredictionsLanguage": ".stream_model_predictions_language",
+    "StreamModelPredictionsLanguagePredictionsItem": ".stream_model_predictions_language_predictions_item",
+    "StreamModelPredictionsProsody": ".stream_model_predictions_prosody",
+    "StreamModelPredictionsProsodyPredictionsItem": ".stream_model_predictions_prosody_predictions_item",
+    "StreamModelsEndpointPayload": ".stream_models_endpoint_payload",
+    "StreamWarningMessage": ".stream_warning_message",
+    "StreamWarningMessageJobDetails": ".stream_warning_message_job_details",
+    "SubscribeEvent": ".subscribe_event",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        result = getattr(module, attr_name)
+        return result
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "Config",

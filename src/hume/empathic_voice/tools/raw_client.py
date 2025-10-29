@@ -67,6 +67,7 @@ class RawToolsClient:
 
         _response = self._client_wrapper.httpx_client.request(
             "v0/evi/tools",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
                 "page_number": page_number,
@@ -157,6 +158,7 @@ class RawToolsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             "v0/evi/tools",
+            base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
                 "name": name,
@@ -243,6 +245,7 @@ class RawToolsClient:
 
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/tools/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
                 "page_number": page_number,
@@ -332,6 +335,7 @@ class RawToolsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/tools/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
                 "version_description": version_description,
@@ -393,6 +397,7 @@ class RawToolsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/tools/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="DELETE",
             request_options=request_options,
         )
@@ -441,6 +446,7 @@ class RawToolsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/tools/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="PATCH",
             json={
                 "name": name,
@@ -500,6 +506,7 @@ class RawToolsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/tools/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             request_options=request_options,
         )
@@ -560,6 +567,7 @@ class RawToolsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/tools/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="DELETE",
             request_options=request_options,
         )
@@ -620,6 +628,7 @@ class RawToolsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/tools/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="PATCH",
             json={
                 "version_description": version_description,
@@ -707,6 +716,7 @@ class AsyncRawToolsClient:
 
         _response = await self._client_wrapper.httpx_client.request(
             "v0/evi/tools",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
                 "page_number": page_number,
@@ -800,6 +810,7 @@ class AsyncRawToolsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             "v0/evi/tools",
+            base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
                 "name": name,
@@ -886,6 +897,7 @@ class AsyncRawToolsClient:
 
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/tools/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
                 "page_number": page_number,
@@ -978,6 +990,7 @@ class AsyncRawToolsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/tools/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
                 "version_description": version_description,
@@ -1041,6 +1054,7 @@ class AsyncRawToolsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/tools/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="DELETE",
             request_options=request_options,
         )
@@ -1089,6 +1103,7 @@ class AsyncRawToolsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/tools/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="PATCH",
             json={
                 "name": name,
@@ -1148,6 +1163,7 @@ class AsyncRawToolsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/tools/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             request_options=request_options,
         )
@@ -1208,6 +1224,7 @@ class AsyncRawToolsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/tools/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="DELETE",
             request_options=request_options,
         )
@@ -1268,6 +1285,7 @@ class AsyncRawToolsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/tools/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="PATCH",
             json={
                 "version_description": version_description,

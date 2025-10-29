@@ -10,6 +10,11 @@ import websockets
 import websockets.protocol
 from json.decoder import JSONDecodeError
 
+try:
+    from websockets.legacy.client import connect as websockets_client_connect  # type: ignore
+except ImportError:
+    from websockets import connect as websockets_client_connect  # type: ignore
+
 from hume.core.websocket import (
     OnErrorHandlerType,
     OnMessageHandlerType,
@@ -32,6 +37,8 @@ from ...core.pydantic_utilities import parse_obj_as
 from ...core.client_wrapper import AsyncClientWrapper
 from ...core.api_error import ApiError
 
+def exclude_auth_headers(headers: typing.Dict[str, str]) -> typing.Dict[str, str]:
+    return {k: v for k, v in headers.items() if k != 'X-Hume-Api-Key'}
 
 
 class ChatConnectSessionSettingsAudio(typing.TypedDict, total=False):
@@ -344,7 +351,7 @@ class AsyncChatClientWithWebsocket:
         elif api_key is not None:
             query_params = query_params.add("apiKey", api_key)
 
-        base = self.client_wrapper.get_base_url().replace('https://', 'wss://').replace('http://', 'ws://')
+        base = self.client_wrapper.get_environment().base.replace('https://', 'wss://').replace('http://', 'ws://')
         return f"{base}/v0/evi/chat?{query_params}"
 
     @asynccontextmanager
@@ -354,9 +361,9 @@ class AsyncChatClientWithWebsocket:
         ws_uri = await self._construct_ws_uri(options)
 
         try:
-            async with websockets.connect(
+            async with websockets_client_connect(
                 ws_uri,
-                extra_headers=self.client_wrapper.get_headers(include_auth=False),
+                extra_headers=exclude_auth_headers(self.client_wrapper.get_headers()),
                 max_size=self.DEFAULT_MAX_PAYLOAD_SIZE_BYTES,
             ) as protocol:
                 yield ChatWebsocketConnection(websocket=protocol)
@@ -446,9 +453,9 @@ class AsyncChatClientWithWebsocket:
         background_task: typing.Optional[asyncio.Task[None]] = None
 
         try:
-            async with websockets.connect(
+            async with websockets_client_connect(
                 ws_uri,
-                extra_headers=self.client_wrapper.get_headers(include_auth=False),
+                extra_headers=exclude_auth_headers(self.client_wrapper.get_headers()),
                 max_size=self.DEFAULT_MAX_PAYLOAD_SIZE_BYTES,
             ) as protocol:
                 await self._wrap_on_open_close(on_open)
@@ -492,7 +499,7 @@ class AsyncChatClientWithWebsocket:
         encoded_auth = base64.b64encode(auth.encode()).decode()
         _response = await self.client_wrapper.httpx_client.request(
             method="POST",
-            base_url=self.client_wrapper.get_base_url(),
+            base_url=self.client_wrapper.get_environment().base,
             path="oauth2-cc/token",
             headers={"Authorization": f"Basic {encoded_auth}"},
             data={"grant_type": "client_credentials"},

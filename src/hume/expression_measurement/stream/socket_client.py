@@ -9,6 +9,11 @@ import uuid
 import websockets
 import websockets.protocol
 
+try:
+    from websockets.legacy.client import connect as websockets_client_connect  # type: ignore
+except ImportError:
+    from websockets import connect as websockets_client_connect  # type: ignore
+
 from hume.core.api_error import ApiError
 
 from .stream.types.config import Config
@@ -16,6 +21,9 @@ from .stream.types.subscribe_event import SubscribeEvent
 from ...core.pydantic_utilities import parse_obj_as
 from ...core.client_wrapper import AsyncClientWrapper
 
+
+def exclude_auth_headers(headers: typing.Dict[str, str]) -> typing.Dict[str, str]:
+    return {k: v for k, v in headers.items() if k != 'X-Hume-Api-Key'}
 
 class StreamConnectOptions(typing.TypedDict, total=False):
     api_key: typing.Optional[str]
@@ -211,12 +219,12 @@ class AsyncStreamClientWithWebsocket:
         if api_key is None:
             raise ValueError("An API key is required to connect to the streaming API.")
 
-        base = self.client_wrapper.get_base_url().replace('https://', 'wss://').replace('http://', 'ws://')
+        base = self.client_wrapper.get_environment().base.replace('https://', 'wss://').replace('http://', 'ws://')
         try:
-            async with websockets.connect(  # type: ignore[attr-defined]
+            async with websockets_client_connect(
                 f"{base}/v0/stream/models",
                 extra_headers={
-                    **self.client_wrapper.get_headers(include_auth=False),
+                    **exclude_auth_headers(self.client_wrapper.get_headers()),
                     "X-Hume-Api-Key": api_key,
                 },
             ) as protocol:

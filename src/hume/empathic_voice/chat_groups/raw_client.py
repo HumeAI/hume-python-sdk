@@ -68,6 +68,7 @@ class RawChatGroupsClient:
 
         _response = self._client_wrapper.httpx_client.request(
             "v0/evi/chat_groups",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
                 "page_number": page_number,
@@ -154,6 +155,7 @@ class RawChatGroupsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/chat_groups/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
                 "page_size": page_size,
@@ -230,6 +232,7 @@ class RawChatGroupsClient:
 
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/chat_groups/{jsonable_encoder(id)}/events",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
                 "page_size": page_size,
@@ -315,6 +318,7 @@ class RawChatGroupsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/chat_groups/{jsonable_encoder(id)}/audio",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
                 "page_number": page_number,
@@ -398,6 +402,7 @@ class AsyncRawChatGroupsClient:
 
         _response = await self._client_wrapper.httpx_client.request(
             "v0/evi/chat_groups",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
                 "page_number": page_number,
@@ -487,6 +492,7 @@ class AsyncRawChatGroupsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/chat_groups/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
                 "page_size": page_size,
@@ -563,6 +569,7 @@ class AsyncRawChatGroupsClient:
 
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/chat_groups/{jsonable_encoder(id)}/events",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
                 "page_size": page_size,
@@ -651,6 +658,7 @@ class AsyncRawChatGroupsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/chat_groups/{jsonable_encoder(id)}/audio",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
                 "page_number": page_number,

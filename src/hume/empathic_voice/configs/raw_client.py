@@ -78,6 +78,7 @@ class RawConfigsClient:
 
         _response = self._client_wrapper.httpx_client.request(
             "v0/evi/configs",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
                 "page_number": page_number,
@@ -199,6 +200,7 @@ class RawConfigsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             "v0/evi/configs",
+            base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
                 "evi_version": evi_version,
@@ -313,6 +315,7 @@ class RawConfigsClient:
 
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/configs/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
                 "page_number": page_number,
@@ -432,6 +435,7 @@ class RawConfigsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/configs/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
                 "evi_version": evi_version,
@@ -521,6 +525,7 @@ class RawConfigsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/configs/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="DELETE",
             request_options=request_options,
         )
@@ -569,6 +574,7 @@ class RawConfigsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/configs/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="PATCH",
             json={
                 "name": name,
@@ -628,6 +634,7 @@ class RawConfigsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/configs/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             request_options=request_options,
         )
@@ -686,6 +693,7 @@ class RawConfigsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/configs/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="DELETE",
             request_options=request_options,
         )
@@ -746,6 +754,7 @@ class RawConfigsClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"v0/evi/configs/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="PATCH",
             json={
                 "version_description": version_description,
@@ -831,6 +840,7 @@ class AsyncRawConfigsClient:
 
         _response = await self._client_wrapper.httpx_client.request(
             "v0/evi/configs",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
                 "page_number": page_number,
@@ -955,6 +965,7 @@ class AsyncRawConfigsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             "v0/evi/configs",
+            base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
                 "evi_version": evi_version,
@@ -1069,6 +1080,7 @@ class AsyncRawConfigsClient:
 
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/configs/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
                 "page_number": page_number,
@@ -1191,6 +1203,7 @@ class AsyncRawConfigsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/configs/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
                 "evi_version": evi_version,
@@ -1282,6 +1295,7 @@ class AsyncRawConfigsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/configs/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="DELETE",
             request_options=request_options,
         )
@@ -1330,6 +1344,7 @@ class AsyncRawConfigsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/configs/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="PATCH",
             json={
                 "name": name,
@@ -1389,6 +1404,7 @@ class AsyncRawConfigsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/configs/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="GET",
             request_options=request_options,
         )
@@ -1447,6 +1463,7 @@ class AsyncRawConfigsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/configs/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="DELETE",
             request_options=request_options,
         )
@@ -1507,6 +1524,7 @@ class AsyncRawConfigsClient:
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"v0/evi/configs/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+            base_url=self._client_wrapper.get_environment().base,
             method="PATCH",
             json={
                 "version_description": version_description,

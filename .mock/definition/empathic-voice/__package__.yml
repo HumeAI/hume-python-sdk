@@ -600,8 +600,7 @@ types:
           When provided, EVI will use this key instead of Hume's API key for the
           supplemental LLM. This allows you to bypass rate limits and utilize
           your own API key as needed.
-      metadata:
-        type: optional<map<string, unknown>>
+      metadata: optional<map<string, unknown>>
       system_prompt:
         type: optional<string>
         docs: >-
@@ -1001,6 +1000,69 @@ types:
       - type: ToolCallMessage
       - type: ToolResponseMessage
       - type: ToolErrorMessage
+    source:
+      openapi: evi-asyncapi.json
+  ConnectSessionSettingsAudio:
+    properties:
+      channels:
+        type: optional<integer>
+      encoding:
+        type: optional<string>
+      sample_rate:
+        type: optional<integer>
+    source:
+      openapi: evi-asyncapi.json
+    inline: true
+  ConnectSessionSettingsContext:
+    properties:
+      text:
+        type: optional<string>
+      type:
+        type: optional<string>
+    source:
+      openapi: evi-asyncapi.json
+    inline: true
+  ConnectSessionSettingsVariablesValue:
+    discriminated: false
+    union:
+      - string
+      - double
+      - boolean
+    source:
+      openapi: evi-asyncapi.json
+    inline: true
+  ConnectSessionSettings:
+    properties:
+      audio: optional<ConnectSessionSettingsAudio>
+      context: optional<ConnectSessionSettingsContext>
+      custom_session_id:
+        type: optional<string>
+      event_limit:
+        type: optional<integer>
+      language_model_api_key:
+        type: optional<string>
+      system_prompt:
+        type: optional<string>
+      variables:
+        type: optional<map<string, ConnectSessionSettingsVariablesValue>>
+        docs: >-
+          This field allows you to assign values to dynamic variables referenced
+          in your system prompt.
+
+
+          Each key represents the variable name, and the corresponding value is
+          the specific content you wish to assign to that variable within the
+          session. While the values for variables can be strings, numbers, or
+          booleans, the value will ultimately be converted to a string when
+          injected into your system prompt.
+
+
+          Using this field, you can personalize responses based on
+          session-specific details. For more guidance, see our [guide on using
+          dynamic
+          variables](/docs/speech-to-speech-evi/features/dynamic-variables).
+      voice_id:
+        type: optional<string>
     source:
       openapi: evi-asyncapi.json
   HTTPValidationError:

@@ -2,7 +2,7 @@ imports:
   root: __package__.yml
 channel:
   path: /stream/input
-  url: prod
+  url: tts
   auth: false
   docs: Generate emotionally expressive speech.
   query-parameters:
@@ -27,7 +27,9 @@ channel:
         The ID of a prior TTS generation to use as context for generating
         consistent speech style and prosody across multiple requests. Including
         context may increase audio generation times.
-    format_type: root.AudioFormatType
+    format_type:
+      type: optional<root.AudioFormatType>
+      docs: The format to be used for audio generation.
     include_timestamp_types:
       type: optional<root.TimestampType>
       allow-multiple: true
@@ -53,7 +55,11 @@ channel:
         concatenated together, will constitute a single audio file. Otherwise,
         if disabled, each chunk's audio will be its own audio file, each with
         its own headers (if applicable).
-    version: root.OctaveVersion
+    version:
+      type: optional<root.OctaveVersion>
+      docs: >-
+        The version of the Octave Model to use. 1 for the legacy model, 2 for
+        the new model.
     api_key:
       type: optional<string>
       default: ''
@@ -69,7 +75,22 @@ channel:
       origin: client
       body:
         type: root.PublishTts
+    subscribe:
+      origin: server
+      body:
+        type: root.TtsOutput
   examples:
     - messages:
         - type: publish
           body: {}
+        - type: subscribe
+          body:
+            audio: audio
+            audio_format: mp3
+            chunk_index: 1
+            generation_id: generation_id
+            is_last_chunk: true
+            request_id: request_id
+            snippet_id: snippet_id
+            text: text
+            type: audio
