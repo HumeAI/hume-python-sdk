@@ -32,6 +32,8 @@ from ...core.pydantic_utilities import parse_obj_as
 from ...core.client_wrapper import AsyncClientWrapper
 from ...core.api_error import ApiError
 
+def exclude_auth_headers(headers: typing.Dict[str, str]) -> typing.Dict[str, str]:
+    return {k: v for k, v in headers.items() if k != 'X-Hume-Api-Key'}
 
 
 class ChatConnectSessionSettingsAudio(typing.TypedDict, total=False):
@@ -356,7 +358,7 @@ class AsyncChatClientWithWebsocket:
         try:
             async with websockets.connect(
                 ws_uri,
-                extra_headers=self.client_wrapper.get_headers(include_auth=False),
+                extra_headers=exclude_auth_headers(self.client_wrapper.get_headers()),
                 max_size=self.DEFAULT_MAX_PAYLOAD_SIZE_BYTES,
             ) as protocol:
                 yield ChatWebsocketConnection(websocket=protocol)
@@ -448,7 +450,7 @@ class AsyncChatClientWithWebsocket:
         try:
             async with websockets.connect(
                 ws_uri,
-                extra_headers=self.client_wrapper.get_headers(include_auth=False),
+                extra_headers=exclude_auth_headers(self.client_wrapper.get_headers()),
                 max_size=self.DEFAULT_MAX_PAYLOAD_SIZE_BYTES,
             ) as protocol:
                 await self._wrap_on_open_close(on_open)
