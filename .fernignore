@@ -25,6 +25,13 @@ src/hume/empathic_voice/chat/audio/audio_utilities.py
 src/hume/empathic_voice/chat/audio/asyncio_utilities.py
 src/hume/empathic_voice/chat/audio/chat_client.py
 
+# Needs overrides to be compatible with socket_client.py
+src/hume/empathic_voice/chat/client.py
+src/hume/empathic_voice/chat/raw_client.py
+
+# TODO: For some reason stream_input is not present on the tts client
+src/hume/tts/client.py
+
 # Customize the GitHub workflow to run only Fern tests (not legacy)
 
 .github/workflows/ci.yml
