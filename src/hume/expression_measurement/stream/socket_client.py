@@ -9,6 +9,11 @@ import uuid
 import websockets
 import websockets.protocol
 
+try:
+    from websockets.legacy.client import connect as websockets_client_connect  # type: ignore
+except ImportError:
+    from websockets import connect as websockets_client_connect  # type: ignore
+
 from hume.core.api_error import ApiError
 
 from .stream.types.config import Config
@@ -216,7 +221,7 @@ class AsyncStreamClientWithWebsocket:
 
         base = self.client_wrapper.get_environment().base.replace('https://', 'wss://').replace('http://', 'ws://')
         try:
-            async with websockets.connect(  # type: ignore[attr-defined]
+            async with websockets_client_connect(
                 f"{base}/v0/stream/models",
                 extra_headers={
                     **exclude_auth_headers(self.client_wrapper.get_headers()),

@@ -10,6 +10,11 @@ import websockets
 import websockets.protocol
 from json.decoder import JSONDecodeError
 
+try:
+    from websockets.legacy.client import connect as websockets_client_connect  # type: ignore
+except ImportError:
+    from websockets import connect as websockets_client_connect  # type: ignore
+
 from hume.core.websocket import (
     OnErrorHandlerType,
     OnMessageHandlerType,
@@ -356,7 +361,7 @@ class AsyncChatClientWithWebsocket:
         ws_uri = await self._construct_ws_uri(options)
 
         try:
-            async with websockets.connect(
+            async with websockets_client_connect(
                 ws_uri,
                 extra_headers=exclude_auth_headers(self.client_wrapper.get_headers()),
                 max_size=self.DEFAULT_MAX_PAYLOAD_SIZE_BYTES,
@@ -448,7 +453,7 @@ class AsyncChatClientWithWebsocket:
         background_task: typing.Optional[asyncio.Task[None]] = None
 
         try:
-            async with websockets.connect(
+            async with websockets_client_connect(
                 ws_uri,
                 extra_headers=exclude_auth_headers(self.client_wrapper.get_headers()),
                 max_size=self.DEFAULT_MAX_PAYLOAD_SIZE_BYTES,
