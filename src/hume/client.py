@@ -126,11 +126,12 @@ class AsyncHumeClient(AsyncBaseHumeClient):
             follow_redirects=follow_redirects,
             httpx_client=httpx_client,
         )
-        self.empathic_voice: AsyncEmpathicVoiceClientWithWebsocket = (
+        self._empathic_voice: AsyncEmpathicVoiceClientWithWebsocket = (
             AsyncEmpathicVoiceClientWithWebsocket(client_wrapper=self._client_wrapper)
-        )
-        self.expression_measurement: AsyncExpressionMeasurementClientWithWebsocket = (
+        )  #  noqa
+        self._expression_measurement: AsyncExpressionMeasurementClientWithWebsocket = (
             AsyncExpressionMeasurementClientWithWebsocket(
                 client_wrapper=self._client_wrapper
             )
-        )
+        )  #  noqa
+
