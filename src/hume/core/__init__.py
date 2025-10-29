@@ -9,6 +9,7 @@ if typing.TYPE_CHECKING:
     from .api_error import ApiError
     from .client_wrapper import AsyncClientWrapper, BaseClientWrapper, SyncClientWrapper
     from .datetime_utils import serialize_datetime
+    from .events import EventEmitterMixin, EventType
     from .file import File, convert_file_dict_to_httpx_tuples, with_content_type
     from .http_client import AsyncHttpClient, HttpClient
     from .http_response import AsyncHttpResponse, HttpResponse
@@ -34,6 +35,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "AsyncHttpResponse": ".http_response",
     "AsyncPager": ".pagination",
     "BaseClientWrapper": ".client_wrapper",
+    "EventEmitterMixin": ".events",
+    "EventType": ".events",
     "FieldMetadata": ".serialization",
     "File": ".file",
     "HttpClient": ".http_client",
@@ -84,6 +87,8 @@ __all__ = [
     "AsyncHttpResponse",
     "AsyncPager",
     "BaseClientWrapper",
+    "EventEmitterMixin",
+    "EventType",
     "FieldMetadata",
     "File",
     "HttpClient",
