@@ -1,950 +1,4 @@
 # Reference
-## Tts
-<details><summary><code>client.tts.<a href="src/hume/tts/client.py">synthesize_json</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Synthesizes one or more input texts into speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
-
-The response includes the base64-encoded audio and metadata in JSON format.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-from hume.tts import FormatMp3, PostedContextWithUtterances, PostedUtterance
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.tts.synthesize_json(
-    context=PostedContextWithUtterances(
-        utterances=[
-            PostedUtterance(
-                text="How can people see beauty so differently?",
-                description="A curious student with a clear and respectful tone, seeking clarification on Hume's ideas with a straightforward question.",
-            )
-        ],
-    ),
-    format=FormatMp3(),
-    num_generations=1,
-    utterances=[
-        PostedUtterance(
-            text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
-            description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm, steady tone with an articulate, academic quality.",
-        )
-    ],
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**utterances:** `typing.Sequence[PostedUtterance]` 
-
-A list of **Utterances** to be converted to speech output.
-
-An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**context:** `typing.Optional[PostedContext]` — Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**format:** `typing.Optional[Format]` — Specifies the output audio file format.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**include_timestamp_types:** `typing.Optional[typing.Sequence[TimestampType]]` — The set of timestamp types to include in the response.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**num_generations:** `typing.Optional[int]` — Number of generations of the audio to produce.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**split_utterances:** `typing.Optional[bool]` 
-
-Controls how audio output is segmented in the response.
-
-- When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.
-
-- When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets. 
-
-This setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**strip_headers:** `typing.Optional[bool]` — If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**version:** `typing.Optional[OctaveVersion]` 
-
-Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
-
-Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
-
-For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**instant_mode:** `typing.Optional[bool]` 
-
-Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
-- A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
-- Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
-- Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.tts.<a href="src/hume/tts/client.py">synthesize_file</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Synthesizes one or more input texts into speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody. 
-
-The response contains the generated audio file in the requested format.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-from hume.tts import FormatMp3, PostedContextWithGenerationId, PostedUtterance
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.tts.synthesize_file(
-    context=PostedContextWithGenerationId(
-        generation_id="09ad914d-8e7f-40f8-a279-e34f07f7dab2",
-    ),
-    format=FormatMp3(),
-    num_generations=1,
-    utterances=[
-        PostedUtterance(
-            text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
-            description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm, steady tone with an articulate, academic quality.",
-        )
-    ],
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**utterances:** `typing.Sequence[PostedUtterance]` 
-
-A list of **Utterances** to be converted to speech output.
-
-An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**context:** `typing.Optional[PostedContext]` — Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**format:** `typing.Optional[Format]` — Specifies the output audio file format.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**include_timestamp_types:** `typing.Optional[typing.Sequence[TimestampType]]` — The set of timestamp types to include in the response.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**num_generations:** `typing.Optional[int]` — Number of generations of the audio to produce.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**split_utterances:** `typing.Optional[bool]` 
-
-Controls how audio output is segmented in the response.
-
-- When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.
-
-- When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets. 
-
-This setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**strip_headers:** `typing.Optional[bool]` — If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**version:** `typing.Optional[OctaveVersion]` 
-
-Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
-
-Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
-
-For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**instant_mode:** `typing.Optional[bool]` 
-
-Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
-- A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
-- Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
-- Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.tts.<a href="src/hume/tts/client.py">synthesize_file_streaming</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-from hume.tts import PostedUtterance, PostedUtteranceVoiceWithName
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.tts.synthesize_file_streaming(
-    utterances=[
-        PostedUtterance(
-            text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
-            voice=PostedUtteranceVoiceWithName(
-                name="Male English Actor",
-                provider="HUME_AI",
-            ),
-        )
-    ],
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**utterances:** `typing.Sequence[PostedUtterance]` 
-
-A list of **Utterances** to be converted to speech output.
-
-An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**context:** `typing.Optional[PostedContext]` — Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**format:** `typing.Optional[Format]` — Specifies the output audio file format.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**include_timestamp_types:** `typing.Optional[typing.Sequence[TimestampType]]` — The set of timestamp types to include in the response.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**num_generations:** `typing.Optional[int]` — Number of generations of the audio to produce.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**split_utterances:** `typing.Optional[bool]` 
-
-Controls how audio output is segmented in the response.
-
-- When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.
-
-- When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets. 
-
-This setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**strip_headers:** `typing.Optional[bool]` — If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**version:** `typing.Optional[OctaveVersion]` 
-
-Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
-
-Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
-
-For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**instant_mode:** `typing.Optional[bool]` 
-
-Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
-- A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
-- Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
-- Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.tts.<a href="src/hume/tts/client.py">synthesize_json_streaming</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody. 
-
-The response is a stream of JSON objects including audio encoded in base64.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-from hume.tts import PostedUtterance, PostedUtteranceVoiceWithName
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-response = client.tts.synthesize_json_streaming(
-    utterances=[
-        PostedUtterance(
-            text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
-            voice=PostedUtteranceVoiceWithName(
-                name="Male English Actor",
-                provider="HUME_AI",
-            ),
-        )
-    ],
-)
-for chunk in response.data:
-    yield chunk
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**utterances:** `typing.Sequence[PostedUtterance]` 
-
-A list of **Utterances** to be converted to speech output.
-
-An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**context:** `typing.Optional[PostedContext]` — Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**format:** `typing.Optional[Format]` — Specifies the output audio file format.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**include_timestamp_types:** `typing.Optional[typing.Sequence[TimestampType]]` — The set of timestamp types to include in the response.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**num_generations:** `typing.Optional[int]` — Number of generations of the audio to produce.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**split_utterances:** `typing.Optional[bool]` 
-
-Controls how audio output is segmented in the response.
-
-- When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.
-
-- When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets. 
-
-This setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**strip_headers:** `typing.Optional[bool]` — If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**version:** `typing.Optional[OctaveVersion]` 
-
-Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
-
-Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
-
-For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**instant_mode:** `typing.Optional[bool]` 
-
-Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
-- A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
-- Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
-- Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-## Tts Voices
-<details><summary><code>client.tts.voices.<a href="src/hume/tts/voices/client.py">list</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Lists voices you have saved in your account, or voices from the [Voice Library](https://platform.hume.ai/tts/voice-library).
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-response = client.tts.voices.list(
-    provider="CUSTOM_VOICE",
-)
-for item in response:
-    yield item
-# alternatively, you can paginate page-by-page
-for page in response.iter_pages():
-    yield page
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**provider:** `VoiceProvider` 
-
-Specify the voice provider to filter voices returned by the endpoint:
-
-- **`HUME_AI`**: Lists preset, shared voices from Hume's [Voice Library](https://platform.hume.ai/tts/voice-library).
-- **`CUSTOM_VOICE`**: Lists custom voices created and saved to your account.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**page_number:** `typing.Optional[int]` 
-
-Specifies the page number to retrieve, enabling pagination.
-
-This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**page_size:** `typing.Optional[int]` 
-
-Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
-
-For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**ascending_order:** `typing.Optional[bool]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.tts.voices.<a href="src/hume/tts/voices/client.py">create</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Saves a new custom voice to your account using the specified TTS generation ID.
-
-Once saved, this voice can be reused in subsequent TTS requests, ensuring consistent speech style and prosody. For more details on voice creation, see the [Voices Guide](/docs/text-to-speech-tts/voices).
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.tts.voices.create(
-    generation_id="795c949a-1510-4a80-9646-7d0863b023ab",
-    name="David Hume",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**generation_id:** `str` — A unique ID associated with this TTS generation that can be used as context for generating consistent speech style and prosody across multiple requests.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**name:** `str` — Name of the voice in the `Voice Library`.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.tts.voices.<a href="src/hume/tts/voices/client.py">delete</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Deletes a previously generated custom voice.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.tts.voices.delete(
-    name="David Hume",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**name:** `str` — Name of the voice to delete
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
 ## EmpathicVoice Tools
 <details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">list_tools</a>(...)</code></summary>
 <dl>
@@ -4417,6 +3471,952 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dd>
 
 **ascending_order:** `typing.Optional[bool]` — Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Tts
+<details><summary><code>client.tts.<a href="src/hume/tts/client.py">synthesize_json</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Synthesizes one or more input texts into speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
+
+The response includes the base64-encoded audio and metadata in JSON format.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+from hume.tts import FormatMp3, PostedContextWithUtterances, PostedUtterance
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.tts.synthesize_json(
+    context=PostedContextWithUtterances(
+        utterances=[
+            PostedUtterance(
+                text="How can people see beauty so differently?",
+                description="A curious student with a clear and respectful tone, seeking clarification on Hume's ideas with a straightforward question.",
+            )
+        ],
+    ),
+    format=FormatMp3(),
+    num_generations=1,
+    utterances=[
+        PostedUtterance(
+            text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
+            description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm, steady tone with an articulate, academic quality.",
+        )
+    ],
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**utterances:** `typing.Sequence[PostedUtterance]` 
+
+A list of **Utterances** to be converted to speech output.
+
+An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**context:** `typing.Optional[PostedContext]` — Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `typing.Optional[Format]` — Specifies the output audio file format.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**include_timestamp_types:** `typing.Optional[typing.Sequence[TimestampType]]` — The set of timestamp types to include in the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**num_generations:** `typing.Optional[int]` — Number of generations of the audio to produce.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**split_utterances:** `typing.Optional[bool]` 
+
+Controls how audio output is segmented in the response.
+
+- When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.
+
+- When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets. 
+
+This setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**strip_headers:** `typing.Optional[bool]` — If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version:** `typing.Optional[OctaveVersion]` 
+
+Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
+
+Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
+
+For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**instant_mode:** `typing.Optional[bool]` 
+
+Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
+- A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+- Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+- Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.tts.<a href="src/hume/tts/client.py">synthesize_file</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Synthesizes one or more input texts into speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody. 
+
+The response contains the generated audio file in the requested format.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+from hume.tts import FormatMp3, PostedContextWithGenerationId, PostedUtterance
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.tts.synthesize_file(
+    context=PostedContextWithGenerationId(
+        generation_id="09ad914d-8e7f-40f8-a279-e34f07f7dab2",
+    ),
+    format=FormatMp3(),
+    num_generations=1,
+    utterances=[
+        PostedUtterance(
+            text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
+            description="Middle-aged masculine voice with a clear, rhythmic Scots lilt, rounded vowels, and a warm, steady tone with an articulate, academic quality.",
+        )
+    ],
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**utterances:** `typing.Sequence[PostedUtterance]` 
+
+A list of **Utterances** to be converted to speech output.
+
+An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**context:** `typing.Optional[PostedContext]` — Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `typing.Optional[Format]` — Specifies the output audio file format.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**include_timestamp_types:** `typing.Optional[typing.Sequence[TimestampType]]` — The set of timestamp types to include in the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**num_generations:** `typing.Optional[int]` — Number of generations of the audio to produce.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**split_utterances:** `typing.Optional[bool]` 
+
+Controls how audio output is segmented in the response.
+
+- When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.
+
+- When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets. 
+
+This setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**strip_headers:** `typing.Optional[bool]` — If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version:** `typing.Optional[OctaveVersion]` 
+
+Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
+
+Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
+
+For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**instant_mode:** `typing.Optional[bool]` 
+
+Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
+- A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+- Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+- Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.tts.<a href="src/hume/tts/client.py">synthesize_file_streaming</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+from hume.tts import PostedUtterance, PostedUtteranceVoiceWithName
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.tts.synthesize_file_streaming(
+    utterances=[
+        PostedUtterance(
+            text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
+            voice=PostedUtteranceVoiceWithName(
+                name="Male English Actor",
+                provider="HUME_AI",
+            ),
+        )
+    ],
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**utterances:** `typing.Sequence[PostedUtterance]` 
+
+A list of **Utterances** to be converted to speech output.
+
+An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**context:** `typing.Optional[PostedContext]` — Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `typing.Optional[Format]` — Specifies the output audio file format.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**include_timestamp_types:** `typing.Optional[typing.Sequence[TimestampType]]` — The set of timestamp types to include in the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**num_generations:** `typing.Optional[int]` — Number of generations of the audio to produce.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**split_utterances:** `typing.Optional[bool]` 
+
+Controls how audio output is segmented in the response.
+
+- When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.
+
+- When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets. 
+
+This setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**strip_headers:** `typing.Optional[bool]` — If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version:** `typing.Optional[OctaveVersion]` 
+
+Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
+
+Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
+
+For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**instant_mode:** `typing.Optional[bool]` 
+
+Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
+- A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+- Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+- Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.tts.<a href="src/hume/tts/client.py">synthesize_json_streaming</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody. 
+
+The response is a stream of JSON objects including audio encoded in base64.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+from hume.tts import PostedUtterance, PostedUtteranceVoiceWithName
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+response = client.tts.synthesize_json_streaming(
+    utterances=[
+        PostedUtterance(
+            text="Beauty is no quality in things themselves: It exists merely in the mind which contemplates them.",
+            voice=PostedUtteranceVoiceWithName(
+                name="Male English Actor",
+                provider="HUME_AI",
+            ),
+        )
+    ],
+)
+for chunk in response.data:
+    yield chunk
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**utterances:** `typing.Sequence[PostedUtterance]` 
+
+A list of **Utterances** to be converted to speech output.
+
+An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**context:** `typing.Optional[PostedContext]` — Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `typing.Optional[Format]` — Specifies the output audio file format.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**include_timestamp_types:** `typing.Optional[typing.Sequence[TimestampType]]` — The set of timestamp types to include in the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**num_generations:** `typing.Optional[int]` — Number of generations of the audio to produce.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**split_utterances:** `typing.Optional[bool]` 
+
+Controls how audio output is segmented in the response.
+
+- When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.
+
+- When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets. 
+
+This setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**strip_headers:** `typing.Optional[bool]` — If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version:** `typing.Optional[OctaveVersion]` 
+
+Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
+
+Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
+
+For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**instant_mode:** `typing.Optional[bool]` 
+
+Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
+- A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+- Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+- Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Tts Voices
+<details><summary><code>client.tts.voices.<a href="src/hume/tts/voices/client.py">list</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Lists voices you have saved in your account, or voices from the [Voice Library](https://platform.hume.ai/tts/voice-library).
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+response = client.tts.voices.list(
+    provider="CUSTOM_VOICE",
+)
+for item in response:
+    yield item
+# alternatively, you can paginate page-by-page
+for page in response.iter_pages():
+    yield page
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**provider:** `VoiceProvider` 
+
+Specify the voice provider to filter voices returned by the endpoint:
+
+- **`HUME_AI`**: Lists preset, shared voices from Hume's [Voice Library](https://platform.hume.ai/tts/voice-library).
+- **`CUSTOM_VOICE`**: Lists custom voices created and saved to your account.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_number:** `typing.Optional[int]` 
+
+Specifies the page number to retrieve, enabling pagination.
+
+This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_size:** `typing.Optional[int]` 
+
+Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+
+For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ascending_order:** `typing.Optional[bool]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.tts.voices.<a href="src/hume/tts/voices/client.py">create</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Saves a new custom voice to your account using the specified TTS generation ID.
+
+Once saved, this voice can be reused in subsequent TTS requests, ensuring consistent speech style and prosody. For more details on voice creation, see the [Voices Guide](/docs/text-to-speech-tts/voices).
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.tts.voices.create(
+    generation_id="795c949a-1510-4a80-9646-7d0863b023ab",
+    name="David Hume",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**generation_id:** `str` — A unique ID associated with this TTS generation that can be used as context for generating consistent speech style and prosody across multiple requests.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**name:** `str` — Name of the voice in the `Voice Library`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.tts.voices.<a href="src/hume/tts/voices/client.py">delete</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Deletes a previously generated custom voice.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.tts.voices.delete(
+    name="David Hume",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**name:** `str` — Name of the voice to delete
     
 </dd>
 </dl>
