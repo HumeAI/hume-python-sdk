@@ -12,11 +12,11 @@ README.md
 
 tests/custom
 src/hume/client.py
-src/hume/core/websocket.py
-src/hume/expression_measurement/socket_client.py
-src/hume/expression_measurement/stream/socket_client.py
-src/hume/empathic_voice/socket_client.py
-src/hume/empathic_voice/chat/socket_client.py
+#src/hume/core/websocket.py
+#src/hume/expression_measurement/socket_client.py
+#src/hume/expression_measurement/stream/socket_client.py
+#src/hume/empathic_voice/socket_client.py
+#src/hume/empathic_voice/chat/socket_client.py
 src/hume/expression_measurement/batch/client_with_utils.py
 src/hume/empathic_voice/chat/audio/microphone.py
 src/hume/empathic_voice/chat/audio/microphone_interface.py
@@ -26,8 +26,8 @@ src/hume/empathic_voice/chat/audio/asyncio_utilities.py
 src/hume/empathic_voice/chat/audio/chat_client.py
 
 # Needs overrides to be compatible with socket_client.py
-src/hume/empathic_voice/chat/client.py
-src/hume/empathic_voice/chat/raw_client.py
+#src/hume/empathic_voice/chat/client.py
+#src/hume/empathic_voice/chat/raw_client.py
 
 # TODO: For some reason stream_input is not present on the tts client
 src/hume/tts/client.py
