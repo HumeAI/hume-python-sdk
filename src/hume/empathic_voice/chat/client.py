@@ -2,6 +2,8 @@
 
 from contextlib import asynccontextmanager, contextmanager
 
+import typing
+
 from typing_extensions import deprecated
 
 import httpx
@@ -31,20 +33,12 @@ from .types.subscribe_event import SubscribeEvent
 from ...core.api_error import ApiError
 import asyncio
 
+from ...core.websocket import OnErrorHandlerType, OnMessageHandlerType, OnOpenCloseHandlerType
 
 try:
     from websockets.legacy.client import connect as websockets_client_connect  # type: ignore
 except ImportError:
     from websockets import connect as websockets_client_connect  # type: ignore
-
-import typing
-
-OnOpenCloseHandlerType = typing.Union[typing.Callable[[], None], typing.Callable[[], typing.Awaitable[None]]]
-
-MessageT = typing.TypeVar('MessageT')
-OnMessageHandlerType = typing.Union[typing.Callable[[MessageT], None], typing.Callable[[MessageT], typing.Awaitable[None]]]
-
-OnErrorHandlerType = typing.Union[typing.Callable[[Exception], None], typing.Callable[[Exception], typing.Awaitable[None]]]
 
 @deprecated("Use .connect() with kwargs instead.")
 class ChatConnectOptions(typing.TypedDict, total=False):
