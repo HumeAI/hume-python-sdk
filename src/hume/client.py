@@ -6,12 +6,7 @@ import httpx
 
 from .base_client import AsyncBaseHumeClient, BaseHumeClient
 
-from .empathic_voice.socket_client import AsyncEmpathicVoiceClientWithWebsocket, EmpathicVoiceClientWithWebsocket
 from .environment import HumeClientEnvironment
-from .expression_measurement.socket_client import (
-    AsyncExpressionMeasurementClientWithWebsocket,
-    ExpressionMeasurementClientWithWebsocket
-)
 
 
 class HumeClient(BaseHumeClient):
@@ -58,6 +53,7 @@ class HumeClient(BaseHumeClient):
         # base_url: typing.Optional[str] = None,
         environment: HumeClientEnvironment = HumeClientEnvironment.PROD,
         api_key: typing.Optional[str] = None,
+        headers: typing.Optional[typing.Dict[str, str]] = None,
         timeout: typing.Optional[float] = None,
         follow_redirects: typing.Optional[bool] = True,
         httpx_client: typing.Optional[httpx.Client] = None
@@ -67,17 +63,10 @@ class HumeClient(BaseHumeClient):
             # base_url=base_url,
             environment=environment,
             api_key=api_key,
+            headers=headers,
             timeout=timeout,
             follow_redirects=follow_redirects,
             httpx_client=httpx_client,
-        )
-        self.empathic_voice: EmpathicVoiceClientWithWebsocket = (
-            EmpathicVoiceClientWithWebsocket(client_wrapper=self._client_wrapper)
-        )
-        self.expression_measurement: ExpressionMeasurementClientWithWebsocket = (
-            ExpressionMeasurementClientWithWebsocket(
-                client_wrapper=self._client_wrapper
-            )
         )
 
 
@@ -112,6 +101,7 @@ class AsyncHumeClient(AsyncBaseHumeClient):
         # TODO: this was removed by the generator?
         # base_url: typing.Optional[str] = None,
         environment: HumeClientEnvironment = HumeClientEnvironment.PROD,
+        headers: typing.Optional[typing.Dict[str, str]] = None,
         api_key: typing.Optional[str] = None,
         timeout: typing.Optional[float] = None,
         follow_redirects: typing.Optional[bool] = True,
@@ -122,16 +112,8 @@ class AsyncHumeClient(AsyncBaseHumeClient):
             # base_url=base_url,
             environment=environment,
             api_key=api_key,
+            headers=headers,
             timeout=timeout,
             follow_redirects=follow_redirects,
             httpx_client=httpx_client,
         )
-        self._empathic_voice: AsyncEmpathicVoiceClientWithWebsocket = (
-            AsyncEmpathicVoiceClientWithWebsocket(client_wrapper=self._client_wrapper)
-        )  #  noqa
-        self._expression_measurement: AsyncExpressionMeasurementClientWithWebsocket = (
-            AsyncExpressionMeasurementClientWithWebsocket(
-                client_wrapper=self._client_wrapper
-            )
-        )  #  noqa
-

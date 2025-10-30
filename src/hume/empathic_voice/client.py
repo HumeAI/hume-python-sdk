@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import typing
 
+from hume.empathic_voice.chat.client import AsyncChatClient, ChatClient
+
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .raw_client import AsyncRawEmpathicVoiceClient, RawEmpathicVoiceClient
 
@@ -24,6 +26,7 @@ class EmpathicVoiceClient:
         self._configs: typing.Optional[ConfigsClient] = None
         self._chats: typing.Optional[ChatsClient] = None
         self._chat_groups: typing.Optional[ChatGroupsClient] = None
+        self._chat: typing.Optional[ChatClient] = None
 
     @property
     def with_raw_response(self) -> RawEmpathicVoiceClient:
@@ -86,6 +89,7 @@ class AsyncEmpathicVoiceClient:
         self._configs: typing.Optional[AsyncConfigsClient] = None
         self._chats: typing.Optional[AsyncChatsClient] = None
         self._chat_groups: typing.Optional[AsyncChatGroupsClient] = None
+        self._chat: typing.Optional[AsyncChatClient] = None
 
     @property
     def with_raw_response(self) -> AsyncRawEmpathicVoiceClient:
@@ -137,3 +141,11 @@ class AsyncEmpathicVoiceClient:
 
             self._chat_groups = AsyncChatGroupsClient(client_wrapper=self._client_wrapper)
         return self._chat_groups
+
+    @property
+    def chat(self):
+        if self._chat is None:
+            from .chat.client import AsyncChatClient  # noqa: E402
+
+            self._chat = AsyncChatClient(client_wrapper=self._client_wrapper)
+        return self._chat

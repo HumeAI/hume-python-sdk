@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import typing
 
+from hume.tts.stream_input.client import StreamInputClient
+
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
 from .raw_client import AsyncRawTtsClient, RawTtsClient
@@ -17,6 +19,7 @@ from .types.tts_output import TtsOutput
 
 if typing.TYPE_CHECKING:
     from .voices.client import AsyncVoicesClient, VoicesClient
+    from .stream_input.client import AsyncStreamInputClient, StreamInputClient
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
 
@@ -26,6 +29,7 @@ class TtsClient:
         self._raw_client = RawTtsClient(client_wrapper=client_wrapper)
         self._client_wrapper = client_wrapper
         self._voices: typing.Optional[VoicesClient] = None
+        self._stream_input: typing.Optional[StreamInputClient] = None
 
     @property
     def with_raw_response(self) -> RawTtsClient:
@@ -475,12 +479,20 @@ class TtsClient:
             self._voices = VoicesClient(client_wrapper=self._client_wrapper)
         return self._voices
 
+    @property
+    def stream_input(self):
+        if self._stream_input is None:
+            from .stream_input.client import StreamInputClient  # noqa: E402
+            self._stream_input = StreamInputClient(client_wrapper=self._client_wrapper)
+        return self._stream_input
+
 
 class AsyncTtsClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._raw_client = AsyncRawTtsClient(client_wrapper=client_wrapper)
         self._client_wrapper = client_wrapper
         self._voices: typing.Optional[AsyncVoicesClient] = None
+        self._stream_input: typing.Optional[AsyncStreamInputClient] = None
 
     @property
     def with_raw_response(self) -> AsyncRawTtsClient:
@@ -964,3 +976,13 @@ class AsyncTtsClient:
 
             self._voices = AsyncVoicesClient(client_wrapper=self._client_wrapper)
         return self._voices
+
+    @property
+    def stream_input(self):
+        if self._stream_input is None:
+            from .stream_input.client import AsyncStreamInputClient
+
+            self._stream_input = AsyncStreamInputClient(
+                client_wrapper=self._client_wrapper,
+            )
+        return self._stream_input

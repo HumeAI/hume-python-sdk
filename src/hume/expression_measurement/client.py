@@ -8,14 +8,16 @@ from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .raw_client import AsyncRawExpressionMeasurementClient, RawExpressionMeasurementClient
 
 if typing.TYPE_CHECKING:
-    from .batch.client import AsyncBatchClient, BatchClient
+    from .batch.client_with_utils import AsyncBatchClientWithUtils, BatchClientWithUtils
+    from .stream.stream.client import StreamClient, AsyncStreamClient
 
 
 class ExpressionMeasurementClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._raw_client = RawExpressionMeasurementClient(client_wrapper=client_wrapper)
         self._client_wrapper = client_wrapper
-        self._batch: typing.Optional[BatchClient] = None
+        self._batch: typing.Optional[BatchClientWithUtils] = None
+        self._stream: typing.Optional[StreamClient] = None
 
     @property
     def with_raw_response(self) -> RawExpressionMeasurementClient:
@@ -33,15 +35,23 @@ class ExpressionMeasurementClient:
         if self._batch is None:
             from .batch.client import BatchClient  # noqa: E402
 
-            self._batch = BatchClient(client_wrapper=self._client_wrapper)
+            self._batch = BatchClientWithUtils(client_wrapper=self._client_wrapper)
         return self._batch
+
+    @property
+    def stream(self):
+        if self._stream is None:
+            from .stream.stream.client import StreamClient  # noqa: E402
+            self._stream = StreamClient(client_wrapper=self._client_wrapper)
+        return self._stream
 
 
 class AsyncExpressionMeasurementClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._raw_client = AsyncRawExpressionMeasurementClient(client_wrapper=client_wrapper)
         self._client_wrapper = client_wrapper
-        self._batch: typing.Optional[AsyncBatchClient] = None
+        self._batch: typing.Optional[AsyncBatchClientWithUtils] = None
+        self._stream: typing.Optional[AsyncStreamClient] = None
 
     @property
     def with_raw_response(self) -> AsyncRawExpressionMeasurementClient:
@@ -59,5 +69,13 @@ class AsyncExpressionMeasurementClient:
         if self._batch is None:
             from .batch.client import AsyncBatchClient  # noqa: E402
 
-            self._batch = AsyncBatchClient(client_wrapper=self._client_wrapper)
+            self._batch = AsyncBatchClientWithUtils(client_wrapper=self._client_wrapper)
         return self._batch
+
+    @property
+    def stream(self):
+        if self._stream is None:
+            from .stream.stream.client import AsyncStreamClient  # noqa: E402
+
+            self._stream = AsyncStreamClient(client_wrapper=self._client_wrapper)
+        return self._stream
