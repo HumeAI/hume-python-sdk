@@ -41,7 +41,7 @@ if typing.TYPE_CHECKING:
         VoiceProvider,
     )
     from .errors import BadRequestError, UnprocessableEntityError
-    from . import stream_input, voices
+    from . import voices
 _dynamic_imports: typing.Dict[str, str] = {
     "AudioEncoding": ".types",
     "AudioFormatType": ".types",
@@ -77,7 +77,6 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ValidationError": ".types",
     "ValidationErrorLocItem": ".types",
     "VoiceProvider": ".types",
-    "stream_input": ".",
     "voices": ".",
 }
 
@@ -136,6 +135,5 @@ __all__ = [
     "ValidationError",
     "ValidationErrorLocItem",
     "VoiceProvider",
-    "stream_input",
     "voices",
 ]

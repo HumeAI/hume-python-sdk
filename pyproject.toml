@@ -1,10 +1,9 @@
 [project]
 name = "hume"
-version = "0.13.0"
 
 [tool.poetry]
 name = "hume"
-version = "0.13.0"
+version = "0.13.1"
 description = "A Python SDK for Hume AI"
 readme = "README.md"
 authors = []
