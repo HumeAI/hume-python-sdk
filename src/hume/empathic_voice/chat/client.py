@@ -16,7 +16,7 @@ from ...core.request_options import RequestOptions
 from ...core.serialization import convert_and_respect_annotation_metadata
 from ..types.connect_session_settings import ConnectSessionSettings
 from .raw_client import AsyncRawChatClient, RawChatClient
-from .socket_client import AsyncChatSocketClient, ChatSocketClient
+from .socket_client import AsyncChatSocketClient, ChatSocketClient, ChatConnectOptions
 
 from ...core.events import EventEmitterMixin, EventType
 from ...core.pydantic_utilities import parse_obj_as
@@ -40,61 +40,6 @@ try:
     from websockets.legacy.client import connect as websockets_client_connect  # type: ignore
 except ImportError:
     from websockets import connect as websockets_client_connect  # type: ignore
-
-
-
-class ChatConnectSessionSettingsAudio(typing.TypedDict, total=False):
-    channels: typing.Optional[int]
-    encoding: typing.Optional[str]
-    sample_rate: typing.Optional[int]
-
-
-class ChatConnectSessionSettingsContext(typing.TypedDict, total=False):
-    text: typing.Optional[str]
-
-
-SessionSettingsVariablesValue = typing.Union[str, float, bool]
-
-class ChatConnectSessionSettings(typing.TypedDict, total=False):
-    audio: typing.Optional[ChatConnectSessionSettingsAudio]
-    context: typing.Optional[ChatConnectSessionSettingsContext]
-    custom_session_id: typing.Optional[str]
-    event_limit: typing.Optional[int]
-    language_model_api_key: typing.Optional[str]
-    system_prompt: typing.Optional[str]
-    variables: typing.Optional[typing.Dict[str, SessionSettingsVariablesValue]]
-    voice_id: typing.Optional[str]
-
-@deprecated("Use .connect() with kwargs instead.")
-class ChatConnectOptions(typing.TypedDict, total=False):
-    config_id: typing.Optional[str]
-    """
-    The ID of the configuration.
-    """
-
-    config_version: typing.Optional[str]
-    """
-    The version of the configuration.
-    """
-
-    api_key: typing.Optional[str]
-
-    secret_key: typing.Optional[str]
-
-    resumed_chat_group_id: typing.Optional[str]
-
-    verbose_transcription: typing.Optional[bool]
-
-    """
-    ID of the Voice to use for this chat. If specified, will override the voice set in the Config
-    """
-    voice_id: typing.Optional[str]
-
-    session_settings: typing.Optional[typing.Dict]
-    """
-    Session settings to apply at connection time. Supports all SessionSettings fields except
-    builtin_tools, type, metadata, and tools. Additionally supports event_limit.
-    """
 
 class ChatClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
