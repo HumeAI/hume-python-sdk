@@ -4,9 +4,14 @@ import json
 import typing
 from json.decoder import JSONDecodeError
 
+import asyncio
+
+from core.api_error import ApiError
+
 import websockets
 import websockets.sync.connection as websockets_sync_connection
 from typing_extensions import deprecated
+from contextlib import asynccontextmanager
 
 from ...core.events import EventEmitterMixin, EventType
 from ...core.pydantic_utilities import parse_obj_as
@@ -21,6 +26,15 @@ from ..types.user_input import UserInput
 from .types.publish_event import PublishEvent
 from .types.subscribe_event import SubscribeEvent
 
+import typing
+
+OnOpenCloseHandlerType = typing.Union[typing.Callable[[], None], typing.Callable[[], typing.Awaitable[None]]]
+
+MessageT = typing.TypeVar('MessageT')
+OnMessageHandlerType = typing.Union[typing.Callable[[MessageT], None], typing.Callable[[MessageT], typing.Awaitable[None]]]
+
+OnErrorHandlerType = typing.Union[typing.Callable[[Exception], None], typing.Callable[[Exception], typing.Awaitable[None]]]
+
 try:
     from websockets.legacy.client import WebSocketClientProtocol  # type: ignore
 except ImportError:
@@ -28,6 +42,142 @@ except ImportError:
 
 ChatSocketClientResponse = typing.Union[SubscribeEvent]
 
+class ChatConnectOptions(typing.TypedDict, total=False):
+    voice_id: typing.Optional[str]
+    # DEFAULT_NUM_CHANNELS: typing.ClassVar[int] = 1
+    # DEFAULT_SAMPLE_RATE: typing.ClassVar[int] = 44_100
+
+    def __init__(
+        self,
+        *,
+        websocket: websockets.WebSocketClientProtocol,
+    ):
+        self.websocket = websocket
+
+        # self._num_channels = self.DEFAULT_NUM_CHANNELS
+        # self._sample_rate = self.DEFAULT_SAMPLE_RATE
+
+    async def __aiter__(self):
+        async for message in self.websocket:
+            yield parse_obj_as(SubscribeEvent, json.loads(message))  # type: ignore
+
+    async def _send(self, data: typing.Any) -> None:
+        if isinstance(data, dict):
+            data = json.dumps(data)
+        await self.websocket.send(data)
+
+    async def recv(self) -> SubscribeEvent:
+        data = await self.websocket.recv()
+        return parse_obj_as(SubscribeEvent, json.loads(data))  # type: ignore
+
+    async def _send_model(self, data: PublishEvent) -> None:
+        await self._send(data.dict())
+
+    async def send_audio_input(self, message: AudioInput) -> None:
+        """
+        Parameters
+        ----------
+        message : AudioInput
+
+        Returns
+        -------
+        None
+        """
+        await self._send_model(message)
+
+    async def send_session_settings(self, message: SessionSettings) -> None:
+        """
+        Update the EVI session settings.
+
+        Parameters
+        ----------
+        message : SessionSettings
+
+        Returns
+        -------
+        None
+        """
+
+        # Update sample rate and channels
+        if message.audio is not None:
+            if message.audio.channels is not None:
+                self._num_channels = message.audio.channels
+            if message.audio.sample_rate is not None:
+                self._sample_rate = message.audio.sample_rate
+
+        await self._send_model(message)
+
+    async def send_user_input(self, message: UserInput) -> None:
+        """
+        Parameters
+        ----------
+        message : UserInput
+
+        Returns
+        -------
+        None
+        """
+        await self._send_model(message)
+
+    async def send_assistant_input(self, message: AssistantInput) -> None:
+        """
+        Parameters
+        ----------
+        message : AssistantInput
+
+        Returns
+        -------
+        None
+        """
+        await self._send_model(message)
+
+    async def send_tool_response(self, message: ToolResponseMessage) -> None:
+        """
+        Parameters
+        ----------
+        message : ToolResponseMessage
+
+        Returns
+        -------
+        None
+        """
+        await self._send_model(message)
+
+    async def send_tool_error(self, message: ToolErrorMessage) -> None:
+        """
+        Parameters
+        ----------
+        message : ToolErrorMessage
+
+        Returns
+        -------
+        None
+        """
+        await self._send_model(message)
+
+    async def send_pause_assistant(self, message: PauseAssistantMessage) -> None:
+        """
+        Parameters
+        ----------
+        message : PauseAssistantMessage
+
+        Returns
+        -------
+        None
+        """
+        await self._send_model(message)
+
+    async def send_resume_assistant(self, message: ResumeAssistantMessage) -> None:
+        """
+        Parameters
+        ----------
+        message : ResumeAssistantMessage
+
+        Returns
+        -------
+        None
+        """
+        await self._send_model(message)
 
 class AsyncChatSocketClient(EventEmitterMixin):
     def __init__(self, *, websocket: WebSocketClientProtocol):
@@ -87,6 +237,81 @@ class AsyncChatSocketClient(EventEmitterMixin):
         Send a Pydantic model to the websocket connection.
         """
         await self._send(data.dict())
+
+    @deprecated("Use .on() instead.")
+    @asynccontextmanager
+    async def connect_with_callbacks(
+        self,
+        options: typing.Optional[ChatConnectOptions] = None,
+        on_open: typing.Optional[OnOpenCloseHandlerType] = None,
+        on_message: typing.Optional[OnMessageHandlerType[SubscribeEvent]] = None,
+        on_close: typing.Optional[OnOpenCloseHandlerType] = None,
+        on_error: typing.Optional[OnErrorHandlerType] = None,
+    ) -> typing.AsyncIterator["AsyncChatSocketClient"]:
+        """
+        Parameters
+        ----------
+        on_open : Optional[OnOpenCloseHandlerType]
+            A callable to be invoked on the opening of the websocket connection.
+
+        on_message : Optional[OnMessageHandlerType[SubscribeEvent]]
+            A callable to be invoked on receiving a message from the websocket connection. This callback should expect a `SubscribeEvent` object.
+
+        on_close : Optional[OnOpenCloseHandlerType]
+            A callable to be invoked on the closing of the websocket connection.
+
+        on_error : Optional[OnErrorHandlerType]
+            A callable to be invoked on receiving an error from the websocket connection.
+
+        Yields
+        -------
+        AsyncIterator["AsyncChatSocketClient"]
+        """
+
+        ws_uri = await self._construct_ws_uri(options)
+        background_task: typing.Optional[asyncio.Task[None]] = None
+
+        try:
+            async with websockets.connect(
+                ws_uri,
+                extra_headers=self.client_wrapper.get_headers(include_auth=False),
+                max_size=self.DEFAULT_MAX_PAYLOAD_SIZE_BYTES,
+            ) as protocol:
+                await self._wrap_on_open_close(on_open)
+                connection = AsyncChatSocketClient(websocket=protocol)
+                background_task = asyncio.create_task(
+                    self._process_connection(connection, on_message, on_error)
+                )
+
+                yield connection
+
+        # Special case authentication errors
+        except websockets.exceptions.InvalidStatusCode as exc:
+            status_code: int = exc.status_code
+            if status_code == 401:
+                raise ApiError(
+                    status_code=status_code,
+                    body="Websocket initialized with invalid credentials.",
+                ) from exc
+            raise ApiError(
+                status_code=status_code,
+                body="Unexpected error when initializing websocket connection.",
+            ) from exc
+
+        # Except all other errors to apply the on_error handler
+        except Exception as exc:
+            await self._wrap_on_error(exc, on_error)
+            raise
+
+        # Finally, apply the on_close handler
+        finally:
+            if background_task is not None:
+                background_task.cancel()
+                try:
+                    await background_task
+                except asyncio.CancelledError:
+                    pass
+            await self._wrap_on_open_close(on_close)
 
     @deprecated("Use send_publish instead.")
     async def send_audio_input(self, message: AudioInput) -> None:
