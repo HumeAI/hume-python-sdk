@@ -7,6 +7,7 @@ from json.decoder import JSONDecodeError
 import websockets
 import websockets.sync.connection as websockets_sync_connection
 from typing_extensions import deprecated
+from contextlib import asynccontextmanager
 
 from ...core.events import EventEmitterMixin, EventType
 from ...core.pydantic_utilities import parse_obj_as
@@ -27,7 +28,6 @@ except ImportError:
     from websockets import WebSocketClientProtocol  # type: ignore
 
 ChatSocketClientResponse = typing.Union[SubscribeEvent]
-
 
 class AsyncChatSocketClient(EventEmitterMixin):
     def __init__(self, *, websocket: WebSocketClientProtocol):
@@ -179,7 +179,7 @@ class ChatSocketClient(EventEmitterMixin):
         Send a Pydantic model to the websocket connection.
         """
         self._send(data.dict())
-
+    
     @deprecated("Use send_publish instead.")
     def send_audio_input(self, message: AudioInput) -> None:
         self.send_publish(message)

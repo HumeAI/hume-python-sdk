@@ -37,8 +37,10 @@ src/hume/empathic_voice/chat/audio/asyncio_utilities.py
 src/hume/empathic_voice/chat/audio/chat_client.py
 
 # Manually maintained to support deprecated methods
+src/hume/empathic_voice/chat/client.py
 src/hume/empathic_voice/chat/socket_client.py
 src/hume/expression_measurement/stream/stream/socket_client.py
+src/hume/core/websocket.py
 
 # Customize the GitHub workflow to run only Fern tests (not legacy)
 
