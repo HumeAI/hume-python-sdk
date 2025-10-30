@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from typing import Protocol
 
 from hume.empathic_voice.chat.audio.microphone import Microphone
-from hume.empathic_voice.chat.socket_client import ChatWebsocketConnection
+from hume.empathic_voice.chat.client import AsyncChatSocketClient
 
 logger = logging.getLogger(__name__)
 
@@ -19,7 +19,7 @@ class Sender(Protocol):
         """Handle the end of an audio stream."""
         raise NotImplementedError()
 
-    async def send(self, *, socket: ChatWebsocketConnection) -> None:
+    async def send(self, *, socket: AsyncChatSocketClient) -> None:
         """Send audio data over an EVI socket.
 
         Args:
@@ -53,7 +53,7 @@ class MicrophoneSender(Sender):
         """Handle the end of an audio stream."""
         self.send_audio = True
 
-    async def send(self, *, socket: ChatWebsocketConnection) -> None:
+    async def send(self, *, socket: AsyncChatSocketClient) -> None:
         """Send audio data over an EVI socket.
 
         Args:

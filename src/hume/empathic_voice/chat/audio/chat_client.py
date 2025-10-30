@@ -8,7 +8,7 @@ from typing import AsyncIterable
 
 from hume.empathic_voice.chat.audio.audio_utilities import play_audio_streaming
 from hume.empathic_voice.chat.audio.microphone_sender import Sender
-from hume.empathic_voice.chat.socket_client import ChatWebsocketConnection
+from hume.empathic_voice.chat.client import AsyncChatSocketClient
 
 logger = logging.getLogger(__name__)
 
@@ -54,11 +54,11 @@ class ChatClient:
             on_playback_idle=self.sender.on_audio_end
         )
 
-    async def run(self, *, socket: ChatWebsocketConnection) -> None:
+    async def run(self, *, socket: AsyncChatSocketClient) -> None:
         """Run the chat client.
 
         Args:
-            socket (ChatWebsocketConnection): EVI socket.
+            socket (AsyncChatSocketClient): EVI socket.
         """
         send = self.sender.send(socket=socket)
 

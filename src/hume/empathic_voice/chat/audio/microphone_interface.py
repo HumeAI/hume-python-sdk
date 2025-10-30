@@ -7,7 +7,7 @@ from typing import ClassVar
 
 from hume.empathic_voice.chat.audio.microphone import Microphone
 from hume.empathic_voice.chat.audio.microphone_sender import MicrophoneSender
-from hume.empathic_voice.chat.socket_client import ChatWebsocketConnection
+from hume.empathic_voice.chat.socket_client import AsyncChatSocketClient
 from hume.empathic_voice.chat.audio.chat_client import ChatClient
 from hume.empathic_voice.types import AudioConfiguration, SessionSettings
 from hume.empathic_voice.chat.audio.asyncio_utilities import Stream
@@ -23,7 +23,7 @@ class MicrophoneInterface:
     @classmethod
     async def start(
         cls,
-        socket: ChatWebsocketConnection,
+        socket: AsyncChatSocketClient,
         byte_stream: Stream[bytes],
         device: int | None = Microphone.DEFAULT_DEVICE,
         allow_user_interrupt: bool = DEFAULT_ALLOW_USER_INTERRUPT,
@@ -44,7 +44,7 @@ class MicrophoneInterface:
                                               channels=microphone.num_channels,
                                               encoding="linear16")
             session_settings_config = SessionSettings(audio=audio_config)
-            await socket.send_session_settings(
+            await socket.send_publish(
                 message=session_settings_config
             )
             print("Microphone connected. Say something!")
