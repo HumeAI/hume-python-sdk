@@ -2,6 +2,7 @@
 
 from contextlib import asynccontextmanager, contextmanager
 
+import json
 import typing
 
 from typing_extensions import deprecated
@@ -40,144 +41,60 @@ try:
 except ImportError:
     from websockets import connect as websockets_client_connect  # type: ignore
 
+
+
+class ChatConnectSessionSettingsAudio(typing.TypedDict, total=False):
+    channels: typing.Optional[int]
+    encoding: typing.Optional[str]
+    sample_rate: typing.Optional[int]
+
+
+class ChatConnectSessionSettingsContext(typing.TypedDict, total=False):
+    text: typing.Optional[str]
+
+
+SessionSettingsVariablesValue = typing.Union[str, float, bool]
+
+class ChatConnectSessionSettings(typing.TypedDict, total=False):
+    audio: typing.Optional[ChatConnectSessionSettingsAudio]
+    context: typing.Optional[ChatConnectSessionSettingsContext]
+    custom_session_id: typing.Optional[str]
+    event_limit: typing.Optional[int]
+    language_model_api_key: typing.Optional[str]
+    system_prompt: typing.Optional[str]
+    variables: typing.Optional[typing.Dict[str, SessionSettingsVariablesValue]]
+    voice_id: typing.Optional[str]
+
 @deprecated("Use .connect() with kwargs instead.")
 class ChatConnectOptions(typing.TypedDict, total=False):
+    config_id: typing.Optional[str]
+    """
+    The ID of the configuration.
+    """
+
+    config_version: typing.Optional[str]
+    """
+    The version of the configuration.
+    """
+
+    api_key: typing.Optional[str]
+
+    secret_key: typing.Optional[str]
+
+    resumed_chat_group_id: typing.Optional[str]
+
+    verbose_transcription: typing.Optional[bool]
+
+    """
+    ID of the Voice to use for this chat. If specified, will override the voice set in the Config
+    """
     voice_id: typing.Optional[str]
-    # DEFAULT_NUM_CHANNELS: typing.ClassVar[int] = 1
-    # DEFAULT_SAMPLE_RATE: typing.ClassVar[int] = 44_100
 
-    def __init__(
-        self,
-        *,
-        websocket: websockets.WebSocketClientProtocol,
-    ):
-        self.websocket = websocket
-
-        # self._num_channels = self.DEFAULT_NUM_CHANNELS
-        # self._sample_rate = self.DEFAULT_SAMPLE_RATE
-
-    async def __aiter__(self):
-        async for message in self.websocket:
-            yield parse_obj_as(SubscribeEvent, json.loads(message))  # type: ignore
-
-    async def _send(self, data: typing.Any) -> None:
-        if isinstance(data, dict):
-            data = json.dumps(data)
-        await self.websocket.send(data)
-
-    async def recv(self) -> SubscribeEvent:
-        data = await self.websocket.recv()
-        return parse_obj_as(SubscribeEvent, json.loads(data))  # type: ignore
-
-    async def _send_model(self, data: PublishEvent) -> None:
-        await self._send(data.dict())
-
-    async def send_audio_input(self, message: AudioInput) -> None:
-        """
-        Parameters
-        ----------
-        message : AudioInput
-
-        Returns
-        -------
-        None
-        """
-        await self._send_model(message)
-
-    async def send_session_settings(self, message: SessionSettings) -> None:
-        """
-        Update the EVI session settings.
-
-        Parameters
-        ----------
-        message : SessionSettings
-
-        Returns
-        -------
-        None
-        """
-
-        # Update sample rate and channels
-        if message.audio is not None:
-            if message.audio.channels is not None:
-                self._num_channels = message.audio.channels
-            if message.audio.sample_rate is not None:
-                self._sample_rate = message.audio.sample_rate
-
-        await self._send_model(message)
-
-    async def send_user_input(self, message: UserInput) -> None:
-        """
-        Parameters
-        ----------
-        message : UserInput
-
-        Returns
-        -------
-        None
-        """
-        await self._send_model(message)
-
-    async def send_assistant_input(self, message: AssistantInput) -> None:
-        """
-        Parameters
-        ----------
-        message : AssistantInput
-
-        Returns
-        -------
-        None
-        """
-        await self._send_model(message)
-
-    async def send_tool_response(self, message: ToolResponseMessage) -> None:
-        """
-        Parameters
-        ----------
-        message : ToolResponseMessage
-
-        Returns
-        -------
-        None
-        """
-        await self._send_model(message)
-
-    async def send_tool_error(self, message: ToolErrorMessage) -> None:
-        """
-        Parameters
-        ----------
-        message : ToolErrorMessage
-
-        Returns
-        -------
-        None
-        """
-        await self._send_model(message)
-
-    async def send_pause_assistant(self, message: PauseAssistantMessage) -> None:
-        """
-        Parameters
-        ----------
-        message : PauseAssistantMessage
-
-        Returns
-        -------
-        None
-        """
-        await self._send_model(message)
-
-    async def send_resume_assistant(self, message: ResumeAssistantMessage) -> None:
-        """
-        Parameters
-        ----------
-        message : ResumeAssistantMessage
-
-        Returns
-        -------
-        None
-        """
-        await self._send_model(message)
-
+    session_settings: typing.Optional[typing.Dict]
+    """
+    Session settings to apply at connection time. Supports all SessionSettings fields except
+    builtin_tools, type, metadata, and tools. Additionally supports event_limit.
+    """
 
 class ChatClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
@@ -502,6 +419,117 @@ class AsyncChatClient:
             except Exception as exc:
                 await self._wrap_on_error(exc, on_error)
 
+    def _construct_ws_uri(self, options: typing.Optional[ChatConnectOptions]):
+        query_params = httpx.QueryParams()
+
+        api_key = self._raw_client._client_wrapper.api_key
+        if options is not None:
+            maybe_api_key = options.get("api_key")
+            if maybe_api_key is not None:
+                api_key = maybe_api_key
+            maybe_config_id = options.get("config_id")
+            if maybe_config_id is not None:
+                query_params = query_params.add("config_id", maybe_config_id)
+            maybe_config_version = options.get("config_version")
+            if maybe_config_version is not None:
+                query_params = query_params.add(
+                    "config_version", maybe_config_version
+                )
+            maybe_resumed_chat_group_id = options.get("resumed_chat_group_id")
+            if maybe_resumed_chat_group_id is not None:
+                query_params = query_params.add(
+                    "resumed_chat_group_id", maybe_resumed_chat_group_id
+                )
+            maybe_verbose_transcription = options.get("verbose_transcription")
+            if maybe_verbose_transcription is not None:
+                query_params = query_params.add(
+                    "verbose_transcription",
+                    "true" if maybe_verbose_transcription else "false",
+                )
+            elif api_key is not None:
+                query_params = query_params.add("apiKey", api_key)
+
+            maybe_voice_id = options.get("voice_id")
+            if maybe_voice_id is not None:
+                query_params = query_params.add("voice_id", maybe_voice_id)
+
+            maybe_session_settings = options.get("session_settings")
+            if maybe_session_settings is not None:
+                # Handle audio settings
+                audio = maybe_session_settings.get("audio")
+                if audio is not None:
+                    channels = audio.get("channels")
+                    if channels is not None:
+                        query_params = query_params.add(
+                            "session_settings[audio][channels]", str(channels)
+                        )
+                    encoding = audio.get("encoding")
+                    if encoding is not None:
+                        query_params = query_params.add(
+                            "session_settings[audio][encoding]", str(encoding)
+                        )
+                    sample_rate = audio.get("sample_rate")
+                    if sample_rate is not None:
+                        query_params = query_params.add(
+                            "session_settings[audio][sample_rate]", str(sample_rate)
+                        )
+
+                # Handle context settings
+                context = maybe_session_settings.get("context")
+                if context is not None:
+                    text = context.get("text")
+                    if text is not None:
+                        query_params = query_params.add(
+                            "session_settings[context][text]", str(text)
+                        )
+                    context_type = context.get("type")
+                    if context_type is not None:
+                        query_params = query_params.add(
+                            "session_settings[context][type]", str(context_type)
+                        )
+
+                # Handle top-level session settings
+                custom_session_id = maybe_session_settings.get("custom_session_id")
+                if custom_session_id is not None:
+                    query_params = query_params.add(
+                        "session_settings[custom_session_id]", str(custom_session_id)
+                    )
+
+                event_limit = maybe_session_settings.get("event_limit")
+                if event_limit is not None:
+                    query_params = query_params.add(
+                        "session_settings[event_limit]", str(event_limit)
+                    )
+
+                language_model_api_key = maybe_session_settings.get("language_model_api_key")
+                if language_model_api_key is not None:
+                    query_params = query_params.add(
+                        "session_settings[language_model_api_key]", str(language_model_api_key)
+                    )
+
+                system_prompt = maybe_session_settings.get("system_prompt")
+                if system_prompt is not None:
+                    query_params = query_params.add(
+                        "session_settings[system_prompt]", str(system_prompt)
+                    )
+
+                variables = maybe_session_settings.get("variables")
+                if variables is not None:
+                    query_params = query_params.add(
+                        "session_settings[variables]", json.dumps(variables)
+                    )
+
+                voice_id_setting = maybe_session_settings.get("voice_id")
+                if voice_id_setting is not None:
+                    query_params = query_params.add(
+                        "session_settings[voice_id]", str(voice_id_setting)
+                    )
+        elif api_key is not None:
+            query_params = query_params.add("apiKey", api_key)
+
+        base = self._raw_client._client_wrapper.get_environment().evi + "/chat"
+        return f"{base}?{query_params}"
+
     @deprecated("Use .on() instead.")
     @asynccontextmanager
     async def connect_with_callbacks(
@@ -532,7 +560,7 @@ class AsyncChatClient:
         AsyncIterator["AsyncChatSocketClient"]
         """
 
-        ws_uri = self._raw_client._client_wrapper.get_environment().evi + "/chat"
+        ws_uri = self._construct_ws_uri(options)
 
         background_task: typing.Optional[asyncio.Task[None]] = None
 
