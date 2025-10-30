@@ -6,8 +6,18 @@ from json.decoder import JSONDecodeError
 
 import websockets
 import websockets.sync.connection as websockets_sync_connection
+from typing_extensions import deprecated
+
 from ...core.events import EventEmitterMixin, EventType
 from ...core.pydantic_utilities import parse_obj_as
+from ..types.assistant_input import AssistantInput
+from ..types.audio_input import AudioInput
+from ..types.pause_assistant_message import PauseAssistantMessage
+from ..types.resume_assistant_message import ResumeAssistantMessage
+from ..types.session_settings import SessionSettings
+from ..types.tool_error_message import ToolErrorMessage
+from ..types.tool_response_message import ToolResponseMessage
+from ..types.user_input import UserInput
 from .types.publish_event import PublishEvent
 from .types.subscribe_event import SubscribeEvent
 
@@ -78,6 +88,38 @@ class AsyncChatSocketClient(EventEmitterMixin):
         """
         await self._send(data.dict())
 
+    @deprecated("Use send_publish instead.")
+    async def send_audio_input(self, message: AudioInput) -> None:
+        await self.send_publish(message)
+
+    @deprecated("Use send_publish instead.")
+    async def send_session_settings(self, message: SessionSettings) -> None:
+        await self.send_publish(message)
+
+    @deprecated("Use send_publish instead.")
+    async def send_user_input(self, message: UserInput) -> None:
+        await self.send_publish(message)
+
+    @deprecated("Use send_publish instead.")
+    async def send_assistant_input(self, message: AssistantInput) -> None:
+        await self.send_publish(message)
+
+    @deprecated("Use send_publish instead.")
+    async def send_tool_response(self, message: ToolResponseMessage) -> None:
+        await self.send_publish(message)
+
+    @deprecated("Use send_publish instead.")
+    async def send_tool_error(self, message: ToolErrorMessage) -> None:
+        await self.send_publish(message)
+
+    @deprecated("Use send_publish instead.")
+    async def send_pause_assistant(self, message: PauseAssistantMessage) -> None:
+        await self.send_publish(message)
+
+    @deprecated("Use send_publish instead.")
+    async def send_resume_assistant(self, message: ResumeAssistantMessage) -> None:
+        await self.send_publish(message)
+
 
 class ChatSocketClient(EventEmitterMixin):
     def __init__(self, *, websocket: websockets_sync_connection.Connection):
@@ -137,3 +179,35 @@ class ChatSocketClient(EventEmitterMixin):
         Send a Pydantic model to the websocket connection.
         """
         self._send(data.dict())
+
+    @deprecated("Use send_publish instead.")
+    def send_audio_input(self, message: AudioInput) -> None:
+        self.send_publish(message)
+
+    @deprecated("Use send_publish instead.")
+    def send_session_settings(self, message: SessionSettings) -> None:
+        self.send_publish(message)
+
+    @deprecated("Use send_publish instead.")
+    def send_user_input(self, message: UserInput) -> None:
+        self.send_publish(message)
+
+    @deprecated("Use send_publish instead.")
+    def send_assistant_input(self, message: AssistantInput) -> None:
+        self.send_publish(message)
+
+    @deprecated("Use send_publish instead.")
+    def send_tool_response(self, message: ToolResponseMessage) -> None:
+        self.send_publish(message)
+
+    @deprecated("Use send_publish instead.")
+    def send_tool_error(self, message: ToolErrorMessage) -> None:
+        self.send_publish(message)
+
+    @deprecated("Use send_publish instead.")
+    def send_pause_assistant(self, message: PauseAssistantMessage) -> None:
+        self.send_publish(message)
+
+    @deprecated("Use send_publish instead.")
+    def send_resume_assistant(self, message: ResumeAssistantMessage) -> None:
+        self.send_publish(message)
