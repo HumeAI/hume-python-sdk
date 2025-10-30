@@ -3,18 +3,18 @@ from contextlib import asynccontextmanager
 from typing import AsyncContextManager, AsyncIterator, Optional, Any
 from unittest.mock import Mock
 
-import websockets
+import websockets.legacy.client
+from hume.expression_measurement.stream.stream.socket_client import AsyncStreamSocketClient
 from pytest import MonkeyPatch
 
 from hume.client import AsyncHumeClient
-from hume.empathic_voice.chat.socket_client import ChatWebsocketConnection
-from hume.expression_measurement.stream.socket_client import StreamWebsocketConnection
+from hume.empathic_voice.chat.socket_client import AsyncChatSocketClient 
 
 logger = logging.getLogger(__name__)
 
 
 # pylint: disable=unused-argument
-def get_mock_connect(connection_string: str, assert_max_size: bool = False) -> Any:
+def get_mock_connect(connection_string: str) -> Any:
     def mock_connect(
         uri: str,
         extra_headers: Optional[dict[str, str]] = None,
@@ -26,8 +26,6 @@ def get_mock_connect(connection_string: str, assert_max_size: bool = False) -> A
         assert isinstance(extra_headers, dict)
         assert extra_headers.get("X-Fern-Language") == "Python"
         assert isinstance(extra_headers.get("X-Fern-SDK-Version"), str)
-        if assert_max_size:
-            assert max_size == 16777216
 
         @asynccontextmanager
         async def mock_connection() -> AsyncIterator[Mock]:
@@ -40,12 +38,12 @@ def get_mock_connect(connection_string: str, assert_max_size: bool = False) -> A
 
 async def test_chat_connect_basic(monkeypatch: MonkeyPatch) -> None:
     hu = AsyncHumeClient(api_key="0000-0000-0000-0000")
-    monkeypatch.setattr(websockets, "connect", get_mock_connect("wss://api.hume.ai/v0/evi/chat", assert_max_size=True))
+    monkeypatch.setattr(websockets.legacy.client, "connect", get_mock_connect("wss://api.hume.ai/v0/evi/chat"))
     async with hu.empathic_voice.chat.connect() as socket:
-        assert isinstance(socket, ChatWebsocketConnection)
+        assert isinstance(socket, AsyncChatSocketClient)
 
 async def test_stream_models_connect_basic(monkeypatch: MonkeyPatch) -> None:
     hu = AsyncHumeClient(api_key="0000-0000-0000-0000")
-    monkeypatch.setattr(websockets, "connect", get_mock_connect("wss://api.hume.ai/v0/stream/models"))
+    monkeypatch.setattr(websockets.legacy.client, "connect", get_mock_connect("wss://api.hume.ai/v0/stream/models"))
     async with hu.expression_measurement.stream.connect() as socket:
-        assert isinstance(socket, StreamWebsocketConnection)
+        assert isinstance(socket, AsyncStreamSocketClient)

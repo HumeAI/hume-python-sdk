@@ -2,42 +2,104 @@
 
 # isort: skip_file
 
-from .types import (
-    AudioEncoding,
-    AudioFormatType,
-    ErrorResponse,
-    Format,
-    FormatMp3,
-    FormatPcm,
-    FormatWav,
-    HttpValidationError,
-    MillisecondInterval,
-    OctaveVersion,
-    PostedContext,
-    PostedContextWithGenerationId,
-    PostedContextWithUtterances,
-    PostedTts,
-    PostedUtterance,
-    PostedUtteranceVoice,
-    PostedUtteranceVoiceWithId,
-    PostedUtteranceVoiceWithName,
-    PublishTts,
-    ReturnGeneration,
-    ReturnPagedVoices,
-    ReturnTts,
-    ReturnVoice,
-    Snippet,
-    SnippetAudioChunk,
-    Timestamp,
-    TimestampMessage,
-    TimestampType,
-    TtsOutput,
-    ValidationError,
-    ValidationErrorLocItem,
-    VoiceProvider,
-)
-from .errors import BadRequestError, UnprocessableEntityError
-from . import voices
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .types import (
+        AudioEncoding,
+        AudioFormatType,
+        ErrorResponse,
+        Format,
+        FormatMp3,
+        FormatPcm,
+        FormatWav,
+        HttpValidationError,
+        MillisecondInterval,
+        OctaveVersion,
+        PostedContext,
+        PostedContextWithGenerationId,
+        PostedContextWithUtterances,
+        PostedTts,
+        PostedUtterance,
+        PostedUtteranceVoice,
+        PostedUtteranceVoiceWithId,
+        PostedUtteranceVoiceWithName,
+        PublishTts,
+        ReturnGeneration,
+        ReturnPagedVoices,
+        ReturnTts,
+        ReturnVoice,
+        Snippet,
+        SnippetAudioChunk,
+        Timestamp,
+        TimestampMessage,
+        TimestampType,
+        TtsOutput,
+        ValidationError,
+        ValidationErrorLocItem,
+        VoiceProvider,
+    )
+    from .errors import BadRequestError, UnprocessableEntityError
+    from . import stream_input, voices
+_dynamic_imports: typing.Dict[str, str] = {
+    "AudioEncoding": ".types",
+    "AudioFormatType": ".types",
+    "BadRequestError": ".errors",
+    "ErrorResponse": ".types",
+    "Format": ".types",
+    "FormatMp3": ".types",
+    "FormatPcm": ".types",
+    "FormatWav": ".types",
+    "HttpValidationError": ".types",
+    "MillisecondInterval": ".types",
+    "OctaveVersion": ".types",
+    "PostedContext": ".types",
+    "PostedContextWithGenerationId": ".types",
+    "PostedContextWithUtterances": ".types",
+    "PostedTts": ".types",
+    "PostedUtterance": ".types",
+    "PostedUtteranceVoice": ".types",
+    "PostedUtteranceVoiceWithId": ".types",
+    "PostedUtteranceVoiceWithName": ".types",
+    "PublishTts": ".types",
+    "ReturnGeneration": ".types",
+    "ReturnPagedVoices": ".types",
+    "ReturnTts": ".types",
+    "ReturnVoice": ".types",
+    "Snippet": ".types",
+    "SnippetAudioChunk": ".types",
+    "Timestamp": ".types",
+    "TimestampMessage": ".types",
+    "TimestampType": ".types",
+    "TtsOutput": ".types",
+    "UnprocessableEntityError": ".errors",
+    "ValidationError": ".types",
+    "ValidationErrorLocItem": ".types",
+    "VoiceProvider": ".types",
+    "stream_input": ".",
+    "voices": ".",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        result = getattr(module, attr_name)
+        return result
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "AudioEncoding",
@@ -74,5 +136,6 @@ __all__ = [
     "ValidationError",
     "ValidationErrorLocItem",
     "VoiceProvider",
+    "stream_input",
     "voices",
 ]
