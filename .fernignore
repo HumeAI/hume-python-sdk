@@ -17,6 +17,7 @@ src/hume/client.py
 # Needed to make session_settings optional
 # TODO: can probably fix
 src/hume/empathic_voice/chat/client.py
+src/hume/empathic_voice/chat/raw_client.py
 
 # Needs to add .chat to reference chat_client
 src/hume/empathic_voice/client.py
