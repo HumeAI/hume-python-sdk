@@ -10,6 +10,7 @@ from ...core.api_error import ApiError
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.request_options import RequestOptions
 from ...core.serialization import convert_and_respect_annotation_metadata
+from ...core.query_encoder import single_query_encoder
 from ..types.connect_session_settings import ConnectSessionSettings
 from .socket_client import AsyncChatSocketClient, ChatSocketClient
 
@@ -114,18 +115,10 @@ class RawChatClient:
             query_params = query_params.add("verbose_transcription", verbose_transcription)
         if api_key is not None:
             query_params = query_params.add("api_key", api_key)
-        if (
-            convert_and_respect_annotation_metadata(
-                object_=session_settings, annotation=ConnectSessionSettings, direction="write"
-            )
-            is not None
-        ):
-            query_params = query_params.add(
-                "session_settings",
-                convert_and_respect_annotation_metadata(
-                    object_=session_settings, annotation=ConnectSessionSettings, direction="write"
-                ),
-            )
+        if session_settings is not None:
+            flattened_params = single_query_encoder("session_settings", session_settings)
+            for param_key, param_value in flattened_params:
+                query_params = query_params.add(param_key, str(param_value))
         ws_url = ws_url + f"?{query_params}"
         headers = self._client_wrapper.get_headers()
         if request_options and "additional_headers" in request_options:
@@ -243,18 +236,10 @@ class AsyncRawChatClient:
             query_params = query_params.add("verbose_transcription", verbose_transcription)
         if api_key is not None:
             query_params = query_params.add("api_key", api_key)
-        if (
-            convert_and_respect_annotation_metadata(
-                object_=session_settings, annotation=ConnectSessionSettings, direction="write"
-            )
-            is not None
-        ):
-            query_params = query_params.add(
-                "session_settings",
-                convert_and_respect_annotation_metadata(
-                    object_=session_settings, annotation=ConnectSessionSettings, direction="write"
-                ),
-            )
+        if session_settings is not None:
+            flattened_params = single_query_encoder("session_settings", session_settings)
+            for param_key, param_value in flattened_params:
+                query_params = query_params.add(param_key, str(param_value))
         ws_url = ws_url + f"?{query_params}"
         headers = self._client_wrapper.get_headers()
         if request_options and "additional_headers" in request_options:
