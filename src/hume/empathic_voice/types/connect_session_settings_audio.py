@@ -7,9 +7,20 @@ from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
 class ConnectSessionSettingsAudio(UniversalBaseModel):
-    channels: typing.Optional[int] = None
-    encoding: typing.Optional[str] = None
-    sample_rate: typing.Optional[int] = None
+    channels: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    Sets number of audio channels for audio input.
+    """
+
+    encoding: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Sets encoding format of the audio input, such as `linear16`.
+    """
+
+    sample_rate: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    Sets the sample rate for audio input. (Number of samples per second in the audio input, measured in Hertz.)
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
