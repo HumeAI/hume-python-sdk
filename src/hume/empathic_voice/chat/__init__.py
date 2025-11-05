@@ -6,8 +6,8 @@ import typing
 from importlib import import_module
 
 if typing.TYPE_CHECKING:
-    from .types import PublishEvent, SubscribeEvent
-_dynamic_imports: typing.Dict[str, str] = {"PublishEvent": ".types", "SubscribeEvent": ".types"}
+    from .types import PublishEvent
+_dynamic_imports: typing.Dict[str, str] = {"PublishEvent": ".types"}
 
 
 def __getattr__(attr_name: str) -> typing.Any:
@@ -29,4 +29,4 @@ def __dir__():
     return sorted(lazy_attrs)
 
 
-__all__ = ["PublishEvent", "SubscribeEvent"]
+__all__ = ["PublishEvent"]

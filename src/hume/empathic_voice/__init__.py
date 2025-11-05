@@ -25,6 +25,7 @@ if typing.TYPE_CHECKING:
         ConnectSessionSettingsVariablesValue,
         Context,
         ContextType,
+        ControlPlanePublishEvent,
         EmotionScores,
         Encoding,
         ErrorLevel,
@@ -99,6 +100,7 @@ if typing.TYPE_CHECKING:
         Role,
         SessionSettings,
         SessionSettingsVariablesValue,
+        SubscribeEvent,
         Tool,
         ToolCallMessage,
         ToolErrorMessage,
@@ -121,9 +123,9 @@ if typing.TYPE_CHECKING:
         WebhookEventChatStarted,
         WebhookEventChatStatus,
     )
-    from .errors import BadRequestError
-    from . import chat, chat_groups, chats, configs, prompts, tools
-    from .chat import PublishEvent, SubscribeEvent
+    from .errors import BadRequestError, UnprocessableEntityError
+    from . import chat, chat_groups, chats, configs, control_plane, prompts, tools
+    from .chat import PublishEvent
 _dynamic_imports: typing.Dict[str, str] = {
     "AssistantEnd": ".types",
     "AssistantInput": ".types",
@@ -144,6 +146,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConnectSessionSettingsVariablesValue": ".types",
     "Context": ".types",
     "ContextType": ".types",
+    "ControlPlanePublishEvent": ".types",
     "EmotionScores": ".types",
     "Encoding": ".types",
     "ErrorLevel": ".types",
@@ -219,12 +222,13 @@ _dynamic_imports: typing.Dict[str, str] = {
     "Role": ".types",
     "SessionSettings": ".types",
     "SessionSettingsVariablesValue": ".types",
-    "SubscribeEvent": ".chat",
+    "SubscribeEvent": ".types",
     "Tool": ".types",
     "ToolCallMessage": ".types",
     "ToolErrorMessage": ".types",
     "ToolResponseMessage": ".types",
     "ToolType": ".types",
+    "UnprocessableEntityError": ".errors",
     "UserInput": ".types",
     "UserInterruption": ".types",
     "UserMessage": ".types",
@@ -245,6 +249,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "chat_groups": ".",
     "chats": ".",
     "configs": ".",
+    "control_plane": ".",
     "prompts": ".",
     "tools": ".",
 }
@@ -289,6 +294,7 @@ __all__ = [
     "ConnectSessionSettingsVariablesValue",
     "Context",
     "ContextType",
+    "ControlPlanePublishEvent",
     "EmotionScores",
     "Encoding",
     "ErrorLevel",
@@ -370,6 +376,7 @@ __all__ = [
     "ToolErrorMessage",
     "ToolResponseMessage",
     "ToolType",
+    "UnprocessableEntityError",
     "UserInput",
     "UserInterruption",
     "UserMessage",
@@ -390,6 +397,7 @@ __all__ = [
     "chat_groups",
     "chats",
     "configs",
+    "control_plane",
     "prompts",
     "tools",
 ]

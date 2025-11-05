@@ -2,4 +2,4 @@
 
 import typing
 
-Role = typing.Union[typing.Literal["assistant", "system", "user", "all", "tool"], typing.Any]
+Role = typing.Union[typing.Literal["assistant", "system", "user", "all", "tool", "context"], typing.Any]

@@ -4,12 +4,30 @@ import typing
 
 import pydantic
 from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .encoding import Encoding
 
 
 class ConnectSessionSettingsAudio(UniversalBaseModel):
-    channels: typing.Optional[int] = None
-    encoding: typing.Optional[str] = None
-    sample_rate: typing.Optional[int] = None
+    """
+    Configuration details for the audio input used during the session. Ensures the audio is being correctly set up for processing.
+
+    This optional field is only required when the audio input is encoded in PCM Linear 16 (16-bit, little-endian, signed PCM WAV data). For detailed instructions on how to configure session settings for PCM Linear 16 audio, please refer to the [Session Settings section](/docs/empathic-voice-interface-evi/configuration#session-settings) on the EVI Configuration page.
+    """
+
+    channels: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    Sets number of audio channels for audio input.
+    """
+
+    encoding: typing.Optional[Encoding] = pydantic.Field(default=None)
+    """
+    Sets encoding format of the audio input, such as `linear16`.
+    """
+
+    sample_rate: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    Sets the sample rate for audio input. (Number of samples per second in the audio input, measured in Hertz.)
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

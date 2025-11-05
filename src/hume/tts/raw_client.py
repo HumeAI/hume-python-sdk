@@ -65,7 +65,9 @@ class RawTtsClient:
             The set of timestamp types to include in the response.
 
         num_generations : typing.Optional[int]
-            Number of generations of the audio to produce.
+            Number of audio generations to produce from the input utterances.
+
+            Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
 
         split_utterances : typing.Optional[bool]
             Controls how audio output is segmented in the response.
@@ -188,7 +190,9 @@ class RawTtsClient:
             The set of timestamp types to include in the response.
 
         num_generations : typing.Optional[int]
-            Number of generations of the audio to produce.
+            Number of audio generations to produce from the input utterances.
+
+            Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
 
         split_utterances : typing.Optional[bool]
             Controls how audio output is segmented in the response.
@@ -312,7 +316,9 @@ class RawTtsClient:
             The set of timestamp types to include in the response.
 
         num_generations : typing.Optional[int]
-            Number of generations of the audio to produce.
+            Number of audio generations to produce from the input utterances.
+
+            Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
 
         split_utterances : typing.Optional[bool]
             Controls how audio output is segmented in the response.
@@ -438,7 +444,9 @@ class RawTtsClient:
             The set of timestamp types to include in the response.
 
         num_generations : typing.Optional[int]
-            Number of generations of the audio to produce.
+            Number of audio generations to produce from the input utterances.
+
+            Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
 
         split_utterances : typing.Optional[bool]
             Controls how audio output is segmented in the response.
@@ -582,7 +590,9 @@ class AsyncRawTtsClient:
             The set of timestamp types to include in the response.
 
         num_generations : typing.Optional[int]
-            Number of generations of the audio to produce.
+            Number of audio generations to produce from the input utterances.
+
+            Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
 
         split_utterances : typing.Optional[bool]
             Controls how audio output is segmented in the response.
@@ -705,7 +715,9 @@ class AsyncRawTtsClient:
             The set of timestamp types to include in the response.
 
         num_generations : typing.Optional[int]
-            Number of generations of the audio to produce.
+            Number of audio generations to produce from the input utterances.
+
+            Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
 
         split_utterances : typing.Optional[bool]
             Controls how audio output is segmented in the response.
@@ -830,7 +842,9 @@ class AsyncRawTtsClient:
             The set of timestamp types to include in the response.
 
         num_generations : typing.Optional[int]
-            Number of generations of the audio to produce.
+            Number of audio generations to produce from the input utterances.
+
+            Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
 
         split_utterances : typing.Optional[bool]
             Controls how audio output is segmented in the response.
@@ -957,7 +971,9 @@ class AsyncRawTtsClient:
             The set of timestamp types to include in the response.
 
         num_generations : typing.Optional[int]
-            Number of generations of the audio to produce.
+            Number of audio generations to produce from the input utterances.
+
+            Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
 
         split_utterances : typing.Optional[bool]
             Controls how audio output is segmented in the response.

@@ -573,7 +573,15 @@ types:
         docs: The set of timestamp types to include in the response.
       num_generations:
         type: optional<integer>
-        docs: Number of generations of the audio to produce.
+        docs: >-
+          Number of audio generations to produce from the input utterances.
+
+
+          Using `num_generations` enables faster processing than issuing
+          multiple sequential requests. Additionally, specifying
+          `num_generations` allows prosody continuation across all generations
+          without repeating context, ensuring each generation sounds slightly
+          different while maintaining contextual consistency.
         default: 1
         validation:
           min: 1
@@ -688,6 +696,7 @@ types:
 
           Voices created through this endpoint will always have the provider set
           to `CUSTOM_VOICE`, indicating a custom voice stored in your account.
+      compatible_octave_models: optional<list<string>>
     source:
       openapi: tts-openapi.json
   FormatPcm:

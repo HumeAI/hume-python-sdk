@@ -1,4 +1,10 @@
 errors:
+  UnprocessableEntityError:
+    status-code: 422
+    type: HTTPValidationError
+    docs: Validation Error
+    examples:
+      - value: {}
   BadRequestError:
     status-code: 400
     type: ErrorResponse
@@ -54,7 +60,7 @@ types:
           for our server to correctly identify and process it as an Assistant
           Input message.
     source:
-      openapi: evi-asyncapi.json
+      openapi: evi-openapi.json
   AssistantMessage:
     docs: When provided, the output is an assistant message.
     properties:
@@ -122,6 +128,9 @@ types:
       channels:
         type: integer
         docs: Number of audio channels.
+      codec:
+        type: optional<string>
+        docs: Optional codec information.
       encoding:
         type: Encoding
         docs: Encoding format of the audio input, such as `linear16`.
@@ -131,7 +140,7 @@ types:
           Audio sample rate. Number of samples per second in the audio input,
           measured in Hertz.
     source:
-      openapi: evi-asyncapi.json
+      openapi: evi-openapi.json
   AudioInput:
     docs: When provided, the input is audio.
     properties:
@@ -169,7 +178,7 @@ types:
           processing and expression measurement. Audio data should be sent as a
           continuous stream, encoded in Base64.
     source:
-      openapi: evi-asyncapi.json
+      openapi: evi-openapi.json
   AudioOutput:
     docs: >-
       The type of message sent through the socket; for an Audio Output message,
@@ -205,11 +214,8 @@ types:
     enum:
       - web_search
       - hang_up
-    docs: >-
-      Name of the built-in tool. Set to `web_search` to equip EVI with the
-      built-in Web Search tool.
     source:
-      openapi: evi-asyncapi.json
+      openapi: evi-openapi.json
   BuiltinToolConfig:
     properties:
       fallback_content:
@@ -221,7 +227,7 @@ types:
       name:
         type: BuiltInTool
     source:
-      openapi: evi-asyncapi.json
+      openapi: evi-openapi.json
   ChatMessageToolResult:
     discriminated: false
     docs: Function call response from client.
@@ -321,13 +327,13 @@ types:
           - **Persistent**: Context that is applied to all subsequent assistant
           responses for the remainder of the Chat.
     source:
-      openapi: evi-asyncapi.json
+      openapi: evi-openapi.json
   ContextType:
     enum:
       - persistent
       - temporary
     source:
-      openapi: evi-asyncapi.json
+      openapi: evi-openapi.json
   EmotionScores:
     properties:
       Admiration: double
@@ -379,7 +385,7 @@ types:
       Tiredness: double
       Triumph: double
     source:
-      openapi: evi-asyncapi.json
+      openapi: evi-openapi.json
   Encoding:
     type: literal<"linear16">
   WebSocketError:
@@ -430,7 +436,7 @@ types:
           EVI uses the prosody model to measure 48 emotions related to speech
           and vocal characteristics within a given expression.
     source:
-      openapi: evi-asyncapi.json
+      openapi: evi-openapi.json
   MillisecondInterval:
     properties:
       begin:
@@ -440,7 +446,7 @@ types:
         type: integer
         docs: End time of the interval in milliseconds.
     source:
-      openapi: evi-asyncapi.json
+      openapi: evi-openapi.json
   PauseAssistantMessage:
     docs: >-
       Pause responses from EVI. Chat history is still saved and sent after
@@ -465,7 +471,7 @@ types:
           is sent. When paused, EVI won't respond, but transcriptions of your
           audio inputs will still be recorded.
     source:
-      openapi: evi-asyncapi.json
+      openapi: evi-openapi.json
   ProsodyInference:
     properties:
       scores:
@@ -483,7 +489,7 @@ types:
           results](/docs/expression-measurement/faq#how-do-i-interpret-my-results)
           to learn more.
     source:
-      openapi: evi-asyncapi.json
+      openapi: evi-openapi.json
   ResumeAssistantMessage:
     docs: >-
       Resume responses from EVI. Chat history sent while paused will now be
@@ -509,7 +515,7 @@ types:
           question and have added the first question to its conversation
           context.)
     source:
-      openapi: evi-asyncapi.json
+      openapi: evi-openapi.json
   Role:
     enum:
       - assistant
@@ -517,8 +523,9 @@ types:
       - user
       - all
       - tool
+      - context
     source:
-      openapi: evi-asyncapi.json
+      openapi: evi-openapi.json
   SessionSettingsVariablesValue:
     discriminated: false
     union:
@@ -526,7 +533,7 @@ types:
       - double
       - boolean
     source:
-      openapi: evi-asyncapi.json
+      openapi: evi-openapi.json
     inline: true
   SessionSettings:
     docs: Settings for this chat session.
@@ -674,7 +681,7 @@ types:
           Allows you to change the voice during an active chat. Updating the
           voice does not affect chat context or conversation history.
     source:
-      openapi: evi-asyncapi.json
+      openapi: evi-openapi.json
   Tool:
     properties:
       description:
@@ -705,7 +712,7 @@ types:
         type: ToolType
         docs: Type of tool. Set to `function` for user-defined tools.
     source:
-      openapi: evi-asyncapi.json
+      openapi: evi-openapi.json
   ToolCallMessage:
     docs: When provided, the output is a tool call.
     properties:
@@ -813,7 +820,7 @@ types:
           and failing to invoke the function, this message is sent to notify EVI
           of the tool's failure.
     source:
-      openapi: evi-asyncapi.json
+      openapi: evi-openapi.json
   ToolResponseMessage:
     docs: When provided, the output is a function call response.
     properties:
@@ -865,13 +872,13 @@ types:
           and successfully invoking the function, this message is sent to convey
           the result of the function call back to EVI.
     source:
-      openapi: evi-asyncapi.json
+      openapi: evi-openapi.json
   ToolType:
     enum:
       - builtin
       - function
     source:
-      openapi: evi-asyncapi.json
+      openapi: evi-openapi.json
   UserInput:
     docs: >-
       User text to insert into the conversation. Text sent through a User Input
@@ -905,7 +912,7 @@ types:
           our server to correctly identify and process it as a User Input
           message.
     source:
-      openapi: evi-asyncapi.json
+      openapi: evi-openapi.json
   UserInterruption:
     docs: When provided, the output is an interruption.
     properties:
@@ -987,6 +994,22 @@ types:
           prosody model relies on audio input and cannot process text alone.
     source:
       openapi: evi-asyncapi.json
+  SubscribeEvent:
+    discriminated: false
+    union:
+      - type: AssistantEnd
+      - type: AssistantMessage
+      - type: AssistantProsody
+      - type: AudioOutput
+      - type: ChatMetadata
+      - type: WebSocketError
+      - type: UserInterruption
+      - type: UserMessage
+      - type: ToolCallMessage
+      - type: ToolResponseMessage
+      - type: ToolErrorMessage
+    source:
+      openapi: evi-asyncapi.json
   JsonMessage:
     discriminated: false
     union:
@@ -1003,22 +1026,73 @@ types:
     source:
       openapi: evi-asyncapi.json
   ConnectSessionSettingsAudio:
+    docs: >-
+      Configuration details for the audio input used during the session. Ensures
+      the audio is being correctly set up for processing.
+
+
+      This optional field is only required when the audio input is encoded in
+      PCM Linear 16 (16-bit, little-endian, signed PCM WAV data). For detailed
+      instructions on how to configure session settings for PCM Linear 16 audio,
+      please refer to the [Session Settings
+      section](/docs/empathic-voice-interface-evi/configuration#session-settings)
+      on the EVI Configuration page.
     properties:
       channels:
         type: optional<integer>
+        docs: Sets number of audio channels for audio input.
       encoding:
-        type: optional<string>
+        type: optional<Encoding>
+        docs: Sets encoding format of the audio input, such as `linear16`.
       sample_rate:
         type: optional<integer>
+        docs: >-
+          Sets the sample rate for audio input. (Number of samples per second in
+          the audio input, measured in Hertz.)
     source:
       openapi: evi-asyncapi.json
     inline: true
   ConnectSessionSettingsContext:
+    docs: >-
+      Allows developers to inject additional context into the conversation,
+      which is appended to the end of user messages for the session.
+
+
+      When included in a Session Settings message, the provided context can be
+      used to remind the LLM of its role in every user message, prevent it from
+      forgetting important details, or add new relevant information to the
+      conversation.
+
+
+      Set to `null` to disable context injection.
     properties:
       text:
         type: optional<string>
+        docs: >-
+          The context to be injected into the conversation. Helps inform the
+          LLM's response by providing relevant information about the ongoing
+          conversation.
+
+
+          This text will be appended to the end of
+          [user_messages](/reference/speech-to-speech-evi/chat#receive.UserMessage.message.content)
+          based on the chosen persistence level. For example, if you want to
+          remind EVI of its role as a helpful weather assistant, the context you
+          insert will be appended to the end of user messages as `{Context: You
+          are a helpful weather assistant}`.
       type:
-        type: optional<string>
+        type: optional<ContextType>
+        docs: >-
+          The persistence level of the injected context. Specifies how long the
+          injected context will remain active in the session.
+
+
+          - **Temporary**: Context that is only applied to the following
+          assistant response.
+
+
+          - **Persistent**: Context that is applied to all subsequent assistant
+          responses for the remainder of the Chat.
     source:
       openapi: evi-asyncapi.json
     inline: true
@@ -1033,16 +1107,76 @@ types:
     inline: true
   ConnectSessionSettings:
     properties:
-      audio: optional<ConnectSessionSettingsAudio>
-      context: optional<ConnectSessionSettingsContext>
+      audio:
+        type: optional<ConnectSessionSettingsAudio>
+        docs: >-
+          Configuration details for the audio input used during the session.
+          Ensures the audio is being correctly set up for processing.
+
+
+          This optional field is only required when the audio input is encoded
+          in PCM Linear 16 (16-bit, little-endian, signed PCM WAV data). For
+          detailed instructions on how to configure session settings for PCM
+          Linear 16 audio, please refer to the [Session Settings
+          section](/docs/empathic-voice-interface-evi/configuration#session-settings)
+          on the EVI Configuration page.
+      context:
+        type: optional<ConnectSessionSettingsContext>
+        docs: >-
+          Allows developers to inject additional context into the conversation,
+          which is appended to the end of user messages for the session.
+
+
+          When included in a Session Settings message, the provided context can
+          be used to remind the LLM of its role in every user message, prevent
+          it from forgetting important details, or add new relevant information
+          to the conversation.
+
+
+          Set to `null` to disable context injection.
       custom_session_id:
         type: optional<string>
+        docs: >-
+          Used to manage conversational state, correlate frontend and backend
+          data, and persist conversations across EVI sessions.
       event_limit:
         type: optional<integer>
+        docs: >-
+          The maximum number of chat events to return from chat history. By
+          default, the system returns up to 300 events (100 events per page × 3
+          pages). Set this parameter to a smaller value to limit the number of
+          events returned.
       language_model_api_key:
         type: optional<string>
+        docs: >-
+          Third party API key for the supplemental language model.
+
+
+          When provided, EVI will use this key instead of Hume's API key for the
+          supplemental LLM. This allows you to bypass rate limits and utilize
+          your own API key as needed.
       system_prompt:
         type: optional<string>
+        docs: >-
+          Instructions used to shape EVI's behavior, responses, and style for
+          the session.
+
+
+          When included in a Session Settings message, the provided Prompt
+          overrides the existing one specified in the EVI configuration. If no
+          Prompt was defined in the configuration, this Prompt will be the one
+          used for the session.
+
+
+          You can use the Prompt to define a specific goal or role for EVI,
+          specifying how it should act or what it should focus on during the
+          conversation. For example, EVI can be instructed to act as a customer
+          support representative, a fitness coach, or a travel advisor, each
+          with its own set of behaviors and response styles.
+
+
+          For help writing a system prompt, see our [Prompting
+          Guide](/docs/speech-to-speech-evi/guides/prompting).
       variables:
         type: optional<map<string, ConnectSessionSettingsVariablesValue>>
         docs: >-
@@ -1063,6 +1197,22 @@ types:
           variables](/docs/speech-to-speech-evi/features/dynamic-variables).
       voice_id:
         type: optional<string>
+        docs: >-
+          The name or ID of the voice from the `Voice Library` to be used as the
+          speaker for this EVI session. This will override the speaker set in
+          the selected configuration.
+    source:
+      openapi: evi-asyncapi.json
+  ControlPlanePublishEvent:
+    discriminated: false
+    union:
+      - type: SessionSettings
+      - type: UserInput
+      - type: AssistantInput
+      - type: ToolResponseMessage
+      - type: ToolErrorMessage
+      - type: PauseAssistantMessage
+      - type: ResumeAssistantMessage
     source:
       openapi: evi-asyncapi.json
   HTTPValidationError:
@@ -1091,6 +1241,8 @@ types:
         name: ClaudeSonnet420250514
       - value: claude-sonnet-4-5-20250929
         name: ClaudeSonnet4520250929
+      - value: claude-haiku-4-5-20251001
+        name: ClaudeHaiku4520251001
       - value: us.anthropic.claude-3-5-haiku-20241022-v1:0
         name: UsAnthropicClaude35Haiku20241022V10
       - value: us.anthropic.claude-3-5-sonnet-20240620-v1:0
@@ -1221,26 +1373,6 @@ types:
         type: list<ValidationErrorLocItem>
       msg: string
       type: string
-    source:
-      openapi: evi-openapi.json
-  VoiceId:
-    properties:
-      id:
-        type: string
-        docs: ID of the voice in the `Voice Library`.
-      provider:
-        type: optional<VoiceProvider>
-        docs: Model provider associated with this Voice ID.
-    source:
-      openapi: evi-openapi.json
-  VoiceName:
-    properties:
-      name:
-        type: string
-        docs: Name of the voice in the `Voice Library`.
-      provider:
-        type: optional<VoiceProvider>
-        docs: Model provider associated with this Voice Name.
     source:
       openapi: evi-openapi.json
   WebhookEventBase:
@@ -1536,6 +1668,9 @@ types:
           Version numbers are integer values representing different iterations
           of the Prompt. Each update to the Prompt increments its version
           number.
+      version_description:
+        type: optional<string>
+        docs: An optional description of the Prompt version.
       version_type:
         type: ReturnPromptVersionType
         docs: >-
@@ -1551,9 +1686,6 @@ types:
         docs: >-
           Time at which the Prompt was last modified. Measured in seconds since
           the Unix epoch.
-      version_description:
-        type: optional<string>
-        docs: An optional description of the Prompt version.
     source:
       openapi: evi-openapi.json
   ReturnPagedConfigs:
@@ -1609,6 +1741,9 @@ types:
           Version numbers are integer values representing different iterations
           of the Config. Each update to the Config increments its version
           number.
+      version_description:
+        type: optional<string>
+        docs: An optional description of the Config version.
       language_model:
         type: optional<ReturnLanguageModel>
         docs: >-
@@ -1663,9 +1798,6 @@ types:
         docs: >-
           Time at which the Config was last modified. Measured in seconds since
           the Unix epoch.
-      version_description:
-        type: optional<string>
-        docs: An optional description of the Config version.
       tools:
         type: optional<list<optional<ReturnUserDefinedTool>>>
         docs: List of user-defined tools associated with this Config.
@@ -2903,6 +3035,12 @@ types:
       metadata:
         type: optional<string>
         docs: Stringified JSON with additional metadata about the chat event.
+      related_event_id:
+        type: optional<string>
+        docs: >-
+          Identifier for a related chat event. Currently only seen on
+          ASSISTANT_PROSODY events, to point back to the ASSISTANT_MESSAGE that
+          generated these prosody scores
     source:
       openapi: evi-openapi.json
   ReturnConfigSpec:
@@ -3031,6 +3169,26 @@ types:
           minutes).
     source:
       openapi: evi-openapi.json
+  VoiceId:
+    properties:
+      id:
+        type: string
+        docs: ID of the voice in the `Voice Library`.
+      provider:
+        type: optional<VoiceProvider>
+        docs: Model provider associated with this Voice ID.
+    source:
+      openapi: evi-openapi.json
+  VoiceName:
+    properties:
+      name:
+        type: string
+        docs: Name of the voice in the `Voice Library`.
+      provider:
+        type: optional<VoiceProvider>
+        docs: Model provider associated with this Voice Name.
+    source:
+      openapi: evi-openapi.json
   VoiceRef:
     discriminated: false
     union:
@@ -3044,6 +3202,7 @@ types:
       id: optional<string>
       name: optional<string>
       provider: optional<VoiceProvider>
+      compatible_octave_models: optional<list<string>>
     source:
       openapi: evi-openapi.json
   VoiceProvider:

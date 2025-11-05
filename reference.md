@@ -104,7 +104,11 @@ An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overvi
 <dl>
 <dd>
 
-**num_generations:** `typing.Optional[int]` — Number of generations of the audio to produce.
+**num_generations:** `typing.Optional[int]` 
+
+Number of audio generations to produce from the input utterances.
+
+Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
     
 </dd>
 </dl>
@@ -274,7 +278,11 @@ An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overvi
 <dl>
 <dd>
 
-**num_generations:** `typing.Optional[int]` — Number of generations of the audio to produce.
+**num_generations:** `typing.Optional[int]` 
+
+Number of audio generations to produce from the input utterances.
+
+Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
     
 </dd>
 </dl>
@@ -440,7 +448,11 @@ An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overvi
 <dl>
 <dd>
 
-**num_generations:** `typing.Optional[int]` — Number of generations of the audio to produce.
+**num_generations:** `typing.Optional[int]` 
+
+Number of audio generations to produce from the input utterances.
+
+Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
     
 </dd>
 </dl>
@@ -610,7 +622,11 @@ An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overvi
 <dl>
 <dd>
 
-**num_generations:** `typing.Optional[int]` — Number of generations of the audio to produce.
+**num_generations:** `typing.Optional[int]` 
+
+Number of audio generations to produce from the input utterances.
+
+Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
     
 </dd>
 </dl>
@@ -926,6 +942,87 @@ client.tts.voices.delete(
 <dd>
 
 **name:** `str` — Name of the voice to delete
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## EmpathicVoice ControlPlane
+<details><summary><code>client.empathic_voice.control_plane.<a href="src/hume/empathic_voice/control_plane/client.py">send</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Send a message to a specific chat.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+from hume.empathic_voice import SessionSettings
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.control_plane.send(
+    chat_id="chat_id",
+    request=SessionSettings(),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**chat_id:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `ControlPlanePublishEvent` 
     
 </dd>
 </dl>

@@ -40,6 +40,11 @@ class ReturnConfig(UniversalBaseModel):
     Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
     """
 
+    version_description: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    An optional description of the Config version.
+    """
+
     language_model: typing.Optional[ReturnLanguageModel] = pydantic.Field(default=None)
     """
     The supplemental language model associated with this Config.
@@ -88,11 +93,6 @@ class ReturnConfig(UniversalBaseModel):
     modified_on: typing.Optional[int] = pydantic.Field(default=None)
     """
     Time at which the Config was last modified. Measured in seconds since the Unix epoch.
-    """
-
-    version_description: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    An optional description of the Config version.
     """
 
     tools: typing.Optional[typing.List[typing.Optional[ReturnUserDefinedTool]]] = pydantic.Field(default=None)

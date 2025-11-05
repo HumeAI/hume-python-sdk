@@ -21,6 +21,10 @@ channel:
 
         For more details, refer to the [Authentication Strategies
         Guide](/docs/introduction/api-key#authentication-strategies).
+    allow_connection:
+      type: optional<boolean>
+      default: false
+      docs: Allows external connections to this chat via the /connect endpoint.
     config_id:
       type: optional<string>
       docs: >-
@@ -128,7 +132,7 @@ channel:
       body: PublishEvent
     subscribe:
       origin: server
-      body: SubscribeEvent
+      body: root.SubscribeEvent
 types:
   PublishEvent:
     discriminated: false
@@ -141,21 +145,5 @@ types:
       - type: root.ToolErrorMessage
       - type: root.PauseAssistantMessage
       - type: root.ResumeAssistantMessage
-    source:
-      openapi: evi-asyncapi.json
-  SubscribeEvent:
-    discriminated: false
-    union:
-      - type: root.AssistantEnd
-      - type: root.AssistantMessage
-      - type: root.AssistantProsody
-      - type: root.AudioOutput
-      - type: root.ChatMetadata
-      - type: root.WebSocketError
-      - type: root.UserInterruption
-      - type: root.UserMessage
-      - type: root.ToolCallMessage
-      - type: root.ToolResponseMessage
-      - type: root.ToolErrorMessage
     source:
       openapi: evi-asyncapi.json
