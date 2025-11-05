@@ -20,7 +20,7 @@ from ..types.tool_error_message import ToolErrorMessage
 from ..types.tool_response_message import ToolResponseMessage
 from ..types.user_input import UserInput
 from .types.publish_event import PublishEvent
-from .types.subscribe_event import SubscribeEvent
+from ..types.subscribe_event import SubscribeEvent
 
 try:
     from websockets.legacy.client import WebSocketClientProtocol  # type: ignore
