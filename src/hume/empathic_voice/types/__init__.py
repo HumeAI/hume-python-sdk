@@ -123,6 +123,7 @@ if typing.TYPE_CHECKING:
     from .webhook_event_chat_start_type import WebhookEventChatStartType
     from .webhook_event_chat_started import WebhookEventChatStarted
     from .webhook_event_chat_status import WebhookEventChatStatus
+    from .webhook_event_tool_call import WebhookEventToolCall
 _dynamic_imports: typing.Dict[str, str] = {
     "AssistantEnd": ".assistant_end",
     "AssistantInput": ".assistant_input",
@@ -239,6 +240,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "WebhookEventChatStartType": ".webhook_event_chat_start_type",
     "WebhookEventChatStarted": ".webhook_event_chat_started",
     "WebhookEventChatStatus": ".webhook_event_chat_status",
+    "WebhookEventToolCall": ".webhook_event_tool_call",
 }
 
 
@@ -377,4 +379,5 @@ __all__ = [
     "WebhookEventChatStartType",
     "WebhookEventChatStarted",
     "WebhookEventChatStatus",
+    "WebhookEventToolCall",
 ]

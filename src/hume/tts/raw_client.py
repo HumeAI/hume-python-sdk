@@ -5,6 +5,7 @@ import json
 import typing
 from json.decoder import JSONDecodeError
 
+from .. import core
 from ..core.api_error import ApiError
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.http_response import AsyncHttpResponse, HttpResponse
@@ -17,6 +18,7 @@ from .types.http_validation_error import HttpValidationError
 from .types.octave_version import OctaveVersion
 from .types.posted_context import PostedContext
 from .types.posted_utterance import PostedUtterance
+from .types.posted_utterance_voice import PostedUtteranceVoice
 from .types.return_tts import ReturnTts
 from .types.timestamp_type import TimestampType
 from .types.tts_output import TtsOutput
@@ -549,6 +551,194 @@ class RawTtsClient:
 
             yield _stream()
 
+    @contextlib.contextmanager
+    def convert_voice_file(
+        self,
+        *,
+        audio: core.File,
+        strip_headers: typing.Optional[bool] = OMIT,
+        context: typing.Optional[PostedContext] = OMIT,
+        voice: typing.Optional[PostedUtteranceVoice] = OMIT,
+        format: typing.Optional[Format] = OMIT,
+        include_timestamp_types: typing.Optional[typing.List[TimestampType]] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> typing.Iterator[HttpResponse[typing.Iterator[bytes]]]:
+        """
+        Parameters
+        ----------
+        audio : core.File
+            See core.File for more documentation
+
+        strip_headers : typing.Optional[bool]
+            If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+
+        context : typing.Optional[PostedContext]
+            Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+
+        voice : typing.Optional[PostedUtteranceVoice]
+
+        format : typing.Optional[Format]
+            Specifies the output audio file format.
+
+        include_timestamp_types : typing.Optional[typing.List[TimestampType]]
+            The set of timestamp types to include in the response.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
+
+        Returns
+        -------
+        typing.Iterator[HttpResponse[typing.Iterator[bytes]]]
+            Successful Response
+        """
+        with self._client_wrapper.httpx_client.stream(
+            "v0/tts/voice_conversion/file",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            data={
+                "strip_headers": strip_headers,
+                "context": context,
+                "voice": voice,
+                "format": format,
+                "include_timestamp_types": include_timestamp_types,
+            },
+            files={
+                "audio": audio,
+            },
+            request_options=request_options,
+            omit=OMIT,
+            force_multipart=True,
+        ) as _response:
+
+            def _stream() -> HttpResponse[typing.Iterator[bytes]]:
+                try:
+                    if 200 <= _response.status_code < 300:
+                        _chunk_size = request_options.get("chunk_size", None) if request_options is not None else None
+                        return HttpResponse(
+                            response=_response, data=(_chunk for _chunk in _response.iter_bytes(chunk_size=_chunk_size))
+                        )
+                    _response.read()
+                    if _response.status_code == 422:
+                        raise UnprocessableEntityError(
+                            headers=dict(_response.headers),
+                            body=typing.cast(
+                                HttpValidationError,
+                                parse_obj_as(
+                                    type_=HttpValidationError,  # type: ignore
+                                    object_=_response.json(),
+                                ),
+                            ),
+                        )
+                    _response_json = _response.json()
+                except JSONDecodeError:
+                    raise ApiError(
+                        status_code=_response.status_code, headers=dict(_response.headers), body=_response.text
+                    )
+                raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+            yield _stream()
+
+    @contextlib.contextmanager
+    def convert_voice_json(
+        self,
+        *,
+        strip_headers: typing.Optional[bool] = OMIT,
+        audio: typing.Optional[core.File] = OMIT,
+        context: typing.Optional[PostedContext] = OMIT,
+        voice: typing.Optional[PostedUtteranceVoice] = OMIT,
+        format: typing.Optional[Format] = OMIT,
+        include_timestamp_types: typing.Optional[typing.List[TimestampType]] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> typing.Iterator[HttpResponse[typing.Iterator[TtsOutput]]]:
+        """
+        Parameters
+        ----------
+        strip_headers : typing.Optional[bool]
+            If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+
+        audio : typing.Optional[core.File]
+            See core.File for more documentation
+
+        context : typing.Optional[PostedContext]
+            Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+
+        voice : typing.Optional[PostedUtteranceVoice]
+
+        format : typing.Optional[Format]
+            Specifies the output audio file format.
+
+        include_timestamp_types : typing.Optional[typing.List[TimestampType]]
+            The set of timestamp types to include in the response.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Yields
+        ------
+        typing.Iterator[HttpResponse[typing.Iterator[TtsOutput]]]
+            Successful Response
+        """
+        with self._client_wrapper.httpx_client.stream(
+            "v0/tts/voice_conversion/json",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            data={
+                "strip_headers": strip_headers,
+                "context": context,
+                "voice": voice,
+                "format": format,
+                "include_timestamp_types": include_timestamp_types,
+            },
+            files={
+                **({"audio": audio} if audio is not None else {}),
+            },
+            request_options=request_options,
+            omit=OMIT,
+            force_multipart=True,
+        ) as _response:
+
+            def _stream() -> HttpResponse[typing.Iterator[TtsOutput]]:
+                try:
+                    if 200 <= _response.status_code < 300:
+
+                        def _iter():
+                            for _text in _response.iter_lines():
+                                try:
+                                    if len(_text) == 0:
+                                        continue
+                                    yield typing.cast(
+                                        TtsOutput,
+                                        parse_obj_as(
+                                            type_=TtsOutput,  # type: ignore
+                                            object_=json.loads(_text),
+                                        ),
+                                    )
+                                except Exception:
+                                    pass
+                            return
+
+                        return HttpResponse(response=_response, data=_iter())
+                    _response.read()
+                    if _response.status_code == 422:
+                        raise UnprocessableEntityError(
+                            headers=dict(_response.headers),
+                            body=typing.cast(
+                                HttpValidationError,
+                                parse_obj_as(
+                                    type_=HttpValidationError,  # type: ignore
+                                    object_=_response.json(),
+                                ),
+                            ),
+                        )
+                    _response_json = _response.json()
+                except JSONDecodeError:
+                    raise ApiError(
+                        status_code=_response.status_code, headers=dict(_response.headers), body=_response.text
+                    )
+                raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+            yield _stream()
+
 
 class AsyncRawTtsClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -1032,6 +1222,195 @@ class AsyncRawTtsClient:
             },
             request_options=request_options,
             omit=OMIT,
+        ) as _response:
+
+            async def _stream() -> AsyncHttpResponse[typing.AsyncIterator[TtsOutput]]:
+                try:
+                    if 200 <= _response.status_code < 300:
+
+                        async def _iter():
+                            async for _text in _response.aiter_lines():
+                                try:
+                                    if len(_text) == 0:
+                                        continue
+                                    yield typing.cast(
+                                        TtsOutput,
+                                        parse_obj_as(
+                                            type_=TtsOutput,  # type: ignore
+                                            object_=json.loads(_text),
+                                        ),
+                                    )
+                                except Exception:
+                                    pass
+                            return
+
+                        return AsyncHttpResponse(response=_response, data=_iter())
+                    await _response.aread()
+                    if _response.status_code == 422:
+                        raise UnprocessableEntityError(
+                            headers=dict(_response.headers),
+                            body=typing.cast(
+                                HttpValidationError,
+                                parse_obj_as(
+                                    type_=HttpValidationError,  # type: ignore
+                                    object_=_response.json(),
+                                ),
+                            ),
+                        )
+                    _response_json = _response.json()
+                except JSONDecodeError:
+                    raise ApiError(
+                        status_code=_response.status_code, headers=dict(_response.headers), body=_response.text
+                    )
+                raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+            yield await _stream()
+
+    @contextlib.asynccontextmanager
+    async def convert_voice_file(
+        self,
+        *,
+        audio: core.File,
+        strip_headers: typing.Optional[bool] = OMIT,
+        context: typing.Optional[PostedContext] = OMIT,
+        voice: typing.Optional[PostedUtteranceVoice] = OMIT,
+        format: typing.Optional[Format] = OMIT,
+        include_timestamp_types: typing.Optional[typing.List[TimestampType]] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[bytes]]]:
+        """
+        Parameters
+        ----------
+        audio : core.File
+            See core.File for more documentation
+
+        strip_headers : typing.Optional[bool]
+            If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+
+        context : typing.Optional[PostedContext]
+            Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+
+        voice : typing.Optional[PostedUtteranceVoice]
+
+        format : typing.Optional[Format]
+            Specifies the output audio file format.
+
+        include_timestamp_types : typing.Optional[typing.List[TimestampType]]
+            The set of timestamp types to include in the response.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
+
+        Returns
+        -------
+        typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[bytes]]]
+            Successful Response
+        """
+        async with self._client_wrapper.httpx_client.stream(
+            "v0/tts/voice_conversion/file",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            data={
+                "strip_headers": strip_headers,
+                "context": context,
+                "voice": voice,
+                "format": format,
+                "include_timestamp_types": include_timestamp_types,
+            },
+            files={
+                "audio": audio,
+            },
+            request_options=request_options,
+            omit=OMIT,
+            force_multipart=True,
+        ) as _response:
+
+            async def _stream() -> AsyncHttpResponse[typing.AsyncIterator[bytes]]:
+                try:
+                    if 200 <= _response.status_code < 300:
+                        _chunk_size = request_options.get("chunk_size", None) if request_options is not None else None
+                        return AsyncHttpResponse(
+                            response=_response,
+                            data=(_chunk async for _chunk in _response.aiter_bytes(chunk_size=_chunk_size)),
+                        )
+                    await _response.aread()
+                    if _response.status_code == 422:
+                        raise UnprocessableEntityError(
+                            headers=dict(_response.headers),
+                            body=typing.cast(
+                                HttpValidationError,
+                                parse_obj_as(
+                                    type_=HttpValidationError,  # type: ignore
+                                    object_=_response.json(),
+                                ),
+                            ),
+                        )
+                    _response_json = _response.json()
+                except JSONDecodeError:
+                    raise ApiError(
+                        status_code=_response.status_code, headers=dict(_response.headers), body=_response.text
+                    )
+                raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+            yield await _stream()
+
+    @contextlib.asynccontextmanager
+    async def convert_voice_json(
+        self,
+        *,
+        strip_headers: typing.Optional[bool] = OMIT,
+        audio: typing.Optional[core.File] = OMIT,
+        context: typing.Optional[PostedContext] = OMIT,
+        voice: typing.Optional[PostedUtteranceVoice] = OMIT,
+        format: typing.Optional[Format] = OMIT,
+        include_timestamp_types: typing.Optional[typing.List[TimestampType]] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[TtsOutput]]]:
+        """
+        Parameters
+        ----------
+        strip_headers : typing.Optional[bool]
+            If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+
+        audio : typing.Optional[core.File]
+            See core.File for more documentation
+
+        context : typing.Optional[PostedContext]
+            Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+
+        voice : typing.Optional[PostedUtteranceVoice]
+
+        format : typing.Optional[Format]
+            Specifies the output audio file format.
+
+        include_timestamp_types : typing.Optional[typing.List[TimestampType]]
+            The set of timestamp types to include in the response.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Yields
+        ------
+        typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[TtsOutput]]]
+            Successful Response
+        """
+        async with self._client_wrapper.httpx_client.stream(
+            "v0/tts/voice_conversion/json",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            data={
+                "strip_headers": strip_headers,
+                "context": context,
+                "voice": voice,
+                "format": format,
+                "include_timestamp_types": include_timestamp_types,
+            },
+            files={
+                **({"audio": audio} if audio is not None else {}),
+            },
+            request_options=request_options,
+            omit=OMIT,
+            force_multipart=True,
         ) as _response:
 
             async def _stream() -> AsyncHttpResponse[typing.AsyncIterator[TtsOutput]]:
