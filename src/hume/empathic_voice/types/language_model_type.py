@@ -13,6 +13,7 @@ LanguageModelType = typing.Union[
         "claude-3-haiku-20240307",
         "claude-sonnet-4-20250514",
         "claude-sonnet-4-5-20250929",
+        "claude-haiku-4-5-20251001",
         "us.anthropic.claude-3-5-haiku-20241022-v1:0",
         "us.anthropic.claude-3-5-sonnet-20240620-v1:0",
         "us.anthropic.claude-3-haiku-20240307-v1:0",

@@ -70,6 +70,11 @@ class ReturnChatEvent(UniversalBaseModel):
     Stringified JSON with additional metadata about the chat event.
     """
 
+    related_event_id: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Identifier for a related chat event. Currently only seen on ASSISTANT_PROSODY events, to point back to the ASSISTANT_MESSAGE that generated these prosody scores
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

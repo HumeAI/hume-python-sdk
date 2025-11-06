@@ -4,11 +4,33 @@ import typing
 
 import pydantic
 from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .context_type import ContextType
 
 
 class ConnectSessionSettingsContext(UniversalBaseModel):
-    text: typing.Optional[str] = None
-    type: typing.Optional[str] = None
+    """
+    Allows developers to inject additional context into the conversation, which is appended to the end of user messages for the session.
+
+    When included in a Session Settings message, the provided context can be used to remind the LLM of its role in every user message, prevent it from forgetting important details, or add new relevant information to the conversation.
+
+    Set to `null` to disable context injection.
+    """
+
+    text: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The context to be injected into the conversation. Helps inform the LLM's response by providing relevant information about the ongoing conversation.
+    
+    This text will be appended to the end of [user_messages](/reference/speech-to-speech-evi/chat#receive.UserMessage.message.content) based on the chosen persistence level. For example, if you want to remind EVI of its role as a helpful weather assistant, the context you insert will be appended to the end of user messages as `{Context: You are a helpful weather assistant}`.
+    """
+
+    type: typing.Optional[ContextType] = pydantic.Field(default=None)
+    """
+    The persistence level of the injected context. Specifies how long the injected context will remain active in the session.
+    
+    - **Temporary**: Context that is only applied to the following assistant response.
+    
+    - **Persistent**: Context that is applied to all subsequent assistant responses for the remainder of the Chat.
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

@@ -29,7 +29,9 @@ class PostedTts(UniversalBaseModel):
 
     num_generations: typing.Optional[int] = pydantic.Field(default=None)
     """
-    Number of generations of the audio to produce.
+    Number of audio generations to produce from the input utterances.
+    
+    Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
     """
 
     split_utterances: typing.Optional[bool] = pydantic.Field(default=None)

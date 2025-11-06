@@ -24,6 +24,7 @@ if typing.TYPE_CHECKING:
     from .connect_session_settings_variables_value import ConnectSessionSettingsVariablesValue
     from .context import Context
     from .context_type import ContextType
+    from .control_plane_publish_event import ControlPlanePublishEvent
     from .emotion_scores import EmotionScores
     from .encoding import Encoding
     from .error_level import ErrorLevel
@@ -100,6 +101,7 @@ if typing.TYPE_CHECKING:
     from .role import Role
     from .session_settings import SessionSettings
     from .session_settings_variables_value import SessionSettingsVariablesValue
+    from .subscribe_event import SubscribeEvent
     from .tool import Tool
     from .tool_call_message import ToolCallMessage
     from .tool_error_message import ToolErrorMessage
@@ -140,6 +142,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConnectSessionSettingsVariablesValue": ".connect_session_settings_variables_value",
     "Context": ".context",
     "ContextType": ".context_type",
+    "ControlPlanePublishEvent": ".control_plane_publish_event",
     "EmotionScores": ".emotion_scores",
     "Encoding": ".encoding",
     "ErrorLevel": ".error_level",
@@ -214,6 +217,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "Role": ".role",
     "SessionSettings": ".session_settings",
     "SessionSettingsVariablesValue": ".session_settings_variables_value",
+    "SubscribeEvent": ".subscribe_event",
     "Tool": ".tool",
     "ToolCallMessage": ".tool_call_message",
     "ToolErrorMessage": ".tool_error_message",
@@ -276,6 +280,7 @@ __all__ = [
     "ConnectSessionSettingsVariablesValue",
     "Context",
     "ContextType",
+    "ControlPlanePublishEvent",
     "EmotionScores",
     "Encoding",
     "ErrorLevel",
@@ -350,6 +355,7 @@ __all__ = [
     "Role",
     "SessionSettings",
     "SessionSettingsVariablesValue",
+    "SubscribeEvent",
     "Tool",
     "ToolCallMessage",
     "ToolErrorMessage",
