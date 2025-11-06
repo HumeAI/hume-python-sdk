@@ -4,5 +4,6 @@ import typing
 
 from .webhook_event_chat_ended import WebhookEventChatEnded
 from .webhook_event_chat_started import WebhookEventChatStarted
+from .webhook_event_tool_call import WebhookEventToolCall
 
-WebhookEvent = typing.Union[WebhookEventChatStarted, WebhookEventChatEnded]
+WebhookEvent = typing.Union[WebhookEventChatStarted, WebhookEventChatEnded, WebhookEventToolCall]

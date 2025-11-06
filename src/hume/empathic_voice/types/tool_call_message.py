@@ -24,14 +24,12 @@ class ToolCallMessage(UniversalBaseModel):
 
     parameters: str = pydantic.Field()
     """
-    Parameters of the tool.
-    
-    These parameters define the inputs needed for the tool's execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the tool receives data in the expected format.
+    Parameters of the tool call. Is a stringified JSON schema.
     """
 
     response_required: bool = pydantic.Field()
     """
-    Indicates whether a response to the tool call is required from the developer, either in the form of a [Tool Response message](/reference/speech-to-speech-evi/chat#send.ToolResponseMessage) or a [Tool Error message](/reference/speech-to-speech-evi/chat#send.ToolErrorMessage).
+    Indicates whether a response to the tool call is required from the developer, either in the form of a [Tool Response message](/reference/empathic-voice-interface-evi/chat/chat#send.Tool%20Response%20Message.type) or a [Tool Error message](/reference/empathic-voice-interface-evi/chat/chat#send.Tool%20Error%20Message.type).
     """
 
     tool_call_id: str = pydantic.Field()
@@ -41,12 +39,12 @@ class ToolCallMessage(UniversalBaseModel):
     This ID is used to track the request and response of a particular tool invocation, ensuring that the correct response is linked to the appropriate request.
     """
 
-    tool_type: typing.Optional[ToolType] = pydantic.Field(default=None)
+    tool_type: ToolType = pydantic.Field()
     """
     Type of tool called. Either `builtin` for natively implemented tools, like web search, or `function` for user-defined tools.
     """
 
-    type: typing.Literal["tool_call"] = pydantic.Field(default="tool_call")
+    type: typing.Optional[typing.Literal["tool_call"]] = pydantic.Field(default=None)
     """
     The type of message sent through the socket; for a Tool Call message, this must be `tool_call`.
     

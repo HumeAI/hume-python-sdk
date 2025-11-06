@@ -183,9 +183,135 @@ service:
                 voice:
                   name: Male English Actor
                   provider: HUME_AI
+    convertVoiceFile:
+      path: /v0/tts/voice_conversion/file
+      method: POST
+      source:
+        openapi: tts-openapi.json
+      display-name: Voice Conversion Stream File
+      request:
+        name: ConvertVoiceFileRequest
+        body:
+          properties:
+            strip_headers:
+              type: optional<boolean>
+              docs: >-
+                If enabled, the audio for all the chunks of a generation, once
+                concatenated together, will constitute a single audio file.
+                Otherwise, if disabled, each chunk's audio will be its own audio
+                file, each with its own headers (if applicable).
+            audio: file
+            context:
+              type: optional<PostedContext>
+              docs: >-
+                Utterances to use as context for generating consistent speech
+                style and prosody across multiple requests. These will not be
+                converted to speech output.
+            voice: optional<PostedUtteranceVoice>
+            format:
+              type: optional<Format>
+              docs: Specifies the output audio file format.
+            include_timestamp_types:
+              type: optional<list<TimestampType>>
+              docs: The set of timestamp types to include in the response.
+        content-type: multipart/form-data
+      response:
+        docs: Successful Response
+        type: file
+        status-code: 200
+      errors:
+        - UnprocessableEntityError
+    convertVoiceJson:
+      path: /v0/tts/voice_conversion/json
+      method: POST
+      source:
+        openapi: tts-openapi.json
+      display-name: Voice Conversion Stream Json
+      request:
+        name: ConvertVoiceJsonRequest
+        body:
+          properties:
+            strip_headers:
+              type: optional<boolean>
+              docs: >-
+                If enabled, the audio for all the chunks of a generation, once
+                concatenated together, will constitute a single audio file.
+                Otherwise, if disabled, each chunk's audio will be its own audio
+                file, each with its own headers (if applicable).
+            audio: optional<file>
+            context:
+              type: optional<PostedContext>
+              docs: >-
+                Utterances to use as context for generating consistent speech
+                style and prosody across multiple requests. These will not be
+                converted to speech output.
+            voice: optional<PostedUtteranceVoice>
+            format:
+              type: optional<Format>
+              docs: Specifies the output audio file format.
+            include_timestamp_types:
+              type: optional<list<TimestampType>>
+              docs: The set of timestamp types to include in the response.
+        content-type: multipart/form-data
+      response-stream:
+        docs: Successful Response
+        type: TtsOutput
+        format: json
+      errors:
+        - UnprocessableEntityError
+      examples:
+        - request: {}
+          response:
+            stream:
+              - audio: audio
+                audio_format: mp3
+                chunk_index: 1
+                generation_id: generation_id
+                is_last_chunk: true
+                request_id: request_id
+                snippet:
+                  audio: audio
+                  generation_id: generation_id
+                  id: id
+                  text: text
+                  timestamps:
+                    - text: text
+                      time:
+                        begin: 1
+                        end: 1
+                      type: word
+                  transcribed_text: transcribed_text
+                  utterance_index: 1
+                snippet_id: snippet_id
+                text: text
+                transcribed_text: transcribed_text
+                type: audio
+                utterance_index: 1
   source:
     openapi: tts-openapi.json
 types:
+  PostedContext:
+    discriminated: false
+    docs: >-
+      Utterances to use as context for generating consistent speech style and
+      prosody across multiple requests. These will not be converted to speech
+      output.
+    union:
+      - type: PostedContextWithGenerationId
+      - type: PostedContextWithUtterances
+    source:
+      openapi: tts-openapi.json
+    inline: true
+  Format:
+    discriminated: false
+    docs: Specifies the output audio file format.
+    union:
+      - type: FormatMp3
+      - type: FormatPcm
+      - type: FormatWav
+    source:
+      openapi: tts-openapi.json
+    inline: true
   AudioFormatType:
     enum:
       - mp3
@@ -535,28 +661,6 @@ types:
       type: literal<"mp3">
     source:
       openapi: tts-openapi.json
-  PostedContext:
-    discriminated: false
-    docs: >-
-      Utterances to use as context for generating consistent speech style and
-      prosody across multiple requests. These will not be converted to speech
-      output.
-    union:
-      - type: PostedContextWithGenerationId
-      - type: PostedContextWithUtterances
-    source:
-      openapi: tts-openapi.json
-    inline: true
-  Format:
-    discriminated: false
-    docs: Specifies the output audio file format.
-    union:
-      - type: FormatMp3
-      - type: FormatPcm
-      - type: FormatWav
-    source:
-      openapi: tts-openapi.json
-    inline: true
   PostedTts:
     properties:
       context:
