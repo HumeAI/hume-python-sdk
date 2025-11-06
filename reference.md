@@ -697,6 +697,104 @@ Enables ultra-low latency streaming, significantly reducing the time until the f
 </dl>
 </details>
 
+<details><summary><code>client.tts.<a href="src/hume/tts/client.py">convert_voice_json</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+response = client.tts.convert_voice_json()
+for chunk in response.data:
+    yield chunk
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**strip_headers:** `typing.Optional[bool]` — If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**audio:** `from __future__ import annotations
+
+typing.Optional[core.File]` — See core.File for more documentation
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**context:** `typing.Optional[PostedContext]` — Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**voice:** `typing.Optional[PostedUtteranceVoice]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `typing.Optional[Format]` — Specifies the output audio file format.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**include_timestamp_types:** `typing.Optional[typing.List[TimestampType]]` — The set of timestamp types to include in the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Tts Voices
 <details><summary><code>client.tts.voices.<a href="src/hume/tts/voices/client.py">list</a>(...)</code></summary>
 <dl>

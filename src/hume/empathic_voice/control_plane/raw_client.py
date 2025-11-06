@@ -89,13 +89,20 @@ class RawControlPlaneClient:
 
     @contextmanager
     def connect(
-        self, *, access_token: typing.Optional[str] = None, request_options: typing.Optional[RequestOptions] = None
+        self,
+        chat_id: str,
+        *,
+        access_token: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Iterator[ControlPlaneSocketClient]:
         """
         Connects to an in-progress EVI chat session. The original chat must have been started with `allow_connection=true`. The connection can be used to send and receive the same messages as the original chat, with the exception that `audio_input` messages are not allowed.
 
         Parameters
         ----------
+        chat_id : str
+            The ID of the chat to connect to.
+
         access_token : typing.Optional[str]
             Access token used for authenticating the client. If not provided, an `api_key` must be provided to authenticate.
 
@@ -197,13 +204,20 @@ class AsyncRawControlPlaneClient:
 
     @asynccontextmanager
     async def connect(
-        self, *, access_token: typing.Optional[str] = None, request_options: typing.Optional[RequestOptions] = None
+        self,
+        chat_id: str,
+        *,
+        access_token: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.AsyncIterator[AsyncControlPlaneSocketClient]:
         """
         Connects to an in-progress EVI chat session. The original chat must have been started with `allow_connection=true`. The connection can be used to send and receive the same messages as the original chat, with the exception that `audio_input` messages are not allowed.
 
         Parameters
         ----------
+        chat_id : str
+            The ID of the chat to connect to.
+
         access_token : typing.Optional[str]
             Access token used for authenticating the client. If not provided, an `api_key` must be provided to authenticate.
 

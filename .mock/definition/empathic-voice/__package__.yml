@@ -80,6 +80,9 @@ types:
         docs: >-
           ID of the assistant message. Allows the Assistant Message to be
           tracked and referenced.
+      language:
+        type: optional<string>
+        docs: Detected language of the message text.
       message:
         type: ChatMessage
         docs: Transcript of the message.
@@ -726,22 +729,15 @@ types:
         docs: Name of the tool called.
       parameters:
         type: string
-        docs: >-
-          Parameters of the tool.
-
-
-          These parameters define the inputs needed for the tool's execution,
-          including the expected data type and description for each input field.
-          Structured as a stringified JSON schema, this format ensures the tool
-          receives data in the expected format.
+        docs: Parameters of the tool call. Is a stringified JSON schema.
       response_required:
         type: boolean
         docs: >-
           Indicates whether a response to the tool call is required from the
           developer, either in the form of a [Tool Response
-          message](/reference/speech-to-speech-evi/chat#send.ToolResponseMessage)
+          message](/reference/empathic-voice-interface-evi/chat/chat#send.Tool%20Response%20Message.type)
           or a [Tool Error
-          message](/reference/speech-to-speech-evi/chat#send.ToolErrorMessage).
+          message](/reference/empathic-voice-interface-evi/chat/chat#send.Tool%20Error%20Message.type).
       tool_call_id:
         type: string
         docs: >-
@@ -752,12 +748,12 @@ types:
           invocation, ensuring that the correct response is linked to the
           appropriate request.
       tool_type:
-        type: optional<ToolType>
+        type: ToolType
         docs: >-
           Type of tool called. Either `builtin` for natively implemented tools,
           like web search, or `function` for user-defined tools.
       type:
-        type: literal<"tool_call">
+        type: optional<literal<"tool_call">>
         docs: >-
           The type of message sent through the socket; for a Tool Call message,
           this must be `tool_call`.
@@ -766,7 +762,7 @@ types:
           This message indicates that the supplemental LLM has detected a need
           to invoke the specified tool.
     source:
-      openapi: evi-asyncapi.json
+      openapi: evi-openapi.json
   ToolErrorMessage:
     docs: When provided, the output is a function call error.
     properties:
@@ -970,6 +966,9 @@ types:
           Interim transcripts are only sent when the
           [`verbose_transcription`](/reference/speech-to-speech-evi/chat#request.query.verbose_transcription)
           query parameter is set to `true` in the initial handshake.
+      language:
+        type: optional<string>
+        docs: Detected language of the message text.
       message:
         type: ChatMessage
         docs: Transcript of the message.
@@ -1214,7 +1213,7 @@ types:
       - type: PauseAssistantMessage
       - type: ResumeAssistantMessage
     source:
-      openapi: evi-asyncapi.json
+      openapi: evi-openapi.json
   HTTPValidationError:
     properties:
       detail:
@@ -1394,6 +1393,7 @@ types:
     union:
       - WebhookEventChatStarted
       - WebhookEventChatEnded
+      - WebhookEventToolCall
     source:
       openapi: evi-openapi.json
   WebhookEventChatEnded:
@@ -1475,6 +1475,37 @@ types:
       - MAX_DURATION_TIMEOUT
       - SILENCE_TIMEOUT
       - ERROR
+    source:
+      openapi: evi-openapi.json
+  WebhookEventToolCall:
+    properties:
+      caller_number:
+        type: optional<string>
+        docs: >-
+          Phone number of the caller in E.164 format (e.g., `+12223333333`).
+          This field is included only if the Chat was created via the [Twilio
+          phone calling](/docs/empathic-voice-interface-evi/phone-calling)
+          integration.
+      custom_session_id:
+        type: optional<string>
+        docs: >-
+          User-defined session ID. Relevant only when employing a [custom
+          language
+          model](/docs/empathic-voice-interface-evi/custom-language-model) in
+          the EVI Config.
+      event_name:
+        type: optional<literal<"tool_call">>
+        docs: Always `tool_call`.
+      timestamp:
+        type: integer
+        docs: >-
+          Unix timestamp (in milliseconds) indicating when the tool call was
+          triggered.
+      tool_call_message:
+        type: ToolCallMessage
+        docs: The tool call.
+    extends:
+      - WebhookEventBase
     source:
       openapi: evi-openapi.json
   ErrorResponse:
@@ -1668,9 +1699,6 @@ types:
           Version numbers are integer values representing different iterations
           of the Prompt. Each update to the Prompt increments its version
           number.
-      version_description:
-        type: optional<string>
-        docs: An optional description of the Prompt version.
       version_type:
         type: ReturnPromptVersionType
         docs: >-
@@ -1686,6 +1714,9 @@ types:
         docs: >-
           Time at which the Prompt was last modified. Measured in seconds since
           the Unix epoch.
+      version_description:
+        type: optional<string>
+        docs: An optional description of the Prompt version.
     source:
       openapi: evi-openapi.json
   ReturnPagedConfigs:
@@ -1741,9 +1772,6 @@ types:
           Version numbers are integer values representing different iterations
           of the Config. Each update to the Config increments its version
           number.
-      version_description:
-        type: optional<string>
-        docs: An optional description of the Config version.
       language_model:
         type: optional<ReturnLanguageModel>
         docs: >-
@@ -1798,6 +1826,9 @@ types:
         docs: >-
           Time at which the Config was last modified. Measured in seconds since
           the Unix epoch.
+      version_description:
+        type: optional<string>
+        docs: An optional description of the Config version.
       tools:
         type: optional<list<optional<ReturnUserDefinedTool>>>
         docs: List of user-defined tools associated with this Config.

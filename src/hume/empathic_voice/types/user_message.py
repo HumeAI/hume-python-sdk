@@ -34,6 +34,11 @@ class UserMessage(UniversalBaseModel):
     Interim transcripts are only sent when the [`verbose_transcription`](/reference/speech-to-speech-evi/chat#request.query.verbose_transcription) query parameter is set to `true` in the initial handshake.
     """
 
+    language: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Detected language of the message text.
+    """
+
     message: ChatMessage = pydantic.Field()
     """
     Transcript of the message.

@@ -18,6 +18,11 @@ service:
         content-type: application/json
       errors:
         - root.UnprocessableEntityError
+      examples:
+        - path-parameters:
+            chat_id: chat_id
+          request:
+            type: session_settings
   source:
     openapi: evi-openapi.json
 channel:
@@ -30,6 +35,10 @@ channel:
     been started with `allow_connection=true`. The connection can be used to
     send and receive the same messages as the original chat, with the exception
     that `audio_input` messages are not allowed.
+  path-parameters:
+    chat_id:
+      type: string
+      docs: The ID of the chat to connect to.
   query-parameters:
     access_token:
       type: optional<string>
