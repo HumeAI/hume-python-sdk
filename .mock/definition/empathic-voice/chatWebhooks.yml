@@ -34,3 +34,25 @@ webhooks:
           custom_session_id: null
           start_time: 1
     docs: Sent when an EVI chat is started.
+  toolCall:
+    audiences: []
+    method: POST
+    display-name: Tool Call
+    headers: {}
+    payload: root.WebhookEventToolCall
+    examples:
+      - payload:
+          chat_group_id: chat_group_id
+          chat_id: chat_id
+          config_id: null
+          caller_number: null
+          custom_session_id: null
+          timestamp: 1
+          tool_call_message:
+            custom_session_id: null
+            name: name
+            parameters: parameters
+            response_required: true
+            tool_call_id: tool_call_id
+            tool_type: builtin
+    docs: Sent when EVI triggers a tool call

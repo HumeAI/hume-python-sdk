@@ -122,6 +122,7 @@ if typing.TYPE_CHECKING:
         WebhookEventChatStartType,
         WebhookEventChatStarted,
         WebhookEventChatStatus,
+        WebhookEventToolCall,
     )
     from .errors import BadRequestError, UnprocessableEntityError
     from . import chat, chat_groups, chats, configs, control_plane, prompts, tools
@@ -245,6 +246,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "WebhookEventChatStartType": ".types",
     "WebhookEventChatStarted": ".types",
     "WebhookEventChatStatus": ".types",
+    "WebhookEventToolCall": ".types",
     "chat": ".",
     "chat_groups": ".",
     "chats": ".",
@@ -393,6 +395,7 @@ __all__ = [
     "WebhookEventChatStartType",
     "WebhookEventChatStarted",
     "WebhookEventChatStatus",
+    "WebhookEventToolCall",
     "chat",
     "chat_groups",
     "chats",

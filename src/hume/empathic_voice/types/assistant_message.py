@@ -28,6 +28,11 @@ class AssistantMessage(UniversalBaseModel):
     ID of the assistant message. Allows the Assistant Message to be tracked and referenced.
     """
 
+    language: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Detected language of the message text.
+    """
+
     message: ChatMessage = pydantic.Field()
     """
     Transcript of the message.
