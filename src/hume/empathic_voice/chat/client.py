@@ -69,6 +69,7 @@ class ChatClient:
         verbose_transcription: typing.Optional[bool] = None,
         api_key: typing.Optional[str] = None,
         session_settings: ConnectSessionSettings,
+        allow_connection: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Iterator[ChatSocketClient]:
         """
@@ -148,6 +149,8 @@ class ChatClient:
             query_params = query_params.add("verbose_transcription", verbose_transcription)
         if api_key is not None:
             query_params = query_params.add("api_key", api_key)
+        if allow_connection is not None:
+            query_params = query_params.add("allow_connection", str(allow_connection).lower())
         if session_settings is not None:
             flattened_params = single_query_encoder("session_settings", session_settings)
             for param_key, param_value in flattened_params:
