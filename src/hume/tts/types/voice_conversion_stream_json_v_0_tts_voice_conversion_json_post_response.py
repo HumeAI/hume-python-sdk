@@ -5,4 +5,4 @@ import typing
 from .snippet_audio_chunk import SnippetAudioChunk
 from .timestamp_message import TimestampMessage
 
-TtsOutput = typing.Union[TimestampMessage, SnippetAudioChunk]
+VoiceConversionStreamJsonV0TtsVoiceConversionJsonPostResponse = typing.Union[TimestampMessage, SnippetAudioChunk]

@@ -2,4 +2,4 @@
 
 import typing
 
-ContextType = typing.Union[typing.Literal["persistent", "temporary"], typing.Any]
+ContextType = typing.Union[typing.Literal["editable", "persistent", "temporary"], typing.Any]

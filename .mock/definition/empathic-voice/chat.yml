@@ -6,25 +6,6 @@ channel:
   auth: false
   docs: Chat with Empathic Voice Interface (EVI)
   query-parameters:
-    access_token:
-      type: optional<string>
-      default: ''
-      docs: >-
-        Access token used for authenticating the client. If not provided, an
-        `api_key` must be provided to authenticate.
-
-
-        The access token is generated using both an API key and a Secret key,
-        which provides an additional layer of security compared to using just an
-        API key.
-
-
-        For more details, refer to the [Authentication Strategies
-        Guide](/docs/introduction/api-key#authentication-strategies).
-    allow_connection:
-      type: optional<boolean>
-      default: false
-      docs: Allows external connections to this chat via the /connect endpoint.
     config_id:
       type: optional<string>
       docs: >-
@@ -53,13 +34,6 @@ channel:
 
         Include this parameter to apply a specific version of an EVI
         configuration. If omitted, the latest version will be applied.
-    event_limit:
-      type: optional<integer>
-      docs: >-
-        The maximum number of chat events to return from chat history. By
-        default, the system returns up to 300 events (100 events per page × 3
-        pages). Set this parameter to a smaller value to limit the number of
-        events returned.
     resumed_chat_group_id:
       type: optional<string>
       docs: >-
@@ -115,6 +89,32 @@ channel:
         field on a
         [UserMessage](/reference/speech-to-speech-evi/chat#receive.UserMessage)
         denotes whether the message is "interim" or "final."
+    event_limit:
+      type: optional<integer>
+      docs: >-
+        The maximum number of chat events to return from chat history. By
+        default, the system returns up to 300 events (100 events per page × 3
+        pages). Set this parameter to a smaller value to limit the number of
+        events returned.
+    allow_connection:
+      type: optional<boolean>
+      default: false
+      docs: Allows external connections to this chat via the /connect endpoint.
+    access_token:
+      type: optional<string>
+      default: ''
+      docs: >-
+        Access token used for authenticating the client. If not provided, an
+        `api_key` must be provided to authenticate.
+
+
+        The access token is generated using both an API key and a Secret key,
+        which provides an additional layer of security compared to using just an
+        API key.
+
+
+        For more details, refer to the [Authentication Strategies
+        Guide](/docs/introduction/api-key#authentication-strategies).
     api_key:
       type: optional<string>
       default: ''
@@ -132,7 +132,7 @@ channel:
       body: PublishEvent
     subscribe:
       origin: server
-      body: root.SubscribeEvent
+      body: SubscribeEvent
 types:
   PublishEvent:
     discriminated: false
@@ -145,5 +145,21 @@ types:
       - type: root.ToolErrorMessage
       - type: root.PauseAssistantMessage
       - type: root.ResumeAssistantMessage
+    source:
+      openapi: evi-asyncapi.json
+  SubscribeEvent:
+    discriminated: false
+    union:
+      - type: root.AssistantEnd
+      - type: root.AssistantMessage
+      - type: root.AssistantProsody
+      - type: root.AudioOutput
+      - type: root.ChatMetadata
+      - type: root.WebSocketError
+      - type: root.UserInterruption
+      - type: root.UserMessage
+      - type: root.ToolCallMessage
+      - type: root.ToolResponseMessage
+      - type: root.ToolErrorMessage
     source:
       openapi: evi-asyncapi.json

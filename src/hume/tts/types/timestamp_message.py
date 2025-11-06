@@ -12,14 +12,15 @@ class TimestampMessage(UniversalBaseModel):
     A word or phoneme level timestamp for the generated audio.
     """
 
-    generation_id: str = pydantic.Field()
-    """
-    The generation ID of the parent snippet that this chunk corresponds to.
-    """
-
+    type: typing.Literal["timestamp"] = "timestamp"
     request_id: str = pydantic.Field()
     """
     ID of the initiating request.
+    """
+
+    generation_id: str = pydantic.Field()
+    """
+    The generation ID of the parent snippet that this chunk corresponds to.
     """
 
     snippet_id: str = pydantic.Field()
@@ -31,8 +32,6 @@ class TimestampMessage(UniversalBaseModel):
     """
     A word or phoneme level timestamp for the generated audio.
     """
-
-    type: typing.Literal["timestamp"] = "timestamp"
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

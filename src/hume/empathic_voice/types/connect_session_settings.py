@@ -10,39 +10,6 @@ from .connect_session_settings_variables_value import ConnectSessionSettingsVari
 
 
 class ConnectSessionSettings(UniversalBaseModel):
-    audio: typing.Optional[ConnectSessionSettingsAudio] = pydantic.Field(default=None)
-    """
-    Configuration details for the audio input used during the session. Ensures the audio is being correctly set up for processing.
-    
-    This optional field is only required when the audio input is encoded in PCM Linear 16 (16-bit, little-endian, signed PCM WAV data). For detailed instructions on how to configure session settings for PCM Linear 16 audio, please refer to the [Session Settings section](/docs/empathic-voice-interface-evi/configuration#session-settings) on the EVI Configuration page.
-    """
-
-    context: typing.Optional[ConnectSessionSettingsContext] = pydantic.Field(default=None)
-    """
-    Allows developers to inject additional context into the conversation, which is appended to the end of user messages for the session.
-    
-    When included in a Session Settings message, the provided context can be used to remind the LLM of its role in every user message, prevent it from forgetting important details, or add new relevant information to the conversation.
-    
-    Set to `null` to disable context injection.
-    """
-
-    custom_session_id: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
-    """
-
-    event_limit: typing.Optional[int] = pydantic.Field(default=None)
-    """
-    The maximum number of chat events to return from chat history. By default, the system returns up to 300 events (100 events per page × 3 pages). Set this parameter to a smaller value to limit the number of events returned.
-    """
-
-    language_model_api_key: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    Third party API key for the supplemental language model.
-    
-    When provided, EVI will use this key instead of Hume's API key for the supplemental LLM. This allows you to bypass rate limits and utilize your own API key as needed.
-    """
-
     system_prompt: typing.Optional[str] = pydantic.Field(default=None)
     """
     Instructions used to shape EVI's behavior, responses, and style for the session.
@@ -54,6 +21,20 @@ class ConnectSessionSettings(UniversalBaseModel):
     For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).
     """
 
+    context: typing.Optional[ConnectSessionSettingsContext] = None
+    audio: typing.Optional[ConnectSessionSettingsAudio] = None
+    language_model_api_key: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Third party API key for the supplemental language model.
+    
+    When provided, EVI will use this key instead of Hume's API key for the supplemental LLM. This allows you to bypass rate limits and utilize your own API key as needed.
+    """
+
+    custom_session_id: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
+    """
+
     variables: typing.Optional[typing.Dict[str, ConnectSessionSettingsVariablesValue]] = pydantic.Field(default=None)
     """
     This field allows you to assign values to dynamic variables referenced in your system prompt.
@@ -61,6 +42,11 @@ class ConnectSessionSettings(UniversalBaseModel):
     Each key represents the variable name, and the corresponding value is the specific content you wish to assign to that variable within the session. While the values for variables can be strings, numbers, or booleans, the value will ultimately be converted to a string when injected into your system prompt.
     
     Using this field, you can personalize responses based on session-specific details. For more guidance, see our [guide on using dynamic variables](/docs/speech-to-speech-evi/features/dynamic-variables).
+    """
+
+    event_limit: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    The maximum number of chat events to return from chat history. By default, the system returns up to 300 events (100 events per page × 3 pages). Set this parameter to a smaller value to limit the number of events returned.
     """
 
     voice_id: typing.Optional[str] = pydantic.Field(default=None)

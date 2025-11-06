@@ -12,19 +12,25 @@ from .timestamp_type import TimestampType
 
 
 class PostedTts(UniversalBaseModel):
+    version: typing.Optional[OctaveVersion] = pydantic.Field(default=None)
+    """
+    Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
+    
+    Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
+    
+    For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
+    """
+
     context: typing.Optional[PostedContext] = pydantic.Field(default=None)
     """
     Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
     """
 
-    format: typing.Optional[Format] = pydantic.Field(default=None)
+    utterances: typing.List[PostedUtterance] = pydantic.Field()
     """
-    Specifies the output audio file format.
-    """
-
-    include_timestamp_types: typing.Optional[typing.List[TimestampType]] = pydantic.Field(default=None)
-    """
-    The set of timestamp types to include in the response.
+    A list of **Utterances** to be converted to speech output.
+    
+    An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
     """
 
     num_generations: typing.Optional[int] = pydantic.Field(default=None)
@@ -32,6 +38,11 @@ class PostedTts(UniversalBaseModel):
     Number of audio generations to produce from the input utterances.
     
     Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
+    """
+
+    format: typing.Optional[Format] = pydantic.Field(default=None)
+    """
+    Specifies the output audio file format.
     """
 
     split_utterances: typing.Optional[bool] = pydantic.Field(default=None)
@@ -50,20 +61,9 @@ class PostedTts(UniversalBaseModel):
     If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
     """
 
-    utterances: typing.List[PostedUtterance] = pydantic.Field()
+    include_timestamp_types: typing.Optional[typing.List[TimestampType]] = pydantic.Field(default=None)
     """
-    A list of **Utterances** to be converted to speech output.
-    
-    An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
-    """
-
-    version: typing.Optional[OctaveVersion] = pydantic.Field(default=None)
-    """
-    Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
-    
-    Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
-    
-    For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
+    The set of timestamp types to include in the response.
     """
 
     instant_mode: typing.Optional[bool] = pydantic.Field(default=None)

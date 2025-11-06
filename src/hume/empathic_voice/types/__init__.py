@@ -24,15 +24,16 @@ if typing.TYPE_CHECKING:
     from .connect_session_settings_variables_value import ConnectSessionSettingsVariablesValue
     from .context import Context
     from .context_type import ContextType
-    from .control_plane_publish_event import ControlPlanePublishEvent
     from .emotion_scores import EmotionScores
     from .encoding import Encoding
     from .error_level import ErrorLevel
     from .error_response import ErrorResponse
     from .http_validation_error import HttpValidationError
     from .inference import Inference
+    from .interruption_type import InterruptionType
     from .json_message import JsonMessage
     from .language_model_type import LanguageModelType
+    from .latency_metrics import LatencyMetrics
     from .millisecond_interval import MillisecondInterval
     from .model_provider_enum import ModelProviderEnum
     from .pause_assistant_message import PauseAssistantMessage
@@ -101,7 +102,6 @@ if typing.TYPE_CHECKING:
     from .role import Role
     from .session_settings import SessionSettings
     from .session_settings_variables_value import SessionSettingsVariablesValue
-    from .subscribe_event import SubscribeEvent
     from .tool import Tool
     from .tool_call_message import ToolCallMessage
     from .tool_error_message import ToolErrorMessage
@@ -142,15 +142,16 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConnectSessionSettingsVariablesValue": ".connect_session_settings_variables_value",
     "Context": ".context",
     "ContextType": ".context_type",
-    "ControlPlanePublishEvent": ".control_plane_publish_event",
     "EmotionScores": ".emotion_scores",
     "Encoding": ".encoding",
     "ErrorLevel": ".error_level",
     "ErrorResponse": ".error_response",
     "HttpValidationError": ".http_validation_error",
     "Inference": ".inference",
+    "InterruptionType": ".interruption_type",
     "JsonMessage": ".json_message",
     "LanguageModelType": ".language_model_type",
+    "LatencyMetrics": ".latency_metrics",
     "MillisecondInterval": ".millisecond_interval",
     "ModelProviderEnum": ".model_provider_enum",
     "PauseAssistantMessage": ".pause_assistant_message",
@@ -217,7 +218,6 @@ _dynamic_imports: typing.Dict[str, str] = {
     "Role": ".role",
     "SessionSettings": ".session_settings",
     "SessionSettingsVariablesValue": ".session_settings_variables_value",
-    "SubscribeEvent": ".subscribe_event",
     "Tool": ".tool",
     "ToolCallMessage": ".tool_call_message",
     "ToolErrorMessage": ".tool_error_message",
@@ -280,15 +280,16 @@ __all__ = [
     "ConnectSessionSettingsVariablesValue",
     "Context",
     "ContextType",
-    "ControlPlanePublishEvent",
     "EmotionScores",
     "Encoding",
     "ErrorLevel",
     "ErrorResponse",
     "HttpValidationError",
     "Inference",
+    "InterruptionType",
     "JsonMessage",
     "LanguageModelType",
+    "LatencyMetrics",
     "MillisecondInterval",
     "ModelProviderEnum",
     "PauseAssistantMessage",
@@ -355,7 +356,6 @@ __all__ = [
     "Role",
     "SessionSettings",
     "SessionSettingsVariablesValue",
-    "SubscribeEvent",
     "Tool",
     "ToolCallMessage",
     "ToolErrorMessage",

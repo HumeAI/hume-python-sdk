@@ -6,6 +6,45 @@ channel:
   auth: false
   docs: Generate emotionally expressive speech.
   query-parameters:
+    context_generation_id:
+      type: optional<string>
+      docs: >-
+        The ID of a prior TTS generation to use as context for generating
+        consistent speech style and prosody across multiple requests. Including
+        context may increase audio generation times.
+    format_type:
+      type: optional<root.AudioFormatType>
+      docs: The format to be used for audio generation.
+    strip_headers:
+      type: optional<boolean>
+      default: false
+      docs: >-
+        If enabled, the audio for all the chunks of a generation, once
+        concatenated together, will constitute a single audio file. Otherwise,
+        if disabled, each chunk's audio will be its own audio file, each with
+        its own headers (if applicable).
+    instant_mode:
+      type: optional<boolean>
+      default: true
+      docs: >-
+        Enables ultra-low latency streaming, significantly reducing the time
+        until the first audio chunk is received. Recommended for real-time
+        applications requiring immediate audio playback. For further details,
+        see our documentation on [instant
+        mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
+    no_binary:
+      type: optional<boolean>
+      default: false
+      docs: If enabled, no binary websocket messages will be sent to the client.
+    version:
+      type: optional<root.OctaveVersion>
+      docs: >-
+        The version of the Octave Model to use. 1 for the legacy model, 2 for
+        the new model.
+    include_timestamp_types:
+      type: optional<root.TimestampType>
+      allow-multiple: true
+      docs: The set of timestamp types to include in the response.
     access_token:
       type: optional<string>
       default: ''
@@ -21,45 +60,6 @@ channel:
 
         For more details, refer to the [Authentication Strategies
         Guide](/docs/introduction/api-key#authentication-strategies).
-    context_generation_id:
-      type: optional<string>
-      docs: >-
-        The ID of a prior TTS generation to use as context for generating
-        consistent speech style and prosody across multiple requests. Including
-        context may increase audio generation times.
-    format_type:
-      type: optional<root.AudioFormatType>
-      docs: The format to be used for audio generation.
-    include_timestamp_types:
-      type: optional<root.TimestampType>
-      allow-multiple: true
-      docs: The set of timestamp types to include in the response.
-    instant_mode:
-      type: optional<boolean>
-      default: true
-      docs: >-
-        Enables ultra-low latency streaming, significantly reducing the time
-        until the first audio chunk is received. Recommended for real-time
-        applications requiring immediate audio playback. For further details,
-        see our documentation on [instant
-        mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
-    no_binary:
-      type: optional<boolean>
-      default: false
-      docs: If enabled, no binary websocket messages will be sent to the client.
-    strip_headers:
-      type: optional<boolean>
-      default: false
-      docs: >-
-        If enabled, the audio for all the chunks of a generation, once
-        concatenated together, will constitute a single audio file. Otherwise,
-        if disabled, each chunk's audio will be its own audio file, each with
-        its own headers (if applicable).
-    version:
-      type: optional<root.OctaveVersion>
-      docs: >-
-        The version of the Octave Model to use. 1 for the legacy model, 2 for
-        the new model.
     api_key:
       type: optional<string>
       default: ''
@@ -85,12 +85,13 @@ channel:
           body: {}
         - type: subscribe
           body:
-            audio: audio
-            audio_format: mp3
-            chunk_index: 1
-            generation_id: generation_id
-            is_last_chunk: true
+            type: timestamp
             request_id: request_id
+            generation_id: generation_id
             snippet_id: snippet_id
-            text: text
-            type: audio
+            timestamp:
+              type: word
+              text: text
+              time:
+                begin: 1
+                end: 1

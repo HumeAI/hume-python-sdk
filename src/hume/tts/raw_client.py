@@ -5,6 +5,7 @@ import json
 import typing
 from json.decoder import JSONDecodeError
 
+from .. import core
 from ..core.api_error import ApiError
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.http_response import AsyncHttpResponse, HttpResponse
@@ -19,7 +20,13 @@ from .types.posted_context import PostedContext
 from .types.posted_utterance import PostedUtterance
 from .types.return_tts import ReturnTts
 from .types.timestamp_type import TimestampType
+from .types.tts_conversion_stream_json_v_0_tts_tts_conversion_json_post_response import (
+    TtsConversionStreamJsonV0TtsTtsConversionJsonPostResponse,
+)
 from .types.tts_output import TtsOutput
+from .types.voice_conversion_stream_json_v_0_tts_voice_conversion_json_post_response import (
+    VoiceConversionStreamJsonV0TtsVoiceConversionJsonPostResponse,
+)
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -33,13 +40,13 @@ class RawTtsClient:
         self,
         *,
         utterances: typing.Sequence[PostedUtterance],
+        version: typing.Optional[OctaveVersion] = OMIT,
         context: typing.Optional[PostedContext] = OMIT,
-        format: typing.Optional[Format] = OMIT,
-        include_timestamp_types: typing.Optional[typing.Sequence[TimestampType]] = OMIT,
         num_generations: typing.Optional[int] = OMIT,
+        format: typing.Optional[Format] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
-        version: typing.Optional[OctaveVersion] = OMIT,
+        include_timestamp_types: typing.Optional[typing.Sequence[TimestampType]] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ReturnTts]:
@@ -55,19 +62,23 @@ class RawTtsClient:
 
             An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
 
+        version : typing.Optional[OctaveVersion]
+            Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
+
+            Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
+
+            For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
+
         context : typing.Optional[PostedContext]
             Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
-
-        format : typing.Optional[Format]
-            Specifies the output audio file format.
-
-        include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
-            The set of timestamp types to include in the response.
 
         num_generations : typing.Optional[int]
             Number of audio generations to produce from the input utterances.
 
             Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
+
+        format : typing.Optional[Format]
+            Specifies the output audio file format.
 
         split_utterances : typing.Optional[bool]
             Controls how audio output is segmented in the response.
@@ -81,12 +92,8 @@ class RawTtsClient:
         strip_headers : typing.Optional[bool]
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
 
-        version : typing.Optional[OctaveVersion]
-            Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
-
-            Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
-
-            For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
+        include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
+            The set of timestamp types to include in the response.
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
@@ -107,18 +114,18 @@ class RawTtsClient:
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
+                "version": version,
                 "context": convert_and_respect_annotation_metadata(
                     object_=context, annotation=PostedContext, direction="write"
                 ),
-                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
-                "include_timestamp_types": include_timestamp_types,
-                "num_generations": num_generations,
-                "split_utterances": split_utterances,
-                "strip_headers": strip_headers,
                 "utterances": convert_and_respect_annotation_metadata(
                     object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
                 ),
-                "version": version,
+                "num_generations": num_generations,
+                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
+                "split_utterances": split_utterances,
+                "strip_headers": strip_headers,
+                "include_timestamp_types": include_timestamp_types,
                 "instant_mode": instant_mode,
             },
             headers={
@@ -158,13 +165,13 @@ class RawTtsClient:
         self,
         *,
         utterances: typing.Sequence[PostedUtterance],
+        version: typing.Optional[OctaveVersion] = OMIT,
         context: typing.Optional[PostedContext] = OMIT,
-        format: typing.Optional[Format] = OMIT,
-        include_timestamp_types: typing.Optional[typing.Sequence[TimestampType]] = OMIT,
         num_generations: typing.Optional[int] = OMIT,
+        format: typing.Optional[Format] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
-        version: typing.Optional[OctaveVersion] = OMIT,
+        include_timestamp_types: typing.Optional[typing.Sequence[TimestampType]] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Iterator[HttpResponse[typing.Iterator[bytes]]]:
@@ -180,19 +187,23 @@ class RawTtsClient:
 
             An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
 
+        version : typing.Optional[OctaveVersion]
+            Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
+
+            Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
+
+            For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
+
         context : typing.Optional[PostedContext]
             Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
-
-        format : typing.Optional[Format]
-            Specifies the output audio file format.
-
-        include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
-            The set of timestamp types to include in the response.
 
         num_generations : typing.Optional[int]
             Number of audio generations to produce from the input utterances.
 
             Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
+
+        format : typing.Optional[Format]
+            Specifies the output audio file format.
 
         split_utterances : typing.Optional[bool]
             Controls how audio output is segmented in the response.
@@ -206,12 +217,8 @@ class RawTtsClient:
         strip_headers : typing.Optional[bool]
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
 
-        version : typing.Optional[OctaveVersion]
-            Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
-
-            Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
-
-            For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
+        include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
+            The set of timestamp types to include in the response.
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
@@ -232,144 +239,18 @@ class RawTtsClient:
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
+                "version": version,
                 "context": convert_and_respect_annotation_metadata(
                     object_=context, annotation=PostedContext, direction="write"
                 ),
-                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
-                "include_timestamp_types": include_timestamp_types,
-                "num_generations": num_generations,
-                "split_utterances": split_utterances,
-                "strip_headers": strip_headers,
                 "utterances": convert_and_respect_annotation_metadata(
                     object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
                 ),
-                "version": version,
-                "instant_mode": instant_mode,
-            },
-            headers={
-                "content-type": "application/json",
-            },
-            request_options=request_options,
-            omit=OMIT,
-        ) as _response:
-
-            def _stream() -> HttpResponse[typing.Iterator[bytes]]:
-                try:
-                    if 200 <= _response.status_code < 300:
-                        _chunk_size = request_options.get("chunk_size", None) if request_options is not None else None
-                        return HttpResponse(
-                            response=_response, data=(_chunk for _chunk in _response.iter_bytes(chunk_size=_chunk_size))
-                        )
-                    _response.read()
-                    if _response.status_code == 422:
-                        raise UnprocessableEntityError(
-                            headers=dict(_response.headers),
-                            body=typing.cast(
-                                HttpValidationError,
-                                parse_obj_as(
-                                    type_=HttpValidationError,  # type: ignore
-                                    object_=_response.json(),
-                                ),
-                            ),
-                        )
-                    _response_json = _response.json()
-                except JSONDecodeError:
-                    raise ApiError(
-                        status_code=_response.status_code, headers=dict(_response.headers), body=_response.text
-                    )
-                raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
-
-            yield _stream()
-
-    @contextlib.contextmanager
-    def synthesize_file_streaming(
-        self,
-        *,
-        utterances: typing.Sequence[PostedUtterance],
-        context: typing.Optional[PostedContext] = OMIT,
-        format: typing.Optional[Format] = OMIT,
-        include_timestamp_types: typing.Optional[typing.Sequence[TimestampType]] = OMIT,
-        num_generations: typing.Optional[int] = OMIT,
-        split_utterances: typing.Optional[bool] = OMIT,
-        strip_headers: typing.Optional[bool] = OMIT,
-        version: typing.Optional[OctaveVersion] = OMIT,
-        instant_mode: typing.Optional[bool] = OMIT,
-        request_options: typing.Optional[RequestOptions] = None,
-    ) -> typing.Iterator[HttpResponse[typing.Iterator[bytes]]]:
-        """
-        Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
-
-        Parameters
-        ----------
-        utterances : typing.Sequence[PostedUtterance]
-            A list of **Utterances** to be converted to speech output.
-
-            An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
-
-        context : typing.Optional[PostedContext]
-            Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
-
-        format : typing.Optional[Format]
-            Specifies the output audio file format.
-
-        include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
-            The set of timestamp types to include in the response.
-
-        num_generations : typing.Optional[int]
-            Number of audio generations to produce from the input utterances.
-
-            Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
-
-        split_utterances : typing.Optional[bool]
-            Controls how audio output is segmented in the response.
-
-            - When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.
-
-            - When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets.
-
-            This setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
-
-        strip_headers : typing.Optional[bool]
-            If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
-
-        version : typing.Optional[OctaveVersion]
-            Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
-
-            Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
-
-            For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
-
-        instant_mode : typing.Optional[bool]
-            Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
-            - A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
-            - Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
-            - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
-
-        Returns
-        -------
-        typing.Iterator[HttpResponse[typing.Iterator[bytes]]]
-            OK
-        """
-        with self._client_wrapper.httpx_client.stream(
-            "v0/tts/stream/file",
-            base_url=self._client_wrapper.get_environment().base,
-            method="POST",
-            json={
-                "context": convert_and_respect_annotation_metadata(
-                    object_=context, annotation=PostedContext, direction="write"
-                ),
-                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
-                "include_timestamp_types": include_timestamp_types,
                 "num_generations": num_generations,
+                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
                 "split_utterances": split_utterances,
                 "strip_headers": strip_headers,
-                "utterances": convert_and_respect_annotation_metadata(
-                    object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
-                ),
-                "version": version,
+                "include_timestamp_types": include_timestamp_types,
                 "instant_mode": instant_mode,
             },
             headers={
@@ -412,13 +293,13 @@ class RawTtsClient:
         self,
         *,
         utterances: typing.Sequence[PostedUtterance],
+        version: typing.Optional[OctaveVersion] = OMIT,
         context: typing.Optional[PostedContext] = OMIT,
-        format: typing.Optional[Format] = OMIT,
-        include_timestamp_types: typing.Optional[typing.Sequence[TimestampType]] = OMIT,
         num_generations: typing.Optional[int] = OMIT,
+        format: typing.Optional[Format] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
-        version: typing.Optional[OctaveVersion] = OMIT,
+        include_timestamp_types: typing.Optional[typing.Sequence[TimestampType]] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Iterator[HttpResponse[typing.Iterator[TtsOutput]]]:
@@ -434,19 +315,23 @@ class RawTtsClient:
 
             An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
 
+        version : typing.Optional[OctaveVersion]
+            Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
+
+            Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
+
+            For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
+
         context : typing.Optional[PostedContext]
             Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
-
-        format : typing.Optional[Format]
-            Specifies the output audio file format.
-
-        include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
-            The set of timestamp types to include in the response.
 
         num_generations : typing.Optional[int]
             Number of audio generations to produce from the input utterances.
 
             Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
+
+        format : typing.Optional[Format]
+            Specifies the output audio file format.
 
         split_utterances : typing.Optional[bool]
             Controls how audio output is segmented in the response.
@@ -460,12 +345,8 @@ class RawTtsClient:
         strip_headers : typing.Optional[bool]
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
 
-        version : typing.Optional[OctaveVersion]
-            Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
-
-            Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
-
-            For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
+        include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
+            The set of timestamp types to include in the response.
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
@@ -486,18 +367,18 @@ class RawTtsClient:
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
+                "version": version,
                 "context": convert_and_respect_annotation_metadata(
                     object_=context, annotation=PostedContext, direction="write"
                 ),
-                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
-                "include_timestamp_types": include_timestamp_types,
-                "num_generations": num_generations,
-                "split_utterances": split_utterances,
-                "strip_headers": strip_headers,
                 "utterances": convert_and_respect_annotation_metadata(
                     object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
                 ),
-                "version": version,
+                "num_generations": num_generations,
+                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
+                "split_utterances": split_utterances,
+                "strip_headers": strip_headers,
+                "include_timestamp_types": include_timestamp_types,
                 "instant_mode": instant_mode,
             },
             headers={
@@ -549,6 +430,664 @@ class RawTtsClient:
 
             yield _stream()
 
+    def voice_conversion_stream_json_v_0_tts_voice_conversion_json_post(
+        self,
+        *,
+        audio: core.File,
+        access_token: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[VoiceConversionStreamJsonV0TtsVoiceConversionJsonPostResponse]:
+        """
+        Parameters
+        ----------
+        audio : core.File
+            See core.File for more documentation
+
+        access_token : typing.Optional[str]
+            Access token used for authenticating the client. If not provided, an `api_key` must be provided to authenticate.
+
+            The access token is generated using both an API key and a Secret key, which provides an additional layer of security compared to using just an API key.
+
+            For more details, refer to the [Authentication Strategies Guide](/docs/introduction/api-key#authentication-strategies).
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[VoiceConversionStreamJsonV0TtsVoiceConversionJsonPostResponse]
+            Successful Response
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "v0/tts/voice_conversion/json",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            params={
+                "access_token": access_token,
+            },
+            data={},
+            files={
+                "audio": audio,
+            },
+            request_options=request_options,
+            omit=OMIT,
+            force_multipart=True,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    VoiceConversionStreamJsonV0TtsVoiceConversionJsonPostResponse,
+                    parse_obj_as(
+                        type_=VoiceConversionStreamJsonV0TtsVoiceConversionJsonPostResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 422:
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        HttpValidationError,
+                        parse_obj_as(
+                            type_=HttpValidationError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def tts_conversion_stream_json_v_0_tts_tts_conversion_json_post(
+        self,
+        *,
+        access_token: typing.Optional[str] = None,
+        model: typing.Optional[typing.Literal["octave"]] = OMIT,
+        version: typing.Optional[typing.Optional[typing.Any]] = OMIT,
+        context_generation_id: typing.Optional[str] = OMIT,
+        context_utterances_n_text: typing.Optional[str] = OMIT,
+        context_utterances_n_description: typing.Optional[str] = OMIT,
+        context_utterances_n_voice_id: typing.Optional[str] = OMIT,
+        context_utterances_n_voice_provider: typing.Optional[typing.Optional[typing.Any]] = OMIT,
+        context_utterances_n_voice_name: typing.Optional[str] = OMIT,
+        context_utterances_n_speed: typing.Optional[float] = OMIT,
+        context_utterances_n_trailing_silence: typing.Optional[float] = OMIT,
+        utterances_n_text: typing.Optional[str] = OMIT,
+        utterances_n_description: typing.Optional[str] = OMIT,
+        utterances_n_voice_id: typing.Optional[str] = OMIT,
+        utterances_n_voice_provider: typing.Optional[typing.Optional[typing.Any]] = OMIT,
+        utterances_n_voice_name: typing.Optional[str] = OMIT,
+        utterances_n_speed: typing.Optional[float] = OMIT,
+        utterances_n_trailing_silence: typing.Optional[float] = OMIT,
+        num_generations: typing.Optional[int] = OMIT,
+        format_type: typing.Optional[typing.Literal["mp3"]] = OMIT,
+        expand_description: typing.Optional[bool] = OMIT,
+        split_utterances: typing.Optional[bool] = OMIT,
+        filter_generations: typing.Optional[bool] = OMIT,
+        multi_speaker: typing.Optional[bool] = OMIT,
+        strip_headers: typing.Optional[bool] = OMIT,
+        include_timestamp_types_n: typing.Optional[typing.Optional[typing.Any]] = OMIT,
+        no_binary: typing.Optional[bool] = OMIT,
+        instant_mode: typing.Optional[bool] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[TtsConversionStreamJsonV0TtsTtsConversionJsonPostResponse]:
+        """
+        Parameters
+        ----------
+        access_token : typing.Optional[str]
+            Access token used for authenticating the client. If not provided, an `api_key` must be provided to authenticate.
+
+            The access token is generated using both an API key and a Secret key, which provides an additional layer of security compared to using just an API key.
+
+            For more details, refer to the [Authentication Strategies Guide](/docs/introduction/api-key#authentication-strategies).
+
+        model : typing.Optional[typing.Literal["octave"]]
+            The TTS model to use for speech generations.
+
+        version : typing.Optional[typing.Optional[typing.Any]]
+
+        context_generation_id : typing.Optional[str]
+            The ID of a prior TTS generation to use as context for generating consistent speech style and prosody across multiple requests. Including context may increase audio generation times.
+
+        context_utterances_n_text : typing.Optional[str]
+            The input text to be converted to speech output.
+
+        context_utterances_n_description : typing.Optional[str]
+            Natural language instructions describing how the text should be spoken by the model (e.g., `"a soft, gentle voice with a strong British accent"`).
+
+        context_utterances_n_voice_id : typing.Optional[str]
+            ID of the voice in the `Voice Library`.
+
+        context_utterances_n_voice_provider : typing.Optional[typing.Optional[typing.Any]]
+
+        context_utterances_n_voice_name : typing.Optional[str]
+            Name of the voice in the `Voice Library`.
+
+        context_utterances_n_speed : typing.Optional[float]
+            A relative measure of how fast this utterance should be spoken.
+
+        context_utterances_n_trailing_silence : typing.Optional[float]
+            Duration of trailing silence (in seconds) to add to this utterance
+
+        utterances_n_text : typing.Optional[str]
+            The input text to be converted to speech output.
+
+        utterances_n_description : typing.Optional[str]
+            Natural language instructions describing how the text should be spoken by the model (e.g., `"a soft, gentle voice with a strong British accent"`).
+
+        utterances_n_voice_id : typing.Optional[str]
+            ID of the voice in the `Voice Library`.
+
+        utterances_n_voice_provider : typing.Optional[typing.Optional[typing.Any]]
+
+        utterances_n_voice_name : typing.Optional[str]
+            Name of the voice in the `Voice Library`.
+
+        utterances_n_speed : typing.Optional[float]
+            A relative measure of how fast this utterance should be spoken.
+
+        utterances_n_trailing_silence : typing.Optional[float]
+            Duration of trailing silence (in seconds) to add to this utterance
+
+        num_generations : typing.Optional[int]
+            Number of generations of the audio to produce.
+
+        format_type : typing.Optional[typing.Literal["mp3"]]
+            Format for the output audio.
+
+        expand_description : typing.Optional[bool]
+            If enabled, enhances the provided description prompt to improve voice generation quality.
+
+        split_utterances : typing.Optional[bool]
+            If enabled, each input utterance will be split as needed into more natural-sounding `snippets` of speech for audio generation.
+
+        filter_generations : typing.Optional[bool]
+            If enabled, additional generations will be made, and the best `num_generations` of them all will be returned.
+
+        multi_speaker : typing.Optional[bool]
+            If enabled, consecutive utterances with the different voices will be generated with compounding context that takes into account the previous utterances.
+
+        strip_headers : typing.Optional[bool]
+            If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+
+        include_timestamp_types_n : typing.Optional[typing.Optional[typing.Any]]
+
+        no_binary : typing.Optional[bool]
+            If enabled, no binary websocket messages will be sent to the client.
+
+        instant_mode : typing.Optional[bool]
+            Accelerates processing to reduce streaming latency. Incurs approximately 10% additional cost while preserving full voice quality.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[TtsConversionStreamJsonV0TtsTtsConversionJsonPostResponse]
+            Successful Response
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "v0/tts/tts_conversion/json",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            params={
+                "access_token": access_token,
+            },
+            data={
+                "model": model,
+                "version": version,
+                "context[generation_id]": context_generation_id,
+                "context[utterances][<n>][text]": context_utterances_n_text,
+                "context[utterances][<n>][description]": context_utterances_n_description,
+                "context[utterances][<n>][voice][id]": context_utterances_n_voice_id,
+                "context[utterances][<n>][voice][provider]": context_utterances_n_voice_provider,
+                "context[utterances][<n>][voice][name]": context_utterances_n_voice_name,
+                "context[utterances][<n>][speed]": context_utterances_n_speed,
+                "context[utterances][<n>][trailing_silence]": context_utterances_n_trailing_silence,
+                "utterances[<n>][text]": utterances_n_text,
+                "utterances[<n>][description]": utterances_n_description,
+                "utterances[<n>][voice][id]": utterances_n_voice_id,
+                "utterances[<n>][voice][provider]": utterances_n_voice_provider,
+                "utterances[<n>][voice][name]": utterances_n_voice_name,
+                "utterances[<n>][speed]": utterances_n_speed,
+                "utterances[<n>][trailing_silence]": utterances_n_trailing_silence,
+                "num_generations": num_generations,
+                "format[type]": format_type,
+                "expand_description": expand_description,
+                "split_utterances": split_utterances,
+                "filter_generations": filter_generations,
+                "multi_speaker": multi_speaker,
+                "strip_headers": strip_headers,
+                "include_timestamp_types[<n>]": include_timestamp_types_n,
+                "no_binary": no_binary,
+                "instant_mode": instant_mode,
+            },
+            files={},
+            request_options=request_options,
+            omit=OMIT,
+            force_multipart=True,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    TtsConversionStreamJsonV0TtsTtsConversionJsonPostResponse,
+                    parse_obj_as(
+                        type_=TtsConversionStreamJsonV0TtsTtsConversionJsonPostResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 422:
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        HttpValidationError,
+                        parse_obj_as(
+                            type_=HttpValidationError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    @contextlib.contextmanager
+    def synthesize_file_streaming(
+        self,
+        *,
+        utterances: typing.Sequence[PostedUtterance],
+        version: typing.Optional[OctaveVersion] = OMIT,
+        context: typing.Optional[PostedContext] = OMIT,
+        num_generations: typing.Optional[int] = OMIT,
+        format: typing.Optional[Format] = OMIT,
+        split_utterances: typing.Optional[bool] = OMIT,
+        strip_headers: typing.Optional[bool] = OMIT,
+        include_timestamp_types: typing.Optional[typing.Sequence[TimestampType]] = OMIT,
+        instant_mode: typing.Optional[bool] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> typing.Iterator[HttpResponse[typing.Iterator[bytes]]]:
+        """
+        Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
+
+        Parameters
+        ----------
+        utterances : typing.Sequence[PostedUtterance]
+            A list of **Utterances** to be converted to speech output.
+
+            An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
+
+        version : typing.Optional[OctaveVersion]
+            Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
+
+            Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
+
+            For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
+
+        context : typing.Optional[PostedContext]
+            Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+
+        num_generations : typing.Optional[int]
+            Number of audio generations to produce from the input utterances.
+
+            Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
+
+        format : typing.Optional[Format]
+            Specifies the output audio file format.
+
+        split_utterances : typing.Optional[bool]
+            Controls how audio output is segmented in the response.
+
+            - When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.
+
+            - When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets.
+
+            This setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
+
+        strip_headers : typing.Optional[bool]
+            If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+
+        include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
+            The set of timestamp types to include in the response.
+
+        instant_mode : typing.Optional[bool]
+            Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
+            - A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+            - Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+            - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
+
+        Returns
+        -------
+        typing.Iterator[HttpResponse[typing.Iterator[bytes]]]
+            OK
+        """
+        with self._client_wrapper.httpx_client.stream(
+            "v0/tts/stream/file",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            json={
+                "version": version,
+                "context": convert_and_respect_annotation_metadata(
+                    object_=context, annotation=PostedContext, direction="write"
+                ),
+                "utterances": convert_and_respect_annotation_metadata(
+                    object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
+                ),
+                "num_generations": num_generations,
+                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
+                "split_utterances": split_utterances,
+                "strip_headers": strip_headers,
+                "include_timestamp_types": include_timestamp_types,
+                "instant_mode": instant_mode,
+            },
+            headers={
+                "content-type": "application/json",
+            },
+            request_options=request_options,
+            omit=OMIT,
+        ) as _response:
+
+            def _stream() -> HttpResponse[typing.Iterator[bytes]]:
+                try:
+                    if 200 <= _response.status_code < 300:
+                        _chunk_size = request_options.get("chunk_size", None) if request_options is not None else None
+                        return HttpResponse(
+                            response=_response, data=(_chunk for _chunk in _response.iter_bytes(chunk_size=_chunk_size))
+                        )
+                    _response.read()
+                    if _response.status_code == 422:
+                        raise UnprocessableEntityError(
+                            headers=dict(_response.headers),
+                            body=typing.cast(
+                                HttpValidationError,
+                                parse_obj_as(
+                                    type_=HttpValidationError,  # type: ignore
+                                    object_=_response.json(),
+                                ),
+                            ),
+                        )
+                    _response_json = _response.json()
+                except JSONDecodeError:
+                    raise ApiError(
+                        status_code=_response.status_code, headers=dict(_response.headers), body=_response.text
+                    )
+                raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+            yield _stream()
+
+    def voice_conversion_stream_file_v_0_tts_voice_conversion_file_post(
+        self,
+        *,
+        audio: core.File,
+        access_token: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[typing.Optional[typing.Any]]:
+        """
+        Parameters
+        ----------
+        audio : core.File
+            See core.File for more documentation
+
+        access_token : typing.Optional[str]
+            Access token used for authenticating the client. If not provided, an `api_key` must be provided to authenticate.
+
+            The access token is generated using both an API key and a Secret key, which provides an additional layer of security compared to using just an API key.
+
+            For more details, refer to the [Authentication Strategies Guide](/docs/introduction/api-key#authentication-strategies).
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[typing.Optional[typing.Any]]
+            Successful Response
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "v0/tts/voice_conversion/file",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            params={
+                "access_token": access_token,
+            },
+            data={},
+            files={
+                "audio": audio,
+            },
+            request_options=request_options,
+            omit=OMIT,
+            force_multipart=True,
+        )
+        try:
+            if _response is None or not _response.text.strip():
+                return HttpResponse(response=_response, data=None)
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    typing.Optional[typing.Any],
+                    parse_obj_as(
+                        type_=typing.Optional[typing.Any],  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 422:
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        HttpValidationError,
+                        parse_obj_as(
+                            type_=HttpValidationError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def tts_conversion_stream_file_v_0_tts_tts_conversion_file_post(
+        self,
+        *,
+        access_token: typing.Optional[str] = None,
+        model: typing.Optional[typing.Literal["octave"]] = OMIT,
+        version: typing.Optional[typing.Optional[typing.Any]] = OMIT,
+        context_generation_id: typing.Optional[str] = OMIT,
+        context_utterances_n_text: typing.Optional[str] = OMIT,
+        context_utterances_n_description: typing.Optional[str] = OMIT,
+        context_utterances_n_voice_id: typing.Optional[str] = OMIT,
+        context_utterances_n_voice_provider: typing.Optional[typing.Optional[typing.Any]] = OMIT,
+        context_utterances_n_voice_name: typing.Optional[str] = OMIT,
+        context_utterances_n_speed: typing.Optional[float] = OMIT,
+        context_utterances_n_trailing_silence: typing.Optional[float] = OMIT,
+        utterances_n_text: typing.Optional[str] = OMIT,
+        utterances_n_description: typing.Optional[str] = OMIT,
+        utterances_n_voice_id: typing.Optional[str] = OMIT,
+        utterances_n_voice_provider: typing.Optional[typing.Optional[typing.Any]] = OMIT,
+        utterances_n_voice_name: typing.Optional[str] = OMIT,
+        utterances_n_speed: typing.Optional[float] = OMIT,
+        utterances_n_trailing_silence: typing.Optional[float] = OMIT,
+        num_generations: typing.Optional[int] = OMIT,
+        format_type: typing.Optional[typing.Literal["mp3"]] = OMIT,
+        expand_description: typing.Optional[bool] = OMIT,
+        split_utterances: typing.Optional[bool] = OMIT,
+        filter_generations: typing.Optional[bool] = OMIT,
+        multi_speaker: typing.Optional[bool] = OMIT,
+        strip_headers: typing.Optional[bool] = OMIT,
+        include_timestamp_types_n: typing.Optional[typing.Optional[typing.Any]] = OMIT,
+        no_binary: typing.Optional[bool] = OMIT,
+        instant_mode: typing.Optional[bool] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[typing.Optional[typing.Any]]:
+        """
+        Parameters
+        ----------
+        access_token : typing.Optional[str]
+            Access token used for authenticating the client. If not provided, an `api_key` must be provided to authenticate.
+
+            The access token is generated using both an API key and a Secret key, which provides an additional layer of security compared to using just an API key.
+
+            For more details, refer to the [Authentication Strategies Guide](/docs/introduction/api-key#authentication-strategies).
+
+        model : typing.Optional[typing.Literal["octave"]]
+            The TTS model to use for speech generations.
+
+        version : typing.Optional[typing.Optional[typing.Any]]
+
+        context_generation_id : typing.Optional[str]
+            The ID of a prior TTS generation to use as context for generating consistent speech style and prosody across multiple requests. Including context may increase audio generation times.
+
+        context_utterances_n_text : typing.Optional[str]
+            The input text to be converted to speech output.
+
+        context_utterances_n_description : typing.Optional[str]
+            Natural language instructions describing how the text should be spoken by the model (e.g., `"a soft, gentle voice with a strong British accent"`).
+
+        context_utterances_n_voice_id : typing.Optional[str]
+            ID of the voice in the `Voice Library`.
+
+        context_utterances_n_voice_provider : typing.Optional[typing.Optional[typing.Any]]
+
+        context_utterances_n_voice_name : typing.Optional[str]
+            Name of the voice in the `Voice Library`.
+
+        context_utterances_n_speed : typing.Optional[float]
+            A relative measure of how fast this utterance should be spoken.
+
+        context_utterances_n_trailing_silence : typing.Optional[float]
+            Duration of trailing silence (in seconds) to add to this utterance
+
+        utterances_n_text : typing.Optional[str]
+            The input text to be converted to speech output.
+
+        utterances_n_description : typing.Optional[str]
+            Natural language instructions describing how the text should be spoken by the model (e.g., `"a soft, gentle voice with a strong British accent"`).
+
+        utterances_n_voice_id : typing.Optional[str]
+            ID of the voice in the `Voice Library`.
+
+        utterances_n_voice_provider : typing.Optional[typing.Optional[typing.Any]]
+
+        utterances_n_voice_name : typing.Optional[str]
+            Name of the voice in the `Voice Library`.
+
+        utterances_n_speed : typing.Optional[float]
+            A relative measure of how fast this utterance should be spoken.
+
+        utterances_n_trailing_silence : typing.Optional[float]
+            Duration of trailing silence (in seconds) to add to this utterance
+
+        num_generations : typing.Optional[int]
+            Number of generations of the audio to produce.
+
+        format_type : typing.Optional[typing.Literal["mp3"]]
+            Format for the output audio.
+
+        expand_description : typing.Optional[bool]
+            If enabled, enhances the provided description prompt to improve voice generation quality.
+
+        split_utterances : typing.Optional[bool]
+            If enabled, each input utterance will be split as needed into more natural-sounding `snippets` of speech for audio generation.
+
+        filter_generations : typing.Optional[bool]
+            If enabled, additional generations will be made, and the best `num_generations` of them all will be returned.
+
+        multi_speaker : typing.Optional[bool]
+            If enabled, consecutive utterances with the different voices will be generated with compounding context that takes into account the previous utterances.
+
+        strip_headers : typing.Optional[bool]
+            If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+
+        include_timestamp_types_n : typing.Optional[typing.Optional[typing.Any]]
+
+        no_binary : typing.Optional[bool]
+            If enabled, no binary websocket messages will be sent to the client.
+
+        instant_mode : typing.Optional[bool]
+            Accelerates processing to reduce streaming latency. Incurs approximately 10% additional cost while preserving full voice quality.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[typing.Optional[typing.Any]]
+            Successful Response
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "v0/tts/tts_conversion/file",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            params={
+                "access_token": access_token,
+            },
+            data={
+                "model": model,
+                "version": version,
+                "context[generation_id]": context_generation_id,
+                "context[utterances][<n>][text]": context_utterances_n_text,
+                "context[utterances][<n>][description]": context_utterances_n_description,
+                "context[utterances][<n>][voice][id]": context_utterances_n_voice_id,
+                "context[utterances][<n>][voice][provider]": context_utterances_n_voice_provider,
+                "context[utterances][<n>][voice][name]": context_utterances_n_voice_name,
+                "context[utterances][<n>][speed]": context_utterances_n_speed,
+                "context[utterances][<n>][trailing_silence]": context_utterances_n_trailing_silence,
+                "utterances[<n>][text]": utterances_n_text,
+                "utterances[<n>][description]": utterances_n_description,
+                "utterances[<n>][voice][id]": utterances_n_voice_id,
+                "utterances[<n>][voice][provider]": utterances_n_voice_provider,
+                "utterances[<n>][voice][name]": utterances_n_voice_name,
+                "utterances[<n>][speed]": utterances_n_speed,
+                "utterances[<n>][trailing_silence]": utterances_n_trailing_silence,
+                "num_generations": num_generations,
+                "format[type]": format_type,
+                "expand_description": expand_description,
+                "split_utterances": split_utterances,
+                "filter_generations": filter_generations,
+                "multi_speaker": multi_speaker,
+                "strip_headers": strip_headers,
+                "include_timestamp_types[<n>]": include_timestamp_types_n,
+                "no_binary": no_binary,
+                "instant_mode": instant_mode,
+            },
+            files={},
+            request_options=request_options,
+            omit=OMIT,
+            force_multipart=True,
+        )
+        try:
+            if _response is None or not _response.text.strip():
+                return HttpResponse(response=_response, data=None)
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    typing.Optional[typing.Any],
+                    parse_obj_as(
+                        type_=typing.Optional[typing.Any],  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 422:
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        HttpValidationError,
+                        parse_obj_as(
+                            type_=HttpValidationError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
 
 class AsyncRawTtsClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -558,13 +1097,13 @@ class AsyncRawTtsClient:
         self,
         *,
         utterances: typing.Sequence[PostedUtterance],
+        version: typing.Optional[OctaveVersion] = OMIT,
         context: typing.Optional[PostedContext] = OMIT,
-        format: typing.Optional[Format] = OMIT,
-        include_timestamp_types: typing.Optional[typing.Sequence[TimestampType]] = OMIT,
         num_generations: typing.Optional[int] = OMIT,
+        format: typing.Optional[Format] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
-        version: typing.Optional[OctaveVersion] = OMIT,
+        include_timestamp_types: typing.Optional[typing.Sequence[TimestampType]] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ReturnTts]:
@@ -580,19 +1119,23 @@ class AsyncRawTtsClient:
 
             An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
 
+        version : typing.Optional[OctaveVersion]
+            Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
+
+            Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
+
+            For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
+
         context : typing.Optional[PostedContext]
             Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
-
-        format : typing.Optional[Format]
-            Specifies the output audio file format.
-
-        include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
-            The set of timestamp types to include in the response.
 
         num_generations : typing.Optional[int]
             Number of audio generations to produce from the input utterances.
 
             Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
+
+        format : typing.Optional[Format]
+            Specifies the output audio file format.
 
         split_utterances : typing.Optional[bool]
             Controls how audio output is segmented in the response.
@@ -606,12 +1149,8 @@ class AsyncRawTtsClient:
         strip_headers : typing.Optional[bool]
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
 
-        version : typing.Optional[OctaveVersion]
-            Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
-
-            Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
-
-            For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
+        include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
+            The set of timestamp types to include in the response.
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
@@ -632,18 +1171,18 @@ class AsyncRawTtsClient:
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
+                "version": version,
                 "context": convert_and_respect_annotation_metadata(
                     object_=context, annotation=PostedContext, direction="write"
                 ),
-                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
-                "include_timestamp_types": include_timestamp_types,
-                "num_generations": num_generations,
-                "split_utterances": split_utterances,
-                "strip_headers": strip_headers,
                 "utterances": convert_and_respect_annotation_metadata(
                     object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
                 ),
-                "version": version,
+                "num_generations": num_generations,
+                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
+                "split_utterances": split_utterances,
+                "strip_headers": strip_headers,
+                "include_timestamp_types": include_timestamp_types,
                 "instant_mode": instant_mode,
             },
             headers={
@@ -683,13 +1222,13 @@ class AsyncRawTtsClient:
         self,
         *,
         utterances: typing.Sequence[PostedUtterance],
+        version: typing.Optional[OctaveVersion] = OMIT,
         context: typing.Optional[PostedContext] = OMIT,
-        format: typing.Optional[Format] = OMIT,
-        include_timestamp_types: typing.Optional[typing.Sequence[TimestampType]] = OMIT,
         num_generations: typing.Optional[int] = OMIT,
+        format: typing.Optional[Format] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
-        version: typing.Optional[OctaveVersion] = OMIT,
+        include_timestamp_types: typing.Optional[typing.Sequence[TimestampType]] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[bytes]]]:
@@ -705,19 +1244,23 @@ class AsyncRawTtsClient:
 
             An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
 
+        version : typing.Optional[OctaveVersion]
+            Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
+
+            Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
+
+            For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
+
         context : typing.Optional[PostedContext]
             Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
-
-        format : typing.Optional[Format]
-            Specifies the output audio file format.
-
-        include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
-            The set of timestamp types to include in the response.
 
         num_generations : typing.Optional[int]
             Number of audio generations to produce from the input utterances.
 
             Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
+
+        format : typing.Optional[Format]
+            Specifies the output audio file format.
 
         split_utterances : typing.Optional[bool]
             Controls how audio output is segmented in the response.
@@ -731,12 +1274,8 @@ class AsyncRawTtsClient:
         strip_headers : typing.Optional[bool]
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
 
-        version : typing.Optional[OctaveVersion]
-            Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
-
-            Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
-
-            For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
+        include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
+            The set of timestamp types to include in the response.
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
@@ -757,145 +1296,18 @@ class AsyncRawTtsClient:
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
+                "version": version,
                 "context": convert_and_respect_annotation_metadata(
                     object_=context, annotation=PostedContext, direction="write"
                 ),
-                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
-                "include_timestamp_types": include_timestamp_types,
-                "num_generations": num_generations,
-                "split_utterances": split_utterances,
-                "strip_headers": strip_headers,
                 "utterances": convert_and_respect_annotation_metadata(
                     object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
                 ),
-                "version": version,
-                "instant_mode": instant_mode,
-            },
-            headers={
-                "content-type": "application/json",
-            },
-            request_options=request_options,
-            omit=OMIT,
-        ) as _response:
-
-            async def _stream() -> AsyncHttpResponse[typing.AsyncIterator[bytes]]:
-                try:
-                    if 200 <= _response.status_code < 300:
-                        _chunk_size = request_options.get("chunk_size", None) if request_options is not None else None
-                        return AsyncHttpResponse(
-                            response=_response,
-                            data=(_chunk async for _chunk in _response.aiter_bytes(chunk_size=_chunk_size)),
-                        )
-                    await _response.aread()
-                    if _response.status_code == 422:
-                        raise UnprocessableEntityError(
-                            headers=dict(_response.headers),
-                            body=typing.cast(
-                                HttpValidationError,
-                                parse_obj_as(
-                                    type_=HttpValidationError,  # type: ignore
-                                    object_=_response.json(),
-                                ),
-                            ),
-                        )
-                    _response_json = _response.json()
-                except JSONDecodeError:
-                    raise ApiError(
-                        status_code=_response.status_code, headers=dict(_response.headers), body=_response.text
-                    )
-                raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
-
-            yield await _stream()
-
-    @contextlib.asynccontextmanager
-    async def synthesize_file_streaming(
-        self,
-        *,
-        utterances: typing.Sequence[PostedUtterance],
-        context: typing.Optional[PostedContext] = OMIT,
-        format: typing.Optional[Format] = OMIT,
-        include_timestamp_types: typing.Optional[typing.Sequence[TimestampType]] = OMIT,
-        num_generations: typing.Optional[int] = OMIT,
-        split_utterances: typing.Optional[bool] = OMIT,
-        strip_headers: typing.Optional[bool] = OMIT,
-        version: typing.Optional[OctaveVersion] = OMIT,
-        instant_mode: typing.Optional[bool] = OMIT,
-        request_options: typing.Optional[RequestOptions] = None,
-    ) -> typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[bytes]]]:
-        """
-        Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
-
-        Parameters
-        ----------
-        utterances : typing.Sequence[PostedUtterance]
-            A list of **Utterances** to be converted to speech output.
-
-            An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
-
-        context : typing.Optional[PostedContext]
-            Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
-
-        format : typing.Optional[Format]
-            Specifies the output audio file format.
-
-        include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
-            The set of timestamp types to include in the response.
-
-        num_generations : typing.Optional[int]
-            Number of audio generations to produce from the input utterances.
-
-            Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
-
-        split_utterances : typing.Optional[bool]
-            Controls how audio output is segmented in the response.
-
-            - When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.
-
-            - When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets.
-
-            This setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
-
-        strip_headers : typing.Optional[bool]
-            If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
-
-        version : typing.Optional[OctaveVersion]
-            Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
-
-            Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
-
-            For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
-
-        instant_mode : typing.Optional[bool]
-            Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
-            - A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
-            - Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
-            - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
-
-        Returns
-        -------
-        typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[bytes]]]
-            OK
-        """
-        async with self._client_wrapper.httpx_client.stream(
-            "v0/tts/stream/file",
-            base_url=self._client_wrapper.get_environment().base,
-            method="POST",
-            json={
-                "context": convert_and_respect_annotation_metadata(
-                    object_=context, annotation=PostedContext, direction="write"
-                ),
-                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
-                "include_timestamp_types": include_timestamp_types,
                 "num_generations": num_generations,
+                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
                 "split_utterances": split_utterances,
                 "strip_headers": strip_headers,
-                "utterances": convert_and_respect_annotation_metadata(
-                    object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
-                ),
-                "version": version,
+                "include_timestamp_types": include_timestamp_types,
                 "instant_mode": instant_mode,
             },
             headers={
@@ -939,13 +1351,13 @@ class AsyncRawTtsClient:
         self,
         *,
         utterances: typing.Sequence[PostedUtterance],
+        version: typing.Optional[OctaveVersion] = OMIT,
         context: typing.Optional[PostedContext] = OMIT,
-        format: typing.Optional[Format] = OMIT,
-        include_timestamp_types: typing.Optional[typing.Sequence[TimestampType]] = OMIT,
         num_generations: typing.Optional[int] = OMIT,
+        format: typing.Optional[Format] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
-        version: typing.Optional[OctaveVersion] = OMIT,
+        include_timestamp_types: typing.Optional[typing.Sequence[TimestampType]] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[TtsOutput]]]:
@@ -961,19 +1373,23 @@ class AsyncRawTtsClient:
 
             An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
 
+        version : typing.Optional[OctaveVersion]
+            Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
+
+            Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
+
+            For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
+
         context : typing.Optional[PostedContext]
             Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
-
-        format : typing.Optional[Format]
-            Specifies the output audio file format.
-
-        include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
-            The set of timestamp types to include in the response.
 
         num_generations : typing.Optional[int]
             Number of audio generations to produce from the input utterances.
 
             Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
+
+        format : typing.Optional[Format]
+            Specifies the output audio file format.
 
         split_utterances : typing.Optional[bool]
             Controls how audio output is segmented in the response.
@@ -987,12 +1403,8 @@ class AsyncRawTtsClient:
         strip_headers : typing.Optional[bool]
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
 
-        version : typing.Optional[OctaveVersion]
-            Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
-
-            Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
-
-            For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
+        include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
+            The set of timestamp types to include in the response.
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
@@ -1013,18 +1425,18 @@ class AsyncRawTtsClient:
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
+                "version": version,
                 "context": convert_and_respect_annotation_metadata(
                     object_=context, annotation=PostedContext, direction="write"
                 ),
-                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
-                "include_timestamp_types": include_timestamp_types,
-                "num_generations": num_generations,
-                "split_utterances": split_utterances,
-                "strip_headers": strip_headers,
                 "utterances": convert_and_respect_annotation_metadata(
                     object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
                 ),
-                "version": version,
+                "num_generations": num_generations,
+                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
+                "split_utterances": split_utterances,
+                "strip_headers": strip_headers,
+                "include_timestamp_types": include_timestamp_types,
                 "instant_mode": instant_mode,
             },
             headers={
@@ -1075,3 +1487,662 @@ class AsyncRawTtsClient:
                 raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
             yield await _stream()
+
+    async def voice_conversion_stream_json_v_0_tts_voice_conversion_json_post(
+        self,
+        *,
+        audio: core.File,
+        access_token: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[VoiceConversionStreamJsonV0TtsVoiceConversionJsonPostResponse]:
+        """
+        Parameters
+        ----------
+        audio : core.File
+            See core.File for more documentation
+
+        access_token : typing.Optional[str]
+            Access token used for authenticating the client. If not provided, an `api_key` must be provided to authenticate.
+
+            The access token is generated using both an API key and a Secret key, which provides an additional layer of security compared to using just an API key.
+
+            For more details, refer to the [Authentication Strategies Guide](/docs/introduction/api-key#authentication-strategies).
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[VoiceConversionStreamJsonV0TtsVoiceConversionJsonPostResponse]
+            Successful Response
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "v0/tts/voice_conversion/json",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            params={
+                "access_token": access_token,
+            },
+            data={},
+            files={
+                "audio": audio,
+            },
+            request_options=request_options,
+            omit=OMIT,
+            force_multipart=True,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    VoiceConversionStreamJsonV0TtsVoiceConversionJsonPostResponse,
+                    parse_obj_as(
+                        type_=VoiceConversionStreamJsonV0TtsVoiceConversionJsonPostResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 422:
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        HttpValidationError,
+                        parse_obj_as(
+                            type_=HttpValidationError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def tts_conversion_stream_json_v_0_tts_tts_conversion_json_post(
+        self,
+        *,
+        access_token: typing.Optional[str] = None,
+        model: typing.Optional[typing.Literal["octave"]] = OMIT,
+        version: typing.Optional[typing.Optional[typing.Any]] = OMIT,
+        context_generation_id: typing.Optional[str] = OMIT,
+        context_utterances_n_text: typing.Optional[str] = OMIT,
+        context_utterances_n_description: typing.Optional[str] = OMIT,
+        context_utterances_n_voice_id: typing.Optional[str] = OMIT,
+        context_utterances_n_voice_provider: typing.Optional[typing.Optional[typing.Any]] = OMIT,
+        context_utterances_n_voice_name: typing.Optional[str] = OMIT,
+        context_utterances_n_speed: typing.Optional[float] = OMIT,
+        context_utterances_n_trailing_silence: typing.Optional[float] = OMIT,
+        utterances_n_text: typing.Optional[str] = OMIT,
+        utterances_n_description: typing.Optional[str] = OMIT,
+        utterances_n_voice_id: typing.Optional[str] = OMIT,
+        utterances_n_voice_provider: typing.Optional[typing.Optional[typing.Any]] = OMIT,
+        utterances_n_voice_name: typing.Optional[str] = OMIT,
+        utterances_n_speed: typing.Optional[float] = OMIT,
+        utterances_n_trailing_silence: typing.Optional[float] = OMIT,
+        num_generations: typing.Optional[int] = OMIT,
+        format_type: typing.Optional[typing.Literal["mp3"]] = OMIT,
+        expand_description: typing.Optional[bool] = OMIT,
+        split_utterances: typing.Optional[bool] = OMIT,
+        filter_generations: typing.Optional[bool] = OMIT,
+        multi_speaker: typing.Optional[bool] = OMIT,
+        strip_headers: typing.Optional[bool] = OMIT,
+        include_timestamp_types_n: typing.Optional[typing.Optional[typing.Any]] = OMIT,
+        no_binary: typing.Optional[bool] = OMIT,
+        instant_mode: typing.Optional[bool] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[TtsConversionStreamJsonV0TtsTtsConversionJsonPostResponse]:
+        """
+        Parameters
+        ----------
+        access_token : typing.Optional[str]
+            Access token used for authenticating the client. If not provided, an `api_key` must be provided to authenticate.
+
+            The access token is generated using both an API key and a Secret key, which provides an additional layer of security compared to using just an API key.
+
+            For more details, refer to the [Authentication Strategies Guide](/docs/introduction/api-key#authentication-strategies).
+
+        model : typing.Optional[typing.Literal["octave"]]
+            The TTS model to use for speech generations.
+
+        version : typing.Optional[typing.Optional[typing.Any]]
+
+        context_generation_id : typing.Optional[str]
+            The ID of a prior TTS generation to use as context for generating consistent speech style and prosody across multiple requests. Including context may increase audio generation times.
+
+        context_utterances_n_text : typing.Optional[str]
+            The input text to be converted to speech output.
+
+        context_utterances_n_description : typing.Optional[str]
+            Natural language instructions describing how the text should be spoken by the model (e.g., `"a soft, gentle voice with a strong British accent"`).
+
+        context_utterances_n_voice_id : typing.Optional[str]
+            ID of the voice in the `Voice Library`.
+
+        context_utterances_n_voice_provider : typing.Optional[typing.Optional[typing.Any]]
+
+        context_utterances_n_voice_name : typing.Optional[str]
+            Name of the voice in the `Voice Library`.
+
+        context_utterances_n_speed : typing.Optional[float]
+            A relative measure of how fast this utterance should be spoken.
+
+        context_utterances_n_trailing_silence : typing.Optional[float]
+            Duration of trailing silence (in seconds) to add to this utterance
+
+        utterances_n_text : typing.Optional[str]
+            The input text to be converted to speech output.
+
+        utterances_n_description : typing.Optional[str]
+            Natural language instructions describing how the text should be spoken by the model (e.g., `"a soft, gentle voice with a strong British accent"`).
+
+        utterances_n_voice_id : typing.Optional[str]
+            ID of the voice in the `Voice Library`.
+
+        utterances_n_voice_provider : typing.Optional[typing.Optional[typing.Any]]
+
+        utterances_n_voice_name : typing.Optional[str]
+            Name of the voice in the `Voice Library`.
+
+        utterances_n_speed : typing.Optional[float]
+            A relative measure of how fast this utterance should be spoken.
+
+        utterances_n_trailing_silence : typing.Optional[float]
+            Duration of trailing silence (in seconds) to add to this utterance
+
+        num_generations : typing.Optional[int]
+            Number of generations of the audio to produce.
+
+        format_type : typing.Optional[typing.Literal["mp3"]]
+            Format for the output audio.
+
+        expand_description : typing.Optional[bool]
+            If enabled, enhances the provided description prompt to improve voice generation quality.
+
+        split_utterances : typing.Optional[bool]
+            If enabled, each input utterance will be split as needed into more natural-sounding `snippets` of speech for audio generation.
+
+        filter_generations : typing.Optional[bool]
+            If enabled, additional generations will be made, and the best `num_generations` of them all will be returned.
+
+        multi_speaker : typing.Optional[bool]
+            If enabled, consecutive utterances with the different voices will be generated with compounding context that takes into account the previous utterances.
+
+        strip_headers : typing.Optional[bool]
+            If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+
+        include_timestamp_types_n : typing.Optional[typing.Optional[typing.Any]]
+
+        no_binary : typing.Optional[bool]
+            If enabled, no binary websocket messages will be sent to the client.
+
+        instant_mode : typing.Optional[bool]
+            Accelerates processing to reduce streaming latency. Incurs approximately 10% additional cost while preserving full voice quality.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[TtsConversionStreamJsonV0TtsTtsConversionJsonPostResponse]
+            Successful Response
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "v0/tts/tts_conversion/json",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            params={
+                "access_token": access_token,
+            },
+            data={
+                "model": model,
+                "version": version,
+                "context[generation_id]": context_generation_id,
+                "context[utterances][<n>][text]": context_utterances_n_text,
+                "context[utterances][<n>][description]": context_utterances_n_description,
+                "context[utterances][<n>][voice][id]": context_utterances_n_voice_id,
+                "context[utterances][<n>][voice][provider]": context_utterances_n_voice_provider,
+                "context[utterances][<n>][voice][name]": context_utterances_n_voice_name,
+                "context[utterances][<n>][speed]": context_utterances_n_speed,
+                "context[utterances][<n>][trailing_silence]": context_utterances_n_trailing_silence,
+                "utterances[<n>][text]": utterances_n_text,
+                "utterances[<n>][description]": utterances_n_description,
+                "utterances[<n>][voice][id]": utterances_n_voice_id,
+                "utterances[<n>][voice][provider]": utterances_n_voice_provider,
+                "utterances[<n>][voice][name]": utterances_n_voice_name,
+                "utterances[<n>][speed]": utterances_n_speed,
+                "utterances[<n>][trailing_silence]": utterances_n_trailing_silence,
+                "num_generations": num_generations,
+                "format[type]": format_type,
+                "expand_description": expand_description,
+                "split_utterances": split_utterances,
+                "filter_generations": filter_generations,
+                "multi_speaker": multi_speaker,
+                "strip_headers": strip_headers,
+                "include_timestamp_types[<n>]": include_timestamp_types_n,
+                "no_binary": no_binary,
+                "instant_mode": instant_mode,
+            },
+            files={},
+            request_options=request_options,
+            omit=OMIT,
+            force_multipart=True,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    TtsConversionStreamJsonV0TtsTtsConversionJsonPostResponse,
+                    parse_obj_as(
+                        type_=TtsConversionStreamJsonV0TtsTtsConversionJsonPostResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 422:
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        HttpValidationError,
+                        parse_obj_as(
+                            type_=HttpValidationError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    @contextlib.asynccontextmanager
+    async def synthesize_file_streaming(
+        self,
+        *,
+        utterances: typing.Sequence[PostedUtterance],
+        version: typing.Optional[OctaveVersion] = OMIT,
+        context: typing.Optional[PostedContext] = OMIT,
+        num_generations: typing.Optional[int] = OMIT,
+        format: typing.Optional[Format] = OMIT,
+        split_utterances: typing.Optional[bool] = OMIT,
+        strip_headers: typing.Optional[bool] = OMIT,
+        include_timestamp_types: typing.Optional[typing.Sequence[TimestampType]] = OMIT,
+        instant_mode: typing.Optional[bool] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[bytes]]]:
+        """
+        Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
+
+        Parameters
+        ----------
+        utterances : typing.Sequence[PostedUtterance]
+            A list of **Utterances** to be converted to speech output.
+
+            An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.
+
+        version : typing.Optional[OctaveVersion]
+            Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
+
+            Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
+
+            For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
+
+        context : typing.Optional[PostedContext]
+            Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+
+        num_generations : typing.Optional[int]
+            Number of audio generations to produce from the input utterances.
+
+            Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
+
+        format : typing.Optional[Format]
+            Specifies the output audio file format.
+
+        split_utterances : typing.Optional[bool]
+            Controls how audio output is segmented in the response.
+
+            - When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.
+
+            - When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets.
+
+            This setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output.
+
+        strip_headers : typing.Optional[bool]
+            If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+
+        include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
+            The set of timestamp types to include in the response.
+
+        instant_mode : typing.Optional[bool]
+            Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
+            - A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+            - Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+            - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
+
+        Returns
+        -------
+        typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[bytes]]]
+            OK
+        """
+        async with self._client_wrapper.httpx_client.stream(
+            "v0/tts/stream/file",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            json={
+                "version": version,
+                "context": convert_and_respect_annotation_metadata(
+                    object_=context, annotation=PostedContext, direction="write"
+                ),
+                "utterances": convert_and_respect_annotation_metadata(
+                    object_=utterances, annotation=typing.Sequence[PostedUtterance], direction="write"
+                ),
+                "num_generations": num_generations,
+                "format": convert_and_respect_annotation_metadata(object_=format, annotation=Format, direction="write"),
+                "split_utterances": split_utterances,
+                "strip_headers": strip_headers,
+                "include_timestamp_types": include_timestamp_types,
+                "instant_mode": instant_mode,
+            },
+            headers={
+                "content-type": "application/json",
+            },
+            request_options=request_options,
+            omit=OMIT,
+        ) as _response:
+
+            async def _stream() -> AsyncHttpResponse[typing.AsyncIterator[bytes]]:
+                try:
+                    if 200 <= _response.status_code < 300:
+                        _chunk_size = request_options.get("chunk_size", None) if request_options is not None else None
+                        return AsyncHttpResponse(
+                            response=_response,
+                            data=(_chunk async for _chunk in _response.aiter_bytes(chunk_size=_chunk_size)),
+                        )
+                    await _response.aread()
+                    if _response.status_code == 422:
+                        raise UnprocessableEntityError(
+                            headers=dict(_response.headers),
+                            body=typing.cast(
+                                HttpValidationError,
+                                parse_obj_as(
+                                    type_=HttpValidationError,  # type: ignore
+                                    object_=_response.json(),
+                                ),
+                            ),
+                        )
+                    _response_json = _response.json()
+                except JSONDecodeError:
+                    raise ApiError(
+                        status_code=_response.status_code, headers=dict(_response.headers), body=_response.text
+                    )
+                raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+            yield await _stream()
+
+    async def voice_conversion_stream_file_v_0_tts_voice_conversion_file_post(
+        self,
+        *,
+        audio: core.File,
+        access_token: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[typing.Optional[typing.Any]]:
+        """
+        Parameters
+        ----------
+        audio : core.File
+            See core.File for more documentation
+
+        access_token : typing.Optional[str]
+            Access token used for authenticating the client. If not provided, an `api_key` must be provided to authenticate.
+
+            The access token is generated using both an API key and a Secret key, which provides an additional layer of security compared to using just an API key.
+
+            For more details, refer to the [Authentication Strategies Guide](/docs/introduction/api-key#authentication-strategies).
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[typing.Optional[typing.Any]]
+            Successful Response
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "v0/tts/voice_conversion/file",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            params={
+                "access_token": access_token,
+            },
+            data={},
+            files={
+                "audio": audio,
+            },
+            request_options=request_options,
+            omit=OMIT,
+            force_multipart=True,
+        )
+        try:
+            if _response is None or not _response.text.strip():
+                return AsyncHttpResponse(response=_response, data=None)
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    typing.Optional[typing.Any],
+                    parse_obj_as(
+                        type_=typing.Optional[typing.Any],  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 422:
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        HttpValidationError,
+                        parse_obj_as(
+                            type_=HttpValidationError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def tts_conversion_stream_file_v_0_tts_tts_conversion_file_post(
+        self,
+        *,
+        access_token: typing.Optional[str] = None,
+        model: typing.Optional[typing.Literal["octave"]] = OMIT,
+        version: typing.Optional[typing.Optional[typing.Any]] = OMIT,
+        context_generation_id: typing.Optional[str] = OMIT,
+        context_utterances_n_text: typing.Optional[str] = OMIT,
+        context_utterances_n_description: typing.Optional[str] = OMIT,
+        context_utterances_n_voice_id: typing.Optional[str] = OMIT,
+        context_utterances_n_voice_provider: typing.Optional[typing.Optional[typing.Any]] = OMIT,
+        context_utterances_n_voice_name: typing.Optional[str] = OMIT,
+        context_utterances_n_speed: typing.Optional[float] = OMIT,
+        context_utterances_n_trailing_silence: typing.Optional[float] = OMIT,
+        utterances_n_text: typing.Optional[str] = OMIT,
+        utterances_n_description: typing.Optional[str] = OMIT,
+        utterances_n_voice_id: typing.Optional[str] = OMIT,
+        utterances_n_voice_provider: typing.Optional[typing.Optional[typing.Any]] = OMIT,
+        utterances_n_voice_name: typing.Optional[str] = OMIT,
+        utterances_n_speed: typing.Optional[float] = OMIT,
+        utterances_n_trailing_silence: typing.Optional[float] = OMIT,
+        num_generations: typing.Optional[int] = OMIT,
+        format_type: typing.Optional[typing.Literal["mp3"]] = OMIT,
+        expand_description: typing.Optional[bool] = OMIT,
+        split_utterances: typing.Optional[bool] = OMIT,
+        filter_generations: typing.Optional[bool] = OMIT,
+        multi_speaker: typing.Optional[bool] = OMIT,
+        strip_headers: typing.Optional[bool] = OMIT,
+        include_timestamp_types_n: typing.Optional[typing.Optional[typing.Any]] = OMIT,
+        no_binary: typing.Optional[bool] = OMIT,
+        instant_mode: typing.Optional[bool] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[typing.Optional[typing.Any]]:
+        """
+        Parameters
+        ----------
+        access_token : typing.Optional[str]
+            Access token used for authenticating the client. If not provided, an `api_key` must be provided to authenticate.
+
+            The access token is generated using both an API key and a Secret key, which provides an additional layer of security compared to using just an API key.
+
+            For more details, refer to the [Authentication Strategies Guide](/docs/introduction/api-key#authentication-strategies).
+
+        model : typing.Optional[typing.Literal["octave"]]
+            The TTS model to use for speech generations.
+
+        version : typing.Optional[typing.Optional[typing.Any]]
+
+        context_generation_id : typing.Optional[str]
+            The ID of a prior TTS generation to use as context for generating consistent speech style and prosody across multiple requests. Including context may increase audio generation times.
+
+        context_utterances_n_text : typing.Optional[str]
+            The input text to be converted to speech output.
+
+        context_utterances_n_description : typing.Optional[str]
+            Natural language instructions describing how the text should be spoken by the model (e.g., `"a soft, gentle voice with a strong British accent"`).
+
+        context_utterances_n_voice_id : typing.Optional[str]
+            ID of the voice in the `Voice Library`.
+
+        context_utterances_n_voice_provider : typing.Optional[typing.Optional[typing.Any]]
+
+        context_utterances_n_voice_name : typing.Optional[str]
+            Name of the voice in the `Voice Library`.
+
+        context_utterances_n_speed : typing.Optional[float]
+            A relative measure of how fast this utterance should be spoken.
+
+        context_utterances_n_trailing_silence : typing.Optional[float]
+            Duration of trailing silence (in seconds) to add to this utterance
+
+        utterances_n_text : typing.Optional[str]
+            The input text to be converted to speech output.
+
+        utterances_n_description : typing.Optional[str]
+            Natural language instructions describing how the text should be spoken by the model (e.g., `"a soft, gentle voice with a strong British accent"`).
+
+        utterances_n_voice_id : typing.Optional[str]
+            ID of the voice in the `Voice Library`.
+
+        utterances_n_voice_provider : typing.Optional[typing.Optional[typing.Any]]
+
+        utterances_n_voice_name : typing.Optional[str]
+            Name of the voice in the `Voice Library`.
+
+        utterances_n_speed : typing.Optional[float]
+            A relative measure of how fast this utterance should be spoken.
+
+        utterances_n_trailing_silence : typing.Optional[float]
+            Duration of trailing silence (in seconds) to add to this utterance
+
+        num_generations : typing.Optional[int]
+            Number of generations of the audio to produce.
+
+        format_type : typing.Optional[typing.Literal["mp3"]]
+            Format for the output audio.
+
+        expand_description : typing.Optional[bool]
+            If enabled, enhances the provided description prompt to improve voice generation quality.
+
+        split_utterances : typing.Optional[bool]
+            If enabled, each input utterance will be split as needed into more natural-sounding `snippets` of speech for audio generation.
+
+        filter_generations : typing.Optional[bool]
+            If enabled, additional generations will be made, and the best `num_generations` of them all will be returned.
+
+        multi_speaker : typing.Optional[bool]
+            If enabled, consecutive utterances with the different voices will be generated with compounding context that takes into account the previous utterances.
+
+        strip_headers : typing.Optional[bool]
+            If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+
+        include_timestamp_types_n : typing.Optional[typing.Optional[typing.Any]]
+
+        no_binary : typing.Optional[bool]
+            If enabled, no binary websocket messages will be sent to the client.
+
+        instant_mode : typing.Optional[bool]
+            Accelerates processing to reduce streaming latency. Incurs approximately 10% additional cost while preserving full voice quality.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[typing.Optional[typing.Any]]
+            Successful Response
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "v0/tts/tts_conversion/file",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            params={
+                "access_token": access_token,
+            },
+            data={
+                "model": model,
+                "version": version,
+                "context[generation_id]": context_generation_id,
+                "context[utterances][<n>][text]": context_utterances_n_text,
+                "context[utterances][<n>][description]": context_utterances_n_description,
+                "context[utterances][<n>][voice][id]": context_utterances_n_voice_id,
+                "context[utterances][<n>][voice][provider]": context_utterances_n_voice_provider,
+                "context[utterances][<n>][voice][name]": context_utterances_n_voice_name,
+                "context[utterances][<n>][speed]": context_utterances_n_speed,
+                "context[utterances][<n>][trailing_silence]": context_utterances_n_trailing_silence,
+                "utterances[<n>][text]": utterances_n_text,
+                "utterances[<n>][description]": utterances_n_description,
+                "utterances[<n>][voice][id]": utterances_n_voice_id,
+                "utterances[<n>][voice][provider]": utterances_n_voice_provider,
+                "utterances[<n>][voice][name]": utterances_n_voice_name,
+                "utterances[<n>][speed]": utterances_n_speed,
+                "utterances[<n>][trailing_silence]": utterances_n_trailing_silence,
+                "num_generations": num_generations,
+                "format[type]": format_type,
+                "expand_description": expand_description,
+                "split_utterances": split_utterances,
+                "filter_generations": filter_generations,
+                "multi_speaker": multi_speaker,
+                "strip_headers": strip_headers,
+                "include_timestamp_types[<n>]": include_timestamp_types_n,
+                "no_binary": no_binary,
+                "instant_mode": instant_mode,
+            },
+            files={},
+            request_options=request_options,
+            omit=OMIT,
+            force_multipart=True,
+        )
+        try:
+            if _response is None or not _response.text.strip():
+                return AsyncHttpResponse(response=_response, data=None)
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    typing.Optional[typing.Any],
+                    parse_obj_as(
+                        type_=typing.Optional[typing.Any],  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 422:
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        HttpValidationError,
+                        parse_obj_as(
+                            type_=HttpValidationError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)

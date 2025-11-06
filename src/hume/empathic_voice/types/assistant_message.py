@@ -13,14 +13,16 @@ class AssistantMessage(UniversalBaseModel):
     When provided, the output is an assistant message.
     """
 
+    type: typing.Literal["assistant_message"] = pydantic.Field(default="assistant_message")
+    """
+    The type of message sent through the socket; for an Assistant Message, this must be `assistant_message`.
+    
+    This message contains both a transcript of the assistant's response and the expression measurement predictions of the assistant's audio output.
+    """
+
     custom_session_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
-    """
-
-    from_text: bool = pydantic.Field()
-    """
-    Indicates if this message was inserted into the conversation as text from an [Assistant Input message](/reference/speech-to-speech-evi/chat#send.AssistantInput.text).
     """
 
     id: typing.Optional[str] = pydantic.Field(default=None)
@@ -38,11 +40,14 @@ class AssistantMessage(UniversalBaseModel):
     Inference model results.
     """
 
-    type: typing.Literal["assistant_message"] = pydantic.Field(default="assistant_message")
+    from_text: bool = pydantic.Field()
     """
-    The type of message sent through the socket; for an Assistant Message, this must be `assistant_message`.
-    
-    This message contains both a transcript of the assistant's response and the expression measurement predictions of the assistant's audio output.
+    Indicates if this message was inserted into the conversation as text from an [Assistant Input message](/reference/speech-to-speech-evi/chat#send.AssistantInput.text).
+    """
+
+    language: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Detected language of the message text.
     """
 
     if IS_PYDANTIC_V2:

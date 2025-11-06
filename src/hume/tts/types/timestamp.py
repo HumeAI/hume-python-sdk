@@ -9,9 +9,9 @@ from .timestamp_type import TimestampType
 
 
 class Timestamp(UniversalBaseModel):
+    type: TimestampType
     text: str
     time: MillisecondInterval
-    type: TimestampType
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

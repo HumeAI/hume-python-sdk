@@ -34,9 +34,15 @@ if typing.TYPE_CHECKING:
     from .timestamp import Timestamp
     from .timestamp_message import TimestampMessage
     from .timestamp_type import TimestampType
+    from .tts_conversion_stream_json_v_0_tts_tts_conversion_json_post_response import (
+        TtsConversionStreamJsonV0TtsTtsConversionJsonPostResponse,
+    )
     from .tts_output import TtsOutput
     from .validation_error import ValidationError
     from .validation_error_loc_item import ValidationErrorLocItem
+    from .voice_conversion_stream_json_v_0_tts_voice_conversion_json_post_response import (
+        VoiceConversionStreamJsonV0TtsVoiceConversionJsonPostResponse,
+    )
     from .voice_provider import VoiceProvider
 _dynamic_imports: typing.Dict[str, str] = {
     "AudioEncoding": ".audio_encoding",
@@ -67,9 +73,11 @@ _dynamic_imports: typing.Dict[str, str] = {
     "Timestamp": ".timestamp",
     "TimestampMessage": ".timestamp_message",
     "TimestampType": ".timestamp_type",
+    "TtsConversionStreamJsonV0TtsTtsConversionJsonPostResponse": ".tts_conversion_stream_json_v_0_tts_tts_conversion_json_post_response",
     "TtsOutput": ".tts_output",
     "ValidationError": ".validation_error",
     "ValidationErrorLocItem": ".validation_error_loc_item",
+    "VoiceConversionStreamJsonV0TtsVoiceConversionJsonPostResponse": ".voice_conversion_stream_json_v_0_tts_voice_conversion_json_post_response",
     "VoiceProvider": ".voice_provider",
 }
 
@@ -122,8 +130,10 @@ __all__ = [
     "Timestamp",
     "TimestampMessage",
     "TimestampType",
+    "TtsConversionStreamJsonV0TtsTtsConversionJsonPostResponse",
     "TtsOutput",
     "ValidationError",
     "ValidationErrorLocItem",
+    "VoiceConversionStreamJsonV0TtsVoiceConversionJsonPostResponse",
     "VoiceProvider",
 ]

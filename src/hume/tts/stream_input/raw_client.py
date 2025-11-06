@@ -28,14 +28,14 @@ class RawStreamInputClient:
     def connect(
         self,
         *,
-        access_token: typing.Optional[str] = None,
         context_generation_id: typing.Optional[str] = None,
         format_type: typing.Optional[AudioFormatType] = None,
-        include_timestamp_types: typing.Optional[typing.Union[TimestampType, typing.Sequence[TimestampType]]] = None,
+        strip_headers: typing.Optional[bool] = None,
         instant_mode: typing.Optional[bool] = None,
         no_binary: typing.Optional[bool] = None,
-        strip_headers: typing.Optional[bool] = None,
         version: typing.Optional[OctaveVersion] = None,
+        include_timestamp_types: typing.Optional[typing.Union[TimestampType, typing.Sequence[TimestampType]]] = None,
+        access_token: typing.Optional[str] = None,
         api_key: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Iterator[StreamInputSocketClient]:
@@ -44,21 +44,14 @@ class RawStreamInputClient:
 
         Parameters
         ----------
-        access_token : typing.Optional[str]
-            Access token used for authenticating the client. If not provided, an `api_key` must be provided to authenticate.
-
-            The access token is generated using both an API key and a Secret key, which provides an additional layer of security compared to using just an API key.
-
-            For more details, refer to the [Authentication Strategies Guide](/docs/introduction/api-key#authentication-strategies).
-
         context_generation_id : typing.Optional[str]
             The ID of a prior TTS generation to use as context for generating consistent speech style and prosody across multiple requests. Including context may increase audio generation times.
 
         format_type : typing.Optional[AudioFormatType]
             The format to be used for audio generation.
 
-        include_timestamp_types : typing.Optional[typing.Union[TimestampType, typing.Sequence[TimestampType]]]
-            The set of timestamp types to include in the response.
+        strip_headers : typing.Optional[bool]
+            If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
@@ -66,11 +59,18 @@ class RawStreamInputClient:
         no_binary : typing.Optional[bool]
             If enabled, no binary websocket messages will be sent to the client.
 
-        strip_headers : typing.Optional[bool]
-            If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
-
         version : typing.Optional[OctaveVersion]
             The version of the Octave Model to use. 1 for the legacy model, 2 for the new model.
+
+        include_timestamp_types : typing.Optional[typing.Union[TimestampType, typing.Sequence[TimestampType]]]
+            The set of timestamp types to include in the response.
+
+        access_token : typing.Optional[str]
+            Access token used for authenticating the client. If not provided, an `api_key` must be provided to authenticate.
+
+            The access token is generated using both an API key and a Secret key, which provides an additional layer of security compared to using just an API key.
+
+            For more details, refer to the [Authentication Strategies Guide](/docs/introduction/api-key#authentication-strategies).
 
         api_key : typing.Optional[str]
             API key used for authenticating the client. If not provided, an `access_token` must be provided to authenticate.
@@ -86,22 +86,22 @@ class RawStreamInputClient:
         """
         ws_url = self._client_wrapper.get_environment().tts + "/stream/input"
         query_params = httpx.QueryParams()
-        if access_token is not None:
-            query_params = query_params.add("access_token", access_token)
         if context_generation_id is not None:
             query_params = query_params.add("context_generation_id", context_generation_id)
         if format_type is not None:
             query_params = query_params.add("format_type", format_type)
-        if include_timestamp_types is not None:
-            query_params = query_params.add("include_timestamp_types", include_timestamp_types)
+        if strip_headers is not None:
+            query_params = query_params.add("strip_headers", strip_headers)
         if instant_mode is not None:
             query_params = query_params.add("instant_mode", instant_mode)
         if no_binary is not None:
             query_params = query_params.add("no_binary", no_binary)
-        if strip_headers is not None:
-            query_params = query_params.add("strip_headers", strip_headers)
         if version is not None:
             query_params = query_params.add("version", version)
+        if include_timestamp_types is not None:
+            query_params = query_params.add("include_timestamp_types", include_timestamp_types)
+        if access_token is not None:
+            query_params = query_params.add("access_token", access_token)
         if api_key is not None:
             query_params = query_params.add("api_key", api_key)
         ws_url = ws_url + f"?{query_params}"
@@ -134,14 +134,14 @@ class AsyncRawStreamInputClient:
     async def connect(
         self,
         *,
-        access_token: typing.Optional[str] = None,
         context_generation_id: typing.Optional[str] = None,
         format_type: typing.Optional[AudioFormatType] = None,
-        include_timestamp_types: typing.Optional[typing.Union[TimestampType, typing.Sequence[TimestampType]]] = None,
+        strip_headers: typing.Optional[bool] = None,
         instant_mode: typing.Optional[bool] = None,
         no_binary: typing.Optional[bool] = None,
-        strip_headers: typing.Optional[bool] = None,
         version: typing.Optional[OctaveVersion] = None,
+        include_timestamp_types: typing.Optional[typing.Union[TimestampType, typing.Sequence[TimestampType]]] = None,
+        access_token: typing.Optional[str] = None,
         api_key: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.AsyncIterator[AsyncStreamInputSocketClient]:
@@ -150,21 +150,14 @@ class AsyncRawStreamInputClient:
 
         Parameters
         ----------
-        access_token : typing.Optional[str]
-            Access token used for authenticating the client. If not provided, an `api_key` must be provided to authenticate.
-
-            The access token is generated using both an API key and a Secret key, which provides an additional layer of security compared to using just an API key.
-
-            For more details, refer to the [Authentication Strategies Guide](/docs/introduction/api-key#authentication-strategies).
-
         context_generation_id : typing.Optional[str]
             The ID of a prior TTS generation to use as context for generating consistent speech style and prosody across multiple requests. Including context may increase audio generation times.
 
         format_type : typing.Optional[AudioFormatType]
             The format to be used for audio generation.
 
-        include_timestamp_types : typing.Optional[typing.Union[TimestampType, typing.Sequence[TimestampType]]]
-            The set of timestamp types to include in the response.
+        strip_headers : typing.Optional[bool]
+            If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
@@ -172,11 +165,18 @@ class AsyncRawStreamInputClient:
         no_binary : typing.Optional[bool]
             If enabled, no binary websocket messages will be sent to the client.
 
-        strip_headers : typing.Optional[bool]
-            If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
-
         version : typing.Optional[OctaveVersion]
             The version of the Octave Model to use. 1 for the legacy model, 2 for the new model.
+
+        include_timestamp_types : typing.Optional[typing.Union[TimestampType, typing.Sequence[TimestampType]]]
+            The set of timestamp types to include in the response.
+
+        access_token : typing.Optional[str]
+            Access token used for authenticating the client. If not provided, an `api_key` must be provided to authenticate.
+
+            The access token is generated using both an API key and a Secret key, which provides an additional layer of security compared to using just an API key.
+
+            For more details, refer to the [Authentication Strategies Guide](/docs/introduction/api-key#authentication-strategies).
 
         api_key : typing.Optional[str]
             API key used for authenticating the client. If not provided, an `access_token` must be provided to authenticate.
@@ -192,22 +192,22 @@ class AsyncRawStreamInputClient:
         """
         ws_url = self._client_wrapper.get_environment().tts + "/stream/input"
         query_params = httpx.QueryParams()
-        if access_token is not None:
-            query_params = query_params.add("access_token", access_token)
         if context_generation_id is not None:
             query_params = query_params.add("context_generation_id", context_generation_id)
         if format_type is not None:
             query_params = query_params.add("format_type", format_type)
-        if include_timestamp_types is not None:
-            query_params = query_params.add("include_timestamp_types", include_timestamp_types)
+        if strip_headers is not None:
+            query_params = query_params.add("strip_headers", strip_headers)
         if instant_mode is not None:
             query_params = query_params.add("instant_mode", instant_mode)
         if no_binary is not None:
             query_params = query_params.add("no_binary", no_binary)
-        if strip_headers is not None:
-            query_params = query_params.add("strip_headers", strip_headers)
         if version is not None:
             query_params = query_params.add("version", version)
+        if include_timestamp_types is not None:
+            query_params = query_params.add("include_timestamp_types", include_timestamp_types)
+        if access_token is not None:
+            query_params = query_params.add("access_token", access_token)
         if api_key is not None:
             query_params = query_params.add("api_key", api_key)
         ws_url = ws_url + f"?{query_params}"

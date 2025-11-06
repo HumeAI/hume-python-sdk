@@ -8,16 +8,6 @@ from .timestamp import Timestamp
 
 
 class Snippet(UniversalBaseModel):
-    audio: str = pydantic.Field()
-    """
-    The segmented audio output in the requested format, encoded as a base64 string.
-    """
-
-    generation_id: str = pydantic.Field()
-    """
-    The generation ID this snippet corresponds to.
-    """
-
     id: str = pydantic.Field()
     """
     A unique ID associated with this **Snippet**.
@@ -26,6 +16,16 @@ class Snippet(UniversalBaseModel):
     text: str = pydantic.Field()
     """
     The text for this **Snippet**.
+    """
+
+    generation_id: str = pydantic.Field()
+    """
+    The generation ID this snippet corresponds to.
+    """
+
+    utterance_index: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    The index of the utterance in the request this snippet corresponds to.
     """
 
     timestamps: typing.List[Timestamp] = pydantic.Field()
@@ -38,9 +38,9 @@ class Snippet(UniversalBaseModel):
     The transcribed text of the generated audio. It is only present if `instant_mode` is set to `false`.
     """
 
-    utterance_index: typing.Optional[int] = pydantic.Field(default=None)
+    audio: str = pydantic.Field()
     """
-    The index of the utterance in the request this snippet corresponds to.
+    The segmented audio output in the requested format, encoded as a base64 string.
     """
 
     if IS_PYDANTIC_V2:

@@ -12,11 +12,11 @@ webhooks:
           chat_group_id: chat_group_id
           chat_id: chat_id
           config_id: null
-          caller_number: null
-          custom_session_id: null
+          end_time: 1
           duration_seconds: 1
           end_reason: ACTIVE
-          end_time: 1
+          caller_number: null
+          custom_session_id: null
     docs: Sent when an EVI chat ends.
   chatStarted:
     audiences: []
@@ -29,8 +29,8 @@ webhooks:
           chat_group_id: chat_group_id
           chat_id: chat_id
           config_id: null
-          caller_number: null
-          chat_start_type: new_chat_group
-          custom_session_id: null
           start_time: 1
+          chat_start_type: new_chat_group
+          caller_number: null
+          custom_session_id: null
     docs: Sent when an EVI chat is started.
