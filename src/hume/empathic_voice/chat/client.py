@@ -204,6 +204,7 @@ class AsyncChatClient:
         verbose_transcription: typing.Optional[bool] = None,
         api_key: typing.Optional[str] = None,
         session_settings: typing.Optional[ConnectSessionSettings] = None,
+        allow_connection: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.AsyncIterator[AsyncChatSocketClient]:
         """
@@ -260,6 +261,11 @@ class AsyncChatClient:
 
         session_settings : ConnectSessionSettings
 
+        allow_connection : typing.Optional[bool]
+            Flag that allows the resulting Chat to accept secondary connections via
+            the control plane `/connect` endpoint. Defaults to `False` on the server.
+            Set to `True` to enable observer connections for the session.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -283,6 +289,8 @@ class AsyncChatClient:
             query_params = query_params.add("verbose_transcription", verbose_transcription)
         if api_key is not None:
             query_params = query_params.add("api_key", api_key)
+        if allow_connection is not None:
+            query_params = query_params.add("allow_connection", str(allow_connection).lower())
         if session_settings is not None:
             flattened_params = single_query_encoder("session_settings", session_settings)
             for param_key, param_value in flattened_params:
