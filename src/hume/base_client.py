@@ -75,17 +75,9 @@ class BaseHumeClient:
             else httpx.Client(timeout=_defaulted_timeout),
             timeout=_defaulted_timeout,
         )
-        self._empathic_voice: typing.Optional[EmpathicVoiceClient] = None
         self._tts: typing.Optional[TtsClient] = None
+        self._empathic_voice: typing.Optional[EmpathicVoiceClient] = None
         self._expression_measurement: typing.Optional[ExpressionMeasurementClient] = None
-
-    @property
-    def empathic_voice(self):
-        if self._empathic_voice is None:
-            from .empathic_voice.client import EmpathicVoiceClient  # noqa: E402
-
-            self._empathic_voice = EmpathicVoiceClient(client_wrapper=self._client_wrapper)
-        return self._empathic_voice
 
     @property
     def tts(self):
@@ -94,6 +86,14 @@ class BaseHumeClient:
 
             self._tts = TtsClient(client_wrapper=self._client_wrapper)
         return self._tts
+
+    @property
+    def empathic_voice(self):
+        if self._empathic_voice is None:
+            from .empathic_voice.client import EmpathicVoiceClient  # noqa: E402
+
+            self._empathic_voice = EmpathicVoiceClient(client_wrapper=self._client_wrapper)
+        return self._empathic_voice
 
     @property
     def expression_measurement(self):
@@ -165,17 +165,9 @@ class AsyncBaseHumeClient:
             else httpx.AsyncClient(timeout=_defaulted_timeout),
             timeout=_defaulted_timeout,
         )
-        self._empathic_voice: typing.Optional[AsyncEmpathicVoiceClient] = None
         self._tts: typing.Optional[AsyncTtsClient] = None
+        self._empathic_voice: typing.Optional[AsyncEmpathicVoiceClient] = None
         self._expression_measurement: typing.Optional[AsyncExpressionMeasurementClient] = None
-
-    @property
-    def empathic_voice(self):
-        if self._empathic_voice is None:
-            from .empathic_voice.client import AsyncEmpathicVoiceClient  # noqa: E402
-
-            self._empathic_voice = AsyncEmpathicVoiceClient(client_wrapper=self._client_wrapper)
-        return self._empathic_voice
 
     @property
     def tts(self):
@@ -184,6 +176,14 @@ class AsyncBaseHumeClient:
 
             self._tts = AsyncTtsClient(client_wrapper=self._client_wrapper)
         return self._tts
+
+    @property
+    def empathic_voice(self):
+        if self._empathic_voice is None:
+            from .empathic_voice.client import AsyncEmpathicVoiceClient  # noqa: E402
+
+            self._empathic_voice = AsyncEmpathicVoiceClient(client_wrapper=self._client_wrapper)
+        return self._empathic_voice
 
     @property
     def expression_measurement(self):
