@@ -188,7 +188,7 @@ service:
       method: POST
       source:
         openapi: tts-openapi.json
-      display-name: Voice Conversion Stream File
+      display-name: Voice Conversion (Streamed File)
       request:
         name: ConvertVoiceFileRequest
         body:
@@ -226,7 +226,7 @@ service:
       method: POST
       source:
         openapi: tts-openapi.json
-      display-name: Voice Conversion Stream Json
+      display-name: Voice Conversion (Streamed JSON)
       request:
         name: ConvertVoiceJsonRequest
         body:
@@ -620,6 +620,13 @@ types:
           is `48000 Hz`.
     source:
       openapi: tts-openapi.json
+  ErrorResponse:
+    properties:
+      code: optional<string>
+      error: optional<string>
+      message: optional<string>
+    source:
+      openapi: tts-openapi.json
   ReturnGeneration:
     properties:
       audio:
@@ -786,6 +793,7 @@ types:
   ReturnVoice:
     docs: An Octave voice available for text-to-speech
     properties:
+      compatible_octave_models: optional<list<string>>
       id:
         type: optional<string>
         docs: ID of the voice in the `Voice Library`.
@@ -800,7 +808,6 @@ types:
 
           Voices created through this endpoint will always have the provider set
           to `CUSTOM_VOICE`, indicating a custom voice stored in your account.
-      compatible_octave_models: optional<list<string>>
     source:
       openapi: tts-openapi.json
   FormatPcm:
@@ -881,13 +888,6 @@ types:
   FormatWav:
     properties:
       type: literal<"wav">
-    source:
-      openapi: tts-openapi.json
-  ErrorResponse:
-    properties:
-      error: optional<string>
-      message: optional<string>
-      code: optional<string>
     source:
       openapi: tts-openapi.json
   ReturnPagedVoices:

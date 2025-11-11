@@ -15,14 +15,14 @@ class ReturnChatGroupPagedAudioReconstructions(UniversalBaseModel):
     A paginated list of chat reconstructions for a particular chatgroup
     """
 
+    audio_reconstructions_page: typing.List[ReturnChatAudioReconstruction] = pydantic.Field()
+    """
+    List of chat audio reconstructions returned for the specified page number and page size.
+    """
+
     id: str = pydantic.Field()
     """
     Identifier for the chat group. Formatted as a UUID.
-    """
-
-    user_id: str = pydantic.Field()
-    """
-    Identifier for the user that owns this chat. Formatted as a UUID.
     """
 
     num_chats: int = pydantic.Field()
@@ -44,11 +44,6 @@ class ReturnChatGroupPagedAudioReconstructions(UniversalBaseModel):
     This value corresponds to the `page_size` parameter specified in the request.
     """
 
-    total_pages: int = pydantic.Field()
-    """
-    The total number of pages in the collection.
-    """
-
     pagination_direction: ReturnChatGroupPagedAudioReconstructionsPaginationDirection = pydantic.Field()
     """
     Indicates the order in which the paginated results are presented, based on their creation date.
@@ -56,9 +51,14 @@ class ReturnChatGroupPagedAudioReconstructions(UniversalBaseModel):
     It shows `ASC` for ascending order (chronological, with the oldest records first) or `DESC` for descending order (reverse-chronological, with the newest records first). This value corresponds to the `ascending_order` query parameter used in the request.
     """
 
-    audio_reconstructions_page: typing.List[ReturnChatAudioReconstruction] = pydantic.Field()
+    total_pages: int = pydantic.Field()
     """
-    List of chat audio reconstructions returned for the specified page number and page size.
+    The total number of pages in the collection.
+    """
+
+    user_id: str = pydantic.Field()
+    """
+    Identifier for the user that owns this chat. Formatted as a UUID.
     """
 
     if IS_PYDANTIC_V2:
