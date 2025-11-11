@@ -130,16 +130,16 @@ class RawConfigsClient:
         *,
         evi_version: str,
         name: str,
-        version_description: typing.Optional[str] = OMIT,
-        prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
-        voice: typing.Optional[VoiceRef] = OMIT,
-        language_model: typing.Optional[PostedLanguageModel] = OMIT,
-        ellm_model: typing.Optional[PostedEllmModel] = OMIT,
-        tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
+        ellm_model: typing.Optional[PostedEllmModel] = OMIT,
         event_messages: typing.Optional[PostedEventMessageSpecs] = OMIT,
+        language_model: typing.Optional[PostedLanguageModel] = OMIT,
         nudges: typing.Optional[PostedNudgeSpec] = OMIT,
+        prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
         timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
+        tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
+        version_description: typing.Optional[str] = OMIT,
+        voice: typing.Optional[VoiceRef] = OMIT,
         webhooks: typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ReturnConfig]:
@@ -156,36 +156,36 @@ class RawConfigsClient:
         name : str
             Name applied to all versions of a particular Config.
 
-        version_description : typing.Optional[str]
-            An optional description of the Config version.
-
-        prompt : typing.Optional[PostedConfigPromptSpec]
-
-        voice : typing.Optional[VoiceRef]
-            A voice specification associated with this Config.
-
-        language_model : typing.Optional[PostedLanguageModel]
-            The supplemental language model associated with this Config.
-
-            This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
+        builtin_tools : typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]
+            List of built-in tools associated with this Config.
 
         ellm_model : typing.Optional[PostedEllmModel]
             The eLLM setup associated with this Config.
 
             Hume's eLLM (empathic Large Language Model) is a multimodal language model that takes into account both expression measures and language. The eLLM generates short, empathic language responses and guides text-to-speech (TTS) prosody.
 
-        tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
-            List of user-defined tools associated with this Config.
-
-        builtin_tools : typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]
-            List of built-in tools associated with this Config.
-
         event_messages : typing.Optional[PostedEventMessageSpecs]
+
+        language_model : typing.Optional[PostedLanguageModel]
+            The supplemental language model associated with this Config.
+
+            This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
 
         nudges : typing.Optional[PostedNudgeSpec]
             Configures nudges, brief audio prompts that can guide conversations when users pause or need encouragement to continue speaking. Nudges help create more natural, flowing interactions by providing gentle conversational cues.
 
+        prompt : typing.Optional[PostedConfigPromptSpec]
+
         timeouts : typing.Optional[PostedTimeoutSpecs]
+
+        tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
+            List of user-defined tools associated with this Config.
+
+        version_description : typing.Optional[str]
+            An optional description of the Config version.
+
+        voice : typing.Optional[VoiceRef]
+            A voice specification associated with this Config.
 
         webhooks : typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]]
             Webhook config specifications for each subscriber.
@@ -203,38 +203,38 @@ class RawConfigsClient:
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
-                "evi_version": evi_version,
-                "name": name,
-                "version_description": version_description,
-                "prompt": convert_and_respect_annotation_metadata(
-                    object_=prompt, annotation=PostedConfigPromptSpec, direction="write"
-                ),
-                "voice": convert_and_respect_annotation_metadata(object_=voice, annotation=VoiceRef, direction="write"),
-                "language_model": convert_and_respect_annotation_metadata(
-                    object_=language_model, annotation=PostedLanguageModel, direction="write"
+                "builtin_tools": convert_and_respect_annotation_metadata(
+                    object_=builtin_tools,
+                    annotation=typing.Sequence[typing.Optional[PostedBuiltinTool]],
+                    direction="write",
                 ),
                 "ellm_model": convert_and_respect_annotation_metadata(
                     object_=ellm_model, annotation=PostedEllmModel, direction="write"
+                ),
+                "event_messages": convert_and_respect_annotation_metadata(
+                    object_=event_messages, annotation=PostedEventMessageSpecs, direction="write"
+                ),
+                "evi_version": evi_version,
+                "language_model": convert_and_respect_annotation_metadata(
+                    object_=language_model, annotation=PostedLanguageModel, direction="write"
+                ),
+                "name": name,
+                "nudges": convert_and_respect_annotation_metadata(
+                    object_=nudges, annotation=PostedNudgeSpec, direction="write"
+                ),
+                "prompt": convert_and_respect_annotation_metadata(
+                    object_=prompt, annotation=PostedConfigPromptSpec, direction="write"
+                ),
+                "timeouts": convert_and_respect_annotation_metadata(
+                    object_=timeouts, annotation=PostedTimeoutSpecs, direction="write"
                 ),
                 "tools": convert_and_respect_annotation_metadata(
                     object_=tools,
                     annotation=typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]],
                     direction="write",
                 ),
-                "builtin_tools": convert_and_respect_annotation_metadata(
-                    object_=builtin_tools,
-                    annotation=typing.Sequence[typing.Optional[PostedBuiltinTool]],
-                    direction="write",
-                ),
-                "event_messages": convert_and_respect_annotation_metadata(
-                    object_=event_messages, annotation=PostedEventMessageSpecs, direction="write"
-                ),
-                "nudges": convert_and_respect_annotation_metadata(
-                    object_=nudges, annotation=PostedNudgeSpec, direction="write"
-                ),
-                "timeouts": convert_and_respect_annotation_metadata(
-                    object_=timeouts, annotation=PostedTimeoutSpecs, direction="write"
-                ),
+                "version_description": version_description,
+                "voice": convert_and_respect_annotation_metadata(object_=voice, annotation=VoiceRef, direction="write"),
                 "webhooks": convert_and_respect_annotation_metadata(
                     object_=webhooks, annotation=typing.Sequence[typing.Optional[PostedWebhookSpec]], direction="write"
                 ),
@@ -366,16 +366,16 @@ class RawConfigsClient:
         id: str,
         *,
         evi_version: str,
-        version_description: typing.Optional[str] = OMIT,
-        prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
-        voice: typing.Optional[VoiceRef] = OMIT,
-        language_model: typing.Optional[PostedLanguageModel] = OMIT,
-        ellm_model: typing.Optional[PostedEllmModel] = OMIT,
-        tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
+        ellm_model: typing.Optional[PostedEllmModel] = OMIT,
         event_messages: typing.Optional[PostedEventMessageSpecs] = OMIT,
-        timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
+        language_model: typing.Optional[PostedLanguageModel] = OMIT,
         nudges: typing.Optional[PostedNudgeSpec] = OMIT,
+        prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
+        timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
+        tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
+        version_description: typing.Optional[str] = OMIT,
+        voice: typing.Optional[VoiceRef] = OMIT,
         webhooks: typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ReturnConfig]:
@@ -392,35 +392,35 @@ class RawConfigsClient:
         evi_version : str
             The version of the EVI used with this config.
 
-        version_description : typing.Optional[str]
-            An optional description of the Config version.
-
-        prompt : typing.Optional[PostedConfigPromptSpec]
-
-        voice : typing.Optional[VoiceRef]
-            A voice specification associated with this Config version.
-
-        language_model : typing.Optional[PostedLanguageModel]
-            The supplemental language model associated with this Config version.
-
-            This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
+        builtin_tools : typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]
+            List of built-in tools associated with this Config version.
 
         ellm_model : typing.Optional[PostedEllmModel]
             The eLLM setup associated with this Config version.
 
             Hume's eLLM (empathic Large Language Model) is a multimodal language model that takes into account both expression measures and language. The eLLM generates short, empathic language responses and guides text-to-speech (TTS) prosody.
 
-        tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
-            List of user-defined tools associated with this Config version.
-
-        builtin_tools : typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]
-            List of built-in tools associated with this Config version.
-
         event_messages : typing.Optional[PostedEventMessageSpecs]
+
+        language_model : typing.Optional[PostedLanguageModel]
+            The supplemental language model associated with this Config version.
+
+            This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
+
+        nudges : typing.Optional[PostedNudgeSpec]
+
+        prompt : typing.Optional[PostedConfigPromptSpec]
 
         timeouts : typing.Optional[PostedTimeoutSpecs]
 
-        nudges : typing.Optional[PostedNudgeSpec]
+        tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
+            List of user-defined tools associated with this Config version.
+
+        version_description : typing.Optional[str]
+            An optional description of the Config version.
+
+        voice : typing.Optional[VoiceRef]
+            A voice specification associated with this Config version.
 
         webhooks : typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]]
             Webhook config specifications for each subscriber.
@@ -438,37 +438,37 @@ class RawConfigsClient:
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
-                "evi_version": evi_version,
-                "version_description": version_description,
-                "prompt": convert_and_respect_annotation_metadata(
-                    object_=prompt, annotation=PostedConfigPromptSpec, direction="write"
-                ),
-                "voice": convert_and_respect_annotation_metadata(object_=voice, annotation=VoiceRef, direction="write"),
-                "language_model": convert_and_respect_annotation_metadata(
-                    object_=language_model, annotation=PostedLanguageModel, direction="write"
+                "builtin_tools": convert_and_respect_annotation_metadata(
+                    object_=builtin_tools,
+                    annotation=typing.Sequence[typing.Optional[PostedBuiltinTool]],
+                    direction="write",
                 ),
                 "ellm_model": convert_and_respect_annotation_metadata(
                     object_=ellm_model, annotation=PostedEllmModel, direction="write"
+                ),
+                "event_messages": convert_and_respect_annotation_metadata(
+                    object_=event_messages, annotation=PostedEventMessageSpecs, direction="write"
+                ),
+                "evi_version": evi_version,
+                "language_model": convert_and_respect_annotation_metadata(
+                    object_=language_model, annotation=PostedLanguageModel, direction="write"
+                ),
+                "nudges": convert_and_respect_annotation_metadata(
+                    object_=nudges, annotation=PostedNudgeSpec, direction="write"
+                ),
+                "prompt": convert_and_respect_annotation_metadata(
+                    object_=prompt, annotation=PostedConfigPromptSpec, direction="write"
+                ),
+                "timeouts": convert_and_respect_annotation_metadata(
+                    object_=timeouts, annotation=PostedTimeoutSpecs, direction="write"
                 ),
                 "tools": convert_and_respect_annotation_metadata(
                     object_=tools,
                     annotation=typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]],
                     direction="write",
                 ),
-                "builtin_tools": convert_and_respect_annotation_metadata(
-                    object_=builtin_tools,
-                    annotation=typing.Sequence[typing.Optional[PostedBuiltinTool]],
-                    direction="write",
-                ),
-                "event_messages": convert_and_respect_annotation_metadata(
-                    object_=event_messages, annotation=PostedEventMessageSpecs, direction="write"
-                ),
-                "timeouts": convert_and_respect_annotation_metadata(
-                    object_=timeouts, annotation=PostedTimeoutSpecs, direction="write"
-                ),
-                "nudges": convert_and_respect_annotation_metadata(
-                    object_=nudges, annotation=PostedNudgeSpec, direction="write"
-                ),
+                "version_description": version_description,
+                "voice": convert_and_respect_annotation_metadata(object_=voice, annotation=VoiceRef, direction="write"),
                 "webhooks": convert_and_respect_annotation_metadata(
                     object_=webhooks, annotation=typing.Sequence[typing.Optional[PostedWebhookSpec]], direction="write"
                 ),
@@ -895,16 +895,16 @@ class AsyncRawConfigsClient:
         *,
         evi_version: str,
         name: str,
-        version_description: typing.Optional[str] = OMIT,
-        prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
-        voice: typing.Optional[VoiceRef] = OMIT,
-        language_model: typing.Optional[PostedLanguageModel] = OMIT,
-        ellm_model: typing.Optional[PostedEllmModel] = OMIT,
-        tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
+        ellm_model: typing.Optional[PostedEllmModel] = OMIT,
         event_messages: typing.Optional[PostedEventMessageSpecs] = OMIT,
+        language_model: typing.Optional[PostedLanguageModel] = OMIT,
         nudges: typing.Optional[PostedNudgeSpec] = OMIT,
+        prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
         timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
+        tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
+        version_description: typing.Optional[str] = OMIT,
+        voice: typing.Optional[VoiceRef] = OMIT,
         webhooks: typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ReturnConfig]:
@@ -921,36 +921,36 @@ class AsyncRawConfigsClient:
         name : str
             Name applied to all versions of a particular Config.
 
-        version_description : typing.Optional[str]
-            An optional description of the Config version.
-
-        prompt : typing.Optional[PostedConfigPromptSpec]
-
-        voice : typing.Optional[VoiceRef]
-            A voice specification associated with this Config.
-
-        language_model : typing.Optional[PostedLanguageModel]
-            The supplemental language model associated with this Config.
-
-            This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
+        builtin_tools : typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]
+            List of built-in tools associated with this Config.
 
         ellm_model : typing.Optional[PostedEllmModel]
             The eLLM setup associated with this Config.
 
             Hume's eLLM (empathic Large Language Model) is a multimodal language model that takes into account both expression measures and language. The eLLM generates short, empathic language responses and guides text-to-speech (TTS) prosody.
 
-        tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
-            List of user-defined tools associated with this Config.
-
-        builtin_tools : typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]
-            List of built-in tools associated with this Config.
-
         event_messages : typing.Optional[PostedEventMessageSpecs]
+
+        language_model : typing.Optional[PostedLanguageModel]
+            The supplemental language model associated with this Config.
+
+            This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
 
         nudges : typing.Optional[PostedNudgeSpec]
             Configures nudges, brief audio prompts that can guide conversations when users pause or need encouragement to continue speaking. Nudges help create more natural, flowing interactions by providing gentle conversational cues.
 
+        prompt : typing.Optional[PostedConfigPromptSpec]
+
         timeouts : typing.Optional[PostedTimeoutSpecs]
+
+        tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
+            List of user-defined tools associated with this Config.
+
+        version_description : typing.Optional[str]
+            An optional description of the Config version.
+
+        voice : typing.Optional[VoiceRef]
+            A voice specification associated with this Config.
 
         webhooks : typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]]
             Webhook config specifications for each subscriber.
@@ -968,38 +968,38 @@ class AsyncRawConfigsClient:
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
-                "evi_version": evi_version,
-                "name": name,
-                "version_description": version_description,
-                "prompt": convert_and_respect_annotation_metadata(
-                    object_=prompt, annotation=PostedConfigPromptSpec, direction="write"
-                ),
-                "voice": convert_and_respect_annotation_metadata(object_=voice, annotation=VoiceRef, direction="write"),
-                "language_model": convert_and_respect_annotation_metadata(
-                    object_=language_model, annotation=PostedLanguageModel, direction="write"
+                "builtin_tools": convert_and_respect_annotation_metadata(
+                    object_=builtin_tools,
+                    annotation=typing.Sequence[typing.Optional[PostedBuiltinTool]],
+                    direction="write",
                 ),
                 "ellm_model": convert_and_respect_annotation_metadata(
                     object_=ellm_model, annotation=PostedEllmModel, direction="write"
+                ),
+                "event_messages": convert_and_respect_annotation_metadata(
+                    object_=event_messages, annotation=PostedEventMessageSpecs, direction="write"
+                ),
+                "evi_version": evi_version,
+                "language_model": convert_and_respect_annotation_metadata(
+                    object_=language_model, annotation=PostedLanguageModel, direction="write"
+                ),
+                "name": name,
+                "nudges": convert_and_respect_annotation_metadata(
+                    object_=nudges, annotation=PostedNudgeSpec, direction="write"
+                ),
+                "prompt": convert_and_respect_annotation_metadata(
+                    object_=prompt, annotation=PostedConfigPromptSpec, direction="write"
+                ),
+                "timeouts": convert_and_respect_annotation_metadata(
+                    object_=timeouts, annotation=PostedTimeoutSpecs, direction="write"
                 ),
                 "tools": convert_and_respect_annotation_metadata(
                     object_=tools,
                     annotation=typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]],
                     direction="write",
                 ),
-                "builtin_tools": convert_and_respect_annotation_metadata(
-                    object_=builtin_tools,
-                    annotation=typing.Sequence[typing.Optional[PostedBuiltinTool]],
-                    direction="write",
-                ),
-                "event_messages": convert_and_respect_annotation_metadata(
-                    object_=event_messages, annotation=PostedEventMessageSpecs, direction="write"
-                ),
-                "nudges": convert_and_respect_annotation_metadata(
-                    object_=nudges, annotation=PostedNudgeSpec, direction="write"
-                ),
-                "timeouts": convert_and_respect_annotation_metadata(
-                    object_=timeouts, annotation=PostedTimeoutSpecs, direction="write"
-                ),
+                "version_description": version_description,
+                "voice": convert_and_respect_annotation_metadata(object_=voice, annotation=VoiceRef, direction="write"),
                 "webhooks": convert_and_respect_annotation_metadata(
                     object_=webhooks, annotation=typing.Sequence[typing.Optional[PostedWebhookSpec]], direction="write"
                 ),
@@ -1134,16 +1134,16 @@ class AsyncRawConfigsClient:
         id: str,
         *,
         evi_version: str,
-        version_description: typing.Optional[str] = OMIT,
-        prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
-        voice: typing.Optional[VoiceRef] = OMIT,
-        language_model: typing.Optional[PostedLanguageModel] = OMIT,
-        ellm_model: typing.Optional[PostedEllmModel] = OMIT,
-        tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
+        ellm_model: typing.Optional[PostedEllmModel] = OMIT,
         event_messages: typing.Optional[PostedEventMessageSpecs] = OMIT,
-        timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
+        language_model: typing.Optional[PostedLanguageModel] = OMIT,
         nudges: typing.Optional[PostedNudgeSpec] = OMIT,
+        prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
+        timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
+        tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
+        version_description: typing.Optional[str] = OMIT,
+        voice: typing.Optional[VoiceRef] = OMIT,
         webhooks: typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ReturnConfig]:
@@ -1160,35 +1160,35 @@ class AsyncRawConfigsClient:
         evi_version : str
             The version of the EVI used with this config.
 
-        version_description : typing.Optional[str]
-            An optional description of the Config version.
-
-        prompt : typing.Optional[PostedConfigPromptSpec]
-
-        voice : typing.Optional[VoiceRef]
-            A voice specification associated with this Config version.
-
-        language_model : typing.Optional[PostedLanguageModel]
-            The supplemental language model associated with this Config version.
-
-            This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
+        builtin_tools : typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]
+            List of built-in tools associated with this Config version.
 
         ellm_model : typing.Optional[PostedEllmModel]
             The eLLM setup associated with this Config version.
 
             Hume's eLLM (empathic Large Language Model) is a multimodal language model that takes into account both expression measures and language. The eLLM generates short, empathic language responses and guides text-to-speech (TTS) prosody.
 
-        tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
-            List of user-defined tools associated with this Config version.
-
-        builtin_tools : typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]
-            List of built-in tools associated with this Config version.
-
         event_messages : typing.Optional[PostedEventMessageSpecs]
+
+        language_model : typing.Optional[PostedLanguageModel]
+            The supplemental language model associated with this Config version.
+
+            This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
+
+        nudges : typing.Optional[PostedNudgeSpec]
+
+        prompt : typing.Optional[PostedConfigPromptSpec]
 
         timeouts : typing.Optional[PostedTimeoutSpecs]
 
-        nudges : typing.Optional[PostedNudgeSpec]
+        tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
+            List of user-defined tools associated with this Config version.
+
+        version_description : typing.Optional[str]
+            An optional description of the Config version.
+
+        voice : typing.Optional[VoiceRef]
+            A voice specification associated with this Config version.
 
         webhooks : typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]]
             Webhook config specifications for each subscriber.
@@ -1206,37 +1206,37 @@ class AsyncRawConfigsClient:
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
-                "evi_version": evi_version,
-                "version_description": version_description,
-                "prompt": convert_and_respect_annotation_metadata(
-                    object_=prompt, annotation=PostedConfigPromptSpec, direction="write"
-                ),
-                "voice": convert_and_respect_annotation_metadata(object_=voice, annotation=VoiceRef, direction="write"),
-                "language_model": convert_and_respect_annotation_metadata(
-                    object_=language_model, annotation=PostedLanguageModel, direction="write"
+                "builtin_tools": convert_and_respect_annotation_metadata(
+                    object_=builtin_tools,
+                    annotation=typing.Sequence[typing.Optional[PostedBuiltinTool]],
+                    direction="write",
                 ),
                 "ellm_model": convert_and_respect_annotation_metadata(
                     object_=ellm_model, annotation=PostedEllmModel, direction="write"
+                ),
+                "event_messages": convert_and_respect_annotation_metadata(
+                    object_=event_messages, annotation=PostedEventMessageSpecs, direction="write"
+                ),
+                "evi_version": evi_version,
+                "language_model": convert_and_respect_annotation_metadata(
+                    object_=language_model, annotation=PostedLanguageModel, direction="write"
+                ),
+                "nudges": convert_and_respect_annotation_metadata(
+                    object_=nudges, annotation=PostedNudgeSpec, direction="write"
+                ),
+                "prompt": convert_and_respect_annotation_metadata(
+                    object_=prompt, annotation=PostedConfigPromptSpec, direction="write"
+                ),
+                "timeouts": convert_and_respect_annotation_metadata(
+                    object_=timeouts, annotation=PostedTimeoutSpecs, direction="write"
                 ),
                 "tools": convert_and_respect_annotation_metadata(
                     object_=tools,
                     annotation=typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]],
                     direction="write",
                 ),
-                "builtin_tools": convert_and_respect_annotation_metadata(
-                    object_=builtin_tools,
-                    annotation=typing.Sequence[typing.Optional[PostedBuiltinTool]],
-                    direction="write",
-                ),
-                "event_messages": convert_and_respect_annotation_metadata(
-                    object_=event_messages, annotation=PostedEventMessageSpecs, direction="write"
-                ),
-                "timeouts": convert_and_respect_annotation_metadata(
-                    object_=timeouts, annotation=PostedTimeoutSpecs, direction="write"
-                ),
-                "nudges": convert_and_respect_annotation_metadata(
-                    object_=nudges, annotation=PostedNudgeSpec, direction="write"
-                ),
+                "version_description": version_description,
+                "voice": convert_and_respect_annotation_metadata(object_=voice, annotation=VoiceRef, direction="write"),
                 "webhooks": convert_and_respect_annotation_metadata(
                     object_=webhooks, annotation=typing.Sequence[typing.Optional[PostedWebhookSpec]], direction="write"
                 ),
