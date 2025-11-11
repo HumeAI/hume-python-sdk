@@ -4,17 +4,16 @@ import typing
 
 import pydantic
 from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
-from .return_prompt_version_type import ReturnPromptVersionType
 
 
 class ReturnPrompt(UniversalBaseModel):
     """
-    A Prompt associated with this Config.
+    A specific prompt version returned from the server
     """
 
-    name: str = pydantic.Field()
+    created_on: int = pydantic.Field()
     """
-    Name applied to all versions of a particular Prompt.
+    The timestamp when the first version of this prompt was created.
     """
 
     id: str = pydantic.Field()
@@ -22,40 +21,34 @@ class ReturnPrompt(UniversalBaseModel):
     Identifier for a Prompt. Formatted as a UUID.
     """
 
+    modified_on: int = pydantic.Field()
+    """
+    The timestamp when this version of the prompt was created.
+    """
+
+    name: str = pydantic.Field()
+    """
+    Name applied to all versions of a particular Prompt.
+    """
+
     text: str = pydantic.Field()
     """
-    Instructions used to shape EVI's behavior, responses, and style.
-    
-    You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles. For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).
+    Text used for this version of the Prompt.
     """
 
     version: int = pydantic.Field()
     """
-    Version number for a Prompt.
-    
-    Prompts, Configs, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
-    
-    Version numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number.
-    """
-
-    version_type: ReturnPromptVersionType = pydantic.Field()
-    """
-    Versioning method for a Prompt. Either `FIXED` for using a fixed version number or `LATEST` for auto-updating to the latest version.
-    """
-
-    created_on: int = pydantic.Field()
-    """
-    Time at which the Prompt was created. Measured in seconds since the Unix epoch.
-    """
-
-    modified_on: int = pydantic.Field()
-    """
-    Time at which the Prompt was last modified. Measured in seconds since the Unix epoch.
+    Version number for a Prompt. Version numbers should be integers. The combination of configId and version number is unique.
     """
 
     version_description: typing.Optional[str] = pydantic.Field(default=None)
     """
-    An optional description of the Prompt version.
+    Description that is appended to a specific version of a Prompt.
+    """
+
+    version_type: str = pydantic.Field()
+    """
+    Indicates whether this prompt is using a fixed version number or auto-updating to the latest version. Values from the VersionType enum.
     """
 
     if IS_PYDANTIC_V2:
