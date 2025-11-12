@@ -13,6 +13,11 @@ class ReturnChatGroupPagedEvents(UniversalBaseModel):
     A paginated list of chat events that occurred across chats in this chat_group from the server
     """
 
+    events_page: typing.List[ReturnChatEvent] = pydantic.Field()
+    """
+    List of Chat Events for the specified `page_number` and `page_size`.
+    """
+
     id: str = pydantic.Field()
     """
     Identifier for the Chat Group. Any Chat resumed from this Chat Group will have the same `chat_group_id`. Formatted as a UUID.
@@ -32,11 +37,6 @@ class ReturnChatGroupPagedEvents(UniversalBaseModel):
     This value corresponds to the `page_size` parameter specified in the request.
     """
 
-    total_pages: int = pydantic.Field()
-    """
-    The total number of pages in the collection.
-    """
-
     pagination_direction: ReturnChatGroupPagedEventsPaginationDirection = pydantic.Field()
     """
     Indicates the order in which the paginated results are presented, based on their creation date.
@@ -44,9 +44,9 @@ class ReturnChatGroupPagedEvents(UniversalBaseModel):
     It shows `ASC` for ascending order (chronological, with the oldest records first) or `DESC` for descending order (reverse-chronological, with the newest records first). This value corresponds to the `ascending_order` query parameter used in the request.
     """
 
-    events_page: typing.List[ReturnChatEvent] = pydantic.Field()
+    total_pages: int = pydantic.Field()
     """
-    List of Chat Events for the specified `page_number` and `page_size`.
+    The total number of pages in the collection.
     """
 
     if IS_PYDANTIC_V2:

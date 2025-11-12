@@ -14,11 +14,6 @@ class PostedEventMessageSpecs(UniversalBaseModel):
     Event messages are sent by the server when specific events occur during a chat session. These messages are used to configure behaviors for EVI, such as controlling how EVI starts a new conversation.
     """
 
-    on_new_chat: typing.Optional[PostedEventMessageSpec] = pydantic.Field(default=None)
-    """
-    Specifies the initial message EVI provides when a new chat is started, such as a greeting or welcome message.
-    """
-
     on_inactivity_timeout: typing.Optional[PostedEventMessageSpec] = pydantic.Field(default=None)
     """
     Specifies the message EVI provides when the chat is about to be disconnected due to a user inactivity timeout, such as a message mentioning a lack of user input for a period of time.
@@ -33,6 +28,11 @@ class PostedEventMessageSpecs(UniversalBaseModel):
     on_max_duration_timeout: typing.Optional[PostedEventMessageSpec] = pydantic.Field(default=None)
     """
     Specifies the message EVI provides when the chat is disconnected due to reaching the maximum chat duration, such as a message mentioning the time limit for the chat has been reached.
+    """
+
+    on_new_chat: typing.Optional[PostedEventMessageSpec] = pydantic.Field(default=None)
+    """
+    Specifies the initial message EVI provides when a new chat is started, such as a greeting or welcome message.
     """
 
     if IS_PYDANTIC_V2:
