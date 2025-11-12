@@ -12,6 +12,11 @@ class ReturnPagedConfigs(UniversalBaseModel):
     A paginated list of config versions returned from the server
     """
 
+    configs_page: typing.Optional[typing.List[ReturnConfig]] = pydantic.Field(default=None)
+    """
+    List of configs returned for the specified `page_number` and `page_size`.
+    """
+
     page_number: typing.Optional[int] = pydantic.Field(default=None)
     """
     The page number of the returned list.
@@ -29,11 +34,6 @@ class ReturnPagedConfigs(UniversalBaseModel):
     total_pages: int = pydantic.Field()
     """
     The total number of pages in the collection.
-    """
-
-    configs_page: typing.Optional[typing.List[ReturnConfig]] = pydantic.Field(default=None)
-    """
-    List of configs returned for the specified `page_number` and `page_size`.
     """
 
     if IS_PYDANTIC_V2:

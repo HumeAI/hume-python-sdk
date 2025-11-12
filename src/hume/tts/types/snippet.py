@@ -30,7 +30,7 @@ class Snippet(UniversalBaseModel):
 
     timestamps: typing.List[Timestamp] = pydantic.Field()
     """
-    A list of word or phoneme level timestamps for the generated audio.
+    A list of word or phoneme level timestamps for the generated audio. Timestamps are only returned for Octave 2 requests.
     """
 
     transcribed_text: typing.Optional[str] = pydantic.Field(default=None)
