@@ -15,6 +15,16 @@ class InferenceJob(JobInference):
     Jobs created with the Expression Measurement API will have this field set to `INFERENCE`.
     """
 
+    @property
+    def status(self) -> str:
+        """
+        Backward compatibility property for accessing job status.
+        
+        Previously, jobs had a direct `status` attribute. Now status is accessed via `state.status`.
+        This property provides backward compatibility for existing code that uses `job.status`.
+        """
+        return self.state.status
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:
