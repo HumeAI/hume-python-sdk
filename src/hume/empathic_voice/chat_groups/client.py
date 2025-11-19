@@ -155,6 +155,67 @@ class ChatGroupsClient:
         )
         return _response.data
 
+    def get_audio(
+        self,
+        id: str,
+        *,
+        page_number: typing.Optional[int] = None,
+        page_size: typing.Optional[int] = None,
+        ascending_order: typing.Optional[bool] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> ReturnChatGroupPagedAudioReconstructions:
+        """
+        Fetches a paginated list of audio for each **Chat** within the specified **Chat Group**. For more details, see our guide on audio reconstruction [here](/docs/speech-to-speech-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
+
+        Parameters
+        ----------
+        id : str
+            Identifier for a Chat Group. Formatted as a UUID.
+
+        page_number : typing.Optional[int]
+            Specifies the page number to retrieve, enabling pagination.
+
+            This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
+
+        page_size : typing.Optional[int]
+            Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+
+            For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+
+        ascending_order : typing.Optional[bool]
+            Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ReturnChatGroupPagedAudioReconstructions
+            Success
+
+        Examples
+        --------
+        from hume import HumeClient
+
+        client = HumeClient(
+            api_key="YOUR_API_KEY",
+        )
+        client.empathic_voice.chat_groups.get_audio(
+            id="369846cf-6ad5-404d-905e-a8acb5cdfc78",
+            page_number=0,
+            page_size=10,
+            ascending_order=True,
+        )
+        """
+        _response = self._raw_client.get_audio(
+            id,
+            page_number=page_number,
+            page_size=page_size,
+            ascending_order=ascending_order,
+            request_options=request_options,
+        )
+        return _response.data
+
     def list_chat_group_events(
         self,
         id: str,
@@ -219,67 +280,6 @@ class ChatGroupsClient:
             ascending_order=ascending_order,
             request_options=request_options,
         )
-
-    def get_audio(
-        self,
-        id: str,
-        *,
-        page_number: typing.Optional[int] = None,
-        page_size: typing.Optional[int] = None,
-        ascending_order: typing.Optional[bool] = None,
-        request_options: typing.Optional[RequestOptions] = None,
-    ) -> ReturnChatGroupPagedAudioReconstructions:
-        """
-        Fetches a paginated list of audio for each **Chat** within the specified **Chat Group**. For more details, see our guide on audio reconstruction [here](/docs/speech-to-speech-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
-
-        Parameters
-        ----------
-        id : str
-            Identifier for a Chat Group. Formatted as a UUID.
-
-        page_number : typing.Optional[int]
-            Specifies the page number to retrieve, enabling pagination.
-
-            This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
-
-        page_size : typing.Optional[int]
-            Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
-
-            For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
-
-        ascending_order : typing.Optional[bool]
-            Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration.
-
-        Returns
-        -------
-        ReturnChatGroupPagedAudioReconstructions
-            Success
-
-        Examples
-        --------
-        from hume import HumeClient
-
-        client = HumeClient(
-            api_key="YOUR_API_KEY",
-        )
-        client.empathic_voice.chat_groups.get_audio(
-            id="369846cf-6ad5-404d-905e-a8acb5cdfc78",
-            page_number=0,
-            page_size=10,
-            ascending_order=True,
-        )
-        """
-        _response = self._raw_client.get_audio(
-            id,
-            page_number=page_number,
-            page_size=page_size,
-            ascending_order=ascending_order,
-            request_options=request_options,
-        )
-        return _response.data
 
 
 class AsyncChatGroupsClient:
@@ -442,6 +442,75 @@ class AsyncChatGroupsClient:
         )
         return _response.data
 
+    async def get_audio(
+        self,
+        id: str,
+        *,
+        page_number: typing.Optional[int] = None,
+        page_size: typing.Optional[int] = None,
+        ascending_order: typing.Optional[bool] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> ReturnChatGroupPagedAudioReconstructions:
+        """
+        Fetches a paginated list of audio for each **Chat** within the specified **Chat Group**. For more details, see our guide on audio reconstruction [here](/docs/speech-to-speech-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
+
+        Parameters
+        ----------
+        id : str
+            Identifier for a Chat Group. Formatted as a UUID.
+
+        page_number : typing.Optional[int]
+            Specifies the page number to retrieve, enabling pagination.
+
+            This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
+
+        page_size : typing.Optional[int]
+            Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+
+            For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+
+        ascending_order : typing.Optional[bool]
+            Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ReturnChatGroupPagedAudioReconstructions
+            Success
+
+        Examples
+        --------
+        import asyncio
+
+        from hume import AsyncHumeClient
+
+        client = AsyncHumeClient(
+            api_key="YOUR_API_KEY",
+        )
+
+
+        async def main() -> None:
+            await client.empathic_voice.chat_groups.get_audio(
+                id="369846cf-6ad5-404d-905e-a8acb5cdfc78",
+                page_number=0,
+                page_size=10,
+                ascending_order=True,
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.get_audio(
+            id,
+            page_number=page_number,
+            page_size=page_size,
+            ascending_order=ascending_order,
+            request_options=request_options,
+        )
+        return _response.data
+
     async def list_chat_group_events(
         self,
         id: str,
@@ -515,72 +584,3 @@ class AsyncChatGroupsClient:
             ascending_order=ascending_order,
             request_options=request_options,
         )
-
-    async def get_audio(
-        self,
-        id: str,
-        *,
-        page_number: typing.Optional[int] = None,
-        page_size: typing.Optional[int] = None,
-        ascending_order: typing.Optional[bool] = None,
-        request_options: typing.Optional[RequestOptions] = None,
-    ) -> ReturnChatGroupPagedAudioReconstructions:
-        """
-        Fetches a paginated list of audio for each **Chat** within the specified **Chat Group**. For more details, see our guide on audio reconstruction [here](/docs/speech-to-speech-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
-
-        Parameters
-        ----------
-        id : str
-            Identifier for a Chat Group. Formatted as a UUID.
-
-        page_number : typing.Optional[int]
-            Specifies the page number to retrieve, enabling pagination.
-
-            This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
-
-        page_size : typing.Optional[int]
-            Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
-
-            For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
-
-        ascending_order : typing.Optional[bool]
-            Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration.
-
-        Returns
-        -------
-        ReturnChatGroupPagedAudioReconstructions
-            Success
-
-        Examples
-        --------
-        import asyncio
-
-        from hume import AsyncHumeClient
-
-        client = AsyncHumeClient(
-            api_key="YOUR_API_KEY",
-        )
-
-
-        async def main() -> None:
-            await client.empathic_voice.chat_groups.get_audio(
-                id="369846cf-6ad5-404d-905e-a8acb5cdfc78",
-                page_number=0,
-                page_size=10,
-                ascending_order=True,
-            )
-
-
-        asyncio.run(main())
-        """
-        _response = await self._raw_client.get_audio(
-            id,
-            page_number=page_number,
-            page_size=page_size,
-            ascending_order=ascending_order,
-            request_options=request_options,
-        )
-        return _response.data

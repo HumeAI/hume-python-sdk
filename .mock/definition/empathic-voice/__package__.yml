@@ -997,31 +997,54 @@ types:
     discriminated: false
     union:
       - type: AssistantEnd
+        docs: When provided, the output is an assistant end message.
       - type: AssistantMessage
+        docs: When provided, the output is an assistant message.
       - type: AssistantProsody
+        docs: When provided, the output is an Assistant Prosody message.
       - type: AudioOutput
+        docs: >-
+          The type of message sent through the socket; for an Audio Output
+          message, this must be `audio_output`.
       - type: ChatMetadata
+        docs: When provided, the output is a chat metadata message.
       - type: WebSocketError
+        docs: When provided, the output is an error message.
       - type: UserInterruption
+        docs: When provided, the output is an interruption.
       - type: UserMessage
+        docs: When provided, the output is a user message.
       - type: ToolCallMessage
+        docs: When provided, the output is a tool call.
       - type: ToolResponseMessage
+        docs: When provided, the output is a function call response.
       - type: ToolErrorMessage
+        docs: When provided, the output is a function call error.
     source:
       openapi: evi-asyncapi.json
   JsonMessage:
     discriminated: false
     union:
       - type: AssistantEnd
+        docs: When provided, the output is an assistant end message.
       - type: AssistantMessage
+        docs: When provided, the output is an assistant message.
       - type: AssistantProsody
+        docs: When provided, the output is an Assistant Prosody message.
       - type: ChatMetadata
+        docs: When provided, the output is a chat metadata message.
       - type: WebSocketError
+        docs: When provided, the output is an error message.
       - type: UserInterruption
+        docs: When provided, the output is an interruption.
       - type: UserMessage
+        docs: When provided, the output is a user message.
       - type: ToolCallMessage
+        docs: When provided, the output is a tool call.
       - type: ToolResponseMessage
+        docs: When provided, the output is a function call response.
       - type: ToolErrorMessage
+        docs: When provided, the output is a function call error.
     source:
       openapi: evi-asyncapi.json
   ConnectSessionSettingsAudio:
@@ -1206,12 +1229,38 @@ types:
     discriminated: false
     union:
       - type: SessionSettings
+        docs: Settings for this chat session.
       - type: UserInput
+        docs: >-
+          User text to insert into the conversation. Text sent through a User
+          Input message is treated as the user's speech to EVI. EVI processes
+          this input and provides a corresponding response.
+
+
+          Expression measurement results are not available for User Input
+          messages, as the prosody model relies on audio input and cannot
+          process text alone.
       - type: AssistantInput
+        docs: When provided, the input is spoken by EVI.
       - type: ToolResponseMessage
+        docs: When provided, the output is a function call response.
       - type: ToolErrorMessage
+        docs: When provided, the output is a function call error.
       - type: PauseAssistantMessage
+        docs: >-
+          Pause responses from EVI. Chat history is still saved and sent after
+          resuming. 
       - type: ResumeAssistantMessage
+        docs: >-
+          Resume responses from EVI. Chat history sent while paused will now be
+          sent. 
+    source:
+      openapi: evi-openapi.json
+  ErrorResponse:
+    properties:
+      code: optional<string>
+      error: optional<string>
+      message: optional<string>
     source:
       openapi: evi-openapi.json
   HTTPValidationError:
@@ -1356,6 +1405,84 @@ types:
       - PERPLEXITY
       - SAMBANOVA
       - CEREBRAS
+    source:
+      openapi: evi-openapi.json
+  ReturnChatAudioReconstructionStatus:
+    enum:
+      - QUEUED
+      - IN_PROGRESS
+      - COMPLETE
+      - ERROR
+      - CANCELLED
+    docs: >-
+      Indicates the current state of the audio reconstruction job. There are
+      five possible statuses:
+
+
+      - `QUEUED`: The reconstruction job is waiting to be processed.
+
+
+      - `IN_PROGRESS`: The reconstruction is currently being processed.
+
+
+      - `COMPLETE`: The audio reconstruction is finished and ready for download.
+
+
+      - `ERROR`: An error occurred during the reconstruction process.
+
+
+      - `CANCELED`: The reconstruction job has been canceled.
+    inline: true
+    source:
+      openapi: evi-openapi.json
+  ReturnChatAudioReconstruction:
+    docs: >-
+      List of chat audio reconstructions returned for the specified page number
+      and page size.
+    properties:
+      filename:
+        type: optional<string>
+        docs: Name of the chat audio reconstruction file.
+      id:
+        type: string
+        docs: Identifier for the chat. Formatted as a UUID.
+      modified_at:
+        type: optional<long>
+        docs: >-
+          The timestamp of the most recent status change for this audio
+          reconstruction, formatted milliseconds since the Unix epoch.
+      signed_audio_url:
+        type: optional<string>
+        docs: Signed URL used to download the chat audio reconstruction file.
+      signed_url_expiration_timestamp_millis:
+        type: optional<long>
+        docs: >-
+          The timestamp when the signed URL will expire, formatted as a Unix
+          epoch milliseconds.
+      status:
+        type: ReturnChatAudioReconstructionStatus
+        docs: >-
+          Indicates the current state of the audio reconstruction job. There are
+          five possible statuses:
+
+
+          - `QUEUED`: The reconstruction job is waiting to be processed.
+
+
+          - `IN_PROGRESS`: The reconstruction is currently being processed.
+
+
+          - `COMPLETE`: The audio reconstruction is finished and ready for
+          download.
+
+
+          - `ERROR`: An error occurred during the reconstruction process.
+
+
+          - `CANCELED`: The reconstruction job has been canceled.
+      user_id:
+        type: string
+        docs: Identifier for the user that owns this chat. Formatted as a UUID.
     source:
       openapi: evi-openapi.json
   ValidationErrorLocItem:
@@ -1508,941 +1635,6 @@ types:
       - WebhookEventBase
     source:
       openapi: evi-openapi.json
-  ErrorResponse:
-    properties:
-      error: optional<string>
-      message: optional<string>
-      code: optional<string>
-    source:
-      openapi: evi-openapi.json
-  ReturnPagedUserDefinedTools:
-    docs: A paginated list of user defined tool versions returned from the server
-    properties:
-      page_number:
-        type: integer
-        docs: >-
-          The page number of the returned list.
-
-
-          This value corresponds to the `page_number` parameter specified in the
-          request. Pagination uses zero-based indexing.
-      page_size:
-        type: integer
-        docs: >-
-          The maximum number of items returned per page.
-
-
-          This value corresponds to the `page_size` parameter specified in the
-          request.
-      total_pages:
-        type: integer
-        docs: The total number of pages in the collection.
-      tools_page:
-        docs: >-
-          List of tools returned for the specified `page_number` and
-          `page_size`.
-        type: list<optional<ReturnUserDefinedTool>>
-    source:
-      openapi: evi-openapi.json
-  ReturnUserDefinedToolToolType:
-    enum:
-      - BUILTIN
-      - FUNCTION
-    docs: >-
-      Type of Tool. Either `BUILTIN` for natively implemented tools, like web
-      search, or `FUNCTION` for user-defined tools.
-    inline: true
-    source:
-      openapi: evi-openapi.json
-  ReturnUserDefinedToolVersionType:
-    enum:
-      - FIXED
-      - LATEST
-    docs: >-
-      Versioning method for a Tool. Either `FIXED` for using a fixed version
-      number or `LATEST` for auto-updating to the latest version.
-    inline: true
-    source:
-      openapi: evi-openapi.json
-  ReturnUserDefinedTool:
-    docs: A specific tool version returned from the server
-    properties:
-      tool_type:
-        type: ReturnUserDefinedToolToolType
-        docs: >-
-          Type of Tool. Either `BUILTIN` for natively implemented tools, like
-          web search, or `FUNCTION` for user-defined tools.
-      id:
-        type: string
-        docs: Identifier for a Tool. Formatted as a UUID.
-      version:
-        type: integer
-        docs: >-
-          Version number for a Tool.
-
-
-          Tools, Configs, Custom Voices, and Prompts are versioned. This
-          versioning system supports iterative development, allowing you to
-          progressively refine tools and revert to previous versions if needed.
-
-
-          Version numbers are integer values representing different iterations
-          of the Tool. Each update to the Tool increments its version number.
-      version_type:
-        type: ReturnUserDefinedToolVersionType
-        docs: >-
-          Versioning method for a Tool. Either `FIXED` for using a fixed version
-          number or `LATEST` for auto-updating to the latest version.
-      version_description:
-        type: optional<string>
-        docs: An optional description of the Tool version.
-      name:
-        type: string
-        docs: Name applied to all versions of a particular Tool.
-      created_on:
-        type: long
-        docs: >-
-          Time at which the Tool was created. Measured in seconds since the Unix
-          epoch.
-      modified_on:
-        type: long
-        docs: >-
-          Time at which the Tool was last modified. Measured in seconds since
-          the Unix epoch.
-      fallback_content:
-        type: optional<string>
-        docs: >-
-          Optional text passed to the supplemental LLM in place of the tool call
-          result. The LLM then uses this text to generate a response back to the
-          user, ensuring continuity in the conversation if the Tool errors.
-      description:
-        type: optional<string>
-        docs: >-
-          An optional description of what the Tool does, used by the
-          supplemental LLM to choose when and how to call the function.
-      parameters:
-        type: string
-        docs: >-
-          Stringified JSON defining the parameters used by this version of the
-          Tool.
-
-
-          These parameters define the inputs needed for the Tool's execution,
-          including the expected data type and description for each input field.
-          Structured as a stringified JSON schema, this format ensures the tool
-          receives data in the expected format.
-    source:
-      openapi: evi-openapi.json
-  ReturnPagedPrompts:
-    docs: A paginated list of prompt versions returned from the server
-    properties:
-      page_number:
-        type: integer
-        docs: >-
-          The page number of the returned list.
-
-
-          This value corresponds to the `page_number` parameter specified in the
-          request. Pagination uses zero-based indexing.
-      page_size:
-        type: integer
-        docs: >-
-          The maximum number of items returned per page.
-
-
-          This value corresponds to the `page_size` parameter specified in the
-          request.
-      total_pages:
-        type: integer
-        docs: The total number of pages in the collection.
-      prompts_page:
-        docs: >-
-          List of prompts returned for the specified `page_number` and
-          `page_size`.
-        type: list<optional<ReturnPrompt>>
-    source:
-      openapi: evi-openapi.json
-  ReturnPrompt:
-    docs: A Prompt associated with this Config.
-    properties:
-      name:
-        type: string
-        docs: Name applied to all versions of a particular Prompt.
-      id:
-        type: string
-        docs: Identifier for a Prompt. Formatted as a UUID.
-      text:
-        type: string
-        docs: >-
-          Instructions used to shape EVI's behavior, responses, and style.
-
-
-          You can use the Prompt to define a specific goal or role for EVI,
-          specifying how it should act or what it should focus on during the
-          conversation. For example, EVI can be instructed to act as a customer
-          support representative, a fitness coach, or a travel advisor, each
-          with its own set of behaviors and response styles. For help writing a
-          system prompt, see our [Prompting
-          Guide](/docs/speech-to-speech-evi/guides/prompting).
-      version:
-        type: integer
-        docs: >-
-          Version number for a Prompt.
-
-
-          Prompts, Configs, Custom Voices, and Tools are versioned. This
-          versioning system supports iterative development, allowing you to
-          progressively refine prompts and revert to previous versions if
-          needed.
-
-
-          Version numbers are integer values representing different iterations
-          of the Prompt. Each update to the Prompt increments its version
-          number.
-      version_type:
-        type: ReturnPromptVersionType
-        docs: >-
-          Versioning method for a Prompt. Either `FIXED` for using a fixed
-          version number or `LATEST` for auto-updating to the latest version.
-      created_on:
-        type: long
-        docs: >-
-          Time at which the Prompt was created. Measured in seconds since the
-          Unix epoch.
-      modified_on:
-        type: long
-        docs: >-
-          Time at which the Prompt was last modified. Measured in seconds since
-          the Unix epoch.
-      version_description:
-        type: optional<string>
-        docs: An optional description of the Prompt version.
-    source:
-      openapi: evi-openapi.json
-  ReturnPagedConfigs:
-    docs: A paginated list of config versions returned from the server
-    properties:
-      page_number:
-        type: optional<integer>
-        docs: >-
-          The page number of the returned list.
-
-
-          This value corresponds to the `page_number` parameter specified in the
-          request. Pagination uses zero-based indexing.
-      page_size:
-        type: optional<integer>
-        docs: >-
-          The maximum number of items returned per page.
-
-
-          This value corresponds to the `page_size` parameter specified in the
-          request.
-      total_pages:
-        type: integer
-        docs: The total number of pages in the collection.
-      configs_page:
-        type: optional<list<ReturnConfig>>
-        docs: >-
-          List of configs returned for the specified `page_number` and
-          `page_size`.
-    source:
-      openapi: evi-openapi.json
-  ReturnConfig:
-    docs: A specific config version returned from the server
-    properties:
-      name:
-        type: optional<string>
-        docs: Name applied to all versions of a particular Config.
-      id:
-        type: optional<string>
-        docs: Identifier for a Config. Formatted as a UUID.
-      version:
-        type: optional<integer>
-        docs: >-
-          Version number for a Config.
-
-
-          Configs, Prompts, Custom Voices, and Tools are versioned. This
-          versioning system supports iterative development, allowing you to
-          progressively refine configurations and revert to previous versions if
-          needed.
-
-
-          Version numbers are integer values representing different iterations
-          of the Config. Each update to the Config increments its version
-          number.
-      language_model:
-        type: optional<ReturnLanguageModel>
-        docs: >-
-          The supplemental language model associated with this Config.
-
-
-          This model is used to generate longer, more detailed responses from
-          EVI. Choosing an appropriate supplemental language model for your use
-          case is crucial for generating fast, high-quality responses from EVI.
-      builtin_tools:
-        type: optional<list<optional<ReturnBuiltinTool>>>
-        docs: List of built-in tools associated with this Config.
-      evi_version:
-        type: optional<string>
-        docs: >-
-          Specifies the EVI version to use. See our [EVI Version 
-          Guide](/docs/speech-to-speech-evi/configuration/evi-version) for
-          differences between versions.
-
-
-          **We're officially sunsetting EVI versions 1 and 2 on August 30,
-          2025**. To keep things running smoothly, be sure to [migrate to EVI
-          3](/docs/speech-to-speech-evi/configuration/evi-version#migrating-to-evi-3)
-          before then.
-      timeouts: optional<ReturnTimeoutSpecs>
-      nudges: optional<ReturnNudgeSpec>
-      event_messages: optional<ReturnEventMessageSpecs>
-      ellm_model:
-        type: optional<ReturnEllmModel>
-        docs: >-
-          The eLLM setup associated with this Config.
-
-
-          Hume's eLLM (empathic Large Language Model) is a multimodal language
-          model that takes into account both expression measures and language.
-          The eLLM generates short, empathic language responses and guides
-          text-to-speech (TTS) prosody.
-      voice:
-        type: optional<ReturnVoice>
-        docs: A voice specification associated with this Config.
-      prompt: optional<ReturnPrompt>
-      webhooks:
-        type: optional<list<optional<ReturnWebhookSpec>>>
-        docs: Map of webhooks associated with this config.
-      created_on:
-        type: optional<long>
-        docs: >-
-          Time at which the Config was created. Measured in seconds since the
-          Unix epoch.
-      modified_on:
-        type: optional<long>
-        docs: >-
-          Time at which the Config was last modified. Measured in seconds since
-          the Unix epoch.
-      version_description:
-        type: optional<string>
-        docs: An optional description of the Config version.
-      tools:
-        type: optional<list<optional<ReturnUserDefinedTool>>>
-        docs: List of user-defined tools associated with this Config.
-    source:
-      openapi: evi-openapi.json
-  ReturnPagedChatsPaginationDirection:
-    enum:
-      - ASC
-      - DESC
-    docs: >-
-      Indicates the order in which the paginated results are presented, based on
-      their creation date.
-
-
-      It shows `ASC` for ascending order (chronological, with the oldest records
-      first) or `DESC` for descending order (reverse-chronological, with the
-      newest records first). This value corresponds to the `ascending_order`
-      query parameter used in the request.
-    inline: true
-    source:
-      openapi: evi-openapi.json
-  ReturnPagedChats:
-    docs: A paginated list of chats returned from the server
-    properties:
-      page_number:
-        type: integer
-        docs: >-
-          The page number of the returned list.
-
-
-          This value corresponds to the `page_number` parameter specified in the
-          request. Pagination uses zero-based indexing.
-      page_size:
-        type: integer
-        docs: >-
-          The maximum number of items returned per page.
-
-
-          This value corresponds to the `page_size` parameter specified in the
-          request.
-      total_pages:
-        type: integer
-        docs: The total number of pages in the collection.
-      pagination_direction:
-        type: ReturnPagedChatsPaginationDirection
-        docs: >-
-          Indicates the order in which the paginated results are presented,
-          based on their creation date.
-
-
-          It shows `ASC` for ascending order (chronological, with the oldest
-          records first) or `DESC` for descending order (reverse-chronological,
-          with the newest records first). This value corresponds to the
-          `ascending_order` query parameter used in the request.
-      chats_page:
-        docs: >-
-          List of Chats and their metadata returned for the specified
-          `page_number` and `page_size`.
-        type: list<ReturnChat>
-    source:
-      openapi: evi-openapi.json
-  ReturnChatPagedEventsStatus:
-    enum:
-      - ACTIVE
-      - USER_ENDED
-      - USER_TIMEOUT
-      - MAX_DURATION_TIMEOUT
-      - INACTIVITY_TIMEOUT
-      - ERROR
-    docs: >-
-      Indicates the current state of the chat. There are six possible statuses:
-
-
-      - `ACTIVE`: The chat is currently active and ongoing.
-
-
-      - `USER_ENDED`: The chat was manually ended by the user.
-
-
-      - `USER_TIMEOUT`: The chat ended due to a user-defined timeout.
-
-
-      - `MAX_DURATION_TIMEOUT`: The chat ended because it reached the maximum
-      allowed duration.
-
-
-      - `INACTIVITY_TIMEOUT`: The chat ended due to an inactivity timeout.
-
-
-      - `ERROR`: The chat ended unexpectedly due to an error.
-    inline: true
-    source:
-      openapi: evi-openapi.json
-  ReturnChatPagedEventsPaginationDirection:
-    enum:
-      - ASC
-      - DESC
-    docs: >-
-      Indicates the order in which the paginated results are presented, based on
-      their creation date.
-
-
-      It shows `ASC` for ascending order (chronological, with the oldest records
-      first) or `DESC` for descending order (reverse-chronological, with the
-      newest records first). This value corresponds to the `ascending_order`
-      query parameter used in the request.
-    inline: true
-    source:
-      openapi: evi-openapi.json
-  ReturnChatPagedEvents:
-    docs: >-
-      A description of chat status with a paginated list of chat events returned
-      from the server
-    properties:
-      id:
-        type: string
-        docs: Identifier for a Chat. Formatted as a UUID.
-      chat_group_id:
-        type: string
-        docs: >-
-          Identifier for the Chat Group. Any chat resumed from this Chat will
-          have the same `chat_group_id`. Formatted as a UUID.
-      status:
-        type: ReturnChatPagedEventsStatus
-        docs: >-
-          Indicates the current state of the chat. There are six possible
-          statuses:
-
-
-          - `ACTIVE`: The chat is currently active and ongoing.
-
-
-          - `USER_ENDED`: The chat was manually ended by the user.
-
-
-          - `USER_TIMEOUT`: The chat ended due to a user-defined timeout.
-
-
-          - `MAX_DURATION_TIMEOUT`: The chat ended because it reached the
-          maximum allowed duration.
-
-
-          - `INACTIVITY_TIMEOUT`: The chat ended due to an inactivity timeout.
-
-
-          - `ERROR`: The chat ended unexpectedly due to an error.
-      start_timestamp:
-        type: long
-        docs: >-
-          Time at which the Chat started. Measured in seconds since the Unix
-          epoch.
-      end_timestamp:
-        type: optional<long>
-        docs: >-
-          Time at which the Chat ended. Measured in seconds since the Unix
-          epoch.
-      pagination_direction:
-        type: ReturnChatPagedEventsPaginationDirection
-        docs: >-
-          Indicates the order in which the paginated results are presented,
-          based on their creation date.
-
-
-          It shows `ASC` for ascending order (chronological, with the oldest
-          records first) or `DESC` for descending order (reverse-chronological,
-          with the newest records first). This value corresponds to the
-          `ascending_order` query parameter used in the request.
-      events_page:
-        docs: List of Chat Events for the specified `page_number` and `page_size`.
-        type: list<ReturnChatEvent>
-      metadata:
-        type: optional<string>
-        docs: Stringified JSON with additional metadata about the chat.
-      page_number:
-        type: integer
-        docs: >-
-          The page number of the returned list.
-
-
-          This value corresponds to the `page_number` parameter specified in the
-          request. Pagination uses zero-based indexing.
-      page_size:
-        type: integer
-        docs: >-
-          The maximum number of items returned per page.
-
-
-          This value corresponds to the `page_size` parameter specified in the
-          request.
-      total_pages:
-        type: integer
-        docs: The total number of pages in the collection.
-      config: optional<ReturnConfigSpec>
-    source:
-      openapi: evi-openapi.json
-  ReturnChatAudioReconstructionStatus:
-    enum:
-      - QUEUED
-      - IN_PROGRESS
-      - COMPLETE
-      - ERROR
-      - CANCELLED
-    docs: >-
-      Indicates the current state of the audio reconstruction job. There are
-      five possible statuses:
-
-
-      - `QUEUED`: The reconstruction job is waiting to be processed.
-
-
-      - `IN_PROGRESS`: The reconstruction is currently being processed.
-
-
-      - `COMPLETE`: The audio reconstruction is finished and ready for download.
-
-
-      - `ERROR`: An error occurred during the reconstruction process.
-
-
-      - `CANCELED`: The reconstruction job has been canceled.
-    inline: true
-    source:
-      openapi: evi-openapi.json
-  ReturnChatAudioReconstruction:
-    docs: >-
-      List of chat audio reconstructions returned for the specified page number
-      and page size.
-    properties:
-      id:
-        type: string
-        docs: Identifier for the chat. Formatted as a UUID.
-      user_id:
-        type: string
-        docs: Identifier for the user that owns this chat. Formatted as a UUID.
-      status:
-        type: ReturnChatAudioReconstructionStatus
-        docs: >-
-          Indicates the current state of the audio reconstruction job. There are
-          five possible statuses:
-
-
-          - `QUEUED`: The reconstruction job is waiting to be processed.
-
-
-          - `IN_PROGRESS`: The reconstruction is currently being processed.
-
-
-          - `COMPLETE`: The audio reconstruction is finished and ready for
-          download.
-
-
-          - `ERROR`: An error occurred during the reconstruction process.
-
-
-          - `CANCELED`: The reconstruction job has been canceled.
-      filename:
-        type: optional<string>
-        docs: Name of the chat audio reconstruction file.
-      modified_at:
-        type: optional<long>
-        docs: >-
-          The timestamp of the most recent status change for this audio
-          reconstruction, formatted milliseconds since the Unix epoch.
-      signed_audio_url:
-        type: optional<string>
-        docs: Signed URL used to download the chat audio reconstruction file.
-      signed_url_expiration_timestamp_millis:
-        type: optional<long>
-        docs: >-
-          The timestamp when the signed URL will expire, formatted as a Unix
-          epoch milliseconds.
-    source:
-      openapi: evi-openapi.json
-  ReturnPagedChatGroupsPaginationDirection:
-    enum:
-      - ASC
-      - DESC
-    docs: >-
-      Indicates the order in which the paginated results are presented, based on
-      their creation date.
-
-
-      It shows `ASC` for ascending order (chronological, with the oldest records
-      first) or `DESC` for descending order (reverse-chronological, with the
-      newest records first). This value corresponds to the `ascending_order`
-      query parameter used in the request.
-    inline: true
-    source:
-      openapi: evi-openapi.json
-  ReturnPagedChatGroups:
-    docs: A paginated list of chat_groups returned from the server
-    properties:
-      page_number:
-        type: integer
-        docs: >-
-          The page number of the returned list.
-
-
-          This value corresponds to the `page_number` parameter specified in the
-          request. Pagination uses zero-based indexing.
-      page_size:
-        type: integer
-        docs: >-
-          The maximum number of items returned per page.
-
-
-          This value corresponds to the `page_size` parameter specified in the
-          request.
-      total_pages:
-        type: integer
-        docs: The total number of pages in the collection.
-      pagination_direction:
-        type: ReturnPagedChatGroupsPaginationDirection
-        docs: >-
-          Indicates the order in which the paginated results are presented,
-          based on their creation date.
-
-
-          It shows `ASC` for ascending order (chronological, with the oldest
-          records first) or `DESC` for descending order (reverse-chronological,
-          with the newest records first). This value corresponds to the
-          `ascending_order` query parameter used in the request.
-      chat_groups_page:
-        docs: >-
-          List of Chat Groups and their metadata returned for the specified
-          `page_number` and `page_size`.
-        type: list<ReturnChatGroup>
-    source:
-      openapi: evi-openapi.json
-  ReturnChatGroupPagedChatsPaginationDirection:
-    enum:
-      - ASC
-      - DESC
-    docs: >-
-      Indicates the order in which the paginated results are presented, based on
-      their creation date.
-
-
-      It shows `ASC` for ascending order (chronological, with the oldest records
-      first) or `DESC` for descending order (reverse-chronological, with the
-      newest records first). This value corresponds to the `ascending_order`
-      query parameter used in the request.
-    inline: true
-    source:
-      openapi: evi-openapi.json
-  ReturnChatGroupPagedChats:
-    docs: >-
-      A description of chat_group and its status with a paginated list of each
-      chat in the chat_group
-    properties:
-      id:
-        type: string
-        docs: >-
-          Identifier for the Chat Group. Any Chat resumed from this Chat Group
-          will have the same `chat_group_id`. Formatted as a UUID.
-      first_start_timestamp:
-        type: long
-        docs: >-
-          Time at which the first Chat in this Chat Group was created. Measured
-          in seconds since the Unix epoch.
-      most_recent_start_timestamp:
-        type: long
-        docs: >-
-          Time at which the most recent Chat in this Chat Group was created.
-          Measured in seconds since the Unix epoch.
-      num_chats:
-        type: integer
-        docs: The total number of Chats associated with this Chat Group.
-      page_number:
-        type: integer
-        docs: >-
-          The page number of the returned list.
-
-
-          This value corresponds to the `page_number` parameter specified in the
-          request. Pagination uses zero-based indexing.
-      page_size:
-        type: integer
-        docs: >-
-          The maximum number of items returned per page.
-
-
-          This value corresponds to the `page_size` parameter specified in the
-          request.
-      total_pages:
-        type: integer
-        docs: The total number of pages in the collection.
-      pagination_direction:
-        type: ReturnChatGroupPagedChatsPaginationDirection
-        docs: >-
-          Indicates the order in which the paginated results are presented,
-          based on their creation date.
-
-
-          It shows `ASC` for ascending order (chronological, with the oldest
-          records first) or `DESC` for descending order (reverse-chronological,
-          with the newest records first). This value corresponds to the
-          `ascending_order` query parameter used in the request.
-      chats_page:
-        docs: List of Chats for the specified `page_number` and `page_size`.
-        type: list<ReturnChat>
-      active:
-        type: optional<boolean>
-        docs: >-
-          Denotes whether there is an active Chat associated with this Chat
-          Group.
-    source:
-      openapi: evi-openapi.json
-  ReturnChatGroupPagedEventsPaginationDirection:
-    enum:
-      - ASC
-      - DESC
-    docs: >-
-      Indicates the order in which the paginated results are presented, based on
-      their creation date.
-
-
-      It shows `ASC` for ascending order (chronological, with the oldest records
-      first) or `DESC` for descending order (reverse-chronological, with the
-      newest records first). This value corresponds to the `ascending_order`
-      query parameter used in the request.
-    inline: true
-    source:
-      openapi: evi-openapi.json
-  ReturnChatGroupPagedEvents:
-    docs: >-
-      A paginated list of chat events that occurred across chats in this
-      chat_group from the server
-    properties:
-      id:
-        type: string
-        docs: >-
-          Identifier for the Chat Group. Any Chat resumed from this Chat Group
-          will have the same `chat_group_id`. Formatted as a UUID.
-      page_number:
-        type: integer
-        docs: >-
-          The page number of the returned list.
-
-
-          This value corresponds to the `page_number` parameter specified in the
-          request. Pagination uses zero-based indexing.
-      page_size:
-        type: integer
-        docs: >-
-          The maximum number of items returned per page.
-
-
-          This value corresponds to the `page_size` parameter specified in the
-          request.
-      total_pages:
-        type: integer
-        docs: The total number of pages in the collection.
-      pagination_direction:
-        type: ReturnChatGroupPagedEventsPaginationDirection
-        docs: >-
-          Indicates the order in which the paginated results are presented,
-          based on their creation date.
-
-
-          It shows `ASC` for ascending order (chronological, with the oldest
-          records first) or `DESC` for descending order (reverse-chronological,
-          with the newest records first). This value corresponds to the
-          `ascending_order` query parameter used in the request.
-      events_page:
-        docs: List of Chat Events for the specified `page_number` and `page_size`.
-        type: list<ReturnChatEvent>
-    source:
-      openapi: evi-openapi.json
-  ReturnChatGroupPagedAudioReconstructionsPaginationDirection:
-    enum:
-      - ASC
-      - DESC
-    docs: >-
-      Indicates the order in which the paginated results are presented, based on
-      their creation date.
-
-
-      It shows `ASC` for ascending order (chronological, with the oldest records
-      first) or `DESC` for descending order (reverse-chronological, with the
-      newest records first). This value corresponds to the `ascending_order`
-      query parameter used in the request.
-    inline: true
-    source:
-      openapi: evi-openapi.json
-  ReturnChatGroupPagedAudioReconstructions:
-    docs: A paginated list of chat reconstructions for a particular chatgroup
-    properties:
-      id:
-        type: string
-        docs: Identifier for the chat group. Formatted as a UUID.
-      user_id:
-        type: string
-        docs: Identifier for the user that owns this chat. Formatted as a UUID.
-      num_chats:
-        type: integer
-        docs: Total number of chats in this chatgroup
-      page_number:
-        type: integer
-        docs: >-
-          The page number of the returned list.
-
-
-          This value corresponds to the `page_number` parameter specified in the
-          request. Pagination uses zero-based indexing.
-      page_size:
-        type: integer
-        docs: >-
-          The maximum number of items returned per page.
-
-
-          This value corresponds to the `page_size` parameter specified in the
-          request.
-      total_pages:
-        type: integer
-        docs: The total number of pages in the collection.
-      pagination_direction:
-        type: ReturnChatGroupPagedAudioReconstructionsPaginationDirection
-        docs: >-
-          Indicates the order in which the paginated results are presented,
-          based on their creation date.
-
-
-          It shows `ASC` for ascending order (chronological, with the oldest
-          records first) or `DESC` for descending order (reverse-chronological,
-          with the newest records first). This value corresponds to the
-          `ascending_order` query parameter used in the request.
-      audio_reconstructions_page:
-        docs: >-
-          List of chat audio reconstructions returned for the specified page
-          number and page size.
-        type: list<ReturnChatAudioReconstruction>
-    source:
-      openapi: evi-openapi.json
-  ReturnPromptVersionType:
-    enum:
-      - FIXED
-      - LATEST
-    docs: >-
-      Versioning method for a Prompt. Either `FIXED` for using a fixed version
-      number or `LATEST` for auto-updating to the latest version.
-    inline: true
-    source:
-      openapi: evi-openapi.json
-  PostedConfigPromptSpec:
-    docs: >-
-      Identifies which prompt to use in a a config OR how to create a new prompt
-      to use in the config
-    properties:
-      id:
-        type: optional<string>
-        docs: Identifier for a Prompt. Formatted as a UUID.
-      version:
-        type: optional<integer>
-        docs: >-
-          Version number for a Prompt. Version numbers should be integers. The
-          combination of configId and version number is unique.
-      text:
-        type: optional<string>
-        docs: Text used to create a new prompt for a particular config.
-    source:
-      openapi: evi-openapi.json
-  PostedLanguageModel:
-    docs: A LanguageModel to be posted to the server
-    properties:
-      model_provider:
-        type: optional<ModelProviderEnum>
-        docs: The provider of the supplemental language model.
-      model_resource:
-        type: optional<LanguageModelType>
-        docs: String that specifies the language model to use with `model_provider`.
-      temperature:
-        type: optional<float>
-        docs: >-
-          The model temperature, with values between 0 to 1 (inclusive).
-
-
-          Controls the randomness of the LLM's output, with values closer to 0
-          yielding focused, deterministic responses and values closer to 1
-          producing more creative, diverse responses.
-    source:
-      openapi: evi-openapi.json
-  PostedEllmModel:
-    docs: A eLLM model configuration to be posted to the server
-    properties:
-      allow_short_responses:
-        type: optional<boolean>
-        docs: |-
-          Boolean indicating if the eLLM is allowed to generate short responses.
-
-          If omitted, short responses from the eLLM are enabled by default.
-    source:
-      openapi: evi-openapi.json
-  PostedUserDefinedToolSpec:
-    docs: A specific tool identifier to be posted to the server
-    properties:
-      id:
-        type: string
-        docs: Identifier for a Tool. Formatted as a UUID.
-      version:
-        type: optional<integer>
-        docs: >-
-          Version number for a Tool.
-
-
-          Tools, Configs, Custom Voices, and Prompts are versioned. This
-          versioning system supports iterative development, allowing you to
-          progressively refine tools and revert to previous versions if needed.
-
-
-          Version numbers are integer values representing different iterations
-          of the Tool. Each update to the Tool increments its version number.
-    source:
-      openapi: evi-openapi.json
   PostedBuiltinToolName:
     enum:
       - web_search
@@ -2467,6 +1659,12 @@ types:
   PostedBuiltinTool:
     docs: A configuration of a built-in tool to be posted to the server
     properties:
+      fallback_content:
+        type: optional<string>
+        docs: >-
+          Optional text passed to the supplemental LLM in place of the tool call
+          result. The LLM then uses this text to generate a response back to the
+          user, ensuring continuity in the conversation if the Tool errors.
       name:
         type: PostedBuiltinToolName
         docs: >-
@@ -2483,12 +1681,54 @@ types:
 
           For more information, see our guide on [using built-in
           tools](/docs/speech-to-speech-evi/features/tool-use#using-built-in-tools).
-      fallback_content:
+    source:
+      openapi: evi-openapi.json
+  PostedConfigPromptSpec:
+    docs: >-
+      Identifies which prompt to use in a a config OR how to create a new prompt
+      to use in the config
+    properties:
+      id:
+        type: optional<string>
+        docs: Identifier for a Prompt. Formatted as a UUID.
+      text:
+        type: optional<string>
+        docs: Text used to create a new prompt for a particular config.
+      version:
+        type: optional<integer>
+        docs: >-
+          Version number for a Prompt. Version numbers should be integers. The
+          combination of configId and version number is unique.
+    source:
+      openapi: evi-openapi.json
+  PostedEllmModel:
+    docs: A eLLM model configuration to be posted to the server
+    properties:
+      allow_short_responses:
+        type: optional<boolean>
+        docs: |-
+          Boolean indicating if the eLLM is allowed to generate short responses.
+
+          If omitted, short responses from the eLLM are enabled by default.
+    source:
+      openapi: evi-openapi.json
+  PostedEventMessageSpec:
+    docs: Settings for a specific event_message to be posted to the server
+    properties:
+      enabled:
+        type: boolean
+        docs: >-
+          Boolean indicating if this event message is enabled.
+
+
+          If set to `true`, a message will be sent when the circumstances for
+          the specific event are met.
+      text:
         type: optional<string>
         docs: >-
-          Optional text passed to the supplemental LLM in place of the tool call
-          result. The LLM then uses this text to generate a response back to the
-          user, ensuring continuity in the conversation if the Tool errors.
+          Text to use as the event message when the corresponding event occurs.
+          If no text is specified, EVI will generate an appropriate message
+          based on its current context and the system prompt.
     source:
       openapi: evi-openapi.json
   PostedEventMessageSpecs:
@@ -2500,11 +1740,6 @@ types:
       chat session. These messages are used to configure behaviors for EVI, such
       as controlling how EVI starts a new conversation.
     properties:
-      on_new_chat:
-        type: optional<PostedEventMessageSpec>
-        docs: >-
-          Specifies the initial message EVI provides when a new chat is started,
-          such as a greeting or welcome message.
       on_inactivity_timeout:
         type: optional<PostedEventMessageSpec>
         docs: >-
@@ -2532,6 +1767,31 @@ types:
           Specifies the message EVI provides when the chat is disconnected due
           to reaching the maximum chat duration, such as a message mentioning
           the time limit for the chat has been reached.
+      on_new_chat:
+        type: optional<PostedEventMessageSpec>
+        docs: >-
+          Specifies the initial message EVI provides when a new chat is started,
+          such as a greeting or welcome message.
+    source:
+      openapi: evi-openapi.json
+  PostedLanguageModel:
+    docs: A LanguageModel to be posted to the server
+    properties:
+      model_provider:
+        type: optional<ModelProviderEnum>
+        docs: The provider of the supplemental language model.
+      model_resource:
+        type: optional<LanguageModelType>
+        docs: String that specifies the language model to use with `model_provider`.
+      temperature:
+        type: optional<float>
+        docs: >-
+          The model temperature, with values between 0 to 1 (inclusive).
+
+
+          Controls the randomness of the LLM's output, with values closer to 0
+          yielding focused, deterministic responses and values closer to 1
+          producing more creative, diverse responses.
     source:
       openapi: evi-openapi.json
   PostedNudgeSpec:
@@ -2545,6 +1805,17 @@ types:
       interval_secs:
         type: optional<integer>
         docs: The interval of inactivity (in seconds) before a nudge is triggered.
+    source:
+      openapi: evi-openapi.json
+  PostedTimeoutSpec:
+    docs: Settings for a specific timeout to be posted to the server
+    properties:
+      duration_secs:
+        type: optional<integer>
+        docs: Duration in seconds for the timeout.
+      enabled:
+        type: boolean
+        docs: Boolean indicating if this event message is enabled.
     source:
       openapi: evi-openapi.json
   PostedTimeoutSpecsInactivity:
@@ -2635,10 +1906,32 @@ types:
           seconds.
     source:
       openapi: evi-openapi.json
+  PostedUserDefinedToolSpec:
+    docs: A specific tool identifier to be posted to the server
+    properties:
+      id:
+        type: string
+        docs: Identifier for a Tool. Formatted as a UUID.
+      version:
+        type: optional<integer>
+        docs: >-
+          Version number for a Tool.
+
+
+          Tools, Configs, Custom Voices, and Prompts are versioned. This
+          versioning system supports iterative development, allowing you to
+          progressively refine tools and revert to previous versions if needed.
+
+
+          Version numbers are integer values representing different iterations
+          of the Tool. Each update to the Tool increments its version number.
+    source:
+      openapi: evi-openapi.json
   PostedWebhookEventType:
     enum:
       - chat_started
       - chat_ended
+      - tool_call
     docs: Events this URL is subscribed to
     inline: true
     source:
@@ -2646,12 +1939,6 @@ types:
   PostedWebhookSpec:
     docs: URL and settings for a specific webhook to be posted to the server
     properties:
-      url:
-        type: string
-        docs: >-
-          The URL where event payloads will be sent. This must be a valid https
-          URL to ensure secure communication. The server at this URL must accept
-          POST requests with a JSON payload.
       events:
         docs: >-
           The list of events the specified URL is subscribed to. 
@@ -2661,37 +1948,12 @@ types:
           guide](/docs/speech-to-speech-evi/configuration/build-a-configuration#supported-events)
           for more information on supported events.
         type: list<PostedWebhookEventType>
-    source:
-      openapi: evi-openapi.json
-  ReturnLanguageModel:
-    docs: A specific LanguageModel
-    properties:
-      model_provider:
-        type: optional<ModelProviderEnum>
-        docs: The provider of the supplemental language model.
-      model_resource:
-        type: optional<LanguageModelType>
-        docs: String that specifies the language model to use with `model_provider`.
-      temperature:
-        type: optional<float>
+      url:
+        type: string
         docs: >-
-          The model temperature, with values between 0 to 1 (inclusive).
-
-
-          Controls the randomness of the LLM's output, with values closer to 0
-          yielding focused, deterministic responses and values closer to 1
-          producing more creative, diverse responses.
-    source:
-      openapi: evi-openapi.json
-  ReturnEllmModel:
-    docs: A specific eLLM Model configuration
-    properties:
-      allow_short_responses:
-        type: boolean
-        docs: |-
-          Boolean indicating if the eLLM is allowed to generate short responses.
-
-          If omitted, short responses from the eLLM are enabled by default.
+          The URL where event payloads will be sent. This must be a valid https
+          URL to ensure secure communication. The server at this URL must accept
+          POST requests with a JSON payload.
     source:
       openapi: evi-openapi.json
   ReturnBuiltinToolToolType:
@@ -2707,134 +1969,20 @@ types:
   ReturnBuiltinTool:
     docs: A specific builtin tool version returned from the server
     properties:
-      tool_type:
-        type: ReturnBuiltinToolToolType
-        docs: >-
-          Type of Tool. Either `BUILTIN` for natively implemented tools, like
-          web search, or `FUNCTION` for user-defined tools.
-      name:
-        type: string
-        docs: Name applied to all versions of a particular Tool.
       fallback_content:
         type: optional<string>
         docs: >-
           Optional text passed to the supplemental LLM in place of the tool call
           result. The LLM then uses this text to generate a response back to the
           user, ensuring continuity in the conversation if the Tool errors.
-    source:
-      openapi: evi-openapi.json
-  ReturnEventMessageSpecs:
-    docs: >-
-      Collection of event messages returned by the server.
-
-
-      Event messages are sent by the server when specific events occur during a
-      chat session. These messages are used to configure behaviors for EVI, such
-      as controlling how EVI starts a new conversation.
-    properties:
-      on_new_chat:
-        type: optional<ReturnEventMessageSpec>
-        docs: >-
-          Specifies the initial message EVI provides when a new chat is started,
-          such as a greeting or welcome message.
-      on_inactivity_timeout:
-        type: optional<ReturnEventMessageSpec>
-        docs: >-
-          Specifies the message EVI provides when the chat is about to be
-          disconnected due to a user inactivity timeout, such as a message
-          mentioning a lack of user input for a period of time.
-
-
-          Enabling an inactivity message allows developers to use this message
-          event for "checking in" with the user if they are not responding to
-          see if they are still active.
-
-
-          If the user does not respond in the number of seconds specified in the
-          `inactivity_timeout` field, then EVI will say the message and the user
-          has 15 seconds to respond. If they respond in time, the conversation
-          will continue; if not, the conversation will end.
-
-
-          However, if the inactivity message is not enabled, then reaching the
-          inactivity timeout will immediately end the connection.
-      on_max_duration_timeout:
-        type: optional<ReturnEventMessageSpec>
-        docs: >-
-          Specifies the message EVI provides when the chat is disconnected due
-          to reaching the maximum chat duration, such as a message mentioning
-          the time limit for the chat has been reached.
-    source:
-      openapi: evi-openapi.json
-  ReturnTimeoutSpecs:
-    docs: >-
-      Collection of timeout specifications returned by the server.
-
-
-      Timeouts are sent by the server when specific time-based events occur
-      during a chat session. These specifications set the inactivity timeout and
-      the maximum duration an EVI WebSocket connection can stay open before it
-      is automatically disconnected.
-    properties:
-      inactivity:
-        type: ReturnTimeoutSpec
-        docs: >-
-          Specifies the duration of user inactivity (in seconds) after which the
-          EVI WebSocket connection will be automatically disconnected. Default
-          is 600 seconds (10 minutes).
-
-
-          Accepts a minimum value of 30 seconds and a maximum value of 1,800
-          seconds.
-      max_duration:
-        type: ReturnTimeoutSpec
-        docs: >-
-          Specifies the maximum allowed duration (in seconds) for an EVI
-          WebSocket connection before it is automatically disconnected. Default
-          is 1,800 seconds (30 minutes).
-
-
-          Accepts a minimum value of 30 seconds and a maximum value of 1,800
-          seconds.
-    source:
-      openapi: evi-openapi.json
-  ReturnNudgeSpec:
-    docs: A specific nudge configuration returned from the server
-    properties:
-      enabled:
-        type: boolean
-        docs: EVI will nudge user after inactivity
-      interval_secs:
-        type: optional<integer>
-        docs: Time interval in seconds after which the nudge will be sent.
-    source:
-      openapi: evi-openapi.json
-  ReturnWebhookEventType:
-    enum:
-      - chat_started
-      - chat_ended
-    docs: Events this URL is subscribed to
-    inline: true
-    source:
-      openapi: evi-openapi.json
-  ReturnWebhookSpec:
-    docs: Collection of webhook URL endpoints to be returned from the server
-    properties:
-      url:
+      name:
         type: string
+        docs: Name applied to all versions of a particular Tool.
+      tool_type:
+        type: ReturnBuiltinToolToolType
         docs: >-
-          The URL where event payloads will be sent. This must be a valid https
-          URL to ensure secure communication. The server at this URL must accept
-          POST requests with a JSON payload.
-      events:
-        docs: >-
-          The list of events the specified URL is subscribed to. 
-
-
-          See our [webhooks
-          guide](/docs/speech-to-speech-evi/configuration/build-a-configuration#supported-events)
-          for more information on supported events.
-        type: list<ReturnWebhookEventType>
+          Type of Tool. Either `BUILTIN` for natively implemented tools, like
+          web search, or `FUNCTION` for user-defined tools.
     source:
       openapi: evi-openapi.json
   ReturnChatStatus:
@@ -2872,14 +2020,31 @@ types:
   ReturnChat:
     docs: A description of chat and its status
     properties:
-      id:
-        type: string
-        docs: Identifier for a Chat. Formatted as a UUID.
       chat_group_id:
         type: string
         docs: >-
           Identifier for the Chat Group. Any chat resumed from this Chat will
           have the same `chat_group_id`. Formatted as a UUID.
+      config: optional<ReturnConfigSpec>
+      end_timestamp:
+        type: optional<long>
+        docs: >-
+          Time at which the Chat ended. Measured in seconds since the Unix
+          epoch.
+      event_count:
+        type: optional<long>
+        docs: The total number of events currently in this chat.
+      id:
+        type: string
+        docs: Identifier for a Chat. Formatted as a UUID.
+      metadata:
+        type: optional<string>
+        docs: Stringified JSON with additional metadata about the chat.
+      start_timestamp:
+        type: long
+        docs: >-
+          Time at which the Chat started. Measured in seconds since the Unix
+          epoch.
       status:
         type: ReturnChatStatus
         docs: >-
@@ -2904,23 +2069,6 @@ types:
 
 
           - `ERROR`: The chat ended unexpectedly due to an error.
-      start_timestamp:
-        type: long
-        docs: >-
-          Time at which the Chat started. Measured in seconds since the Unix
-          epoch.
-      end_timestamp:
-        type: optional<long>
-        docs: >-
-          Time at which the Chat ended. Measured in seconds since the Unix
-          epoch.
-      event_count:
-        type: optional<long>
-        docs: The total number of events currently in this chat.
-      metadata:
-        type: optional<string>
-        docs: Stringified JSON with additional metadata about the chat.
-      config: optional<ReturnConfigSpec>
     source:
       openapi: evi-openapi.json
   ReturnChatEventRole:
@@ -2991,17 +2139,37 @@ types:
   ReturnChatEvent:
     docs: A description of a single event in a chat returned from the server
     properties:
-      id:
-        type: string
-        docs: Identifier for a Chat Event. Formatted as a UUID.
       chat_id:
         type: string
         docs: Identifier for the Chat this event occurred in. Formatted as a UUID.
-      timestamp:
-        type: long
+      emotion_features:
+        type: optional<string>
         docs: >-
-          Time at which the Chat Event occurred. Measured in seconds since the
-          Unix epoch.
+          Stringified JSON containing the prosody model inference results.
+
+
+          EVI uses the prosody model to measure 48 expressions related to speech
+          and vocal characteristics. These results contain a detailed emotional
+          and tonal analysis of the audio. Scores typically range from 0 to 1,
+          with higher values indicating a stronger confidence level in the
+          measured attribute.
+      id:
+        type: string
+        docs: Identifier for a Chat Event. Formatted as a UUID.
+      message_text:
+        type: optional<string>
+        docs: >-
+          The text of the Chat Event. This field contains the message content
+          for each event type listed in the `type` field.
+      metadata:
+        type: optional<string>
+        docs: Stringified JSON with additional metadata about the chat event.
+      related_event_id:
+        type: optional<string>
+        docs: >-
+          Identifier for a related chat event. Currently only seen on
+          ASSISTANT_PROSODY events, to point back to the ASSISTANT_MESSAGE that
+          generated these prosody scores
       role:
         type: ReturnChatEventRole
         docs: >-
@@ -3016,6 +2184,11 @@ types:
           - `SYSTEM`: The backend server, capable of transmitting errors.
 
           - `TOOL`: The function calling mechanism.
+      timestamp:
+        type: long
+        docs: >-
+          Time at which the Chat Event occurred. Measured in seconds since the
+          Unix epoch.
       type:
         type: ReturnChatEventType
         docs: >-
@@ -3047,31 +2220,423 @@ types:
           `resume_assistant_message` to resume the assistant.
 
           - `CHAT_END_MESSAGE`: Indicates the end of the chat session.
-      message_text:
+    source:
+      openapi: evi-openapi.json
+  ReturnChatGroup:
+    docs: A description of chat_group and its status
+    properties:
+      active:
+        type: optional<boolean>
+        docs: >-
+          Denotes whether there is an active Chat associated with this Chat
+          Group.
+      first_start_timestamp:
+        type: long
+        docs: >-
+          Time at which the first Chat in this Chat Group was created. Measured
+          in seconds since the Unix epoch.
+      id:
+        type: string
+        docs: >-
+          Identifier for the Chat Group. Any Chat resumed from this Chat Group
+          will have the same `chat_group_id`. Formatted as a UUID.
+      most_recent_chat_id:
         type: optional<string>
         docs: >-
-          The text of the Chat Event. This field contains the message content
-          for each event type listed in the `type` field.
-      emotion_features:
-        type: optional<string>
+          The `chat_id` of the most recent Chat in this Chat Group. Formatted as
+          a UUID.
+      most_recent_config: optional<ReturnConfigSpec>
+      most_recent_start_timestamp:
+        type: long
         docs: >-
-          Stringified JSON containing the prosody model inference results.
+          Time at which the most recent Chat in this Chat Group was created.
+          Measured in seconds since the Unix epoch.
+      num_chats:
+        type: integer
+        docs: The total number of Chats in this Chat Group.
+    source:
+      openapi: evi-openapi.json
+  ReturnChatGroupPagedAudioReconstructionsPaginationDirection:
+    enum:
+      - ASC
+      - DESC
+    docs: >-
+      Indicates the order in which the paginated results are presented, based on
+      their creation date.
 
 
-          EVI uses the prosody model to measure 48 expressions related to speech
-          and vocal characteristics. These results contain a detailed emotional
-          and tonal analysis of the audio. Scores typically range from 0 to 1,
-          with higher values indicating a stronger confidence level in the
-          measured attribute.
+      It shows `ASC` for ascending order (chronological, with the oldest records
+      first) or `DESC` for descending order (reverse-chronological, with the
+      newest records first). This value corresponds to the `ascending_order`
+      query parameter used in the request.
+    inline: true
+    source:
+      openapi: evi-openapi.json
+  ReturnChatGroupPagedAudioReconstructions:
+    docs: A paginated list of chat reconstructions for a particular chatgroup
+    properties:
+      audio_reconstructions_page:
+        docs: >-
+          List of chat audio reconstructions returned for the specified page
+          number and page size.
+        type: list<ReturnChatAudioReconstruction>
+      id:
+        type: string
+        docs: Identifier for the chat group. Formatted as a UUID.
+      num_chats:
+        type: integer
+        docs: Total number of chats in this chatgroup
+      page_number:
+        type: integer
+        docs: >-
+          The page number of the returned list.
+
+
+          This value corresponds to the `page_number` parameter specified in the
+          request. Pagination uses zero-based indexing.
+      page_size:
+        type: integer
+        docs: >-
+          The maximum number of items returned per page.
+
+
+          This value corresponds to the `page_size` parameter specified in the
+          request.
+      pagination_direction:
+        type: ReturnChatGroupPagedAudioReconstructionsPaginationDirection
+        docs: >-
+          Indicates the order in which the paginated results are presented,
+          based on their creation date.
+
+
+          It shows `ASC` for ascending order (chronological, with the oldest
+          records first) or `DESC` for descending order (reverse-chronological,
+          with the newest records first). This value corresponds to the
+          `ascending_order` query parameter used in the request.
+      total_pages:
+        type: integer
+        docs: The total number of pages in the collection.
+      user_id:
+        type: string
+        docs: Identifier for the user that owns this chat. Formatted as a UUID.
+    source:
+      openapi: evi-openapi.json
+  ReturnChatGroupPagedChatsPaginationDirection:
+    enum:
+      - ASC
+      - DESC
+    docs: >-
+      Indicates the order in which the paginated results are presented, based on
+      their creation date.
+
+
+      It shows `ASC` for ascending order (chronological, with the oldest records
+      first) or `DESC` for descending order (reverse-chronological, with the
+      newest records first). This value corresponds to the `ascending_order`
+      query parameter used in the request.
+    inline: true
+    source:
+      openapi: evi-openapi.json
+  ReturnChatGroupPagedChats:
+    docs: >-
+      A description of chat_group and its status with a paginated list of each
+      chat in the chat_group
+    properties:
+      active:
+        type: optional<boolean>
+        docs: >-
+          Denotes whether there is an active Chat associated with this Chat
+          Group.
+      chats_page:
+        docs: List of Chats for the specified `page_number` and `page_size`.
+        type: list<ReturnChat>
+      first_start_timestamp:
+        type: long
+        docs: >-
+          Time at which the first Chat in this Chat Group was created. Measured
+          in seconds since the Unix epoch.
+      id:
+        type: string
+        docs: >-
+          Identifier for the Chat Group. Any Chat resumed from this Chat Group
+          will have the same `chat_group_id`. Formatted as a UUID.
+      most_recent_start_timestamp:
+        type: long
+        docs: >-
+          Time at which the most recent Chat in this Chat Group was created.
+          Measured in seconds since the Unix epoch.
+      num_chats:
+        type: integer
+        docs: The total number of Chats associated with this Chat Group.
+      page_number:
+        type: integer
+        docs: >-
+          The page number of the returned list.
+
+
+          This value corresponds to the `page_number` parameter specified in the
+          request. Pagination uses zero-based indexing.
+      page_size:
+        type: integer
+        docs: >-
+          The maximum number of items returned per page.
+
+
+          This value corresponds to the `page_size` parameter specified in the
+          request.
+      pagination_direction:
+        type: ReturnChatGroupPagedChatsPaginationDirection
+        docs: >-
+          Indicates the order in which the paginated results are presented,
+          based on their creation date.
+
+
+          It shows `ASC` for ascending order (chronological, with the oldest
+          records first) or `DESC` for descending order (reverse-chronological,
+          with the newest records first). This value corresponds to the
+          `ascending_order` query parameter used in the request.
+      total_pages:
+        type: integer
+        docs: The total number of pages in the collection.
+    source:
+      openapi: evi-openapi.json
+  ReturnChatGroupPagedEventsPaginationDirection:
+    enum:
+      - ASC
+      - DESC
+    docs: >-
+      Indicates the order in which the paginated results are presented, based on
+      their creation date.
+
+
+      It shows `ASC` for ascending order (chronological, with the oldest records
+      first) or `DESC` for descending order (reverse-chronological, with the
+      newest records first). This value corresponds to the `ascending_order`
+      query parameter used in the request.
+    inline: true
+    source:
+      openapi: evi-openapi.json
+  ReturnChatGroupPagedEvents:
+    docs: >-
+      A paginated list of chat events that occurred across chats in this
+      chat_group from the server
+    properties:
+      events_page:
+        docs: List of Chat Events for the specified `page_number` and `page_size`.
+        type: list<ReturnChatEvent>
+      id:
+        type: string
+        docs: >-
+          Identifier for the Chat Group. Any Chat resumed from this Chat Group
+          will have the same `chat_group_id`. Formatted as a UUID.
+      page_number:
+        type: integer
+        docs: >-
+          The page number of the returned list.
+
+
+          This value corresponds to the `page_number` parameter specified in the
+          request. Pagination uses zero-based indexing.
+      page_size:
+        type: integer
+        docs: >-
+          The maximum number of items returned per page.
+
+
+          This value corresponds to the `page_size` parameter specified in the
+          request.
+      pagination_direction:
+        type: ReturnChatGroupPagedEventsPaginationDirection
+        docs: >-
+          Indicates the order in which the paginated results are presented,
+          based on their creation date.
+
+
+          It shows `ASC` for ascending order (chronological, with the oldest
+          records first) or `DESC` for descending order (reverse-chronological,
+          with the newest records first). This value corresponds to the
+          `ascending_order` query parameter used in the request.
+      total_pages:
+        type: integer
+        docs: The total number of pages in the collection.
+    source:
+      openapi: evi-openapi.json
+  ReturnChatPagedEventsPaginationDirection:
+    enum:
+      - ASC
+      - DESC
+    docs: >-
+      Indicates the order in which the paginated results are presented, based on
+      their creation date.
+
+
+      It shows `ASC` for ascending order (chronological, with the oldest records
+      first) or `DESC` for descending order (reverse-chronological, with the
+      newest records first). This value corresponds to the `ascending_order`
+      query parameter used in the request.
+    inline: true
+    source:
+      openapi: evi-openapi.json
+  ReturnChatPagedEventsStatus:
+    enum:
+      - ACTIVE
+      - USER_ENDED
+      - USER_TIMEOUT
+      - MAX_DURATION_TIMEOUT
+      - INACTIVITY_TIMEOUT
+      - ERROR
+    docs: >-
+      Indicates the current state of the chat. There are six possible statuses:
+
+
+      - `ACTIVE`: The chat is currently active and ongoing.
+
+
+      - `USER_ENDED`: The chat was manually ended by the user.
+
+
+      - `USER_TIMEOUT`: The chat ended due to a user-defined timeout.
+
+
+      - `MAX_DURATION_TIMEOUT`: The chat ended because it reached the maximum
+      allowed duration.
+
+
+      - `INACTIVITY_TIMEOUT`: The chat ended due to an inactivity timeout.
+
+
+      - `ERROR`: The chat ended unexpectedly due to an error.
+    inline: true
+    source:
+      openapi: evi-openapi.json
+  ReturnChatPagedEvents:
+    docs: >-
+      A description of chat status with a paginated list of chat events returned
+      from the server
+    properties:
+      chat_group_id:
+        type: string
+        docs: >-
+          Identifier for the Chat Group. Any chat resumed from this Chat will
+          have the same `chat_group_id`. Formatted as a UUID.
+      config: optional<ReturnConfigSpec>
+      end_timestamp:
+        type: optional<long>
+        docs: >-
+          Time at which the Chat ended. Measured in seconds since the Unix
+          epoch.
+      events_page:
+        docs: List of Chat Events for the specified `page_number` and `page_size`.
+        type: list<ReturnChatEvent>
+      id:
+        type: string
+        docs: Identifier for a Chat. Formatted as a UUID.
       metadata:
         type: optional<string>
-        docs: Stringified JSON with additional metadata about the chat event.
-      related_event_id:
-        type: optional<string>
+        docs: Stringified JSON with additional metadata about the chat.
+      page_number:
+        type: integer
         docs: >-
-          Identifier for a related chat event. Currently only seen on
-          ASSISTANT_PROSODY events, to point back to the ASSISTANT_MESSAGE that
-          generated these prosody scores
+          The page number of the returned list.
+
+
+          This value corresponds to the `page_number` parameter specified in the
+          request. Pagination uses zero-based indexing.
+      page_size:
+        type: integer
+        docs: >-
+          The maximum number of items returned per page.
+
+
+          This value corresponds to the `page_size` parameter specified in the
+          request.
+      pagination_direction:
+        type: ReturnChatPagedEventsPaginationDirection
+        docs: >-
+          Indicates the order in which the paginated results are presented,
+          based on their creation date.
+
+
+          It shows `ASC` for ascending order (chronological, with the oldest
+          records first) or `DESC` for descending order (reverse-chronological,
+          with the newest records first). This value corresponds to the
+          `ascending_order` query parameter used in the request.
+      start_timestamp:
+        type: long
+        docs: >-
+          Time at which the Chat started. Measured in seconds since the Unix
+          epoch.
+      status:
+        type: ReturnChatPagedEventsStatus
+        docs: >-
+          Indicates the current state of the chat. There are six possible
+          statuses:
+
+
+          - `ACTIVE`: The chat is currently active and ongoing.
+
+
+          - `USER_ENDED`: The chat was manually ended by the user.
+
+
+          - `USER_TIMEOUT`: The chat ended due to a user-defined timeout.
+
+
+          - `MAX_DURATION_TIMEOUT`: The chat ended because it reached the
+          maximum allowed duration.
+
+
+          - `INACTIVITY_TIMEOUT`: The chat ended due to an inactivity timeout.
+
+
+          - `ERROR`: The chat ended unexpectedly due to an error.
+      total_pages:
+        type: integer
+        docs: The total number of pages in the collection.
+    source:
+      openapi: evi-openapi.json
+  ReturnConfig:
+    docs: A specific config version returned from the server
+    properties:
+      builtin_tools:
+        type: optional<list<optional<ReturnBuiltinTool>>>
+        docs: List of built-in tools associated with this config
+      created_on:
+        type: optional<long>
+        docs: The timestamp when the first version of this config was created.
+      ellm_model: optional<ReturnEllmModel>
+      event_messages: optional<ReturnEventMessageSpecs>
+      evi_version:
+        type: optional<string>
+        docs: The version of the EVI used with this config.
+      id:
+        type: optional<string>
+        docs: Identifier for a Config. Formatted as a UUID.
+      language_model: optional<ReturnLanguageModel>
+      modified_on:
+        type: optional<long>
+        docs: The timestamp when this version of the config was created.
+      name:
+        type: optional<string>
+        docs: Name applied to all versions of a particular Config.
+      nudges: optional<ReturnNudgeSpec>
+      prompt: optional<ReturnPrompt>
+      timeouts: optional<ReturnTimeoutSpecs>
+      tools:
+        type: optional<list<optional<ReturnUserDefinedTool>>>
+        docs: List of user-defined tools associated with this config.
+      version:
+        type: optional<integer>
+        docs: >-
+          Version number for a Config. Version numbers should be integers. The
+          combination of configId and version number is unique.
+      version_description:
+        type: optional<string>
+        docs: Description that is appended to a specific version of a Config.
+      voice: optional<ReturnVoice>
+      webhooks:
+        type: optional<list<optional<ReturnWebhookSpec>>>
+        docs: Map of webhooks associated with this config.
     source:
       openapi: evi-openapi.json
   ReturnConfigSpec:
@@ -3097,68 +2662,15 @@ types:
           number.
     source:
       openapi: evi-openapi.json
-  ReturnChatGroup:
-    docs: A description of chat_group and its status
+  ReturnEllmModel:
+    docs: A specific eLLM Model configuration
     properties:
-      id:
-        type: string
-        docs: >-
-          Identifier for the Chat Group. Any Chat resumed from this Chat Group
-          will have the same `chat_group_id`. Formatted as a UUID.
-      first_start_timestamp:
-        type: long
-        docs: >-
-          Time at which the first Chat in this Chat Group was created. Measured
-          in seconds since the Unix epoch.
-      most_recent_start_timestamp:
-        type: long
-        docs: >-
-          Time at which the most recent Chat in this Chat Group was created.
-          Measured in seconds since the Unix epoch.
-      most_recent_chat_id:
-        type: optional<string>
-        docs: >-
-          The `chat_id` of the most recent Chat in this Chat Group. Formatted as
-          a UUID.
-      most_recent_config: optional<ReturnConfigSpec>
-      num_chats:
-        type: integer
-        docs: The total number of Chats in this Chat Group.
-      active:
-        type: optional<boolean>
-        docs: >-
-          Denotes whether there is an active Chat associated with this Chat
-          Group.
-    source:
-      openapi: evi-openapi.json
-  PostedEventMessageSpec:
-    docs: Settings for a specific event_message to be posted to the server
-    properties:
-      enabled:
+      allow_short_responses:
         type: boolean
-        docs: >-
-          Boolean indicating if this event message is enabled.
+        docs: |-
+          Boolean indicating if the eLLM is allowed to generate short responses.
 
-
-          If set to `true`, a message will be sent when the circumstances for
-          the specific event are met.
-      text:
-        type: optional<string>
-        docs: >-
-          Text to use as the event message when the corresponding event occurs.
-          If no text is specified, EVI will generate an appropriate message
-          based on its current context and the system prompt.
-    source:
-      openapi: evi-openapi.json
-  PostedTimeoutSpec:
-    docs: Settings for a specific timeout to be posted to the server
-    properties:
-      enabled:
-        type: boolean
-        docs: Boolean indicating if this event message is enabled.
-      duration_secs:
-        type: optional<integer>
-        docs: Duration in seconds for the timeout.
+          If omitted, short responses from the eLLM are enabled by default.
     source:
       openapi: evi-openapi.json
   ReturnEventMessageSpec:
@@ -3180,9 +2692,330 @@ types:
           based on its current context and the system prompt.
     source:
       openapi: evi-openapi.json
+  ReturnEventMessageSpecs:
+    docs: >-
+      Collection of event messages returned by the server.
+
+
+      Event messages are sent by the server when specific events occur during a
+      chat session. These messages are used to configure behaviors for EVI, such
+      as controlling how EVI starts a new conversation.
+    properties:
+      on_inactivity_timeout:
+        type: optional<ReturnEventMessageSpec>
+        docs: >-
+          Specifies the message EVI provides when the chat is about to be
+          disconnected due to a user inactivity timeout, such as a message
+          mentioning a lack of user input for a period of time.
+
+
+          Enabling an inactivity message allows developers to use this message
+          event for "checking in" with the user if they are not responding to
+          see if they are still active.
+
+
+          If the user does not respond in the number of seconds specified in the
+          `inactivity_timeout` field, then EVI will say the message and the user
+          has 15 seconds to respond. If they respond in time, the conversation
+          will continue; if not, the conversation will end.
+
+
+          However, if the inactivity message is not enabled, then reaching the
+          inactivity timeout will immediately end the connection.
+      on_max_duration_timeout:
+        type: optional<ReturnEventMessageSpec>
+        docs: >-
+          Specifies the message EVI provides when the chat is disconnected due
+          to reaching the maximum chat duration, such as a message mentioning
+          the time limit for the chat has been reached.
+      on_new_chat:
+        type: optional<ReturnEventMessageSpec>
+        docs: >-
+          Specifies the initial message EVI provides when a new chat is started,
+          such as a greeting or welcome message.
+    source:
+      openapi: evi-openapi.json
+  ReturnLanguageModel:
+    docs: A specific LanguageModel
+    properties:
+      model_provider:
+        type: optional<ModelProviderEnum>
+        docs: The provider of the supplemental language model.
+      model_resource:
+        type: optional<LanguageModelType>
+        docs: String that specifies the language model to use with `model_provider`.
+      temperature:
+        type: optional<float>
+        docs: >-
+          The model temperature, with values between 0 to 1 (inclusive).
+
+
+          Controls the randomness of the LLM's output, with values closer to 0
+          yielding focused, deterministic responses and values closer to 1
+          producing more creative, diverse responses.
+    source:
+      openapi: evi-openapi.json
+  ReturnNudgeSpec:
+    docs: A specific nudge configuration returned from the server
+    properties:
+      enabled:
+        type: boolean
+        docs: EVI will nudge user after inactivity
+      interval_secs:
+        type: optional<integer>
+        docs: Time interval in seconds after which the nudge will be sent.
+    source:
+      openapi: evi-openapi.json
+  ReturnPagedChatGroupsPaginationDirection:
+    enum:
+      - ASC
+      - DESC
+    docs: >-
+      Indicates the order in which the paginated results are presented, based on
+      their creation date.
+
+
+      It shows `ASC` for ascending order (chronological, with the oldest records
+      first) or `DESC` for descending order (reverse-chronological, with the
+      newest records first). This value corresponds to the `ascending_order`
+      query parameter used in the request.
+    inline: true
+    source:
+      openapi: evi-openapi.json
+  ReturnPagedChatGroups:
+    docs: A paginated list of chat_groups returned from the server
+    properties:
+      chat_groups_page:
+        docs: >-
+          List of Chat Groups and their metadata returned for the specified
+          `page_number` and `page_size`.
+        type: list<ReturnChatGroup>
+      page_number:
+        type: integer
+        docs: >-
+          The page number of the returned list.
+
+
+          This value corresponds to the `page_number` parameter specified in the
+          request. Pagination uses zero-based indexing.
+      page_size:
+        type: integer
+        docs: >-
+          The maximum number of items returned per page.
+
+
+          This value corresponds to the `page_size` parameter specified in the
+          request.
+      pagination_direction:
+        type: ReturnPagedChatGroupsPaginationDirection
+        docs: >-
+          Indicates the order in which the paginated results are presented,
+          based on their creation date.
+
+
+          It shows `ASC` for ascending order (chronological, with the oldest
+          records first) or `DESC` for descending order (reverse-chronological,
+          with the newest records first). This value corresponds to the
+          `ascending_order` query parameter used in the request.
+      total_pages:
+        type: integer
+        docs: The total number of pages in the collection.
+    source:
+      openapi: evi-openapi.json
+  ReturnPagedChatsPaginationDirection:
+    enum:
+      - ASC
+      - DESC
+    docs: >-
+      Indicates the order in which the paginated results are presented, based on
+      their creation date.
+
+
+      It shows `ASC` for ascending order (chronological, with the oldest records
+      first) or `DESC` for descending order (reverse-chronological, with the
+      newest records first). This value corresponds to the `ascending_order`
+      query parameter used in the request.
+    inline: true
+    source:
+      openapi: evi-openapi.json
+  ReturnPagedChats:
+    docs: A paginated list of chats returned from the server
+    properties:
+      chats_page:
+        docs: >-
+          List of Chats and their metadata returned for the specified
+          `page_number` and `page_size`.
+        type: list<ReturnChat>
+      page_number:
+        type: integer
+        docs: >-
+          The page number of the returned list.
+
+
+          This value corresponds to the `page_number` parameter specified in the
+          request. Pagination uses zero-based indexing.
+      page_size:
+        type: integer
+        docs: >-
+          The maximum number of items returned per page.
+
+
+          This value corresponds to the `page_size` parameter specified in the
+          request.
+      pagination_direction:
+        type: ReturnPagedChatsPaginationDirection
+        docs: >-
+          Indicates the order in which the paginated results are presented,
+          based on their creation date.
+
+
+          It shows `ASC` for ascending order (chronological, with the oldest
+          records first) or `DESC` for descending order (reverse-chronological,
+          with the newest records first). This value corresponds to the
+          `ascending_order` query parameter used in the request.
+      total_pages:
+        type: integer
+        docs: The total number of pages in the collection.
+    source:
+      openapi: evi-openapi.json
+  ReturnPagedConfigs:
+    docs: A paginated list of config versions returned from the server
+    properties:
+      configs_page:
+        type: optional<list<ReturnConfig>>
+        docs: >-
+          List of configs returned for the specified `page_number` and
+          `page_size`.
+      page_number:
+        type: optional<integer>
+        docs: >-
+          The page number of the returned list.
+
+
+          This value corresponds to the `page_number` parameter specified in the
+          request. Pagination uses zero-based indexing.
+      page_size:
+        type: optional<integer>
+        docs: >-
+          The maximum number of items returned per page.
+
+
+          This value corresponds to the `page_size` parameter specified in the
+          request.
+      total_pages:
+        type: integer
+        docs: The total number of pages in the collection.
+    source:
+      openapi: evi-openapi.json
+  ReturnPagedPrompts:
+    docs: A paginated list of prompt versions returned from the server
+    properties:
+      page_number:
+        type: integer
+        docs: >-
+          The page number of the returned list.
+
+
+          This value corresponds to the `page_number` parameter specified in the
+          request. Pagination uses zero-based indexing.
+      page_size:
+        type: integer
+        docs: >-
+          The maximum number of items returned per page.
+
+
+          This value corresponds to the `page_size` parameter specified in the
+          request.
+      prompts_page:
+        docs: >-
+          List of prompts returned for the specified `page_number` and
+          `page_size`.
+        type: list<optional<ReturnPrompt>>
+      total_pages:
+        type: integer
+        docs: The total number of pages in the collection.
+    source:
+      openapi: evi-openapi.json
+  ReturnPagedUserDefinedTools:
+    docs: A paginated list of user defined tool versions returned from the server
+    properties:
+      page_number:
+        type: integer
+        docs: >-
+          The page number of the returned list.
+
+
+          This value corresponds to the `page_number` parameter specified in the
+          request. Pagination uses zero-based indexing.
+      page_size:
+        type: integer
+        docs: >-
+          The maximum number of items returned per page.
+
+
+          This value corresponds to the `page_size` parameter specified in the
+          request.
+      tools_page:
+        docs: >-
+          List of tools returned for the specified `page_number` and
+          `page_size`.
+        type: list<optional<ReturnUserDefinedTool>>
+      total_pages:
+        type: integer
+        docs: The total number of pages in the collection.
+    source:
+      openapi: evi-openapi.json
+  ReturnPromptVersionType:
+    enum:
+      - FIXED
+      - LATEST
+    docs: >-
+      Versioning method for a Prompt. Either `FIXED` for using a fixed version
+      number or `LATEST` for auto-updating to the latest version.
+    inline: true
+    source:
+      openapi: evi-openapi.json
+  ReturnPrompt:
+    docs: A specific prompt version returned from the server
+    properties:
+      created_on:
+        type: long
+        docs: The timestamp when the first version of this prompt was created.
+      id:
+        type: string
+        docs: Identifier for a Prompt. Formatted as a UUID.
+      modified_on:
+        type: long
+        docs: The timestamp when this version of the prompt was created.
+      name:
+        type: string
+        docs: Name applied to all versions of a particular Prompt.
+      text:
+        type: string
+        docs: Text used for this version of the Prompt.
+      version:
+        type: integer
+        docs: >-
+          Version number for a Prompt. Version numbers should be integers. The
+          combination of configId and version number is unique.
+      version_description:
+        type: optional<string>
+        docs: Description that is appended to a specific version of a Prompt.
+      version_type:
+        type: string
+        docs: >-
+          Indicates whether this prompt is using a fixed version number or
+          auto-updating to the latest version. Values from the VersionType enum.
+    source:
+      openapi: evi-openapi.json
   ReturnTimeoutSpec:
     docs: A specific timeout configuration to be returned from the server
     properties:
+      duration_secs:
+        type: optional<integer>
+        docs: >-
+          Duration in seconds for the timeout (e.g. 600 seconds represents 10
+          minutes).
       enabled:
         type: boolean
         docs: >-
@@ -3193,11 +3026,156 @@ types:
           being reached. However, the conversation will eventually disconnect
           after 1,800 seconds (30 minutes), which is the maximum WebSocket
           duration limit for EVI.
-      duration_secs:
-        type: optional<integer>
+    source:
+      openapi: evi-openapi.json
+  ReturnTimeoutSpecs:
+    docs: >-
+      Collection of timeout specifications returned by the server.
+
+
+      Timeouts are sent by the server when specific time-based events occur
+      during a chat session. These specifications set the inactivity timeout and
+      the maximum duration an EVI WebSocket connection can stay open before it
+      is automatically disconnected.
+    properties:
+      inactivity:
+        type: ReturnTimeoutSpec
         docs: >-
-          Duration in seconds for the timeout (e.g. 600 seconds represents 10
-          minutes).
+          Specifies the duration of user inactivity (in seconds) after which the
+          EVI WebSocket connection will be automatically disconnected. Default
+          is 600 seconds (10 minutes).
+
+
+          Accepts a minimum value of 30 seconds and a maximum value of 1,800
+          seconds.
+      max_duration:
+        type: ReturnTimeoutSpec
+        docs: >-
+          Specifies the maximum allowed duration (in seconds) for an EVI
+          WebSocket connection before it is automatically disconnected. Default
+          is 1,800 seconds (30 minutes).
+
+
+          Accepts a minimum value of 30 seconds and a maximum value of 1,800
+          seconds.
+    source:
+      openapi: evi-openapi.json
+  ReturnUserDefinedToolToolType:
+    enum:
+      - BUILTIN
+      - FUNCTION
+    docs: >-
+      Type of Tool. Either `BUILTIN` for natively implemented tools, like web
+      search, or `FUNCTION` for user-defined tools.
+    inline: true
+    source:
+      openapi: evi-openapi.json
+  ReturnUserDefinedToolVersionType:
+    enum:
+      - FIXED
+      - LATEST
+    docs: >-
+      Versioning method for a Tool. Either `FIXED` for using a fixed version
+      number or `LATEST` for auto-updating to the latest version.
+    inline: true
+    source:
+      openapi: evi-openapi.json
+  ReturnUserDefinedTool:
+    docs: A specific tool version returned from the server
+    properties:
+      created_on:
+        type: long
+        docs: >-
+          Time at which the Tool was created. Measured in seconds since the Unix
+          epoch.
+      description:
+        type: optional<string>
+        docs: >-
+          An optional description of what the Tool does, used by the
+          supplemental LLM to choose when and how to call the function.
+      fallback_content:
+        type: optional<string>
+        docs: >-
+          Optional text passed to the supplemental LLM in place of the tool call
+          result. The LLM then uses this text to generate a response back to the
+          user, ensuring continuity in the conversation if the Tool errors.
+      id:
+        type: string
+        docs: Identifier for a Tool. Formatted as a UUID.
+      modified_on:
+        type: long
+        docs: >-
+          Time at which the Tool was last modified. Measured in seconds since
+          the Unix epoch.
+      name:
+        type: string
+        docs: Name applied to all versions of a particular Tool.
+      parameters:
+        type: string
+        docs: >-
+          Stringified JSON defining the parameters used by this version of the
+          Tool.
+
+
+          These parameters define the inputs needed for the Tool's execution,
+          including the expected data type and description for each input field.
+          Structured as a stringified JSON schema, this format ensures the tool
+          receives data in the expected format.
+      tool_type:
+        type: ReturnUserDefinedToolToolType
+        docs: >-
+          Type of Tool. Either `BUILTIN` for natively implemented tools, like
+          web search, or `FUNCTION` for user-defined tools.
+      version:
+        type: integer
+        docs: >-
+          Version number for a Tool.
+
+
+          Tools, Configs, Custom Voices, and Prompts are versioned. This
+          versioning system supports iterative development, allowing you to
+          progressively refine tools and revert to previous versions if needed.
+
+
+          Version numbers are integer values representing different iterations
+          of the Tool. Each update to the Tool increments its version number.
+      version_description:
+        type: optional<string>
+        docs: An optional description of the Tool version.
+      version_type:
+        type: ReturnUserDefinedToolVersionType
+        docs: >-
+          Versioning method for a Tool. Either `FIXED` for using a fixed version
+          number or `LATEST` for auto-updating to the latest version.
+    source:
+      openapi: evi-openapi.json
+  ReturnWebhookEventType:
+    enum:
+      - chat_started
+      - chat_ended
+      - tool_call
+    docs: Events this URL is subscribed to
+    inline: true
+    source:
+      openapi: evi-openapi.json
+  ReturnWebhookSpec:
+    docs: Collection of webhook URL endpoints to be returned from the server
+    properties:
+      events:
+        docs: >-
+          The list of events the specified URL is subscribed to. 
+
+
+          See our [webhooks
+          guide](/docs/speech-to-speech-evi/configuration/build-a-configuration#supported-events)
+          for more information on supported events.
+        type: list<ReturnWebhookEventType>
+      url:
+        type: string
+        docs: >-
+          The URL where event payloads will be sent. This must be a valid https
+          URL to ensure secure communication. The server at this URL must accept
+          POST requests with a JSON payload.
     source:
       openapi: evi-openapi.json
   VoiceId:
@@ -3230,10 +3208,10 @@ types:
   ReturnVoice:
     docs: An Octave voice available for text-to-speech
     properties:
+      compatible_octave_models: optional<list<string>>
       id: optional<string>
       name: optional<string>
       provider: optional<VoiceProvider>
-      compatible_octave_models: optional<list<string>>
     source:
       openapi: evi-openapi.json
   VoiceProvider:
