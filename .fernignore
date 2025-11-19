@@ -30,6 +30,8 @@ src/hume/expression_measurement/client.py
 src/hume/tts/client.py
 
 src/hume/expression_measurement/batch/client_with_utils.py
+# Backward compatibility for InferenceJob.status
+src/hume/expression_measurement/batch/types/inference_job.py
 src/hume/empathic_voice/chat/audio/microphone.py
 src/hume/empathic_voice/chat/audio/microphone_interface.py
 src/hume/empathic_voice/chat/audio/microphone_sender.py

@@ -33,7 +33,7 @@ class ExpressionMeasurementClient:
     @property
     def batch(self):
         if self._batch is None:
-            from .batch.client import BatchClient  # noqa: E402
+            from .batch.client_with_utils import BatchClientWithUtils  # noqa: E402
 
             self._batch = BatchClientWithUtils(client_wrapper=self._client_wrapper)
         return self._batch
@@ -67,7 +67,7 @@ class AsyncExpressionMeasurementClient:
     @property
     def batch(self):
         if self._batch is None:
-            from .batch.client import AsyncBatchClient  # noqa: E402
+            from .batch.client_with_utils import AsyncBatchClientWithUtils  # noqa: E402
 
             self._batch = AsyncBatchClientWithUtils(client_wrapper=self._client_wrapper)
         return self._batch
