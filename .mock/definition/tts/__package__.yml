@@ -188,7 +188,7 @@ service:
       method: POST
       source:
         openapi: tts-openapi.json
-      display-name: Voice Conversion Stream File
+      display-name: Voice Conversion (Streamed File)
       request:
         name: ConvertVoiceFileRequest
         body:
@@ -226,7 +226,7 @@ service:
       method: POST
       source:
         openapi: tts-openapi.json
-      display-name: Voice Conversion Stream Json
+      display-name: Voice Conversion (Streamed JSON)
       request:
         name: ConvertVoiceJsonRequest
         body:
@@ -446,9 +446,12 @@ types:
       openapi: tts-openapi.json
   Timestamp:
     properties:
-      text: string
+      text:
+        type: string
+        docs: The word or phoneme text that the timestamp corresponds to.
       time:
         type: MillisecondInterval
+        docs: The start and end timestamps for the word or phoneme in milliseconds.
       type:
         type: TimestampType
     source:
@@ -577,7 +580,9 @@ types:
         type: string
         docs: The text for this **Snippet**.
       timestamps:
-        docs: A list of word or phoneme level timestamps for the generated audio.
+        docs: >-
+          A list of word or phoneme level timestamps for the generated audio.
+          Timestamps are only returned for Octave 2 requests.
         type: list<Timestamp>
       transcribed_text:
         type: optional<string>
@@ -618,6 +623,13 @@ types:
         docs: >-
           The sample rate (`Hz`) of the generated audio. The default sample rate
           is `48000 Hz`.
+    source:
+      openapi: tts-openapi.json
+  ErrorResponse:
+    properties:
+      code: optional<string>
+      error: optional<string>
+      message: optional<string>
     source:
       openapi: tts-openapi.json
   ReturnGeneration:
@@ -674,7 +686,9 @@ types:
         docs: Specifies the output audio file format.
       include_timestamp_types:
         type: optional<list<TimestampType>>
-        docs: The set of timestamp types to include in the response.
+        docs: >-
+          The set of timestamp types to include in the response. Only supported
+          for Octave 2 requests.
       num_generations:
         type: optional<integer>
         docs: >-
@@ -786,6 +800,7 @@ types:
   ReturnVoice:
     docs: An Octave voice available for text-to-speech
     properties:
+      compatible_octave_models: optional<list<string>>
       id:
         type: optional<string>
         docs: ID of the voice in the `Voice Library`.
@@ -800,7 +815,6 @@ types:
 
           Voices created through this endpoint will always have the provider set
           to `CUSTOM_VOICE`, indicating a custom voice stored in your account.
-      compatible_octave_models: optional<list<string>>
     source:
       openapi: tts-openapi.json
   FormatPcm:
@@ -881,13 +895,6 @@ types:
   FormatWav:
     properties:
       type: literal<"wav">
-    source:
-      openapi: tts-openapi.json
-  ErrorResponse:
-    properties:
-      error: optional<string>
-      message: optional<string>
-      code: optional<string>
     source:
       openapi: tts-openapi.json
   ReturnPagedVoices:

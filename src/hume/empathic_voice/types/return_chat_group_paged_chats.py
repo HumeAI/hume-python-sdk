@@ -13,14 +13,24 @@ class ReturnChatGroupPagedChats(UniversalBaseModel):
     A description of chat_group and its status with a paginated list of each chat in the chat_group
     """
 
-    id: str = pydantic.Field()
+    active: typing.Optional[bool] = pydantic.Field(default=None)
     """
-    Identifier for the Chat Group. Any Chat resumed from this Chat Group will have the same `chat_group_id`. Formatted as a UUID.
+    Denotes whether there is an active Chat associated with this Chat Group.
+    """
+
+    chats_page: typing.List[ReturnChat] = pydantic.Field()
+    """
+    List of Chats for the specified `page_number` and `page_size`.
     """
 
     first_start_timestamp: int = pydantic.Field()
     """
     Time at which the first Chat in this Chat Group was created. Measured in seconds since the Unix epoch.
+    """
+
+    id: str = pydantic.Field()
+    """
+    Identifier for the Chat Group. Any Chat resumed from this Chat Group will have the same `chat_group_id`. Formatted as a UUID.
     """
 
     most_recent_start_timestamp: int = pydantic.Field()
@@ -47,11 +57,6 @@ class ReturnChatGroupPagedChats(UniversalBaseModel):
     This value corresponds to the `page_size` parameter specified in the request.
     """
 
-    total_pages: int = pydantic.Field()
-    """
-    The total number of pages in the collection.
-    """
-
     pagination_direction: ReturnChatGroupPagedChatsPaginationDirection = pydantic.Field()
     """
     Indicates the order in which the paginated results are presented, based on their creation date.
@@ -59,14 +64,9 @@ class ReturnChatGroupPagedChats(UniversalBaseModel):
     It shows `ASC` for ascending order (chronological, with the oldest records first) or `DESC` for descending order (reverse-chronological, with the newest records first). This value corresponds to the `ascending_order` query parameter used in the request.
     """
 
-    chats_page: typing.List[ReturnChat] = pydantic.Field()
+    total_pages: int = pydantic.Field()
     """
-    List of Chats for the specified `page_number` and `page_size`.
-    """
-
-    active: typing.Optional[bool] = pydantic.Field(default=None)
-    """
-    Denotes whether there is an active Chat associated with this Chat Group.
+    The total number of pages in the collection.
     """
 
     if IS_PYDANTIC_V2:
