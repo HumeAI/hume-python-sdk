@@ -119,9 +119,9 @@ class RawToolsClient:
         *,
         name: str,
         parameters: str,
-        version_description: typing.Optional[str] = OMIT,
         description: typing.Optional[str] = OMIT,
         fallback_content: typing.Optional[str] = OMIT,
+        version_description: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[typing.Optional[ReturnUserDefinedTool]]:
         """
@@ -139,14 +139,14 @@ class RawToolsClient:
 
             These parameters define the inputs needed for the Tool's execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.
 
-        version_description : typing.Optional[str]
-            An optional description of the Tool version.
-
         description : typing.Optional[str]
             An optional description of what the Tool does, used by the supplemental LLM to choose when and how to call the function.
 
         fallback_content : typing.Optional[str]
             Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
+
+        version_description : typing.Optional[str]
+            An optional description of the Tool version.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -161,11 +161,11 @@ class RawToolsClient:
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
-                "name": name,
-                "version_description": version_description,
                 "description": description,
-                "parameters": parameters,
                 "fallback_content": fallback_content,
+                "name": name,
+                "parameters": parameters,
+                "version_description": version_description,
             },
             headers={
                 "content-type": "application/json",
@@ -296,9 +296,9 @@ class RawToolsClient:
         id: str,
         *,
         parameters: str,
-        version_description: typing.Optional[str] = OMIT,
         description: typing.Optional[str] = OMIT,
         fallback_content: typing.Optional[str] = OMIT,
+        version_description: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[typing.Optional[ReturnUserDefinedTool]]:
         """
@@ -316,14 +316,14 @@ class RawToolsClient:
 
             These parameters define the inputs needed for the Tool's execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.
 
-        version_description : typing.Optional[str]
-            An optional description of the Tool version.
-
         description : typing.Optional[str]
             An optional description of what the Tool does, used by the supplemental LLM to choose when and how to call the function.
 
         fallback_content : typing.Optional[str]
             Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
+
+        version_description : typing.Optional[str]
+            An optional description of the Tool version.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -338,10 +338,10 @@ class RawToolsClient:
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
-                "version_description": version_description,
                 "description": description,
-                "parameters": parameters,
                 "fallback_content": fallback_content,
+                "parameters": parameters,
+                "version_description": version_description,
             },
             headers={
                 "content-type": "application/json",
@@ -771,9 +771,9 @@ class AsyncRawToolsClient:
         *,
         name: str,
         parameters: str,
-        version_description: typing.Optional[str] = OMIT,
         description: typing.Optional[str] = OMIT,
         fallback_content: typing.Optional[str] = OMIT,
+        version_description: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[typing.Optional[ReturnUserDefinedTool]]:
         """
@@ -791,14 +791,14 @@ class AsyncRawToolsClient:
 
             These parameters define the inputs needed for the Tool's execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.
 
-        version_description : typing.Optional[str]
-            An optional description of the Tool version.
-
         description : typing.Optional[str]
             An optional description of what the Tool does, used by the supplemental LLM to choose when and how to call the function.
 
         fallback_content : typing.Optional[str]
             Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
+
+        version_description : typing.Optional[str]
+            An optional description of the Tool version.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -813,11 +813,11 @@ class AsyncRawToolsClient:
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
-                "name": name,
-                "version_description": version_description,
                 "description": description,
-                "parameters": parameters,
                 "fallback_content": fallback_content,
+                "name": name,
+                "parameters": parameters,
+                "version_description": version_description,
             },
             headers={
                 "content-type": "application/json",
@@ -951,9 +951,9 @@ class AsyncRawToolsClient:
         id: str,
         *,
         parameters: str,
-        version_description: typing.Optional[str] = OMIT,
         description: typing.Optional[str] = OMIT,
         fallback_content: typing.Optional[str] = OMIT,
+        version_description: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[typing.Optional[ReturnUserDefinedTool]]:
         """
@@ -971,14 +971,14 @@ class AsyncRawToolsClient:
 
             These parameters define the inputs needed for the Tool's execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.
 
-        version_description : typing.Optional[str]
-            An optional description of the Tool version.
-
         description : typing.Optional[str]
             An optional description of what the Tool does, used by the supplemental LLM to choose when and how to call the function.
 
         fallback_content : typing.Optional[str]
             Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
+
+        version_description : typing.Optional[str]
+            An optional description of the Tool version.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -993,10 +993,10 @@ class AsyncRawToolsClient:
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
-                "version_description": version_description,
                 "description": description,
-                "parameters": parameters,
                 "fallback_content": fallback_content,
+                "parameters": parameters,
+                "version_description": version_description,
             },
             headers={
                 "content-type": "application/json",

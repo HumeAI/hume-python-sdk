@@ -13,19 +13,36 @@ class ReturnChatEvent(UniversalBaseModel):
     A description of a single event in a chat returned from the server
     """
 
-    id: str = pydantic.Field()
-    """
-    Identifier for a Chat Event. Formatted as a UUID.
-    """
-
     chat_id: str = pydantic.Field()
     """
     Identifier for the Chat this event occurred in. Formatted as a UUID.
     """
 
-    timestamp: int = pydantic.Field()
+    emotion_features: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Time at which the Chat Event occurred. Measured in seconds since the Unix epoch.
+    Stringified JSON containing the prosody model inference results.
+    
+    EVI uses the prosody model to measure 48 expressions related to speech and vocal characteristics. These results contain a detailed emotional and tonal analysis of the audio. Scores typically range from 0 to 1, with higher values indicating a stronger confidence level in the measured attribute.
+    """
+
+    id: str = pydantic.Field()
+    """
+    Identifier for a Chat Event. Formatted as a UUID.
+    """
+
+    message_text: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The text of the Chat Event. This field contains the message content for each event type listed in the `type` field.
+    """
+
+    metadata: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Stringified JSON with additional metadata about the chat event.
+    """
+
+    related_event_id: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Identifier for a related chat event. Currently only seen on ASSISTANT_PROSODY events, to point back to the ASSISTANT_MESSAGE that generated these prosody scores
     """
 
     role: ReturnChatEventRole = pydantic.Field()
@@ -35,6 +52,11 @@ class ReturnChatEvent(UniversalBaseModel):
     - `AGENT`: The assistant, capable of sending agent messages.
     - `SYSTEM`: The backend server, capable of transmitting errors.
     - `TOOL`: The function calling mechanism.
+    """
+
+    timestamp: int = pydantic.Field()
+    """
+    Time at which the Chat Event occurred. Measured in seconds since the Unix epoch.
     """
 
     type: ReturnChatEventType = pydantic.Field()
@@ -51,28 +73,6 @@ class ReturnChatEvent(UniversalBaseModel):
     - `PAUSE_ONSET`: Marks when the client sent a `pause_assistant_message` to pause the assistant.
     - `RESUME_ONSET`: Marks when the client sent a `resume_assistant_message` to resume the assistant.
     - `CHAT_END_MESSAGE`: Indicates the end of the chat session.
-    """
-
-    message_text: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    The text of the Chat Event. This field contains the message content for each event type listed in the `type` field.
-    """
-
-    emotion_features: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    Stringified JSON containing the prosody model inference results.
-    
-    EVI uses the prosody model to measure 48 expressions related to speech and vocal characteristics. These results contain a detailed emotional and tonal analysis of the audio. Scores typically range from 0 to 1, with higher values indicating a stronger confidence level in the measured attribute.
-    """
-
-    metadata: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    Stringified JSON with additional metadata about the chat event.
-    """
-
-    related_event_id: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    Identifier for a related chat event. Currently only seen on ASSISTANT_PROSODY events, to point back to the ASSISTANT_MESSAGE that generated these prosody scores
     """
 
     if IS_PYDANTIC_V2:
