@@ -64,7 +64,7 @@ class RawTtsClient:
             Specifies the output audio file format.
 
         include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
-            The set of timestamp types to include in the response.
+            The set of timestamp types to include in the response. Only supported for Octave 2 requests.
 
         num_generations : typing.Optional[int]
             Number of audio generations to produce from the input utterances.
@@ -189,7 +189,7 @@ class RawTtsClient:
             Specifies the output audio file format.
 
         include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
-            The set of timestamp types to include in the response.
+            The set of timestamp types to include in the response. Only supported for Octave 2 requests.
 
         num_generations : typing.Optional[int]
             Number of audio generations to produce from the input utterances.
@@ -315,7 +315,7 @@ class RawTtsClient:
             Specifies the output audio file format.
 
         include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
-            The set of timestamp types to include in the response.
+            The set of timestamp types to include in the response. Only supported for Octave 2 requests.
 
         num_generations : typing.Optional[int]
             Number of audio generations to produce from the input utterances.
@@ -443,7 +443,7 @@ class RawTtsClient:
             Specifies the output audio file format.
 
         include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
-            The set of timestamp types to include in the response.
+            The set of timestamp types to include in the response. Only supported for Octave 2 requests.
 
         num_generations : typing.Optional[int]
             Number of audio generations to produce from the input utterances.
@@ -777,7 +777,7 @@ class AsyncRawTtsClient:
             Specifies the output audio file format.
 
         include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
-            The set of timestamp types to include in the response.
+            The set of timestamp types to include in the response. Only supported for Octave 2 requests.
 
         num_generations : typing.Optional[int]
             Number of audio generations to produce from the input utterances.
@@ -902,7 +902,7 @@ class AsyncRawTtsClient:
             Specifies the output audio file format.
 
         include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
-            The set of timestamp types to include in the response.
+            The set of timestamp types to include in the response. Only supported for Octave 2 requests.
 
         num_generations : typing.Optional[int]
             Number of audio generations to produce from the input utterances.
@@ -1029,7 +1029,7 @@ class AsyncRawTtsClient:
             Specifies the output audio file format.
 
         include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
-            The set of timestamp types to include in the response.
+            The set of timestamp types to include in the response. Only supported for Octave 2 requests.
 
         num_generations : typing.Optional[int]
             Number of audio generations to produce from the input utterances.
@@ -1158,7 +1158,7 @@ class AsyncRawTtsClient:
             Specifies the output audio file format.
 
         include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
-            The set of timestamp types to include in the response.
+            The set of timestamp types to include in the response. Only supported for Octave 2 requests.
 
         num_generations : typing.Optional[int]
             Number of audio generations to produce from the input utterances.

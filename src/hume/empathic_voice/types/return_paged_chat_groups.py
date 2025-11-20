@@ -13,6 +13,11 @@ class ReturnPagedChatGroups(UniversalBaseModel):
     A paginated list of chat_groups returned from the server
     """
 
+    chat_groups_page: typing.List[ReturnChatGroup] = pydantic.Field()
+    """
+    List of Chat Groups and their metadata returned for the specified `page_number` and `page_size`.
+    """
+
     page_number: int = pydantic.Field()
     """
     The page number of the returned list.
@@ -27,11 +32,6 @@ class ReturnPagedChatGroups(UniversalBaseModel):
     This value corresponds to the `page_size` parameter specified in the request.
     """
 
-    total_pages: int = pydantic.Field()
-    """
-    The total number of pages in the collection.
-    """
-
     pagination_direction: ReturnPagedChatGroupsPaginationDirection = pydantic.Field()
     """
     Indicates the order in which the paginated results are presented, based on their creation date.
@@ -39,9 +39,9 @@ class ReturnPagedChatGroups(UniversalBaseModel):
     It shows `ASC` for ascending order (chronological, with the oldest records first) or `DESC` for descending order (reverse-chronological, with the newest records first). This value corresponds to the `ascending_order` query parameter used in the request.
     """
 
-    chat_groups_page: typing.List[ReturnChatGroup] = pydantic.Field()
+    total_pages: int = pydantic.Field()
     """
-    List of Chat Groups and their metadata returned for the specified `page_number` and `page_size`.
+    The total number of pages in the collection.
     """
 
     if IS_PYDANTIC_V2:
