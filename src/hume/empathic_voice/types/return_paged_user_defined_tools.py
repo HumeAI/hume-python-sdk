@@ -26,14 +26,14 @@ class ReturnPagedUserDefinedTools(UniversalBaseModel):
     This value corresponds to the `page_size` parameter specified in the request.
     """
 
-    total_pages: int = pydantic.Field()
-    """
-    The total number of pages in the collection.
-    """
-
     tools_page: typing.List[typing.Optional[ReturnUserDefinedTool]] = pydantic.Field()
     """
     List of tools returned for the specified `page_number` and `page_size`.
+    """
+
+    total_pages: int = pydantic.Field()
+    """
+    The total number of pages in the collection.
     """
 
     if IS_PYDANTIC_V2:

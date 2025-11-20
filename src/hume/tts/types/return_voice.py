@@ -12,6 +12,7 @@ class ReturnVoice(UniversalBaseModel):
     An Octave voice available for text-to-speech
     """
 
+    compatible_octave_models: typing.Optional[typing.List[str]] = None
     id: typing.Optional[str] = pydantic.Field(default=None)
     """
     ID of the voice in the `Voice Library`.
@@ -28,8 +29,6 @@ class ReturnVoice(UniversalBaseModel):
     
     Voices created through this endpoint will always have the provider set to `CUSTOM_VOICE`, indicating a custom voice stored in your account.
     """
-
-    compatible_octave_models: typing.Optional[typing.List[str]] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

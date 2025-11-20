@@ -2,4 +2,4 @@
 
 import typing
 
-PostedWebhookEventType = typing.Union[typing.Literal["chat_started", "chat_ended"], typing.Any]
+PostedWebhookEventType = typing.Union[typing.Literal["chat_started", "chat_ended", "tool_call"], typing.Any]
