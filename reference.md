@@ -775,7 +775,7 @@ typing.Optional[core.File]` — See core.File for more documentation
 <dl>
 <dd>
 
-**include_timestamp_types:** `typing.Optional[typing.List[TimestampType]]` — The set of timestamp types to include in the response.
+**include_timestamp_types:** `typing.Optional[typing.List[TimestampType]]` — The set of timestamp types to include in the response. When used in multipart/form-data, specify each value using bracket notation: `include_timestamp_types[0]=word&include_timestamp_types[1]=phoneme`. Only supported for Octave 2 requests.
     
 </dd>
 </dl>
