@@ -190,6 +190,81 @@ class RawChatGroupsClient:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    def get_audio(
+        self,
+        id: str,
+        *,
+        page_number: typing.Optional[int] = None,
+        page_size: typing.Optional[int] = None,
+        ascending_order: typing.Optional[bool] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[ReturnChatGroupPagedAudioReconstructions]:
+        """
+        Fetches a paginated list of audio for each **Chat** within the specified **Chat Group**. For more details, see our guide on audio reconstruction [here](/docs/speech-to-speech-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
+
+        Parameters
+        ----------
+        id : str
+            Identifier for a Chat Group. Formatted as a UUID.
+
+        page_number : typing.Optional[int]
+            Specifies the page number to retrieve, enabling pagination.
+
+            This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
+
+        page_size : typing.Optional[int]
+            Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+
+            For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+
+        ascending_order : typing.Optional[bool]
+            Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[ReturnChatGroupPagedAudioReconstructions]
+            Success
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"v0/evi/chat_groups/{jsonable_encoder(id)}/audio",
+            base_url=self._client_wrapper.get_environment().base,
+            method="GET",
+            params={
+                "page_number": page_number,
+                "page_size": page_size,
+                "ascending_order": ascending_order,
+            },
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ReturnChatGroupPagedAudioReconstructions,
+                    parse_obj_as(
+                        type_=ReturnChatGroupPagedAudioReconstructions,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        ErrorResponse,
+                        parse_obj_as(
+                            type_=ErrorResponse,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
     def list_chat_group_events(
         self,
         id: str,
@@ -262,81 +337,6 @@ class RawChatGroupsClient:
                 return SyncPager(
                     has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
                 )
-            if _response.status_code == 400:
-                raise BadRequestError(
-                    headers=dict(_response.headers),
-                    body=typing.cast(
-                        ErrorResponse,
-                        parse_obj_as(
-                            type_=ErrorResponse,  # type: ignore
-                            object_=_response.json(),
-                        ),
-                    ),
-                )
-            _response_json = _response.json()
-        except JSONDecodeError:
-            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
-        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
-
-    def get_audio(
-        self,
-        id: str,
-        *,
-        page_number: typing.Optional[int] = None,
-        page_size: typing.Optional[int] = None,
-        ascending_order: typing.Optional[bool] = None,
-        request_options: typing.Optional[RequestOptions] = None,
-    ) -> HttpResponse[ReturnChatGroupPagedAudioReconstructions]:
-        """
-        Fetches a paginated list of audio for each **Chat** within the specified **Chat Group**. For more details, see our guide on audio reconstruction [here](/docs/speech-to-speech-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
-
-        Parameters
-        ----------
-        id : str
-            Identifier for a Chat Group. Formatted as a UUID.
-
-        page_number : typing.Optional[int]
-            Specifies the page number to retrieve, enabling pagination.
-
-            This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
-
-        page_size : typing.Optional[int]
-            Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
-
-            For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
-
-        ascending_order : typing.Optional[bool]
-            Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration.
-
-        Returns
-        -------
-        HttpResponse[ReturnChatGroupPagedAudioReconstructions]
-            Success
-        """
-        _response = self._client_wrapper.httpx_client.request(
-            f"v0/evi/chat_groups/{jsonable_encoder(id)}/audio",
-            base_url=self._client_wrapper.get_environment().base,
-            method="GET",
-            params={
-                "page_number": page_number,
-                "page_size": page_size,
-                "ascending_order": ascending_order,
-            },
-            request_options=request_options,
-        )
-        try:
-            if 200 <= _response.status_code < 300:
-                _data = typing.cast(
-                    ReturnChatGroupPagedAudioReconstructions,
-                    parse_obj_as(
-                        type_=ReturnChatGroupPagedAudioReconstructions,  # type: ignore
-                        object_=_response.json(),
-                    ),
-                )
-                return HttpResponse(response=_response, data=_data)
             if _response.status_code == 400:
                 raise BadRequestError(
                     headers=dict(_response.headers),
@@ -527,6 +527,81 @@ class AsyncRawChatGroupsClient:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    async def get_audio(
+        self,
+        id: str,
+        *,
+        page_number: typing.Optional[int] = None,
+        page_size: typing.Optional[int] = None,
+        ascending_order: typing.Optional[bool] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[ReturnChatGroupPagedAudioReconstructions]:
+        """
+        Fetches a paginated list of audio for each **Chat** within the specified **Chat Group**. For more details, see our guide on audio reconstruction [here](/docs/speech-to-speech-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
+
+        Parameters
+        ----------
+        id : str
+            Identifier for a Chat Group. Formatted as a UUID.
+
+        page_number : typing.Optional[int]
+            Specifies the page number to retrieve, enabling pagination.
+
+            This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
+
+        page_size : typing.Optional[int]
+            Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+
+            For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+
+        ascending_order : typing.Optional[bool]
+            Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[ReturnChatGroupPagedAudioReconstructions]
+            Success
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"v0/evi/chat_groups/{jsonable_encoder(id)}/audio",
+            base_url=self._client_wrapper.get_environment().base,
+            method="GET",
+            params={
+                "page_number": page_number,
+                "page_size": page_size,
+                "ascending_order": ascending_order,
+            },
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ReturnChatGroupPagedAudioReconstructions,
+                    parse_obj_as(
+                        type_=ReturnChatGroupPagedAudioReconstructions,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        ErrorResponse,
+                        parse_obj_as(
+                            type_=ErrorResponse,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
     async def list_chat_group_events(
         self,
         id: str,
@@ -602,81 +677,6 @@ class AsyncRawChatGroupsClient:
                 return AsyncPager(
                     has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
                 )
-            if _response.status_code == 400:
-                raise BadRequestError(
-                    headers=dict(_response.headers),
-                    body=typing.cast(
-                        ErrorResponse,
-                        parse_obj_as(
-                            type_=ErrorResponse,  # type: ignore
-                            object_=_response.json(),
-                        ),
-                    ),
-                )
-            _response_json = _response.json()
-        except JSONDecodeError:
-            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
-        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
-
-    async def get_audio(
-        self,
-        id: str,
-        *,
-        page_number: typing.Optional[int] = None,
-        page_size: typing.Optional[int] = None,
-        ascending_order: typing.Optional[bool] = None,
-        request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncHttpResponse[ReturnChatGroupPagedAudioReconstructions]:
-        """
-        Fetches a paginated list of audio for each **Chat** within the specified **Chat Group**. For more details, see our guide on audio reconstruction [here](/docs/speech-to-speech-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
-
-        Parameters
-        ----------
-        id : str
-            Identifier for a Chat Group. Formatted as a UUID.
-
-        page_number : typing.Optional[int]
-            Specifies the page number to retrieve, enabling pagination.
-
-            This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
-
-        page_size : typing.Optional[int]
-            Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
-
-            For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
-
-        ascending_order : typing.Optional[bool]
-            Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration.
-
-        Returns
-        -------
-        AsyncHttpResponse[ReturnChatGroupPagedAudioReconstructions]
-            Success
-        """
-        _response = await self._client_wrapper.httpx_client.request(
-            f"v0/evi/chat_groups/{jsonable_encoder(id)}/audio",
-            base_url=self._client_wrapper.get_environment().base,
-            method="GET",
-            params={
-                "page_number": page_number,
-                "page_size": page_size,
-                "ascending_order": ascending_order,
-            },
-            request_options=request_options,
-        )
-        try:
-            if 200 <= _response.status_code < 300:
-                _data = typing.cast(
-                    ReturnChatGroupPagedAudioReconstructions,
-                    parse_obj_as(
-                        type_=ReturnChatGroupPagedAudioReconstructions,  # type: ignore
-                        object_=_response.json(),
-                    ),
-                )
-                return AsyncHttpResponse(response=_response, data=_data)
             if _response.status_code == 400:
                 raise BadRequestError(
                     headers=dict(_response.headers),

@@ -1,0 +1,438 @@
+diff --git a/var/folders/5_/tlgrkrq92pv1mxbrp9y7v3h80000gn/T/fern-generate-B2Frfd/hume-python-sdk/src/hume/tts/client.py b/Users/twitchard/dev/fern-config/fern/apis/unioned/.preview/fern-python-sdk/src/hume/tts/client.py
+index 5f6c2c70..7c5e8597 100644
+--- a/var/folders/5_/tlgrkrq92pv1mxbrp9y7v3h80000gn/T/fern-generate-B2Frfd/hume-python-sdk/src/hume/tts/client.py
++++ b/Users/twitchard/dev/fern-config/fern/apis/unioned/.preview/fern-python-sdk/src/hume/tts/client.py
+@@ -4,8 +4,7 @@ from __future__ import annotations
+ 
+ import typing
+ 
+-from hume.tts.stream_input.client import StreamInputClient
+-
++from .. import core
+ from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
+ from ..core.request_options import RequestOptions
+ from .raw_client import AsyncRawTtsClient, RawTtsClient
+@@ -13,13 +12,13 @@ from .types.format import Format
+ from .types.octave_version import OctaveVersion
+ from .types.posted_context import PostedContext
+ from .types.posted_utterance import PostedUtterance
++from .types.posted_utterance_voice import PostedUtteranceVoice
+ from .types.return_tts import ReturnTts
+ from .types.timestamp_type import TimestampType
+ from .types.tts_output import TtsOutput
+ 
+ if typing.TYPE_CHECKING:
+     from .voices.client import AsyncVoicesClient, VoicesClient
+-    from .stream_input.client import AsyncStreamInputClient, StreamInputClient
+ # this is used as the default value for optional parameters
+ OMIT = typing.cast(typing.Any, ...)
+ 
+@@ -29,7 +28,6 @@ class TtsClient:
+         self._raw_client = RawTtsClient(client_wrapper=client_wrapper)
+         self._client_wrapper = client_wrapper
+         self._voices: typing.Optional[VoicesClient] = None
+-        self._stream_input: typing.Optional[StreamInputClient] = None
+ 
+     @property
+     def with_raw_response(self) -> RawTtsClient:
+@@ -75,10 +73,12 @@ class TtsClient:
+             Specifies the output audio file format.
+ 
+         include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
+-            The set of timestamp types to include in the response.
++            The set of timestamp types to include in the response. Only supported for Octave 2 requests.
+ 
+         num_generations : typing.Optional[int]
+-            Number of generations of the audio to produce.
++            Number of audio generations to produce from the input utterances.
++
++            Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
+ 
+         split_utterances : typing.Optional[bool]
+             Controls how audio output is segmented in the response.
+@@ -187,10 +187,12 @@ class TtsClient:
+             Specifies the output audio file format.
+ 
+         include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
+-            The set of timestamp types to include in the response.
++            The set of timestamp types to include in the response. Only supported for Octave 2 requests.
+ 
+         num_generations : typing.Optional[int]
+-            Number of generations of the audio to produce.
++            Number of audio generations to produce from the input utterances.
++
++            Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
+ 
+         split_utterances : typing.Optional[bool]
+             Controls how audio output is segmented in the response.
+@@ -292,10 +294,12 @@ class TtsClient:
+             Specifies the output audio file format.
+ 
+         include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
+-            The set of timestamp types to include in the response.
++            The set of timestamp types to include in the response. Only supported for Octave 2 requests.
+ 
+         num_generations : typing.Optional[int]
+-            Number of generations of the audio to produce.
++            Number of audio generations to produce from the input utterances.
++
++            Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
+ 
+         split_utterances : typing.Optional[bool]
+             Controls how audio output is segmented in the response.
+@@ -397,10 +401,12 @@ class TtsClient:
+             Specifies the output audio file format.
+ 
+         include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
+-            The set of timestamp types to include in the response.
++            The set of timestamp types to include in the response. Only supported for Octave 2 requests.
+ 
+         num_generations : typing.Optional[int]
+-            Number of generations of the audio to produce.
++            Number of audio generations to produce from the input utterances.
++
++            Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
+ 
+         split_utterances : typing.Optional[bool]
+             Controls how audio output is segmented in the response.
+@@ -471,6 +477,117 @@ class TtsClient:
+         ) as r:
+             yield from r.data
+ 
++    def convert_voice_file(
++        self,
++        *,
++        audio: core.File,
++        strip_headers: typing.Optional[bool] = OMIT,
++        context: typing.Optional[PostedContext] = OMIT,
++        voice: typing.Optional[PostedUtteranceVoice] = OMIT,
++        format: typing.Optional[Format] = OMIT,
++        include_timestamp_types: typing.Optional[typing.List[TimestampType]] = OMIT,
++        request_options: typing.Optional[RequestOptions] = None,
++    ) -> typing.Iterator[bytes]:
++        """
++        Parameters
++        ----------
++        audio : core.File
++            See core.File for more documentation
++
++        strip_headers : typing.Optional[bool]
++            If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
++
++        context : typing.Optional[PostedContext]
++            Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
++
++        voice : typing.Optional[PostedUtteranceVoice]
++
++        format : typing.Optional[Format]
++            Specifies the output audio file format.
++
++        include_timestamp_types : typing.Optional[typing.List[TimestampType]]
++            The set of timestamp types to include in the response.
++
++        request_options : typing.Optional[RequestOptions]
++            Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
++
++        Returns
++        -------
++        typing.Iterator[bytes]
++            Successful Response
++        """
++        with self._raw_client.convert_voice_file(
++            audio=audio,
++            strip_headers=strip_headers,
++            context=context,
++            voice=voice,
++            format=format,
++            include_timestamp_types=include_timestamp_types,
++            request_options=request_options,
++        ) as r:
++            yield from r.data
++
++    def convert_voice_json(
++        self,
++        *,
++        strip_headers: typing.Optional[bool] = OMIT,
++        audio: typing.Optional[core.File] = OMIT,
++        context: typing.Optional[PostedContext] = OMIT,
++        voice: typing.Optional[PostedUtteranceVoice] = OMIT,
++        format: typing.Optional[Format] = OMIT,
++        include_timestamp_types: typing.Optional[typing.List[TimestampType]] = OMIT,
++        request_options: typing.Optional[RequestOptions] = None,
++    ) -> typing.Iterator[TtsOutput]:
++        """
++        Parameters
++        ----------
++        strip_headers : typing.Optional[bool]
++            If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
++
++        audio : typing.Optional[core.File]
++            See core.File for more documentation
++
++        context : typing.Optional[PostedContext]
++            Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
++
++        voice : typing.Optional[PostedUtteranceVoice]
++
++        format : typing.Optional[Format]
++            Specifies the output audio file format.
++
++        include_timestamp_types : typing.Optional[typing.List[TimestampType]]
++            The set of timestamp types to include in the response.
++
++        request_options : typing.Optional[RequestOptions]
++            Request-specific configuration.
++
++        Yields
++        ------
++        typing.Iterator[TtsOutput]
++            Successful Response
++
++        Examples
++        --------
++        from hume import HumeClient
++
++        client = HumeClient(
++            api_key="YOUR_API_KEY",
++        )
++        response = client.tts.convert_voice_json()
++        for chunk in response:
++            yield chunk
++        """
++        with self._raw_client.convert_voice_json(
++            strip_headers=strip_headers,
++            audio=audio,
++            context=context,
++            voice=voice,
++            format=format,
++            include_timestamp_types=include_timestamp_types,
++            request_options=request_options,
++        ) as r:
++            yield from r.data
++
+     @property
+     def voices(self):
+         if self._voices is None:
+@@ -479,20 +596,12 @@ class TtsClient:
+             self._voices = VoicesClient(client_wrapper=self._client_wrapper)
+         return self._voices
+ 
+-    @property
+-    def stream_input(self):
+-        if self._stream_input is None:
+-            from .stream_input.client import StreamInputClient  # noqa: E402
+-            self._stream_input = StreamInputClient(client_wrapper=self._client_wrapper)
+-        return self._stream_input
+-
+ 
+ class AsyncTtsClient:
+     def __init__(self, *, client_wrapper: AsyncClientWrapper):
+         self._raw_client = AsyncRawTtsClient(client_wrapper=client_wrapper)
+         self._client_wrapper = client_wrapper
+         self._voices: typing.Optional[AsyncVoicesClient] = None
+-        self._stream_input: typing.Optional[AsyncStreamInputClient] = None
+ 
+     @property
+     def with_raw_response(self) -> AsyncRawTtsClient:
+@@ -538,10 +647,12 @@ class AsyncTtsClient:
+             Specifies the output audio file format.
+ 
+         include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
+-            The set of timestamp types to include in the response.
++            The set of timestamp types to include in the response. Only supported for Octave 2 requests.
+ 
+         num_generations : typing.Optional[int]
+-            Number of generations of the audio to produce.
++            Number of audio generations to produce from the input utterances.
++
++            Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
+ 
+         split_utterances : typing.Optional[bool]
+             Controls how audio output is segmented in the response.
+@@ -658,10 +769,12 @@ class AsyncTtsClient:
+             Specifies the output audio file format.
+ 
+         include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
+-            The set of timestamp types to include in the response.
++            The set of timestamp types to include in the response. Only supported for Octave 2 requests.
+ 
+         num_generations : typing.Optional[int]
+-            Number of generations of the audio to produce.
++            Number of audio generations to produce from the input utterances.
++
++            Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
+ 
+         split_utterances : typing.Optional[bool]
+             Controls how audio output is segmented in the response.
+@@ -772,10 +885,12 @@ class AsyncTtsClient:
+             Specifies the output audio file format.
+ 
+         include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
+-            The set of timestamp types to include in the response.
++            The set of timestamp types to include in the response. Only supported for Octave 2 requests.
+ 
+         num_generations : typing.Optional[int]
+-            Number of generations of the audio to produce.
++            Number of audio generations to produce from the input utterances.
++
++            Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
+ 
+         split_utterances : typing.Optional[bool]
+             Controls how audio output is segmented in the response.
+@@ -886,10 +1001,12 @@ class AsyncTtsClient:
+             Specifies the output audio file format.
+ 
+         include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
+-            The set of timestamp types to include in the response.
++            The set of timestamp types to include in the response. Only supported for Octave 2 requests.
+ 
+         num_generations : typing.Optional[int]
+-            Number of generations of the audio to produce.
++            Number of audio generations to produce from the input utterances.
++
++            Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.
+ 
+         split_utterances : typing.Optional[bool]
+             Controls how audio output is segmented in the response.
+@@ -969,6 +1086,127 @@ class AsyncTtsClient:
+             async for _chunk in r.data:
+                 yield _chunk
+ 
++    async def convert_voice_file(
++        self,
++        *,
++        audio: core.File,
++        strip_headers: typing.Optional[bool] = OMIT,
++        context: typing.Optional[PostedContext] = OMIT,
++        voice: typing.Optional[PostedUtteranceVoice] = OMIT,
++        format: typing.Optional[Format] = OMIT,
++        include_timestamp_types: typing.Optional[typing.List[TimestampType]] = OMIT,
++        request_options: typing.Optional[RequestOptions] = None,
++    ) -> typing.AsyncIterator[bytes]:
++        """
++        Parameters
++        ----------
++        audio : core.File
++            See core.File for more documentation
++
++        strip_headers : typing.Optional[bool]
++            If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
++
++        context : typing.Optional[PostedContext]
++            Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
++
++        voice : typing.Optional[PostedUtteranceVoice]
++
++        format : typing.Optional[Format]
++            Specifies the output audio file format.
++
++        include_timestamp_types : typing.Optional[typing.List[TimestampType]]
++            The set of timestamp types to include in the response.
++
++        request_options : typing.Optional[RequestOptions]
++            Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
++
++        Returns
++        -------
++        typing.AsyncIterator[bytes]
++            Successful Response
++        """
++        async with self._raw_client.convert_voice_file(
++            audio=audio,
++            strip_headers=strip_headers,
++            context=context,
++            voice=voice,
++            format=format,
++            include_timestamp_types=include_timestamp_types,
++            request_options=request_options,
++        ) as r:
++            async for _chunk in r.data:
++                yield _chunk
++
++    async def convert_voice_json(
++        self,
++        *,
++        strip_headers: typing.Optional[bool] = OMIT,
++        audio: typing.Optional[core.File] = OMIT,
++        context: typing.Optional[PostedContext] = OMIT,
++        voice: typing.Optional[PostedUtteranceVoice] = OMIT,
++        format: typing.Optional[Format] = OMIT,
++        include_timestamp_types: typing.Optional[typing.List[TimestampType]] = OMIT,
++        request_options: typing.Optional[RequestOptions] = None,
++    ) -> typing.AsyncIterator[TtsOutput]:
++        """
++        Parameters
++        ----------
++        strip_headers : typing.Optional[bool]
++            If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
++
++        audio : typing.Optional[core.File]
++            See core.File for more documentation
++
++        context : typing.Optional[PostedContext]
++            Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
++
++        voice : typing.Optional[PostedUtteranceVoice]
++
++        format : typing.Optional[Format]
++            Specifies the output audio file format.
++
++        include_timestamp_types : typing.Optional[typing.List[TimestampType]]
++            The set of timestamp types to include in the response.
++
++        request_options : typing.Optional[RequestOptions]
++            Request-specific configuration.
++
++        Yields
++        ------
++        typing.AsyncIterator[TtsOutput]
++            Successful Response
++
++        Examples
++        --------
++        import asyncio
++
++        from hume import AsyncHumeClient
++
++        client = AsyncHumeClient(
++            api_key="YOUR_API_KEY",
++        )
++
++
++        async def main() -> None:
++            response = await client.tts.convert_voice_json()
++            async for chunk in response:
++                yield chunk
++
++
++        asyncio.run(main())
++        """
++        async with self._raw_client.convert_voice_json(
++            strip_headers=strip_headers,
++            audio=audio,
++            context=context,
++            voice=voice,
++            format=format,
++            include_timestamp_types=include_timestamp_types,
++            request_options=request_options,
++        ) as r:
++            async for _chunk in r.data:
++                yield _chunk
++
+     @property
+     def voices(self):
+         if self._voices is None:
+@@ -976,13 +1214,3 @@ class AsyncTtsClient:
+ 
+             self._voices = AsyncVoicesClient(client_wrapper=self._client_wrapper)
+         return self._voices
+-
+-    @property
+-    def stream_input(self):
+-        if self._stream_input is None:
+-            from .stream_input.client import AsyncStreamInputClient
+-
+-            self._stream_input = AsyncStreamInputClient(
+-                client_wrapper=self._client_wrapper,
+-            )
+-        return self._stream_input
