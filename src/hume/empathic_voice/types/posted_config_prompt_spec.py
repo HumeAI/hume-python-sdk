@@ -16,14 +16,14 @@ class PostedConfigPromptSpec(UniversalBaseModel):
     Identifier for a Prompt. Formatted as a UUID.
     """
 
-    version: typing.Optional[int] = pydantic.Field(default=None)
-    """
-    Version number for a Prompt. Version numbers should be integers. The combination of configId and version number is unique.
-    """
-
     text: typing.Optional[str] = pydantic.Field(default=None)
     """
     Text used to create a new prompt for a particular config.
+    """
+
+    version: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    Version number for a Prompt. Version numbers should be integers. The combination of configId and version number is unique.
     """
 
     if IS_PYDANTIC_V2:
