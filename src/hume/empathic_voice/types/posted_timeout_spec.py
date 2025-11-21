@@ -11,14 +11,14 @@ class PostedTimeoutSpec(UniversalBaseModel):
     Settings for a specific timeout to be posted to the server
     """
 
-    enabled: bool = pydantic.Field()
-    """
-    Boolean indicating if this event message is enabled.
-    """
-
     duration_secs: typing.Optional[int] = pydantic.Field(default=None)
     """
     Duration in seconds for the timeout.
+    """
+
+    enabled: bool = pydantic.Field()
+    """
+    Boolean indicating if this event message is enabled.
     """
 
     if IS_PYDANTIC_V2:

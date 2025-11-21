@@ -24,7 +24,7 @@ class PostedTts(UniversalBaseModel):
 
     include_timestamp_types: typing.Optional[typing.List[TimestampType]] = pydantic.Field(default=None)
     """
-    The set of timestamp types to include in the response.
+    The set of timestamp types to include in the response. Only supported for Octave 2 requests.
     """
 
     num_generations: typing.Optional[int] = pydantic.Field(default=None)

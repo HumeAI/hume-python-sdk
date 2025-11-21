@@ -9,8 +9,16 @@ from .timestamp_type import TimestampType
 
 
 class Timestamp(UniversalBaseModel):
-    text: str
-    time: MillisecondInterval
+    text: str = pydantic.Field()
+    """
+    The word or phoneme text that the timestamp corresponds to.
+    """
+
+    time: MillisecondInterval = pydantic.Field()
+    """
+    The start and end timestamps for the word or phoneme in milliseconds.
+    """
+
     type: TimestampType
 
     if IS_PYDANTIC_V2:
