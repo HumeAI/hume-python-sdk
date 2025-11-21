@@ -156,8 +156,8 @@ class RawPromptsClient:
             method="POST",
             json={
                 "name": name,
-                "version_description": version_description,
                 "text": text,
+                "version_description": version_description,
             },
             headers={
                 "content-type": "application/json",
@@ -311,8 +311,8 @@ class RawPromptsClient:
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
-                "version_description": version_description,
                 "text": text,
+                "version_description": version_description,
             },
             headers={
                 "content-type": "application/json",
@@ -779,8 +779,8 @@ class AsyncRawPromptsClient:
             method="POST",
             json={
                 "name": name,
-                "version_description": version_description,
                 "text": text,
+                "version_description": version_description,
             },
             headers={
                 "content-type": "application/json",
@@ -934,8 +934,8 @@ class AsyncRawPromptsClient:
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
-                "version_description": version_description,
                 "text": text,
+                "version_description": version_description,
             },
             headers={
                 "content-type": "application/json",
