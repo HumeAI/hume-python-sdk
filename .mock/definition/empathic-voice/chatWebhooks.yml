@@ -49,7 +49,6 @@ webhooks:
           custom_session_id: null
           timestamp: 1
           tool_call_message:
-            custom_session_id: null
             name: name
             parameters: parameters
             response_required: true

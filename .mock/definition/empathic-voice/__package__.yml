@@ -13,7 +13,9 @@ errors:
       - value: {}
 types:
   AssistantEnd:
-    docs: When provided, the output is an assistant end message.
+    docs: >-
+      **Indicates the conclusion of the assistant's response**, signaling that
+      the assistant has finished speaking for the current conversational turn.
     properties:
       custom_session_id:
         type: optional<string>
@@ -33,7 +35,15 @@ types:
     source:
       openapi: evi-asyncapi.json
   AssistantInput:
-    docs: When provided, the input is spoken by EVI.
+    docs: >-
+      **Assistant text to synthesize into spoken audio and insert into the
+      conversation.** EVI uses this text to generate spoken audio using our
+      proprietary expressive text-to-speech model.
+
+
+      Our model adds appropriate emotional inflections and tones to the text
+      based on the user's expressions and the context of the conversation. The
+      synthesized audio is streamed back to the user as an Assistant Message.
     properties:
       custom_session_id:
         type: optional<string>
@@ -62,7 +72,10 @@ types:
     source:
       openapi: evi-openapi.json
   AssistantMessage:
-    docs: When provided, the output is an assistant message.
+    docs: >-
+      **Transcript of the assistant's message.** Contains the message role,
+      content, and optionally tool call information including the tool name,
+      parameters, response requirement status, tool call ID, and tool type.
     properties:
       custom_session_id:
         type: optional<string>
@@ -102,7 +115,10 @@ types:
     source:
       openapi: evi-asyncapi.json
   AssistantProsody:
-    docs: When provided, the output is an Assistant Prosody message.
+    docs: >-
+      **Expression measurement predictions of the assistant's audio output.**
+      Contains inference model results including prosody scores for 48 emotions
+      within the detected expression of the assistant's audio sample.
     properties:
       custom_session_id:
         type: optional<string>
@@ -145,7 +161,17 @@ types:
     source:
       openapi: evi-openapi.json
   AudioInput:
-    docs: When provided, the input is audio.
+    docs: >-
+      **Base64 encoded audio input to insert into the conversation.** The
+      content is treated as the user's speech to EVI and must be streamed
+      continuously. Pre-recorded audio files are not supported. 
+
+
+      For optimal transcription quality, the audio data should be transmitted in
+      small chunks. Hume recommends streaming audio with a buffer window of `20`
+      milliseconds (ms), or `100` milliseconds (ms) for web applications. See
+      our [Audio Guide](/docs/speech-to-speech-evi/guides/audio) for more
+      details on preparing and processing audio.
     properties:
       custom_session_id:
         type: optional<string>
@@ -175,17 +201,20 @@ types:
           The type of message sent through the socket; must be `audio_input` for
           our server to correctly identify and process it as an Audio Input
           message.
-
-
-          This message is used for sending audio input data to EVI for
-          processing and expression measurement. Audio data should be sent as a
-          continuous stream, encoded in Base64.
     source:
       openapi: evi-openapi.json
   AudioOutput:
     docs: >-
-      The type of message sent through the socket; for an Audio Output message,
-      this must be `audio_output`.
+      **Base64 encoded audio output.** This encoded audio is transmitted to the
+      client, where it can be decoded and played back as part of the user
+      interaction. The returned audio format is WAV and the sample rate is
+      48kHz.
+
+
+      Contains the audio data, an ID to track and reference the audio output,
+      and an index indicating the chunk position relative to the whole audio
+      segment. See our [Audio Guide](/docs/speech-to-speech-evi/guides/audio)
+      for more details on preparing and processing audio.
     properties:
       custom_session_id:
         type: optional<string>
@@ -257,7 +286,16 @@ types:
     source:
       openapi: evi-asyncapi.json
   ChatMetadata:
-    docs: When provided, the output is a chat metadata message.
+    docs: >-
+      **The first message received after establishing a connection with EVI**,
+      containing important identifiers for the current Chat session.
+
+
+      Includes the Chat ID (which allows the Chat session to be tracked and
+      referenced) and the Chat Group ID (used to resume a Chat when passed in
+      the `resumed_chat_group_id` query parameter of a subsequent connection
+      request, allowing EVI to continue the conversation from where it left off
+      within the Chat Group).
     properties:
       chat_group_id:
         type: string
@@ -392,7 +430,14 @@ types:
   Encoding:
     type: literal<"linear16">
   WebSocketError:
-    docs: When provided, the output is an error message.
+    docs: >-
+      **Indicates a disruption in the WebSocket connection**, such as an
+      unexpected disconnection, protocol error, or data transmission issue.
+
+
+      Contains an error code identifying the type of error encountered, a
+      detailed description of the error, and a short, human-readable identifier
+      and description (slug) for the error.
     properties:
       code:
         type: string
@@ -452,8 +497,15 @@ types:
       openapi: evi-openapi.json
   PauseAssistantMessage:
     docs: >-
-      Pause responses from EVI. Chat history is still saved and sent after
-      resuming. 
+      **Pause responses from EVI.** Chat history is still saved and sent after
+      resuming. Once this message is sent, EVI will not respond until a Resume
+      Assistant message is sent.
+
+
+      When paused, EVI won't respond, but transcriptions of your audio inputs
+      will still be recorded. See our [Pause Response
+      Guide](/docs/speech-to-speech-evi/features/pause-responses) for further
+      details.
     properties:
       custom_session_id:
         type: optional<string>
@@ -495,8 +547,15 @@ types:
       openapi: evi-openapi.json
   ResumeAssistantMessage:
     docs: >-
-      Resume responses from EVI. Chat history sent while paused will now be
-      sent. 
+      **Resume responses from EVI.** Chat history sent while paused will now be
+      sent.
+
+
+      Upon resuming, if any audio input was sent during the pause, EVI will
+      retain context from all messages sent but only respond to the last user
+      message. See our [Pause Response
+      Guide](/docs/speech-to-speech-evi/features/pause-responses) for further
+      details.
     properties:
       custom_session_id:
         type: optional<string>
@@ -539,7 +598,16 @@ types:
       openapi: evi-openapi.json
     inline: true
   SessionSettings:
-    docs: Settings for this chat session.
+    docs: >-
+      **Settings for this chat session.** Session settings are temporary and
+      apply only to the current Chat session.
+
+
+      These settings can be adjusted dynamically based on the requirements of
+      each session to ensure optimal performance and user experience. See our
+      [Session Settings
+      Guide](/docs/speech-to-speech-evi/configuration/session-settings) for a
+      complete list of configurable settings.
     properties:
       audio:
         type: optional<AudioConfiguration>
@@ -764,7 +832,16 @@ types:
     source:
       openapi: evi-openapi.json
   ToolErrorMessage:
-    docs: When provided, the output is a function call error.
+    docs: >-
+      **Error message from the tool call**, not exposed to the LLM or user. Upon
+      receiving a Tool Call message and failing to invoke the function, this
+      message is sent to notify EVI of the tool's failure.
+
+
+      For built-in tools implemented on the server, you will receive this
+      message type rather than a `ToolCallMessage` if the tool fails. See our
+      [Tool Use Guide](/docs/speech-to-speech-evi/features/tool-use) for further
+      details.
     properties:
       code:
         type: optional<string>
@@ -818,7 +895,16 @@ types:
     source:
       openapi: evi-openapi.json
   ToolResponseMessage:
-    docs: When provided, the output is a function call response.
+    docs: >-
+      **Return value of the tool call.** Contains the output generated by the
+      tool to pass back to EVI. Upon receiving a Tool Call message and
+      successfully invoking the function, this message is sent to convey the
+      result of the function call back to EVI.
+
+
+      For built-in tools implemented on the server, you will receive this
+      message type rather than a `ToolCallMessage`. See our [Tool Use
+      Guide](/docs/speech-to-speech-evi/features/tool-use) for further details.
     properties:
       content:
         type: string
@@ -877,9 +963,9 @@ types:
       openapi: evi-openapi.json
   UserInput:
     docs: >-
-      User text to insert into the conversation. Text sent through a User Input
-      message is treated as the user's speech to EVI. EVI processes this input
-      and provides a corresponding response.
+      **User text to insert into the conversation.** Text sent through a User
+      Input message is treated as the user's speech to EVI. EVI processes this
+      input and provides a corresponding response.
 
 
       Expression measurement results are not available for User Input messages,
@@ -896,11 +982,6 @@ types:
           User text to insert into the conversation. Text sent through a User
           Input message is treated as the user's speech to EVI. EVI processes
           this input and provides a corresponding response.
-
-
-          Expression measurement results are not available for User Input
-          messages, as the prosody model relies on audio input and cannot
-          process text alone.
       type:
         type: literal<"user_input">
         docs: >-
@@ -910,7 +991,17 @@ types:
     source:
       openapi: evi-openapi.json
   UserInterruption:
-    docs: When provided, the output is an interruption.
+    docs: >-
+      **Indicates the user has interrupted the assistant's response.** EVI
+      detects the interruption in real-time and sends this message to signal the
+      interruption event.
+
+
+      This message allows the system to stop the current audio playback, clear
+      the audio queue, and prepare to handle new user input. Contains a Unix
+      timestamp of when the user interruption was detected. For more details,
+      see our [Interruptibility
+      Guide](/docs/speech-to-speech-evi/features/interruptibility)
     properties:
       custom_session_id:
         type: optional<string>
@@ -935,7 +1026,17 @@ types:
     source:
       openapi: evi-asyncapi.json
   UserMessage:
-    docs: When provided, the output is a user message.
+    docs: >-
+      **Transcript of the user's message.** Contains the message role and
+      content, along with a `from_text` field indicating if this message was
+      inserted into the conversation as text from a `UserInput` message.
+
+
+      Includes an `interim` field indicating whether the transcript is
+      provisional (words may be repeated or refined in subsequent `UserMessage`
+      responses as additional audio is processed) or final and complete. Interim
+      transcripts are only sent when the `verbose_transcription` query parameter
+      is set to true in the initial handshake.
     properties:
       custom_session_id:
         type: optional<string>
@@ -997,54 +1098,217 @@ types:
     discriminated: false
     union:
       - type: AssistantEnd
-        docs: When provided, the output is an assistant end message.
+        docs: >-
+          **Indicates the conclusion of the assistant's response**, signaling
+          that the assistant has finished speaking for the current
+          conversational turn.
       - type: AssistantMessage
-        docs: When provided, the output is an assistant message.
+        docs: >-
+          **Transcript of the assistant's message.** Contains the message role,
+          content, and optionally tool call information including the tool name,
+          parameters, response requirement status, tool call ID, and tool type.
       - type: AssistantProsody
-        docs: When provided, the output is an Assistant Prosody message.
+        docs: >-
+          **Expression measurement predictions of the assistant's audio
+          output.** Contains inference model results including prosody scores
+          for 48 emotions within the detected expression of the assistant's
+          audio sample.
       - type: AudioOutput
         docs: >-
-          The type of message sent through the socket; for an Audio Output
-          message, this must be `audio_output`.
+          **Base64 encoded audio output.** This encoded audio is transmitted to
+          the client, where it can be decoded and played back as part of the
+          user interaction. The returned audio format is WAV and the sample rate
+          is 48kHz.
+
+
+          Contains the audio data, an ID to track and reference the audio
+          output, and an index indicating the chunk position relative to the
+          whole audio segment. See our [Audio
+          Guide](/docs/speech-to-speech-evi/guides/audio) for more details on
+          preparing and processing audio.
       - type: ChatMetadata
-        docs: When provided, the output is a chat metadata message.
+        docs: >-
+          **The first message received after establishing a connection with
+          EVI**, containing important identifiers for the current Chat session.
+
+
+          Includes the Chat ID (which allows the Chat session to be tracked and
+          referenced) and the Chat Group ID (used to resume a Chat when passed
+          in the `resumed_chat_group_id` query parameter of a subsequent
+          connection request, allowing EVI to continue the conversation from
+          where it left off within the Chat Group).
       - type: WebSocketError
-        docs: When provided, the output is an error message.
+        docs: >-
+          **Indicates a disruption in the WebSocket connection**, such as an
+          unexpected disconnection, protocol error, or data transmission issue.
+
+
+          Contains an error code identifying the type of error encountered, a
+          detailed description of the error, and a short, human-readable
+          identifier and description (slug) for the error.
       - type: UserInterruption
-        docs: When provided, the output is an interruption.
+        docs: >-
+          **Indicates the user has interrupted the assistant's response.** EVI
+          detects the interruption in real-time and sends this message to signal
+          the interruption event.
+
+
+          This message allows the system to stop the current audio playback,
+          clear the audio queue, and prepare to handle new user input. Contains
+          a Unix timestamp of when the user interruption was detected. For more
+          details, see our [Interruptibility
+          Guide](/docs/speech-to-speech-evi/features/interruptibility)
       - type: UserMessage
-        docs: When provided, the output is a user message.
+        docs: >-
+          **Transcript of the user's message.** Contains the message role and
+          content, along with a `from_text` field indicating if this message was
+          inserted into the conversation as text from a `UserInput` message.
+
+
+          Includes an `interim` field indicating whether the transcript is
+          provisional (words may be repeated or refined in subsequent
+          `UserMessage` responses as additional audio is processed) or final and
+          complete. Interim transcripts are only sent when the
+          `verbose_transcription` query parameter is set to true in the initial
+          handshake.
       - type: ToolCallMessage
-        docs: When provided, the output is a tool call.
+        docs: >-
+          **Indicates that the supplemental LLM has detected a need to invoke
+          the specified tool.** This message is only received for user-defined
+          function tools.
+
+
+          Contains the tool name, parameters (as a stringified JSON schema),
+          whether a response is required from the developer (either in the form
+          of a `ToolResponseMessage` or a `ToolErrorMessage`), the unique tool
+          call ID for tracking the request and response, and the tool type. See
+          our [Tool Use Guide](/docs/speech-to-speech-evi/features/tool-use) for
+          further details.
       - type: ToolResponseMessage
-        docs: When provided, the output is a function call response.
+        docs: >-
+          **Return value of the tool call.** Contains the output generated by
+          the tool to pass back to EVI. Upon receiving a Tool Call message and
+          successfully invoking the function, this message is sent to convey the
+          result of the function call back to EVI.
+
+
+          For built-in tools implemented on the server, you will receive this
+          message type rather than a `ToolCallMessage`. See our [Tool Use
+          Guide](/docs/speech-to-speech-evi/features/tool-use) for further
+          details.
       - type: ToolErrorMessage
-        docs: When provided, the output is a function call error.
+        docs: >-
+          **Error message from the tool call**, not exposed to the LLM or user.
+          Upon receiving a Tool Call message and failing to invoke the function,
+          this message is sent to notify EVI of the tool's failure.
+
+
+          For built-in tools implemented on the server, you will receive this
+          message type rather than a `ToolCallMessage` if the tool fails. See
+          our [Tool Use Guide](/docs/speech-to-speech-evi/features/tool-use) for
+          further details.
     source:
       openapi: evi-asyncapi.json
   JsonMessage:
     discriminated: false
     union:
       - type: AssistantEnd
-        docs: When provided, the output is an assistant end message.
+        docs: >-
+          **Indicates the conclusion of the assistant's response**, signaling
+          that the assistant has finished speaking for the current
+          conversational turn.
       - type: AssistantMessage
-        docs: When provided, the output is an assistant message.
+        docs: >-
+          **Transcript of the assistant's message.** Contains the message role,
+          content, and optionally tool call information including the tool name,
+          parameters, response requirement status, tool call ID, and tool type.
       - type: AssistantProsody
-        docs: When provided, the output is an Assistant Prosody message.
+        docs: >-
+          **Expression measurement predictions of the assistant's audio
+          output.** Contains inference model results including prosody scores
+          for 48 emotions within the detected expression of the assistant's
+          audio sample.
       - type: ChatMetadata
-        docs: When provided, the output is a chat metadata message.
+        docs: >-
+          **The first message received after establishing a connection with
+          EVI**, containing important identifiers for the current Chat session.
+
+
+          Includes the Chat ID (which allows the Chat session to be tracked and
+          referenced) and the Chat Group ID (used to resume a Chat when passed
+          in the `resumed_chat_group_id` query parameter of a subsequent
+          connection request, allowing EVI to continue the conversation from
+          where it left off within the Chat Group).
       - type: WebSocketError
-        docs: When provided, the output is an error message.
+        docs: >-
+          **Indicates a disruption in the WebSocket connection**, such as an
+          unexpected disconnection, protocol error, or data transmission issue.
+
+
+          Contains an error code identifying the type of error encountered, a
+          detailed description of the error, and a short, human-readable
+          identifier and description (slug) for the error.
       - type: UserInterruption
-        docs: When provided, the output is an interruption.
+        docs: >-
+          **Indicates the user has interrupted the assistant's response.** EVI
+          detects the interruption in real-time and sends this message to signal
+          the interruption event.
+
+
+          This message allows the system to stop the current audio playback,
+          clear the audio queue, and prepare to handle new user input. Contains
+          a Unix timestamp of when the user interruption was detected. For more
+          details, see our [Interruptibility
+          Guide](/docs/speech-to-speech-evi/features/interruptibility)
       - type: UserMessage
-        docs: When provided, the output is a user message.
+        docs: >-
+          **Transcript of the user's message.** Contains the message role and
+          content, along with a `from_text` field indicating if this message was
+          inserted into the conversation as text from a `UserInput` message.
+
+
+          Includes an `interim` field indicating whether the transcript is
+          provisional (words may be repeated or refined in subsequent
+          `UserMessage` responses as additional audio is processed) or final and
+          complete. Interim transcripts are only sent when the
+          `verbose_transcription` query parameter is set to true in the initial
+          handshake.
       - type: ToolCallMessage
-        docs: When provided, the output is a tool call.
+        docs: >-
+          **Indicates that the supplemental LLM has detected a need to invoke
+          the specified tool.** This message is only received for user-defined
+          function tools.
+
+
+          Contains the tool name, parameters (as a stringified JSON schema),
+          whether a response is required from the developer (either in the form
+          of a `ToolResponseMessage` or a `ToolErrorMessage`), the unique tool
+          call ID for tracking the request and response, and the tool type. See
+          our [Tool Use Guide](/docs/speech-to-speech-evi/features/tool-use) for
+          further details.
       - type: ToolResponseMessage
-        docs: When provided, the output is a function call response.
+        docs: >-
+          **Return value of the tool call.** Contains the output generated by
+          the tool to pass back to EVI. Upon receiving a Tool Call message and
+          successfully invoking the function, this message is sent to convey the
+          result of the function call back to EVI.
+
+
+          For built-in tools implemented on the server, you will receive this
+          message type rather than a `ToolCallMessage`. See our [Tool Use
+          Guide](/docs/speech-to-speech-evi/features/tool-use) for further
+          details.
       - type: ToolErrorMessage
-        docs: When provided, the output is a function call error.
+        docs: >-
+          **Error message from the tool call**, not exposed to the LLM or user.
+          Upon receiving a Tool Call message and failing to invoke the function,
+          this message is sent to notify EVI of the tool's failure.
+
+
+          For built-in tools implemented on the server, you will receive this
+          message type rather than a `ToolCallMessage` if the tool fails. See
+          our [Tool Use Guide](/docs/speech-to-speech-evi/features/tool-use) for
+          further details.
     source:
       openapi: evi-asyncapi.json
   ConnectSessionSettingsAudio:
@@ -1229,31 +1493,82 @@ types:
     discriminated: false
     union:
       - type: SessionSettings
-        docs: Settings for this chat session.
+        docs: >-
+          **Settings for this chat session.** Session settings are temporary and
+          apply only to the current Chat session.
+
+
+          These settings can be adjusted dynamically based on the requirements
+          of each session to ensure optimal performance and user experience. See
+          our [Session Settings
+          Guide](/docs/speech-to-speech-evi/configuration/session-settings) for
+          a complete list of configurable settings.
       - type: UserInput
         docs: >-
-          User text to insert into the conversation. Text sent through a User
-          Input message is treated as the user's speech to EVI. EVI processes
-          this input and provides a corresponding response.
+          **User text to insert into the conversation.** Text sent through a
+          User Input message is treated as the user's speech to EVI. EVI
+          processes this input and provides a corresponding response.
 
 
           Expression measurement results are not available for User Input
           messages, as the prosody model relies on audio input and cannot
           process text alone.
       - type: AssistantInput
-        docs: When provided, the input is spoken by EVI.
+        docs: >-
+          **Assistant text to synthesize into spoken audio and insert into the
+          conversation.** EVI uses this text to generate spoken audio using our
+          proprietary expressive text-to-speech model.
+
+
+          Our model adds appropriate emotional inflections and tones to the text
+          based on the user's expressions and the context of the conversation.
+          The synthesized audio is streamed back to the user as an Assistant
+          Message.
       - type: ToolResponseMessage
-        docs: When provided, the output is a function call response.
+        docs: >-
+          **Return value of the tool call.** Contains the output generated by
+          the tool to pass back to EVI. Upon receiving a Tool Call message and
+          successfully invoking the function, this message is sent to convey the
+          result of the function call back to EVI.
+
+
+          For built-in tools implemented on the server, you will receive this
+          message type rather than a `ToolCallMessage`. See our [Tool Use
+          Guide](/docs/speech-to-speech-evi/features/tool-use) for further
+          details.
       - type: ToolErrorMessage
-        docs: When provided, the output is a function call error.
+        docs: >-
+          **Error message from the tool call**, not exposed to the LLM or user.
+          Upon receiving a Tool Call message and failing to invoke the function,
+          this message is sent to notify EVI of the tool's failure.
+
+
+          For built-in tools implemented on the server, you will receive this
+          message type rather than a `ToolCallMessage` if the tool fails. See
+          our [Tool Use Guide](/docs/speech-to-speech-evi/features/tool-use) for
+          further details.
       - type: PauseAssistantMessage
         docs: >-
-          Pause responses from EVI. Chat history is still saved and sent after
-          resuming. 
+          **Pause responses from EVI.** Chat history is still saved and sent
+          after resuming. Once this message is sent, EVI will not respond until
+          a Resume Assistant message is sent.
+
+
+          When paused, EVI won't respond, but transcriptions of your audio
+          inputs will still be recorded. See our [Pause Response
+          Guide](/docs/speech-to-speech-evi/features/pause-responses) for
+          further details.
       - type: ResumeAssistantMessage
         docs: >-
-          Resume responses from EVI. Chat history sent while paused will now be
-          sent. 
+          **Resume responses from EVI.** Chat history sent while paused will now
+          be sent.
+
+
+          Upon resuming, if any audio input was sent during the pause, EVI will
+          retain context from all messages sent but only respond to the last
+          user message. See our [Pause Response
+          Guide](/docs/speech-to-speech-evi/features/pause-responses) for
+          further details.
     source:
       openapi: evi-openapi.json
   ErrorResponse:
