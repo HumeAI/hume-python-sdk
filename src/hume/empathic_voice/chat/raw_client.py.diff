@@ -1,0 +1,112 @@
+diff --git a/var/folders/5_/tlgrkrq92pv1mxbrp9y7v3h80000gn/T/fern-generate-B2Frfd/hume-python-sdk/src/hume/empathic_voice/chat/raw_client.py b/Users/twitchard/dev/fern-config/fern/apis/unioned/.preview/fern-python-sdk/src/hume/empathic_voice/chat/raw_client.py
+index fefee870..ed718e98 100644
+--- a/var/folders/5_/tlgrkrq92pv1mxbrp9y7v3h80000gn/T/fern-generate-B2Frfd/hume-python-sdk/src/hume/empathic_voice/chat/raw_client.py
++++ b/Users/twitchard/dev/fern-config/fern/apis/unioned/.preview/fern-python-sdk/src/hume/empathic_voice/chat/raw_client.py
+@@ -10,7 +10,6 @@ from ...core.api_error import ApiError
+ from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
+ from ...core.request_options import RequestOptions
+ from ...core.serialization import convert_and_respect_annotation_metadata
+-from ...core.query_encoder import single_query_encoder
+ from ..types.connect_session_settings import ConnectSessionSettings
+ from .socket_client import AsyncChatSocketClient, ChatSocketClient
+ 
+@@ -29,6 +28,7 @@ class RawChatClient:
+         self,
+         *,
+         access_token: typing.Optional[str] = None,
++        allow_connection: typing.Optional[bool] = None,
+         config_id: typing.Optional[str] = None,
+         config_version: typing.Optional[int] = None,
+         event_limit: typing.Optional[int] = None,
+@@ -50,6 +50,9 @@ class RawChatClient:
+ 
+             For more details, refer to the [Authentication Strategies Guide](/docs/introduction/api-key#authentication-strategies).
+ 
++        allow_connection : typing.Optional[bool]
++            Allows external connections to this chat via the /connect endpoint.
++
+         config_id : typing.Optional[str]
+             The unique identifier for an EVI configuration.
+ 
+@@ -103,6 +106,8 @@ class RawChatClient:
+         query_params = httpx.QueryParams()
+         if access_token is not None:
+             query_params = query_params.add("access_token", access_token)
++        if allow_connection is not None:
++            query_params = query_params.add("allow_connection", allow_connection)
+         if config_id is not None:
+             query_params = query_params.add("config_id", config_id)
+         if config_version is not None:
+@@ -115,10 +120,18 @@ class RawChatClient:
+             query_params = query_params.add("verbose_transcription", verbose_transcription)
+         if api_key is not None:
+             query_params = query_params.add("api_key", api_key)
+-        if session_settings is not None:
+-            flattened_params = single_query_encoder("session_settings", session_settings)
+-            for param_key, param_value in flattened_params:
+-                query_params = query_params.add(param_key, str(param_value))
++        if (
++            convert_and_respect_annotation_metadata(
++                object_=session_settings, annotation=ConnectSessionSettings, direction="write"
++            )
++            is not None
++        ):
++            query_params = query_params.add(
++                "session_settings",
++                convert_and_respect_annotation_metadata(
++                    object_=session_settings, annotation=ConnectSessionSettings, direction="write"
++                ),
++            )
+         ws_url = ws_url + f"?{query_params}"
+         headers = self._client_wrapper.get_headers()
+         if request_options and "additional_headers" in request_options:
+@@ -150,6 +163,7 @@ class AsyncRawChatClient:
+         self,
+         *,
+         access_token: typing.Optional[str] = None,
++        allow_connection: typing.Optional[bool] = None,
+         config_id: typing.Optional[str] = None,
+         config_version: typing.Optional[int] = None,
+         event_limit: typing.Optional[int] = None,
+@@ -171,6 +185,9 @@ class AsyncRawChatClient:
+ 
+             For more details, refer to the [Authentication Strategies Guide](/docs/introduction/api-key#authentication-strategies).
+ 
++        allow_connection : typing.Optional[bool]
++            Allows external connections to this chat via the /connect endpoint.
++
+         config_id : typing.Optional[str]
+             The unique identifier for an EVI configuration.
+ 
+@@ -224,6 +241,8 @@ class AsyncRawChatClient:
+         query_params = httpx.QueryParams()
+         if access_token is not None:
+             query_params = query_params.add("access_token", access_token)
++        if allow_connection is not None:
++            query_params = query_params.add("allow_connection", allow_connection)
+         if config_id is not None:
+             query_params = query_params.add("config_id", config_id)
+         if config_version is not None:
+@@ -236,10 +255,18 @@ class AsyncRawChatClient:
+             query_params = query_params.add("verbose_transcription", verbose_transcription)
+         if api_key is not None:
+             query_params = query_params.add("api_key", api_key)
+-        if session_settings is not None:
+-            flattened_params = single_query_encoder("session_settings", session_settings)
+-            for param_key, param_value in flattened_params:
+-                query_params = query_params.add(param_key, str(param_value))
++        if (
++            convert_and_respect_annotation_metadata(
++                object_=session_settings, annotation=ConnectSessionSettings, direction="write"
++            )
++            is not None
++        ):
++            query_params = query_params.add(
++                "session_settings",
++                convert_and_respect_annotation_metadata(
++                    object_=session_settings, annotation=ConnectSessionSettings, direction="write"
++                ),
++            )
+         ws_url = ws_url + f"?{query_params}"
+         headers = self._client_wrapper.get_headers()
+         if request_options and "additional_headers" in request_options:
