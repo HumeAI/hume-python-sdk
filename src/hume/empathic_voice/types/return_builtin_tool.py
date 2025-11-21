@@ -12,9 +12,9 @@ class ReturnBuiltinTool(UniversalBaseModel):
     A specific builtin tool version returned from the server
     """
 
-    tool_type: ReturnBuiltinToolToolType = pydantic.Field()
+    fallback_content: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Type of Tool. Either `BUILTIN` for natively implemented tools, like web search, or `FUNCTION` for user-defined tools.
+    Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
     """
 
     name: str = pydantic.Field()
@@ -22,9 +22,9 @@ class ReturnBuiltinTool(UniversalBaseModel):
     Name applied to all versions of a particular Tool.
     """
 
-    fallback_content: typing.Optional[str] = pydantic.Field(default=None)
+    tool_type: ReturnBuiltinToolToolType = pydantic.Field()
     """
-    Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
+    Type of Tool. Either `BUILTIN` for natively implemented tools, like web search, or `FUNCTION` for user-defined tools.
     """
 
     if IS_PYDANTIC_V2:

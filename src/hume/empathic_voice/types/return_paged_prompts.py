@@ -26,14 +26,14 @@ class ReturnPagedPrompts(UniversalBaseModel):
     This value corresponds to the `page_size` parameter specified in the request.
     """
 
-    total_pages: int = pydantic.Field()
-    """
-    The total number of pages in the collection.
-    """
-
     prompts_page: typing.List[typing.Optional[ReturnPrompt]] = pydantic.Field()
     """
     List of prompts returned for the specified `page_number` and `page_size`.
+    """
+
+    total_pages: int = pydantic.Field()
+    """
+    The total number of pages in the collection.
     """
 
     if IS_PYDANTIC_V2:
