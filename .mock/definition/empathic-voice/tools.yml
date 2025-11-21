@@ -125,17 +125,21 @@ service:
         name: PostedUserDefinedTool
         body:
           properties:
-            name:
-              type: string
-              docs: Name applied to all versions of a particular Tool.
-            version_description:
-              type: optional<string>
-              docs: An optional description of the Tool version.
             description:
               type: optional<string>
               docs: >-
                 An optional description of what the Tool does, used by the
                 supplemental LLM to choose when and how to call the function.
+            fallback_content:
+              type: optional<string>
+              docs: >-
+                Optional text passed to the supplemental LLM in place of the
+                tool call result. The LLM then uses this text to generate a
+                response back to the user, ensuring continuity in the
+                conversation if the Tool errors.
+            name:
+              type: string
+              docs: Name applied to all versions of a particular Tool.
             parameters:
               type: string
               docs: >-
@@ -147,13 +151,9 @@ service:
                 execution, including the expected data type and description for
                 each input field. Structured as a stringified JSON schema, this
                 format ensures the Tool receives data in the expected format.
-            fallback_content:
+            version_description:
               type: optional<string>
-              docs: >-
-                Optional text passed to the supplemental LLM in place of the
-                tool call result. The LLM then uses this text to generate a
-                response back to the user, ensuring continuity in the
-                conversation if the Tool errors.
+              docs: An optional description of the Tool version.
         content-type: application/json
       response:
         docs: Created
@@ -305,14 +305,18 @@ service:
         name: PostedUserDefinedToolVersion
         body:
           properties:
-            version_description:
-              type: optional<string>
-              docs: An optional description of the Tool version.
             description:
               type: optional<string>
               docs: >-
                 An optional description of what the Tool does, used by the
                 supplemental LLM to choose when and how to call the function.
+            fallback_content:
+              type: optional<string>
+              docs: >-
+                Optional text passed to the supplemental LLM in place of the
+                tool call result. The LLM then uses this text to generate a
+                response back to the user, ensuring continuity in the
+                conversation if the Tool errors.
             parameters:
               type: string
               docs: >-
@@ -324,13 +328,9 @@ service:
                 execution, including the expected data type and description for
                 each input field. Structured as a stringified JSON schema, this
                 format ensures the Tool receives data in the expected format.
-            fallback_content:
+            version_description:
               type: optional<string>
-              docs: >-
-                Optional text passed to the supplemental LLM in place of the
-                tool call result. The LLM then uses this text to generate a
-                response back to the user, ensuring continuity in the
-                conversation if the Tool errors.
+              docs: An optional description of the Tool version.
         content-type: application/json
       response:
         docs: Created

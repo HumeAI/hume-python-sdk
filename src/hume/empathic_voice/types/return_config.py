@@ -21,9 +21,21 @@ class ReturnConfig(UniversalBaseModel):
     A specific config version returned from the server
     """
 
-    name: typing.Optional[str] = pydantic.Field(default=None)
+    builtin_tools: typing.Optional[typing.List[typing.Optional[ReturnBuiltinTool]]] = pydantic.Field(default=None)
     """
-    Name applied to all versions of a particular Config.
+    List of built-in tools associated with this config
+    """
+
+    created_on: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    The timestamp when the first version of this config was created.
+    """
+
+    ellm_model: typing.Optional[ReturnEllmModel] = None
+    event_messages: typing.Optional[ReturnEventMessageSpecs] = None
+    evi_version: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The version of the EVI used with this config.
     """
 
     id: typing.Optional[str] = pydantic.Field(default=None)
@@ -31,73 +43,39 @@ class ReturnConfig(UniversalBaseModel):
     Identifier for a Config. Formatted as a UUID.
     """
 
-    version: typing.Optional[int] = pydantic.Field(default=None)
-    """
-    Version number for a Config.
-    
-    Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
-    
-    Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
-    """
-
-    language_model: typing.Optional[ReturnLanguageModel] = pydantic.Field(default=None)
-    """
-    The supplemental language model associated with this Config.
-    
-    This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
-    """
-
-    builtin_tools: typing.Optional[typing.List[typing.Optional[ReturnBuiltinTool]]] = pydantic.Field(default=None)
-    """
-    List of built-in tools associated with this Config.
-    """
-
-    evi_version: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    Specifies the EVI version to use. See our [EVI Version  Guide](/docs/speech-to-speech-evi/configuration/evi-version) for differences between versions.
-    
-    **We're officially sunsetting EVI versions 1 and 2 on August 30, 2025**. To keep things running smoothly, be sure to [migrate to EVI 3](/docs/speech-to-speech-evi/configuration/evi-version#migrating-to-evi-3) before then.
-    """
-
-    timeouts: typing.Optional[ReturnTimeoutSpecs] = None
-    nudges: typing.Optional[ReturnNudgeSpec] = None
-    event_messages: typing.Optional[ReturnEventMessageSpecs] = None
-    ellm_model: typing.Optional[ReturnEllmModel] = pydantic.Field(default=None)
-    """
-    The eLLM setup associated with this Config.
-    
-    Hume's eLLM (empathic Large Language Model) is a multimodal language model that takes into account both expression measures and language. The eLLM generates short, empathic language responses and guides text-to-speech (TTS) prosody.
-    """
-
-    voice: typing.Optional[ReturnVoice] = pydantic.Field(default=None)
-    """
-    A voice specification associated with this Config.
-    """
-
-    prompt: typing.Optional[ReturnPrompt] = None
-    webhooks: typing.Optional[typing.List[typing.Optional[ReturnWebhookSpec]]] = pydantic.Field(default=None)
-    """
-    Map of webhooks associated with this config.
-    """
-
-    created_on: typing.Optional[int] = pydantic.Field(default=None)
-    """
-    Time at which the Config was created. Measured in seconds since the Unix epoch.
-    """
-
+    language_model: typing.Optional[ReturnLanguageModel] = None
     modified_on: typing.Optional[int] = pydantic.Field(default=None)
     """
-    Time at which the Config was last modified. Measured in seconds since the Unix epoch.
+    The timestamp when this version of the config was created.
+    """
+
+    name: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Name applied to all versions of a particular Config.
+    """
+
+    nudges: typing.Optional[ReturnNudgeSpec] = None
+    prompt: typing.Optional[ReturnPrompt] = None
+    timeouts: typing.Optional[ReturnTimeoutSpecs] = None
+    tools: typing.Optional[typing.List[typing.Optional[ReturnUserDefinedTool]]] = pydantic.Field(default=None)
+    """
+    List of user-defined tools associated with this config.
+    """
+
+    version: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    Version number for a Config. Version numbers should be integers. The combination of configId and version number is unique.
     """
 
     version_description: typing.Optional[str] = pydantic.Field(default=None)
     """
-    An optional description of the Config version.
+    Description that is appended to a specific version of a Config.
     """
 
-    tools: typing.Optional[typing.List[typing.Optional[ReturnUserDefinedTool]]] = pydantic.Field(default=None)
+    voice: typing.Optional[ReturnVoice] = None
+    webhooks: typing.Optional[typing.List[typing.Optional[ReturnWebhookSpec]]] = pydantic.Field(default=None)
     """
-    List of user-defined tools associated with this Config.
+    Map of webhooks associated with this config.
     """
 
     if IS_PYDANTIC_V2:

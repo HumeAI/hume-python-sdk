@@ -98,6 +98,7 @@ class BatchClientWithUtils(BatchClient):
 
         _response = self._raw_client._client_wrapper.httpx_client.request(
             "v0/batch/jobs",
+            base_url=self._raw_client._client_wrapper.get_environment().base,
             method="POST",
             files=files,
             request_options=request_options,
@@ -203,6 +204,7 @@ class AsyncBatchClientWithUtils(AsyncBatchClient):
 
         _response = await self._raw_client._client_wrapper.httpx_client.request(
             "v0/batch/jobs",
+            base_url=self._raw_client._client_wrapper.get_environment().base,
             method="POST",
             files=files,
             request_options=request_options,

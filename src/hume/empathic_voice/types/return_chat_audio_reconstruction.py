@@ -12,14 +12,29 @@ class ReturnChatAudioReconstruction(UniversalBaseModel):
     List of chat audio reconstructions returned for the specified page number and page size.
     """
 
+    filename: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Name of the chat audio reconstruction file.
+    """
+
     id: str = pydantic.Field()
     """
     Identifier for the chat. Formatted as a UUID.
     """
 
-    user_id: str = pydantic.Field()
+    modified_at: typing.Optional[int] = pydantic.Field(default=None)
     """
-    Identifier for the user that owns this chat. Formatted as a UUID.
+    The timestamp of the most recent status change for this audio reconstruction, formatted milliseconds since the Unix epoch.
+    """
+
+    signed_audio_url: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Signed URL used to download the chat audio reconstruction file.
+    """
+
+    signed_url_expiration_timestamp_millis: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    The timestamp when the signed URL will expire, formatted as a Unix epoch milliseconds.
     """
 
     status: ReturnChatAudioReconstructionStatus = pydantic.Field()
@@ -37,24 +52,9 @@ class ReturnChatAudioReconstruction(UniversalBaseModel):
     - `CANCELED`: The reconstruction job has been canceled.
     """
 
-    filename: typing.Optional[str] = pydantic.Field(default=None)
+    user_id: str = pydantic.Field()
     """
-    Name of the chat audio reconstruction file.
-    """
-
-    modified_at: typing.Optional[int] = pydantic.Field(default=None)
-    """
-    The timestamp of the most recent status change for this audio reconstruction, formatted milliseconds since the Unix epoch.
-    """
-
-    signed_audio_url: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    Signed URL used to download the chat audio reconstruction file.
-    """
-
-    signed_url_expiration_timestamp_millis: typing.Optional[int] = pydantic.Field(default=None)
-    """
-    The timestamp when the signed URL will expire, formatted as a Unix epoch milliseconds.
+    Identifier for the user that owns this chat. Formatted as a UUID.
     """
 
     if IS_PYDANTIC_V2:

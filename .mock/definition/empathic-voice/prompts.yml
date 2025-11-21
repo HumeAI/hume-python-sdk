@@ -118,9 +118,6 @@ service:
             name:
               type: string
               docs: Name applied to all versions of a particular Prompt.
-            version_description:
-              type: optional<string>
-              docs: An optional description of the Prompt version.
             text:
               type: string
               docs: >-
@@ -137,6 +134,9 @@ service:
 
                 For help writing a system prompt, see our [Prompting
                 Guide](/docs/speech-to-speech-evi/guides/prompting).
+            version_description:
+              type: optional<string>
+              docs: An optional description of the Prompt version.
         content-type: application/json
       response:
         docs: Created
@@ -268,9 +268,6 @@ service:
         name: PostedPromptVersion
         body:
           properties:
-            version_description:
-              type: optional<string>
-              docs: An optional description of the Prompt version.
             text:
               type: string
               docs: >-
@@ -288,6 +285,9 @@ service:
 
                 For help writing a system prompt, see our [Prompting
                 Guide](/docs/speech-to-speech-evi/guides/prompting).
+            version_description:
+              type: optional<string>
+              docs: An optional description of the Prompt version.
         content-type: application/json
       response:
         docs: Created

@@ -13,14 +13,35 @@ class ReturnChat(UniversalBaseModel):
     A description of chat and its status
     """
 
+    chat_group_id: str = pydantic.Field()
+    """
+    Identifier for the Chat Group. Any chat resumed from this Chat will have the same `chat_group_id`. Formatted as a UUID.
+    """
+
+    config: typing.Optional[ReturnConfigSpec] = None
+    end_timestamp: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    Time at which the Chat ended. Measured in seconds since the Unix epoch.
+    """
+
+    event_count: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    The total number of events currently in this chat.
+    """
+
     id: str = pydantic.Field()
     """
     Identifier for a Chat. Formatted as a UUID.
     """
 
-    chat_group_id: str = pydantic.Field()
+    metadata: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Identifier for the Chat Group. Any chat resumed from this Chat will have the same `chat_group_id`. Formatted as a UUID.
+    Stringified JSON with additional metadata about the chat.
+    """
+
+    start_timestamp: int = pydantic.Field()
+    """
+    Time at which the Chat started. Measured in seconds since the Unix epoch.
     """
 
     status: ReturnChatStatus = pydantic.Field()
@@ -39,28 +60,6 @@ class ReturnChat(UniversalBaseModel):
     
     - `ERROR`: The chat ended unexpectedly due to an error.
     """
-
-    start_timestamp: int = pydantic.Field()
-    """
-    Time at which the Chat started. Measured in seconds since the Unix epoch.
-    """
-
-    end_timestamp: typing.Optional[int] = pydantic.Field(default=None)
-    """
-    Time at which the Chat ended. Measured in seconds since the Unix epoch.
-    """
-
-    event_count: typing.Optional[int] = pydantic.Field(default=None)
-    """
-    The total number of events currently in this chat.
-    """
-
-    metadata: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    Stringified JSON with additional metadata about the chat.
-    """
-
-    config: typing.Optional[ReturnConfigSpec] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

@@ -161,6 +161,84 @@ service:
                   metadata: null
                   config: null
               active: false
+    get-audio:
+      path: /v0/evi/chat_groups/{id}/audio
+      method: GET
+      docs: >-
+        Fetches a paginated list of audio for each **Chat** within the specified
+        **Chat Group**. For more details, see our guide on audio reconstruction
+        [here](/docs/speech-to-speech-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
+      source:
+        openapi: evi-openapi.json
+      path-parameters:
+        id:
+          type: string
+          docs: Identifier for a Chat Group. Formatted as a UUID.
+      display-name: Get chat group audio
+      request:
+        name: ChatGroupsGetAudioRequest
+        query-parameters:
+          page_number:
+            type: optional<integer>
+            default: 0
+            docs: >-
+              Specifies the page number to retrieve, enabling pagination.
+
+
+              This parameter uses zero-based indexing. For example, setting
+              `page_number` to 0 retrieves the first page of results (items 0-9
+              if `page_size` is 10), setting `page_number` to 1 retrieves the
+              second page (items 10-19), and so on. Defaults to 0, which
+              retrieves the first page.
+          page_size:
+            type: optional<integer>
+            docs: >-
+              Specifies the maximum number of results to include per page,
+              enabling pagination. The value must be between 1 and 100,
+              inclusive.
+
+
+              For example, if `page_size` is set to 10, each page will include
+              up to 10 items. Defaults to 10.
+          ascending_order:
+            type: optional<boolean>
+            docs: >-
+              Specifies the sorting order of the results based on their creation
+              date. Set to true for ascending order (chronological, with the
+              oldest records first) and false for descending order
+              (reverse-chronological, with the newest records first). Defaults
+              to true.
+      response:
+        docs: Success
+        type: root.ReturnChatGroupPagedAudioReconstructions
+        status-code: 200
+      errors:
+        - root.BadRequestError
+      examples:
+        - path-parameters:
+            id: 369846cf-6ad5-404d-905e-a8acb5cdfc78
+          query-parameters:
+            page_number: 0
+            page_size: 10
+            ascending_order: true
+          response:
+            body:
+              id: 369846cf-6ad5-404d-905e-a8acb5cdfc78
+              user_id: e6235940-cfda-3988-9147-ff531627cf42
+              num_chats: 1
+              page_number: 0
+              page_size: 10
+              total_pages: 1
+              pagination_direction: ASC
+              audio_reconstructions_page:
+                - id: 470a49f6-1dec-4afe-8b61-035d3b2d63b0
+                  user_id: e6235940-cfda-3988-9147-ff531627cf42
+                  status: COMPLETE
+                  filename: >-
+                    e6235940-cfda-3988-9147-ff531627cf42/470a49f6-1dec-4afe-8b61-035d3b2d63b0/reconstructed_audio.mp4
+                  modified_at: 1729875432555
+                  signed_audio_url: https://storage.googleapis.com/...etc.
+                  signed_url_expiration_timestamp_millis: 1730232816964
     list-chat-group-events:
       path: /v0/evi/chat_groups/{id}/events
       method: GET
@@ -541,83 +619,5 @@ service:
                     0.022247314453125, "Tiredness": 0.0194549560546875,
                     "Triumph": 0.04107666015625}
                   metadata: ''
-    get-audio:
-      path: /v0/evi/chat_groups/{id}/audio
-      method: GET
-      docs: >-
-        Fetches a paginated list of audio for each **Chat** within the specified
-        **Chat Group**. For more details, see our guide on audio reconstruction
-        [here](/docs/speech-to-speech-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
-      source:
-        openapi: evi-openapi.json
-      path-parameters:
-        id:
-          type: string
-          docs: Identifier for a Chat Group. Formatted as a UUID.
-      display-name: Get chat group audio
-      request:
-        name: ChatGroupsGetAudioRequest
-        query-parameters:
-          page_number:
-            type: optional<integer>
-            default: 0
-            docs: >-
-              Specifies the page number to retrieve, enabling pagination.
-
-
-              This parameter uses zero-based indexing. For example, setting
-              `page_number` to 0 retrieves the first page of results (items 0-9
-              if `page_size` is 10), setting `page_number` to 1 retrieves the
-              second page (items 10-19), and so on. Defaults to 0, which
-              retrieves the first page.
-          page_size:
-            type: optional<integer>
-            docs: >-
-              Specifies the maximum number of results to include per page,
-              enabling pagination. The value must be between 1 and 100,
-              inclusive.
-
-
-              For example, if `page_size` is set to 10, each page will include
-              up to 10 items. Defaults to 10.
-          ascending_order:
-            type: optional<boolean>
-            docs: >-
-              Specifies the sorting order of the results based on their creation
-              date. Set to true for ascending order (chronological, with the
-              oldest records first) and false for descending order
-              (reverse-chronological, with the newest records first). Defaults
-              to true.
-      response:
-        docs: Success
-        type: root.ReturnChatGroupPagedAudioReconstructions
-        status-code: 200
-      errors:
-        - root.BadRequestError
-      examples:
-        - path-parameters:
-            id: 369846cf-6ad5-404d-905e-a8acb5cdfc78
-          query-parameters:
-            page_number: 0
-            page_size: 10
-            ascending_order: true
-          response:
-            body:
-              id: 369846cf-6ad5-404d-905e-a8acb5cdfc78
-              user_id: e6235940-cfda-3988-9147-ff531627cf42
-              num_chats: 1
-              page_number: 0
-              page_size: 10
-              total_pages: 1
-              pagination_direction: ASC
-              audio_reconstructions_page:
-                - id: 470a49f6-1dec-4afe-8b61-035d3b2d63b0
-                  user_id: e6235940-cfda-3988-9147-ff531627cf42
-                  status: COMPLETE
-                  filename: >-
-                    e6235940-cfda-3988-9147-ff531627cf42/470a49f6-1dec-4afe-8b61-035d3b2d63b0/reconstructed_audio.mp4
-                  modified_at: 1729875432555
-                  signed_audio_url: https://storage.googleapis.com/...etc.
-                  signed_url_expiration_timestamp_millis: 1730232816964
   source:
     openapi: evi-openapi.json
