@@ -107,16 +107,16 @@ class ConfigsClient:
         *,
         evi_version: str,
         name: str,
-        version_description: typing.Optional[str] = OMIT,
-        prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
-        voice: typing.Optional[VoiceRef] = OMIT,
-        language_model: typing.Optional[PostedLanguageModel] = OMIT,
-        ellm_model: typing.Optional[PostedEllmModel] = OMIT,
-        tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
+        ellm_model: typing.Optional[PostedEllmModel] = OMIT,
         event_messages: typing.Optional[PostedEventMessageSpecs] = OMIT,
+        language_model: typing.Optional[PostedLanguageModel] = OMIT,
         nudges: typing.Optional[PostedNudgeSpec] = OMIT,
+        prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
         timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
+        tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
+        version_description: typing.Optional[str] = OMIT,
+        voice: typing.Optional[VoiceRef] = OMIT,
         webhooks: typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnConfig:
@@ -133,36 +133,36 @@ class ConfigsClient:
         name : str
             Name applied to all versions of a particular Config.
 
-        version_description : typing.Optional[str]
-            An optional description of the Config version.
-
-        prompt : typing.Optional[PostedConfigPromptSpec]
-
-        voice : typing.Optional[VoiceRef]
-            A voice specification associated with this Config.
-
-        language_model : typing.Optional[PostedLanguageModel]
-            The supplemental language model associated with this Config.
-
-            This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
+        builtin_tools : typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]
+            List of built-in tools associated with this Config.
 
         ellm_model : typing.Optional[PostedEllmModel]
             The eLLM setup associated with this Config.
 
             Hume's eLLM (empathic Large Language Model) is a multimodal language model that takes into account both expression measures and language. The eLLM generates short, empathic language responses and guides text-to-speech (TTS) prosody.
 
-        tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
-            List of user-defined tools associated with this Config.
-
-        builtin_tools : typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]
-            List of built-in tools associated with this Config.
-
         event_messages : typing.Optional[PostedEventMessageSpecs]
+
+        language_model : typing.Optional[PostedLanguageModel]
+            The supplemental language model associated with this Config.
+
+            This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
 
         nudges : typing.Optional[PostedNudgeSpec]
             Configures nudges, brief audio prompts that can guide conversations when users pause or need encouragement to continue speaking. Nudges help create more natural, flowing interactions by providing gentle conversational cues.
 
+        prompt : typing.Optional[PostedConfigPromptSpec]
+
         timeouts : typing.Optional[PostedTimeoutSpecs]
+
+        tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
+            List of user-defined tools associated with this Config.
+
+        version_description : typing.Optional[str]
+            An optional description of the Config version.
+
+        voice : typing.Optional[VoiceRef]
+            A voice specification associated with this Config.
 
         webhooks : typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]]
             Webhook config specifications for each subscriber.
@@ -224,16 +224,16 @@ class ConfigsClient:
         _response = self._raw_client.create_config(
             evi_version=evi_version,
             name=name,
-            version_description=version_description,
-            prompt=prompt,
-            voice=voice,
-            language_model=language_model,
-            ellm_model=ellm_model,
-            tools=tools,
             builtin_tools=builtin_tools,
+            ellm_model=ellm_model,
             event_messages=event_messages,
+            language_model=language_model,
             nudges=nudges,
+            prompt=prompt,
             timeouts=timeouts,
+            tools=tools,
+            version_description=version_description,
+            voice=voice,
             webhooks=webhooks,
             request_options=request_options,
         )
@@ -308,16 +308,16 @@ class ConfigsClient:
         id: str,
         *,
         evi_version: str,
-        version_description: typing.Optional[str] = OMIT,
-        prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
-        voice: typing.Optional[VoiceRef] = OMIT,
-        language_model: typing.Optional[PostedLanguageModel] = OMIT,
-        ellm_model: typing.Optional[PostedEllmModel] = OMIT,
-        tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
+        ellm_model: typing.Optional[PostedEllmModel] = OMIT,
         event_messages: typing.Optional[PostedEventMessageSpecs] = OMIT,
-        timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
+        language_model: typing.Optional[PostedLanguageModel] = OMIT,
         nudges: typing.Optional[PostedNudgeSpec] = OMIT,
+        prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
+        timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
+        tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
+        version_description: typing.Optional[str] = OMIT,
+        voice: typing.Optional[VoiceRef] = OMIT,
         webhooks: typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnConfig:
@@ -334,35 +334,35 @@ class ConfigsClient:
         evi_version : str
             The version of the EVI used with this config.
 
-        version_description : typing.Optional[str]
-            An optional description of the Config version.
-
-        prompt : typing.Optional[PostedConfigPromptSpec]
-
-        voice : typing.Optional[VoiceRef]
-            A voice specification associated with this Config version.
-
-        language_model : typing.Optional[PostedLanguageModel]
-            The supplemental language model associated with this Config version.
-
-            This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
+        builtin_tools : typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]
+            List of built-in tools associated with this Config version.
 
         ellm_model : typing.Optional[PostedEllmModel]
             The eLLM setup associated with this Config version.
 
             Hume's eLLM (empathic Large Language Model) is a multimodal language model that takes into account both expression measures and language. The eLLM generates short, empathic language responses and guides text-to-speech (TTS) prosody.
 
-        tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
-            List of user-defined tools associated with this Config version.
-
-        builtin_tools : typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]
-            List of built-in tools associated with this Config version.
-
         event_messages : typing.Optional[PostedEventMessageSpecs]
+
+        language_model : typing.Optional[PostedLanguageModel]
+            The supplemental language model associated with this Config version.
+
+            This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
+
+        nudges : typing.Optional[PostedNudgeSpec]
+
+        prompt : typing.Optional[PostedConfigPromptSpec]
 
         timeouts : typing.Optional[PostedTimeoutSpecs]
 
-        nudges : typing.Optional[PostedNudgeSpec]
+        tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
+            List of user-defined tools associated with this Config version.
+
+        version_description : typing.Optional[str]
+            An optional description of the Config version.
+
+        voice : typing.Optional[VoiceRef]
+            A voice specification associated with this Config version.
 
         webhooks : typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]]
             Webhook config specifications for each subscriber.
@@ -429,16 +429,16 @@ class ConfigsClient:
         _response = self._raw_client.create_config_version(
             id,
             evi_version=evi_version,
-            version_description=version_description,
-            prompt=prompt,
-            voice=voice,
-            language_model=language_model,
-            ellm_model=ellm_model,
-            tools=tools,
             builtin_tools=builtin_tools,
+            ellm_model=ellm_model,
             event_messages=event_messages,
-            timeouts=timeouts,
+            language_model=language_model,
             nudges=nudges,
+            prompt=prompt,
+            timeouts=timeouts,
+            tools=tools,
+            version_description=version_description,
+            voice=voice,
             webhooks=webhooks,
             request_options=request_options,
         )
@@ -747,16 +747,16 @@ class AsyncConfigsClient:
         *,
         evi_version: str,
         name: str,
-        version_description: typing.Optional[str] = OMIT,
-        prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
-        voice: typing.Optional[VoiceRef] = OMIT,
-        language_model: typing.Optional[PostedLanguageModel] = OMIT,
-        ellm_model: typing.Optional[PostedEllmModel] = OMIT,
-        tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
+        ellm_model: typing.Optional[PostedEllmModel] = OMIT,
         event_messages: typing.Optional[PostedEventMessageSpecs] = OMIT,
+        language_model: typing.Optional[PostedLanguageModel] = OMIT,
         nudges: typing.Optional[PostedNudgeSpec] = OMIT,
+        prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
         timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
+        tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
+        version_description: typing.Optional[str] = OMIT,
+        voice: typing.Optional[VoiceRef] = OMIT,
         webhooks: typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnConfig:
@@ -773,36 +773,36 @@ class AsyncConfigsClient:
         name : str
             Name applied to all versions of a particular Config.
 
-        version_description : typing.Optional[str]
-            An optional description of the Config version.
-
-        prompt : typing.Optional[PostedConfigPromptSpec]
-
-        voice : typing.Optional[VoiceRef]
-            A voice specification associated with this Config.
-
-        language_model : typing.Optional[PostedLanguageModel]
-            The supplemental language model associated with this Config.
-
-            This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
+        builtin_tools : typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]
+            List of built-in tools associated with this Config.
 
         ellm_model : typing.Optional[PostedEllmModel]
             The eLLM setup associated with this Config.
 
             Hume's eLLM (empathic Large Language Model) is a multimodal language model that takes into account both expression measures and language. The eLLM generates short, empathic language responses and guides text-to-speech (TTS) prosody.
 
-        tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
-            List of user-defined tools associated with this Config.
-
-        builtin_tools : typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]
-            List of built-in tools associated with this Config.
-
         event_messages : typing.Optional[PostedEventMessageSpecs]
+
+        language_model : typing.Optional[PostedLanguageModel]
+            The supplemental language model associated with this Config.
+
+            This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
 
         nudges : typing.Optional[PostedNudgeSpec]
             Configures nudges, brief audio prompts that can guide conversations when users pause or need encouragement to continue speaking. Nudges help create more natural, flowing interactions by providing gentle conversational cues.
 
+        prompt : typing.Optional[PostedConfigPromptSpec]
+
         timeouts : typing.Optional[PostedTimeoutSpecs]
+
+        tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
+            List of user-defined tools associated with this Config.
+
+        version_description : typing.Optional[str]
+            An optional description of the Config version.
+
+        voice : typing.Optional[VoiceRef]
+            A voice specification associated with this Config.
 
         webhooks : typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]]
             Webhook config specifications for each subscriber.
@@ -872,16 +872,16 @@ class AsyncConfigsClient:
         _response = await self._raw_client.create_config(
             evi_version=evi_version,
             name=name,
-            version_description=version_description,
-            prompt=prompt,
-            voice=voice,
-            language_model=language_model,
-            ellm_model=ellm_model,
-            tools=tools,
             builtin_tools=builtin_tools,
+            ellm_model=ellm_model,
             event_messages=event_messages,
+            language_model=language_model,
             nudges=nudges,
+            prompt=prompt,
             timeouts=timeouts,
+            tools=tools,
+            version_description=version_description,
+            voice=voice,
             webhooks=webhooks,
             request_options=request_options,
         )
@@ -965,16 +965,16 @@ class AsyncConfigsClient:
         id: str,
         *,
         evi_version: str,
-        version_description: typing.Optional[str] = OMIT,
-        prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
-        voice: typing.Optional[VoiceRef] = OMIT,
-        language_model: typing.Optional[PostedLanguageModel] = OMIT,
-        ellm_model: typing.Optional[PostedEllmModel] = OMIT,
-        tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
+        ellm_model: typing.Optional[PostedEllmModel] = OMIT,
         event_messages: typing.Optional[PostedEventMessageSpecs] = OMIT,
-        timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
+        language_model: typing.Optional[PostedLanguageModel] = OMIT,
         nudges: typing.Optional[PostedNudgeSpec] = OMIT,
+        prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
+        timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
+        tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
+        version_description: typing.Optional[str] = OMIT,
+        voice: typing.Optional[VoiceRef] = OMIT,
         webhooks: typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnConfig:
@@ -991,35 +991,35 @@ class AsyncConfigsClient:
         evi_version : str
             The version of the EVI used with this config.
 
-        version_description : typing.Optional[str]
-            An optional description of the Config version.
-
-        prompt : typing.Optional[PostedConfigPromptSpec]
-
-        voice : typing.Optional[VoiceRef]
-            A voice specification associated with this Config version.
-
-        language_model : typing.Optional[PostedLanguageModel]
-            The supplemental language model associated with this Config version.
-
-            This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
+        builtin_tools : typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]
+            List of built-in tools associated with this Config version.
 
         ellm_model : typing.Optional[PostedEllmModel]
             The eLLM setup associated with this Config version.
 
             Hume's eLLM (empathic Large Language Model) is a multimodal language model that takes into account both expression measures and language. The eLLM generates short, empathic language responses and guides text-to-speech (TTS) prosody.
 
-        tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
-            List of user-defined tools associated with this Config version.
-
-        builtin_tools : typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]
-            List of built-in tools associated with this Config version.
-
         event_messages : typing.Optional[PostedEventMessageSpecs]
+
+        language_model : typing.Optional[PostedLanguageModel]
+            The supplemental language model associated with this Config version.
+
+            This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
+
+        nudges : typing.Optional[PostedNudgeSpec]
+
+        prompt : typing.Optional[PostedConfigPromptSpec]
 
         timeouts : typing.Optional[PostedTimeoutSpecs]
 
-        nudges : typing.Optional[PostedNudgeSpec]
+        tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
+            List of user-defined tools associated with this Config version.
+
+        version_description : typing.Optional[str]
+            An optional description of the Config version.
+
+        voice : typing.Optional[VoiceRef]
+            A voice specification associated with this Config version.
 
         webhooks : typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]]
             Webhook config specifications for each subscriber.
@@ -1094,16 +1094,16 @@ class AsyncConfigsClient:
         _response = await self._raw_client.create_config_version(
             id,
             evi_version=evi_version,
-            version_description=version_description,
-            prompt=prompt,
-            voice=voice,
-            language_model=language_model,
-            ellm_model=ellm_model,
-            tools=tools,
             builtin_tools=builtin_tools,
+            ellm_model=ellm_model,
             event_messages=event_messages,
-            timeouts=timeouts,
+            language_model=language_model,
             nudges=nudges,
+            prompt=prompt,
+            timeouts=timeouts,
+            tools=tools,
+            version_description=version_description,
+            voice=voice,
             webhooks=webhooks,
             request_options=request_options,
         )

@@ -15,53 +15,25 @@ class ReturnChatPagedEvents(UniversalBaseModel):
     A description of chat status with a paginated list of chat events returned from the server
     """
 
-    id: str = pydantic.Field()
-    """
-    Identifier for a Chat. Formatted as a UUID.
-    """
-
     chat_group_id: str = pydantic.Field()
     """
     Identifier for the Chat Group. Any chat resumed from this Chat will have the same `chat_group_id`. Formatted as a UUID.
     """
 
-    status: ReturnChatPagedEventsStatus = pydantic.Field()
-    """
-    Indicates the current state of the chat. There are six possible statuses:
-    
-    - `ACTIVE`: The chat is currently active and ongoing.
-    
-    - `USER_ENDED`: The chat was manually ended by the user.
-    
-    - `USER_TIMEOUT`: The chat ended due to a user-defined timeout.
-    
-    - `MAX_DURATION_TIMEOUT`: The chat ended because it reached the maximum allowed duration.
-    
-    - `INACTIVITY_TIMEOUT`: The chat ended due to an inactivity timeout.
-    
-    - `ERROR`: The chat ended unexpectedly due to an error.
-    """
-
-    start_timestamp: int = pydantic.Field()
-    """
-    Time at which the Chat started. Measured in seconds since the Unix epoch.
-    """
-
+    config: typing.Optional[ReturnConfigSpec] = None
     end_timestamp: typing.Optional[int] = pydantic.Field(default=None)
     """
     Time at which the Chat ended. Measured in seconds since the Unix epoch.
     """
 
-    pagination_direction: ReturnChatPagedEventsPaginationDirection = pydantic.Field()
-    """
-    Indicates the order in which the paginated results are presented, based on their creation date.
-    
-    It shows `ASC` for ascending order (chronological, with the oldest records first) or `DESC` for descending order (reverse-chronological, with the newest records first). This value corresponds to the `ascending_order` query parameter used in the request.
-    """
-
     events_page: typing.List[ReturnChatEvent] = pydantic.Field()
     """
     List of Chat Events for the specified `page_number` and `page_size`.
+    """
+
+    id: str = pydantic.Field()
+    """
+    Identifier for a Chat. Formatted as a UUID.
     """
 
     metadata: typing.Optional[str] = pydantic.Field(default=None)
@@ -83,12 +55,39 @@ class ReturnChatPagedEvents(UniversalBaseModel):
     This value corresponds to the `page_size` parameter specified in the request.
     """
 
+    pagination_direction: ReturnChatPagedEventsPaginationDirection = pydantic.Field()
+    """
+    Indicates the order in which the paginated results are presented, based on their creation date.
+    
+    It shows `ASC` for ascending order (chronological, with the oldest records first) or `DESC` for descending order (reverse-chronological, with the newest records first). This value corresponds to the `ascending_order` query parameter used in the request.
+    """
+
+    start_timestamp: int = pydantic.Field()
+    """
+    Time at which the Chat started. Measured in seconds since the Unix epoch.
+    """
+
+    status: ReturnChatPagedEventsStatus = pydantic.Field()
+    """
+    Indicates the current state of the chat. There are six possible statuses:
+    
+    - `ACTIVE`: The chat is currently active and ongoing.
+    
+    - `USER_ENDED`: The chat was manually ended by the user.
+    
+    - `USER_TIMEOUT`: The chat ended due to a user-defined timeout.
+    
+    - `MAX_DURATION_TIMEOUT`: The chat ended because it reached the maximum allowed duration.
+    
+    - `INACTIVITY_TIMEOUT`: The chat ended due to an inactivity timeout.
+    
+    - `ERROR`: The chat ended unexpectedly due to an error.
+    """
+
     total_pages: int = pydantic.Field()
     """
     The total number of pages in the collection.
     """
-
-    config: typing.Optional[ReturnConfigSpec] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
