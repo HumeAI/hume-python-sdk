@@ -1,0 +1,28 @@
+name: Notify Slack on Release
+
+on:
+  release:
+    types: [published, edited]
+
+jobs:
+  notify-slack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Slack notification
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          payload: |
+            {
+              "text": "Release ${{ github.event.action }}: ${{ github.event.release.name }}",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Release ${{ github.event.action == 'published' && 'Published' || 'Edited' }}* :rocket:\n\n*Version:* ${{ github.event.release.tag_name }}\n*Name:* ${{ github.event.release.name }}\n<${{ github.event.release.html_url }}|View Release>"
+                  }
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
