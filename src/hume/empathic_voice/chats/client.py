@@ -33,6 +33,7 @@ class ChatsClient:
         page_size: typing.Optional[int] = None,
         ascending_order: typing.Optional[bool] = None,
         config_id: typing.Optional[str] = None,
+        status: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[ReturnChat]:
         """
@@ -55,6 +56,9 @@ class ChatsClient:
 
         config_id : typing.Optional[str]
             Filter to only include chats that used this config.
+
+        status : typing.Optional[str]
+            Chat status to apply to the chat. String from the ChatStatus enum.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -87,6 +91,7 @@ class ChatsClient:
             page_size=page_size,
             ascending_order=ascending_order,
             config_id=config_id,
+            status=status,
             request_options=request_options,
         )
 
@@ -211,6 +216,7 @@ class AsyncChatsClient:
         page_size: typing.Optional[int] = None,
         ascending_order: typing.Optional[bool] = None,
         config_id: typing.Optional[str] = None,
+        status: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[ReturnChat]:
         """
@@ -233,6 +239,9 @@ class AsyncChatsClient:
 
         config_id : typing.Optional[str]
             Filter to only include chats that used this config.
+
+        status : typing.Optional[str]
+            Chat status to apply to the chat. String from the ChatStatus enum.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -274,6 +283,7 @@ class AsyncChatsClient:
             page_size=page_size,
             ascending_order=ascending_order,
             config_id=config_id,
+            status=status,
             request_options=request_options,
         )
 

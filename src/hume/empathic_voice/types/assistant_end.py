@@ -8,7 +8,7 @@ from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 class AssistantEnd(UniversalBaseModel):
     """
-    When provided, the output is an assistant end message.
+    **Indicates the conclusion of the assistant's response**, signaling that the assistant has finished speaking for the current conversational turn.
     """
 
     custom_session_id: typing.Optional[str] = pydantic.Field(default=None)

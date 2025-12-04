@@ -8,7 +8,9 @@ from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 class PauseAssistantMessage(UniversalBaseModel):
     """
-    Pause responses from EVI. Chat history is still saved and sent after resuming.
+    **Pause responses from EVI.** Chat history is still saved and sent after resuming. Once this message is sent, EVI will not respond until a Resume Assistant message is sent.
+
+    When paused, EVI won't respond, but transcriptions of your audio inputs will still be recorded. See our [Pause Response Guide](/docs/speech-to-speech-evi/features/pause-responses) for further details.
     """
 
     custom_session_id: typing.Optional[str] = pydantic.Field(default=None)
