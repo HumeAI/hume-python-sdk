@@ -775,7 +775,7 @@ typing.Optional[core.File]` — See core.File for more documentation
 <dl>
 <dd>
 
-**include_timestamp_types:** `typing.Optional[typing.List[TimestampType]]` — The set of timestamp types to include in the response.
+**include_timestamp_types:** `typing.Optional[typing.List[TimestampType]]` — The set of timestamp types to include in the response. When used in multipart/form-data, specify each value using bracket notation: `include_timestamp_types[0]=word&include_timestamp_types[1]=phoneme`. Only supported for Octave 2 requests.
     
 </dd>
 </dl>
@@ -889,6 +889,14 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dd>
 
 **ascending_order:** `typing.Optional[bool]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**filter_tag:** `typing.Optional[typing.Union[str, typing.Sequence[str]]]` 
     
 </dd>
 </dl>
@@ -1316,6 +1324,14 @@ client.empathic_voice.chat_groups.get_chat_group(
 <dl>
 <dd>
 
+**status:** `typing.Optional[str]` — Chat status to apply to the chat. String from the ChatStatus enum.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **page_size:** `typing.Optional[int]` 
 
 Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
@@ -1666,6 +1682,14 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dd>
 
 **config_id:** `typing.Optional[str]` — Filter to only include chats that used this config.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**status:** `typing.Optional[str]` — Chat status to apply to the chat. String from the ChatStatus enum.
     
 </dd>
 </dl>

@@ -54,18 +54,20 @@ class ConnectSessionSettings(UniversalBaseModel):
     For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).
     """
 
+    voice_id: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The name or ID of the voice from the `Voice Library` to be used as the speaker for this EVI session. This will override the speaker set in the selected configuration.
+    """
+
     variables: typing.Optional[typing.Dict[str, ConnectSessionSettingsVariablesValue]] = pydantic.Field(default=None)
     """
     This field allows you to assign values to dynamic variables referenced in your system prompt.
     
     Each key represents the variable name, and the corresponding value is the specific content you wish to assign to that variable within the session. While the values for variables can be strings, numbers, or booleans, the value will ultimately be converted to a string when injected into your system prompt.
     
+    When used in query parameters, specify each variable using bracket notation: `session_settings[variables][key]=value`. For example: `session_settings[variables][name]=John&session_settings[variables][age]=30`.
+    
     Using this field, you can personalize responses based on session-specific details. For more guidance, see our [guide on using dynamic variables](/docs/speech-to-speech-evi/features/dynamic-variables).
-    """
-
-    voice_id: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    The name or ID of the voice from the `Voice Library` to be used as the speaker for this EVI session. This will override the speaker set in the selected configuration.
     """
 
     if IS_PYDANTIC_V2:

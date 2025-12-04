@@ -98,6 +98,9 @@ service:
       request:
         name: ChatGroupsGetChatGroupRequest
         query-parameters:
+          status:
+            type: optional<string>
+            docs: Chat status to apply to the chat. String from the ChatStatus enum.
           page_size:
             type: optional<integer>
             docs: >-

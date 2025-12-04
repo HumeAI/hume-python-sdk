@@ -119,6 +119,7 @@ class RawChatGroupsClient:
         self,
         id: str,
         *,
+        status: typing.Optional[str] = None,
         page_size: typing.Optional[int] = None,
         page_number: typing.Optional[int] = None,
         ascending_order: typing.Optional[bool] = None,
@@ -131,6 +132,9 @@ class RawChatGroupsClient:
         ----------
         id : str
             Identifier for a Chat Group. Formatted as a UUID.
+
+        status : typing.Optional[str]
+            Chat status to apply to the chat. String from the ChatStatus enum.
 
         page_size : typing.Optional[int]
             Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
@@ -158,6 +162,7 @@ class RawChatGroupsClient:
             base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
+                "status": status,
                 "page_size": page_size,
                 "page_number": page_number,
                 "ascending_order": ascending_order,
@@ -456,6 +461,7 @@ class AsyncRawChatGroupsClient:
         self,
         id: str,
         *,
+        status: typing.Optional[str] = None,
         page_size: typing.Optional[int] = None,
         page_number: typing.Optional[int] = None,
         ascending_order: typing.Optional[bool] = None,
@@ -468,6 +474,9 @@ class AsyncRawChatGroupsClient:
         ----------
         id : str
             Identifier for a Chat Group. Formatted as a UUID.
+
+        status : typing.Optional[str]
+            Chat status to apply to the chat. String from the ChatStatus enum.
 
         page_size : typing.Optional[int]
             Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
@@ -495,6 +504,7 @@ class AsyncRawChatGroupsClient:
             base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
+                "status": status,
                 "page_size": page_size,
                 "page_number": page_number,
                 "ascending_order": ascending_order,
