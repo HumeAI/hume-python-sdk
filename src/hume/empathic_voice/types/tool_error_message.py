@@ -10,7 +10,9 @@ from .tool_type import ToolType
 
 class ToolErrorMessage(UniversalBaseModel):
     """
-    When provided, the output is a function call error.
+    **Error message from the tool call**, not exposed to the LLM or user. Upon receiving a Tool Call message and failing to invoke the function, this message is sent to notify EVI of the tool's failure.
+
+    For built-in tools implemented on the server, you will receive this message type rather than a `ToolCallMessage` if the tool fails. See our [Tool Use Guide](/docs/speech-to-speech-evi/features/tool-use) for further details.
     """
 
     code: typing.Optional[str] = pydantic.Field(default=None)
