@@ -581,7 +581,7 @@ class RawTtsClient:
             Specifies the output audio file format.
 
         include_timestamp_types : typing.Optional[typing.List[TimestampType]]
-            The set of timestamp types to include in the response.
+            The set of timestamp types to include in the response. When used in multipart/form-data, specify each value using bracket notation: `include_timestamp_types[0]=word&include_timestamp_types[1]=phoneme`. Only supported for Octave 2 requests.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
@@ -668,7 +668,7 @@ class RawTtsClient:
             Specifies the output audio file format.
 
         include_timestamp_types : typing.Optional[typing.List[TimestampType]]
-            The set of timestamp types to include in the response.
+            The set of timestamp types to include in the response. When used in multipart/form-data, specify each value using bracket notation: `include_timestamp_types[0]=word&include_timestamp_types[1]=phoneme`. Only supported for Octave 2 requests.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1296,7 +1296,7 @@ class AsyncRawTtsClient:
             Specifies the output audio file format.
 
         include_timestamp_types : typing.Optional[typing.List[TimestampType]]
-            The set of timestamp types to include in the response.
+            The set of timestamp types to include in the response. When used in multipart/form-data, specify each value using bracket notation: `include_timestamp_types[0]=word&include_timestamp_types[1]=phoneme`. Only supported for Octave 2 requests.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
@@ -1384,7 +1384,7 @@ class AsyncRawTtsClient:
             Specifies the output audio file format.
 
         include_timestamp_types : typing.Optional[typing.List[TimestampType]]
-            The set of timestamp types to include in the response.
+            The set of timestamp types to include in the response. When used in multipart/form-data, specify each value using bracket notation: `include_timestamp_types[0]=word&include_timestamp_types[1]=phoneme`. Only supported for Octave 2 requests.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.

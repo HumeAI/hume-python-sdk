@@ -52,6 +52,9 @@ service:
             docs: Filter to only include chats that used this config.
             validation:
               format: uuid
+          status:
+            type: optional<string>
+            docs: Chat status to apply to the chat. String from the ChatStatus enum.
       response:
         docs: Success
         type: root.ReturnPagedChats
