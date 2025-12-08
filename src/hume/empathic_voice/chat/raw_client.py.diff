@@ -1,5 +1,5 @@
 diff --git a/src/hume/empathic_voice/chat/raw_client.py b/src/hume/empathic_voice/chat/raw_client.py
-index fefee870..ed718e98 100644
+index fefee87..ed718e9 100644
 --- a/src/hume/empathic_voice/chat/raw_client.py
 +++ b/src/hume/empathic_voice/chat/raw_client.py
 @@ -10,7 +10,6 @@ from ...core.api_error import ApiError

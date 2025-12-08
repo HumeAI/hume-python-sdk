@@ -35,6 +35,7 @@ class VoicesClient:
         page_number: typing.Optional[int] = None,
         page_size: typing.Optional[int] = None,
         ascending_order: typing.Optional[bool] = None,
+        filter_tag: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[ReturnVoice]:
         """
@@ -59,6 +60,8 @@ class VoicesClient:
             For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         ascending_order : typing.Optional[bool]
+
+        filter_tag : typing.Optional[typing.Union[str, typing.Sequence[str]]]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -89,6 +92,7 @@ class VoicesClient:
             page_number=page_number,
             page_size=page_size,
             ascending_order=ascending_order,
+            filter_tag=filter_tag,
             request_options=request_options,
         )
 
@@ -184,6 +188,7 @@ class AsyncVoicesClient:
         page_number: typing.Optional[int] = None,
         page_size: typing.Optional[int] = None,
         ascending_order: typing.Optional[bool] = None,
+        filter_tag: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[ReturnVoice]:
         """
@@ -208,6 +213,8 @@ class AsyncVoicesClient:
             For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         ascending_order : typing.Optional[bool]
+
+        filter_tag : typing.Optional[typing.Union[str, typing.Sequence[str]]]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -247,6 +254,7 @@ class AsyncVoicesClient:
             page_number=page_number,
             page_size=page_size,
             ascending_order=ascending_order,
+            filter_tag=filter_tag,
             request_options=request_options,
         )
 

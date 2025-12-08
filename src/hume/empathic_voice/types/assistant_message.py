@@ -10,7 +10,7 @@ from .inference import Inference
 
 class AssistantMessage(UniversalBaseModel):
     """
-    When provided, the output is an assistant message.
+    **Transcript of the assistant's message.** Contains the message role, content, and optionally tool call information including the tool name, parameters, response requirement status, tool call ID, and tool type.
     """
 
     custom_session_id: typing.Optional[str] = pydantic.Field(default=None)
@@ -26,6 +26,11 @@ class AssistantMessage(UniversalBaseModel):
     id: typing.Optional[str] = pydantic.Field(default=None)
     """
     ID of the assistant message. Allows the Assistant Message to be tracked and referenced.
+    """
+
+    is_quick_response: bool = pydantic.Field()
+    """
+    Indicates if this message is a quick response or not.
     """
 
     language: typing.Optional[str] = pydantic.Field(default=None)

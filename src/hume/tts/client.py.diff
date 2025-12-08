@@ -1,5 +1,5 @@
 diff --git a/src/hume/tts/client.py b/src/hume/tts/client.py
-index 5f6c2c70..7c5e8597 100644
+index 5f6c2c7..a60a269 100644
 --- a/src/hume/tts/client.py
 +++ b/src/hume/tts/client.py
 @@ -4,8 +4,7 @@ from __future__ import annotations
@@ -128,7 +128,7 @@ index 5f6c2c70..7c5e8597 100644
 +            Specifies the output audio file format.
 +
 +        include_timestamp_types : typing.Optional[typing.List[TimestampType]]
-+            The set of timestamp types to include in the response.
++            The set of timestamp types to include in the response. When used in multipart/form-data, specify each value using bracket notation: `include_timestamp_types[0]=word&include_timestamp_types[1]=phoneme`. Only supported for Octave 2 requests.
 +
 +        request_options : typing.Optional[RequestOptions]
 +            Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
@@ -178,7 +178,7 @@ index 5f6c2c70..7c5e8597 100644
 +            Specifies the output audio file format.
 +
 +        include_timestamp_types : typing.Optional[typing.List[TimestampType]]
-+            The set of timestamp types to include in the response.
++            The set of timestamp types to include in the response. When used in multipart/form-data, specify each value using bracket notation: `include_timestamp_types[0]=word&include_timestamp_types[1]=phoneme`. Only supported for Octave 2 requests.
 +
 +        request_options : typing.Optional[RequestOptions]
 +            Request-specific configuration.
@@ -327,7 +327,7 @@ index 5f6c2c70..7c5e8597 100644
 +            Specifies the output audio file format.
 +
 +        include_timestamp_types : typing.Optional[typing.List[TimestampType]]
-+            The set of timestamp types to include in the response.
++            The set of timestamp types to include in the response. When used in multipart/form-data, specify each value using bracket notation: `include_timestamp_types[0]=word&include_timestamp_types[1]=phoneme`. Only supported for Octave 2 requests.
 +
 +        request_options : typing.Optional[RequestOptions]
 +            Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
@@ -378,7 +378,7 @@ index 5f6c2c70..7c5e8597 100644
 +            Specifies the output audio file format.
 +
 +        include_timestamp_types : typing.Optional[typing.List[TimestampType]]
-+            The set of timestamp types to include in the response.
++            The set of timestamp types to include in the response. When used in multipart/form-data, specify each value using bracket notation: `include_timestamp_types[0]=word&include_timestamp_types[1]=phoneme`. Only supported for Octave 2 requests.
 +
 +        request_options : typing.Optional[RequestOptions]
 +            Request-specific configuration.

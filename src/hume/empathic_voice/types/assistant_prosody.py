@@ -9,7 +9,7 @@ from .inference import Inference
 
 class AssistantProsody(UniversalBaseModel):
     """
-    When provided, the output is an Assistant Prosody message.
+    **Expression measurement predictions of the assistant's audio output.** Contains inference model results including prosody scores for 48 emotions within the detected expression of the assistant's audio sample.
     """
 
     custom_session_id: typing.Optional[str] = pydantic.Field(default=None)

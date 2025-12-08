@@ -1,5 +1,5 @@
 diff --git a/src/hume/empathic_voice/chat/client.py b/src/hume/empathic_voice/chat/client.py
-index 2a3732f5..910917c9 100644
+index 2a3732f..910917c 100644
 --- a/src/hume/empathic_voice/chat/client.py
 +++ b/src/hume/empathic_voice/chat/client.py
 @@ -1,11 +1,7 @@
