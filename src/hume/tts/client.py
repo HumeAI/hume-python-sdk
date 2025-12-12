@@ -42,19 +42,19 @@ class TtsClient:
         """
         return self._raw_client
 
-    def synthesize_json(
-        self,
-        *,
-        utterances: typing.Sequence[PostedUtterance],
-        context: typing.Optional[PostedContext] = OMIT,
-        format: typing.Optional[Format] = OMIT,
-        include_timestamp_types: typing.Optional[typing.Sequence[TimestampType]] = OMIT,
-        num_generations: typing.Optional[int] = OMIT,
-        split_utterances: typing.Optional[bool] = OMIT,
-        strip_headers: typing.Optional[bool] = OMIT,
-        version: typing.Optional[OctaveVersion] = OMIT,
-        instant_mode: typing.Optional[bool] = OMIT,
-        request_options: typing.Optional[RequestOptions] = None,
+    # def synthesize_json(
+    #     self,
+    #     *,
+    #     utterances: typing.Sequence[PostedUtterance],
+    #     context: typing.Optional[PostedContext] = OMIT,
+    #     format: typing.Optional[Format] = OMIT,
+    #     include_timestamp_types: typing.Optional[typing.Sequence[TimestampType]] = OMIT,
+    #     num_generations: typing.Optional[int] = OMIT,
+    #     split_utterances: typing.Optional[bool] = OMIT,
+    #     strip_headers: typing.Optional[bool] = OMIT,
+    #     version: typing.Optional[OctaveVersion] = OMIT,
+    #     instant_mode: typing.Optional[bool] = OMIT,
+    #     request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnTts:
         """
         Synthesizes one or more input texts into speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.
