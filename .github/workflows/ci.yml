@@ -128,7 +128,7 @@ jobs:
           
           # Install SDK in editable mode from local path
           # This creates a link to the SDK source code
-          uv pip install -e "$SDK_PATH"
+          uv pip install --system -e "$SDK_PATH"
           
           echo ""
           echo "=== Verifying Linked SDK ==="
