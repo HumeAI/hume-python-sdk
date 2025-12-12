@@ -90,9 +90,9 @@ jobs:
           python-version: '3.11'
 
       - name: Bootstrap poetry
-        working-directory: ./sdk
         run: |
           curl -sSL https://install.python-poetry.org | python - -y --version 1.5.1
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - name: Install system dependencies for audio
         run: |
@@ -165,7 +165,6 @@ jobs:
         run: uv run pytest test_app.py -v
         env:
           TEST_HUME_API_KEY: ${{ secrets.TEST_HUME_API_KEY }}
-          TEST_HUME_SECRET_KEY: ${{ secrets.TEST_HUME_SECRET_KEY }}
 
   publish:
     needs: [compile-without-audio, compile-with-audio, test]
