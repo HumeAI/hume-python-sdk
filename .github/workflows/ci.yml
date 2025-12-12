@@ -94,6 +94,11 @@ jobs:
         run: |
           curl -sSL https://install.python-poetry.org | python - -y --version 1.5.1
 
+      - name: Install system dependencies for audio
+        run: |
+          sudo apt-get --yes update
+          sudo apt-get --yes install libportaudio2
+
       - name: Install uv
         run: |
           curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -126,13 +131,16 @@ jobs:
 
           cd ../examples/tts/tts-python-quickstart
 
-          # Install SDK in editable mode from local path
+          # Create venv that uv run will use
+          uv venv
+
+          # Install SDK in editable mode from local path into the venv
           # This creates a link to the SDK source code
-          pip install -e "$SDK_PATH"
+          uv pip install -e "$SDK_PATH"
 
           echo ""
           echo "=== Verifying Linked SDK ==="
-          INSTALLED_VERSION=$(python -c "from importlib.metadata import version; print(version('hume'))")
+          INSTALLED_VERSION=$(uv run python -c "from importlib.metadata import version; print(version('hume'))")
           echo "Installed hume version: $INSTALLED_VERSION"
           if [ "$INSTALLED_VERSION" != "$SDK_VERSION" ]; then
             echo "✗ WARNING: Version mismatch! Expected $SDK_VERSION, got $INSTALLED_VERSION"
@@ -141,7 +149,7 @@ jobs:
           fi
 
           # Verify it's using local SDK (editable install)
-          SDK_LOCATION=$(python -c "import hume; import os; print(os.path.dirname(hume.__file__))")
+          SDK_LOCATION=$(uv run python -c "import hume; import os; print(os.path.dirname(hume.__file__))")
           echo "SDK location: $SDK_LOCATION"
           if [[ "$SDK_LOCATION" == *"$SDK_PATH"* ]]; then
             echo "✓ Using local SDK (editable install)"
