@@ -483,6 +483,7 @@ class TtsClient:
     def stream_input(self):
         if self._stream_input is None:
             from .stream_input.client import StreamInputClient  # noqa: E402
+
             self._stream_input = StreamInputClient(client_wrapper=self._client_wrapper)
         return self._stream_input
 
