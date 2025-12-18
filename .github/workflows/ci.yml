@@ -137,7 +137,7 @@ jobs:
 
           echo ""
           echo "=== Verifying Linked SDK ==="
-          INSTALLED_VERSION=$(.venv/bin/python -c "from importlib.metadata import version; print(version('hume'))")
+          INSTALLED_VERSION=$(uv run python -c "from importlib.metadata import version; print(version('hume'))")
           echo "Installed hume version: $INSTALLED_VERSION"
           if [ "$INSTALLED_VERSION" != "$SDK_VERSION" ]; then
             echo "✗ WARNING: Version mismatch! Expected $SDK_VERSION, got $INSTALLED_VERSION"
@@ -146,7 +146,7 @@ jobs:
           fi
 
           # Verify it's using local SDK (editable install)
-          SDK_LOCATION=$(.venv/bin/python -c "import hume; import os; print(os.path.dirname(hume.__file__))")
+          SDK_LOCATION=$(uv run python -c "import hume; import os; print(os.path.dirname(hume.__file__))")
           echo "SDK location: $SDK_LOCATION"
           if [[ "$SDK_LOCATION" == *"$SDK_PATH"* ]]; then
             echo "✓ Using local SDK (editable install)"
@@ -159,7 +159,7 @@ jobs:
 
       - name: Run TTS tests
         working-directory: ./examples/tts/tts-python-quickstart
-        run: .venv/bin/python -m pytest test_app.py -v
+        run: uv run pytest test_app.py -v
         env:
           TEST_HUME_API_KEY: ${{ secrets.TEST_HUME_API_KEY }}
 
@@ -181,7 +181,7 @@ jobs:
 
           echo ""
           echo "=== Verifying Linked SDK ==="
-          INSTALLED_VERSION=$(.venv/bin/python -c "from importlib.metadata import version; print(version('hume'))")
+          INSTALLED_VERSION=$(uv run python -c "from importlib.metadata import version; print(version('hume'))")
           echo "Installed hume version: $INSTALLED_VERSION"
           if [ "$INSTALLED_VERSION" != "$SDK_VERSION" ]; then
             echo "✗ WARNING: Version mismatch! Expected $SDK_VERSION, got $INSTALLED_VERSION"
@@ -190,7 +190,7 @@ jobs:
           fi
 
           # Verify it's using local SDK (editable install)
-          SDK_LOCATION=$(.venv/bin/python -c "import hume; import os; print(os.path.dirname(hume.__file__))")
+          SDK_LOCATION=$(uv run python -c "import hume; import os; print(os.path.dirname(hume.__file__))")
           echo "SDK location: $SDK_LOCATION"
           if [[ "$SDK_LOCATION" == *"$SDK_PATH"* ]]; then
             echo "✓ Using local SDK (editable install)"
@@ -203,7 +203,7 @@ jobs:
 
       - name: Run EVI tests
         working-directory: ./examples/evi/evi-python-quickstart
-        run: .venv/bin/python -m pytest test_app.py -v
+        run: uv run pytest test_app.py -v
         env:
           TEST_HUME_API_KEY: ${{ secrets.TEST_HUME_API_KEY }}
 
