@@ -119,25 +119,20 @@ jobs:
           echo "SDK version: $SDK_VERSION"
           echo "===================="
 
-      - name: Link SDK to examples
+      - name: Link SDK to TTS example
+        working-directory: ./examples/tts/tts-python-quickstart
         run: |
-          cd ./sdk
-          SDK_VERSION=$(poetry version -s)
-          SDK_PATH=$(pwd)
-          echo "=== Linking SDK ==="
+          SDK_PATH="${GITHUB_WORKSPACE}/sdk"
+          SDK_VERSION=$(cd "$SDK_PATH" && poetry version -s)
+          echo "=== Linking SDK to TTS ==="
           echo "SDK version: $SDK_VERSION"
           echo "SDK path: $SDK_PATH"
           echo "===================="
 
-          cd ../examples/tts/tts-python-quickstart
-
-          # Create venv that uv run will use
-          # Use python -m venv to ensure pip is included
           python -m venv .venv
 
-          # Install SDK in editable mode from local path into the venv
-          # This creates a link to the SDK source code
-          # Use the venv's Python with -m pip to avoid uv's PEP 621 parsing issues with Poetry projects
+          # Install SDK from local path
+          # Use -m pip to avoid uv's PEP 621 parsing issues with Poetry projects
           .venv/bin/python -m pip install -e "$SDK_PATH"
 
           echo ""
@@ -162,9 +157,53 @@ jobs:
           fi
           echo "===================="
 
-      - name: Run example tts-python-quickstart
+      - name: Run TTS tests
         working-directory: ./examples/tts/tts-python-quickstart
         run: uv run pytest test_app.py -v
+        env:
+          TEST_HUME_API_KEY: ${{ secrets.TEST_HUME_API_KEY }}
+
+      - name: Link SDK to EVI example
+        working-directory: ./examples/evi/evi-python-quickstart
+        run: |
+          SDK_PATH="${GITHUB_WORKSPACE}/sdk"
+          SDK_VERSION=$(cd "$SDK_PATH" && poetry version -s)
+          echo "=== Linking SDK to EVI ==="
+          echo "SDK version: $SDK_VERSION"
+          echo "SDK path: $SDK_PATH"
+          echo "===================="
+
+          python -m venv .venv
+
+          # Install SDK from local path
+          # Use -m pip to avoid uv's PEP 621 parsing issues with Poetry projects
+          .venv/bin/python -m pip install -e "$SDK_PATH"
+
+          echo ""
+          echo "=== Verifying Linked SDK ==="
+          INSTALLED_VERSION=$(uv run python -c "from importlib.metadata import version; print(version('hume'))")
+          echo "Installed hume version: $INSTALLED_VERSION"
+          if [ "$INSTALLED_VERSION" != "$SDK_VERSION" ]; then
+            echo "✗ WARNING: Version mismatch! Expected $SDK_VERSION, got $INSTALLED_VERSION"
+          else
+            echo "✓ Version matches: $INSTALLED_VERSION"
+          fi
+
+          # Verify it's using local SDK (editable install)
+          SDK_LOCATION=$(uv run python -c "import hume; import os; print(os.path.dirname(hume.__file__))")
+          echo "SDK location: $SDK_LOCATION"
+          if [[ "$SDK_LOCATION" == *"$SDK_PATH"* ]]; then
+            echo "✓ Using local SDK (editable install)"
+          elif [[ "$SDK_LOCATION" == *"site-packages"* ]]; then
+            echo "✓ Installed in site-packages (editable install should link to source)"
+          else
+            echo "✗ WARNING: May not be using local SDK"
+          fi
+          echo "===================="
+
+      - name: Run EVI tests
+        working-directory: ./examples/evi/evi-python-quickstart
+        run: uv run pytest test_quickstart.py -v
         env:
           TEST_HUME_API_KEY: ${{ secrets.TEST_HUME_API_KEY }}
 
