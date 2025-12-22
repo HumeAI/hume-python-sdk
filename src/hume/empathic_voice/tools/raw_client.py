@@ -33,10 +33,6 @@ class RawToolsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[typing.Optional[ReturnUserDefinedTool]]:
         """
-        Fetches a paginated list of **Tools**.
-
-        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
-
         Parameters
         ----------
         page_number : typing.Optional[int]
@@ -125,10 +121,6 @@ class RawToolsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[typing.Optional[ReturnUserDefinedTool]]:
         """
-        Creates a **Tool** that can be added to an [EVI configuration](/reference/speech-to-speech-evi/configs/create-config).
-
-        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
-
         Parameters
         ----------
         name : str
@@ -137,16 +129,14 @@ class RawToolsClient:
         parameters : str
             Stringified JSON defining the parameters used by this version of the Tool.
 
-            These parameters define the inputs needed for the Tool's execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.
-
         description : typing.Optional[str]
-            An optional description of what the Tool does, used by the supplemental LLM to choose when and how to call the function.
+            Text describing what the tool does.
 
         fallback_content : typing.Optional[str]
-            Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
+            Text to use if the tool fails to generate content.
 
         version_description : typing.Optional[str]
-            An optional description of the Tool version.
+            Description that is appended to a specific version of a Tool.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -211,14 +201,9 @@ class RawToolsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[typing.Optional[ReturnUserDefinedTool]]:
         """
-        Fetches a list of a **Tool's** versions.
-
-        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
-
         Parameters
         ----------
         id : str
-            Identifier for a Tool. Formatted as a UUID.
 
         page_number : typing.Optional[int]
             Specifies the page number to retrieve, enabling pagination.
@@ -302,28 +287,22 @@ class RawToolsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[typing.Optional[ReturnUserDefinedTool]]:
         """
-        Updates a **Tool** by creating a new version of the **Tool**.
-
-        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
-
         Parameters
         ----------
         id : str
-            Identifier for a Tool. Formatted as a UUID.
+            Identifier for a tool. Formatted as a UUID.
 
         parameters : str
             Stringified JSON defining the parameters used by this version of the Tool.
 
-            These parameters define the inputs needed for the Tool's execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.
-
         description : typing.Optional[str]
-            An optional description of what the Tool does, used by the supplemental LLM to choose when and how to call the function.
+            Text describing what the tool does.
 
         fallback_content : typing.Optional[str]
-            Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
+            Text to use if the tool fails to generate content.
 
         version_description : typing.Optional[str]
-            An optional description of the Tool version.
+            Description that is appended to a specific version of a Tool.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -379,14 +358,10 @@ class RawToolsClient:
 
     def delete_tool(self, id: str, *, request_options: typing.Optional[RequestOptions] = None) -> HttpResponse[None]:
         """
-        Deletes a **Tool** and its versions.
-
-        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
-
         Parameters
         ----------
         id : str
-            Identifier for a Tool. Formatted as a UUID.
+            Identifier for a tool. Formatted as a UUID.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -424,14 +399,10 @@ class RawToolsClient:
         self, id: str, *, name: str, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[str]:
         """
-        Updates the name of a **Tool**.
-
-        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
-
         Parameters
         ----------
         id : str
-            Identifier for a Tool. Formatted as a UUID.
+            Identifier for a tool. Formatted as a UUID.
 
         name : str
             Name applied to all versions of a particular Tool.
@@ -480,21 +451,13 @@ class RawToolsClient:
         self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[typing.Optional[ReturnUserDefinedTool]]:
         """
-        Fetches a specified version of a **Tool**.
-
-        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
-
         Parameters
         ----------
         id : str
-            Identifier for a Tool. Formatted as a UUID.
+            Identifier for a tool. Formatted as a UUID.
 
         version : int
-            Version number for a Tool.
-
-            Tools, Configs, Custom Voices, and Prompts are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.
-
-            Version numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number.
+            Version number for a tool. Version numbers should be integers.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -542,21 +505,13 @@ class RawToolsClient:
         self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[None]:
         """
-        Deletes a specified version of a **Tool**.
-
-        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
-
         Parameters
         ----------
         id : str
-            Identifier for a Tool. Formatted as a UUID.
+            Identifier for a tool. Formatted as a UUID.
 
         version : int
-            Version number for a Tool.
-
-            Tools, Configs, Custom Voices, and Prompts are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.
-
-            Version numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number.
+            Version number for a tool. Version numbers should be integers.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -599,24 +554,16 @@ class RawToolsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[typing.Optional[ReturnUserDefinedTool]]:
         """
-        Updates the description of a specified **Tool** version.
-
-        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
-
         Parameters
         ----------
         id : str
-            Identifier for a Tool. Formatted as a UUID.
+            Identifier for a tool. Formatted as a UUID.
 
         version : int
-            Version number for a Tool.
-
-            Tools, Configs, Custom Voices, and Prompts are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.
-
-            Version numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number.
+            Version number for a tool. Version numbers should be integers.
 
         version_description : typing.Optional[str]
-            An optional description of the Tool version.
+            Description that is appended to a specific version of a Tool.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -682,10 +629,6 @@ class AsyncRawToolsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[typing.Optional[ReturnUserDefinedTool]]:
         """
-        Fetches a paginated list of **Tools**.
-
-        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
-
         Parameters
         ----------
         page_number : typing.Optional[int]
@@ -777,10 +720,6 @@ class AsyncRawToolsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[typing.Optional[ReturnUserDefinedTool]]:
         """
-        Creates a **Tool** that can be added to an [EVI configuration](/reference/speech-to-speech-evi/configs/create-config).
-
-        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
-
         Parameters
         ----------
         name : str
@@ -789,16 +728,14 @@ class AsyncRawToolsClient:
         parameters : str
             Stringified JSON defining the parameters used by this version of the Tool.
 
-            These parameters define the inputs needed for the Tool's execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.
-
         description : typing.Optional[str]
-            An optional description of what the Tool does, used by the supplemental LLM to choose when and how to call the function.
+            Text describing what the tool does.
 
         fallback_content : typing.Optional[str]
-            Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
+            Text to use if the tool fails to generate content.
 
         version_description : typing.Optional[str]
-            An optional description of the Tool version.
+            Description that is appended to a specific version of a Tool.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -863,14 +800,9 @@ class AsyncRawToolsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[typing.Optional[ReturnUserDefinedTool]]:
         """
-        Fetches a list of a **Tool's** versions.
-
-        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
-
         Parameters
         ----------
         id : str
-            Identifier for a Tool. Formatted as a UUID.
 
         page_number : typing.Optional[int]
             Specifies the page number to retrieve, enabling pagination.
@@ -957,28 +889,22 @@ class AsyncRawToolsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[typing.Optional[ReturnUserDefinedTool]]:
         """
-        Updates a **Tool** by creating a new version of the **Tool**.
-
-        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
-
         Parameters
         ----------
         id : str
-            Identifier for a Tool. Formatted as a UUID.
+            Identifier for a tool. Formatted as a UUID.
 
         parameters : str
             Stringified JSON defining the parameters used by this version of the Tool.
 
-            These parameters define the inputs needed for the Tool's execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.
-
         description : typing.Optional[str]
-            An optional description of what the Tool does, used by the supplemental LLM to choose when and how to call the function.
+            Text describing what the tool does.
 
         fallback_content : typing.Optional[str]
-            Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
+            Text to use if the tool fails to generate content.
 
         version_description : typing.Optional[str]
-            An optional description of the Tool version.
+            Description that is appended to a specific version of a Tool.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1036,14 +962,10 @@ class AsyncRawToolsClient:
         self, id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[None]:
         """
-        Deletes a **Tool** and its versions.
-
-        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
-
         Parameters
         ----------
         id : str
-            Identifier for a Tool. Formatted as a UUID.
+            Identifier for a tool. Formatted as a UUID.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1081,14 +1003,10 @@ class AsyncRawToolsClient:
         self, id: str, *, name: str, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[str]:
         """
-        Updates the name of a **Tool**.
-
-        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
-
         Parameters
         ----------
         id : str
-            Identifier for a Tool. Formatted as a UUID.
+            Identifier for a tool. Formatted as a UUID.
 
         name : str
             Name applied to all versions of a particular Tool.
@@ -1137,21 +1055,13 @@ class AsyncRawToolsClient:
         self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[typing.Optional[ReturnUserDefinedTool]]:
         """
-        Fetches a specified version of a **Tool**.
-
-        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
-
         Parameters
         ----------
         id : str
-            Identifier for a Tool. Formatted as a UUID.
+            Identifier for a tool. Formatted as a UUID.
 
         version : int
-            Version number for a Tool.
-
-            Tools, Configs, Custom Voices, and Prompts are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.
-
-            Version numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number.
+            Version number for a tool. Version numbers should be integers.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1199,21 +1109,13 @@ class AsyncRawToolsClient:
         self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[None]:
         """
-        Deletes a specified version of a **Tool**.
-
-        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
-
         Parameters
         ----------
         id : str
-            Identifier for a Tool. Formatted as a UUID.
+            Identifier for a tool. Formatted as a UUID.
 
         version : int
-            Version number for a Tool.
-
-            Tools, Configs, Custom Voices, and Prompts are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.
-
-            Version numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number.
+            Version number for a tool. Version numbers should be integers.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1256,24 +1158,16 @@ class AsyncRawToolsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[typing.Optional[ReturnUserDefinedTool]]:
         """
-        Updates the description of a specified **Tool** version.
-
-        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
-
         Parameters
         ----------
         id : str
-            Identifier for a Tool. Formatted as a UUID.
+            Identifier for a tool. Formatted as a UUID.
 
         version : int
-            Version number for a Tool.
-
-            Tools, Configs, Custom Voices, and Prompts are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.
-
-            Version numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number.
+            Version number for a tool. Version numbers should be integers.
 
         version_description : typing.Optional[str]
-            An optional description of the Tool version.
+            Description that is appended to a specific version of a Tool.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.

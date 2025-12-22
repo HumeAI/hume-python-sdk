@@ -1,5 +1,5 @@
 diff --git a/src/hume/empathic_voice/chat/raw_client.py b/src/hume/empathic_voice/chat/raw_client.py
-index fefee870..ed718e98 100644
+index fefee87..23e2b4a 100644
 --- a/src/hume/empathic_voice/chat/raw_client.py
 +++ b/src/hume/empathic_voice/chat/raw_client.py
 @@ -10,7 +10,6 @@ from ...core.api_error import ApiError
@@ -18,7 +18,7 @@ index fefee870..ed718e98 100644
          config_id: typing.Optional[str] = None,
          config_version: typing.Optional[int] = None,
          event_limit: typing.Optional[int] = None,
-@@ -50,6 +50,9 @@ class RawChatClient:
+@@ -50,12 +50,15 @@ class RawChatClient:
  
              For more details, refer to the [Authentication Strategies Guide](/docs/introduction/api-key#authentication-strategies).
  
@@ -28,7 +28,39 @@ index fefee870..ed718e98 100644
          config_id : typing.Optional[str]
              The unique identifier for an EVI configuration.
  
-@@ -103,6 +106,8 @@ class RawChatClient:
+-            Include this ID in your connection request to equip EVI with the Prompt, Language Model, Voice, and Tools associated with the specified configuration. If omitted, EVI will apply [default configuration settings](/docs/speech-to-speech-evi/configuration/build-a-configuration#default-configuration).
++            Include this ID in your connection request to equip EVI with the Prompt, Language Model, Voice, and Tools associated with the specified configuration. If omitted, EVI will apply [default configuration settings](/docs/empathic-voice-interface-evi/configuration#default-configuration).
+ 
+-            For help obtaining this ID, see our [Configuration Guide](/docs/speech-to-speech-evi/configuration).
++            For help obtaining this ID, see our [Configuration Guide](/docs/empathic-voice-interface-evi/configuration).
+ 
+         config_version : typing.Optional[int]
+             The version number of the EVI configuration specified by the `config_id`.
+@@ -76,19 +79,16 @@ class RawChatClient:
+ 
+             There are three ways to obtain the Chat Group ID:
+ 
+-            - [Chat Metadata](/reference/speech-to-speech-evi/chat#receive.ChatMetadata): Upon establishing a WebSocket connection with EVI, the user receives a Chat Metadata message. This message contains a `chat_group_id`, which can be used to resume conversations within this chat group in future sessions.
++            - [Chat Metadata](/reference/empathic-voice-interface-evi/chat/chat#receive.Chat%20Metadata.type): Upon establishing a WebSocket connection with EVI, the user receives a Chat Metadata message. This message contains a `chat_group_id`, which can be used to resume conversations within this chat group in future sessions.
+ 
+-            - [List Chats endpoint](/reference/speech-to-speech-evi/chats/list-chats): Use the GET `/v0/evi/chats` endpoint to obtain the Chat Group ID of individual Chat sessions. This endpoint lists all available Chat sessions and their associated Chat Group ID.
++            - [List Chats endpoint](/reference/empathic-voice-interface-evi/chats/list-chats): Use the GET `/v0/evi/chats` endpoint to obtain the Chat Group ID of individual Chat sessions. This endpoint lists all available Chat sessions and their associated Chat Group ID.
+ 
+-            - [List Chat Groups endpoint](/reference/speech-to-speech-evi/chat-groups/list-chat-groups): Use the GET `/v0/evi/chat_groups` endpoint to obtain the Chat Group IDs of all Chat Groups associated with an API key. This endpoint returns a list of all available chat groups.
++            - [List Chat Groups endpoint](/reference/empathic-voice-interface-evi/chat-groups/list-chat-groups): Use the GET `/v0/evi/chat_groups` endpoint to obtain the Chat Group IDs of all Chat Groups associated with an API key. This endpoint returns a list of all available chat groups.
+ 
+         verbose_transcription : typing.Optional[bool]
+-            A flag to enable verbose transcription. Set this query parameter to `true` to have unfinalized user transcripts be sent to the client as interim UserMessage messages. The [interim](/reference/speech-to-speech-evi/chat#receive.UserMessage.interim) field on a [UserMessage](/reference/speech-to-speech-evi/chat#receive.UserMessage) denotes whether the message is "interim" or "final."
++            A flag to enable verbose transcription. Set this query parameter to `"true"` to have unfinalized user transcripts be sent to the client as interim `UserMessage` messages.
+ 
+         api_key : typing.Optional[str]
+-            API key used for authenticating the client. If not provided, an `access_token` must be provided to authenticate.
+-
+-            For more details, refer to the [Authentication Strategies Guide](/docs/introduction/api-key#authentication-strategies).
+ 
+         session_settings : ConnectSessionSettings
+ 
+@@ -103,6 +103,8 @@ class RawChatClient:
          query_params = httpx.QueryParams()
          if access_token is not None:
              query_params = query_params.add("access_token", access_token)
@@ -37,7 +69,7 @@ index fefee870..ed718e98 100644
          if config_id is not None:
              query_params = query_params.add("config_id", config_id)
          if config_version is not None:
-@@ -115,10 +120,18 @@ class RawChatClient:
+@@ -115,10 +117,18 @@ class RawChatClient:
              query_params = query_params.add("verbose_transcription", verbose_transcription)
          if api_key is not None:
              query_params = query_params.add("api_key", api_key)
@@ -60,7 +92,7 @@ index fefee870..ed718e98 100644
          ws_url = ws_url + f"?{query_params}"
          headers = self._client_wrapper.get_headers()
          if request_options and "additional_headers" in request_options:
-@@ -150,6 +163,7 @@ class AsyncRawChatClient:
+@@ -150,6 +160,7 @@ class AsyncRawChatClient:
          self,
          *,
          access_token: typing.Optional[str] = None,
@@ -68,7 +100,7 @@ index fefee870..ed718e98 100644
          config_id: typing.Optional[str] = None,
          config_version: typing.Optional[int] = None,
          event_limit: typing.Optional[int] = None,
-@@ -171,6 +185,9 @@ class AsyncRawChatClient:
+@@ -171,12 +182,15 @@ class AsyncRawChatClient:
  
              For more details, refer to the [Authentication Strategies Guide](/docs/introduction/api-key#authentication-strategies).
  
@@ -78,7 +110,39 @@ index fefee870..ed718e98 100644
          config_id : typing.Optional[str]
              The unique identifier for an EVI configuration.
  
-@@ -224,6 +241,8 @@ class AsyncRawChatClient:
+-            Include this ID in your connection request to equip EVI with the Prompt, Language Model, Voice, and Tools associated with the specified configuration. If omitted, EVI will apply [default configuration settings](/docs/speech-to-speech-evi/configuration/build-a-configuration#default-configuration).
++            Include this ID in your connection request to equip EVI with the Prompt, Language Model, Voice, and Tools associated with the specified configuration. If omitted, EVI will apply [default configuration settings](/docs/empathic-voice-interface-evi/configuration#default-configuration).
+ 
+-            For help obtaining this ID, see our [Configuration Guide](/docs/speech-to-speech-evi/configuration).
++            For help obtaining this ID, see our [Configuration Guide](/docs/empathic-voice-interface-evi/configuration).
+ 
+         config_version : typing.Optional[int]
+             The version number of the EVI configuration specified by the `config_id`.
+@@ -197,19 +211,16 @@ class AsyncRawChatClient:
+ 
+             There are three ways to obtain the Chat Group ID:
+ 
+-            - [Chat Metadata](/reference/speech-to-speech-evi/chat#receive.ChatMetadata): Upon establishing a WebSocket connection with EVI, the user receives a Chat Metadata message. This message contains a `chat_group_id`, which can be used to resume conversations within this chat group in future sessions.
++            - [Chat Metadata](/reference/empathic-voice-interface-evi/chat/chat#receive.Chat%20Metadata.type): Upon establishing a WebSocket connection with EVI, the user receives a Chat Metadata message. This message contains a `chat_group_id`, which can be used to resume conversations within this chat group in future sessions.
+ 
+-            - [List Chats endpoint](/reference/speech-to-speech-evi/chats/list-chats): Use the GET `/v0/evi/chats` endpoint to obtain the Chat Group ID of individual Chat sessions. This endpoint lists all available Chat sessions and their associated Chat Group ID.
++            - [List Chats endpoint](/reference/empathic-voice-interface-evi/chats/list-chats): Use the GET `/v0/evi/chats` endpoint to obtain the Chat Group ID of individual Chat sessions. This endpoint lists all available Chat sessions and their associated Chat Group ID.
+ 
+-            - [List Chat Groups endpoint](/reference/speech-to-speech-evi/chat-groups/list-chat-groups): Use the GET `/v0/evi/chat_groups` endpoint to obtain the Chat Group IDs of all Chat Groups associated with an API key. This endpoint returns a list of all available chat groups.
++            - [List Chat Groups endpoint](/reference/empathic-voice-interface-evi/chat-groups/list-chat-groups): Use the GET `/v0/evi/chat_groups` endpoint to obtain the Chat Group IDs of all Chat Groups associated with an API key. This endpoint returns a list of all available chat groups.
+ 
+         verbose_transcription : typing.Optional[bool]
+-            A flag to enable verbose transcription. Set this query parameter to `true` to have unfinalized user transcripts be sent to the client as interim UserMessage messages. The [interim](/reference/speech-to-speech-evi/chat#receive.UserMessage.interim) field on a [UserMessage](/reference/speech-to-speech-evi/chat#receive.UserMessage) denotes whether the message is "interim" or "final."
++            A flag to enable verbose transcription. Set this query parameter to `"true"` to have unfinalized user transcripts be sent to the client as interim `UserMessage` messages.
+ 
+         api_key : typing.Optional[str]
+-            API key used for authenticating the client. If not provided, an `access_token` must be provided to authenticate.
+-
+-            For more details, refer to the [Authentication Strategies Guide](/docs/introduction/api-key#authentication-strategies).
+ 
+         session_settings : ConnectSessionSettings
+ 
+@@ -224,6 +235,8 @@ class AsyncRawChatClient:
          query_params = httpx.QueryParams()
          if access_token is not None:
              query_params = query_params.add("access_token", access_token)
@@ -87,7 +151,7 @@ index fefee870..ed718e98 100644
          if config_id is not None:
              query_params = query_params.add("config_id", config_id)
          if config_version is not None:
-@@ -236,10 +255,18 @@ class AsyncRawChatClient:
+@@ -236,10 +249,18 @@ class AsyncRawChatClient:
              query_params = query_params.add("verbose_transcription", verbose_transcription)
          if api_key is not None:
              query_params = query_params.add("api_key", api_key)

@@ -100,6 +100,7 @@ if typing.TYPE_CHECKING:
     from .return_webhook_spec import ReturnWebhookSpec
     from .role import Role
     from .session_settings import SessionSettings
+    from .session_settings_message import SessionSettingsMessage
     from .session_settings_variables_value import SessionSettingsVariablesValue
     from .subscribe_event import SubscribeEvent
     from .tool import Tool
@@ -217,6 +218,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ReturnWebhookSpec": ".return_webhook_spec",
     "Role": ".role",
     "SessionSettings": ".session_settings",
+    "SessionSettingsMessage": ".session_settings_message",
     "SessionSettingsVariablesValue": ".session_settings_variables_value",
     "SubscribeEvent": ".subscribe_event",
     "Tool": ".tool",
@@ -250,8 +252,10 @@ def __getattr__(attr_name: str) -> typing.Any:
         raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
     try:
         module = import_module(module_name, __package__)
-        result = getattr(module, attr_name)
-        return result
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
     except ImportError as e:
         raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
     except AttributeError as e:
@@ -356,6 +360,7 @@ __all__ = [
     "ReturnWebhookSpec",
     "Role",
     "SessionSettings",
+    "SessionSettingsMessage",
     "SessionSettingsVariablesValue",
     "SubscribeEvent",
     "Tool",

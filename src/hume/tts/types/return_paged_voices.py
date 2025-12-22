@@ -12,26 +12,24 @@ class ReturnPagedVoices(UniversalBaseModel):
     A paginated list Octave voices available for text-to-speech
     """
 
-    page_number: typing.Optional[int] = pydantic.Field(default=None)
+    page_number: int = pydantic.Field()
     """
-    The page number of the returned list.
-    
-    This value corresponds to the `page_number` parameter specified in the request. Pagination uses zero-based indexing.
+    The page number of the returned results.
     """
 
-    page_size: typing.Optional[int] = pydantic.Field(default=None)
+    page_size: int = pydantic.Field()
     """
     The maximum number of items returned per page.
     
     This value corresponds to the `page_size` parameter specified in the request.
     """
 
-    total_pages: typing.Optional[int] = pydantic.Field(default=None)
+    total_pages: int = pydantic.Field()
     """
     The total number of pages in the collection.
     """
 
-    voices_page: typing.Optional[typing.List[ReturnVoice]] = pydantic.Field(default=None)
+    voices_page: typing.List[ReturnVoice] = pydantic.Field()
     """
     List of voices returned for the specified `page_number` and `page_size`.
     """

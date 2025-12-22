@@ -13,21 +13,11 @@ class PostedLanguageModel(UniversalBaseModel):
     A LanguageModel to be posted to the server
     """
 
-    model_provider: typing.Optional[ModelProviderEnum] = pydantic.Field(default=None)
-    """
-    The provider of the supplemental language model.
-    """
-
-    model_resource: typing.Optional[LanguageModelType] = pydantic.Field(default=None)
-    """
-    String that specifies the language model to use with `model_provider`.
-    """
-
+    model_provider: typing.Optional[ModelProviderEnum] = None
+    model_resource: typing.Optional[LanguageModelType] = None
     temperature: typing.Optional[float] = pydantic.Field(default=None)
     """
-    The model temperature, with values between 0 to 1 (inclusive).
-    
-    Controls the randomness of the LLM's output, with values closer to 0 yielding focused, deterministic responses and values closer to 1 producing more creative, diverse responses.
+    Model temperature.
     """
 
     if IS_PYDANTIC_V2:

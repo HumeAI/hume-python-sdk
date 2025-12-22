@@ -13,41 +13,35 @@ class ReturnChatGroupPagedChats(UniversalBaseModel):
     A description of chat_group and its status with a paginated list of each chat in the chat_group
     """
 
-    active: typing.Optional[bool] = pydantic.Field(default=None)
-    """
-    Denotes whether there is an active Chat associated with this Chat Group.
-    """
-
+    active: typing.Optional[bool] = None
     chats_page: typing.List[ReturnChat] = pydantic.Field()
     """
-    List of Chats for the specified `page_number` and `page_size`.
+    List of chats and their metadata returned for the specified page number and page size.
     """
 
     first_start_timestamp: int = pydantic.Field()
     """
-    Time at which the first Chat in this Chat Group was created. Measured in seconds since the Unix epoch.
+    The timestamp when the first chat in this chat group started, formatted as a Unix epoch milliseconds.
     """
 
     id: str = pydantic.Field()
     """
-    Identifier for the Chat Group. Any Chat resumed from this Chat Group will have the same `chat_group_id`. Formatted as a UUID.
+    Identifier for the chat group. Any chat resumed from this chat will have the same chat_group_id. Formatted as a UUID.
     """
 
     most_recent_start_timestamp: int = pydantic.Field()
     """
-    Time at which the most recent Chat in this Chat Group was created. Measured in seconds since the Unix epoch.
+    The timestamp when the most recent chat in this chat group started, formatted as a Unix epoch milliseconds.
     """
 
     num_chats: int = pydantic.Field()
     """
-    The total number of Chats associated with this Chat Group.
+    The total number of chats in this chat group.
     """
 
     page_number: int = pydantic.Field()
     """
-    The page number of the returned list.
-    
-    This value corresponds to the `page_number` parameter specified in the request. Pagination uses zero-based indexing.
+    The page number of the returned results.
     """
 
     page_size: int = pydantic.Field()
@@ -57,13 +51,7 @@ class ReturnChatGroupPagedChats(UniversalBaseModel):
     This value corresponds to the `page_size` parameter specified in the request.
     """
 
-    pagination_direction: ReturnChatGroupPagedChatsPaginationDirection = pydantic.Field()
-    """
-    Indicates the order in which the paginated results are presented, based on their creation date.
-    
-    It shows `ASC` for ascending order (chronological, with the oldest records first) or `DESC` for descending order (reverse-chronological, with the newest records first). This value corresponds to the `ascending_order` query parameter used in the request.
-    """
-
+    pagination_direction: ReturnChatGroupPagedChatsPaginationDirection
     total_pages: int = pydantic.Field()
     """
     The total number of pages in the collection.
