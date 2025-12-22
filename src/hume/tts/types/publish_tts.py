@@ -19,7 +19,11 @@ class PublishTts(UniversalBaseModel):
 
     description: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Natural language instructions describing how the text should be spoken by the model (e.g., `"a soft, gentle voice with a strong British accent"`).
+    Natural language instructions describing how the synthesized speech should sound, including but not limited to tone, intonation, pacing, and accent.
+    
+    **This field behaves differently depending on whether a voice is specified**:
+    - **Voice specified**: the description will serve as acting directions for delivery. Keep directions concise—100 characters or fewer—for best results. See our guide on [acting instructions](/docs/text-to-speech-tts/acting-instructions).
+    - **Voice not specified**: the description will serve as a voice prompt for generating a voice. See our [prompting guide](/docs/text-to-speech-tts/prompting) for design tips.
     """
 
     flush: typing.Optional[bool] = pydantic.Field(default=None)
@@ -29,12 +33,12 @@ class PublishTts(UniversalBaseModel):
 
     speed: typing.Optional[float] = pydantic.Field(default=None)
     """
-    A relative measure of how fast this utterance should be spoken.
+    Speed multiplier for the synthesized speech. Extreme values below 0.75 and above 1.5 may sometimes cause instability to the generated output.
     """
 
     text: typing.Optional[str] = pydantic.Field(default=None)
     """
-    The input text to be converted to speech output.
+    The input text to be synthesized into speech.
     """
 
     trailing_silence: typing.Optional[float] = pydantic.Field(default=None)
@@ -44,7 +48,9 @@ class PublishTts(UniversalBaseModel):
 
     voice: typing.Optional[PostedUtteranceVoice] = pydantic.Field(default=None)
     """
-    The name or ID of the voice from the `Voice Library` to be used as the speaker for this and all subsequent utterances, until the `"voice"` field is updated again.
+    The `name` or `id` associated with a **Voice** from the **Voice Library** to be used as the speaker for this and all subsequent `utterances`, until the `voice` field is updated again.
+    
+     See our [voices guide](/docs/text-to-speech-tts/voices) for more details on generating and specifying **Voices**.
     """
 
     if IS_PYDANTIC_V2:

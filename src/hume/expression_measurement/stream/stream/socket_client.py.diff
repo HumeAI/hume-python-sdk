@@ -1,5 +1,5 @@
 diff --git a/src/hume/expression_measurement/stream/stream/socket_client.py b/src/hume/expression_measurement/stream/stream/socket_client.py
-index fcd83929..85935e4e 100644
+index fcd8392..85935e4 100644
 --- a/src/hume/expression_measurement/stream/stream/socket_client.py
 +++ b/src/hume/expression_measurement/stream/stream/socket_client.py
 @@ -1,18 +1,13 @@

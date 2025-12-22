@@ -13,9 +13,7 @@ class ReturnEllmModel(UniversalBaseModel):
 
     allow_short_responses: bool = pydantic.Field()
     """
-    Boolean indicating if the eLLM is allowed to generate short responses.
-    
-    If omitted, short responses from the eLLM are enabled by default.
+    Boolean indicating if the model is allowed to generate short responses.
     """
 
     if IS_PYDANTIC_V2:

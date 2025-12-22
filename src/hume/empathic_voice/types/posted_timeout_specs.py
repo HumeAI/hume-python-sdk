@@ -10,24 +10,11 @@ from .posted_timeout_specs_max_duration import PostedTimeoutSpecsMaxDuration
 
 class PostedTimeoutSpecs(UniversalBaseModel):
     """
-    Collection of timeout specifications returned by the server.
-
-    Timeouts are sent by the server when specific time-based events occur during a chat session. These specifications set the inactivity timeout and the maximum duration an EVI WebSocket connection can stay open before it is automatically disconnected.
+    Collection of timeout specs to be posted to the server
     """
 
-    inactivity: typing.Optional[PostedTimeoutSpecsInactivity] = pydantic.Field(default=None)
-    """
-    Specifies the duration of user inactivity (in seconds) after which the EVI WebSocket connection will be automatically disconnected. Default is 600 seconds (10 minutes).
-    
-    Accepts a minimum value of 30 seconds and a maximum value of 1,800 seconds.
-    """
-
-    max_duration: typing.Optional[PostedTimeoutSpecsMaxDuration] = pydantic.Field(default=None)
-    """
-    Specifies the maximum allowed duration (in seconds) for an EVI WebSocket connection before it is automatically disconnected. Default is 1,800 seconds (30 minutes).
-    
-    Accepts a minimum value of 30 seconds and a maximum value of 1,800 seconds.
-    """
+    inactivity: typing.Optional[PostedTimeoutSpecsInactivity] = None
+    max_duration: typing.Optional[PostedTimeoutSpecsMaxDuration] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

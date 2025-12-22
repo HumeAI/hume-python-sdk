@@ -16,17 +16,17 @@ class ConnectSessionSettingsAudio(UniversalBaseModel):
 
     channels: typing.Optional[int] = pydantic.Field(default=None)
     """
-    Sets number of audio channels for audio input.
+    Number of audio channels.
     """
 
     encoding: typing.Optional[Encoding] = pydantic.Field(default=None)
     """
-    Sets encoding format of the audio input, such as `linear16`.
+    Encoding format of the audio input, such as `linear16`.
     """
 
     sample_rate: typing.Optional[int] = pydantic.Field(default=None)
     """
-    Sets the sample rate for audio input. (Number of samples per second in the audio input, measured in Hertz.)
+    Audio sample rate. Number of samples per second in the audio input, measured in Hertz.
     """
 
     if IS_PYDANTIC_V2:

@@ -155,11 +155,6 @@ For a comparison of Octave versions, see the [Octave versions](/docs/text-to-spe
 <dd>
 
 **instant_mode:** `typing.Optional[bool]` 
-
-Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
-- A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
-- Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
-- Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
     
 </dd>
 </dl>
@@ -329,11 +324,6 @@ For a comparison of Octave versions, see the [Octave versions](/docs/text-to-spe
 <dd>
 
 **instant_mode:** `typing.Optional[bool]` 
-
-Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
-- A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
-- Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
-- Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
     
 </dd>
 </dl>
@@ -499,11 +489,6 @@ For a comparison of Octave versions, see the [Octave versions](/docs/text-to-spe
 <dd>
 
 **instant_mode:** `typing.Optional[bool]` 
-
-Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
-- A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
-- Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
-- Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
     
 </dd>
 </dl>
@@ -673,11 +658,6 @@ For a comparison of Octave versions, see the [Octave versions](/docs/text-to-spe
 <dd>
 
 **instant_mode:** `typing.Optional[bool]` 
-
-Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). 
-- A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
-- Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
-- Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
     
 </dd>
 </dl>
@@ -775,7 +755,7 @@ typing.Optional[core.File]` — See core.File for more documentation
 <dl>
 <dd>
 
-**include_timestamp_types:** `typing.Optional[typing.List[TimestampType]]` — The set of timestamp types to include in the response.
+**include_timestamp_types:** `typing.Optional[typing.List[TimestampType]]` — The set of timestamp types to include in the response. When used in multipart/form-data, specify each value using bracket notation: `include_timestamp_types[0]=word&include_timestamp_types[1]=phoneme`. Only supported for Octave 2 requests.
     
 </dd>
 </dl>
@@ -808,7 +788,7 @@ typing.Optional[core.File]` — See core.File for more documentation
 <dl>
 <dd>
 
-Lists voices you have saved in your account, or voices from the [Voice Library](https://platform.hume.ai/tts/voice-library).
+Lists voices you have saved in your account, or voices from the [Voice Library](https://app.hume.ai/voices).
 </dd>
 </dl>
 </dd>
@@ -855,7 +835,7 @@ for page in response.iter_pages():
 
 Specify the voice provider to filter voices returned by the endpoint:
 
-- **`HUME_AI`**: Lists preset, shared voices from Hume's [Voice Library](https://platform.hume.ai/tts/voice-library).
+- **`HUME_AI`**: Lists preset, shared voices from Hume's [Voice Library](https://app.hume.ai/voices).
 - **`CUSTOM_VOICE`**: Lists custom voices created and saved to your account.
     
 </dd>
@@ -889,6 +869,14 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dd>
 
 **ascending_order:** `typing.Optional[bool]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**filter_tag:** `typing.Optional[typing.Union[str, typing.Sequence[str]]]` 
     
 </dd>
 </dl>
@@ -969,7 +957,7 @@ client.tts.voices.create(
 <dl>
 <dd>
 
-**name:** `str` — Name of the voice in the `Voice Library`.
+**name:** `str` — The name of a **Voice**.
     
 </dd>
 </dl>
@@ -1145,20 +1133,6 @@ client.empathic_voice.control_plane.send(
 <dl>
 <dd>
 
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Fetches a paginated list of **Chat Groups**.
-</dd>
-</dl>
-</dd>
-</dl>
-
 #### 🔌 Usage
 
 <dl>
@@ -1223,7 +1197,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dl>
 <dd>
 
-**ascending_order:** `typing.Optional[bool]` — Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
+**ascending_order:** `typing.Optional[bool]` — Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
     
 </dd>
 </dl>
@@ -1231,11 +1205,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dl>
 <dd>
 
-**config_id:** `typing.Optional[str]` 
-
-The unique identifier for an EVI configuration.
-
-Filter Chat Groups to only include Chats that used this `config_id` in their most recent Chat.
+**config_id:** `typing.Optional[str]` — Filter chatgroups to only include chats that used this config in their most recent chat.
     
 </dd>
 </dl>
@@ -1258,20 +1228,6 @@ Filter Chat Groups to only include Chats that used this `config_id` in their mos
 <details><summary><code>client.empathic_voice.chat_groups.<a href="src/hume/empathic_voice/chat_groups/client.py">get_chat_group</a>(...)</code></summary>
 <dl>
 <dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Fetches a **ChatGroup** by ID, including a paginated list of **Chats** associated with the **ChatGroup**.
-</dd>
-</dl>
-</dd>
-</dl>
 
 #### 🔌 Usage
 
@@ -1308,7 +1264,15 @@ client.empathic_voice.chat_groups.get_chat_group(
 <dl>
 <dd>
 
-**id:** `str` — Identifier for a Chat Group. Formatted as a UUID.
+**id:** `str` — Identifier for a chat. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**status:** `typing.Optional[str]` — Chat status to apply to the chat. String from the ChatStatus enum.
     
 </dd>
 </dl>
@@ -1340,7 +1304,7 @@ This parameter uses zero-based indexing. For example, setting `page_number` to 0
 <dl>
 <dd>
 
-**ascending_order:** `typing.Optional[bool]` — Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
+**ascending_order:** `typing.Optional[bool]` — Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
     
 </dd>
 </dl>
@@ -1363,20 +1327,6 @@ This parameter uses zero-based indexing. For example, setting `page_number` to 0
 <details><summary><code>client.empathic_voice.chat_groups.<a href="src/hume/empathic_voice/chat_groups/client.py">get_audio</a>(...)</code></summary>
 <dl>
 <dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Fetches a paginated list of audio for each **Chat** within the specified **Chat Group**. For more details, see our guide on audio reconstruction [here](/docs/speech-to-speech-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
-</dd>
-</dl>
-</dd>
-</dl>
 
 #### 🔌 Usage
 
@@ -1413,7 +1363,7 @@ client.empathic_voice.chat_groups.get_audio(
 <dl>
 <dd>
 
-**id:** `str` — Identifier for a Chat Group. Formatted as a UUID.
+**id:** `str` — Identifier for a chat. Formatted as a UUID.
     
 </dd>
 </dl>
@@ -1445,7 +1395,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dl>
 <dd>
 
-**ascending_order:** `typing.Optional[bool]` — Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
+**ascending_order:** `typing.Optional[bool]` — Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
     
 </dd>
 </dl>
@@ -1468,20 +1418,6 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <details><summary><code>client.empathic_voice.chat_groups.<a href="src/hume/empathic_voice/chat_groups/client.py">list_chat_group_events</a>(...)</code></summary>
 <dl>
 <dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Fetches a paginated list of **Chat** events associated with a **Chat Group**.
-</dd>
-</dl>
-</dd>
-</dl>
 
 #### 🔌 Usage
 
@@ -1523,7 +1459,7 @@ for page in response.iter_pages():
 <dl>
 <dd>
 
-**id:** `str` — Identifier for a Chat Group. Formatted as a UUID.
+**id:** `str` — Identifier for a chat. Formatted as a UUID.
     
 </dd>
 </dl>
@@ -1555,7 +1491,7 @@ This parameter uses zero-based indexing. For example, setting `page_number` to 0
 <dl>
 <dd>
 
-**ascending_order:** `typing.Optional[bool]` — Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
+**ascending_order:** `typing.Optional[bool]` — Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
     
 </dd>
 </dl>
@@ -1579,20 +1515,6 @@ This parameter uses zero-based indexing. For example, setting `page_number` to 0
 <details><summary><code>client.empathic_voice.chats.<a href="src/hume/empathic_voice/chats/client.py">list_chats</a>(...)</code></summary>
 <dl>
 <dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Fetches a paginated list of **Chats**.
-</dd>
-</dl>
-</dd>
-</dl>
 
 #### 🔌 Usage
 
@@ -1657,7 +1579,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dl>
 <dd>
 
-**ascending_order:** `typing.Optional[bool]` — Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
+**ascending_order:** `typing.Optional[bool]` — Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
     
 </dd>
 </dl>
@@ -1666,6 +1588,14 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dd>
 
 **config_id:** `typing.Optional[str]` — Filter to only include chats that used this config.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**status:** `typing.Optional[str]` — Chat status to apply to the chat. String from the ChatStatus enum.
     
 </dd>
 </dl>
@@ -1688,20 +1618,6 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <details><summary><code>client.empathic_voice.chats.<a href="src/hume/empathic_voice/chats/client.py">list_chat_events</a>(...)</code></summary>
 <dl>
 <dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Fetches a paginated list of **Chat** events.
-</dd>
-</dl>
-</dd>
-</dl>
 
 #### 🔌 Usage
 
@@ -1743,7 +1659,7 @@ for page in response.iter_pages():
 <dl>
 <dd>
 
-**id:** `str` — Identifier for a Chat. Formatted as a UUID.
+**id:** `str` — Identifier for a chat. Formatted as a UUID.
     
 </dd>
 </dl>
@@ -1775,7 +1691,7 @@ This parameter uses zero-based indexing. For example, setting `page_number` to 0
 <dl>
 <dd>
 
-**ascending_order:** `typing.Optional[bool]` — Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
+**ascending_order:** `typing.Optional[bool]` — Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
     
 </dd>
 </dl>
@@ -1798,20 +1714,6 @@ This parameter uses zero-based indexing. For example, setting `page_number` to 0
 <details><summary><code>client.empathic_voice.chats.<a href="src/hume/empathic_voice/chats/client.py">get_audio</a>(...)</code></summary>
 <dl>
 <dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Fetches the audio of a previous **Chat**. For more details, see our guide on audio reconstruction [here](/docs/speech-to-speech-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
-</dd>
-</dl>
-</dd>
-</dl>
 
 #### 🔌 Usage
 
@@ -1869,22 +1771,6 @@ client.empathic_voice.chats.get_audio(
 <details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">list_configs</a>(...)</code></summary>
 <dl>
 <dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Fetches a paginated list of **Configs**.
-
-For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
-</dd>
-</dl>
-</dd>
-</dl>
 
 #### 🔌 Usage
 
@@ -1980,22 +1866,6 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dl>
 <dd>
 
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Creates a **Config** which can be applied to EVI.
-
-For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
-</dd>
-</dl>
-</dd>
-</dl>
-
 #### 🔌 Usage
 
 <dl>
@@ -2063,7 +1933,7 @@ client.empathic_voice.configs.create_config(
 <dl>
 <dd>
 
-**evi_version:** `str` — EVI version to use. Only versions `3` and `4-mini` are supported.
+**evi_version:** `str` — The version of the EVI used with this config.
     
 </dd>
 </dl>
@@ -2079,7 +1949,7 @@ client.empathic_voice.configs.create_config(
 <dl>
 <dd>
 
-**builtin_tools:** `typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]` — List of built-in tools associated with this Config.
+**builtin_tools:** `typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]` — Built-in tool specification for a Config.
     
 </dd>
 </dl>
@@ -2088,10 +1958,6 @@ client.empathic_voice.configs.create_config(
 <dd>
 
 **ellm_model:** `typing.Optional[PostedEllmModel]` 
-
-The eLLM setup associated with this Config.
-
-Hume's eLLM (empathic Large Language Model) is a multimodal language model that takes into account both expression measures and language. The eLLM generates short, empathic language responses and guides text-to-speech (TTS) prosody.
     
 </dd>
 </dl>
@@ -2108,10 +1974,6 @@ Hume's eLLM (empathic Large Language Model) is a multimodal language model that 
 <dd>
 
 **language_model:** `typing.Optional[PostedLanguageModel]` 
-
-The supplemental language model associated with this Config.
-
-This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
     
 </dd>
 </dl>
@@ -2119,7 +1981,7 @@ This model is used to generate longer, more detailed responses from EVI. Choosin
 <dl>
 <dd>
 
-**nudges:** `typing.Optional[PostedNudgeSpec]` — Configures nudges, brief audio prompts that can guide conversations when users pause or need encouragement to continue speaking. Nudges help create more natural, flowing interactions by providing gentle conversational cues. 
+**nudges:** `typing.Optional[PostedNudgeSpec]` 
     
 </dd>
 </dl>
@@ -2143,7 +2005,7 @@ This model is used to generate longer, more detailed responses from EVI. Choosin
 <dl>
 <dd>
 
-**tools:** `typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]` — List of user-defined tools associated with this Config.
+**tools:** `typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]` — Tool specification for a Config.
     
 </dd>
 </dl>
@@ -2151,7 +2013,7 @@ This model is used to generate longer, more detailed responses from EVI. Choosin
 <dl>
 <dd>
 
-**version_description:** `typing.Optional[str]` — An optional description of the Config version.
+**version_description:** `typing.Optional[str]` — Description that is appended to a specific version of a Config.
     
 </dd>
 </dl>
@@ -2159,7 +2021,7 @@ This model is used to generate longer, more detailed responses from EVI. Choosin
 <dl>
 <dd>
 
-**voice:** `typing.Optional[VoiceRef]` — A voice specification associated with this Config.
+**voice:** `typing.Optional[VoiceRef]` 
     
 </dd>
 </dl>
@@ -2190,22 +2052,6 @@ This model is used to generate longer, more detailed responses from EVI. Choosin
 <details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">list_config_versions</a>(...)</code></summary>
 <dl>
 <dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Fetches a list of a **Config's** versions.
-
-For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
-</dd>
-</dl>
-</dd>
-</dl>
 
 #### 🔌 Usage
 
@@ -2244,7 +2090,7 @@ for page in response.iter_pages():
 <dl>
 <dd>
 
-**id:** `str` — Identifier for a Config. Formatted as a UUID.
+**id:** `str` — Identifier for a config. Formatted as a UUID.
     
 </dd>
 </dl>
@@ -2276,7 +2122,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dl>
 <dd>
 
-**restrict_to_most_recent:** `typing.Optional[bool]` — By default, `restrict_to_most_recent` is set to true, returning only the latest version of each config. To include all versions of each config in the list, set `restrict_to_most_recent` to false.
+**restrict_to_most_recent:** `typing.Optional[bool]` — By default, `restrict_to_most_recent` is set to true, returning only the latest version of each tool. To include all versions of each tool in the list, set `restrict_to_most_recent` to false.
     
 </dd>
 </dl>
@@ -2299,22 +2145,6 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">create_config_version</a>(...)</code></summary>
 <dl>
 <dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Updates a **Config** by creating a new version of the **Config**.
-
-For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
-</dd>
-</dl>
-</dd>
-</dl>
 
 #### 🔌 Usage
 
@@ -2388,7 +2218,7 @@ client.empathic_voice.configs.create_config_version(
 <dl>
 <dd>
 
-**id:** `str` — Identifier for a Config. Formatted as a UUID.
+**id:** `str` — Identifier for a config. Formatted as a UUID.
     
 </dd>
 </dl>
@@ -2404,7 +2234,7 @@ client.empathic_voice.configs.create_config_version(
 <dl>
 <dd>
 
-**builtin_tools:** `typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]` — List of built-in tools associated with this Config version.
+**builtin_tools:** `typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]` — Built-in tool specification for a Config.
     
 </dd>
 </dl>
@@ -2413,10 +2243,6 @@ client.empathic_voice.configs.create_config_version(
 <dd>
 
 **ellm_model:** `typing.Optional[PostedEllmModel]` 
-
-The eLLM setup associated with this Config version.
-
-Hume's eLLM (empathic Large Language Model) is a multimodal language model that takes into account both expression measures and language. The eLLM generates short, empathic language responses and guides text-to-speech (TTS) prosody.
     
 </dd>
 </dl>
@@ -2433,10 +2259,6 @@ Hume's eLLM (empathic Large Language Model) is a multimodal language model that 
 <dd>
 
 **language_model:** `typing.Optional[PostedLanguageModel]` 
-
-The supplemental language model associated with this Config version.
-
-This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
     
 </dd>
 </dl>
@@ -2468,7 +2290,7 @@ This model is used to generate longer, more detailed responses from EVI. Choosin
 <dl>
 <dd>
 
-**tools:** `typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]` — List of user-defined tools associated with this Config version.
+**tools:** `typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]` — Tool specification for a Config.
     
 </dd>
 </dl>
@@ -2476,7 +2298,7 @@ This model is used to generate longer, more detailed responses from EVI. Choosin
 <dl>
 <dd>
 
-**version_description:** `typing.Optional[str]` — An optional description of the Config version.
+**version_description:** `typing.Optional[str]` — Description that is appended to a specific version of a Config.
     
 </dd>
 </dl>
@@ -2484,7 +2306,7 @@ This model is used to generate longer, more detailed responses from EVI. Choosin
 <dl>
 <dd>
 
-**voice:** `typing.Optional[VoiceRef]` — A voice specification associated with this Config version.
+**voice:** `typing.Optional[VoiceRef]` 
     
 </dd>
 </dl>
@@ -2515,22 +2337,6 @@ This model is used to generate longer, more detailed responses from EVI. Choosin
 <details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">delete_config</a>(...)</code></summary>
 <dl>
 <dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Deletes a **Config** and its versions.
-
-For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
-</dd>
-</dl>
-</dd>
-</dl>
 
 #### 🔌 Usage
 
@@ -2564,7 +2370,7 @@ client.empathic_voice.configs.delete_config(
 <dl>
 <dd>
 
-**id:** `str` — Identifier for a Config. Formatted as a UUID.
+**id:** `str` — Identifier for a config. Formatted as a UUID.
     
 </dd>
 </dl>
@@ -2587,22 +2393,6 @@ client.empathic_voice.configs.delete_config(
 <details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">update_config_name</a>(...)</code></summary>
 <dl>
 <dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Updates the name of a **Config**.
-
-For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
-</dd>
-</dl>
-</dd>
-</dl>
 
 #### 🔌 Usage
 
@@ -2637,7 +2427,7 @@ client.empathic_voice.configs.update_config_name(
 <dl>
 <dd>
 
-**id:** `str` — Identifier for a Config. Formatted as a UUID.
+**id:** `str` — Identifier for a config. Formatted as a UUID.
     
 </dd>
 </dl>
@@ -2668,22 +2458,6 @@ client.empathic_voice.configs.update_config_name(
 <details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">get_config_version</a>(...)</code></summary>
 <dl>
 <dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Fetches a specified version of a **Config**.
-
-For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
-</dd>
-</dl>
-</dd>
-</dl>
 
 #### 🔌 Usage
 
@@ -2718,7 +2492,7 @@ client.empathic_voice.configs.get_config_version(
 <dl>
 <dd>
 
-**id:** `str` — Identifier for a Config. Formatted as a UUID.
+**id:** `str` — Identifier for a config. Formatted as a UUID.
     
 </dd>
 </dl>
@@ -2726,13 +2500,7 @@ client.empathic_voice.configs.get_config_version(
 <dl>
 <dd>
 
-**version:** `int` 
-
-Version number for a Config.
-
-Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
-
-Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
+**version:** `int` — Version number for a config. Version numbers should be integers.
     
 </dd>
 </dl>
@@ -2755,22 +2523,6 @@ Version numbers are integer values representing different iterations of the Conf
 <details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">delete_config_version</a>(...)</code></summary>
 <dl>
 <dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Deletes a specified version of a **Config**.
-
-For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
-</dd>
-</dl>
-</dd>
-</dl>
 
 #### 🔌 Usage
 
@@ -2805,7 +2557,7 @@ client.empathic_voice.configs.delete_config_version(
 <dl>
 <dd>
 
-**id:** `str` — Identifier for a Config. Formatted as a UUID.
+**id:** `str` — Identifier for a config. Formatted as a UUID.
     
 </dd>
 </dl>
@@ -2813,13 +2565,7 @@ client.empathic_voice.configs.delete_config_version(
 <dl>
 <dd>
 
-**version:** `int` 
-
-Version number for a Config.
-
-Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
-
-Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
+**version:** `int` — Version number for a config. Version numbers should be integers.
     
 </dd>
 </dl>
@@ -2842,22 +2588,6 @@ Version numbers are integer values representing different iterations of the Conf
 <details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">update_config_description</a>(...)</code></summary>
 <dl>
 <dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Updates the description of a **Config**.
-
-For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
-</dd>
-</dl>
-</dd>
-</dl>
 
 #### 🔌 Usage
 
@@ -2893,7 +2623,7 @@ client.empathic_voice.configs.update_config_description(
 <dl>
 <dd>
 
-**id:** `str` — Identifier for a Config. Formatted as a UUID.
+**id:** `str` — Identifier for a config. Formatted as a UUID.
     
 </dd>
 </dl>
@@ -2901,13 +2631,7 @@ client.empathic_voice.configs.update_config_description(
 <dl>
 <dd>
 
-**version:** `int` 
-
-Version number for a Config.
-
-Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
-
-Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
+**version:** `int` — Version number for a config. Version numbers should be integers.
     
 </dd>
 </dl>
@@ -2915,7 +2639,7 @@ Version numbers are integer values representing different iterations of the Conf
 <dl>
 <dd>
 
-**version_description:** `typing.Optional[str]` — An optional description of the Config version.
+**version_description:** `typing.Optional[str]` — Description that is appended to a specific version of a Config.
     
 </dd>
 </dl>
@@ -2939,22 +2663,6 @@ Version numbers are integer values representing different iterations of the Conf
 <details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">list_prompts</a>(...)</code></summary>
 <dl>
 <dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Fetches a paginated list of **Prompts**.
-
-See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
-</dd>
-</dl>
-</dd>
-</dl>
 
 #### 🔌 Usage
 
@@ -3050,22 +2758,6 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dl>
 <dd>
 
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Creates a **Prompt** that can be added to an [EVI configuration](/reference/speech-to-speech-evi/configs/create-config).
-
-See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
-</dd>
-</dl>
-</dd>
-</dl>
-
 #### 🔌 Usage
 
 <dl>
@@ -3107,13 +2799,7 @@ client.empathic_voice.prompts.create_prompt(
 <dl>
 <dd>
 
-**text:** `str` 
-
-Instructions used to shape EVI's behavior, responses, and style.
-
-You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles.
-
-For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).
+**text:** `str` — Text used for this version of the Prompt.
     
 </dd>
 </dl>
@@ -3121,7 +2807,7 @@ For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-spee
 <dl>
 <dd>
 
-**version_description:** `typing.Optional[str]` — An optional description of the Prompt version.
+**version_description:** `typing.Optional[str]` — Description that is appended to a specific version of a Prompt.
     
 </dd>
 </dl>
@@ -3144,22 +2830,6 @@ For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-spee
 <details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">list_prompt_versions</a>(...)</code></summary>
 <dl>
 <dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Fetches a list of a **Prompt's** versions.
-
-See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
-</dd>
-</dl>
-</dd>
-</dl>
 
 #### 🔌 Usage
 
@@ -3193,7 +2863,7 @@ client.empathic_voice.prompts.list_prompt_versions(
 <dl>
 <dd>
 
-**id:** `str` — Identifier for a Prompt. Formatted as a UUID.
+**id:** `str` 
     
 </dd>
 </dl>
@@ -3225,7 +2895,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dl>
 <dd>
 
-**restrict_to_most_recent:** `typing.Optional[bool]` — By default, `restrict_to_most_recent` is set to true, returning only the latest version of each prompt. To include all versions of each prompt in the list, set `restrict_to_most_recent` to false.
+**restrict_to_most_recent:** `typing.Optional[bool]` — Only include the most recent version of each prompt in the list.
     
 </dd>
 </dl>
@@ -3248,22 +2918,6 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">create_prompt_version</a>(...)</code></summary>
 <dl>
 <dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Updates a **Prompt** by creating a new version of the **Prompt**.
-
-See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
-</dd>
-</dl>
-</dd>
-</dl>
 
 #### 🔌 Usage
 
@@ -3299,7 +2953,7 @@ client.empathic_voice.prompts.create_prompt_version(
 <dl>
 <dd>
 
-**id:** `str` — Identifier for a Prompt. Formatted as a UUID.
+**id:** `str` — Identifier for a prompt. Formatted as a UUID.
     
 </dd>
 </dl>
@@ -3307,13 +2961,7 @@ client.empathic_voice.prompts.create_prompt_version(
 <dl>
 <dd>
 
-**text:** `str` 
-
-Instructions used to shape EVI's behavior, responses, and style for this version of the Prompt.
-
-You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles.
-
-For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).
+**text:** `str` — Text used for this version of the Prompt.
     
 </dd>
 </dl>
@@ -3321,7 +2969,7 @@ For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-spee
 <dl>
 <dd>
 
-**version_description:** `typing.Optional[str]` — An optional description of the Prompt version.
+**version_description:** `typing.Optional[str]` — Description that is appended to a specific version of a Prompt.
     
 </dd>
 </dl>
@@ -3344,22 +2992,6 @@ For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-spee
 <details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">delete_prompt</a>(...)</code></summary>
 <dl>
 <dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Deletes a **Prompt** and its versions.
-
-See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
-</dd>
-</dl>
-</dd>
-</dl>
 
 #### 🔌 Usage
 
@@ -3393,7 +3025,7 @@ client.empathic_voice.prompts.delete_prompt(
 <dl>
 <dd>
 
-**id:** `str` — Identifier for a Prompt. Formatted as a UUID.
+**id:** `str` — Identifier for a prompt. Formatted as a UUID.
     
 </dd>
 </dl>
@@ -3416,22 +3048,6 @@ client.empathic_voice.prompts.delete_prompt(
 <details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">update_prompt_name</a>(...)</code></summary>
 <dl>
 <dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Updates the name of a **Prompt**.
-
-See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
-</dd>
-</dl>
-</dd>
-</dl>
 
 #### 🔌 Usage
 
@@ -3466,7 +3082,7 @@ client.empathic_voice.prompts.update_prompt_name(
 <dl>
 <dd>
 
-**id:** `str` — Identifier for a Prompt. Formatted as a UUID.
+**id:** `str` — Identifier for a prompt. Formatted as a UUID.
     
 </dd>
 </dl>
@@ -3497,22 +3113,6 @@ client.empathic_voice.prompts.update_prompt_name(
 <details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">get_prompt_version</a>(...)</code></summary>
 <dl>
 <dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Fetches a specified version of a **Prompt**.
-
-See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
-</dd>
-</dl>
-</dd>
-</dl>
 
 #### 🔌 Usage
 
@@ -3547,7 +3147,7 @@ client.empathic_voice.prompts.get_prompt_version(
 <dl>
 <dd>
 
-**id:** `str` — Identifier for a Prompt. Formatted as a UUID.
+**id:** `str` — Identifier for a prompt. Formatted as a UUID.
     
 </dd>
 </dl>
@@ -3555,13 +3155,7 @@ client.empathic_voice.prompts.get_prompt_version(
 <dl>
 <dd>
 
-**version:** `int` 
-
-Version number for a Prompt.
-
-Prompts, Configs, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
-
-Version numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number.
+**version:** `int` — Version number for a prompt. Version numbers should be integers.
     
 </dd>
 </dl>
@@ -3584,22 +3178,6 @@ Version numbers are integer values representing different iterations of the Prom
 <details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">delete_prompt_version</a>(...)</code></summary>
 <dl>
 <dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Deletes a specified version of a **Prompt**.
-
-See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
-</dd>
-</dl>
-</dd>
-</dl>
 
 #### 🔌 Usage
 
@@ -3634,7 +3212,7 @@ client.empathic_voice.prompts.delete_prompt_version(
 <dl>
 <dd>
 
-**id:** `str` — Identifier for a Prompt. Formatted as a UUID.
+**id:** `str` — Identifier for a prompt. Formatted as a UUID.
     
 </dd>
 </dl>
@@ -3642,13 +3220,7 @@ client.empathic_voice.prompts.delete_prompt_version(
 <dl>
 <dd>
 
-**version:** `int` 
-
-Version number for a Prompt.
-
-Prompts, Configs, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
-
-Version numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number.
+**version:** `int` — Version number for a prompt. Version numbers should be integers.
     
 </dd>
 </dl>
@@ -3671,22 +3243,6 @@ Version numbers are integer values representing different iterations of the Prom
 <details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">update_prompt_description</a>(...)</code></summary>
 <dl>
 <dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Updates the description of a **Prompt**.
-
-See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
-</dd>
-</dl>
-</dd>
-</dl>
 
 #### 🔌 Usage
 
@@ -3722,7 +3278,7 @@ client.empathic_voice.prompts.update_prompt_description(
 <dl>
 <dd>
 
-**id:** `str` — Identifier for a Prompt. Formatted as a UUID.
+**id:** `str` — Identifier for a prompt. Formatted as a UUID.
     
 </dd>
 </dl>
@@ -3730,13 +3286,7 @@ client.empathic_voice.prompts.update_prompt_description(
 <dl>
 <dd>
 
-**version:** `int` 
-
-Version number for a Prompt.
-
-Prompts, Configs, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
-
-Version numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number.
+**version:** `int` — Version number for a prompt. Version numbers should be integers.
     
 </dd>
 </dl>
@@ -3744,7 +3294,7 @@ Version numbers are integer values representing different iterations of the Prom
 <dl>
 <dd>
 
-**version_description:** `typing.Optional[str]` — An optional description of the Prompt version.
+**version_description:** `typing.Optional[str]` — Description that is appended to a specific version of a Prompt.
     
 </dd>
 </dl>
@@ -3768,22 +3318,6 @@ Version numbers are integer values representing different iterations of the Prom
 <details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">list_tools</a>(...)</code></summary>
 <dl>
 <dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Fetches a paginated list of **Tools**.
-
-Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
-</dd>
-</dl>
-</dd>
-</dl>
 
 #### 🔌 Usage
 
@@ -3879,22 +3413,6 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dl>
 <dd>
 
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Creates a **Tool** that can be added to an [EVI configuration](/reference/speech-to-speech-evi/configs/create-config).
-
-Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
-</dd>
-</dl>
-</dd>
-</dl>
-
 #### 🔌 Usage
 
 <dl>
@@ -3939,11 +3457,7 @@ client.empathic_voice.tools.create_tool(
 <dl>
 <dd>
 
-**parameters:** `str` 
-
-Stringified JSON defining the parameters used by this version of the Tool.
-
-These parameters define the inputs needed for the Tool's execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.
+**parameters:** `str` — Stringified JSON defining the parameters used by this version of the Tool.
     
 </dd>
 </dl>
@@ -3951,7 +3465,7 @@ These parameters define the inputs needed for the Tool's execution, including th
 <dl>
 <dd>
 
-**description:** `typing.Optional[str]` — An optional description of what the Tool does, used by the supplemental LLM to choose when and how to call the function.
+**description:** `typing.Optional[str]` — Text describing what the tool does.
     
 </dd>
 </dl>
@@ -3959,7 +3473,7 @@ These parameters define the inputs needed for the Tool's execution, including th
 <dl>
 <dd>
 
-**fallback_content:** `typing.Optional[str]` — Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
+**fallback_content:** `typing.Optional[str]` — Text to use if the tool fails to generate content.
     
 </dd>
 </dl>
@@ -3967,7 +3481,7 @@ These parameters define the inputs needed for the Tool's execution, including th
 <dl>
 <dd>
 
-**version_description:** `typing.Optional[str]` — An optional description of the Tool version.
+**version_description:** `typing.Optional[str]` — Description that is appended to a specific version of a Tool.
     
 </dd>
 </dl>
@@ -3990,22 +3504,6 @@ These parameters define the inputs needed for the Tool's execution, including th
 <details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">list_tool_versions</a>(...)</code></summary>
 <dl>
 <dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Fetches a list of a **Tool's** versions.
-
-Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
-</dd>
-</dl>
-</dd>
-</dl>
 
 #### 🔌 Usage
 
@@ -4044,7 +3542,7 @@ for page in response.iter_pages():
 <dl>
 <dd>
 
-**id:** `str` — Identifier for a Tool. Formatted as a UUID.
+**id:** `str` 
     
 </dd>
 </dl>
@@ -4100,22 +3598,6 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 <dl>
 <dd>
 
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Updates a **Tool** by creating a new version of the **Tool**.
-
-Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
-</dd>
-</dl>
-</dd>
-</dl>
-
 #### 🔌 Usage
 
 <dl>
@@ -4152,7 +3634,7 @@ client.empathic_voice.tools.create_tool_version(
 <dl>
 <dd>
 
-**id:** `str` — Identifier for a Tool. Formatted as a UUID.
+**id:** `str` — Identifier for a tool. Formatted as a UUID.
     
 </dd>
 </dl>
@@ -4160,11 +3642,7 @@ client.empathic_voice.tools.create_tool_version(
 <dl>
 <dd>
 
-**parameters:** `str` 
-
-Stringified JSON defining the parameters used by this version of the Tool.
-
-These parameters define the inputs needed for the Tool's execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.
+**parameters:** `str` — Stringified JSON defining the parameters used by this version of the Tool.
     
 </dd>
 </dl>
@@ -4172,7 +3650,7 @@ These parameters define the inputs needed for the Tool's execution, including th
 <dl>
 <dd>
 
-**description:** `typing.Optional[str]` — An optional description of what the Tool does, used by the supplemental LLM to choose when and how to call the function.
+**description:** `typing.Optional[str]` — Text describing what the tool does.
     
 </dd>
 </dl>
@@ -4180,7 +3658,7 @@ These parameters define the inputs needed for the Tool's execution, including th
 <dl>
 <dd>
 
-**fallback_content:** `typing.Optional[str]` — Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
+**fallback_content:** `typing.Optional[str]` — Text to use if the tool fails to generate content.
     
 </dd>
 </dl>
@@ -4188,7 +3666,7 @@ These parameters define the inputs needed for the Tool's execution, including th
 <dl>
 <dd>
 
-**version_description:** `typing.Optional[str]` — An optional description of the Tool version.
+**version_description:** `typing.Optional[str]` — Description that is appended to a specific version of a Tool.
     
 </dd>
 </dl>
@@ -4211,22 +3689,6 @@ These parameters define the inputs needed for the Tool's execution, including th
 <details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">delete_tool</a>(...)</code></summary>
 <dl>
 <dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Deletes a **Tool** and its versions.
-
-Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
-</dd>
-</dl>
-</dd>
-</dl>
 
 #### 🔌 Usage
 
@@ -4260,7 +3722,7 @@ client.empathic_voice.tools.delete_tool(
 <dl>
 <dd>
 
-**id:** `str` — Identifier for a Tool. Formatted as a UUID.
+**id:** `str` — Identifier for a tool. Formatted as a UUID.
     
 </dd>
 </dl>
@@ -4283,22 +3745,6 @@ client.empathic_voice.tools.delete_tool(
 <details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">update_tool_name</a>(...)</code></summary>
 <dl>
 <dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Updates the name of a **Tool**.
-
-Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
-</dd>
-</dl>
-</dd>
-</dl>
 
 #### 🔌 Usage
 
@@ -4333,7 +3779,7 @@ client.empathic_voice.tools.update_tool_name(
 <dl>
 <dd>
 
-**id:** `str` — Identifier for a Tool. Formatted as a UUID.
+**id:** `str` — Identifier for a tool. Formatted as a UUID.
     
 </dd>
 </dl>
@@ -4364,22 +3810,6 @@ client.empathic_voice.tools.update_tool_name(
 <details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">get_tool_version</a>(...)</code></summary>
 <dl>
 <dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Fetches a specified version of a **Tool**.
-
-Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
-</dd>
-</dl>
-</dd>
-</dl>
 
 #### 🔌 Usage
 
@@ -4414,7 +3844,7 @@ client.empathic_voice.tools.get_tool_version(
 <dl>
 <dd>
 
-**id:** `str` — Identifier for a Tool. Formatted as a UUID.
+**id:** `str` — Identifier for a tool. Formatted as a UUID.
     
 </dd>
 </dl>
@@ -4422,13 +3852,7 @@ client.empathic_voice.tools.get_tool_version(
 <dl>
 <dd>
 
-**version:** `int` 
-
-Version number for a Tool.
-
-Tools, Configs, Custom Voices, and Prompts are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.
-
-Version numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number.
+**version:** `int` — Version number for a tool. Version numbers should be integers.
     
 </dd>
 </dl>
@@ -4451,22 +3875,6 @@ Version numbers are integer values representing different iterations of the Tool
 <details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">delete_tool_version</a>(...)</code></summary>
 <dl>
 <dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Deletes a specified version of a **Tool**.
-
-Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
-</dd>
-</dl>
-</dd>
-</dl>
 
 #### 🔌 Usage
 
@@ -4501,7 +3909,7 @@ client.empathic_voice.tools.delete_tool_version(
 <dl>
 <dd>
 
-**id:** `str` — Identifier for a Tool. Formatted as a UUID.
+**id:** `str` — Identifier for a tool. Formatted as a UUID.
     
 </dd>
 </dl>
@@ -4509,13 +3917,7 @@ client.empathic_voice.tools.delete_tool_version(
 <dl>
 <dd>
 
-**version:** `int` 
-
-Version number for a Tool.
-
-Tools, Configs, Custom Voices, and Prompts are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.
-
-Version numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number.
+**version:** `int` — Version number for a tool. Version numbers should be integers.
     
 </dd>
 </dl>
@@ -4538,22 +3940,6 @@ Version numbers are integer values representing different iterations of the Tool
 <details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">update_tool_description</a>(...)</code></summary>
 <dl>
 <dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Updates the description of a specified **Tool** version.
-
-Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
-</dd>
-</dl>
-</dd>
-</dl>
 
 #### 🔌 Usage
 
@@ -4589,7 +3975,7 @@ client.empathic_voice.tools.update_tool_description(
 <dl>
 <dd>
 
-**id:** `str` — Identifier for a Tool. Formatted as a UUID.
+**id:** `str` — Identifier for a tool. Formatted as a UUID.
     
 </dd>
 </dl>
@@ -4597,13 +3983,7 @@ client.empathic_voice.tools.update_tool_description(
 <dl>
 <dd>
 
-**version:** `int` 
-
-Version number for a Tool.
-
-Tools, Configs, Custom Voices, and Prompts are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.
-
-Version numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number.
+**version:** `int` — Version number for a tool. Version numbers should be integers.
     
 </dd>
 </dl>
@@ -4611,7 +3991,7 @@ Version numbers are integer values representing different iterations of the Tool
 <dl>
 <dd>
 
-**version_description:** `typing.Optional[str]` — An optional description of the Tool version.
+**version_description:** `typing.Optional[str]` — Description that is appended to a specific version of a Tool.
     
 </dd>
 </dl>

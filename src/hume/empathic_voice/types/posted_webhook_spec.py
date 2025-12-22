@@ -14,14 +14,12 @@ class PostedWebhookSpec(UniversalBaseModel):
 
     events: typing.List[PostedWebhookEventType] = pydantic.Field()
     """
-    The list of events the specified URL is subscribed to. 
-    
-    See our [webhooks guide](/docs/speech-to-speech-evi/configuration/build-a-configuration#supported-events) for more information on supported events.
+    Events this URL is subscribed to
     """
 
     url: str = pydantic.Field()
     """
-    The URL where event payloads will be sent. This must be a valid https URL to ensure secure communication. The server at this URL must accept POST requests with a JSON payload.
+    URL to send the webhook to
     """
 
     if IS_PYDANTIC_V2:

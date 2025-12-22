@@ -8,7 +8,7 @@ from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 class ReturnConfigSpec(UniversalBaseModel):
     """
-    The Config associated with this Chat.
+    An id/version number for a specific config version
     """
 
     id: str = pydantic.Field()
@@ -18,11 +18,7 @@ class ReturnConfigSpec(UniversalBaseModel):
 
     version: typing.Optional[int] = pydantic.Field(default=None)
     """
-    Version number for a Config.
-    
-    Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
-    
-    Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
+    Version number for a Config. Version numbers should be integers. The combination of configId and version number is unique.
     """
 
     if IS_PYDANTIC_V2:

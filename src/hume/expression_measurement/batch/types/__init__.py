@@ -88,24 +88,48 @@ if typing.TYPE_CHECKING:
     from .regression import Regression
     from .sentiment_score import SentimentScore
     from .sort_by import SortBy
-    from .source import Source
+    from .source import Source, Source_File, Source_Text, Source_Url
     from .source_file import SourceFile
     from .source_text_source import SourceTextSource
     from .source_url import SourceUrl
-    from .state_embedding_generation import StateEmbeddingGeneration
+    from .state_embedding_generation import (
+        StateEmbeddingGeneration,
+        StateEmbeddingGeneration_Completed,
+        StateEmbeddingGeneration_Failed,
+        StateEmbeddingGeneration_InProgress,
+        StateEmbeddingGeneration_Queued,
+    )
     from .state_embedding_generation_completed_embedding_generation import (
         StateEmbeddingGenerationCompletedEmbeddingGeneration,
     )
     from .state_embedding_generation_failed import StateEmbeddingGenerationFailed
     from .state_embedding_generation_in_progress import StateEmbeddingGenerationInProgress
     from .state_embedding_generation_queued import StateEmbeddingGenerationQueued
-    from .state_inference import StateInference
-    from .state_tl_inference import StateTlInference
+    from .state_inference import (
+        StateInference,
+        StateInference_Completed,
+        StateInference_Failed,
+        StateInference_InProgress,
+        StateInference_Queued,
+    )
+    from .state_tl_inference import (
+        StateTlInference,
+        StateTlInference_Completed,
+        StateTlInference_Failed,
+        StateTlInference_InProgress,
+        StateTlInference_Queued,
+    )
     from .state_tl_inference_completed_tl_inference import StateTlInferenceCompletedTlInference
     from .state_tl_inference_failed import StateTlInferenceFailed
     from .state_tl_inference_in_progress import StateTlInferenceInProgress
     from .state_tl_inference_queued import StateTlInferenceQueued
-    from .state_training import StateTraining
+    from .state_training import (
+        StateTraining,
+        StateTraining_Completed,
+        StateTraining_Failed,
+        StateTraining_InProgress,
+        StateTraining_Queued,
+    )
     from .state_training_completed_training import StateTrainingCompletedTraining
     from .state_training_failed import StateTrainingFailed
     from .state_training_in_progress import StateTrainingInProgress
@@ -113,7 +137,7 @@ if typing.TYPE_CHECKING:
     from .status import Status
     from .tag import Tag
     from .target import Target
-    from .task import Task
+    from .task import Task, Task_Classification, Task_Regression
     from .task_classification import TaskClassification
     from .task_regression import TaskRegression
     from .text_source import TextSource
@@ -216,28 +240,49 @@ _dynamic_imports: typing.Dict[str, str] = {
     "SourceFile": ".source_file",
     "SourceTextSource": ".source_text_source",
     "SourceUrl": ".source_url",
+    "Source_File": ".source",
+    "Source_Text": ".source",
+    "Source_Url": ".source",
     "StateEmbeddingGeneration": ".state_embedding_generation",
     "StateEmbeddingGenerationCompletedEmbeddingGeneration": ".state_embedding_generation_completed_embedding_generation",
     "StateEmbeddingGenerationFailed": ".state_embedding_generation_failed",
     "StateEmbeddingGenerationInProgress": ".state_embedding_generation_in_progress",
     "StateEmbeddingGenerationQueued": ".state_embedding_generation_queued",
+    "StateEmbeddingGeneration_Completed": ".state_embedding_generation",
+    "StateEmbeddingGeneration_Failed": ".state_embedding_generation",
+    "StateEmbeddingGeneration_InProgress": ".state_embedding_generation",
+    "StateEmbeddingGeneration_Queued": ".state_embedding_generation",
     "StateInference": ".state_inference",
+    "StateInference_Completed": ".state_inference",
+    "StateInference_Failed": ".state_inference",
+    "StateInference_InProgress": ".state_inference",
+    "StateInference_Queued": ".state_inference",
     "StateTlInference": ".state_tl_inference",
     "StateTlInferenceCompletedTlInference": ".state_tl_inference_completed_tl_inference",
     "StateTlInferenceFailed": ".state_tl_inference_failed",
     "StateTlInferenceInProgress": ".state_tl_inference_in_progress",
     "StateTlInferenceQueued": ".state_tl_inference_queued",
+    "StateTlInference_Completed": ".state_tl_inference",
+    "StateTlInference_Failed": ".state_tl_inference",
+    "StateTlInference_InProgress": ".state_tl_inference",
+    "StateTlInference_Queued": ".state_tl_inference",
     "StateTraining": ".state_training",
     "StateTrainingCompletedTraining": ".state_training_completed_training",
     "StateTrainingFailed": ".state_training_failed",
     "StateTrainingInProgress": ".state_training_in_progress",
     "StateTrainingQueued": ".state_training_queued",
+    "StateTraining_Completed": ".state_training",
+    "StateTraining_Failed": ".state_training",
+    "StateTraining_InProgress": ".state_training",
+    "StateTraining_Queued": ".state_training",
     "Status": ".status",
     "Tag": ".tag",
     "Target": ".target",
     "Task": ".task",
     "TaskClassification": ".task_classification",
     "TaskRegression": ".task_regression",
+    "Task_Classification": ".task",
+    "Task_Regression": ".task",
     "TextSource": ".text_source",
     "TimeInterval": ".time_interval",
     "TlInferenceBaseRequest": ".tl_inference_base_request",
@@ -266,8 +311,10 @@ def __getattr__(attr_name: str) -> typing.Any:
         raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
     try:
         module = import_module(module_name, __package__)
-        result = getattr(module, attr_name)
-        return result
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
     except ImportError as e:
         raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
     except AttributeError as e:
@@ -360,28 +407,49 @@ __all__ = [
     "SourceFile",
     "SourceTextSource",
     "SourceUrl",
+    "Source_File",
+    "Source_Text",
+    "Source_Url",
     "StateEmbeddingGeneration",
     "StateEmbeddingGenerationCompletedEmbeddingGeneration",
     "StateEmbeddingGenerationFailed",
     "StateEmbeddingGenerationInProgress",
     "StateEmbeddingGenerationQueued",
+    "StateEmbeddingGeneration_Completed",
+    "StateEmbeddingGeneration_Failed",
+    "StateEmbeddingGeneration_InProgress",
+    "StateEmbeddingGeneration_Queued",
     "StateInference",
+    "StateInference_Completed",
+    "StateInference_Failed",
+    "StateInference_InProgress",
+    "StateInference_Queued",
     "StateTlInference",
     "StateTlInferenceCompletedTlInference",
     "StateTlInferenceFailed",
     "StateTlInferenceInProgress",
     "StateTlInferenceQueued",
+    "StateTlInference_Completed",
+    "StateTlInference_Failed",
+    "StateTlInference_InProgress",
+    "StateTlInference_Queued",
     "StateTraining",
     "StateTrainingCompletedTraining",
     "StateTrainingFailed",
     "StateTrainingInProgress",
     "StateTrainingQueued",
+    "StateTraining_Completed",
+    "StateTraining_Failed",
+    "StateTraining_InProgress",
+    "StateTraining_Queued",
     "Status",
     "Tag",
     "Target",
     "Task",
     "TaskClassification",
     "TaskRegression",
+    "Task_Classification",
+    "Task_Regression",
     "TextSource",
     "TimeInterval",
     "TlInferenceBaseRequest",
