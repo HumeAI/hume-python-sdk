@@ -20,25 +20,25 @@ class SessionSettings(UniversalBaseModel):
     """
     Configuration details for the audio input used during the session. Ensures the audio is being correctly set up for processing.
     
-    This optional field is only required when the audio input is encoded in PCM Linear 16 (16-bit, little-endian, signed PCM WAV data). For detailed instructions on how to configure session settings for PCM Linear 16 audio, please refer to the [Session Settings guide](/docs/speech-to-speech-evi/configuration/session-settings).
+    This optional field is only required when the audio input is encoded in PCM Linear 16 (16-bit, little-endian, signed PCM WAV data). For detailed instructions on how to configure session settings for PCM Linear 16 audio, please refer to the [Session Settings section](/docs/empathic-voice-interface-evi/configuration#session-settings) on the EVI Configuration page.
     """
 
     builtin_tools: typing.Optional[typing.List[BuiltinToolConfig]] = pydantic.Field(default=None)
     """
     List of built-in tools to enable for the session.
     
-    Tools are resources used by EVI to perform various tasks, such as searching the web or calling external APIs. Built-in tools, like web search, are natively integrated, while user-defined tools are created and invoked by the user. To learn more, see our [Tool Use Guide](/docs/speech-to-speech-evi/features/tool-use).
+    Tools are resources used by EVI to perform various tasks, such as searching the web or calling external APIs. Built-in tools, like web search, are natively integrated, while user-defined tools are created and invoked by the user. To learn more, see our [Tool Use Guide](/docs/empathic-voice-interface-evi/tool-use).
     
     Currently, the only built-in tool Hume provides is **Web Search**. When enabled, Web Search equips EVI with the ability to search the web for up-to-date information.
     """
 
     context: typing.Optional[Context] = pydantic.Field(default=None)
     """
-    Field for injecting additional context into the conversation, which is appended to the end of user messages for the session.
+    Allows developers to inject additional context into the conversation, which is appended to the end of user messages for the session.
     
     When included in a Session Settings message, the provided context can be used to remind the LLM of its role in every user message, prevent it from forgetting important details, or add new relevant information to the conversation.
     
-    Set to `null` to clear injected context.
+    Set to `null` to disable context injection.
     """
 
     custom_session_id: typing.Optional[str] = pydantic.Field(default=None)
@@ -47,7 +47,7 @@ class SessionSettings(UniversalBaseModel):
     
     If included, the response sent from Hume to your backend will include this ID. This allows you to correlate frontend users with their incoming messages.
     
-    It is recommended to pass a `custom_session_id` if you are using a Custom Language Model. Please see our guide to [using a custom language model](/docs/speech-to-speech-evi/guides/custom-language-model) with EVI to learn more.
+    It is recommended to pass a `custom_session_id` if you are using a Custom Language Model. Please see our guide to [using a custom language model](/docs/empathic-voice-interface-evi/custom-language-model) with EVI to learn more.
     """
 
     language_model_api_key: typing.Optional[str] = pydantic.Field(default=None)
@@ -66,14 +66,14 @@ class SessionSettings(UniversalBaseModel):
     
     You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles.
     
-    For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).
+    For help writing a system prompt, see our [Prompting Guide](/docs/empathic-voice-interface-evi/prompting).
     """
 
     tools: typing.Optional[typing.List[Tool]] = pydantic.Field(default=None)
     """
     List of user-defined tools to enable for the session.
     
-    Tools are resources used by EVI to perform various tasks, such as searching the web or calling external APIs. Built-in tools, like web search, are natively integrated, while user-defined tools are created and invoked by the user. To learn more, see our [Tool Use Guide](/docs/speech-to-speech-evi/features/tool-use).
+    Tools are resources used by EVI to perform various tasks, such as searching the web or calling external APIs. Built-in tools, like web search, are natively integrated, while user-defined tools are created and invoked by the user. To learn more, see our [Tool Use Guide](/docs/empathic-voice-interface-evi/tool-use).
     """
 
     type: typing.Literal["session_settings"] = pydantic.Field(default="session_settings")
@@ -82,22 +82,15 @@ class SessionSettings(UniversalBaseModel):
     
     Session settings are temporary and apply only to the current Chat session. These settings can be adjusted dynamically based on the requirements of each session to ensure optimal performance and user experience.
     
-    For more information, please refer to the [Session Settings guide](/docs/speech-to-speech-evi/configuration/session-settings).
+    For more information, please refer to the [Session Settings section](/docs/empathic-voice-interface-evi/configuration#session-settings) on the EVI Configuration page.
     """
 
     variables: typing.Optional[typing.Dict[str, SessionSettingsVariablesValue]] = pydantic.Field(default=None)
     """
-    This field allows you to assign values to dynamic variables referenced in your system prompt.
-    
-    Each key represents the variable name, and the corresponding value is the specific content you wish to assign to that variable within the session. While the values for variables can be strings, numbers, or booleans, the value will ultimately be converted to a string when injected into your system prompt.
-    
-    Using this field, you can personalize responses based on session-specific details. For more guidance, see our [guide on using dynamic variables](/docs/speech-to-speech-evi/features/dynamic-variables).
+    Dynamic values that can be used to populate EVI prompts.
     """
 
-    voice_id: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    Allows you to change the voice during an active chat. Updating the voice does not affect chat context or conversation history.
-    """
+    voice_id: typing.Optional[str] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

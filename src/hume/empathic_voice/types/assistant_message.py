@@ -20,12 +20,17 @@ class AssistantMessage(UniversalBaseModel):
 
     from_text: bool = pydantic.Field()
     """
-    Indicates if this message was inserted into the conversation as text from an [Assistant Input message](/reference/speech-to-speech-evi/chat#send.AssistantInput.text).
+    Indicates if this message was inserted into the conversation as text from an [Assistant Input message](/reference/empathic-voice-interface-evi/chat/chat#send.Assistant%20Input.text).
     """
 
     id: typing.Optional[str] = pydantic.Field(default=None)
     """
     ID of the assistant message. Allows the Assistant Message to be tracked and referenced.
+    """
+
+    is_quick_response: bool = pydantic.Field()
+    """
+    Indicates if this message is a quick response or not.
     """
 
     language: typing.Optional[str] = pydantic.Field(default=None)

@@ -44,7 +44,7 @@ class ToolCallMessage(UniversalBaseModel):
     Type of tool called. Either `builtin` for natively implemented tools, like web search, or `function` for user-defined tools.
     """
 
-    type: typing.Optional[typing.Literal["tool_call"]] = pydantic.Field(default=None)
+    type: typing.Literal["tool_call"] = pydantic.Field(default="tool_call")
     """
     The type of message sent through the socket; for a Tool Call message, this must be `tool_call`.
     

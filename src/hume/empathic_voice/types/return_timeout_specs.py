@@ -9,24 +9,11 @@ from .return_timeout_spec import ReturnTimeoutSpec
 
 class ReturnTimeoutSpecs(UniversalBaseModel):
     """
-    Collection of timeout specifications returned by the server.
-
-    Timeouts are sent by the server when specific time-based events occur during a chat session. These specifications set the inactivity timeout and the maximum duration an EVI WebSocket connection can stay open before it is automatically disconnected.
+    Collection of timeout specs to be returned from the server
     """
 
-    inactivity: ReturnTimeoutSpec = pydantic.Field()
-    """
-    Specifies the duration of user inactivity (in seconds) after which the EVI WebSocket connection will be automatically disconnected. Default is 600 seconds (10 minutes).
-    
-    Accepts a minimum value of 30 seconds and a maximum value of 1,800 seconds.
-    """
-
-    max_duration: ReturnTimeoutSpec = pydantic.Field()
-    """
-    Specifies the maximum allowed duration (in seconds) for an EVI WebSocket connection before it is automatically disconnected. Default is 1,800 seconds (30 minutes).
-    
-    Accepts a minimum value of 30 seconds and a maximum value of 1,800 seconds.
-    """
+    inactivity: ReturnTimeoutSpec
+    max_duration: ReturnTimeoutSpec
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

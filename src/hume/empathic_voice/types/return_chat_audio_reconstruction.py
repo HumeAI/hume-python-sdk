@@ -37,21 +37,7 @@ class ReturnChatAudioReconstruction(UniversalBaseModel):
     The timestamp when the signed URL will expire, formatted as a Unix epoch milliseconds.
     """
 
-    status: ReturnChatAudioReconstructionStatus = pydantic.Field()
-    """
-    Indicates the current state of the audio reconstruction job. There are five possible statuses:
-    
-    - `QUEUED`: The reconstruction job is waiting to be processed.
-    
-    - `IN_PROGRESS`: The reconstruction is currently being processed.
-    
-    - `COMPLETE`: The audio reconstruction is finished and ready for download.
-    
-    - `ERROR`: An error occurred during the reconstruction process.
-    
-    - `CANCELED`: The reconstruction job has been canceled.
-    """
-
+    status: ReturnChatAudioReconstructionStatus
     user_id: str = pydantic.Field()
     """
     Identifier for the user that owns this chat. Formatted as a UUID.
