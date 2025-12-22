@@ -506,7 +506,7 @@ class AsyncChatClient:
         background_task: typing.Optional[asyncio.Task[None]] = None
 
         try:
-            async with websockets.connect(
+            async with websockets_client_connect(
                 ws_uri,
                 extra_headers=self._raw_client._client_wrapper.get_headers(),
             ) as protocol:
