@@ -35,17 +35,18 @@ class VoicesClient:
         page_number: typing.Optional[int] = None,
         page_size: typing.Optional[int] = None,
         ascending_order: typing.Optional[bool] = None,
+        filter_tag: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[ReturnVoice]:
         """
-        Lists voices you have saved in your account, or voices from the [Voice Library](https://platform.hume.ai/tts/voice-library).
+        Lists voices you have saved in your account, or voices from the [Voice Library](https://app.hume.ai/voices).
 
         Parameters
         ----------
         provider : VoiceProvider
             Specify the voice provider to filter voices returned by the endpoint:
 
-            - **`HUME_AI`**: Lists preset, shared voices from Hume's [Voice Library](https://platform.hume.ai/tts/voice-library).
+            - **`HUME_AI`**: Lists preset, shared voices from Hume's [Voice Library](https://app.hume.ai/voices).
             - **`CUSTOM_VOICE`**: Lists custom voices created and saved to your account.
 
         page_number : typing.Optional[int]
@@ -59,6 +60,8 @@ class VoicesClient:
             For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         ascending_order : typing.Optional[bool]
+
+        filter_tag : typing.Optional[typing.Union[str, typing.Sequence[str]]]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -89,6 +92,7 @@ class VoicesClient:
             page_number=page_number,
             page_size=page_size,
             ascending_order=ascending_order,
+            filter_tag=filter_tag,
             request_options=request_options,
         )
 
@@ -106,7 +110,7 @@ class VoicesClient:
             A unique ID associated with this TTS generation that can be used as context for generating consistent speech style and prosody across multiple requests.
 
         name : str
-            Name of the voice in the `Voice Library`.
+            The name of a **Voice**.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -184,17 +188,18 @@ class AsyncVoicesClient:
         page_number: typing.Optional[int] = None,
         page_size: typing.Optional[int] = None,
         ascending_order: typing.Optional[bool] = None,
+        filter_tag: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[ReturnVoice]:
         """
-        Lists voices you have saved in your account, or voices from the [Voice Library](https://platform.hume.ai/tts/voice-library).
+        Lists voices you have saved in your account, or voices from the [Voice Library](https://app.hume.ai/voices).
 
         Parameters
         ----------
         provider : VoiceProvider
             Specify the voice provider to filter voices returned by the endpoint:
 
-            - **`HUME_AI`**: Lists preset, shared voices from Hume's [Voice Library](https://platform.hume.ai/tts/voice-library).
+            - **`HUME_AI`**: Lists preset, shared voices from Hume's [Voice Library](https://app.hume.ai/voices).
             - **`CUSTOM_VOICE`**: Lists custom voices created and saved to your account.
 
         page_number : typing.Optional[int]
@@ -208,6 +213,8 @@ class AsyncVoicesClient:
             For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         ascending_order : typing.Optional[bool]
+
+        filter_tag : typing.Optional[typing.Union[str, typing.Sequence[str]]]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -247,6 +254,7 @@ class AsyncVoicesClient:
             page_number=page_number,
             page_size=page_size,
             ascending_order=ascending_order,
+            filter_tag=filter_tag,
             request_options=request_options,
         )
 
@@ -264,7 +272,7 @@ class AsyncVoicesClient:
             A unique ID associated with this TTS generation that can be used as context for generating consistent speech style and prosody across multiple requests.
 
         name : str
-            Name of the voice in the `Voice Library`.
+            The name of a **Voice**.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
