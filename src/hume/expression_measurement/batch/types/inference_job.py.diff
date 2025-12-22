@@ -1,5 +1,5 @@
 diff --git a/src/hume/expression_measurement/batch/types/inference_job.py b/src/hume/expression_measurement/batch/types/inference_job.py
-index 08add412..83a68f84 100644
+index 08add41..83a68f8 100644
 --- a/src/hume/expression_measurement/batch/types/inference_job.py
 +++ b/src/hume/expression_measurement/batch/types/inference_job.py
 @@ -1,7 +1,6 @@

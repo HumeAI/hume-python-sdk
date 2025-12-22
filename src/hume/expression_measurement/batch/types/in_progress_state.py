@@ -8,8 +8,6 @@ from .in_progress import InProgress
 
 
 class InProgressState(InProgress):
-    status: typing.Literal["IN_PROGRESS"] = "IN_PROGRESS"
-
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

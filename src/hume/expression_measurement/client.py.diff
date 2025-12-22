@@ -1,5 +1,5 @@
 diff --git a/src/hume/expression_measurement/client.py b/src/hume/expression_measurement/client.py
-index f75d9210..a7651e40 100644
+index f75d921..a7651e4 100644
 --- a/src/hume/expression_measurement/client.py
 +++ b/src/hume/expression_measurement/client.py
 @@ -8,16 +8,14 @@ from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper

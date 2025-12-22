@@ -13,9 +13,17 @@ class ReturnVoice(UniversalBaseModel):
     """
 
     compatible_octave_models: typing.Optional[typing.List[str]] = None
-    id: typing.Optional[str] = None
-    name: typing.Optional[str] = None
-    provider: typing.Optional[VoiceProvider] = None
+    id: str = pydantic.Field()
+    """
+    ID of the voice in the `Voice Library`.
+    """
+
+    name: str = pydantic.Field()
+    """
+    Name of the voice in the `Voice Library`.
+    """
+
+    provider: VoiceProvider
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

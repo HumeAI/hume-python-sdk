@@ -14,7 +14,7 @@ class ReturnBuiltinTool(UniversalBaseModel):
 
     fallback_content: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
+    Text to use if the tool fails to generate content.
     """
 
     name: str = pydantic.Field()
@@ -22,10 +22,7 @@ class ReturnBuiltinTool(UniversalBaseModel):
     Name applied to all versions of a particular Tool.
     """
 
-    tool_type: ReturnBuiltinToolToolType = pydantic.Field()
-    """
-    Type of Tool. Either `BUILTIN` for natively implemented tools, like web search, or `FUNCTION` for user-defined tools.
-    """
+    tool_type: ReturnBuiltinToolToolType
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

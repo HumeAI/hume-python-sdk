@@ -32,9 +32,7 @@ class ReturnChatGroupPagedAudioReconstructions(UniversalBaseModel):
 
     page_number: int = pydantic.Field()
     """
-    The page number of the returned list.
-    
-    This value corresponds to the `page_number` parameter specified in the request. Pagination uses zero-based indexing.
+    The page number of the returned results.
     """
 
     page_size: int = pydantic.Field()
@@ -44,13 +42,7 @@ class ReturnChatGroupPagedAudioReconstructions(UniversalBaseModel):
     This value corresponds to the `page_size` parameter specified in the request.
     """
 
-    pagination_direction: ReturnChatGroupPagedAudioReconstructionsPaginationDirection = pydantic.Field()
-    """
-    Indicates the order in which the paginated results are presented, based on their creation date.
-    
-    It shows `ASC` for ascending order (chronological, with the oldest records first) or `DESC` for descending order (reverse-chronological, with the newest records first). This value corresponds to the `ascending_order` query parameter used in the request.
-    """
-
+    pagination_direction: ReturnChatGroupPagedAudioReconstructionsPaginationDirection
     total_pages: int = pydantic.Field()
     """
     The total number of pages in the collection.

@@ -1,5 +1,5 @@
 diff --git a/src/hume/empathic_voice/chat/socket_client.py b/src/hume/empathic_voice/chat/socket_client.py
-index de3b4a5e..18ee74ab 100644
+index de3b4a5..18ee74a 100644
 --- a/src/hume/empathic_voice/chat/socket_client.py
 +++ b/src/hume/empathic_voice/chat/socket_client.py
 @@ -6,21 +6,10 @@ from json.decoder import JSONDecodeError
