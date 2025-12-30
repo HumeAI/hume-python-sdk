@@ -15,6 +15,8 @@ def __getattr__(attr_name: str) -> typing.Any:
     if module_name is None:
         raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
     try:
+        if module_name == ".":
+            return import_module(f".{attr_name}", __package__)
         module = import_module(module_name, __package__)
         result = getattr(module, attr_name)
         return result
