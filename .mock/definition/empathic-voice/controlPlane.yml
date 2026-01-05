@@ -1,0 +1,72 @@
+imports:
+  root: __package__.yml
+service:
+  auth: false
+  base-path: ''
+  endpoints:
+    send:
+      path: /v0/evi/chat/{chat_id}/send
+      method: POST
+      docs: Send a message to a specific chat.
+      source:
+        openapi: evi-openapi.json
+      path-parameters:
+        chat_id: string
+      display-name: Send Message
+      request:
+        body: root.ControlPlanePublishEvent
+        content-type: application/json
+      errors:
+        - root.UnprocessableEntityError
+      examples:
+        - path-parameters:
+            chat_id: chat_id
+          request:
+            type: session_settings
+  source:
+    openapi: evi-openapi.json
+channel:
+  path: /chat/{chat_id}/connect
+  url: evi
+  auth: false
+  display-name: Control Plane
+  docs: >-
+    Connects to an in-progress EVI chat session. The original chat must have
+    been started with `allow_connection=true`. The connection can be used to
+    send and receive the same messages as the original chat, with the exception
+    that `audio_input` messages are not allowed.
+  path-parameters:
+    chat_id:
+      type: string
+      docs: The ID of the chat to connect to.
+  query-parameters:
+    access_token:
+      type: optional<string>
+      default: ''
+      docs: >-
+        Access token used for authenticating the client. If not provided, an
+        `api_key` must be provided to authenticate.
+
+
+        The access token is generated using both an API key and a Secret key,
+        which provides an additional layer of security compared to using just an
+        API key.
+
+
+        For more details, refer to the [Authentication Strategies
+        Guide](/docs/introduction/api-key#authentication-strategies).
+  messages:
+    publish:
+      origin: client
+      body: root.ControlPlanePublishEvent
+    subscribe:
+      origin: server
+      body: root.SubscribeEvent
+  examples:
+    - messages:
+        - type: publish
+          body:
+            type: session_settings
+        - type: subscribe
+          body:
+            type: assistant_end
