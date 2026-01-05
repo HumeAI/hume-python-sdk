@@ -5,6 +5,7 @@ import typing
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.pagination import AsyncPager, SyncPager
 from ...core.request_options import RequestOptions
+from ..types.return_paged_user_defined_tools import ReturnPagedUserDefinedTools
 from ..types.return_user_defined_tool import ReturnUserDefinedTool
 from .raw_client import AsyncRawToolsClient, RawToolsClient
 
@@ -35,7 +36,7 @@ class ToolsClient:
         restrict_to_most_recent: typing.Optional[bool] = None,
         name: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[typing.Optional[ReturnUserDefinedTool]]:
+    ) -> SyncPager[typing.Optional[ReturnUserDefinedTool], ReturnPagedUserDefinedTools]:
         """
         Parameters
         ----------
@@ -60,7 +61,7 @@ class ToolsClient:
 
         Returns
         -------
-        SyncPager[typing.Optional[ReturnUserDefinedTool]]
+        SyncPager[typing.Optional[ReturnUserDefinedTool], ReturnPagedUserDefinedTools]
             Success
 
         Examples
@@ -157,7 +158,7 @@ class ToolsClient:
         page_size: typing.Optional[int] = None,
         restrict_to_most_recent: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[typing.Optional[ReturnUserDefinedTool]]:
+    ) -> SyncPager[typing.Optional[ReturnUserDefinedTool], ReturnPagedUserDefinedTools]:
         """
         Parameters
         ----------
@@ -181,7 +182,7 @@ class ToolsClient:
 
         Returns
         -------
-        SyncPager[typing.Optional[ReturnUserDefinedTool]]
+        SyncPager[typing.Optional[ReturnUserDefinedTool], ReturnPagedUserDefinedTools]
             Success
 
         Examples
@@ -469,7 +470,7 @@ class AsyncToolsClient:
         restrict_to_most_recent: typing.Optional[bool] = None,
         name: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[typing.Optional[ReturnUserDefinedTool]]:
+    ) -> AsyncPager[typing.Optional[ReturnUserDefinedTool], ReturnPagedUserDefinedTools]:
         """
         Parameters
         ----------
@@ -494,7 +495,7 @@ class AsyncToolsClient:
 
         Returns
         -------
-        AsyncPager[typing.Optional[ReturnUserDefinedTool]]
+        AsyncPager[typing.Optional[ReturnUserDefinedTool], ReturnPagedUserDefinedTools]
             Success
 
         Examples
@@ -608,7 +609,7 @@ class AsyncToolsClient:
         page_size: typing.Optional[int] = None,
         restrict_to_most_recent: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[typing.Optional[ReturnUserDefinedTool]]:
+    ) -> AsyncPager[typing.Optional[ReturnUserDefinedTool], ReturnPagedUserDefinedTools]:
         """
         Parameters
         ----------
@@ -632,7 +633,7 @@ class AsyncToolsClient:
 
         Returns
         -------
-        AsyncPager[typing.Optional[ReturnUserDefinedTool]]
+        AsyncPager[typing.Optional[ReturnUserDefinedTool], ReturnPagedUserDefinedTools]
             Success
 
         Examples

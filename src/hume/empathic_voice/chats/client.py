@@ -8,6 +8,8 @@ from ...core.request_options import RequestOptions
 from ..types.return_chat import ReturnChat
 from ..types.return_chat_audio_reconstruction import ReturnChatAudioReconstruction
 from ..types.return_chat_event import ReturnChatEvent
+from ..types.return_chat_paged_events import ReturnChatPagedEvents
+from ..types.return_paged_chats import ReturnPagedChats
 from .raw_client import AsyncRawChatsClient, RawChatsClient
 
 
@@ -35,7 +37,7 @@ class ChatsClient:
         config_id: typing.Optional[str] = None,
         status: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[ReturnChat]:
+    ) -> SyncPager[ReturnChat, ReturnPagedChats]:
         """
         Parameters
         ----------
@@ -63,7 +65,7 @@ class ChatsClient:
 
         Returns
         -------
-        SyncPager[ReturnChat]
+        SyncPager[ReturnChat, ReturnPagedChats]
             Success
 
         Examples
@@ -101,7 +103,7 @@ class ChatsClient:
         page_number: typing.Optional[int] = None,
         ascending_order: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[ReturnChatEvent]:
+    ) -> SyncPager[ReturnChatEvent, ReturnChatPagedEvents]:
         """
         Parameters
         ----------
@@ -126,7 +128,7 @@ class ChatsClient:
 
         Returns
         -------
-        SyncPager[ReturnChatEvent]
+        SyncPager[ReturnChatEvent, ReturnChatPagedEvents]
             Success
 
         Examples
@@ -212,7 +214,7 @@ class AsyncChatsClient:
         config_id: typing.Optional[str] = None,
         status: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[ReturnChat]:
+    ) -> AsyncPager[ReturnChat, ReturnPagedChats]:
         """
         Parameters
         ----------
@@ -240,7 +242,7 @@ class AsyncChatsClient:
 
         Returns
         -------
-        AsyncPager[ReturnChat]
+        AsyncPager[ReturnChat, ReturnPagedChats]
             Success
 
         Examples
@@ -287,7 +289,7 @@ class AsyncChatsClient:
         page_number: typing.Optional[int] = None,
         ascending_order: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[ReturnChatEvent]:
+    ) -> AsyncPager[ReturnChatEvent, ReturnChatPagedEvents]:
         """
         Parameters
         ----------
@@ -312,7 +314,7 @@ class AsyncChatsClient:
 
         Returns
         -------
-        AsyncPager[ReturnChatEvent]
+        AsyncPager[ReturnChatEvent, ReturnChatPagedEvents]
             Success
 
         Examples

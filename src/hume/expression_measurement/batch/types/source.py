@@ -53,4 +53,6 @@ class Source_Text(UniversalBaseModel):
             extra = pydantic.Extra.allow
 
 
-Source = typing.Union[Source_Url, Source_File, Source_Text]
+Source = typing_extensions.Annotated[
+    typing.Union[Source_Url, Source_File, Source_Text], pydantic.Field(discriminator="type")
+]

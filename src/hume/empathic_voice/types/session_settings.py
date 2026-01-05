@@ -57,7 +57,7 @@ class SessionSettings(UniversalBaseModel):
     When provided, EVI will use this key instead of Hume's API key for the supplemental LLM. This allows you to bypass rate limits and utilize your own API key as needed.
     """
 
-    metadata: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = None
+    metadata: typing.Optional[typing.Dict[str, typing.Any]] = None
     system_prompt: typing.Optional[str] = pydantic.Field(default=None)
     """
     Instructions used to shape EVI's behavior, responses, and style for the session.
