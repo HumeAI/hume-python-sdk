@@ -74,5 +74,6 @@ def test_tts_convert_voice_json() -> None:
     """Test convertVoiceJson endpoint with WireMock"""
     test_id = "tts.convert_voice_json.0"
     client = get_client(test_id)
-    client.tts.convert_voice_json(audio="example_audio")
+    # Must consume the iterator to trigger the HTTP request
+    list(client.tts.convert_voice_json(audio="example_audio"))
     verify_request_count(test_id, "POST", "/v0/tts/voice_conversion/json", None, 1)
