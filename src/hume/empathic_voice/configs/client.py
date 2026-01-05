@@ -15,7 +15,6 @@ from ..types.posted_timeout_specs import PostedTimeoutSpecs
 from ..types.posted_user_defined_tool_spec import PostedUserDefinedToolSpec
 from ..types.posted_webhook_spec import PostedWebhookSpec
 from ..types.return_config import ReturnConfig
-from ..types.return_paged_configs import ReturnPagedConfigs
 from ..types.voice_ref import VoiceRef
 from .raw_client import AsyncRawConfigsClient, RawConfigsClient
 
@@ -46,7 +45,7 @@ class ConfigsClient:
         restrict_to_most_recent: typing.Optional[bool] = None,
         name: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[ReturnConfig, ReturnPagedConfigs]:
+    ) -> SyncPager[ReturnConfig]:
         """
         Parameters
         ----------
@@ -71,7 +70,7 @@ class ConfigsClient:
 
         Returns
         -------
-        SyncPager[ReturnConfig, ReturnPagedConfigs]
+        SyncPager[ReturnConfig]
             Success
 
         Examples
@@ -232,7 +231,7 @@ class ConfigsClient:
         page_size: typing.Optional[int] = None,
         restrict_to_most_recent: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[ReturnConfig, ReturnPagedConfigs]:
+    ) -> SyncPager[ReturnConfig]:
         """
         Parameters
         ----------
@@ -257,7 +256,7 @@ class ConfigsClient:
 
         Returns
         -------
-        SyncPager[ReturnConfig, ReturnPagedConfigs]
+        SyncPager[ReturnConfig]
             Success
 
         Examples
@@ -614,7 +613,7 @@ class AsyncConfigsClient:
         restrict_to_most_recent: typing.Optional[bool] = None,
         name: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[ReturnConfig, ReturnPagedConfigs]:
+    ) -> AsyncPager[ReturnConfig]:
         """
         Parameters
         ----------
@@ -639,7 +638,7 @@ class AsyncConfigsClient:
 
         Returns
         -------
-        AsyncPager[ReturnConfig, ReturnPagedConfigs]
+        AsyncPager[ReturnConfig]
             Success
 
         Examples
@@ -817,7 +816,7 @@ class AsyncConfigsClient:
         page_size: typing.Optional[int] = None,
         restrict_to_most_recent: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[ReturnConfig, ReturnPagedConfigs]:
+    ) -> AsyncPager[ReturnConfig]:
         """
         Parameters
         ----------
@@ -842,7 +841,7 @@ class AsyncConfigsClient:
 
         Returns
         -------
-        AsyncPager[ReturnConfig, ReturnPagedConfigs]
+        AsyncPager[ReturnConfig]
             Success
 
         Examples

@@ -5,7 +5,6 @@ from __future__ import annotations
 import typing
 
 import pydantic
-import typing_extensions
 from ....core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
@@ -71,12 +70,9 @@ class StateEmbeddingGeneration_Failed(UniversalBaseModel):
             extra = pydantic.Extra.allow
 
 
-StateEmbeddingGeneration = typing_extensions.Annotated[
-    typing.Union[
-        StateEmbeddingGeneration_Queued,
-        StateEmbeddingGeneration_InProgress,
-        StateEmbeddingGeneration_Completed,
-        StateEmbeddingGeneration_Failed,
-    ],
-    pydantic.Field(discriminator="status"),
+StateEmbeddingGeneration = typing.Union[
+    StateEmbeddingGeneration_Queued,
+    StateEmbeddingGeneration_InProgress,
+    StateEmbeddingGeneration_Completed,
+    StateEmbeddingGeneration_Failed,
 ]

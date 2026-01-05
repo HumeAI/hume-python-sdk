@@ -2,4 +2,4 @@
 
 import typing
 
-Unconfigurable = typing.Dict[str, typing.Any]
+Unconfigurable = typing.Dict[str, typing.Optional[typing.Any]]

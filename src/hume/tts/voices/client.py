@@ -5,7 +5,6 @@ import typing
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.pagination import AsyncPager, SyncPager
 from ...core.request_options import RequestOptions
-from ..types.return_paged_voices import ReturnPagedVoices
 from ..types.return_voice import ReturnVoice
 from ..types.voice_provider import VoiceProvider
 from .raw_client import AsyncRawVoicesClient, RawVoicesClient
@@ -38,7 +37,7 @@ class VoicesClient:
         ascending_order: typing.Optional[bool] = None,
         filter_tag: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[ReturnVoice, ReturnPagedVoices]:
+    ) -> SyncPager[ReturnVoice]:
         """
         Lists voices you have saved in your account, or voices from the [Voice Library](https://app.hume.ai/voices).
 
@@ -69,7 +68,7 @@ class VoicesClient:
 
         Returns
         -------
-        SyncPager[ReturnVoice, ReturnPagedVoices]
+        SyncPager[ReturnVoice]
             Success
 
         Examples
@@ -191,7 +190,7 @@ class AsyncVoicesClient:
         ascending_order: typing.Optional[bool] = None,
         filter_tag: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[ReturnVoice, ReturnPagedVoices]:
+    ) -> AsyncPager[ReturnVoice]:
         """
         Lists voices you have saved in your account, or voices from the [Voice Library](https://app.hume.ai/voices).
 
@@ -222,7 +221,7 @@ class AsyncVoicesClient:
 
         Returns
         -------
-        AsyncPager[ReturnVoice, ReturnPagedVoices]
+        AsyncPager[ReturnVoice]
             Success
 
         Examples

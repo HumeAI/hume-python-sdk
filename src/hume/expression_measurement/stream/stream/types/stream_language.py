@@ -11,12 +11,12 @@ class StreamLanguage(UniversalBaseModel):
     Configuration for the language emotion model.
     """
 
-    sentiment: typing.Optional[typing.Dict[str, typing.Any]] = pydantic.Field(default=None)
+    sentiment: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = pydantic.Field(default=None)
     """
     Configuration for sentiment predictions. If missing or null, no sentiment predictions will be generated.
     """
 
-    toxicity: typing.Optional[typing.Dict[str, typing.Any]] = pydantic.Field(default=None)
+    toxicity: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = pydantic.Field(default=None)
     """
     Configuration for toxicity predictions. If missing or null, no toxicity predictions will be generated.
     """

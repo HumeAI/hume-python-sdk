@@ -2,4 +2,4 @@
 
 import typing
 
-Null = typing.Dict[str, typing.Any]
+Null = typing.Dict[str, typing.Optional[typing.Any]]

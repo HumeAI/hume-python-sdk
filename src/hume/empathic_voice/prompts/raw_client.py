@@ -7,7 +7,7 @@ from ...core.api_error import ApiError
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.http_response import AsyncHttpResponse, HttpResponse
 from ...core.jsonable_encoder import jsonable_encoder
-from ...core.pagination import AsyncPager, SyncPager
+from ...core.pagination import AsyncPager, BaseHttpResponse, SyncPager
 from ...core.pydantic_utilities import parse_obj_as
 from ...core.request_options import RequestOptions
 from ..errors.bad_request_error import BadRequestError
@@ -31,7 +31,7 @@ class RawPromptsClient:
         restrict_to_most_recent: typing.Optional[bool] = None,
         name: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[typing.Optional[ReturnPrompt], ReturnPagedPrompts]:
+    ) -> SyncPager[typing.Optional[ReturnPrompt]]:
         """
         Parameters
         ----------
@@ -56,7 +56,7 @@ class RawPromptsClient:
 
         Returns
         -------
-        SyncPager[typing.Optional[ReturnPrompt], ReturnPagedPrompts]
+        SyncPager[typing.Optional[ReturnPrompt]]
             Success
         """
         page_number = page_number if page_number is not None else 0
@@ -91,7 +91,9 @@ class RawPromptsClient:
                     name=name,
                     request_options=request_options,
                 )
-                return SyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
+                return SyncPager(
+                    has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
+                )
             if _response.status_code == 400:
                 raise BadRequestError(
                     headers=dict(_response.headers),
@@ -592,7 +594,7 @@ class AsyncRawPromptsClient:
         restrict_to_most_recent: typing.Optional[bool] = None,
         name: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[typing.Optional[ReturnPrompt], ReturnPagedPrompts]:
+    ) -> AsyncPager[typing.Optional[ReturnPrompt]]:
         """
         Parameters
         ----------
@@ -617,7 +619,7 @@ class AsyncRawPromptsClient:
 
         Returns
         -------
-        AsyncPager[typing.Optional[ReturnPrompt], ReturnPagedPrompts]
+        AsyncPager[typing.Optional[ReturnPrompt]]
             Success
         """
         page_number = page_number if page_number is not None else 0
@@ -655,7 +657,9 @@ class AsyncRawPromptsClient:
                         request_options=request_options,
                     )
 
-                return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
+                return AsyncPager(
+                    has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
+                )
             if _response.status_code == 400:
                 raise BadRequestError(
                     headers=dict(_response.headers),

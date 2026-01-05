@@ -13,7 +13,7 @@ class Config(UniversalBaseModel):
     Configuration used to specify which models should be used and with what settings.
     """
 
-    burst: typing.Optional[typing.Dict[str, typing.Any]] = pydantic.Field(default=None)
+    burst: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = pydantic.Field(default=None)
     """
     Configuration for the vocal burst emotion model.
     
@@ -29,7 +29,7 @@ class Config(UniversalBaseModel):
     Note: Using the `reset_stream` parameter does not have any effect on face identification. A single face identifier cache is maintained over a full session whether `reset_stream` is used or not.
     """
 
-    facemesh: typing.Optional[typing.Dict[str, typing.Any]] = pydantic.Field(default=None)
+    facemesh: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = pydantic.Field(default=None)
     """
     Configuration for the facemesh emotion model.
     
@@ -43,7 +43,7 @@ class Config(UniversalBaseModel):
     Configuration for the language emotion model.
     """
 
-    prosody: typing.Optional[typing.Dict[str, typing.Any]] = pydantic.Field(default=None)
+    prosody: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = pydantic.Field(default=None)
     """
     Configuration for the speech prosody emotion model.
     

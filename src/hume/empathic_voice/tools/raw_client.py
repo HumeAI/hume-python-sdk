@@ -7,7 +7,7 @@ from ...core.api_error import ApiError
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.http_response import AsyncHttpResponse, HttpResponse
 from ...core.jsonable_encoder import jsonable_encoder
-from ...core.pagination import AsyncPager, SyncPager
+from ...core.pagination import AsyncPager, BaseHttpResponse, SyncPager
 from ...core.pydantic_utilities import parse_obj_as
 from ...core.request_options import RequestOptions
 from ..errors.bad_request_error import BadRequestError
@@ -31,7 +31,7 @@ class RawToolsClient:
         restrict_to_most_recent: typing.Optional[bool] = None,
         name: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[typing.Optional[ReturnUserDefinedTool], ReturnPagedUserDefinedTools]:
+    ) -> SyncPager[typing.Optional[ReturnUserDefinedTool]]:
         """
         Parameters
         ----------
@@ -56,7 +56,7 @@ class RawToolsClient:
 
         Returns
         -------
-        SyncPager[typing.Optional[ReturnUserDefinedTool], ReturnPagedUserDefinedTools]
+        SyncPager[typing.Optional[ReturnUserDefinedTool]]
             Success
         """
         page_number = page_number if page_number is not None else 0
@@ -91,7 +91,9 @@ class RawToolsClient:
                     name=name,
                     request_options=request_options,
                 )
-                return SyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
+                return SyncPager(
+                    has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
+                )
             if _response.status_code == 400:
                 raise BadRequestError(
                     headers=dict(_response.headers),
@@ -197,7 +199,7 @@ class RawToolsClient:
         page_size: typing.Optional[int] = None,
         restrict_to_most_recent: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[typing.Optional[ReturnUserDefinedTool], ReturnPagedUserDefinedTools]:
+    ) -> SyncPager[typing.Optional[ReturnUserDefinedTool]]:
         """
         Parameters
         ----------
@@ -221,7 +223,7 @@ class RawToolsClient:
 
         Returns
         -------
-        SyncPager[typing.Optional[ReturnUserDefinedTool], ReturnPagedUserDefinedTools]
+        SyncPager[typing.Optional[ReturnUserDefinedTool]]
             Success
         """
         page_number = page_number if page_number is not None else 0
@@ -255,7 +257,9 @@ class RawToolsClient:
                     restrict_to_most_recent=restrict_to_most_recent,
                     request_options=request_options,
                 )
-                return SyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
+                return SyncPager(
+                    has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
+                )
             if _response.status_code == 400:
                 raise BadRequestError(
                     headers=dict(_response.headers),
@@ -623,7 +627,7 @@ class AsyncRawToolsClient:
         restrict_to_most_recent: typing.Optional[bool] = None,
         name: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[typing.Optional[ReturnUserDefinedTool], ReturnPagedUserDefinedTools]:
+    ) -> AsyncPager[typing.Optional[ReturnUserDefinedTool]]:
         """
         Parameters
         ----------
@@ -648,7 +652,7 @@ class AsyncRawToolsClient:
 
         Returns
         -------
-        AsyncPager[typing.Optional[ReturnUserDefinedTool], ReturnPagedUserDefinedTools]
+        AsyncPager[typing.Optional[ReturnUserDefinedTool]]
             Success
         """
         page_number = page_number if page_number is not None else 0
@@ -686,7 +690,9 @@ class AsyncRawToolsClient:
                         request_options=request_options,
                     )
 
-                return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
+                return AsyncPager(
+                    has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
+                )
             if _response.status_code == 400:
                 raise BadRequestError(
                     headers=dict(_response.headers),
@@ -792,7 +798,7 @@ class AsyncRawToolsClient:
         page_size: typing.Optional[int] = None,
         restrict_to_most_recent: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[typing.Optional[ReturnUserDefinedTool], ReturnPagedUserDefinedTools]:
+    ) -> AsyncPager[typing.Optional[ReturnUserDefinedTool]]:
         """
         Parameters
         ----------
@@ -816,7 +822,7 @@ class AsyncRawToolsClient:
 
         Returns
         -------
-        AsyncPager[typing.Optional[ReturnUserDefinedTool], ReturnPagedUserDefinedTools]
+        AsyncPager[typing.Optional[ReturnUserDefinedTool]]
             Success
         """
         page_number = page_number if page_number is not None else 0
@@ -853,7 +859,9 @@ class AsyncRawToolsClient:
                         request_options=request_options,
                     )
 
-                return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
+                return AsyncPager(
+                    has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
+                )
             if _response.status_code == 400:
                 raise BadRequestError(
                     headers=dict(_response.headers),

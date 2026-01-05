@@ -2,4 +2,4 @@
 
 import typing
 
-TextSource = typing.Dict[str, typing.Any]
+TextSource = typing.Dict[str, typing.Optional[typing.Any]]

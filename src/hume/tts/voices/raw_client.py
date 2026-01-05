@@ -6,7 +6,7 @@ from json.decoder import JSONDecodeError
 from ...core.api_error import ApiError
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.http_response import AsyncHttpResponse, HttpResponse
-from ...core.pagination import AsyncPager, SyncPager
+from ...core.pagination import AsyncPager, BaseHttpResponse, SyncPager
 from ...core.pydantic_utilities import parse_obj_as
 from ...core.request_options import RequestOptions
 from ..errors.bad_request_error import BadRequestError
@@ -34,7 +34,7 @@ class RawVoicesClient:
         ascending_order: typing.Optional[bool] = None,
         filter_tag: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[ReturnVoice, ReturnPagedVoices]:
+    ) -> SyncPager[ReturnVoice]:
         """
         Lists voices you have saved in your account, or voices from the [Voice Library](https://app.hume.ai/voices).
 
@@ -65,7 +65,7 @@ class RawVoicesClient:
 
         Returns
         -------
-        SyncPager[ReturnVoice, ReturnPagedVoices]
+        SyncPager[ReturnVoice]
             Success
         """
         page_number = page_number if page_number is not None else 0
@@ -102,7 +102,9 @@ class RawVoicesClient:
                     filter_tag=filter_tag,
                     request_options=request_options,
                 )
-                return SyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
+                return SyncPager(
+                    has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
+                )
             if _response.status_code == 400:
                 raise BadRequestError(
                     headers=dict(_response.headers),
@@ -241,7 +243,7 @@ class AsyncRawVoicesClient:
         ascending_order: typing.Optional[bool] = None,
         filter_tag: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[ReturnVoice, ReturnPagedVoices]:
+    ) -> AsyncPager[ReturnVoice]:
         """
         Lists voices you have saved in your account, or voices from the [Voice Library](https://app.hume.ai/voices).
 
@@ -272,7 +274,7 @@ class AsyncRawVoicesClient:
 
         Returns
         -------
-        AsyncPager[ReturnVoice, ReturnPagedVoices]
+        AsyncPager[ReturnVoice]
             Success
         """
         page_number = page_number if page_number is not None else 0
@@ -312,7 +314,9 @@ class AsyncRawVoicesClient:
                         request_options=request_options,
                     )
 
-                return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
+                return AsyncPager(
+                    has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
+                )
             if _response.status_code == 400:
                 raise BadRequestError(
                     headers=dict(_response.headers),

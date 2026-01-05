@@ -2,4 +2,4 @@
 
 import typing
 
-Regression = typing.Dict[str, typing.Any]
+Regression = typing.Dict[str, typing.Optional[typing.Any]]

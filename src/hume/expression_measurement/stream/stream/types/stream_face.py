@@ -13,12 +13,12 @@ class StreamFace(UniversalBaseModel):
     Note: Using the `reset_stream` parameter does not have any effect on face identification. A single face identifier cache is maintained over a full session whether `reset_stream` is used or not.
     """
 
-    facs: typing.Optional[typing.Dict[str, typing.Any]] = pydantic.Field(default=None)
+    facs: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = pydantic.Field(default=None)
     """
     Configuration for FACS predictions. If missing or null, no FACS predictions will be generated.
     """
 
-    descriptions: typing.Optional[typing.Dict[str, typing.Any]] = pydantic.Field(default=None)
+    descriptions: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = pydantic.Field(default=None)
     """
     Configuration for Descriptions predictions. If missing or null, no Descriptions predictions will be generated.
     """

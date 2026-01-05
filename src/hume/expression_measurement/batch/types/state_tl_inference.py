@@ -5,7 +5,6 @@ from __future__ import annotations
 import typing
 
 import pydantic
-import typing_extensions
 from ....core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
@@ -73,9 +72,6 @@ class StateTlInference_Failed(UniversalBaseModel):
             extra = pydantic.Extra.allow
 
 
-StateTlInference = typing_extensions.Annotated[
-    typing.Union[
-        StateTlInference_Queued, StateTlInference_InProgress, StateTlInference_Completed, StateTlInference_Failed
-    ],
-    pydantic.Field(discriminator="status"),
+StateTlInference = typing.Union[
+    StateTlInference_Queued, StateTlInference_InProgress, StateTlInference_Completed, StateTlInference_Failed
 ]

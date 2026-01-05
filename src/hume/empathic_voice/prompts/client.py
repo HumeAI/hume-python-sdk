@@ -36,7 +36,7 @@ class PromptsClient:
         restrict_to_most_recent: typing.Optional[bool] = None,
         name: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[typing.Optional[ReturnPrompt], ReturnPagedPrompts]:
+    ) -> SyncPager[typing.Optional[ReturnPrompt]]:
         """
         Parameters
         ----------
@@ -61,7 +61,7 @@ class PromptsClient:
 
         Returns
         -------
-        SyncPager[typing.Optional[ReturnPrompt], ReturnPagedPrompts]
+        SyncPager[typing.Optional[ReturnPrompt]]
             Success
 
         Examples
@@ -435,7 +435,7 @@ class AsyncPromptsClient:
         restrict_to_most_recent: typing.Optional[bool] = None,
         name: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[typing.Optional[ReturnPrompt], ReturnPagedPrompts]:
+    ) -> AsyncPager[typing.Optional[ReturnPrompt]]:
         """
         Parameters
         ----------
@@ -460,7 +460,7 @@ class AsyncPromptsClient:
 
         Returns
         -------
-        AsyncPager[typing.Optional[ReturnPrompt], ReturnPagedPrompts]
+        AsyncPager[typing.Optional[ReturnPrompt]]
             Success
 
         Examples

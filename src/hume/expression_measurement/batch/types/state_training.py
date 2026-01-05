@@ -5,7 +5,6 @@ from __future__ import annotations
 import typing
 
 import pydantic
-import typing_extensions
 from ....core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .training_custom_model import TrainingCustomModel
 
@@ -74,7 +73,6 @@ class StateTraining_Failed(UniversalBaseModel):
             extra = pydantic.Extra.allow
 
 
-StateTraining = typing_extensions.Annotated[
-    typing.Union[StateTraining_Queued, StateTraining_InProgress, StateTraining_Completed, StateTraining_Failed],
-    pydantic.Field(discriminator="status"),
+StateTraining = typing.Union[
+    StateTraining_Queued, StateTraining_InProgress, StateTraining_Completed, StateTraining_Failed
 ]

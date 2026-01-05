@@ -7,7 +7,7 @@ from ...core.api_error import ApiError
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.http_response import AsyncHttpResponse, HttpResponse
 from ...core.jsonable_encoder import jsonable_encoder
-from ...core.pagination import AsyncPager, SyncPager
+from ...core.pagination import AsyncPager, BaseHttpResponse, SyncPager
 from ...core.pydantic_utilities import parse_obj_as
 from ...core.request_options import RequestOptions
 from ..errors.bad_request_error import BadRequestError
@@ -32,7 +32,7 @@ class RawChatsClient:
         config_id: typing.Optional[str] = None,
         status: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[ReturnChat, ReturnPagedChats]:
+    ) -> SyncPager[ReturnChat]:
         """
         Parameters
         ----------
@@ -60,7 +60,7 @@ class RawChatsClient:
 
         Returns
         -------
-        SyncPager[ReturnChat, ReturnPagedChats]
+        SyncPager[ReturnChat]
             Success
         """
         page_number = page_number if page_number is not None else 0
@@ -97,7 +97,9 @@ class RawChatsClient:
                     status=status,
                     request_options=request_options,
                 )
-                return SyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
+                return SyncPager(
+                    has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
+                )
             if _response.status_code == 400:
                 raise BadRequestError(
                     headers=dict(_response.headers),
@@ -122,7 +124,7 @@ class RawChatsClient:
         page_number: typing.Optional[int] = None,
         ascending_order: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[ReturnChatEvent, ReturnChatPagedEvents]:
+    ) -> SyncPager[ReturnChatEvent]:
         """
         Parameters
         ----------
@@ -147,7 +149,7 @@ class RawChatsClient:
 
         Returns
         -------
-        SyncPager[ReturnChatEvent, ReturnChatPagedEvents]
+        SyncPager[ReturnChatEvent]
             Success
         """
         page_number = page_number if page_number is not None else 0
@@ -181,7 +183,9 @@ class RawChatsClient:
                     ascending_order=ascending_order,
                     request_options=request_options,
                 )
-                return SyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
+                return SyncPager(
+                    has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
+                )
             if _response.status_code == 400:
                 raise BadRequestError(
                     headers=dict(_response.headers),
@@ -261,7 +265,7 @@ class AsyncRawChatsClient:
         config_id: typing.Optional[str] = None,
         status: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[ReturnChat, ReturnPagedChats]:
+    ) -> AsyncPager[ReturnChat]:
         """
         Parameters
         ----------
@@ -289,7 +293,7 @@ class AsyncRawChatsClient:
 
         Returns
         -------
-        AsyncPager[ReturnChat, ReturnPagedChats]
+        AsyncPager[ReturnChat]
             Success
         """
         page_number = page_number if page_number is not None else 0
@@ -329,7 +333,9 @@ class AsyncRawChatsClient:
                         request_options=request_options,
                     )
 
-                return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
+                return AsyncPager(
+                    has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
+                )
             if _response.status_code == 400:
                 raise BadRequestError(
                     headers=dict(_response.headers),
@@ -354,7 +360,7 @@ class AsyncRawChatsClient:
         page_number: typing.Optional[int] = None,
         ascending_order: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[ReturnChatEvent, ReturnChatPagedEvents]:
+    ) -> AsyncPager[ReturnChatEvent]:
         """
         Parameters
         ----------
@@ -379,7 +385,7 @@ class AsyncRawChatsClient:
 
         Returns
         -------
-        AsyncPager[ReturnChatEvent, ReturnChatPagedEvents]
+        AsyncPager[ReturnChatEvent]
             Success
         """
         page_number = page_number if page_number is not None else 0
@@ -416,7 +422,9 @@ class AsyncRawChatsClient:
                         request_options=request_options,
                     )
 
-                return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
+                return AsyncPager(
+                    has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
+                )
             if _response.status_code == 400:
                 raise BadRequestError(
                     headers=dict(_response.headers),
