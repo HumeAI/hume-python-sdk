@@ -2,4 +2,4 @@
 
 import typing
 
-Classification = typing.Dict[str, typing.Optional[typing.Any]]
+Classification = typing.Dict[str, typing.Any]

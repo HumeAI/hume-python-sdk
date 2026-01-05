@@ -6,7 +6,7 @@ from json.decoder import JSONDecodeError
 from ...core.api_error import ApiError
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.http_response import AsyncHttpResponse, HttpResponse
-from ...core.pagination import AsyncPager, BaseHttpResponse, SyncPager
+from ...core.pagination import AsyncPager, SyncPager
 from ...core.pydantic_utilities import parse_obj_as
 from ...core.request_options import RequestOptions
 from ..errors.bad_request_error import BadRequestError
@@ -32,17 +32,18 @@ class RawVoicesClient:
         page_number: typing.Optional[int] = None,
         page_size: typing.Optional[int] = None,
         ascending_order: typing.Optional[bool] = None,
+        filter_tag: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[ReturnVoice]:
+    ) -> SyncPager[ReturnVoice, ReturnPagedVoices]:
         """
-        Lists voices you have saved in your account, or voices from the [Voice Library](https://platform.hume.ai/tts/voice-library).
+        Lists voices you have saved in your account, or voices from the [Voice Library](https://app.hume.ai/voices).
 
         Parameters
         ----------
         provider : VoiceProvider
             Specify the voice provider to filter voices returned by the endpoint:
 
-            - **`HUME_AI`**: Lists preset, shared voices from Hume's [Voice Library](https://platform.hume.ai/tts/voice-library).
+            - **`HUME_AI`**: Lists preset, shared voices from Hume's [Voice Library](https://app.hume.ai/voices).
             - **`CUSTOM_VOICE`**: Lists custom voices created and saved to your account.
 
         page_number : typing.Optional[int]
@@ -57,12 +58,14 @@ class RawVoicesClient:
 
         ascending_order : typing.Optional[bool]
 
+        filter_tag : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        SyncPager[ReturnVoice]
+        SyncPager[ReturnVoice, ReturnPagedVoices]
             Success
         """
         page_number = page_number if page_number is not None else 0
@@ -76,6 +79,7 @@ class RawVoicesClient:
                 "page_number": page_number,
                 "page_size": page_size,
                 "ascending_order": ascending_order,
+                "filter_tag": filter_tag,
             },
             request_options=request_options,
         )
@@ -95,11 +99,10 @@ class RawVoicesClient:
                     page_number=page_number + 1,
                     page_size=page_size,
                     ascending_order=ascending_order,
+                    filter_tag=filter_tag,
                     request_options=request_options,
                 )
-                return SyncPager(
-                    has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
-                )
+                return SyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
             if _response.status_code == 400:
                 raise BadRequestError(
                     headers=dict(_response.headers),
@@ -130,7 +133,7 @@ class RawVoicesClient:
             A unique ID associated with this TTS generation that can be used as context for generating consistent speech style and prosody across multiple requests.
 
         name : str
-            Name of the voice in the `Voice Library`.
+            The name of a **Voice**.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -236,17 +239,18 @@ class AsyncRawVoicesClient:
         page_number: typing.Optional[int] = None,
         page_size: typing.Optional[int] = None,
         ascending_order: typing.Optional[bool] = None,
+        filter_tag: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[ReturnVoice]:
+    ) -> AsyncPager[ReturnVoice, ReturnPagedVoices]:
         """
-        Lists voices you have saved in your account, or voices from the [Voice Library](https://platform.hume.ai/tts/voice-library).
+        Lists voices you have saved in your account, or voices from the [Voice Library](https://app.hume.ai/voices).
 
         Parameters
         ----------
         provider : VoiceProvider
             Specify the voice provider to filter voices returned by the endpoint:
 
-            - **`HUME_AI`**: Lists preset, shared voices from Hume's [Voice Library](https://platform.hume.ai/tts/voice-library).
+            - **`HUME_AI`**: Lists preset, shared voices from Hume's [Voice Library](https://app.hume.ai/voices).
             - **`CUSTOM_VOICE`**: Lists custom voices created and saved to your account.
 
         page_number : typing.Optional[int]
@@ -261,12 +265,14 @@ class AsyncRawVoicesClient:
 
         ascending_order : typing.Optional[bool]
 
+        filter_tag : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        AsyncPager[ReturnVoice]
+        AsyncPager[ReturnVoice, ReturnPagedVoices]
             Success
         """
         page_number = page_number if page_number is not None else 0
@@ -280,6 +286,7 @@ class AsyncRawVoicesClient:
                 "page_number": page_number,
                 "page_size": page_size,
                 "ascending_order": ascending_order,
+                "filter_tag": filter_tag,
             },
             request_options=request_options,
         )
@@ -301,12 +308,11 @@ class AsyncRawVoicesClient:
                         page_number=page_number + 1,
                         page_size=page_size,
                         ascending_order=ascending_order,
+                        filter_tag=filter_tag,
                         request_options=request_options,
                     )
 
-                return AsyncPager(
-                    has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
-                )
+                return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
             if _response.status_code == 400:
                 raise BadRequestError(
                     headers=dict(_response.headers),
@@ -337,7 +343,7 @@ class AsyncRawVoicesClient:
             A unique ID associated with this TTS generation that can be used as context for generating consistent speech style and prosody across multiple requests.
 
         name : str
-            Name of the voice in the `Voice Library`.
+            The name of a **Voice**.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.

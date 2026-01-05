@@ -99,6 +99,7 @@ if typing.TYPE_CHECKING:
         ReturnWebhookSpec,
         Role,
         SessionSettings,
+        SessionSettingsMessage,
         SessionSettingsVariablesValue,
         SubscribeEvent,
         Tool,
@@ -222,6 +223,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ReturnWebhookSpec": ".types",
     "Role": ".types",
     "SessionSettings": ".types",
+    "SessionSettingsMessage": ".types",
     "SessionSettingsVariablesValue": ".types",
     "SubscribeEvent": ".types",
     "Tool": ".types",
@@ -247,13 +249,13 @@ _dynamic_imports: typing.Dict[str, str] = {
     "WebhookEventChatStarted": ".types",
     "WebhookEventChatStatus": ".types",
     "WebhookEventToolCall": ".types",
-    "chat": ".",
-    "chat_groups": ".",
-    "chats": ".",
-    "configs": ".",
-    "control_plane": ".",
-    "prompts": ".",
-    "tools": ".",
+    "chat": ".chat",
+    "chat_groups": ".chat_groups",
+    "chats": ".chats",
+    "configs": ".configs",
+    "control_plane": ".control_plane",
+    "prompts": ".prompts",
+    "tools": ".tools",
 }
 
 
@@ -263,8 +265,10 @@ def __getattr__(attr_name: str) -> typing.Any:
         raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
     try:
         module = import_module(module_name, __package__)
-        result = getattr(module, attr_name)
-        return result
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
     except ImportError as e:
         raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
     except AttributeError as e:
@@ -371,6 +375,7 @@ __all__ = [
     "ReturnWebhookSpec",
     "Role",
     "SessionSettings",
+    "SessionSettingsMessage",
     "SessionSettingsVariablesValue",
     "SubscribeEvent",
     "Tool",

@@ -7,7 +7,7 @@ from ...core.api_error import ApiError
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.http_response import AsyncHttpResponse, HttpResponse
 from ...core.jsonable_encoder import jsonable_encoder
-from ...core.pagination import AsyncPager, BaseHttpResponse, SyncPager
+from ...core.pagination import AsyncPager, SyncPager
 from ...core.pydantic_utilities import parse_obj_as
 from ...core.request_options import RequestOptions
 from ..errors.bad_request_error import BadRequestError
@@ -30,11 +30,10 @@ class RawChatsClient:
         page_size: typing.Optional[int] = None,
         ascending_order: typing.Optional[bool] = None,
         config_id: typing.Optional[str] = None,
+        status: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[ReturnChat]:
+    ) -> SyncPager[ReturnChat, ReturnPagedChats]:
         """
-        Fetches a paginated list of **Chats**.
-
         Parameters
         ----------
         page_number : typing.Optional[int]
@@ -48,17 +47,20 @@ class RawChatsClient:
             For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         ascending_order : typing.Optional[bool]
-            Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
+            Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
 
         config_id : typing.Optional[str]
             Filter to only include chats that used this config.
+
+        status : typing.Optional[str]
+            Chat status to apply to the chat. String from the ChatStatus enum.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        SyncPager[ReturnChat]
+        SyncPager[ReturnChat, ReturnPagedChats]
             Success
         """
         page_number = page_number if page_number is not None else 0
@@ -72,6 +74,7 @@ class RawChatsClient:
                 "page_size": page_size,
                 "ascending_order": ascending_order,
                 "config_id": config_id,
+                "status": status,
             },
             request_options=request_options,
         )
@@ -91,11 +94,10 @@ class RawChatsClient:
                     page_size=page_size,
                     ascending_order=ascending_order,
                     config_id=config_id,
+                    status=status,
                     request_options=request_options,
                 )
-                return SyncPager(
-                    has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
-                )
+                return SyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
             if _response.status_code == 400:
                 raise BadRequestError(
                     headers=dict(_response.headers),
@@ -120,14 +122,12 @@ class RawChatsClient:
         page_number: typing.Optional[int] = None,
         ascending_order: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[ReturnChatEvent]:
+    ) -> SyncPager[ReturnChatEvent, ReturnChatPagedEvents]:
         """
-        Fetches a paginated list of **Chat** events.
-
         Parameters
         ----------
         id : str
-            Identifier for a Chat. Formatted as a UUID.
+            Identifier for a chat. Formatted as a UUID.
 
         page_size : typing.Optional[int]
             Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
@@ -140,14 +140,14 @@ class RawChatsClient:
             This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
 
         ascending_order : typing.Optional[bool]
-            Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
+            Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        SyncPager[ReturnChatEvent]
+        SyncPager[ReturnChatEvent, ReturnChatPagedEvents]
             Success
         """
         page_number = page_number if page_number is not None else 0
@@ -181,9 +181,7 @@ class RawChatsClient:
                     ascending_order=ascending_order,
                     request_options=request_options,
                 )
-                return SyncPager(
-                    has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
-                )
+                return SyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
             if _response.status_code == 400:
                 raise BadRequestError(
                     headers=dict(_response.headers),
@@ -204,8 +202,6 @@ class RawChatsClient:
         self, id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[ReturnChatAudioReconstruction]:
         """
-        Fetches the audio of a previous **Chat**. For more details, see our guide on audio reconstruction [here](/docs/speech-to-speech-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
-
         Parameters
         ----------
         id : str
@@ -263,11 +259,10 @@ class AsyncRawChatsClient:
         page_size: typing.Optional[int] = None,
         ascending_order: typing.Optional[bool] = None,
         config_id: typing.Optional[str] = None,
+        status: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[ReturnChat]:
+    ) -> AsyncPager[ReturnChat, ReturnPagedChats]:
         """
-        Fetches a paginated list of **Chats**.
-
         Parameters
         ----------
         page_number : typing.Optional[int]
@@ -281,17 +276,20 @@ class AsyncRawChatsClient:
             For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         ascending_order : typing.Optional[bool]
-            Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
+            Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
 
         config_id : typing.Optional[str]
             Filter to only include chats that used this config.
+
+        status : typing.Optional[str]
+            Chat status to apply to the chat. String from the ChatStatus enum.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        AsyncPager[ReturnChat]
+        AsyncPager[ReturnChat, ReturnPagedChats]
             Success
         """
         page_number = page_number if page_number is not None else 0
@@ -305,6 +303,7 @@ class AsyncRawChatsClient:
                 "page_size": page_size,
                 "ascending_order": ascending_order,
                 "config_id": config_id,
+                "status": status,
             },
             request_options=request_options,
         )
@@ -326,12 +325,11 @@ class AsyncRawChatsClient:
                         page_size=page_size,
                         ascending_order=ascending_order,
                         config_id=config_id,
+                        status=status,
                         request_options=request_options,
                     )
 
-                return AsyncPager(
-                    has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
-                )
+                return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
             if _response.status_code == 400:
                 raise BadRequestError(
                     headers=dict(_response.headers),
@@ -356,14 +354,12 @@ class AsyncRawChatsClient:
         page_number: typing.Optional[int] = None,
         ascending_order: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[ReturnChatEvent]:
+    ) -> AsyncPager[ReturnChatEvent, ReturnChatPagedEvents]:
         """
-        Fetches a paginated list of **Chat** events.
-
         Parameters
         ----------
         id : str
-            Identifier for a Chat. Formatted as a UUID.
+            Identifier for a chat. Formatted as a UUID.
 
         page_size : typing.Optional[int]
             Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
@@ -376,14 +372,14 @@ class AsyncRawChatsClient:
             This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
 
         ascending_order : typing.Optional[bool]
-            Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
+            Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        AsyncPager[ReturnChatEvent]
+        AsyncPager[ReturnChatEvent, ReturnChatPagedEvents]
             Success
         """
         page_number = page_number if page_number is not None else 0
@@ -420,9 +416,7 @@ class AsyncRawChatsClient:
                         request_options=request_options,
                     )
 
-                return AsyncPager(
-                    has_next=_has_next, items=_items, get_next=_get_next, response=BaseHttpResponse(response=_response)
-                )
+                return AsyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
             if _response.status_code == 400:
                 raise BadRequestError(
                     headers=dict(_response.headers),
@@ -443,8 +437,6 @@ class AsyncRawChatsClient:
         self, id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[ReturnChatAudioReconstruction]:
         """
-        Fetches the audio of a previous **Chat**. For more details, see our guide on audio reconstruction [here](/docs/speech-to-speech-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
-
         Parameters
         ----------
         id : str
