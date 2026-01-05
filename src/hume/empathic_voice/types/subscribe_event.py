@@ -7,7 +7,7 @@ from .assistant_message import AssistantMessage
 from .assistant_prosody import AssistantProsody
 from .audio_output import AudioOutput
 from .chat_metadata import ChatMetadata
-from .session_settings_message import SessionSettingsMessage
+from .session_settings import SessionSettings
 from .tool_call_message import ToolCallMessage
 from .tool_error_message import ToolErrorMessage
 from .tool_response_message import ToolResponseMessage
@@ -27,5 +27,5 @@ SubscribeEvent = typing.Union[
     ToolCallMessage,
     ToolResponseMessage,
     ToolErrorMessage,
-    SessionSettingsMessage,
+    SessionSettings,
 ]

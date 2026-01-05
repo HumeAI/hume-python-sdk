@@ -100,7 +100,6 @@ if typing.TYPE_CHECKING:
     from .return_webhook_spec import ReturnWebhookSpec
     from .role import Role
     from .session_settings import SessionSettings
-    from .session_settings_message import SessionSettingsMessage
     from .session_settings_variables_value import SessionSettingsVariablesValue
     from .subscribe_event import SubscribeEvent
     from .tool import Tool
@@ -218,7 +217,6 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ReturnWebhookSpec": ".return_webhook_spec",
     "Role": ".role",
     "SessionSettings": ".session_settings",
-    "SessionSettingsMessage": ".session_settings_message",
     "SessionSettingsVariablesValue": ".session_settings_variables_value",
     "SubscribeEvent": ".subscribe_event",
     "Tool": ".tool",
@@ -360,7 +358,6 @@ __all__ = [
     "ReturnWebhookSpec",
     "Role",
     "SessionSettings",
-    "SessionSettingsMessage",
     "SessionSettingsVariablesValue",
     "SubscribeEvent",
     "Tool",
