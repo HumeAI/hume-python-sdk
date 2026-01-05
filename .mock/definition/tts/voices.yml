@@ -1,0 +1,140 @@
+imports:
+  root: __package__.yml
+service:
+  auth: false
+  base-path: ''
+  endpoints:
+    list:
+      path: /v0/tts/voices
+      method: GET
+      docs: >-
+        Lists voices you have saved in your account, or voices from the [Voice
+        Library](https://platform.hume.ai/tts/voice-library).
+      pagination:
+        offset: $request.page_number
+        results: $response.voices_page
+      source:
+        openapi: tts-openapi.json
+      display-name: List voices
+      request:
+        name: VoicesListRequest
+        query-parameters:
+          provider:
+            type: root.VoiceProvider
+            docs: >-
+              Specify the voice provider to filter voices returned by the
+              endpoint:
+
+
+              - **`HUME_AI`**: Lists preset, shared voices from Hume's [Voice
+              Library](https://platform.hume.ai/tts/voice-library).
+
+              - **`CUSTOM_VOICE`**: Lists custom voices created and saved to
+              your account.
+          page_number:
+            type: optional<integer>
+            default: 0
+            docs: >-
+              Specifies the page number to retrieve, enabling pagination.
+
+
+              This parameter uses zero-based indexing. For example, setting
+              `page_number` to 0 retrieves the first page of results (items 0-9
+              if `page_size` is 10), setting `page_number` to 1 retrieves the
+              second page (items 10-19), and so on. Defaults to 0, which
+              retrieves the first page.
+          page_size:
+            type: optional<integer>
+            docs: >-
+              Specifies the maximum number of results to include per page,
+              enabling pagination. The value must be between 1 and 100,
+              inclusive.
+
+
+              For example, if `page_size` is set to 10, each page will include
+              up to 10 items. Defaults to 10.
+          ascending_order: optional<boolean>
+      response:
+        docs: Success
+        type: root.ReturnPagedVoices
+        status-code: 200
+      errors:
+        - root.BadRequestError
+      examples:
+        - query-parameters:
+            provider: CUSTOM_VOICE
+          response:
+            body:
+              page_number: 0
+              page_size: 10
+              total_pages: 1
+              voices_page:
+                - id: c42352c0-4566-455d-b180-0f654b65b525
+                  name: David Hume
+                  provider: CUSTOM_VOICE
+                - id: d87352b0-26a3-4b11-081b-d157a5674d19
+                  name: Goliath Hume
+                  provider: CUSTOM_VOICE
+    create:
+      path: /v0/tts/voices
+      method: POST
+      docs: >-
+        Saves a new custom voice to your account using the specified TTS
+        generation ID.
+
+
+        Once saved, this voice can be reused in subsequent TTS requests,
+        ensuring consistent speech style and prosody. For more details on voice
+        creation, see the [Voices Guide](/docs/text-to-speech-tts/voices).
+      source:
+        openapi: tts-openapi.json
+      display-name: Create voice
+      request:
+        name: PostedVoice
+        body:
+          properties:
+            generation_id:
+              type: string
+              docs: >-
+                A unique ID associated with this TTS generation that can be used
+                as context for generating consistent speech style and prosody
+                across multiple requests.
+            name:
+              type: string
+              docs: Name of the voice in the `Voice Library`.
+        content-type: application/json
+      response:
+        docs: Successful Response
+        type: root.ReturnVoice
+        status-code: 200
+      errors:
+        - root.UnprocessableEntityError
+      examples:
+        - request:
+            generation_id: 795c949a-1510-4a80-9646-7d0863b023ab
+            name: David Hume
+          response:
+            body:
+              id: c42352c0-4566-455d-b180-0f654b65b525
+              name: David Hume
+              provider: CUSTOM_VOICE
+    delete:
+      path: /v0/tts/voices
+      method: DELETE
+      docs: Deletes a previously generated custom voice.
+      source:
+        openapi: tts-openapi.json
+      display-name: Delete voice
+      request:
+        name: VoicesDeleteRequest
+        query-parameters:
+          name:
+            type: string
+            docs: Name of the voice to delete
+      errors:
+        - root.BadRequestError
+      examples:
+        - query-parameters:
+            name: David Hume
+  source:
+    openapi: tts-openapi.json
