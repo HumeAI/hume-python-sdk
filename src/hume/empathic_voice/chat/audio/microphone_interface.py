@@ -11,7 +11,7 @@ from hume.empathic_voice.chat.socket_client import AsyncChatSocketClient
 from hume.empathic_voice.chat.audio.chat_client import ChatClient
 from hume.empathic_voice.types import AudioConfiguration
 from hume.empathic_voice.chat.audio.asyncio_utilities import Stream
-from hume.empathic_voice.types.session_settings_message import SessionSettingsMessage
+from hume.empathic_voice.types.session_settings import SessionSettings
 
 logger = logging.getLogger(__name__)
 
@@ -44,7 +44,7 @@ class MicrophoneInterface:
             audio_config = AudioConfiguration(sample_rate=microphone.sample_rate,
                                               channels=microphone.num_channels,
                                               encoding="linear16")
-            session_settings_config = SessionSettingsMessage(audio=audio_config)
+            session_settings_config = SessionSettings(audio=audio_config)
             await socket.send_publish(
                 message=session_settings_config
             )
