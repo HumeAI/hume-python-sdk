@@ -31,10 +31,7 @@ class AudioOutput(UniversalBaseModel):
     Index of the chunk of audio relative to the whole audio segment.
     """
 
-    type: typing.Literal["audio_output"] = pydantic.Field(default="audio_output")
-    """
-    The type of message sent through the socket; for an Audio Output message, this must be `audio_output`.
-    """
+    type: typing.Literal["audio_output"] = "audio_output"
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

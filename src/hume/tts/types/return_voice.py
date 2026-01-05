@@ -13,17 +13,17 @@ class ReturnVoice(UniversalBaseModel):
     """
 
     compatible_octave_models: typing.Optional[typing.List[str]] = None
-    id: typing.Optional[str] = pydantic.Field(default=None)
+    id: str = pydantic.Field()
     """
     ID of the voice in the `Voice Library`.
     """
 
-    name: typing.Optional[str] = pydantic.Field(default=None)
+    name: str = pydantic.Field()
     """
     Name of the voice in the `Voice Library`.
     """
 
-    provider: typing.Optional[VoiceProvider] = pydantic.Field(default=None)
+    provider: VoiceProvider = pydantic.Field()
     """
     The provider associated with the created voice.
     

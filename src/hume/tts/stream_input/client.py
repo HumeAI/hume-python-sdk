@@ -70,7 +70,7 @@ class StreamInputClient:
             The format to be used for audio generation.
 
         include_timestamp_types : typing.Optional[typing.Union[TimestampType, typing.Sequence[TimestampType]]]
-            The set of timestamp types to include in the response.
+            The set of timestamp types to include in the response. Only supported for Octave 2 requests.
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
@@ -187,7 +187,7 @@ class AsyncStreamInputClient:
             The format to be used for audio generation.
 
         include_timestamp_types : typing.Optional[typing.Union[TimestampType, typing.Sequence[TimestampType]]]
-            The set of timestamp types to include in the response.
+            The set of timestamp types to include in the response. Only supported for Octave 2 requests.
 
         instant_mode : typing.Optional[bool]
             Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).

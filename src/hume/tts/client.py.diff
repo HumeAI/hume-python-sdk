@@ -1,5 +1,5 @@
 diff --git a/src/hume/tts/client.py b/src/hume/tts/client.py
-index 5f6c2c70..7c5e8597 100644
+index a427e2b6..fdff3be9 100644
 --- a/src/hume/tts/client.py
 +++ b/src/hume/tts/client.py
 @@ -4,8 +4,7 @@ from __future__ import annotations
@@ -50,7 +50,18 @@ index 5f6c2c70..7c5e8597 100644
  
          split_utterances : typing.Optional[bool]
              Controls how audio output is segmented in the response.
-@@ -187,10 +187,12 @@ class TtsClient:
+@@ -100,10 +100,6 @@ class TtsClient:
+             For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
+ 
+         instant_mode : typing.Optional[bool]
+-            Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
+-            - A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+-            - Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+-            - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
+ 
+         request_options : typing.Optional[RequestOptions]
+             Request-specific configuration.
+@@ -187,10 +183,12 @@ class TtsClient:
              Specifies the output audio file format.
  
          include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
@@ -65,7 +76,18 @@ index 5f6c2c70..7c5e8597 100644
  
          split_utterances : typing.Optional[bool]
              Controls how audio output is segmented in the response.
-@@ -292,10 +294,12 @@ class TtsClient:
+@@ -212,10 +210,6 @@ class TtsClient:
+             For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
+ 
+         instant_mode : typing.Optional[bool]
+-            Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
+-            - A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+-            - Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+-            - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
+ 
+         request_options : typing.Optional[RequestOptions]
+             Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
+@@ -292,10 +286,12 @@ class TtsClient:
              Specifies the output audio file format.
  
          include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
@@ -80,7 +102,18 @@ index 5f6c2c70..7c5e8597 100644
  
          split_utterances : typing.Optional[bool]
              Controls how audio output is segmented in the response.
-@@ -397,10 +401,12 @@ class TtsClient:
+@@ -317,10 +313,6 @@ class TtsClient:
+             For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
+ 
+         instant_mode : typing.Optional[bool]
+-            Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
+-            - A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+-            - Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+-            - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
+ 
+         request_options : typing.Optional[RequestOptions]
+             Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
+@@ -397,10 +389,12 @@ class TtsClient:
              Specifies the output audio file format.
  
          include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
@@ -95,7 +128,18 @@ index 5f6c2c70..7c5e8597 100644
  
          split_utterances : typing.Optional[bool]
              Controls how audio output is segmented in the response.
-@@ -471,6 +477,117 @@ class TtsClient:
+@@ -422,10 +416,6 @@ class TtsClient:
+             For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
+ 
+         instant_mode : typing.Optional[bool]
+-            Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
+-            - A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+-            - Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+-            - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
+ 
+         request_options : typing.Optional[RequestOptions]
+             Request-specific configuration.
+@@ -471,6 +461,117 @@ class TtsClient:
          ) as r:
              yield from r.data
  
@@ -128,7 +172,7 @@ index 5f6c2c70..7c5e8597 100644
 +            Specifies the output audio file format.
 +
 +        include_timestamp_types : typing.Optional[typing.List[TimestampType]]
-+            The set of timestamp types to include in the response.
++            The set of timestamp types to include in the response. When used in multipart/form-data, specify each value using bracket notation: `include_timestamp_types[0]=word&include_timestamp_types[1]=phoneme`. Only supported for Octave 2 requests.
 +
 +        request_options : typing.Optional[RequestOptions]
 +            Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
@@ -178,7 +222,7 @@ index 5f6c2c70..7c5e8597 100644
 +            Specifies the output audio file format.
 +
 +        include_timestamp_types : typing.Optional[typing.List[TimestampType]]
-+            The set of timestamp types to include in the response.
++            The set of timestamp types to include in the response. When used in multipart/form-data, specify each value using bracket notation: `include_timestamp_types[0]=word&include_timestamp_types[1]=phoneme`. Only supported for Octave 2 requests.
 +
 +        request_options : typing.Optional[RequestOptions]
 +            Request-specific configuration.
@@ -213,7 +257,7 @@ index 5f6c2c70..7c5e8597 100644
      @property
      def voices(self):
          if self._voices is None:
-@@ -479,20 +596,12 @@ class TtsClient:
+@@ -479,21 +580,12 @@ class TtsClient:
              self._voices = VoicesClient(client_wrapper=self._client_wrapper)
          return self._voices
  
@@ -221,6 +265,7 @@ index 5f6c2c70..7c5e8597 100644
 -    def stream_input(self):
 -        if self._stream_input is None:
 -            from .stream_input.client import StreamInputClient  # noqa: E402
+-
 -            self._stream_input = StreamInputClient(client_wrapper=self._client_wrapper)
 -        return self._stream_input
 -
@@ -234,7 +279,7 @@ index 5f6c2c70..7c5e8597 100644
  
      @property
      def with_raw_response(self) -> AsyncRawTtsClient:
-@@ -538,10 +647,12 @@ class AsyncTtsClient:
+@@ -539,10 +631,12 @@ class AsyncTtsClient:
              Specifies the output audio file format.
  
          include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
@@ -249,7 +294,18 @@ index 5f6c2c70..7c5e8597 100644
  
          split_utterances : typing.Optional[bool]
              Controls how audio output is segmented in the response.
-@@ -658,10 +769,12 @@ class AsyncTtsClient:
+@@ -564,10 +658,6 @@ class AsyncTtsClient:
+             For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
+ 
+         instant_mode : typing.Optional[bool]
+-            Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
+-            - A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+-            - Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+-            - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
+ 
+         request_options : typing.Optional[RequestOptions]
+             Request-specific configuration.
+@@ -659,10 +749,12 @@ class AsyncTtsClient:
              Specifies the output audio file format.
  
          include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
@@ -264,7 +320,18 @@ index 5f6c2c70..7c5e8597 100644
  
          split_utterances : typing.Optional[bool]
              Controls how audio output is segmented in the response.
-@@ -772,10 +885,12 @@ class AsyncTtsClient:
+@@ -684,10 +776,6 @@ class AsyncTtsClient:
+             For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
+ 
+         instant_mode : typing.Optional[bool]
+-            Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
+-            - A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+-            - Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+-            - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
+ 
+         request_options : typing.Optional[RequestOptions]
+             Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
+@@ -773,10 +861,12 @@ class AsyncTtsClient:
              Specifies the output audio file format.
  
          include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
@@ -279,7 +346,18 @@ index 5f6c2c70..7c5e8597 100644
  
          split_utterances : typing.Optional[bool]
              Controls how audio output is segmented in the response.
-@@ -886,10 +1001,12 @@ class AsyncTtsClient:
+@@ -798,10 +888,6 @@ class AsyncTtsClient:
+             For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
+ 
+         instant_mode : typing.Optional[bool]
+-            Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
+-            - A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+-            - Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+-            - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
+ 
+         request_options : typing.Optional[RequestOptions]
+             Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
+@@ -887,10 +973,12 @@ class AsyncTtsClient:
              Specifies the output audio file format.
  
          include_timestamp_types : typing.Optional[typing.Sequence[TimestampType]]
@@ -294,7 +372,18 @@ index 5f6c2c70..7c5e8597 100644
  
          split_utterances : typing.Optional[bool]
              Controls how audio output is segmented in the response.
-@@ -969,6 +1086,127 @@ class AsyncTtsClient:
+@@ -912,10 +1000,6 @@ class AsyncTtsClient:
+             For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
+ 
+         instant_mode : typing.Optional[bool]
+-            Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
+-            - A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.
+-            - Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).
+-            - Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted).
+ 
+         request_options : typing.Optional[RequestOptions]
+             Request-specific configuration.
+@@ -970,6 +1054,127 @@ class AsyncTtsClient:
              async for _chunk in r.data:
                  yield _chunk
  
@@ -327,7 +416,7 @@ index 5f6c2c70..7c5e8597 100644
 +            Specifies the output audio file format.
 +
 +        include_timestamp_types : typing.Optional[typing.List[TimestampType]]
-+            The set of timestamp types to include in the response.
++            The set of timestamp types to include in the response. When used in multipart/form-data, specify each value using bracket notation: `include_timestamp_types[0]=word&include_timestamp_types[1]=phoneme`. Only supported for Octave 2 requests.
 +
 +        request_options : typing.Optional[RequestOptions]
 +            Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
@@ -378,7 +467,7 @@ index 5f6c2c70..7c5e8597 100644
 +            Specifies the output audio file format.
 +
 +        include_timestamp_types : typing.Optional[typing.List[TimestampType]]
-+            The set of timestamp types to include in the response.
++            The set of timestamp types to include in the response. When used in multipart/form-data, specify each value using bracket notation: `include_timestamp_types[0]=word&include_timestamp_types[1]=phoneme`. Only supported for Octave 2 requests.
 +
 +        request_options : typing.Optional[RequestOptions]
 +            Request-specific configuration.
@@ -422,7 +511,7 @@ index 5f6c2c70..7c5e8597 100644
      @property
      def voices(self):
          if self._voices is None:
-@@ -976,13 +1214,3 @@ class AsyncTtsClient:
+@@ -977,13 +1182,3 @@ class AsyncTtsClient:
  
              self._voices = AsyncVoicesClient(client_wrapper=self._client_wrapper)
          return self._voices

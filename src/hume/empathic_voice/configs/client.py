@@ -15,6 +15,7 @@ from ..types.posted_timeout_specs import PostedTimeoutSpecs
 from ..types.posted_user_defined_tool_spec import PostedUserDefinedToolSpec
 from ..types.posted_webhook_spec import PostedWebhookSpec
 from ..types.return_config import ReturnConfig
+from ..types.return_paged_configs import ReturnPagedConfigs
 from ..types.voice_ref import VoiceRef
 from .raw_client import AsyncRawConfigsClient, RawConfigsClient
 
@@ -45,12 +46,8 @@ class ConfigsClient:
         restrict_to_most_recent: typing.Optional[bool] = None,
         name: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[ReturnConfig]:
+    ) -> SyncPager[ReturnConfig, ReturnPagedConfigs]:
         """
-        Fetches a paginated list of **Configs**.
-
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
-
         Parameters
         ----------
         page_number : typing.Optional[int]
@@ -74,7 +71,7 @@ class ConfigsClient:
 
         Returns
         -------
-        SyncPager[ReturnConfig]
+        SyncPager[ReturnConfig, ReturnPagedConfigs]
             Success
 
         Examples
@@ -121,48 +118,36 @@ class ConfigsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnConfig:
         """
-        Creates a **Config** which can be applied to EVI.
-
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
-
         Parameters
         ----------
         evi_version : str
-            EVI version to use. Only versions `3` and `4-mini` are supported.
+            The version of the EVI used with this config.
 
         name : str
             Name applied to all versions of a particular Config.
 
         builtin_tools : typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]
-            List of built-in tools associated with this Config.
+            Built-in tool specification for a Config.
 
         ellm_model : typing.Optional[PostedEllmModel]
-            The eLLM setup associated with this Config.
-
-            Hume's eLLM (empathic Large Language Model) is a multimodal language model that takes into account both expression measures and language. The eLLM generates short, empathic language responses and guides text-to-speech (TTS) prosody.
 
         event_messages : typing.Optional[PostedEventMessageSpecs]
 
         language_model : typing.Optional[PostedLanguageModel]
-            The supplemental language model associated with this Config.
-
-            This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
 
         nudges : typing.Optional[PostedNudgeSpec]
-            Configures nudges, brief audio prompts that can guide conversations when users pause or need encouragement to continue speaking. Nudges help create more natural, flowing interactions by providing gentle conversational cues.
 
         prompt : typing.Optional[PostedConfigPromptSpec]
 
         timeouts : typing.Optional[PostedTimeoutSpecs]
 
         tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
-            List of user-defined tools associated with this Config.
+            Tool specification for a Config.
 
         version_description : typing.Optional[str]
-            An optional description of the Config version.
+            Description that is appended to a specific version of a Config.
 
         voice : typing.Optional[VoiceRef]
-            A voice specification associated with this Config.
 
         webhooks : typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]]
             Webhook config specifications for each subscriber.
@@ -247,16 +232,12 @@ class ConfigsClient:
         page_size: typing.Optional[int] = None,
         restrict_to_most_recent: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> SyncPager[ReturnConfig]:
+    ) -> SyncPager[ReturnConfig, ReturnPagedConfigs]:
         """
-        Fetches a list of a **Config's** versions.
-
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
-
         Parameters
         ----------
         id : str
-            Identifier for a Config. Formatted as a UUID.
+            Identifier for a config. Formatted as a UUID.
 
         page_number : typing.Optional[int]
             Specifies the page number to retrieve, enabling pagination.
@@ -269,14 +250,14 @@ class ConfigsClient:
             For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         restrict_to_most_recent : typing.Optional[bool]
-            By default, `restrict_to_most_recent` is set to true, returning only the latest version of each config. To include all versions of each config in the list, set `restrict_to_most_recent` to false.
+            By default, `restrict_to_most_recent` is set to true, returning only the latest version of each tool. To include all versions of each tool in the list, set `restrict_to_most_recent` to false.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        SyncPager[ReturnConfig]
+        SyncPager[ReturnConfig, ReturnPagedConfigs]
             Success
 
         Examples
@@ -322,32 +303,22 @@ class ConfigsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnConfig:
         """
-        Updates a **Config** by creating a new version of the **Config**.
-
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
-
         Parameters
         ----------
         id : str
-            Identifier for a Config. Formatted as a UUID.
+            Identifier for a config. Formatted as a UUID.
 
         evi_version : str
             The version of the EVI used with this config.
 
         builtin_tools : typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]
-            List of built-in tools associated with this Config version.
+            Built-in tool specification for a Config.
 
         ellm_model : typing.Optional[PostedEllmModel]
-            The eLLM setup associated with this Config version.
-
-            Hume's eLLM (empathic Large Language Model) is a multimodal language model that takes into account both expression measures and language. The eLLM generates short, empathic language responses and guides text-to-speech (TTS) prosody.
 
         event_messages : typing.Optional[PostedEventMessageSpecs]
 
         language_model : typing.Optional[PostedLanguageModel]
-            The supplemental language model associated with this Config version.
-
-            This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
 
         nudges : typing.Optional[PostedNudgeSpec]
 
@@ -356,13 +327,12 @@ class ConfigsClient:
         timeouts : typing.Optional[PostedTimeoutSpecs]
 
         tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
-            List of user-defined tools associated with this Config version.
+            Tool specification for a Config.
 
         version_description : typing.Optional[str]
-            An optional description of the Config version.
+            Description that is appended to a specific version of a Config.
 
         voice : typing.Optional[VoiceRef]
-            A voice specification associated with this Config version.
 
         webhooks : typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]]
             Webhook config specifications for each subscriber.
@@ -446,14 +416,10 @@ class ConfigsClient:
 
     def delete_config(self, id: str, *, request_options: typing.Optional[RequestOptions] = None) -> None:
         """
-        Deletes a **Config** and its versions.
-
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
-
         Parameters
         ----------
         id : str
-            Identifier for a Config. Formatted as a UUID.
+            Identifier for a config. Formatted as a UUID.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -478,14 +444,10 @@ class ConfigsClient:
 
     def update_config_name(self, id: str, *, name: str, request_options: typing.Optional[RequestOptions] = None) -> str:
         """
-        Updates the name of a **Config**.
-
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
-
         Parameters
         ----------
         id : str
-            Identifier for a Config. Formatted as a UUID.
+            Identifier for a config. Formatted as a UUID.
 
         name : str
             Name applied to all versions of a particular Config.
@@ -517,21 +479,13 @@ class ConfigsClient:
         self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> ReturnConfig:
         """
-        Fetches a specified version of a **Config**.
-
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
-
         Parameters
         ----------
         id : str
-            Identifier for a Config. Formatted as a UUID.
+            Identifier for a config. Formatted as a UUID.
 
         version : int
-            Version number for a Config.
-
-            Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
-
-            Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
+            Version number for a config. Version numbers should be integers.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -560,21 +514,13 @@ class ConfigsClient:
         self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> None:
         """
-        Deletes a specified version of a **Config**.
-
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
-
         Parameters
         ----------
         id : str
-            Identifier for a Config. Formatted as a UUID.
+            Identifier for a config. Formatted as a UUID.
 
         version : int
-            Version number for a Config.
-
-            Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
-
-            Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
+            Version number for a config. Version numbers should be integers.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -607,24 +553,16 @@ class ConfigsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnConfig:
         """
-        Updates the description of a **Config**.
-
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
-
         Parameters
         ----------
         id : str
-            Identifier for a Config. Formatted as a UUID.
+            Identifier for a config. Formatted as a UUID.
 
         version : int
-            Version number for a Config.
-
-            Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
-
-            Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
+            Version number for a config. Version numbers should be integers.
 
         version_description : typing.Optional[str]
-            An optional description of the Config version.
+            Description that is appended to a specific version of a Config.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -676,12 +614,8 @@ class AsyncConfigsClient:
         restrict_to_most_recent: typing.Optional[bool] = None,
         name: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[ReturnConfig]:
+    ) -> AsyncPager[ReturnConfig, ReturnPagedConfigs]:
         """
-        Fetches a paginated list of **Configs**.
-
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
-
         Parameters
         ----------
         page_number : typing.Optional[int]
@@ -705,7 +639,7 @@ class AsyncConfigsClient:
 
         Returns
         -------
-        AsyncPager[ReturnConfig]
+        AsyncPager[ReturnConfig, ReturnPagedConfigs]
             Success
 
         Examples
@@ -761,48 +695,36 @@ class AsyncConfigsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnConfig:
         """
-        Creates a **Config** which can be applied to EVI.
-
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
-
         Parameters
         ----------
         evi_version : str
-            EVI version to use. Only versions `3` and `4-mini` are supported.
+            The version of the EVI used with this config.
 
         name : str
             Name applied to all versions of a particular Config.
 
         builtin_tools : typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]
-            List of built-in tools associated with this Config.
+            Built-in tool specification for a Config.
 
         ellm_model : typing.Optional[PostedEllmModel]
-            The eLLM setup associated with this Config.
-
-            Hume's eLLM (empathic Large Language Model) is a multimodal language model that takes into account both expression measures and language. The eLLM generates short, empathic language responses and guides text-to-speech (TTS) prosody.
 
         event_messages : typing.Optional[PostedEventMessageSpecs]
 
         language_model : typing.Optional[PostedLanguageModel]
-            The supplemental language model associated with this Config.
-
-            This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
 
         nudges : typing.Optional[PostedNudgeSpec]
-            Configures nudges, brief audio prompts that can guide conversations when users pause or need encouragement to continue speaking. Nudges help create more natural, flowing interactions by providing gentle conversational cues.
 
         prompt : typing.Optional[PostedConfigPromptSpec]
 
         timeouts : typing.Optional[PostedTimeoutSpecs]
 
         tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
-            List of user-defined tools associated with this Config.
+            Tool specification for a Config.
 
         version_description : typing.Optional[str]
-            An optional description of the Config version.
+            Description that is appended to a specific version of a Config.
 
         voice : typing.Optional[VoiceRef]
-            A voice specification associated with this Config.
 
         webhooks : typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]]
             Webhook config specifications for each subscriber.
@@ -895,16 +817,12 @@ class AsyncConfigsClient:
         page_size: typing.Optional[int] = None,
         restrict_to_most_recent: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncPager[ReturnConfig]:
+    ) -> AsyncPager[ReturnConfig, ReturnPagedConfigs]:
         """
-        Fetches a list of a **Config's** versions.
-
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
-
         Parameters
         ----------
         id : str
-            Identifier for a Config. Formatted as a UUID.
+            Identifier for a config. Formatted as a UUID.
 
         page_number : typing.Optional[int]
             Specifies the page number to retrieve, enabling pagination.
@@ -917,14 +835,14 @@ class AsyncConfigsClient:
             For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         restrict_to_most_recent : typing.Optional[bool]
-            By default, `restrict_to_most_recent` is set to true, returning only the latest version of each config. To include all versions of each config in the list, set `restrict_to_most_recent` to false.
+            By default, `restrict_to_most_recent` is set to true, returning only the latest version of each tool. To include all versions of each tool in the list, set `restrict_to_most_recent` to false.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        AsyncPager[ReturnConfig]
+        AsyncPager[ReturnConfig, ReturnPagedConfigs]
             Success
 
         Examples
@@ -979,32 +897,22 @@ class AsyncConfigsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnConfig:
         """
-        Updates a **Config** by creating a new version of the **Config**.
-
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
-
         Parameters
         ----------
         id : str
-            Identifier for a Config. Formatted as a UUID.
+            Identifier for a config. Formatted as a UUID.
 
         evi_version : str
             The version of the EVI used with this config.
 
         builtin_tools : typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]
-            List of built-in tools associated with this Config version.
+            Built-in tool specification for a Config.
 
         ellm_model : typing.Optional[PostedEllmModel]
-            The eLLM setup associated with this Config version.
-
-            Hume's eLLM (empathic Large Language Model) is a multimodal language model that takes into account both expression measures and language. The eLLM generates short, empathic language responses and guides text-to-speech (TTS) prosody.
 
         event_messages : typing.Optional[PostedEventMessageSpecs]
 
         language_model : typing.Optional[PostedLanguageModel]
-            The supplemental language model associated with this Config version.
-
-            This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
 
         nudges : typing.Optional[PostedNudgeSpec]
 
@@ -1013,13 +921,12 @@ class AsyncConfigsClient:
         timeouts : typing.Optional[PostedTimeoutSpecs]
 
         tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
-            List of user-defined tools associated with this Config version.
+            Tool specification for a Config.
 
         version_description : typing.Optional[str]
-            An optional description of the Config version.
+            Description that is appended to a specific version of a Config.
 
         voice : typing.Optional[VoiceRef]
-            A voice specification associated with this Config version.
 
         webhooks : typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]]
             Webhook config specifications for each subscriber.
@@ -1111,14 +1018,10 @@ class AsyncConfigsClient:
 
     async def delete_config(self, id: str, *, request_options: typing.Optional[RequestOptions] = None) -> None:
         """
-        Deletes a **Config** and its versions.
-
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
-
         Parameters
         ----------
         id : str
-            Identifier for a Config. Formatted as a UUID.
+            Identifier for a config. Formatted as a UUID.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1153,14 +1056,10 @@ class AsyncConfigsClient:
         self, id: str, *, name: str, request_options: typing.Optional[RequestOptions] = None
     ) -> str:
         """
-        Updates the name of a **Config**.
-
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
-
         Parameters
         ----------
         id : str
-            Identifier for a Config. Formatted as a UUID.
+            Identifier for a config. Formatted as a UUID.
 
         name : str
             Name applied to all versions of a particular Config.
@@ -1200,21 +1099,13 @@ class AsyncConfigsClient:
         self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> ReturnConfig:
         """
-        Fetches a specified version of a **Config**.
-
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
-
         Parameters
         ----------
         id : str
-            Identifier for a Config. Formatted as a UUID.
+            Identifier for a config. Formatted as a UUID.
 
         version : int
-            Version number for a Config.
-
-            Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
-
-            Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
+            Version number for a config. Version numbers should be integers.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1251,21 +1142,13 @@ class AsyncConfigsClient:
         self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> None:
         """
-        Deletes a specified version of a **Config**.
-
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
-
         Parameters
         ----------
         id : str
-            Identifier for a Config. Formatted as a UUID.
+            Identifier for a config. Formatted as a UUID.
 
         version : int
-            Version number for a Config.
-
-            Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
-
-            Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
+            Version number for a config. Version numbers should be integers.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1306,24 +1189,16 @@ class AsyncConfigsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnConfig:
         """
-        Updates the description of a **Config**.
-
-        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
-
         Parameters
         ----------
         id : str
-            Identifier for a Config. Formatted as a UUID.
+            Identifier for a config. Formatted as a UUID.
 
         version : int
-            Version number for a Config.
-
-            Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
-
-            Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
+            Version number for a config. Version numbers should be integers.
 
         version_description : typing.Optional[str]
-            An optional description of the Config version.
+            Description that is appended to a specific version of a Config.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
