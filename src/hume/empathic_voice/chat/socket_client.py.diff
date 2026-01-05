@@ -1,0 +1,165 @@
+diff --git a/src/hume/empathic_voice/chat/socket_client.py b/src/hume/empathic_voice/chat/socket_client.py
+index d5ea6658..18ee74ab 100644
+--- a/src/hume/empathic_voice/chat/socket_client.py
++++ b/src/hume/empathic_voice/chat/socket_client.py
+@@ -6,83 +6,18 @@ from json.decoder import JSONDecodeError
+ 
+ import websockets
+ import websockets.sync.connection as websockets_sync_connection
+-from typing_extensions import deprecated
+-from contextlib import asynccontextmanager
+-
+-from hume.empathic_voice.types.session_settings_message import SessionSettingsMessage
+-
+ from ...core.events import EventEmitterMixin, EventType
+ from ...core.pydantic_utilities import parse_obj_as
+-from ..types.assistant_input import AssistantInput
+-from ..types.audio_input import AudioInput
+-from ..types.pause_assistant_message import PauseAssistantMessage
+-from ..types.resume_assistant_message import ResumeAssistantMessage
+-from ..types.session_settings import SessionSettings
+-from ..types.tool_error_message import ToolErrorMessage
+-from ..types.tool_response_message import ToolResponseMessage
+-from ..types.user_input import UserInput
+-from .types.publish_event import PublishEvent
+ from ..types.subscribe_event import SubscribeEvent
++from .types.publish_event import PublishEvent
+ 
+ try:
+     from websockets.legacy.client import WebSocketClientProtocol  # type: ignore
+ except ImportError:
+     from websockets import WebSocketClientProtocol  # type: ignore
+ 
+-ChatSocketClientResponse = SubscribeEvent
+-
+-class ChatConnectSessionSettingsAudio(typing.TypedDict, total=False):
+-    channels: typing.Optional[int]
+-    encoding: typing.Optional[str]
+-    sample_rate: typing.Optional[int]
+-
+-
+-class ChatConnectSessionSettingsContext(typing.TypedDict, total=False):
+-    text: typing.Optional[str]
+-
+-
+-SessionSettingsVariablesValue = typing.Union[str, float, bool]
+-
+-class ChatConnectSessionSettings(typing.TypedDict, total=False):
+-    audio: typing.Optional[ChatConnectSessionSettingsAudio]
+-    context: typing.Optional[ChatConnectSessionSettingsContext]
+-    custom_session_id: typing.Optional[str]
+-    event_limit: typing.Optional[int]
+-    language_model_api_key: typing.Optional[str]
+-    system_prompt: typing.Optional[str]
+-    variables: typing.Optional[typing.Dict[str, SessionSettingsVariablesValue]]
+-    voice_id: typing.Optional[str]
+-
+-@deprecated("Use .connect() with kwargs instead.")
+-class ChatConnectOptions(typing.TypedDict, total=False):
+-    config_id: typing.Optional[str]
+-    """
+-    The ID of the configuration.
+-    """
+-
+-    config_version: typing.Optional[str]
+-    """
+-    The version of the configuration.
+-    """
+-
+-    api_key: typing.Optional[str]
+-
+-    secret_key: typing.Optional[str]
+-
+-    resumed_chat_group_id: typing.Optional[str]
+-
+-    verbose_transcription: typing.Optional[bool]
++ChatSocketClientResponse = typing.Union[SubscribeEvent]
+ 
+-    """
+-    ID of the Voice to use for this chat. If specified, will override the voice set in the Config
+-    """
+-    voice_id: typing.Optional[str]
+-
+-    session_settings: typing.Optional[typing.Dict]
+-    """
+-    Session settings to apply at connection time. Supports all SessionSettings fields except
+-    builtin_tools, type, metadata, and tools. Additionally supports event_limit.
+-    """
+ 
+ class AsyncChatSocketClient(EventEmitterMixin):
+     def __init__(self, *, websocket: WebSocketClientProtocol):
+@@ -143,38 +78,6 @@ class AsyncChatSocketClient(EventEmitterMixin):
+         """
+         await self._send(data.dict())
+ 
+-    @deprecated("Use send_publish instead.")
+-    async def send_audio_input(self, message: AudioInput) -> None:
+-        await self.send_publish(message)
+-
+-    @deprecated("Use send_publish instead.")
+-    async def send_session_settings(self, message: SessionSettingsMessage) -> None:
+-        await self.send_publish(message)
+-
+-    @deprecated("Use send_publish instead.")
+-    async def send_user_input(self, message: UserInput) -> None:
+-        await self.send_publish(message)
+-
+-    @deprecated("Use send_publish instead.")
+-    async def send_assistant_input(self, message: AssistantInput) -> None:
+-        await self.send_publish(message)
+-
+-    @deprecated("Use send_publish instead.")
+-    async def send_tool_response(self, message: ToolResponseMessage) -> None:
+-        await self.send_publish(message)
+-
+-    @deprecated("Use send_publish instead.")
+-    async def send_tool_error(self, message: ToolErrorMessage) -> None:
+-        await self.send_publish(message)
+-
+-    @deprecated("Use send_publish instead.")
+-    async def send_pause_assistant(self, message: PauseAssistantMessage) -> None:
+-        await self.send_publish(message)
+-
+-    @deprecated("Use send_publish instead.")
+-    async def send_resume_assistant(self, message: ResumeAssistantMessage) -> None:
+-        await self.send_publish(message)
+-
+ 
+ class ChatSocketClient(EventEmitterMixin):
+     def __init__(self, *, websocket: websockets_sync_connection.Connection):
+@@ -234,35 +137,3 @@ class ChatSocketClient(EventEmitterMixin):
+         Send a Pydantic model to the websocket connection.
+         """
+         self._send(data.dict())
+-    
+-    @deprecated("Use send_publish instead.")
+-    def send_audio_input(self, message: AudioInput) -> None:
+-        self.send_publish(message)
+-
+-    @deprecated("Use send_publish instead.")
+-    def send_session_settings(self, message: SessionSettingsMessage) -> None:
+-        self.send_publish(message)
+-
+-    @deprecated("Use send_publish instead.")
+-    def send_user_input(self, message: UserInput) -> None:
+-        self.send_publish(message)
+-
+-    @deprecated("Use send_publish instead.")
+-    def send_assistant_input(self, message: AssistantInput) -> None:
+-        self.send_publish(message)
+-
+-    @deprecated("Use send_publish instead.")
+-    def send_tool_response(self, message: ToolResponseMessage) -> None:
+-        self.send_publish(message)
+-
+-    @deprecated("Use send_publish instead.")
+-    def send_tool_error(self, message: ToolErrorMessage) -> None:
+-        self.send_publish(message)
+-
+-    @deprecated("Use send_publish instead.")
+-    def send_pause_assistant(self, message: PauseAssistantMessage) -> None:
+-        self.send_publish(message)
+-
+-    @deprecated("Use send_publish instead.")
+-    def send_resume_assistant(self, message: ResumeAssistantMessage) -> None:
+-        self.send_publish(message)
