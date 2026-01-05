@@ -1,0 +1,203 @@
+diff --git a/src/hume/empathic_voice/client.py b/src/hume/empathic_voice/client.py
+index e9119462..4fba8feb 100644
+--- a/src/hume/empathic_voice/client.py
++++ b/src/hume/empathic_voice/client.py
+@@ -4,15 +4,15 @@ from __future__ import annotations
+ 
+ import typing
+ 
+-from hume.empathic_voice.chat.client import AsyncChatClient, ChatClient
+-
+ from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
+ from .raw_client import AsyncRawEmpathicVoiceClient, RawEmpathicVoiceClient
+ 
+ if typing.TYPE_CHECKING:
++    from .chat.client import AsyncChatClient, ChatClient
+     from .chat_groups.client import AsyncChatGroupsClient, ChatGroupsClient
+     from .chats.client import AsyncChatsClient, ChatsClient
+     from .configs.client import AsyncConfigsClient, ConfigsClient
++    from .control_plane.client import AsyncControlPlaneClient, ControlPlaneClient
+     from .prompts.client import AsyncPromptsClient, PromptsClient
+     from .tools.client import AsyncToolsClient, ToolsClient
+ 
+@@ -21,11 +21,12 @@ class EmpathicVoiceClient:
+     def __init__(self, *, client_wrapper: SyncClientWrapper):
+         self._raw_client = RawEmpathicVoiceClient(client_wrapper=client_wrapper)
+         self._client_wrapper = client_wrapper
+-        self._tools: typing.Optional[ToolsClient] = None
+-        self._prompts: typing.Optional[PromptsClient] = None
+-        self._configs: typing.Optional[ConfigsClient] = None
+-        self._chats: typing.Optional[ChatsClient] = None
++        self._control_plane: typing.Optional[ControlPlaneClient] = None
+         self._chat_groups: typing.Optional[ChatGroupsClient] = None
++        self._chats: typing.Optional[ChatsClient] = None
++        self._configs: typing.Optional[ConfigsClient] = None
++        self._prompts: typing.Optional[PromptsClient] = None
++        self._tools: typing.Optional[ToolsClient] = None
+         self._chat: typing.Optional[ChatClient] = None
+ 
+     @property
+@@ -40,20 +41,28 @@ class EmpathicVoiceClient:
+         return self._raw_client
+ 
+     @property
+-    def tools(self):
+-        if self._tools is None:
+-            from .tools.client import ToolsClient  # noqa: E402
++    def control_plane(self):
++        if self._control_plane is None:
++            from .control_plane.client import ControlPlaneClient  # noqa: E402
+ 
+-            self._tools = ToolsClient(client_wrapper=self._client_wrapper)
+-        return self._tools
++            self._control_plane = ControlPlaneClient(client_wrapper=self._client_wrapper)
++        return self._control_plane
+ 
+     @property
+-    def prompts(self):
+-        if self._prompts is None:
+-            from .prompts.client import PromptsClient  # noqa: E402
++    def chat_groups(self):
++        if self._chat_groups is None:
++            from .chat_groups.client import ChatGroupsClient  # noqa: E402
+ 
+-            self._prompts = PromptsClient(client_wrapper=self._client_wrapper)
+-        return self._prompts
++            self._chat_groups = ChatGroupsClient(client_wrapper=self._client_wrapper)
++        return self._chat_groups
++
++    @property
++    def chats(self):
++        if self._chats is None:
++            from .chats.client import ChatsClient  # noqa: E402
++
++            self._chats = ChatsClient(client_wrapper=self._client_wrapper)
++        return self._chats
+ 
+     @property
+     def configs(self):
+@@ -64,31 +73,40 @@ class EmpathicVoiceClient:
+         return self._configs
+ 
+     @property
+-    def chats(self):
+-        if self._chats is None:
+-            from .chats.client import ChatsClient  # noqa: E402
++    def prompts(self):
++        if self._prompts is None:
++            from .prompts.client import PromptsClient  # noqa: E402
+ 
+-            self._chats = ChatsClient(client_wrapper=self._client_wrapper)
+-        return self._chats
++            self._prompts = PromptsClient(client_wrapper=self._client_wrapper)
++        return self._prompts
+ 
+     @property
+-    def chat_groups(self):
+-        if self._chat_groups is None:
+-            from .chat_groups.client import ChatGroupsClient  # noqa: E402
++    def tools(self):
++        if self._tools is None:
++            from .tools.client import ToolsClient  # noqa: E402
+ 
+-            self._chat_groups = ChatGroupsClient(client_wrapper=self._client_wrapper)
+-        return self._chat_groups
++            self._tools = ToolsClient(client_wrapper=self._client_wrapper)
++        return self._tools
++
++    @property
++    def chat(self):
++        if self._chat is None:
++            from .chat.client import ChatClient  # noqa: E402
++
++            self._chat = ChatClient(client_wrapper=self._client_wrapper)
++        return self._chat
+ 
+ 
+ class AsyncEmpathicVoiceClient:
+     def __init__(self, *, client_wrapper: AsyncClientWrapper):
+         self._raw_client = AsyncRawEmpathicVoiceClient(client_wrapper=client_wrapper)
+         self._client_wrapper = client_wrapper
+-        self._tools: typing.Optional[AsyncToolsClient] = None
+-        self._prompts: typing.Optional[AsyncPromptsClient] = None
+-        self._configs: typing.Optional[AsyncConfigsClient] = None
+-        self._chats: typing.Optional[AsyncChatsClient] = None
++        self._control_plane: typing.Optional[AsyncControlPlaneClient] = None
+         self._chat_groups: typing.Optional[AsyncChatGroupsClient] = None
++        self._chats: typing.Optional[AsyncChatsClient] = None
++        self._configs: typing.Optional[AsyncConfigsClient] = None
++        self._prompts: typing.Optional[AsyncPromptsClient] = None
++        self._tools: typing.Optional[AsyncToolsClient] = None
+         self._chat: typing.Optional[AsyncChatClient] = None
+ 
+     @property
+@@ -103,20 +121,28 @@ class AsyncEmpathicVoiceClient:
+         return self._raw_client
+ 
+     @property
+-    def tools(self):
+-        if self._tools is None:
+-            from .tools.client import AsyncToolsClient  # noqa: E402
++    def control_plane(self):
++        if self._control_plane is None:
++            from .control_plane.client import AsyncControlPlaneClient  # noqa: E402
+ 
+-            self._tools = AsyncToolsClient(client_wrapper=self._client_wrapper)
+-        return self._tools
++            self._control_plane = AsyncControlPlaneClient(client_wrapper=self._client_wrapper)
++        return self._control_plane
+ 
+     @property
+-    def prompts(self):
+-        if self._prompts is None:
+-            from .prompts.client import AsyncPromptsClient  # noqa: E402
++    def chat_groups(self):
++        if self._chat_groups is None:
++            from .chat_groups.client import AsyncChatGroupsClient  # noqa: E402
+ 
+-            self._prompts = AsyncPromptsClient(client_wrapper=self._client_wrapper)
+-        return self._prompts
++            self._chat_groups = AsyncChatGroupsClient(client_wrapper=self._client_wrapper)
++        return self._chat_groups
++
++    @property
++    def chats(self):
++        if self._chats is None:
++            from .chats.client import AsyncChatsClient  # noqa: E402
++
++            self._chats = AsyncChatsClient(client_wrapper=self._client_wrapper)
++        return self._chats
+ 
+     @property
+     def configs(self):
+@@ -127,20 +153,20 @@ class AsyncEmpathicVoiceClient:
+         return self._configs
+ 
+     @property
+-    def chats(self):
+-        if self._chats is None:
+-            from .chats.client import AsyncChatsClient  # noqa: E402
++    def prompts(self):
++        if self._prompts is None:
++            from .prompts.client import AsyncPromptsClient  # noqa: E402
+ 
+-            self._chats = AsyncChatsClient(client_wrapper=self._client_wrapper)
+-        return self._chats
++            self._prompts = AsyncPromptsClient(client_wrapper=self._client_wrapper)
++        return self._prompts
+ 
+     @property
+-    def chat_groups(self):
+-        if self._chat_groups is None:
+-            from .chat_groups.client import AsyncChatGroupsClient  # noqa: E402
++    def tools(self):
++        if self._tools is None:
++            from .tools.client import AsyncToolsClient  # noqa: E402
+ 
+-            self._chat_groups = AsyncChatGroupsClient(client_wrapper=self._client_wrapper)
+-        return self._chat_groups
++            self._tools = AsyncToolsClient(client_wrapper=self._client_wrapper)
++        return self._tools
+ 
+     @property
+     def chat(self):
