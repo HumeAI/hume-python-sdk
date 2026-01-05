@@ -48,7 +48,7 @@ class ChatClient:
         resumed_chat_group_id: typing.Optional[str] = None,
         verbose_transcription: typing.Optional[bool] = None,
         api_key: typing.Optional[str] = None,
-        session_settings: typing.Optional[ConnectSessionSettings],
+        session_settings: typing.Optional[ConnectSessionSettings] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Iterator[ChatSocketClient]:
         """
@@ -183,7 +183,7 @@ class AsyncChatClient:
         resumed_chat_group_id: typing.Optional[str] = None,
         verbose_transcription: typing.Optional[bool] = None,
         api_key: typing.Optional[str] = None,
-        session_settings: typing.Optional[ConnectSessionSettings],
+        session_settings: typing.Optional[ConnectSessionSettings] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.AsyncIterator[AsyncChatSocketClient]:
         """
