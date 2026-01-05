@@ -19,9 +19,6 @@ src/hume/client.py
 src/hume/empathic_voice/chat/client.py
 src/hume/empathic_voice/chat/raw_client.py
 
-# Needs to add .chat to reference chat_client
-src/hume/empathic_voice/client.py
-
 # Needs to add .stream to reference expression measurement stream client
 # Also wrap the .batch client in BatchClientWithUtils
 src/hume/expression_measurement/client.py
