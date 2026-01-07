@@ -9,8 +9,6 @@ import websockets.sync.connection as websockets_sync_connection
 from typing_extensions import deprecated
 from contextlib import asynccontextmanager
 
-from hume.empathic_voice.types.session_settings_message import SessionSettingsMessage
-
 from ...core.events import EventEmitterMixin, EventType
 from ...core.pydantic_utilities import parse_obj_as
 from ..types.assistant_input import AssistantInput
@@ -148,7 +146,7 @@ class AsyncChatSocketClient(EventEmitterMixin):
         await self.send_publish(message)
 
     @deprecated("Use send_publish instead.")
-    async def send_session_settings(self, message: SessionSettingsMessage) -> None:
+    async def send_session_settings(self, message: SessionSettings) -> None:
         await self.send_publish(message)
 
     @deprecated("Use send_publish instead.")
@@ -240,7 +238,7 @@ class ChatSocketClient(EventEmitterMixin):
         self.send_publish(message)
 
     @deprecated("Use send_publish instead.")
-    def send_session_settings(self, message: SessionSettingsMessage) -> None:
+    def send_session_settings(self, message: SessionSettings) -> None:
         self.send_publish(message)
 
     @deprecated("Use send_publish instead.")

@@ -1,13 +1,15 @@
 diff --git a/src/hume/empathic_voice/chat/socket_client.py b/src/hume/empathic_voice/chat/socket_client.py
-index de3b4a5e..18ee74ab 100644
+index d5ea6658..18ee74ab 100644
 --- a/src/hume/empathic_voice/chat/socket_client.py
 +++ b/src/hume/empathic_voice/chat/socket_client.py
-@@ -6,21 +6,10 @@ from json.decoder import JSONDecodeError
+@@ -6,83 +6,18 @@ from json.decoder import JSONDecodeError
  
  import websockets
  import websockets.sync.connection as websockets_sync_connection
 -from typing_extensions import deprecated
 -from contextlib import asynccontextmanager
+-
+-from hume.empathic_voice.types.session_settings_message import SessionSettingsMessage
 -
  from ...core.events import EventEmitterMixin, EventType
  from ...core.pydantic_utilities import parse_obj_as
@@ -25,10 +27,11 @@ index de3b4a5e..18ee74ab 100644
  
  try:
      from websockets.legacy.client import WebSocketClientProtocol  # type: ignore
-@@ -29,58 +18,6 @@ except ImportError:
+ except ImportError:
+     from websockets import WebSocketClientProtocol  # type: ignore
  
- ChatSocketClientResponse = typing.Union[SubscribeEvent]
- 
+-ChatSocketClientResponse = SubscribeEvent
+-
 -class ChatConnectSessionSettingsAudio(typing.TypedDict, total=False):
 -    channels: typing.Optional[int]
 -    encoding: typing.Optional[str]
@@ -70,7 +73,8 @@ index de3b4a5e..18ee74ab 100644
 -    resumed_chat_group_id: typing.Optional[str]
 -
 -    verbose_transcription: typing.Optional[bool]
--
++ChatSocketClientResponse = typing.Union[SubscribeEvent]
+ 
 -    """
 -    ID of the Voice to use for this chat. If specified, will override the voice set in the Config
 -    """
@@ -84,7 +88,7 @@ index de3b4a5e..18ee74ab 100644
  
  class AsyncChatSocketClient(EventEmitterMixin):
      def __init__(self, *, websocket: WebSocketClientProtocol):
-@@ -141,38 +78,6 @@ class AsyncChatSocketClient(EventEmitterMixin):
+@@ -143,38 +78,6 @@ class AsyncChatSocketClient(EventEmitterMixin):
          """
          await self._send(data.dict())
  
@@ -93,7 +97,7 @@ index de3b4a5e..18ee74ab 100644
 -        await self.send_publish(message)
 -
 -    @deprecated("Use send_publish instead.")
--    async def send_session_settings(self, message: SessionSettings) -> None:
+-    async def send_session_settings(self, message: SessionSettingsMessage) -> None:
 -        await self.send_publish(message)
 -
 -    @deprecated("Use send_publish instead.")
@@ -123,7 +127,7 @@ index de3b4a5e..18ee74ab 100644
  
  class ChatSocketClient(EventEmitterMixin):
      def __init__(self, *, websocket: websockets_sync_connection.Connection):
-@@ -232,35 +137,3 @@ class ChatSocketClient(EventEmitterMixin):
+@@ -234,35 +137,3 @@ class ChatSocketClient(EventEmitterMixin):
          Send a Pydantic model to the websocket connection.
          """
          self._send(data.dict())
@@ -133,7 +137,7 @@ index de3b4a5e..18ee74ab 100644
 -        self.send_publish(message)
 -
 -    @deprecated("Use send_publish instead.")
--    def send_session_settings(self, message: SessionSettings) -> None:
+-    def send_session_settings(self, message: SessionSettingsMessage) -> None:
 -        self.send_publish(message)
 -
 -    @deprecated("Use send_publish instead.")
