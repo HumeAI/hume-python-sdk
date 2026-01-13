@@ -1,0 +1,87 @@
+diff --git a/src/hume/empathic_voice/chat/client.py b/src/hume/empathic_voice/chat/client.py
+index 43a9cf28..8ec7e4cd 100644
+--- a/src/hume/empathic_voice/chat/client.py
++++ b/src/hume/empathic_voice/chat/client.py
+@@ -10,7 +10,6 @@ from ...core.api_error import ApiError
+ from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
+ from ...core.request_options import RequestOptions
+ from ...core.serialization import convert_and_respect_annotation_metadata
+-from ...core.query_encoder import single_query_encoder
+ from ..types.connect_session_settings import ConnectSessionSettings
+ from .raw_client import AsyncRawChatClient, RawChatClient
+ from .socket_client import AsyncChatSocketClient, ChatSocketClient
+@@ -48,7 +47,7 @@ class ChatClient:
+         resumed_chat_group_id: typing.Optional[str] = None,
+         verbose_transcription: typing.Optional[bool] = None,
+         api_key: typing.Optional[str] = None,
+-        session_settings: typing.Optional[ConnectSessionSettings] = None,
++        session_settings: ConnectSessionSettings,
+         request_options: typing.Optional[RequestOptions] = None,
+     ) -> typing.Iterator[ChatSocketClient]:
+         """
+@@ -130,10 +129,18 @@ class ChatClient:
+             query_params = query_params.add("verbose_transcription", verbose_transcription)
+         if api_key is not None:
+             query_params = query_params.add("api_key", api_key)
+-        if session_settings is not None:
+-            flattened_params = single_query_encoder("session_settings", session_settings)
+-            for param_key, param_value in flattened_params:
+-                query_params = query_params.add(param_key, param_value)
++        if (
++            convert_and_respect_annotation_metadata(
++                object_=session_settings, annotation=ConnectSessionSettings, direction="write"
++            )
++            is not None
++        ):
++            query_params = query_params.add(
++                "session_settings",
++                convert_and_respect_annotation_metadata(
++                    object_=session_settings, annotation=ConnectSessionSettings, direction="write"
++                ),
++            )
+         ws_url = ws_url + f"?{query_params}"
+         headers = self._raw_client._client_wrapper.get_headers()
+         if request_options and "additional_headers" in request_options:
+@@ -183,7 +190,7 @@ class AsyncChatClient:
+         resumed_chat_group_id: typing.Optional[str] = None,
+         verbose_transcription: typing.Optional[bool] = None,
+         api_key: typing.Optional[str] = None,
+-        session_settings: typing.Optional[ConnectSessionSettings] = None,
++        session_settings: ConnectSessionSettings,
+         request_options: typing.Optional[RequestOptions] = None,
+     ) -> typing.AsyncIterator[AsyncChatSocketClient]:
+         """
+@@ -238,7 +245,7 @@ class AsyncChatClient:
+ 
+         api_key : typing.Optional[str]
+ 
+-        session_settings : typing.Optional[ConnectSessionSettings]
++        session_settings : ConnectSessionSettings
+ 
+         request_options : typing.Optional[RequestOptions]
+             Request-specific configuration.
+@@ -265,12 +272,18 @@ class AsyncChatClient:
+             query_params = query_params.add("verbose_transcription", verbose_transcription)
+         if api_key is not None:
+             query_params = query_params.add("api_key", api_key)
+-
+-        if session_settings is not None:
+-            flattened_params = single_query_encoder("session_settings", session_settings)
+-            for param_key, param_value in flattened_params:
+-                query_params = query_params.add(param_key, param_value)
+-
++        if (
++            convert_and_respect_annotation_metadata(
++                object_=session_settings, annotation=ConnectSessionSettings, direction="write"
++            )
++            is not None
++        ):
++            query_params = query_params.add(
++                "session_settings",
++                convert_and_respect_annotation_metadata(
++                    object_=session_settings, annotation=ConnectSessionSettings, direction="write"
++                ),
++            )
+         ws_url = ws_url + f"?{query_params}"
+         headers = self._raw_client._client_wrapper.get_headers()
+         if request_options and "additional_headers" in request_options:
