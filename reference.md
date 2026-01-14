@@ -1,6 +1,6 @@
 # Reference
 ## Tts
-<details><summary><code>client.tts.<a href="src/hume/tts/client.py">synthesize_json</a>(...) -> AsyncHttpResponse[ReturnTts]</code></summary>
+<details><summary><code>client.tts.<a href="src/hume/tts/client.py">synthesize_json</a>(...) -&gt; AsyncHttpResponse[ReturnTts]</code></summary>
 <dl>
 <dd>
 
@@ -174,7 +174,7 @@ For a comparison of Octave versions, see the [Octave versions](/docs/text-to-spe
 </dl>
 </details>
 
-<details><summary><code>client.tts.<a href="src/hume/tts/client.py">synthesize_file</a>(...) -> typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[bytes]]]</code></summary>
+<details><summary><code>client.tts.<a href="src/hume/tts/client.py">synthesize_file</a>(...) -&gt; typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[bytes]]]</code></summary>
 <dl>
 <dd>
 
@@ -343,7 +343,7 @@ For a comparison of Octave versions, see the [Octave versions](/docs/text-to-spe
 </dl>
 </details>
 
-<details><summary><code>client.tts.<a href="src/hume/tts/client.py">synthesize_file_streaming</a>(...) -> typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[bytes]]]</code></summary>
+<details><summary><code>client.tts.<a href="src/hume/tts/client.py">synthesize_file_streaming</a>(...) -&gt; typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[bytes]]]</code></summary>
 <dl>
 <dd>
 
@@ -508,7 +508,7 @@ For a comparison of Octave versions, see the [Octave versions](/docs/text-to-spe
 </dl>
 </details>
 
-<details><summary><code>client.tts.<a href="src/hume/tts/client.py">synthesize_json_streaming</a>(...) -> typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[TtsOutput]]]</code></summary>
+<details><summary><code>client.tts.<a href="src/hume/tts/client.py">synthesize_json_streaming</a>(...) -&gt; typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[TtsOutput]]]</code></summary>
 <dl>
 <dd>
 
@@ -677,7 +677,7 @@ For a comparison of Octave versions, see the [Octave versions](/docs/text-to-spe
 </dl>
 </details>
 
-<details><summary><code>client.tts.<a href="src/hume/tts/client.py">convert_voice_json</a>(...) -> typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[TtsOutput]]]</code></summary>
+<details><summary><code>client.tts.<a href="src/hume/tts/client.py">convert_voice_json</a>(...) -&gt; typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[TtsOutput]]]</code></summary>
 <dl>
 <dd>
 
@@ -776,7 +776,7 @@ typing.Optional[core.File]` — See core.File for more documentation
 </details>
 
 ## Tts Voices
-<details><summary><code>client.tts.voices.<a href="src/hume/tts/voices/client.py">list</a>(...) -> AsyncPager[ReturnVoice, ReturnPagedVoices]</code></summary>
+<details><summary><code>client.tts.voices.<a href="src/hume/tts/voices/client.py">list</a>(...) -&gt; AsyncPager[ReturnVoice, ReturnPagedVoices]</code></summary>
 <dl>
 <dd>
 
@@ -896,7 +896,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 </dl>
 </details>
 
-<details><summary><code>client.tts.voices.<a href="src/hume/tts/voices/client.py">create</a>(...) -> AsyncHttpResponse[ReturnVoice]</code></summary>
+<details><summary><code>client.tts.voices.<a href="src/hume/tts/voices/client.py">create</a>(...) -&gt; AsyncHttpResponse[ReturnVoice]</code></summary>
 <dl>
 <dd>
 
@@ -977,7 +977,7 @@ client.tts.voices.create(
 </dl>
 </details>
 
-<details><summary><code>client.tts.voices.<a href="src/hume/tts/voices/client.py">delete</a>(...) -> AsyncHttpResponse[None]</code></summary>
+<details><summary><code>client.tts.voices.<a href="src/hume/tts/voices/client.py">delete</a>(...) -&gt; AsyncHttpResponse[None]</code></summary>
 <dl>
 <dd>
 
@@ -1048,7 +1048,7 @@ client.tts.voices.delete(
 </details>
 
 ## EmpathicVoice ControlPlane
-<details><summary><code>client.empathic_voice.control_plane.<a href="src/hume/empathic_voice/control_plane/client.py">send</a>(...) -> AsyncHttpResponse[None]</code></summary>
+<details><summary><code>client.empathic_voice.control_plane.<a href="src/hume/empathic_voice/control_plane/client.py">send</a>(...) -&gt; AsyncHttpResponse[None]</code></summary>
 <dl>
 <dd>
 
@@ -1129,7 +1129,7 @@ client.empathic_voice.control_plane.send(
 </details>
 
 ## EmpathicVoice ChatGroups
-<details><summary><code>client.empathic_voice.chat_groups.<a href="src/hume/empathic_voice/chat_groups/client.py">list_chat_groups</a>(...) -> AsyncPager[ReturnChatGroup, ReturnPagedChatGroups]</code></summary>
+<details><summary><code>client.empathic_voice.chat_groups.<a href="src/hume/empathic_voice/chat_groups/client.py">list_chat_groups</a>(...) -&gt; AsyncPager[ReturnChatGroup, ReturnPagedChatGroups]</code></summary>
 <dl>
 <dd>
 
@@ -1225,7 +1225,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.chat_groups.<a href="src/hume/empathic_voice/chat_groups/client.py">get_chat_group</a>(...) -> AsyncHttpResponse[ReturnChatGroupPagedChats]</code></summary>
+<details><summary><code>client.empathic_voice.chat_groups.<a href="src/hume/empathic_voice/chat_groups/client.py">get_chat_group</a>(...) -&gt; AsyncHttpResponse[ReturnChatGroupPagedChats]</code></summary>
 <dl>
 <dd>
 
@@ -1324,7 +1324,7 @@ This parameter uses zero-based indexing. For example, setting `page_number` to 0
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.chat_groups.<a href="src/hume/empathic_voice/chat_groups/client.py">get_audio</a>(...) -> AsyncHttpResponse[ReturnChatGroupPagedAudioReconstructions]</code></summary>
+<details><summary><code>client.empathic_voice.chat_groups.<a href="src/hume/empathic_voice/chat_groups/client.py">get_audio</a>(...) -&gt; AsyncHttpResponse[ReturnChatGroupPagedAudioReconstructions]</code></summary>
 <dl>
 <dd>
 
@@ -1415,7 +1415,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.chat_groups.<a href="src/hume/empathic_voice/chat_groups/client.py">list_chat_group_events</a>(...) -> AsyncPager[ReturnChatEvent, ReturnChatGroupPagedEvents]</code></summary>
+<details><summary><code>client.empathic_voice.chat_groups.<a href="src/hume/empathic_voice/chat_groups/client.py">list_chat_group_events</a>(...) -&gt; AsyncPager[ReturnChatEvent, ReturnChatGroupPagedEvents]</code></summary>
 <dl>
 <dd>
 
@@ -1512,7 +1512,7 @@ This parameter uses zero-based indexing. For example, setting `page_number` to 0
 </details>
 
 ## EmpathicVoice Chats
-<details><summary><code>client.empathic_voice.chats.<a href="src/hume/empathic_voice/chats/client.py">list_chats</a>(...) -> AsyncPager[ReturnChat, ReturnPagedChats]</code></summary>
+<details><summary><code>client.empathic_voice.chats.<a href="src/hume/empathic_voice/chats/client.py">list_chats</a>(...) -&gt; AsyncPager[ReturnChat, ReturnPagedChats]</code></summary>
 <dl>
 <dd>
 
@@ -1615,7 +1615,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.chats.<a href="src/hume/empathic_voice/chats/client.py">list_chat_events</a>(...) -> AsyncPager[ReturnChatEvent, ReturnChatPagedEvents]</code></summary>
+<details><summary><code>client.empathic_voice.chats.<a href="src/hume/empathic_voice/chats/client.py">list_chat_events</a>(...) -&gt; AsyncPager[ReturnChatEvent, ReturnChatPagedEvents]</code></summary>
 <dl>
 <dd>
 
@@ -1711,7 +1711,7 @@ This parameter uses zero-based indexing. For example, setting `page_number` to 0
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.chats.<a href="src/hume/empathic_voice/chats/client.py">get_audio</a>(...) -> AsyncHttpResponse[ReturnChatAudioReconstruction]</code></summary>
+<details><summary><code>client.empathic_voice.chats.<a href="src/hume/empathic_voice/chats/client.py">get_audio</a>(...) -&gt; AsyncHttpResponse[ReturnChatAudioReconstruction]</code></summary>
 <dl>
 <dd>
 
@@ -1768,7 +1768,7 @@ client.empathic_voice.chats.get_audio(
 </details>
 
 ## EmpathicVoice Configs
-<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">list_configs</a>(...) -> AsyncPager[ReturnConfig, ReturnPagedConfigs]</code></summary>
+<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">list_configs</a>(...) -&gt; AsyncPager[ReturnConfig, ReturnPagedConfigs]</code></summary>
 <dl>
 <dd>
 
@@ -1862,7 +1862,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">create_config</a>(...) -> AsyncHttpResponse[ReturnConfig]</code></summary>
+<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">create_config</a>(...) -&gt; AsyncHttpResponse[ReturnConfig]</code></summary>
 <dl>
 <dd>
 
@@ -2049,7 +2049,7 @@ client.empathic_voice.configs.create_config(
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">list_config_versions</a>(...) -> AsyncPager[ReturnConfig, ReturnPagedConfigs]</code></summary>
+<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">list_config_versions</a>(...) -&gt; AsyncPager[ReturnConfig, ReturnPagedConfigs]</code></summary>
 <dl>
 <dd>
 
@@ -2142,7 +2142,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">create_config_version</a>(...) -> AsyncHttpResponse[ReturnConfig]</code></summary>
+<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">create_config_version</a>(...) -&gt; AsyncHttpResponse[ReturnConfig]</code></summary>
 <dl>
 <dd>
 
@@ -2334,7 +2334,7 @@ client.empathic_voice.configs.create_config_version(
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">delete_config</a>(...) -> AsyncHttpResponse[None]</code></summary>
+<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">delete_config</a>(...) -&gt; AsyncHttpResponse[None]</code></summary>
 <dl>
 <dd>
 
@@ -2390,7 +2390,7 @@ client.empathic_voice.configs.delete_config(
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">update_config_name</a>(...) -> AsyncHttpResponse[str]</code></summary>
+<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">update_config_name</a>(...) -&gt; AsyncHttpResponse[str]</code></summary>
 <dl>
 <dd>
 
@@ -2455,7 +2455,7 @@ client.empathic_voice.configs.update_config_name(
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">get_config_version</a>(...) -> AsyncHttpResponse[ReturnConfig]</code></summary>
+<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">get_config_version</a>(...) -&gt; AsyncHttpResponse[ReturnConfig]</code></summary>
 <dl>
 <dd>
 
@@ -2520,7 +2520,7 @@ client.empathic_voice.configs.get_config_version(
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">delete_config_version</a>(...) -> AsyncHttpResponse[None]</code></summary>
+<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">delete_config_version</a>(...) -&gt; AsyncHttpResponse[None]</code></summary>
 <dl>
 <dd>
 
@@ -2585,7 +2585,7 @@ client.empathic_voice.configs.delete_config_version(
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">update_config_description</a>(...) -> AsyncHttpResponse[ReturnConfig]</code></summary>
+<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">update_config_description</a>(...) -&gt; AsyncHttpResponse[ReturnConfig]</code></summary>
 <dl>
 <dd>
 
@@ -2660,7 +2660,7 @@ client.empathic_voice.configs.update_config_description(
 </details>
 
 ## EmpathicVoice Prompts
-<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">list_prompts</a>(...) -> AsyncPager[typing.Optional[ReturnPrompt], ReturnPagedPrompts]</code></summary>
+<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">list_prompts</a>(...) -&gt; AsyncPager[typing.Optional[ReturnPrompt], ReturnPagedPrompts]</code></summary>
 <dl>
 <dd>
 
@@ -2754,7 +2754,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">create_prompt</a>(...) -> AsyncHttpResponse[typing.Optional[ReturnPrompt]]</code></summary>
+<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">create_prompt</a>(...) -&gt; AsyncHttpResponse[typing.Optional[ReturnPrompt]]</code></summary>
 <dl>
 <dd>
 
@@ -2827,7 +2827,7 @@ client.empathic_voice.prompts.create_prompt(
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">list_prompt_versions</a>(...) -> AsyncHttpResponse[ReturnPagedPrompts]</code></summary>
+<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">list_prompt_versions</a>(...) -&gt; AsyncHttpResponse[ReturnPagedPrompts]</code></summary>
 <dl>
 <dd>
 
@@ -2915,7 +2915,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">create_prompt_version</a>(...) -> AsyncHttpResponse[typing.Optional[ReturnPrompt]]</code></summary>
+<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">create_prompt_version</a>(...) -&gt; AsyncHttpResponse[typing.Optional[ReturnPrompt]]</code></summary>
 <dl>
 <dd>
 
@@ -2989,7 +2989,7 @@ client.empathic_voice.prompts.create_prompt_version(
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">delete_prompt</a>(...) -> AsyncHttpResponse[None]</code></summary>
+<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">delete_prompt</a>(...) -&gt; AsyncHttpResponse[None]</code></summary>
 <dl>
 <dd>
 
@@ -3045,7 +3045,7 @@ client.empathic_voice.prompts.delete_prompt(
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">update_prompt_name</a>(...) -> AsyncHttpResponse[str]</code></summary>
+<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">update_prompt_name</a>(...) -&gt; AsyncHttpResponse[str]</code></summary>
 <dl>
 <dd>
 
@@ -3110,7 +3110,7 @@ client.empathic_voice.prompts.update_prompt_name(
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">get_prompt_version</a>(...) -> AsyncHttpResponse[typing.Optional[ReturnPrompt]]</code></summary>
+<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">get_prompt_version</a>(...) -&gt; AsyncHttpResponse[typing.Optional[ReturnPrompt]]</code></summary>
 <dl>
 <dd>
 
@@ -3175,7 +3175,7 @@ client.empathic_voice.prompts.get_prompt_version(
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">delete_prompt_version</a>(...) -> AsyncHttpResponse[None]</code></summary>
+<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">delete_prompt_version</a>(...) -&gt; AsyncHttpResponse[None]</code></summary>
 <dl>
 <dd>
 
@@ -3240,7 +3240,7 @@ client.empathic_voice.prompts.delete_prompt_version(
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">update_prompt_description</a>(...) -> AsyncHttpResponse[typing.Optional[ReturnPrompt]]</code></summary>
+<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">update_prompt_description</a>(...) -&gt; AsyncHttpResponse[typing.Optional[ReturnPrompt]]</code></summary>
 <dl>
 <dd>
 
@@ -3315,7 +3315,7 @@ client.empathic_voice.prompts.update_prompt_description(
 </details>
 
 ## EmpathicVoice Tools
-<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">list_tools</a>(...) -> AsyncPager[typing.Optional[ReturnUserDefinedTool], ReturnPagedUserDefinedTools]</code></summary>
+<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">list_tools</a>(...) -&gt; AsyncPager[typing.Optional[ReturnUserDefinedTool], ReturnPagedUserDefinedTools]</code></summary>
 <dl>
 <dd>
 
@@ -3409,7 +3409,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">create_tool</a>(...) -> AsyncHttpResponse[typing.Optional[ReturnUserDefinedTool]]</code></summary>
+<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">create_tool</a>(...) -&gt; AsyncHttpResponse[typing.Optional[ReturnUserDefinedTool]]</code></summary>
 <dl>
 <dd>
 
@@ -3501,7 +3501,7 @@ client.empathic_voice.tools.create_tool(
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">list_tool_versions</a>(...) -> AsyncPager[typing.Optional[ReturnUserDefinedTool], ReturnPagedUserDefinedTools]</code></summary>
+<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">list_tool_versions</a>(...) -&gt; AsyncPager[typing.Optional[ReturnUserDefinedTool], ReturnPagedUserDefinedTools]</code></summary>
 <dl>
 <dd>
 
@@ -3594,7 +3594,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">create_tool_version</a>(...) -> AsyncHttpResponse[typing.Optional[ReturnUserDefinedTool]]</code></summary>
+<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">create_tool_version</a>(...) -&gt; AsyncHttpResponse[typing.Optional[ReturnUserDefinedTool]]</code></summary>
 <dl>
 <dd>
 
@@ -3686,7 +3686,7 @@ client.empathic_voice.tools.create_tool_version(
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">delete_tool</a>(...) -> AsyncHttpResponse[None]</code></summary>
+<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">delete_tool</a>(...) -&gt; AsyncHttpResponse[None]</code></summary>
 <dl>
 <dd>
 
@@ -3742,7 +3742,7 @@ client.empathic_voice.tools.delete_tool(
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">update_tool_name</a>(...) -> AsyncHttpResponse[str]</code></summary>
+<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">update_tool_name</a>(...) -&gt; AsyncHttpResponse[str]</code></summary>
 <dl>
 <dd>
 
@@ -3807,7 +3807,7 @@ client.empathic_voice.tools.update_tool_name(
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">get_tool_version</a>(...) -> AsyncHttpResponse[typing.Optional[ReturnUserDefinedTool]]</code></summary>
+<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">get_tool_version</a>(...) -&gt; AsyncHttpResponse[typing.Optional[ReturnUserDefinedTool]]</code></summary>
 <dl>
 <dd>
 
@@ -3872,7 +3872,7 @@ client.empathic_voice.tools.get_tool_version(
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">delete_tool_version</a>(...) -> AsyncHttpResponse[None]</code></summary>
+<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">delete_tool_version</a>(...) -&gt; AsyncHttpResponse[None]</code></summary>
 <dl>
 <dd>
 
@@ -3937,7 +3937,7 @@ client.empathic_voice.tools.delete_tool_version(
 </dl>
 </details>
 
-<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">update_tool_description</a>(...) -> AsyncHttpResponse[typing.Optional[ReturnUserDefinedTool]]</code></summary>
+<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">update_tool_description</a>(...) -&gt; AsyncHttpResponse[typing.Optional[ReturnUserDefinedTool]]</code></summary>
 <dl>
 <dd>
 
@@ -4012,7 +4012,7 @@ client.empathic_voice.tools.update_tool_description(
 </details>
 
 ## ExpressionMeasurement Batch
-<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">list_jobs</a>(...) -> AsyncHttpResponse[typing.List[UnionJob]]</code></summary>
+<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">list_jobs</a>(...) -&gt; AsyncHttpResponse[typing.List[UnionJob]]</code></summary>
 <dl>
 <dd>
 
@@ -4148,7 +4148,7 @@ Specify the order in which to sort the jobs. Defaults to descending order.
 </dl>
 </details>
 
-<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">start_inference_job</a>(...) -> AsyncHttpResponse[str]</code></summary>
+<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">start_inference_job</a>(...) -&gt; AsyncHttpResponse[str]</code></summary>
 <dl>
 <dd>
 
@@ -4267,7 +4267,7 @@ If you wish to supply more than 100 URLs, consider providing them as an archive 
 </dl>
 </details>
 
-<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">get_job_details</a>(...) -> AsyncHttpResponse[UnionJob]</code></summary>
+<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">get_job_details</a>(...) -&gt; AsyncHttpResponse[UnionJob]</code></summary>
 <dl>
 <dd>
 
@@ -4337,7 +4337,7 @@ client.expression_measurement.batch.get_job_details(
 </dl>
 </details>
 
-<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">get_job_predictions</a>(...) -> AsyncHttpResponse[typing.List[UnionPredictResult]]</code></summary>
+<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">get_job_predictions</a>(...) -&gt; AsyncHttpResponse[typing.List[UnionPredictResult]]</code></summary>
 <dl>
 <dd>
 
@@ -4407,7 +4407,7 @@ client.expression_measurement.batch.get_job_predictions(
 </dl>
 </details>
 
-<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">start_inference_job_from_local_file</a>(...) -> AsyncHttpResponse[str]</code></summary>
+<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">start_inference_job_from_local_file</a>(...) -&gt; AsyncHttpResponse[str]</code></summary>
 <dl>
 <dd>
 
