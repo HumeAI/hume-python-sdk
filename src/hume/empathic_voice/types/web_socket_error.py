@@ -8,7 +8,9 @@ from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 class WebSocketError(UniversalBaseModel):
     """
-    When provided, the output is an error message.
+    **Indicates a disruption in the WebSocket connection**, such as an unexpected disconnection, protocol error, or data transmission issue.
+
+    Contains an error code identifying the type of error encountered, a detailed description of the error, and a short, human-readable identifier and description (slug) for the error.
     """
 
     code: str = pydantic.Field()
