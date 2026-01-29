@@ -8,7 +8,9 @@ from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 class AudioOutput(UniversalBaseModel):
     """
-    The type of message sent through the socket; for an Audio Output message, this must be `audio_output`.
+    **Base64 encoded audio output.** This encoded audio is transmitted to the client, where it can be decoded and played back as part of the user interaction. The returned audio format is WAV and the sample rate is 48kHz.
+
+    Contains the audio data, an ID to track and reference the audio output, and an index indicating the chunk position relative to the whole audio segment. See our [Audio Guide](/docs/speech-to-speech-evi/guides/audio) for more details on preparing and processing audio.
     """
 
     custom_session_id: typing.Optional[str] = pydantic.Field(default=None)
