@@ -1,5 +1,5 @@
 diff --git a/src/hume/empathic_voice/chat/raw_client.py b/src/hume/empathic_voice/chat/raw_client.py
-index fefee870..23e2b4a0 100644
+index fefee87..94453fb 100644
 --- a/src/hume/empathic_voice/chat/raw_client.py
 +++ b/src/hume/empathic_voice/chat/raw_client.py
 @@ -10,7 +10,6 @@ from ...core.api_error import ApiError
@@ -10,7 +10,7 @@ index fefee870..23e2b4a0 100644
  from ..types.connect_session_settings import ConnectSessionSettings
  from .socket_client import AsyncChatSocketClient, ChatSocketClient
  
-@@ -29,6 +28,7 @@ class RawChatClient:
+@@ -29,13 +28,14 @@ class RawChatClient:
          self,
          *,
          access_token: typing.Optional[str] = None,
@@ -18,6 +18,14 @@ index fefee870..23e2b4a0 100644
          config_id: typing.Optional[str] = None,
          config_version: typing.Optional[int] = None,
          event_limit: typing.Optional[int] = None,
+         resumed_chat_group_id: typing.Optional[str] = None,
+         verbose_transcription: typing.Optional[bool] = None,
+         api_key: typing.Optional[str] = None,
+-        session_settings: ConnectSessionSettings,
++        session_settings: typing.Optional[ConnectSessionSettings] = None,
+         request_options: typing.Optional[RequestOptions] = None,
+     ) -> typing.Iterator[ChatSocketClient]:
+         """
 @@ -50,12 +50,15 @@ class RawChatClient:
  
              For more details, refer to the [Authentication Strategies Guide](/docs/introduction/api-key#authentication-strategies).
@@ -36,7 +44,7 @@ index fefee870..23e2b4a0 100644
  
          config_version : typing.Optional[int]
              The version number of the EVI configuration specified by the `config_id`.
-@@ -76,19 +79,16 @@ class RawChatClient:
+@@ -76,21 +79,18 @@ class RawChatClient:
  
              There are three ways to obtain the Chat Group ID:
  
@@ -58,8 +66,11 @@ index fefee870..23e2b4a0 100644
 -
 -            For more details, refer to the [Authentication Strategies Guide](/docs/introduction/api-key#authentication-strategies).
  
-         session_settings : ConnectSessionSettings
+-        session_settings : ConnectSessionSettings
++        session_settings : typing.Optional[ConnectSessionSettings]
  
+         request_options : typing.Optional[RequestOptions]
+             Request-specific configuration.
 @@ -103,6 +103,8 @@ class RawChatClient:
          query_params = httpx.QueryParams()
          if access_token is not None:
@@ -92,7 +103,7 @@ index fefee870..23e2b4a0 100644
          ws_url = ws_url + f"?{query_params}"
          headers = self._client_wrapper.get_headers()
          if request_options and "additional_headers" in request_options:
-@@ -150,6 +160,7 @@ class AsyncRawChatClient:
+@@ -150,13 +160,14 @@ class AsyncRawChatClient:
          self,
          *,
          access_token: typing.Optional[str] = None,
@@ -100,6 +111,14 @@ index fefee870..23e2b4a0 100644
          config_id: typing.Optional[str] = None,
          config_version: typing.Optional[int] = None,
          event_limit: typing.Optional[int] = None,
+         resumed_chat_group_id: typing.Optional[str] = None,
+         verbose_transcription: typing.Optional[bool] = None,
+         api_key: typing.Optional[str] = None,
+-        session_settings: ConnectSessionSettings,
++        session_settings: typing.Optional[ConnectSessionSettings] = None,
+         request_options: typing.Optional[RequestOptions] = None,
+     ) -> typing.AsyncIterator[AsyncChatSocketClient]:
+         """
 @@ -171,12 +182,15 @@ class AsyncRawChatClient:
  
              For more details, refer to the [Authentication Strategies Guide](/docs/introduction/api-key#authentication-strategies).
@@ -118,7 +137,7 @@ index fefee870..23e2b4a0 100644
  
          config_version : typing.Optional[int]
              The version number of the EVI configuration specified by the `config_id`.
-@@ -197,19 +211,16 @@ class AsyncRawChatClient:
+@@ -197,21 +211,18 @@ class AsyncRawChatClient:
  
              There are three ways to obtain the Chat Group ID:
  
@@ -140,8 +159,11 @@ index fefee870..23e2b4a0 100644
 -
 -            For more details, refer to the [Authentication Strategies Guide](/docs/introduction/api-key#authentication-strategies).
  
-         session_settings : ConnectSessionSettings
+-        session_settings : ConnectSessionSettings
++        session_settings : typing.Optional[ConnectSessionSettings]
  
+         request_options : typing.Optional[RequestOptions]
+             Request-specific configuration.
 @@ -224,6 +235,8 @@ class AsyncRawChatClient:
          query_params = httpx.QueryParams()
          if access_token is not None:

@@ -1,5 +1,5 @@
 diff --git a/src/hume/empathic_voice/chat/client.py b/src/hume/empathic_voice/chat/client.py
-index 43a9cf28..8ec7e4cd 100644
+index 43a9cf2..3db8da5 100644
 --- a/src/hume/empathic_voice/chat/client.py
 +++ b/src/hume/empathic_voice/chat/client.py
 @@ -10,7 +10,6 @@ from ...core.api_error import ApiError
@@ -10,15 +10,15 @@ index 43a9cf28..8ec7e4cd 100644
  from ..types.connect_session_settings import ConnectSessionSettings
  from .raw_client import AsyncRawChatClient, RawChatClient
  from .socket_client import AsyncChatSocketClient, ChatSocketClient
-@@ -48,7 +47,7 @@ class ChatClient:
-         resumed_chat_group_id: typing.Optional[str] = None,
-         verbose_transcription: typing.Optional[bool] = None,
-         api_key: typing.Optional[str] = None,
--        session_settings: typing.Optional[ConnectSessionSettings] = None,
-+        session_settings: ConnectSessionSettings,
-         request_options: typing.Optional[RequestOptions] = None,
-     ) -> typing.Iterator[ChatSocketClient]:
-         """
+@@ -103,7 +102,7 @@ class ChatClient:
+ 
+         api_key : typing.Optional[str]
+ 
+-        session_settings : ConnectSessionSettings
++        session_settings : typing.Optional[ConnectSessionSettings]
+ 
+         request_options : typing.Optional[RequestOptions]
+             Request-specific configuration.
 @@ -130,10 +129,18 @@ class ChatClient:
              query_params = query_params.add("verbose_transcription", verbose_transcription)
          if api_key is not None:
@@ -42,24 +42,6 @@ index 43a9cf28..8ec7e4cd 100644
          ws_url = ws_url + f"?{query_params}"
          headers = self._raw_client._client_wrapper.get_headers()
          if request_options and "additional_headers" in request_options:
-@@ -183,7 +190,7 @@ class AsyncChatClient:
-         resumed_chat_group_id: typing.Optional[str] = None,
-         verbose_transcription: typing.Optional[bool] = None,
-         api_key: typing.Optional[str] = None,
--        session_settings: typing.Optional[ConnectSessionSettings] = None,
-+        session_settings: ConnectSessionSettings,
-         request_options: typing.Optional[RequestOptions] = None,
-     ) -> typing.AsyncIterator[AsyncChatSocketClient]:
-         """
-@@ -238,7 +245,7 @@ class AsyncChatClient:
- 
-         api_key : typing.Optional[str]
- 
--        session_settings : typing.Optional[ConnectSessionSettings]
-+        session_settings : ConnectSessionSettings
- 
-         request_options : typing.Optional[RequestOptions]
-             Request-specific configuration.
 @@ -265,12 +272,18 @@ class AsyncChatClient:
              query_params = query_params.add("verbose_transcription", verbose_transcription)
          if api_key is not None:

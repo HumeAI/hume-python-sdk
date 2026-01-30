@@ -14,7 +14,9 @@ class ReturnPagedVoices(UniversalBaseModel):
 
     page_number: int = pydantic.Field()
     """
-    The page number of the returned results.
+    The page number of the returned list.
+    
+    This value corresponds to the `page_number` parameter specified in the request. Pagination uses zero-based indexing.
     """
 
     page_size: int = pydantic.Field()
