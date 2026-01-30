@@ -40,14 +40,14 @@ class VoicesClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[ReturnVoice, ReturnPagedVoices]:
         """
-        Lists voices you have saved in your account, or voices from the [Voice Library](https://app.hume.ai/voices).
+        Lists voices you have saved in your account, or voices from the [Voice Library](https://app.hume.ai/tts/voice-library).
 
         Parameters
         ----------
         provider : VoiceProvider
             Specify the voice provider to filter voices returned by the endpoint:
 
-            - **`HUME_AI`**: Lists preset, shared voices from Hume's [Voice Library](https://app.hume.ai/voices).
+            - **`HUME_AI`**: Lists preset, shared voices from Hume's [Voice Library](https://app.hume.ai/tts/voice-library).
             - **`CUSTOM_VOICE`**: Lists custom voices created and saved to your account.
 
         page_number : typing.Optional[int]
@@ -193,14 +193,14 @@ class AsyncVoicesClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[ReturnVoice, ReturnPagedVoices]:
         """
-        Lists voices you have saved in your account, or voices from the [Voice Library](https://app.hume.ai/voices).
+        Lists voices you have saved in your account, or voices from the [Voice Library](https://app.hume.ai/tts/voice-library).
 
         Parameters
         ----------
         provider : VoiceProvider
             Specify the voice provider to filter voices returned by the endpoint:
 
-            - **`HUME_AI`**: Lists preset, shared voices from Hume's [Voice Library](https://app.hume.ai/voices).
+            - **`HUME_AI`**: Lists preset, shared voices from Hume's [Voice Library](https://app.hume.ai/tts/voice-library).
             - **`CUSTOM_VOICE`**: Lists custom voices created and saved to your account.
 
         page_number : typing.Optional[int]

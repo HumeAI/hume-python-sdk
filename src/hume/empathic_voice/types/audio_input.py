@@ -8,7 +8,9 @@ from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 class AudioInput(UniversalBaseModel):
     """
-    When provided, the input is audio.
+    **Base64 encoded audio input to insert into the conversation.** The content is treated as the user's speech to EVI and must be streamed continuously. Pre-recorded audio files are not supported.
+
+    For optimal transcription quality, the audio data should be transmitted in small chunks. Hume recommends streaming audio with a buffer window of `20` milliseconds (ms), or `100` milliseconds (ms) for web applications. See our [Audio Guide](/docs/speech-to-speech-evi/guides/audio) for more details on preparing and processing audio.
     """
 
     custom_session_id: typing.Optional[str] = pydantic.Field(default=None)

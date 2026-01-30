@@ -20,12 +20,12 @@ class ReturnUserDefinedTool(UniversalBaseModel):
 
     description: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Text describing what the tool does.
+    An optional description of what the Tool does, used by the supplemental LLM to choose when and how to call the function.
     """
 
     fallback_content: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Text to use if the tool fails to generate content.
+    Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
     """
 
     id: str = pydantic.Field()
@@ -40,12 +40,19 @@ class ReturnUserDefinedTool(UniversalBaseModel):
 
     name: str = pydantic.Field()
     """
-    Name applied to all versions of a particular Tool.
+    Name of the built-in tool to use. Hume supports the following built-in tools:
+    
+    - **web_search:** enables EVI to search the web for up-to-date information when applicable.
+    - **hang_up:** closes the WebSocket connection when appropriate (e.g., after detecting a farewell in the conversation).
+    
+    For more information, see our guide on [using built-in tools](/docs/speech-to-speech-evi/features/tool-use#using-built-in-tools).
     """
 
     parameters: str = pydantic.Field()
     """
     Stringified JSON defining the parameters used by this version of the Tool.
+    
+    These parameters define the inputs needed for the Tool's execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.
     """
 
     tool_type: ReturnUserDefinedToolToolType
@@ -56,7 +63,7 @@ class ReturnUserDefinedTool(UniversalBaseModel):
 
     version_description: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Description that is appended to a specific version of a Tool.
+    An optional description of the Tool version.
     """
 
     version_type: ReturnUserDefinedToolVersionType

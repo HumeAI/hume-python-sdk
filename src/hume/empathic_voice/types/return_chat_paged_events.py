@@ -17,23 +17,23 @@ class ReturnChatPagedEvents(UniversalBaseModel):
 
     chat_group_id: str = pydantic.Field()
     """
-    Identifier for the chat group. Any chat resumed from this chat will have the same chat_group_id. Formatted as a UUID.
+    Identifier for the Chat Group. Any chat resumed from this Chat will have the same `chat_group_id`. Formatted as a UUID.
     """
 
     config: typing.Optional[ReturnConfigSpec] = None
     end_timestamp: typing.Optional[int] = pydantic.Field(default=None)
     """
-    The timestamp when the chat ended, formatted as a Unix epoch milliseconds.
+    Time at which the Chat ended. Measured in seconds since the Unix epoch.
     """
 
     events_page: typing.List[ReturnChatEvent] = pydantic.Field()
     """
-    List of chat events with the specified page number and page size.
+    List of Chat Events for the specified `page_number` and `page_size`.
     """
 
     id: str = pydantic.Field()
     """
-    Identifier for a chat. Formatted as a UUID.
+    Identifier for a Chat. Formatted as a UUID.
     """
 
     metadata: typing.Optional[str] = pydantic.Field(default=None)
@@ -43,7 +43,9 @@ class ReturnChatPagedEvents(UniversalBaseModel):
 
     page_number: int = pydantic.Field()
     """
-    The page number of the returned results.
+    The page number of the returned list.
+    
+    This value corresponds to the `page_number` parameter specified in the request. Pagination uses zero-based indexing.
     """
 
     page_size: int = pydantic.Field()
@@ -56,7 +58,7 @@ class ReturnChatPagedEvents(UniversalBaseModel):
     pagination_direction: ReturnChatPagedEventsPaginationDirection
     start_timestamp: int = pydantic.Field()
     """
-    The timestamp when the chat started, formatted as a Unix epoch milliseconds.
+    Time at which the Chat started. Measured in seconds since the Unix epoch.
     """
 
     status: ReturnChatPagedEventsStatus
