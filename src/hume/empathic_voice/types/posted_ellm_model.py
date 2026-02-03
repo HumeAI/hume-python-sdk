@@ -13,7 +13,9 @@ class PostedEllmModel(UniversalBaseModel):
 
     allow_short_responses: typing.Optional[bool] = pydantic.Field(default=None)
     """
-    Boolean indicating if the model is allowed to generate short responses.
+    Boolean indicating if the eLLM is allowed to generate short responses.
+    
+    If omitted, short responses from the eLLM are enabled by default.
     """
 
     if IS_PYDANTIC_V2:

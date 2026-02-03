@@ -8,7 +8,9 @@ from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 class UserInterruption(UniversalBaseModel):
     """
-    When provided, the output is an interruption.
+    **Indicates the user has interrupted the assistant's response.** EVI detects the interruption in real-time and sends this message to signal the interruption event.
+
+    This message allows the system to stop the current audio playback, clear the audio queue, and prepare to handle new user input. Contains a Unix timestamp of when the user interruption was detected. For more details, see our [Interruptibility Guide](/docs/speech-to-speech-evi/features/interruptibility)
     """
 
     custom_session_id: typing.Optional[str] = pydantic.Field(default=None)
