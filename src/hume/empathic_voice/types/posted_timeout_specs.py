@@ -10,7 +10,9 @@ from .posted_timeout_specs_max_duration import PostedTimeoutSpecsMaxDuration
 
 class PostedTimeoutSpecs(UniversalBaseModel):
     """
-    Collection of timeout specs to be posted to the server
+    Collection of timeout specifications returned by the server.
+
+    Timeouts are sent by the server when specific time-based events occur during a chat session. These specifications set the inactivity timeout and the maximum duration an EVI WebSocket connection can stay open before it is automatically disconnected.
     """
 
     inactivity: typing.Optional[PostedTimeoutSpecsInactivity] = None

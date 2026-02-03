@@ -14,7 +14,9 @@ class ReturnPagedPrompts(UniversalBaseModel):
 
     page_number: int = pydantic.Field()
     """
-    The page number of the returned results.
+    The page number of the returned list.
+    
+    This value corresponds to the `page_number` parameter specified in the request. Pagination uses zero-based indexing.
     """
 
     page_size: int = pydantic.Field()
@@ -26,7 +28,7 @@ class ReturnPagedPrompts(UniversalBaseModel):
 
     prompts_page: typing.List[typing.Optional[ReturnPrompt]] = pydantic.Field()
     """
-    List of prompts returned for the specified page number and page size.
+    List of prompts returned for the specified `page_number` and `page_size`.
     """
 
     total_pages: int = pydantic.Field()
