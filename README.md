@@ -27,17 +27,17 @@ API reference documentation is available [here](https://dev.hume.ai/reference/).
 
 The Hume Python SDK is compatible across several Python versions and operating systems.
 
-- For the [Empathic Voice Interface](https://dev.hume.ai/docs/empathic-voice-interface-evi/overview), Python versions `3.9` through `3.11` are supported on macOS and Linux.
-- For [Text-to-speech (TTS)](https://dev.hume.ai/docs/text-to-speech-tts/overview), Python versions `3.9` through `3.12` are supported on macOS, Linux, and Windows.
-- For [Expression Measurement](https://dev.hume.ai/docs/expression-measurement/overview), Python versions `3.9` through `3.12` are supported on macOS, Linux, and Windows.
+- For the [Empathic Voice Interface](https://dev.hume.ai/docs/empathic-voice-interface-evi/overview), Python versions `3.9` through `3.13` are supported on macOS and Linux.
+- For [Text-to-speech (TTS)](https://dev.hume.ai/docs/text-to-speech-tts/overview), Python versions `3.9` through `3.13` are supported on macOS, Linux, and Windows.
+- For [Expression Measurement](https://dev.hume.ai/docs/expression-measurement/overview), Python versions `3.9` through `3.13` are supported on macOS, Linux, and Windows.
 
 Below is a table which shows the version and operating system compatibilities by product:
 
-|                          | Python Version                | Operating System      |
-| ------------------------ | ----------------------------- | --------------------- |
-| Empathic Voice Interface | `3.9`, `3.10`, `3.11`         | macOS, Linux          |
-| Text-to-speech (TTS)     | `3.9`, `3.10`, `3.11`, `3.12` | macOS, Linux, Windows |
-| Expression Measurement   | `3.9`, `3.10`, `3.11`, `3.12` | macOS, Linux, Windows |
+|                          | Python Version                         | Operating System      |
+| ------------------------ | -------------------------------------- | --------------------- |
+| Empathic Voice Interface | `3.9`, `3.10`, `3.11`, `3.12`, `3.13` | macOS, Linux          |
+| Text-to-speech (TTS)     | `3.9`, `3.10`, `3.11`, `3.12`, `3.13` | macOS, Linux, Windows |
+| Expression Measurement   | `3.9`, `3.10`, `3.11`, `3.12`, `3.13` | macOS, Linux, Windows |
 
 ## Installation
 
