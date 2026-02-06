@@ -9,11 +9,20 @@ plugin (wiremock_pytest_plugin.py) so that the container is started exactly
 once per test run, even when using pytest-xdist.
 """
 
+import inspect
+import os
 from typing import Any, Dict, Optional
 
 import requests
 
 from hume.client import HumeClient
+from hume.environment import HumeClientEnvironment
+
+
+def _get_wiremock_base_url() -> str:
+    """Returns the WireMock base URL using the dynamically assigned port."""
+    port = os.environ.get("WIREMOCK_PORT", "8080")
+    return f"http://localhost:{port}"
 
 
 def get_client(test_id: str) -> HumeClient:
@@ -26,9 +35,25 @@ def get_client(test_id: str) -> HumeClient:
     Returns:
         A configured client instance with all required auth parameters.
     """
+    test_headers = {"X-Test-Id": test_id}
+    base_url = _get_wiremock_base_url()
+
+    # Prefer passing headers directly if the client constructor supports it.
+    try:
+        if "headers" in inspect.signature(HumeClient).parameters:
+            return HumeClient(
+                environment=HumeClientEnvironment(base=base_url, evi=base_url, tts=base_url, stream=base_url),
+                headers=test_headers,
+                api_key="test_api_key",
+            )
+    except (TypeError, ValueError):
+        pass
+
+    import httpx
+
     return HumeClient(
-        base_url="http://localhost:8080",
-        headers={"X-Test-Id": test_id},
+        environment=HumeClientEnvironment(base=base_url, evi=base_url, tts=base_url, stream=base_url),
+        httpx_client=httpx.Client(headers=test_headers),
         api_key="test_api_key",
     )
 
@@ -41,7 +66,7 @@ def verify_request_count(
     expected: int,
 ) -> None:
     """Verifies the number of requests made to WireMock filtered by test ID for concurrency safety"""
-    wiremock_admin_url = "http://localhost:8080/__admin"
+    wiremock_admin_url = f"{_get_wiremock_base_url()}/__admin"
     request_body: Dict[str, Any] = {
         "method": method,
         "urlPath": url_path,

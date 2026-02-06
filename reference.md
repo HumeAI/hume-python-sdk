@@ -1,6 +1,3588 @@
 # Reference
+## EmpathicVoice ControlPlane
+<details><summary><code>client.empathic_voice.control_plane.<a href="src/hume/empathic_voice/control_plane/client.py">send</a>(...) -&gt; AsyncHttpResponse[None]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Send a message to a specific chat.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+from hume.empathic_voice import SessionSettings
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.control_plane.send(
+    chat_id="chat_id",
+    request=SessionSettings(),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**chat_id:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `ControlPlanePublishEvent` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## EmpathicVoice ChatGroups
+<details><summary><code>client.empathic_voice.chat_groups.<a href="src/hume/empathic_voice/chat_groups/client.py">list_chat_groups</a>(...) -&gt; AsyncPager[ReturnChatGroup, ReturnPagedChatGroups]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a paginated list of **Chat Groups**.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+response = client.empathic_voice.chat_groups.list_chat_groups(
+    page_number=0,
+    page_size=1,
+    ascending_order=True,
+    config_id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+)
+for item in response:
+    yield item
+# alternatively, you can paginate page-by-page
+for page in response.iter_pages():
+    yield page
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**page_number:** `typing.Optional[int]` 
+
+Specifies the page number to retrieve, enabling pagination.
+
+This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_size:** `typing.Optional[int]` 
+
+Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+
+For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ascending_order:** `typing.Optional[bool]` — Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**config_id:** `typing.Optional[str]` 
+
+The unique identifier for an EVI configuration.
+
+Filter Chat Groups to only include Chats that used this `config_id` in their most recent Chat.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.chat_groups.<a href="src/hume/empathic_voice/chat_groups/client.py">get_chat_group</a>(...) -&gt; AsyncHttpResponse[ReturnChatGroupPagedChats]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a **ChatGroup** by ID, including a paginated list of **Chats** associated with the **ChatGroup**.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.chat_groups.get_chat_group(
+    id="697056f0-6c7e-487d-9bd8-9c19df79f05f",
+    page_number=0,
+    page_size=1,
+    ascending_order=True,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Chat Group. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**status:** `typing.Optional[str]` — Chat status to apply to the chat. String from the ChatStatus enum.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_size:** `typing.Optional[int]` 
+
+Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+
+For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_number:** `typing.Optional[int]` 
+
+Specifies the page number to retrieve, enabling pagination.
+
+This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ascending_order:** `typing.Optional[bool]` — Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.chat_groups.<a href="src/hume/empathic_voice/chat_groups/client.py">get_audio</a>(...) -&gt; AsyncHttpResponse[ReturnChatGroupPagedAudioReconstructions]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a paginated list of audio for each **Chat** within the specified **Chat Group**. For more details, see our guide on audio reconstruction [here](/docs/speech-to-speech-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.chat_groups.get_audio(
+    id="369846cf-6ad5-404d-905e-a8acb5cdfc78",
+    page_number=0,
+    page_size=10,
+    ascending_order=True,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Chat Group. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_number:** `typing.Optional[int]` 
+
+Specifies the page number to retrieve, enabling pagination.
+
+This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_size:** `typing.Optional[int]` 
+
+Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+
+For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ascending_order:** `typing.Optional[bool]` — Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.chat_groups.<a href="src/hume/empathic_voice/chat_groups/client.py">list_chat_group_events</a>(...) -&gt; AsyncPager[ReturnChatEvent, ReturnChatGroupPagedEvents]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a paginated list of **Chat** events associated with a **Chat Group**.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+response = client.empathic_voice.chat_groups.list_chat_group_events(
+    id="697056f0-6c7e-487d-9bd8-9c19df79f05f",
+    page_number=0,
+    page_size=3,
+    ascending_order=True,
+)
+for item in response:
+    yield item
+# alternatively, you can paginate page-by-page
+for page in response.iter_pages():
+    yield page
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Chat Group. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_size:** `typing.Optional[int]` 
+
+Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+
+For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_number:** `typing.Optional[int]` 
+
+Specifies the page number to retrieve, enabling pagination.
+
+This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ascending_order:** `typing.Optional[bool]` — Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## EmpathicVoice Chats
+<details><summary><code>client.empathic_voice.chats.<a href="src/hume/empathic_voice/chats/client.py">list_chats</a>(...) -&gt; AsyncPager[ReturnChat, ReturnPagedChats]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a paginated list of **Chats**.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+response = client.empathic_voice.chats.list_chats(
+    page_number=0,
+    page_size=1,
+    ascending_order=True,
+)
+for item in response:
+    yield item
+# alternatively, you can paginate page-by-page
+for page in response.iter_pages():
+    yield page
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**page_number:** `typing.Optional[int]` 
+
+Specifies the page number to retrieve, enabling pagination.
+
+This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_size:** `typing.Optional[int]` 
+
+Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+
+For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ascending_order:** `typing.Optional[bool]` — Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**config_id:** `typing.Optional[str]` — Filter to only include chats that used this config.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**status:** `typing.Optional[str]` — Chat status to apply to the chat. String from the ChatStatus enum.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.chats.<a href="src/hume/empathic_voice/chats/client.py">list_chat_events</a>(...) -&gt; AsyncPager[ReturnChatEvent, ReturnChatPagedEvents]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a paginated list of **Chat** events.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+response = client.empathic_voice.chats.list_chat_events(
+    id="470a49f6-1dec-4afe-8b61-035d3b2d63b0",
+    page_number=0,
+    page_size=3,
+    ascending_order=True,
+)
+for item in response:
+    yield item
+# alternatively, you can paginate page-by-page
+for page in response.iter_pages():
+    yield page
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Chat. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_size:** `typing.Optional[int]` 
+
+Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+
+For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_number:** `typing.Optional[int]` 
+
+Specifies the page number to retrieve, enabling pagination.
+
+This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ascending_order:** `typing.Optional[bool]` — Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.chats.<a href="src/hume/empathic_voice/chats/client.py">get_audio</a>(...) -&gt; AsyncHttpResponse[ReturnChatAudioReconstruction]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches the audio of a previous **Chat**. For more details, see our guide on audio reconstruction [here](/docs/speech-to-speech-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.chats.get_audio(
+    id="470a49f6-1dec-4afe-8b61-035d3b2d63b0",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Chat. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## EmpathicVoice Configs
+<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">list_configs</a>(...) -&gt; AsyncPager[ReturnConfig, ReturnPagedConfigs]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a paginated list of **Configs**.
+
+For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+response = client.empathic_voice.configs.list_configs(
+    page_number=0,
+    page_size=1,
+)
+for item in response:
+    yield item
+# alternatively, you can paginate page-by-page
+for page in response.iter_pages():
+    yield page
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**page_number:** `typing.Optional[int]` 
+
+Specifies the page number to retrieve, enabling pagination.
+
+This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_size:** `typing.Optional[int]` 
+
+Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+
+For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**restrict_to_most_recent:** `typing.Optional[bool]` — By default, `restrict_to_most_recent` is set to true, returning only the latest version of each config. To include all versions of each config in the list, set `restrict_to_most_recent` to false.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**name:** `typing.Optional[str]` — Filter to only include configs with this name.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">create_config</a>(...) -&gt; AsyncHttpResponse[ReturnConfig]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Creates a **Config** which can be applied to EVI.
+
+For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+from hume.empathic_voice import (
+    PostedConfigPromptSpec,
+    PostedEventMessageSpec,
+    PostedEventMessageSpecs,
+    PostedLanguageModel,
+    VoiceName,
+)
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.configs.create_config(
+    name="Weather Assistant Config",
+    prompt=PostedConfigPromptSpec(
+        id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+        version=0,
+    ),
+    evi_version="3",
+    voice=VoiceName(
+        provider="HUME_AI",
+        name="Ava Song",
+    ),
+    language_model=PostedLanguageModel(
+        model_provider="ANTHROPIC",
+        model_resource="claude-3-7-sonnet-latest",
+        temperature=1.0,
+    ),
+    event_messages=PostedEventMessageSpecs(
+        on_new_chat=PostedEventMessageSpec(
+            enabled=False,
+            text="",
+        ),
+        on_inactivity_timeout=PostedEventMessageSpec(
+            enabled=False,
+            text="",
+        ),
+        on_max_duration_timeout=PostedEventMessageSpec(
+            enabled=False,
+            text="",
+        ),
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**evi_version:** `str` — EVI version to use. Only versions `3` and `4-mini` are supported.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**name:** `str` — Name applied to all versions of a particular Config.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**builtin_tools:** `typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]` — Built-in tool specification for a Config.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ellm_model:** `typing.Optional[PostedEllmModel]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**event_messages:** `typing.Optional[PostedEventMessageSpecs]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**language_model:** `typing.Optional[PostedLanguageModel]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**nudges:** `typing.Optional[PostedNudgeSpec]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**prompt:** `typing.Optional[PostedConfigPromptSpec]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**timeouts:** `typing.Optional[PostedTimeoutSpecs]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**tools:** `typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]` — Tool specification for a Config.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version_description:** `typing.Optional[str]` — An optional description of the Config version.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**voice:** `typing.Optional[VoiceRef]` — A voice specification associated with this Config.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**webhooks:** `typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]]` — Webhook config specifications for each subscriber.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">list_config_versions</a>(...) -&gt; AsyncPager[ReturnConfig, ReturnPagedConfigs]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a list of a **Config's** versions.
+
+For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+response = client.empathic_voice.configs.list_config_versions(
+    id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+)
+for item in response:
+    yield item
+# alternatively, you can paginate page-by-page
+for page in response.iter_pages():
+    yield page
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Config. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_number:** `typing.Optional[int]` 
+
+Specifies the page number to retrieve, enabling pagination.
+
+This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_size:** `typing.Optional[int]` 
+
+Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+
+For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**restrict_to_most_recent:** `typing.Optional[bool]` — By default, `restrict_to_most_recent` is set to true, returning only the latest version of each config. To include all versions of each config in the list, set `restrict_to_most_recent` to false.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">create_config_version</a>(...) -&gt; AsyncHttpResponse[ReturnConfig]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates a **Config** by creating a new version of the **Config**.
+
+For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+from hume.empathic_voice import (
+    PostedConfigPromptSpec,
+    PostedEllmModel,
+    PostedEventMessageSpec,
+    PostedEventMessageSpecs,
+    PostedLanguageModel,
+    VoiceName,
+)
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.configs.create_config_version(
+    id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+    version_description="This is an updated version of the Weather Assistant Config.",
+    evi_version="3",
+    prompt=PostedConfigPromptSpec(
+        id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+        version=0,
+    ),
+    voice=VoiceName(
+        provider="HUME_AI",
+        name="Ava Song",
+    ),
+    language_model=PostedLanguageModel(
+        model_provider="ANTHROPIC",
+        model_resource="claude-3-7-sonnet-latest",
+        temperature=1.0,
+    ),
+    ellm_model=PostedEllmModel(
+        allow_short_responses=True,
+    ),
+    event_messages=PostedEventMessageSpecs(
+        on_new_chat=PostedEventMessageSpec(
+            enabled=False,
+            text="",
+        ),
+        on_inactivity_timeout=PostedEventMessageSpec(
+            enabled=False,
+            text="",
+        ),
+        on_max_duration_timeout=PostedEventMessageSpec(
+            enabled=False,
+            text="",
+        ),
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Config. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**evi_version:** `str` — EVI version to use. Only versions `3` and `4-mini` are supported.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**builtin_tools:** `typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]` — Built-in tool specification for a Config.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ellm_model:** `typing.Optional[PostedEllmModel]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**event_messages:** `typing.Optional[PostedEventMessageSpecs]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**language_model:** `typing.Optional[PostedLanguageModel]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**nudges:** `typing.Optional[PostedNudgeSpec]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**prompt:** `typing.Optional[PostedConfigPromptSpec]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**timeouts:** `typing.Optional[PostedTimeoutSpecs]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**tools:** `typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]` — Tool specification for a Config.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version_description:** `typing.Optional[str]` — An optional description of the Config version.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**voice:** `typing.Optional[VoiceRef]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**webhooks:** `typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]]` — Webhook config specifications for each subscriber.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">delete_config</a>(...) -&gt; AsyncHttpResponse[None]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Deletes a **Config** and its versions.
+
+For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.configs.delete_config(
+    id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Config. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">update_config_name</a>(...) -&gt; AsyncHttpResponse[str]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates the name of a **Config**.
+
+For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.configs.update_config_name(
+    id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+    name="Updated Weather Assistant Config Name",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Config. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**name:** `str` — Name applied to all versions of a particular Config.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">get_config_version</a>(...) -&gt; AsyncHttpResponse[ReturnConfig]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a specified version of a **Config**.
+
+For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.configs.get_config_version(
+    id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+    version=1,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Config. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version:** `int` 
+
+Version number for a Config.
+
+Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+
+Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">delete_config_version</a>(...) -&gt; AsyncHttpResponse[None]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Deletes a specified version of a **Config**.
+
+For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.configs.delete_config_version(
+    id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+    version=1,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Config. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version:** `int` 
+
+Version number for a Config.
+
+Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+
+Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">update_config_description</a>(...) -&gt; AsyncHttpResponse[ReturnConfig]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates the description of a **Config**.
+
+For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.configs.update_config_description(
+    id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+    version=1,
+    version_description="This is an updated version_description.",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Config. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version:** `int` 
+
+Version number for a Config.
+
+Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+
+Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version_description:** `typing.Optional[str]` — An optional description of the Config version.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## EmpathicVoice Prompts
+<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">list_prompts</a>(...) -&gt; AsyncPager[typing.Optional[ReturnPrompt], ReturnPagedPrompts]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a paginated list of **Prompts**.
+
+See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+response = client.empathic_voice.prompts.list_prompts(
+    page_number=0,
+    page_size=2,
+)
+for item in response:
+    yield item
+# alternatively, you can paginate page-by-page
+for page in response.iter_pages():
+    yield page
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**page_number:** `typing.Optional[int]` 
+
+Specifies the page number to retrieve, enabling pagination.
+
+This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_size:** `typing.Optional[int]` 
+
+Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+
+For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**restrict_to_most_recent:** `typing.Optional[bool]` — By default, `restrict_to_most_recent` is set to true, returning only the latest version of each prompt. To include all versions of each prompt in the list, set `restrict_to_most_recent` to false.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**name:** `typing.Optional[str]` — Filter to only include prompts with name.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">create_prompt</a>(...) -&gt; AsyncHttpResponse[typing.Optional[ReturnPrompt]]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Creates a **Prompt** that can be added to an [EVI configuration](/reference/speech-to-speech-evi/configs/create-config).
+
+See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.prompts.create_prompt(
+    name="Weather Assistant Prompt",
+    text="<role>You are an AI weather assistant providing users with accurate and up-to-date weather information. Respond to user queries concisely and clearly. Use simple language and avoid technical jargon. Provide temperature, precipitation, wind conditions, and any weather alerts. Include helpful tips if severe weather is expected.</role>",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**name:** `str` — Name applied to all versions of a particular Prompt.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**text:** `str` 
+
+Instructions used to shape EVI's behavior, responses, and style.
+
+You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles. For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version_description:** `typing.Optional[str]` — An optional description of the Prompt version.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">list_prompt_versions</a>(...) -&gt; AsyncHttpResponse[ReturnPagedPrompts]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a list of a **Prompt's** versions.
+
+See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.prompts.list_prompt_versions(
+    id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_number:** `typing.Optional[int]` 
+
+Specifies the page number to retrieve, enabling pagination.
+
+This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_size:** `typing.Optional[int]` 
+
+Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+
+For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**restrict_to_most_recent:** `typing.Optional[bool]` — By default, `restrict_to_most_recent` is set to true, returning only the latest version of each prompt. To include all versions of each prompt in the list, set `restrict_to_most_recent` to false.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">create_prompt_version</a>(...) -&gt; AsyncHttpResponse[typing.Optional[ReturnPrompt]]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates a **Prompt** by creating a new version of the **Prompt**.
+
+See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.prompts.create_prompt_version(
+    id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+    text="<role>You are an updated version of an AI weather assistant providing users with accurate and up-to-date weather information. Respond to user queries concisely and clearly. Use simple language and avoid technical jargon. Provide temperature, precipitation, wind conditions, and any weather alerts. Include helpful tips if severe weather is expected.</role>",
+    version_description="This is an updated version of the Weather Assistant Prompt.",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Prompt. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**text:** `str` 
+
+Instructions used to shape EVI's behavior, responses, and style.
+
+You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles. For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version_description:** `typing.Optional[str]` — An optional description of the Prompt version.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">delete_prompt</a>(...) -&gt; AsyncHttpResponse[None]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Deletes a **Prompt** and its versions.
+
+See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.prompts.delete_prompt(
+    id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Prompt. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">update_prompt_name</a>(...) -&gt; AsyncHttpResponse[str]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates the name of a **Prompt**.
+
+See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.prompts.update_prompt_name(
+    id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+    name="Updated Weather Assistant Prompt Name",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Prompt. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**name:** `str` — Name applied to all versions of a particular Prompt.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">get_prompt_version</a>(...) -&gt; AsyncHttpResponse[typing.Optional[ReturnPrompt]]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a specified version of a **Prompt**.
+
+See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.prompts.get_prompt_version(
+    id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+    version=0,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Prompt. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version:** `int` 
+
+Version number for a Prompt.
+
+Prompts, Configs, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
+
+Version numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">delete_prompt_version</a>(...) -&gt; AsyncHttpResponse[None]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Deletes a specified version of a **Prompt**.
+
+See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.prompts.delete_prompt_version(
+    id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+    version=1,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Prompt. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version:** `int` 
+
+Version number for a Prompt.
+
+Prompts, Configs, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
+
+Version numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">update_prompt_description</a>(...) -&gt; AsyncHttpResponse[typing.Optional[ReturnPrompt]]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates the description of a **Prompt**.
+
+See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.prompts.update_prompt_description(
+    id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+    version=1,
+    version_description="This is an updated version_description.",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Prompt. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version:** `int` 
+
+Version number for a Prompt.
+
+Prompts, Configs, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
+
+Version numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version_description:** `typing.Optional[str]` — An optional description of the Prompt version.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## EmpathicVoice Tools
+<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">list_tools</a>(...) -&gt; AsyncPager[typing.Optional[ReturnUserDefinedTool], ReturnPagedUserDefinedTools]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a paginated list of **Tools**.
+
+Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+response = client.empathic_voice.tools.list_tools(
+    page_number=0,
+    page_size=2,
+)
+for item in response:
+    yield item
+# alternatively, you can paginate page-by-page
+for page in response.iter_pages():
+    yield page
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**page_number:** `typing.Optional[int]` 
+
+Specifies the page number to retrieve, enabling pagination.
+
+This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_size:** `typing.Optional[int]` 
+
+Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+
+For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**restrict_to_most_recent:** `typing.Optional[bool]` — By default, `restrict_to_most_recent` is set to true, returning only the latest version of each tool. To include all versions of each tool in the list, set `restrict_to_most_recent` to false.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**name:** `typing.Optional[str]` — Filter to only include tools with name.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">create_tool</a>(...) -&gt; AsyncHttpResponse[typing.Optional[ReturnUserDefinedTool]]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Creates a **Tool** that can be added to an [EVI configuration](/reference/speech-to-speech-evi/configs/create-config).
+
+Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.tools.create_tool(
+    name="get_current_weather",
+    parameters='{ "type": "object", "properties": { "location": { "type": "string", "description": "The city and state, e.g. San Francisco, CA" }, "format": { "type": "string", "enum": ["celsius", "fahrenheit"], "description": "The temperature unit to use. Infer this from the users location." } }, "required": ["location", "format"] }',
+    version_description="Fetches current weather and uses celsius or fahrenheit based on location of user.",
+    description="This tool is for getting the current weather.",
+    fallback_content="Unable to fetch current weather.",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**name:** `str` 
+
+Name of the built-in tool to use. Hume supports the following built-in tools:
+
+- **web_search:** enables EVI to search the web for up-to-date information when applicable.
+- **hang_up:** closes the WebSocket connection when appropriate (e.g., after detecting a farewell in the conversation).
+
+For more information, see our guide on [using built-in tools](/docs/speech-to-speech-evi/features/tool-use#using-built-in-tools).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**parameters:** `str` 
+
+Stringified JSON defining the parameters used by this version of the Tool.
+
+These parameters define the inputs needed for the Tool's execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**description:** `typing.Optional[str]` — An optional description of what the Tool does, used by the supplemental LLM to choose when and how to call the function.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**fallback_content:** `typing.Optional[str]` — Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version_description:** `typing.Optional[str]` — An optional description of the Tool version.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">list_tool_versions</a>(...) -&gt; AsyncPager[typing.Optional[ReturnUserDefinedTool], ReturnPagedUserDefinedTools]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a list of a **Tool's** versions.
+
+Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+response = client.empathic_voice.tools.list_tool_versions(
+    id="00183a3f-79ba-413d-9f3b-609864268bea",
+)
+for item in response:
+    yield item
+# alternatively, you can paginate page-by-page
+for page in response.iter_pages():
+    yield page
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_number:** `typing.Optional[int]` 
+
+Specifies the page number to retrieve, enabling pagination.
+
+This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_size:** `typing.Optional[int]` 
+
+Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+
+For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**restrict_to_most_recent:** `typing.Optional[bool]` — By default, `restrict_to_most_recent` is set to true, returning only the latest version of each tool. To include all versions of each tool in the list, set `restrict_to_most_recent` to false.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">create_tool_version</a>(...) -&gt; AsyncHttpResponse[typing.Optional[ReturnUserDefinedTool]]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates a **Tool** by creating a new version of the **Tool**.
+
+Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.tools.create_tool_version(
+    id="00183a3f-79ba-413d-9f3b-609864268bea",
+    parameters='{ "type": "object", "properties": { "location": { "type": "string", "description": "The city and state, e.g. San Francisco, CA" }, "format": { "type": "string", "enum": ["celsius", "fahrenheit", "kelvin"], "description": "The temperature unit to use. Infer this from the users location." } }, "required": ["location", "format"] }',
+    version_description="Fetches current weather and uses celsius, fahrenheit, or kelvin based on location of user.",
+    fallback_content="Unable to fetch current weather.",
+    description="This tool is for getting the current weather.",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Tool. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**parameters:** `str` 
+
+Stringified JSON defining the parameters used by this version of the Tool.
+
+These parameters define the inputs needed for the Tool's execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**description:** `typing.Optional[str]` — An optional description of what the Tool does, used by the supplemental LLM to choose when and how to call the function.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**fallback_content:** `typing.Optional[str]` — Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version_description:** `typing.Optional[str]` — An optional description of the Tool version.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">delete_tool</a>(...) -&gt; AsyncHttpResponse[None]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Deletes a **Tool** and its versions.
+
+Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.tools.delete_tool(
+    id="00183a3f-79ba-413d-9f3b-609864268bea",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Tool. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">update_tool_name</a>(...) -&gt; AsyncHttpResponse[str]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates the name of a **Tool**.
+
+Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.tools.update_tool_name(
+    id="00183a3f-79ba-413d-9f3b-609864268bea",
+    name="get_current_temperature",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Tool. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**name:** `str` 
+
+Name of the built-in tool to use. Hume supports the following built-in tools:
+
+- **web_search:** enables EVI to search the web for up-to-date information when applicable.
+- **hang_up:** closes the WebSocket connection when appropriate (e.g., after detecting a farewell in the conversation).
+
+For more information, see our guide on [using built-in tools](/docs/speech-to-speech-evi/features/tool-use#using-built-in-tools).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">get_tool_version</a>(...) -&gt; AsyncHttpResponse[typing.Optional[ReturnUserDefinedTool]]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetches a specified version of a **Tool**.
+
+Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.tools.get_tool_version(
+    id="00183a3f-79ba-413d-9f3b-609864268bea",
+    version=1,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Tool. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version:** `int` 
+
+Version number for a Tool.
+
+Tools, Configs, Custom Voices, and Prompts are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.
+
+Version numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">delete_tool_version</a>(...) -&gt; AsyncHttpResponse[None]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Deletes a specified version of a **Tool**.
+
+Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.tools.delete_tool_version(
+    id="00183a3f-79ba-413d-9f3b-609864268bea",
+    version=1,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Tool. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version:** `int` 
+
+Version number for a Tool.
+
+Tools, Configs, Custom Voices, and Prompts are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.
+
+Version numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">update_tool_description</a>(...) -&gt; AsyncHttpResponse[typing.Optional[ReturnUserDefinedTool]]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates the description of a specified **Tool** version.
+
+Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from hume import HumeClient
+
+client = HumeClient(
+    api_key="YOUR_API_KEY",
+)
+client.empathic_voice.tools.update_tool_description(
+    id="00183a3f-79ba-413d-9f3b-609864268bea",
+    version=1,
+    version_description="Fetches current temperature, precipitation, wind speed, AQI, and other weather conditions. Uses Celsius, Fahrenheit, or kelvin depending on user's region.",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — Identifier for a Tool. Formatted as a UUID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version:** `int` 
+
+Version number for a Tool.
+
+Tools, Configs, Custom Voices, and Prompts are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.
+
+Version numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version_description:** `typing.Optional[str]` — An optional description of the Tool version.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Tts
-<details><summary><code>client.tts.<a href="src/hume/tts/client.py">synthesize_json</a>(...) -> AsyncHttpResponse[ReturnTts]</code></summary>
+<details><summary><code>client.tts.<a href="src/hume/tts/client.py">synthesize_json</a>(...) -&gt; AsyncHttpResponse[ReturnTts]</code></summary>
 <dl>
 <dd>
 
@@ -174,7 +3756,7 @@ For a comparison of Octave versions, see the [Octave versions](/docs/text-to-spe
 </dl>
 </details>
 
-<details><summary><code>client.tts.<a href="src/hume/tts/client.py">synthesize_file</a>(...) -> typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[bytes]]]</code></summary>
+<details><summary><code>client.tts.<a href="src/hume/tts/client.py">synthesize_file</a>(...) -&gt; typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[bytes]]]</code></summary>
 <dl>
 <dd>
 
@@ -343,7 +3925,7 @@ For a comparison of Octave versions, see the [Octave versions](/docs/text-to-spe
 </dl>
 </details>
 
-<details><summary><code>client.tts.<a href="src/hume/tts/client.py">synthesize_file_streaming</a>(...) -> typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[bytes]]]</code></summary>
+<details><summary><code>client.tts.<a href="src/hume/tts/client.py">synthesize_file_streaming</a>(...) -&gt; typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[bytes]]]</code></summary>
 <dl>
 <dd>
 
@@ -508,7 +4090,7 @@ For a comparison of Octave versions, see the [Octave versions](/docs/text-to-spe
 </dl>
 </details>
 
-<details><summary><code>client.tts.<a href="src/hume/tts/client.py">synthesize_json_streaming</a>(...) -> typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[TtsOutput]]]</code></summary>
+<details><summary><code>client.tts.<a href="src/hume/tts/client.py">synthesize_json_streaming</a>(...) -&gt; typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[TtsOutput]]]</code></summary>
 <dl>
 <dd>
 
@@ -677,7 +4259,7 @@ For a comparison of Octave versions, see the [Octave versions](/docs/text-to-spe
 </dl>
 </details>
 
-<details><summary><code>client.tts.<a href="src/hume/tts/client.py">convert_voice_json</a>(...) -> typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[TtsOutput]]]</code></summary>
+<details><summary><code>client.tts.<a href="src/hume/tts/client.py">convert_voice_json</a>(...) -&gt; typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[TtsOutput]]]</code></summary>
 <dl>
 <dd>
 
@@ -776,7 +4358,7 @@ typing.Optional[core.File]` — See core.File for more documentation
 </details>
 
 ## Tts Voices
-<details><summary><code>client.tts.voices.<a href="src/hume/tts/voices/client.py">list</a>(...) -> AsyncPager[ReturnVoice, ReturnPagedVoices]</code></summary>
+<details><summary><code>client.tts.voices.<a href="src/hume/tts/voices/client.py">list</a>(...) -&gt; AsyncPager[ReturnVoice, ReturnPagedVoices]</code></summary>
 <dl>
 <dd>
 
@@ -788,7 +4370,7 @@ typing.Optional[core.File]` — See core.File for more documentation
 <dl>
 <dd>
 
-Lists voices you have saved in your account, or voices from the [Voice Library](https://app.hume.ai/voices).
+Lists voices you have saved in your account, or voices from the [Voice Library](https://app.hume.ai/tts/voice-library).
 </dd>
 </dl>
 </dd>
@@ -835,7 +4417,7 @@ for page in response.iter_pages():
 
 Specify the voice provider to filter voices returned by the endpoint:
 
-- **`HUME_AI`**: Lists preset, shared voices from Hume's [Voice Library](https://app.hume.ai/voices).
+- **`HUME_AI`**: Lists preset, shared voices from Hume's [Voice Library](https://app.hume.ai/tts/voice-library).
 - **`CUSTOM_VOICE`**: Lists custom voices created and saved to your account.
     
 </dd>
@@ -896,7 +4478,7 @@ For example, if `page_size` is set to 10, each page will include up to 10 items.
 </dl>
 </details>
 
-<details><summary><code>client.tts.voices.<a href="src/hume/tts/voices/client.py">create</a>(...) -> AsyncHttpResponse[ReturnVoice]</code></summary>
+<details><summary><code>client.tts.voices.<a href="src/hume/tts/voices/client.py">create</a>(...) -&gt; AsyncHttpResponse[ReturnVoice]</code></summary>
 <dl>
 <dd>
 
@@ -977,7 +4559,7 @@ client.tts.voices.create(
 </dl>
 </details>
 
-<details><summary><code>client.tts.voices.<a href="src/hume/tts/voices/client.py">delete</a>(...) -> AsyncHttpResponse[None]</code></summary>
+<details><summary><code>client.tts.voices.<a href="src/hume/tts/voices/client.py">delete</a>(...) -&gt; AsyncHttpResponse[None]</code></summary>
 <dl>
 <dd>
 
@@ -1047,2972 +4629,8 @@ client.tts.voices.delete(
 </dl>
 </details>
 
-## EmpathicVoice ControlPlane
-<details><summary><code>client.empathic_voice.control_plane.<a href="src/hume/empathic_voice/control_plane/client.py">send</a>(...) -> AsyncHttpResponse[None]</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Send a message to a specific chat.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-from hume.empathic_voice import SessionSettings
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.empathic_voice.control_plane.send(
-    chat_id="chat_id",
-    request=SessionSettings(),
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**chat_id:** `str` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request:** `ControlPlanePublishEvent` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-## EmpathicVoice ChatGroups
-<details><summary><code>client.empathic_voice.chat_groups.<a href="src/hume/empathic_voice/chat_groups/client.py">list_chat_groups</a>(...) -> AsyncPager[ReturnChatGroup, ReturnPagedChatGroups]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-response = client.empathic_voice.chat_groups.list_chat_groups(
-    page_number=0,
-    page_size=1,
-    ascending_order=True,
-    config_id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
-)
-for item in response:
-    yield item
-# alternatively, you can paginate page-by-page
-for page in response.iter_pages():
-    yield page
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**page_number:** `typing.Optional[int]` 
-
-Specifies the page number to retrieve, enabling pagination.
-
-This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**page_size:** `typing.Optional[int]` 
-
-Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
-
-For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**ascending_order:** `typing.Optional[bool]` — Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**config_id:** `typing.Optional[str]` — Filter chatgroups to only include chats that used this config in their most recent chat.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.empathic_voice.chat_groups.<a href="src/hume/empathic_voice/chat_groups/client.py">get_chat_group</a>(...) -> AsyncHttpResponse[ReturnChatGroupPagedChats]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.empathic_voice.chat_groups.get_chat_group(
-    id="697056f0-6c7e-487d-9bd8-9c19df79f05f",
-    page_number=0,
-    page_size=1,
-    ascending_order=True,
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — Identifier for a chat. Formatted as a UUID.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**status:** `typing.Optional[str]` — Chat status to apply to the chat. String from the ChatStatus enum.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**page_size:** `typing.Optional[int]` 
-
-Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
-
-For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**page_number:** `typing.Optional[int]` 
-
-Specifies the page number to retrieve, enabling pagination.
-
-This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**ascending_order:** `typing.Optional[bool]` — Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.empathic_voice.chat_groups.<a href="src/hume/empathic_voice/chat_groups/client.py">get_audio</a>(...) -> AsyncHttpResponse[ReturnChatGroupPagedAudioReconstructions]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.empathic_voice.chat_groups.get_audio(
-    id="369846cf-6ad5-404d-905e-a8acb5cdfc78",
-    page_number=0,
-    page_size=10,
-    ascending_order=True,
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — Identifier for a chat. Formatted as a UUID.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**page_number:** `typing.Optional[int]` 
-
-Specifies the page number to retrieve, enabling pagination.
-
-This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**page_size:** `typing.Optional[int]` 
-
-Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
-
-For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**ascending_order:** `typing.Optional[bool]` — Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.empathic_voice.chat_groups.<a href="src/hume/empathic_voice/chat_groups/client.py">list_chat_group_events</a>(...) -> AsyncPager[ReturnChatEvent, ReturnChatGroupPagedEvents]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-response = client.empathic_voice.chat_groups.list_chat_group_events(
-    id="697056f0-6c7e-487d-9bd8-9c19df79f05f",
-    page_number=0,
-    page_size=3,
-    ascending_order=True,
-)
-for item in response:
-    yield item
-# alternatively, you can paginate page-by-page
-for page in response.iter_pages():
-    yield page
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — Identifier for a chat. Formatted as a UUID.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**page_size:** `typing.Optional[int]` 
-
-Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
-
-For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**page_number:** `typing.Optional[int]` 
-
-Specifies the page number to retrieve, enabling pagination.
-
-This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**ascending_order:** `typing.Optional[bool]` — Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-## EmpathicVoice Chats
-<details><summary><code>client.empathic_voice.chats.<a href="src/hume/empathic_voice/chats/client.py">list_chats</a>(...) -> AsyncPager[ReturnChat, ReturnPagedChats]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-response = client.empathic_voice.chats.list_chats(
-    page_number=0,
-    page_size=1,
-    ascending_order=True,
-)
-for item in response:
-    yield item
-# alternatively, you can paginate page-by-page
-for page in response.iter_pages():
-    yield page
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**page_number:** `typing.Optional[int]` 
-
-Specifies the page number to retrieve, enabling pagination.
-
-This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**page_size:** `typing.Optional[int]` 
-
-Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
-
-For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**ascending_order:** `typing.Optional[bool]` — Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**config_id:** `typing.Optional[str]` — Filter to only include chats that used this config.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**status:** `typing.Optional[str]` — Chat status to apply to the chat. String from the ChatStatus enum.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.empathic_voice.chats.<a href="src/hume/empathic_voice/chats/client.py">list_chat_events</a>(...) -> AsyncPager[ReturnChatEvent, ReturnChatPagedEvents]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-response = client.empathic_voice.chats.list_chat_events(
-    id="470a49f6-1dec-4afe-8b61-035d3b2d63b0",
-    page_number=0,
-    page_size=3,
-    ascending_order=True,
-)
-for item in response:
-    yield item
-# alternatively, you can paginate page-by-page
-for page in response.iter_pages():
-    yield page
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — Identifier for a chat. Formatted as a UUID.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**page_size:** `typing.Optional[int]` 
-
-Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
-
-For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**page_number:** `typing.Optional[int]` 
-
-Specifies the page number to retrieve, enabling pagination.
-
-This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**ascending_order:** `typing.Optional[bool]` — Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.empathic_voice.chats.<a href="src/hume/empathic_voice/chats/client.py">get_audio</a>(...) -> AsyncHttpResponse[ReturnChatAudioReconstruction]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.empathic_voice.chats.get_audio(
-    id="470a49f6-1dec-4afe-8b61-035d3b2d63b0",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — Identifier for a chat. Formatted as a UUID.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-## EmpathicVoice Configs
-<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">list_configs</a>(...) -> AsyncPager[ReturnConfig, ReturnPagedConfigs]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-response = client.empathic_voice.configs.list_configs(
-    page_number=0,
-    page_size=1,
-)
-for item in response:
-    yield item
-# alternatively, you can paginate page-by-page
-for page in response.iter_pages():
-    yield page
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**page_number:** `typing.Optional[int]` 
-
-Specifies the page number to retrieve, enabling pagination.
-
-This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**page_size:** `typing.Optional[int]` 
-
-Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
-
-For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**restrict_to_most_recent:** `typing.Optional[bool]` — By default, `restrict_to_most_recent` is set to true, returning only the latest version of each tool. To include all versions of each tool in the list, set `restrict_to_most_recent` to false.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**name:** `typing.Optional[str]` — Filter to only include configs with this name.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">create_config</a>(...) -> AsyncHttpResponse[ReturnConfig]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-from hume.empathic_voice import (
-    PostedConfigPromptSpec,
-    PostedEventMessageSpec,
-    PostedEventMessageSpecs,
-    PostedLanguageModel,
-    VoiceName,
-)
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.empathic_voice.configs.create_config(
-    name="Weather Assistant Config",
-    prompt=PostedConfigPromptSpec(
-        id="af699d45-2985-42cc-91b9-af9e5da3bac5",
-        version=0,
-    ),
-    evi_version="3",
-    voice=VoiceName(
-        provider="HUME_AI",
-        name="Ava Song",
-    ),
-    language_model=PostedLanguageModel(
-        model_provider="ANTHROPIC",
-        model_resource="claude-3-7-sonnet-latest",
-        temperature=1.0,
-    ),
-    event_messages=PostedEventMessageSpecs(
-        on_new_chat=PostedEventMessageSpec(
-            enabled=False,
-            text="",
-        ),
-        on_inactivity_timeout=PostedEventMessageSpec(
-            enabled=False,
-            text="",
-        ),
-        on_max_duration_timeout=PostedEventMessageSpec(
-            enabled=False,
-            text="",
-        ),
-    ),
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**evi_version:** `str` — The version of the EVI used with this config.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**name:** `str` — Name applied to all versions of a particular Config.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**builtin_tools:** `typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]` — Built-in tool specification for a Config.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**ellm_model:** `typing.Optional[PostedEllmModel]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**event_messages:** `typing.Optional[PostedEventMessageSpecs]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**language_model:** `typing.Optional[PostedLanguageModel]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**nudges:** `typing.Optional[PostedNudgeSpec]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**prompt:** `typing.Optional[PostedConfigPromptSpec]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**timeouts:** `typing.Optional[PostedTimeoutSpecs]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**tools:** `typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]` — Tool specification for a Config.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**version_description:** `typing.Optional[str]` — Description that is appended to a specific version of a Config.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**voice:** `typing.Optional[VoiceRef]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**webhooks:** `typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]]` — Webhook config specifications for each subscriber.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">list_config_versions</a>(...) -> AsyncPager[ReturnConfig, ReturnPagedConfigs]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-response = client.empathic_voice.configs.list_config_versions(
-    id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
-)
-for item in response:
-    yield item
-# alternatively, you can paginate page-by-page
-for page in response.iter_pages():
-    yield page
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — Identifier for a config. Formatted as a UUID.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**page_number:** `typing.Optional[int]` 
-
-Specifies the page number to retrieve, enabling pagination.
-
-This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**page_size:** `typing.Optional[int]` 
-
-Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
-
-For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**restrict_to_most_recent:** `typing.Optional[bool]` — By default, `restrict_to_most_recent` is set to true, returning only the latest version of each tool. To include all versions of each tool in the list, set `restrict_to_most_recent` to false.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">create_config_version</a>(...) -> AsyncHttpResponse[ReturnConfig]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-from hume.empathic_voice import (
-    PostedConfigPromptSpec,
-    PostedEllmModel,
-    PostedEventMessageSpec,
-    PostedEventMessageSpecs,
-    PostedLanguageModel,
-    VoiceName,
-)
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.empathic_voice.configs.create_config_version(
-    id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
-    version_description="This is an updated version of the Weather Assistant Config.",
-    evi_version="3",
-    prompt=PostedConfigPromptSpec(
-        id="af699d45-2985-42cc-91b9-af9e5da3bac5",
-        version=0,
-    ),
-    voice=VoiceName(
-        provider="HUME_AI",
-        name="Ava Song",
-    ),
-    language_model=PostedLanguageModel(
-        model_provider="ANTHROPIC",
-        model_resource="claude-3-7-sonnet-latest",
-        temperature=1.0,
-    ),
-    ellm_model=PostedEllmModel(
-        allow_short_responses=True,
-    ),
-    event_messages=PostedEventMessageSpecs(
-        on_new_chat=PostedEventMessageSpec(
-            enabled=False,
-            text="",
-        ),
-        on_inactivity_timeout=PostedEventMessageSpec(
-            enabled=False,
-            text="",
-        ),
-        on_max_duration_timeout=PostedEventMessageSpec(
-            enabled=False,
-            text="",
-        ),
-    ),
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — Identifier for a config. Formatted as a UUID.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**evi_version:** `str` — The version of the EVI used with this config.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**builtin_tools:** `typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]` — Built-in tool specification for a Config.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**ellm_model:** `typing.Optional[PostedEllmModel]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**event_messages:** `typing.Optional[PostedEventMessageSpecs]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**language_model:** `typing.Optional[PostedLanguageModel]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**nudges:** `typing.Optional[PostedNudgeSpec]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**prompt:** `typing.Optional[PostedConfigPromptSpec]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**timeouts:** `typing.Optional[PostedTimeoutSpecs]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**tools:** `typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]` — Tool specification for a Config.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**version_description:** `typing.Optional[str]` — Description that is appended to a specific version of a Config.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**voice:** `typing.Optional[VoiceRef]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**webhooks:** `typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]]` — Webhook config specifications for each subscriber.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">delete_config</a>(...) -> AsyncHttpResponse[None]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.empathic_voice.configs.delete_config(
-    id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — Identifier for a config. Formatted as a UUID.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">update_config_name</a>(...) -> AsyncHttpResponse[str]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.empathic_voice.configs.update_config_name(
-    id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
-    name="Updated Weather Assistant Config Name",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — Identifier for a config. Formatted as a UUID.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**name:** `str` — Name applied to all versions of a particular Config.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">get_config_version</a>(...) -> AsyncHttpResponse[ReturnConfig]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.empathic_voice.configs.get_config_version(
-    id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
-    version=1,
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — Identifier for a config. Formatted as a UUID.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**version:** `int` — Version number for a config. Version numbers should be integers.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">delete_config_version</a>(...) -> AsyncHttpResponse[None]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.empathic_voice.configs.delete_config_version(
-    id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
-    version=1,
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — Identifier for a config. Formatted as a UUID.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**version:** `int` — Version number for a config. Version numbers should be integers.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.empathic_voice.configs.<a href="src/hume/empathic_voice/configs/client.py">update_config_description</a>(...) -> AsyncHttpResponse[ReturnConfig]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.empathic_voice.configs.update_config_description(
-    id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
-    version=1,
-    version_description="This is an updated version_description.",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — Identifier for a config. Formatted as a UUID.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**version:** `int` — Version number for a config. Version numbers should be integers.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**version_description:** `typing.Optional[str]` — Description that is appended to a specific version of a Config.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-## EmpathicVoice Prompts
-<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">list_prompts</a>(...) -> AsyncPager[typing.Optional[ReturnPrompt], ReturnPagedPrompts]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-response = client.empathic_voice.prompts.list_prompts(
-    page_number=0,
-    page_size=2,
-)
-for item in response:
-    yield item
-# alternatively, you can paginate page-by-page
-for page in response.iter_pages():
-    yield page
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**page_number:** `typing.Optional[int]` 
-
-Specifies the page number to retrieve, enabling pagination.
-
-This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**page_size:** `typing.Optional[int]` 
-
-Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
-
-For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**restrict_to_most_recent:** `typing.Optional[bool]` — Only include the most recent version of each prompt in the list.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**name:** `typing.Optional[str]` — Filter to only include prompts with name.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">create_prompt</a>(...) -> AsyncHttpResponse[typing.Optional[ReturnPrompt]]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.empathic_voice.prompts.create_prompt(
-    name="Weather Assistant Prompt",
-    text="<role>You are an AI weather assistant providing users with accurate and up-to-date weather information. Respond to user queries concisely and clearly. Use simple language and avoid technical jargon. Provide temperature, precipitation, wind conditions, and any weather alerts. Include helpful tips if severe weather is expected.</role>",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**name:** `str` — Name applied to all versions of a particular Prompt.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**text:** `str` — Text used for this version of the Prompt.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**version_description:** `typing.Optional[str]` — Description that is appended to a specific version of a Prompt.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">list_prompt_versions</a>(...) -> AsyncHttpResponse[ReturnPagedPrompts]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.empathic_voice.prompts.list_prompt_versions(
-    id="af699d45-2985-42cc-91b9-af9e5da3bac5",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**page_number:** `typing.Optional[int]` 
-
-Specifies the page number to retrieve, enabling pagination.
-
-This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**page_size:** `typing.Optional[int]` 
-
-Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
-
-For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**restrict_to_most_recent:** `typing.Optional[bool]` — Only include the most recent version of each prompt in the list.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">create_prompt_version</a>(...) -> AsyncHttpResponse[typing.Optional[ReturnPrompt]]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.empathic_voice.prompts.create_prompt_version(
-    id="af699d45-2985-42cc-91b9-af9e5da3bac5",
-    text="<role>You are an updated version of an AI weather assistant providing users with accurate and up-to-date weather information. Respond to user queries concisely and clearly. Use simple language and avoid technical jargon. Provide temperature, precipitation, wind conditions, and any weather alerts. Include helpful tips if severe weather is expected.</role>",
-    version_description="This is an updated version of the Weather Assistant Prompt.",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — Identifier for a prompt. Formatted as a UUID.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**text:** `str` — Text used for this version of the Prompt.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**version_description:** `typing.Optional[str]` — Description that is appended to a specific version of a Prompt.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">delete_prompt</a>(...) -> AsyncHttpResponse[None]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.empathic_voice.prompts.delete_prompt(
-    id="af699d45-2985-42cc-91b9-af9e5da3bac5",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — Identifier for a prompt. Formatted as a UUID.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">update_prompt_name</a>(...) -> AsyncHttpResponse[str]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.empathic_voice.prompts.update_prompt_name(
-    id="af699d45-2985-42cc-91b9-af9e5da3bac5",
-    name="Updated Weather Assistant Prompt Name",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — Identifier for a prompt. Formatted as a UUID.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**name:** `str` — Name applied to all versions of a particular Prompt.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">get_prompt_version</a>(...) -> AsyncHttpResponse[typing.Optional[ReturnPrompt]]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.empathic_voice.prompts.get_prompt_version(
-    id="af699d45-2985-42cc-91b9-af9e5da3bac5",
-    version=0,
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — Identifier for a prompt. Formatted as a UUID.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**version:** `int` — Version number for a prompt. Version numbers should be integers.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">delete_prompt_version</a>(...) -> AsyncHttpResponse[None]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.empathic_voice.prompts.delete_prompt_version(
-    id="af699d45-2985-42cc-91b9-af9e5da3bac5",
-    version=1,
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — Identifier for a prompt. Formatted as a UUID.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**version:** `int` — Version number for a prompt. Version numbers should be integers.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.empathic_voice.prompts.<a href="src/hume/empathic_voice/prompts/client.py">update_prompt_description</a>(...) -> AsyncHttpResponse[typing.Optional[ReturnPrompt]]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.empathic_voice.prompts.update_prompt_description(
-    id="af699d45-2985-42cc-91b9-af9e5da3bac5",
-    version=1,
-    version_description="This is an updated version_description.",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — Identifier for a prompt. Formatted as a UUID.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**version:** `int` — Version number for a prompt. Version numbers should be integers.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**version_description:** `typing.Optional[str]` — Description that is appended to a specific version of a Prompt.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-## EmpathicVoice Tools
-<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">list_tools</a>(...) -> AsyncPager[typing.Optional[ReturnUserDefinedTool], ReturnPagedUserDefinedTools]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-response = client.empathic_voice.tools.list_tools(
-    page_number=0,
-    page_size=2,
-)
-for item in response:
-    yield item
-# alternatively, you can paginate page-by-page
-for page in response.iter_pages():
-    yield page
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**page_number:** `typing.Optional[int]` 
-
-Specifies the page number to retrieve, enabling pagination.
-
-This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**page_size:** `typing.Optional[int]` 
-
-Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
-
-For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**restrict_to_most_recent:** `typing.Optional[bool]` — By default, `restrict_to_most_recent` is set to true, returning only the latest version of each tool. To include all versions of each tool in the list, set `restrict_to_most_recent` to false.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**name:** `typing.Optional[str]` — Filter to only include tools with name.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">create_tool</a>(...) -> AsyncHttpResponse[typing.Optional[ReturnUserDefinedTool]]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.empathic_voice.tools.create_tool(
-    name="get_current_weather",
-    parameters='{ "type": "object", "properties": { "location": { "type": "string", "description": "The city and state, e.g. San Francisco, CA" }, "format": { "type": "string", "enum": ["celsius", "fahrenheit"], "description": "The temperature unit to use. Infer this from the users location." } }, "required": ["location", "format"] }',
-    version_description="Fetches current weather and uses celsius or fahrenheit based on location of user.",
-    description="This tool is for getting the current weather.",
-    fallback_content="Unable to fetch current weather.",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**name:** `str` — Name applied to all versions of a particular Tool.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**parameters:** `str` — Stringified JSON defining the parameters used by this version of the Tool.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**description:** `typing.Optional[str]` — Text describing what the tool does.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**fallback_content:** `typing.Optional[str]` — Text to use if the tool fails to generate content.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**version_description:** `typing.Optional[str]` — Description that is appended to a specific version of a Tool.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">list_tool_versions</a>(...) -> AsyncPager[typing.Optional[ReturnUserDefinedTool], ReturnPagedUserDefinedTools]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-response = client.empathic_voice.tools.list_tool_versions(
-    id="00183a3f-79ba-413d-9f3b-609864268bea",
-)
-for item in response:
-    yield item
-# alternatively, you can paginate page-by-page
-for page in response.iter_pages():
-    yield page
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**page_number:** `typing.Optional[int]` 
-
-Specifies the page number to retrieve, enabling pagination.
-
-This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**page_size:** `typing.Optional[int]` 
-
-Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
-
-For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**restrict_to_most_recent:** `typing.Optional[bool]` — By default, `restrict_to_most_recent` is set to true, returning only the latest version of each tool. To include all versions of each tool in the list, set `restrict_to_most_recent` to false.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">create_tool_version</a>(...) -> AsyncHttpResponse[typing.Optional[ReturnUserDefinedTool]]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.empathic_voice.tools.create_tool_version(
-    id="00183a3f-79ba-413d-9f3b-609864268bea",
-    parameters='{ "type": "object", "properties": { "location": { "type": "string", "description": "The city and state, e.g. San Francisco, CA" }, "format": { "type": "string", "enum": ["celsius", "fahrenheit", "kelvin"], "description": "The temperature unit to use. Infer this from the users location." } }, "required": ["location", "format"] }',
-    version_description="Fetches current weather and uses celsius, fahrenheit, or kelvin based on location of user.",
-    fallback_content="Unable to fetch current weather.",
-    description="This tool is for getting the current weather.",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — Identifier for a tool. Formatted as a UUID.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**parameters:** `str` — Stringified JSON defining the parameters used by this version of the Tool.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**description:** `typing.Optional[str]` — Text describing what the tool does.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**fallback_content:** `typing.Optional[str]` — Text to use if the tool fails to generate content.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**version_description:** `typing.Optional[str]` — Description that is appended to a specific version of a Tool.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">delete_tool</a>(...) -> AsyncHttpResponse[None]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.empathic_voice.tools.delete_tool(
-    id="00183a3f-79ba-413d-9f3b-609864268bea",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — Identifier for a tool. Formatted as a UUID.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">update_tool_name</a>(...) -> AsyncHttpResponse[str]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.empathic_voice.tools.update_tool_name(
-    id="00183a3f-79ba-413d-9f3b-609864268bea",
-    name="get_current_temperature",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — Identifier for a tool. Formatted as a UUID.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**name:** `str` — Name applied to all versions of a particular Tool.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">get_tool_version</a>(...) -> AsyncHttpResponse[typing.Optional[ReturnUserDefinedTool]]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.empathic_voice.tools.get_tool_version(
-    id="00183a3f-79ba-413d-9f3b-609864268bea",
-    version=1,
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — Identifier for a tool. Formatted as a UUID.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**version:** `int` — Version number for a tool. Version numbers should be integers.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">delete_tool_version</a>(...) -> AsyncHttpResponse[None]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.empathic_voice.tools.delete_tool_version(
-    id="00183a3f-79ba-413d-9f3b-609864268bea",
-    version=1,
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — Identifier for a tool. Formatted as a UUID.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**version:** `int` — Version number for a tool. Version numbers should be integers.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.empathic_voice.tools.<a href="src/hume/empathic_voice/tools/client.py">update_tool_description</a>(...) -> AsyncHttpResponse[typing.Optional[ReturnUserDefinedTool]]</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from hume import HumeClient
-
-client = HumeClient(
-    api_key="YOUR_API_KEY",
-)
-client.empathic_voice.tools.update_tool_description(
-    id="00183a3f-79ba-413d-9f3b-609864268bea",
-    version=1,
-    version_description="Fetches current temperature, precipitation, wind speed, AQI, and other weather conditions. Uses Celsius, Fahrenheit, or kelvin depending on user's region.",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — Identifier for a tool. Formatted as a UUID.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**version:** `int` — Version number for a tool. Version numbers should be integers.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**version_description:** `typing.Optional[str]` — Description that is appended to a specific version of a Tool.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
 ## ExpressionMeasurement Batch
-<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">list_jobs</a>(...) -> AsyncHttpResponse[typing.List[UnionJob]]</code></summary>
+<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">list_jobs</a>(...) -&gt; AsyncHttpResponse[typing.List[UnionJob]]</code></summary>
 <dl>
 <dd>
 
@@ -4148,7 +4766,7 @@ Specify the order in which to sort the jobs. Defaults to descending order.
 </dl>
 </details>
 
-<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">start_inference_job</a>(...) -> AsyncHttpResponse[str]</code></summary>
+<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">start_inference_job</a>(...) -&gt; AsyncHttpResponse[str]</code></summary>
 <dl>
 <dd>
 
@@ -4267,7 +4885,7 @@ If you wish to supply more than 100 URLs, consider providing them as an archive 
 </dl>
 </details>
 
-<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">get_job_details</a>(...) -> AsyncHttpResponse[UnionJob]</code></summary>
+<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">get_job_details</a>(...) -&gt; AsyncHttpResponse[UnionJob]</code></summary>
 <dl>
 <dd>
 
@@ -4337,7 +4955,7 @@ client.expression_measurement.batch.get_job_details(
 </dl>
 </details>
 
-<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">get_job_predictions</a>(...) -> AsyncHttpResponse[typing.List[UnionPredictResult]]</code></summary>
+<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">get_job_predictions</a>(...) -&gt; AsyncHttpResponse[typing.List[UnionPredictResult]]</code></summary>
 <dl>
 <dd>
 
@@ -4407,7 +5025,7 @@ client.expression_measurement.batch.get_job_predictions(
 </dl>
 </details>
 
-<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">start_inference_job_from_local_file</a>(...) -> AsyncHttpResponse[str]</code></summary>
+<details><summary><code>client.expression_measurement.batch.<a href="src/hume/expression_measurement/batch/client.py">start_inference_job_from_local_file</a>(...) -&gt; AsyncHttpResponse[str]</code></summary>
 <dl>
 <dd>
 
