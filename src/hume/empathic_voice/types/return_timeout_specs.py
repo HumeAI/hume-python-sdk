@@ -9,7 +9,9 @@ from .return_timeout_spec import ReturnTimeoutSpec
 
 class ReturnTimeoutSpecs(UniversalBaseModel):
     """
-    Collection of timeout specs to be returned from the server
+    Collection of timeout specifications returned by the server.
+
+    Timeouts are sent by the server when specific time-based events occur during a chat session. These specifications set the inactivity timeout and the maximum duration an EVI WebSocket connection can stay open before it is automatically disconnected.
     """
 
     inactivity: ReturnTimeoutSpec

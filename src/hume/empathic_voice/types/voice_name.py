@@ -17,7 +17,7 @@ class VoiceName(UniversalBaseModel):
     """
     Specifies the source provider associated with the chosen voice.
     
-    - **`HUME_AI`**: Select voices from Hume's [Voice Library](https://app.hume.ai/voices), containing a variety of preset, shared voices.
+    - **`HUME_AI`**: Select voices from Hume's [Voice Library](https://app.hume.ai/tts/voice-library), containing a variety of preset, shared voices.
     - **`CUSTOM_VOICE`**: Select from voices you've personally generated and saved in your account. 
     
     If no provider is explicitly set, the default provider is `CUSTOM_VOICE`. When using voices from Hume's **Voice Library**, you must explicitly set the provider to `HUME_AI`.

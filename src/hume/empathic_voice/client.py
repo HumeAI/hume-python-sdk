@@ -5,7 +5,6 @@ from __future__ import annotations
 import typing
 
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
-from .raw_client import AsyncRawEmpathicVoiceClient, RawEmpathicVoiceClient
 
 if typing.TYPE_CHECKING:
     from .chat.client import AsyncChatClient, ChatClient
@@ -19,7 +18,6 @@ if typing.TYPE_CHECKING:
 
 class EmpathicVoiceClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
-        self._raw_client = RawEmpathicVoiceClient(client_wrapper=client_wrapper)
         self._client_wrapper = client_wrapper
         self._control_plane: typing.Optional[ControlPlaneClient] = None
         self._chat_groups: typing.Optional[ChatGroupsClient] = None
@@ -28,17 +26,6 @@ class EmpathicVoiceClient:
         self._prompts: typing.Optional[PromptsClient] = None
         self._tools: typing.Optional[ToolsClient] = None
         self._chat: typing.Optional[ChatClient] = None
-
-    @property
-    def with_raw_response(self) -> RawEmpathicVoiceClient:
-        """
-        Retrieves a raw implementation of this client that returns raw responses.
-
-        Returns
-        -------
-        RawEmpathicVoiceClient
-        """
-        return self._raw_client
 
     @property
     def control_plane(self):
@@ -99,7 +86,6 @@ class EmpathicVoiceClient:
 
 class AsyncEmpathicVoiceClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
-        self._raw_client = AsyncRawEmpathicVoiceClient(client_wrapper=client_wrapper)
         self._client_wrapper = client_wrapper
         self._control_plane: typing.Optional[AsyncControlPlaneClient] = None
         self._chat_groups: typing.Optional[AsyncChatGroupsClient] = None
@@ -108,17 +94,6 @@ class AsyncEmpathicVoiceClient:
         self._prompts: typing.Optional[AsyncPromptsClient] = None
         self._tools: typing.Optional[AsyncToolsClient] = None
         self._chat: typing.Optional[AsyncChatClient] = None
-
-    @property
-    def with_raw_response(self) -> AsyncRawEmpathicVoiceClient:
-        """
-        Retrieves a raw implementation of this client that returns raw responses.
-
-        Returns
-        -------
-        AsyncRawEmpathicVoiceClient
-        """
-        return self._raw_client
 
     @property
     def control_plane(self):
