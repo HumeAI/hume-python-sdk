@@ -5,6 +5,7 @@ from __future__ import annotations
 import typing
 
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
+from .raw_client import AsyncRawExpressionMeasurementClient, RawExpressionMeasurementClient
 
 if typing.TYPE_CHECKING:
     from .batch.client_with_utils import AsyncBatchClientWithUtils, BatchClientWithUtils
@@ -13,9 +14,21 @@ if typing.TYPE_CHECKING:
 
 class ExpressionMeasurementClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
+        self._raw_client = RawExpressionMeasurementClient(client_wrapper=client_wrapper)
         self._client_wrapper = client_wrapper
         self._batch: typing.Optional[BatchClientWithUtils] = None
         self._stream: typing.Optional[StreamClient] = None
+
+    @property
+    def with_raw_response(self) -> RawExpressionMeasurementClient:
+        """
+        Retrieves a raw implementation of this client that returns raw responses.
+
+        Returns
+        -------
+        RawExpressionMeasurementClient
+        """
+        return self._raw_client
 
     @property
     def batch(self):
@@ -35,9 +48,21 @@ class ExpressionMeasurementClient:
 
 class AsyncExpressionMeasurementClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
+        self._raw_client = AsyncRawExpressionMeasurementClient(client_wrapper=client_wrapper)
         self._client_wrapper = client_wrapper
         self._batch: typing.Optional[AsyncBatchClientWithUtils] = None
         self._stream: typing.Optional[AsyncStreamClient] = None
+
+    @property
+    def with_raw_response(self) -> AsyncRawExpressionMeasurementClient:
+        """
+        Retrieves a raw implementation of this client that returns raw responses.
+
+        Returns
+        -------
+        AsyncRawExpressionMeasurementClient
+        """
+        return self._raw_client
 
     @property
     def batch(self):
