@@ -9,54 +9,86 @@ from ...core.serialization import FieldMetadata
 
 
 class EmotionScores(UniversalBaseModel):
-    admiration: typing_extensions.Annotated[float, FieldMetadata(alias="Admiration")]
-    adoration: typing_extensions.Annotated[float, FieldMetadata(alias="Adoration")]
-    aesthetic_appreciation: typing_extensions.Annotated[float, FieldMetadata(alias="Aesthetic Appreciation")]
-    amusement: typing_extensions.Annotated[float, FieldMetadata(alias="Amusement")]
-    anger: typing_extensions.Annotated[float, FieldMetadata(alias="Anger")]
-    anxiety: typing_extensions.Annotated[float, FieldMetadata(alias="Anxiety")]
-    awe: typing_extensions.Annotated[float, FieldMetadata(alias="Awe")]
-    awkwardness: typing_extensions.Annotated[float, FieldMetadata(alias="Awkwardness")]
-    boredom: typing_extensions.Annotated[float, FieldMetadata(alias="Boredom")]
-    calmness: typing_extensions.Annotated[float, FieldMetadata(alias="Calmness")]
-    concentration: typing_extensions.Annotated[float, FieldMetadata(alias="Concentration")]
-    confusion: typing_extensions.Annotated[float, FieldMetadata(alias="Confusion")]
-    contemplation: typing_extensions.Annotated[float, FieldMetadata(alias="Contemplation")]
-    contempt: typing_extensions.Annotated[float, FieldMetadata(alias="Contempt")]
-    contentment: typing_extensions.Annotated[float, FieldMetadata(alias="Contentment")]
-    craving: typing_extensions.Annotated[float, FieldMetadata(alias="Craving")]
-    desire: typing_extensions.Annotated[float, FieldMetadata(alias="Desire")]
-    determination: typing_extensions.Annotated[float, FieldMetadata(alias="Determination")]
-    disappointment: typing_extensions.Annotated[float, FieldMetadata(alias="Disappointment")]
-    disgust: typing_extensions.Annotated[float, FieldMetadata(alias="Disgust")]
-    distress: typing_extensions.Annotated[float, FieldMetadata(alias="Distress")]
-    doubt: typing_extensions.Annotated[float, FieldMetadata(alias="Doubt")]
-    ecstasy: typing_extensions.Annotated[float, FieldMetadata(alias="Ecstasy")]
-    embarrassment: typing_extensions.Annotated[float, FieldMetadata(alias="Embarrassment")]
-    empathic_pain: typing_extensions.Annotated[float, FieldMetadata(alias="Empathic Pain")]
-    entrancement: typing_extensions.Annotated[float, FieldMetadata(alias="Entrancement")]
-    envy: typing_extensions.Annotated[float, FieldMetadata(alias="Envy")]
-    excitement: typing_extensions.Annotated[float, FieldMetadata(alias="Excitement")]
-    fear: typing_extensions.Annotated[float, FieldMetadata(alias="Fear")]
-    guilt: typing_extensions.Annotated[float, FieldMetadata(alias="Guilt")]
-    horror: typing_extensions.Annotated[float, FieldMetadata(alias="Horror")]
-    interest: typing_extensions.Annotated[float, FieldMetadata(alias="Interest")]
-    joy: typing_extensions.Annotated[float, FieldMetadata(alias="Joy")]
-    love: typing_extensions.Annotated[float, FieldMetadata(alias="Love")]
-    nostalgia: typing_extensions.Annotated[float, FieldMetadata(alias="Nostalgia")]
-    pain: typing_extensions.Annotated[float, FieldMetadata(alias="Pain")]
-    pride: typing_extensions.Annotated[float, FieldMetadata(alias="Pride")]
-    realization: typing_extensions.Annotated[float, FieldMetadata(alias="Realization")]
-    relief: typing_extensions.Annotated[float, FieldMetadata(alias="Relief")]
-    romance: typing_extensions.Annotated[float, FieldMetadata(alias="Romance")]
-    sadness: typing_extensions.Annotated[float, FieldMetadata(alias="Sadness")]
-    satisfaction: typing_extensions.Annotated[float, FieldMetadata(alias="Satisfaction")]
-    shame: typing_extensions.Annotated[float, FieldMetadata(alias="Shame")]
-    surprise_negative: typing_extensions.Annotated[float, FieldMetadata(alias="Surprise (negative)")]
-    surprise_positive: typing_extensions.Annotated[float, FieldMetadata(alias="Surprise (positive)")]
-    sympathy: typing_extensions.Annotated[float, FieldMetadata(alias="Sympathy")]
-    tiredness: typing_extensions.Annotated[float, FieldMetadata(alias="Tiredness")]
-    triumph: typing_extensions.Annotated[float, FieldMetadata(alias="Triumph")]
+    admiration: typing_extensions.Annotated[
+        float, FieldMetadata(alias="Admiration"), pydantic.Field(alias="Admiration")
+    ]
+    adoration: typing_extensions.Annotated[float, FieldMetadata(alias="Adoration"), pydantic.Field(alias="Adoration")]
+    aesthetic_appreciation: typing_extensions.Annotated[
+        float, FieldMetadata(alias="Aesthetic Appreciation"), pydantic.Field(alias="Aesthetic Appreciation")
+    ]
+    amusement: typing_extensions.Annotated[float, FieldMetadata(alias="Amusement"), pydantic.Field(alias="Amusement")]
+    anger: typing_extensions.Annotated[float, FieldMetadata(alias="Anger"), pydantic.Field(alias="Anger")]
+    anxiety: typing_extensions.Annotated[float, FieldMetadata(alias="Anxiety"), pydantic.Field(alias="Anxiety")]
+    awe: typing_extensions.Annotated[float, FieldMetadata(alias="Awe"), pydantic.Field(alias="Awe")]
+    awkwardness: typing_extensions.Annotated[
+        float, FieldMetadata(alias="Awkwardness"), pydantic.Field(alias="Awkwardness")
+    ]
+    boredom: typing_extensions.Annotated[float, FieldMetadata(alias="Boredom"), pydantic.Field(alias="Boredom")]
+    calmness: typing_extensions.Annotated[float, FieldMetadata(alias="Calmness"), pydantic.Field(alias="Calmness")]
+    concentration: typing_extensions.Annotated[
+        float, FieldMetadata(alias="Concentration"), pydantic.Field(alias="Concentration")
+    ]
+    confusion: typing_extensions.Annotated[float, FieldMetadata(alias="Confusion"), pydantic.Field(alias="Confusion")]
+    contemplation: typing_extensions.Annotated[
+        float, FieldMetadata(alias="Contemplation"), pydantic.Field(alias="Contemplation")
+    ]
+    contempt: typing_extensions.Annotated[float, FieldMetadata(alias="Contempt"), pydantic.Field(alias="Contempt")]
+    contentment: typing_extensions.Annotated[
+        float, FieldMetadata(alias="Contentment"), pydantic.Field(alias="Contentment")
+    ]
+    craving: typing_extensions.Annotated[float, FieldMetadata(alias="Craving"), pydantic.Field(alias="Craving")]
+    desire: typing_extensions.Annotated[float, FieldMetadata(alias="Desire"), pydantic.Field(alias="Desire")]
+    determination: typing_extensions.Annotated[
+        float, FieldMetadata(alias="Determination"), pydantic.Field(alias="Determination")
+    ]
+    disappointment: typing_extensions.Annotated[
+        float, FieldMetadata(alias="Disappointment"), pydantic.Field(alias="Disappointment")
+    ]
+    disgust: typing_extensions.Annotated[float, FieldMetadata(alias="Disgust"), pydantic.Field(alias="Disgust")]
+    distress: typing_extensions.Annotated[float, FieldMetadata(alias="Distress"), pydantic.Field(alias="Distress")]
+    doubt: typing_extensions.Annotated[float, FieldMetadata(alias="Doubt"), pydantic.Field(alias="Doubt")]
+    ecstasy: typing_extensions.Annotated[float, FieldMetadata(alias="Ecstasy"), pydantic.Field(alias="Ecstasy")]
+    embarrassment: typing_extensions.Annotated[
+        float, FieldMetadata(alias="Embarrassment"), pydantic.Field(alias="Embarrassment")
+    ]
+    empathic_pain: typing_extensions.Annotated[
+        float, FieldMetadata(alias="Empathic Pain"), pydantic.Field(alias="Empathic Pain")
+    ]
+    entrancement: typing_extensions.Annotated[
+        float, FieldMetadata(alias="Entrancement"), pydantic.Field(alias="Entrancement")
+    ]
+    envy: typing_extensions.Annotated[float, FieldMetadata(alias="Envy"), pydantic.Field(alias="Envy")]
+    excitement: typing_extensions.Annotated[
+        float, FieldMetadata(alias="Excitement"), pydantic.Field(alias="Excitement")
+    ]
+    fear: typing_extensions.Annotated[float, FieldMetadata(alias="Fear"), pydantic.Field(alias="Fear")]
+    guilt: typing_extensions.Annotated[float, FieldMetadata(alias="Guilt"), pydantic.Field(alias="Guilt")]
+    horror: typing_extensions.Annotated[float, FieldMetadata(alias="Horror"), pydantic.Field(alias="Horror")]
+    interest: typing_extensions.Annotated[float, FieldMetadata(alias="Interest"), pydantic.Field(alias="Interest")]
+    joy: typing_extensions.Annotated[float, FieldMetadata(alias="Joy"), pydantic.Field(alias="Joy")]
+    love: typing_extensions.Annotated[float, FieldMetadata(alias="Love"), pydantic.Field(alias="Love")]
+    nostalgia: typing_extensions.Annotated[float, FieldMetadata(alias="Nostalgia"), pydantic.Field(alias="Nostalgia")]
+    pain: typing_extensions.Annotated[float, FieldMetadata(alias="Pain"), pydantic.Field(alias="Pain")]
+    pride: typing_extensions.Annotated[float, FieldMetadata(alias="Pride"), pydantic.Field(alias="Pride")]
+    realization: typing_extensions.Annotated[
+        float, FieldMetadata(alias="Realization"), pydantic.Field(alias="Realization")
+    ]
+    relief: typing_extensions.Annotated[float, FieldMetadata(alias="Relief"), pydantic.Field(alias="Relief")]
+    romance: typing_extensions.Annotated[float, FieldMetadata(alias="Romance"), pydantic.Field(alias="Romance")]
+    sadness: typing_extensions.Annotated[float, FieldMetadata(alias="Sadness"), pydantic.Field(alias="Sadness")]
+    satisfaction: typing_extensions.Annotated[
+        float, FieldMetadata(alias="Satisfaction"), pydantic.Field(alias="Satisfaction")
+    ]
+    shame: typing_extensions.Annotated[float, FieldMetadata(alias="Shame"), pydantic.Field(alias="Shame")]
+    surprise_negative: typing_extensions.Annotated[
+        float, FieldMetadata(alias="Surprise (negative)"), pydantic.Field(alias="Surprise (negative)")
+    ]
+    surprise_positive: typing_extensions.Annotated[
+        float, FieldMetadata(alias="Surprise (positive)"), pydantic.Field(alias="Surprise (positive)")
+    ]
+    sympathy: typing_extensions.Annotated[float, FieldMetadata(alias="Sympathy"), pydantic.Field(alias="Sympathy")]
+    tiredness: typing_extensions.Annotated[float, FieldMetadata(alias="Tiredness"), pydantic.Field(alias="Tiredness")]
+    triumph: typing_extensions.Annotated[float, FieldMetadata(alias="Triumph"), pydantic.Field(alias="Triumph")]
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

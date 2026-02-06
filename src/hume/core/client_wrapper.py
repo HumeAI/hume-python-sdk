@@ -22,11 +22,15 @@ class BaseClientWrapper:
         self._timeout = timeout
 
     def get_headers(self) -> typing.Dict[str, str]:
+        import platform
+
         headers: typing.Dict[str, str] = {
-            "User-Agent": "hume/0.13.6",
+            "User-Agent": "hume/0.13.7",
             "X-Fern-Language": "Python",
+            "X-Fern-Runtime": f"python/{platform.python_version()}",
+            "X-Fern-Platform": f"{platform.system().lower()}/{platform.release()}",
             "X-Fern-SDK-Name": "hume",
-            "X-Fern-SDK-Version": "0.13.6",
+            "X-Fern-SDK-Version": "0.13.7",
             **(self.get_custom_headers() or {}),
         }
         if self.api_key is not None:

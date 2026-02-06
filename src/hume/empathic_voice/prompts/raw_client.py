@@ -33,6 +33,10 @@ class RawPromptsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[typing.Optional[ReturnPrompt], ReturnPagedPrompts]:
         """
+        Fetches a paginated list of **Prompts**.
+
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         page_number : typing.Optional[int]
@@ -46,7 +50,7 @@ class RawPromptsClient:
             For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         restrict_to_most_recent : typing.Optional[bool]
-            Only include the most recent version of each prompt in the list.
+            By default, `restrict_to_most_recent` is set to true, returning only the latest version of each prompt. To include all versions of each prompt in the list, set `restrict_to_most_recent` to false.
 
         name : typing.Optional[str]
             Filter to only include prompts with name.
@@ -117,16 +121,22 @@ class RawPromptsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[typing.Optional[ReturnPrompt]]:
         """
+        Creates a **Prompt** that can be added to an [EVI configuration](/reference/speech-to-speech-evi/configs/create-config).
+
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         name : str
             Name applied to all versions of a particular Prompt.
 
         text : str
-            Text used for this version of the Prompt.
+            Instructions used to shape EVI's behavior, responses, and style.
+
+            You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles. For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).
 
         version_description : typing.Optional[str]
-            Description that is appended to a specific version of a Prompt.
+            An optional description of the Prompt version.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -189,6 +199,10 @@ class RawPromptsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ReturnPagedPrompts]:
         """
+        Fetches a list of a **Prompt's** versions.
+
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         id : str
@@ -204,7 +218,7 @@ class RawPromptsClient:
             For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         restrict_to_most_recent : typing.Optional[bool]
-            Only include the most recent version of each prompt in the list.
+            By default, `restrict_to_most_recent` is set to true, returning only the latest version of each prompt. To include all versions of each prompt in the list, set `restrict_to_most_recent` to false.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -260,16 +274,22 @@ class RawPromptsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[typing.Optional[ReturnPrompt]]:
         """
+        Updates a **Prompt** by creating a new version of the **Prompt**.
+
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         id : str
-            Identifier for a prompt. Formatted as a UUID.
+            Identifier for a Prompt. Formatted as a UUID.
 
         text : str
-            Text used for this version of the Prompt.
+            Instructions used to shape EVI's behavior, responses, and style.
+
+            You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles. For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).
 
         version_description : typing.Optional[str]
-            Description that is appended to a specific version of a Prompt.
+            An optional description of the Prompt version.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -323,10 +343,14 @@ class RawPromptsClient:
 
     def delete_prompt(self, id: str, *, request_options: typing.Optional[RequestOptions] = None) -> HttpResponse[None]:
         """
+        Deletes a **Prompt** and its versions.
+
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         id : str
-            Identifier for a prompt. Formatted as a UUID.
+            Identifier for a Prompt. Formatted as a UUID.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -364,10 +388,14 @@ class RawPromptsClient:
         self, id: str, *, name: str, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[str]:
         """
+        Updates the name of a **Prompt**.
+
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         id : str
-            Identifier for a prompt. Formatted as a UUID.
+            Identifier for a Prompt. Formatted as a UUID.
 
         name : str
             Name applied to all versions of a particular Prompt.
@@ -416,13 +444,21 @@ class RawPromptsClient:
         self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[typing.Optional[ReturnPrompt]]:
         """
+        Fetches a specified version of a **Prompt**.
+
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         id : str
-            Identifier for a prompt. Formatted as a UUID.
+            Identifier for a Prompt. Formatted as a UUID.
 
         version : int
-            Version number for a prompt. Version numbers should be integers.
+            Version number for a Prompt.
+
+            Prompts, Configs, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
+
+            Version numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -470,13 +506,21 @@ class RawPromptsClient:
         self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[None]:
         """
+        Deletes a specified version of a **Prompt**.
+
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         id : str
-            Identifier for a prompt. Formatted as a UUID.
+            Identifier for a Prompt. Formatted as a UUID.
 
         version : int
-            Version number for a prompt. Version numbers should be integers.
+            Version number for a Prompt.
+
+            Prompts, Configs, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
+
+            Version numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -519,16 +563,24 @@ class RawPromptsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[typing.Optional[ReturnPrompt]]:
         """
+        Updates the description of a **Prompt**.
+
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         id : str
-            Identifier for a prompt. Formatted as a UUID.
+            Identifier for a Prompt. Formatted as a UUID.
 
         version : int
-            Version number for a prompt. Version numbers should be integers.
+            Version number for a Prompt.
+
+            Prompts, Configs, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
+
+            Version numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number.
 
         version_description : typing.Optional[str]
-            Description that is appended to a specific version of a Prompt.
+            An optional description of the Prompt version.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -594,6 +646,10 @@ class AsyncRawPromptsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[typing.Optional[ReturnPrompt], ReturnPagedPrompts]:
         """
+        Fetches a paginated list of **Prompts**.
+
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         page_number : typing.Optional[int]
@@ -607,7 +663,7 @@ class AsyncRawPromptsClient:
             For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         restrict_to_most_recent : typing.Optional[bool]
-            Only include the most recent version of each prompt in the list.
+            By default, `restrict_to_most_recent` is set to true, returning only the latest version of each prompt. To include all versions of each prompt in the list, set `restrict_to_most_recent` to false.
 
         name : typing.Optional[str]
             Filter to only include prompts with name.
@@ -681,16 +737,22 @@ class AsyncRawPromptsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[typing.Optional[ReturnPrompt]]:
         """
+        Creates a **Prompt** that can be added to an [EVI configuration](/reference/speech-to-speech-evi/configs/create-config).
+
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         name : str
             Name applied to all versions of a particular Prompt.
 
         text : str
-            Text used for this version of the Prompt.
+            Instructions used to shape EVI's behavior, responses, and style.
+
+            You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles. For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).
 
         version_description : typing.Optional[str]
-            Description that is appended to a specific version of a Prompt.
+            An optional description of the Prompt version.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -753,6 +815,10 @@ class AsyncRawPromptsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ReturnPagedPrompts]:
         """
+        Fetches a list of a **Prompt's** versions.
+
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         id : str
@@ -768,7 +834,7 @@ class AsyncRawPromptsClient:
             For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         restrict_to_most_recent : typing.Optional[bool]
-            Only include the most recent version of each prompt in the list.
+            By default, `restrict_to_most_recent` is set to true, returning only the latest version of each prompt. To include all versions of each prompt in the list, set `restrict_to_most_recent` to false.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -824,16 +890,22 @@ class AsyncRawPromptsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[typing.Optional[ReturnPrompt]]:
         """
+        Updates a **Prompt** by creating a new version of the **Prompt**.
+
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         id : str
-            Identifier for a prompt. Formatted as a UUID.
+            Identifier for a Prompt. Formatted as a UUID.
 
         text : str
-            Text used for this version of the Prompt.
+            Instructions used to shape EVI's behavior, responses, and style.
+
+            You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles. For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).
 
         version_description : typing.Optional[str]
-            Description that is appended to a specific version of a Prompt.
+            An optional description of the Prompt version.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -889,10 +961,14 @@ class AsyncRawPromptsClient:
         self, id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[None]:
         """
+        Deletes a **Prompt** and its versions.
+
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         id : str
-            Identifier for a prompt. Formatted as a UUID.
+            Identifier for a Prompt. Formatted as a UUID.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -930,10 +1006,14 @@ class AsyncRawPromptsClient:
         self, id: str, *, name: str, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[str]:
         """
+        Updates the name of a **Prompt**.
+
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         id : str
-            Identifier for a prompt. Formatted as a UUID.
+            Identifier for a Prompt. Formatted as a UUID.
 
         name : str
             Name applied to all versions of a particular Prompt.
@@ -982,13 +1062,21 @@ class AsyncRawPromptsClient:
         self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[typing.Optional[ReturnPrompt]]:
         """
+        Fetches a specified version of a **Prompt**.
+
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         id : str
-            Identifier for a prompt. Formatted as a UUID.
+            Identifier for a Prompt. Formatted as a UUID.
 
         version : int
-            Version number for a prompt. Version numbers should be integers.
+            Version number for a Prompt.
+
+            Prompts, Configs, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
+
+            Version numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1036,13 +1124,21 @@ class AsyncRawPromptsClient:
         self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[None]:
         """
+        Deletes a specified version of a **Prompt**.
+
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         id : str
-            Identifier for a prompt. Formatted as a UUID.
+            Identifier for a Prompt. Formatted as a UUID.
 
         version : int
-            Version number for a prompt. Version numbers should be integers.
+            Version number for a Prompt.
+
+            Prompts, Configs, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
+
+            Version numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1085,16 +1181,24 @@ class AsyncRawPromptsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[typing.Optional[ReturnPrompt]]:
         """
+        Updates the description of a **Prompt**.
+
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.
+
         Parameters
         ----------
         id : str
-            Identifier for a prompt. Formatted as a UUID.
+            Identifier for a Prompt. Formatted as a UUID.
 
         version : int
-            Version number for a prompt. Version numbers should be integers.
+            Version number for a Prompt.
+
+            Prompts, Configs, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
+
+            Version numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number.
 
         version_description : typing.Optional[str]
-            Description that is appended to a specific version of a Prompt.
+            An optional description of the Prompt version.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.

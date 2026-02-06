@@ -358,7 +358,7 @@ class RawBatchClient:
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             data={
-                "json": json,
+                "json": json.dumps(jsonable_encoder(json)),
             },
             files={
                 "file": file,
@@ -716,7 +716,7 @@ class AsyncRawBatchClient:
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             data={
-                "json": json,
+                "json": json.dumps(jsonable_encoder(json)),
             },
             files={
                 "file": file,

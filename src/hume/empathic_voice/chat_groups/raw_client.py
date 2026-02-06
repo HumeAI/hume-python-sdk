@@ -34,6 +34,8 @@ class RawChatGroupsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[ReturnChatGroup, ReturnPagedChatGroups]:
         """
+        Fetches a paginated list of **Chat Groups**.
+
         Parameters
         ----------
         page_number : typing.Optional[int]
@@ -47,10 +49,12 @@ class RawChatGroupsClient:
             For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         ascending_order : typing.Optional[bool]
-            Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
+            Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
 
         config_id : typing.Optional[str]
-            Filter chatgroups to only include chats that used this config in their most recent chat.
+            The unique identifier for an EVI configuration.
+
+            Filter Chat Groups to only include Chats that used this `config_id` in their most recent Chat.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -120,10 +124,12 @@ class RawChatGroupsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ReturnChatGroupPagedChats]:
         """
+        Fetches a **ChatGroup** by ID, including a paginated list of **Chats** associated with the **ChatGroup**.
+
         Parameters
         ----------
         id : str
-            Identifier for a chat. Formatted as a UUID.
+            Identifier for a Chat Group. Formatted as a UUID.
 
         status : typing.Optional[str]
             Chat status to apply to the chat. String from the ChatStatus enum.
@@ -139,7 +145,7 @@ class RawChatGroupsClient:
             This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
 
         ascending_order : typing.Optional[bool]
-            Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
+            Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -197,10 +203,12 @@ class RawChatGroupsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ReturnChatGroupPagedAudioReconstructions]:
         """
+        Fetches a paginated list of audio for each **Chat** within the specified **Chat Group**. For more details, see our guide on audio reconstruction [here](/docs/speech-to-speech-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
+
         Parameters
         ----------
         id : str
-            Identifier for a chat. Formatted as a UUID.
+            Identifier for a Chat Group. Formatted as a UUID.
 
         page_number : typing.Optional[int]
             Specifies the page number to retrieve, enabling pagination.
@@ -213,7 +221,7 @@ class RawChatGroupsClient:
             For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         ascending_order : typing.Optional[bool]
-            Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
+            Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -270,10 +278,12 @@ class RawChatGroupsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[ReturnChatEvent, ReturnChatGroupPagedEvents]:
         """
+        Fetches a paginated list of **Chat** events associated with a **Chat Group**.
+
         Parameters
         ----------
         id : str
-            Identifier for a chat. Formatted as a UUID.
+            Identifier for a Chat Group. Formatted as a UUID.
 
         page_size : typing.Optional[int]
             Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
@@ -286,7 +296,7 @@ class RawChatGroupsClient:
             This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
 
         ascending_order : typing.Optional[bool]
-            Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
+            Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -359,6 +369,8 @@ class AsyncRawChatGroupsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[ReturnChatGroup, ReturnPagedChatGroups]:
         """
+        Fetches a paginated list of **Chat Groups**.
+
         Parameters
         ----------
         page_number : typing.Optional[int]
@@ -372,10 +384,12 @@ class AsyncRawChatGroupsClient:
             For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         ascending_order : typing.Optional[bool]
-            Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
+            Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
 
         config_id : typing.Optional[str]
-            Filter chatgroups to only include chats that used this config in their most recent chat.
+            The unique identifier for an EVI configuration.
+
+            Filter Chat Groups to only include Chats that used this `config_id` in their most recent Chat.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -448,10 +462,12 @@ class AsyncRawChatGroupsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ReturnChatGroupPagedChats]:
         """
+        Fetches a **ChatGroup** by ID, including a paginated list of **Chats** associated with the **ChatGroup**.
+
         Parameters
         ----------
         id : str
-            Identifier for a chat. Formatted as a UUID.
+            Identifier for a Chat Group. Formatted as a UUID.
 
         status : typing.Optional[str]
             Chat status to apply to the chat. String from the ChatStatus enum.
@@ -467,7 +483,7 @@ class AsyncRawChatGroupsClient:
             This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
 
         ascending_order : typing.Optional[bool]
-            Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
+            Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -525,10 +541,12 @@ class AsyncRawChatGroupsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ReturnChatGroupPagedAudioReconstructions]:
         """
+        Fetches a paginated list of audio for each **Chat** within the specified **Chat Group**. For more details, see our guide on audio reconstruction [here](/docs/speech-to-speech-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
+
         Parameters
         ----------
         id : str
-            Identifier for a chat. Formatted as a UUID.
+            Identifier for a Chat Group. Formatted as a UUID.
 
         page_number : typing.Optional[int]
             Specifies the page number to retrieve, enabling pagination.
@@ -541,7 +559,7 @@ class AsyncRawChatGroupsClient:
             For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         ascending_order : typing.Optional[bool]
-            Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
+            Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -598,10 +616,12 @@ class AsyncRawChatGroupsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[ReturnChatEvent, ReturnChatGroupPagedEvents]:
         """
+        Fetches a paginated list of **Chat** events associated with a **Chat Group**.
+
         Parameters
         ----------
         id : str
-            Identifier for a chat. Formatted as a UUID.
+            Identifier for a Chat Group. Formatted as a UUID.
 
         page_size : typing.Optional[int]
             Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
@@ -614,7 +634,7 @@ class AsyncRawChatGroupsClient:
             This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
 
         ascending_order : typing.Optional[bool]
-            Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
+            Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.

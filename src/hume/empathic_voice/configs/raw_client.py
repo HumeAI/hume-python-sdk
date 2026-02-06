@@ -44,6 +44,10 @@ class RawConfigsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[ReturnConfig, ReturnPagedConfigs]:
         """
+        Fetches a paginated list of **Configs**.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
+
         Parameters
         ----------
         page_number : typing.Optional[int]
@@ -57,7 +61,7 @@ class RawConfigsClient:
             For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         restrict_to_most_recent : typing.Optional[bool]
-            By default, `restrict_to_most_recent` is set to true, returning only the latest version of each tool. To include all versions of each tool in the list, set `restrict_to_most_recent` to false.
+            By default, `restrict_to_most_recent` is set to true, returning only the latest version of each config. To include all versions of each config in the list, set `restrict_to_most_recent` to false.
 
         name : typing.Optional[str]
             Filter to only include configs with this name.
@@ -138,10 +142,14 @@ class RawConfigsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ReturnConfig]:
         """
+        Creates a **Config** which can be applied to EVI.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
+
         Parameters
         ----------
         evi_version : str
-            The version of the EVI used with this config.
+            EVI version to use. Only versions `3` and `4-mini` are supported.
 
         name : str
             Name applied to all versions of a particular Config.
@@ -165,9 +173,10 @@ class RawConfigsClient:
             Tool specification for a Config.
 
         version_description : typing.Optional[str]
-            Description that is appended to a specific version of a Config.
+            An optional description of the Config version.
 
         voice : typing.Optional[VoiceRef]
+            A voice specification associated with this Config.
 
         webhooks : typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]]
             Webhook config specifications for each subscriber.
@@ -263,10 +272,14 @@ class RawConfigsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[ReturnConfig, ReturnPagedConfigs]:
         """
+        Fetches a list of a **Config's** versions.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
+
         Parameters
         ----------
         id : str
-            Identifier for a config. Formatted as a UUID.
+            Identifier for a Config. Formatted as a UUID.
 
         page_number : typing.Optional[int]
             Specifies the page number to retrieve, enabling pagination.
@@ -279,7 +292,7 @@ class RawConfigsClient:
             For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         restrict_to_most_recent : typing.Optional[bool]
-            By default, `restrict_to_most_recent` is set to true, returning only the latest version of each tool. To include all versions of each tool in the list, set `restrict_to_most_recent` to false.
+            By default, `restrict_to_most_recent` is set to true, returning only the latest version of each config. To include all versions of each config in the list, set `restrict_to_most_recent` to false.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -356,13 +369,17 @@ class RawConfigsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ReturnConfig]:
         """
+        Updates a **Config** by creating a new version of the **Config**.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
+
         Parameters
         ----------
         id : str
-            Identifier for a config. Formatted as a UUID.
+            Identifier for a Config. Formatted as a UUID.
 
         evi_version : str
-            The version of the EVI used with this config.
+            EVI version to use. Only versions `3` and `4-mini` are supported.
 
         builtin_tools : typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]
             Built-in tool specification for a Config.
@@ -383,7 +400,7 @@ class RawConfigsClient:
             Tool specification for a Config.
 
         version_description : typing.Optional[str]
-            Description that is appended to a specific version of a Config.
+            An optional description of the Config version.
 
         voice : typing.Optional[VoiceRef]
 
@@ -472,10 +489,14 @@ class RawConfigsClient:
 
     def delete_config(self, id: str, *, request_options: typing.Optional[RequestOptions] = None) -> HttpResponse[None]:
         """
+        Deletes a **Config** and its versions.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
+
         Parameters
         ----------
         id : str
-            Identifier for a config. Formatted as a UUID.
+            Identifier for a Config. Formatted as a UUID.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -513,10 +534,14 @@ class RawConfigsClient:
         self, id: str, *, name: str, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[str]:
         """
+        Updates the name of a **Config**.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
+
         Parameters
         ----------
         id : str
-            Identifier for a config. Formatted as a UUID.
+            Identifier for a Config. Formatted as a UUID.
 
         name : str
             Name applied to all versions of a particular Config.
@@ -565,13 +590,21 @@ class RawConfigsClient:
         self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[ReturnConfig]:
         """
+        Fetches a specified version of a **Config**.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
+
         Parameters
         ----------
         id : str
-            Identifier for a config. Formatted as a UUID.
+            Identifier for a Config. Formatted as a UUID.
 
         version : int
-            Version number for a config. Version numbers should be integers.
+            Version number for a Config.
+
+            Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+
+            Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -617,13 +650,21 @@ class RawConfigsClient:
         self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[None]:
         """
+        Deletes a specified version of a **Config**.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
+
         Parameters
         ----------
         id : str
-            Identifier for a config. Formatted as a UUID.
+            Identifier for a Config. Formatted as a UUID.
 
         version : int
-            Version number for a config. Version numbers should be integers.
+            Version number for a Config.
+
+            Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+
+            Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -666,16 +707,24 @@ class RawConfigsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ReturnConfig]:
         """
+        Updates the description of a **Config**.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
+
         Parameters
         ----------
         id : str
-            Identifier for a config. Formatted as a UUID.
+            Identifier for a Config. Formatted as a UUID.
 
         version : int
-            Version number for a config. Version numbers should be integers.
+            Version number for a Config.
+
+            Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+
+            Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
 
         version_description : typing.Optional[str]
-            Description that is appended to a specific version of a Config.
+            An optional description of the Config version.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -739,6 +788,10 @@ class AsyncRawConfigsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[ReturnConfig, ReturnPagedConfigs]:
         """
+        Fetches a paginated list of **Configs**.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
+
         Parameters
         ----------
         page_number : typing.Optional[int]
@@ -752,7 +805,7 @@ class AsyncRawConfigsClient:
             For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         restrict_to_most_recent : typing.Optional[bool]
-            By default, `restrict_to_most_recent` is set to true, returning only the latest version of each tool. To include all versions of each tool in the list, set `restrict_to_most_recent` to false.
+            By default, `restrict_to_most_recent` is set to true, returning only the latest version of each config. To include all versions of each config in the list, set `restrict_to_most_recent` to false.
 
         name : typing.Optional[str]
             Filter to only include configs with this name.
@@ -836,10 +889,14 @@ class AsyncRawConfigsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ReturnConfig]:
         """
+        Creates a **Config** which can be applied to EVI.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
+
         Parameters
         ----------
         evi_version : str
-            The version of the EVI used with this config.
+            EVI version to use. Only versions `3` and `4-mini` are supported.
 
         name : str
             Name applied to all versions of a particular Config.
@@ -863,9 +920,10 @@ class AsyncRawConfigsClient:
             Tool specification for a Config.
 
         version_description : typing.Optional[str]
-            Description that is appended to a specific version of a Config.
+            An optional description of the Config version.
 
         voice : typing.Optional[VoiceRef]
+            A voice specification associated with this Config.
 
         webhooks : typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]]
             Webhook config specifications for each subscriber.
@@ -961,10 +1019,14 @@ class AsyncRawConfigsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[ReturnConfig, ReturnPagedConfigs]:
         """
+        Fetches a list of a **Config's** versions.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
+
         Parameters
         ----------
         id : str
-            Identifier for a config. Formatted as a UUID.
+            Identifier for a Config. Formatted as a UUID.
 
         page_number : typing.Optional[int]
             Specifies the page number to retrieve, enabling pagination.
@@ -977,7 +1039,7 @@ class AsyncRawConfigsClient:
             For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         restrict_to_most_recent : typing.Optional[bool]
-            By default, `restrict_to_most_recent` is set to true, returning only the latest version of each tool. To include all versions of each tool in the list, set `restrict_to_most_recent` to false.
+            By default, `restrict_to_most_recent` is set to true, returning only the latest version of each config. To include all versions of each config in the list, set `restrict_to_most_recent` to false.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1057,13 +1119,17 @@ class AsyncRawConfigsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ReturnConfig]:
         """
+        Updates a **Config** by creating a new version of the **Config**.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
+
         Parameters
         ----------
         id : str
-            Identifier for a config. Formatted as a UUID.
+            Identifier for a Config. Formatted as a UUID.
 
         evi_version : str
-            The version of the EVI used with this config.
+            EVI version to use. Only versions `3` and `4-mini` are supported.
 
         builtin_tools : typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]
             Built-in tool specification for a Config.
@@ -1084,7 +1150,7 @@ class AsyncRawConfigsClient:
             Tool specification for a Config.
 
         version_description : typing.Optional[str]
-            Description that is appended to a specific version of a Config.
+            An optional description of the Config version.
 
         voice : typing.Optional[VoiceRef]
 
@@ -1175,10 +1241,14 @@ class AsyncRawConfigsClient:
         self, id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[None]:
         """
+        Deletes a **Config** and its versions.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
+
         Parameters
         ----------
         id : str
-            Identifier for a config. Formatted as a UUID.
+            Identifier for a Config. Formatted as a UUID.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1216,10 +1286,14 @@ class AsyncRawConfigsClient:
         self, id: str, *, name: str, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[str]:
         """
+        Updates the name of a **Config**.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
+
         Parameters
         ----------
         id : str
-            Identifier for a config. Formatted as a UUID.
+            Identifier for a Config. Formatted as a UUID.
 
         name : str
             Name applied to all versions of a particular Config.
@@ -1268,13 +1342,21 @@ class AsyncRawConfigsClient:
         self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[ReturnConfig]:
         """
+        Fetches a specified version of a **Config**.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
+
         Parameters
         ----------
         id : str
-            Identifier for a config. Formatted as a UUID.
+            Identifier for a Config. Formatted as a UUID.
 
         version : int
-            Version number for a config. Version numbers should be integers.
+            Version number for a Config.
+
+            Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+
+            Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1320,13 +1402,21 @@ class AsyncRawConfigsClient:
         self, id: str, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[None]:
         """
+        Deletes a specified version of a **Config**.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
+
         Parameters
         ----------
         id : str
-            Identifier for a config. Formatted as a UUID.
+            Identifier for a Config. Formatted as a UUID.
 
         version : int
-            Version number for a config. Version numbers should be integers.
+            Version number for a Config.
+
+            Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+
+            Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1369,16 +1459,24 @@ class AsyncRawConfigsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ReturnConfig]:
         """
+        Updates the description of a **Config**.
+
+        For more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).
+
         Parameters
         ----------
         id : str
-            Identifier for a config. Formatted as a UUID.
+            Identifier for a Config. Formatted as a UUID.
 
         version : int
-            Version number for a config. Version numbers should be integers.
+            Version number for a Config.
+
+            Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+
+            Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
 
         version_description : typing.Optional[str]
-            Description that is appended to a specific version of a Config.
+            An optional description of the Config version.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.

@@ -15,13 +15,13 @@ class ReturnChat(UniversalBaseModel):
 
     chat_group_id: str = pydantic.Field()
     """
-    Identifier for the chat group. Any chat resumed from this chat will have the same chat_group_id. Formatted as a UUID.
+    Identifier for the Chat Group. Any chat resumed from this Chat will have the same `chat_group_id`. Formatted as a UUID.
     """
 
     config: typing.Optional[ReturnConfigSpec] = None
     end_timestamp: typing.Optional[int] = pydantic.Field(default=None)
     """
-    The timestamp when the chat ended, formatted as a Unix epoch milliseconds.
+    Time at which the Chat ended. Measured in seconds since the Unix epoch.
     """
 
     event_count: typing.Optional[int] = pydantic.Field(default=None)
@@ -31,7 +31,7 @@ class ReturnChat(UniversalBaseModel):
 
     id: str = pydantic.Field()
     """
-    Identifier for a chat. Formatted as a UUID.
+    Identifier for a Chat. Formatted as a UUID.
     """
 
     metadata: typing.Optional[str] = pydantic.Field(default=None)
@@ -41,7 +41,7 @@ class ReturnChat(UniversalBaseModel):
 
     start_timestamp: int = pydantic.Field()
     """
-    The timestamp when the chat started, formatted as a Unix epoch milliseconds.
+    Time at which the Chat started. Measured in seconds since the Unix epoch.
     """
 
     status: ReturnChatStatus

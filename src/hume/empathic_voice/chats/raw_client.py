@@ -34,6 +34,8 @@ class RawChatsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[ReturnChat, ReturnPagedChats]:
         """
+        Fetches a paginated list of **Chats**.
+
         Parameters
         ----------
         page_number : typing.Optional[int]
@@ -47,7 +49,7 @@ class RawChatsClient:
             For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         ascending_order : typing.Optional[bool]
-            Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
+            Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
 
         config_id : typing.Optional[str]
             Filter to only include chats that used this config.
@@ -124,10 +126,12 @@ class RawChatsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[ReturnChatEvent, ReturnChatPagedEvents]:
         """
+        Fetches a paginated list of **Chat** events.
+
         Parameters
         ----------
         id : str
-            Identifier for a chat. Formatted as a UUID.
+            Identifier for a Chat. Formatted as a UUID.
 
         page_size : typing.Optional[int]
             Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
@@ -140,7 +144,7 @@ class RawChatsClient:
             This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
 
         ascending_order : typing.Optional[bool]
-            Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
+            Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -202,10 +206,12 @@ class RawChatsClient:
         self, id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[ReturnChatAudioReconstruction]:
         """
+        Fetches the audio of a previous **Chat**. For more details, see our guide on audio reconstruction [here](/docs/speech-to-speech-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
+
         Parameters
         ----------
         id : str
-            Identifier for a chat. Formatted as a UUID.
+            Identifier for a Chat. Formatted as a UUID.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -263,6 +269,8 @@ class AsyncRawChatsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[ReturnChat, ReturnPagedChats]:
         """
+        Fetches a paginated list of **Chats**.
+
         Parameters
         ----------
         page_number : typing.Optional[int]
@@ -276,7 +284,7 @@ class AsyncRawChatsClient:
             For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.
 
         ascending_order : typing.Optional[bool]
-            Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
+            Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
 
         config_id : typing.Optional[str]
             Filter to only include chats that used this config.
@@ -356,10 +364,12 @@ class AsyncRawChatsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[ReturnChatEvent, ReturnChatPagedEvents]:
         """
+        Fetches a paginated list of **Chat** events.
+
         Parameters
         ----------
         id : str
-            Identifier for a chat. Formatted as a UUID.
+            Identifier for a Chat. Formatted as a UUID.
 
         page_size : typing.Optional[int]
             Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
@@ -372,7 +382,7 @@ class AsyncRawChatsClient:
             This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.
 
         ascending_order : typing.Optional[bool]
-            Boolean to indicate if the results should be paginated in chronological order or reverse-chronological order. Defaults to true.
+            Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -437,10 +447,12 @@ class AsyncRawChatsClient:
         self, id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[ReturnChatAudioReconstruction]:
         """
+        Fetches the audio of a previous **Chat**. For more details, see our guide on audio reconstruction [here](/docs/speech-to-speech-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).
+
         Parameters
         ----------
         id : str
-            Identifier for a chat. Formatted as a UUID.
+            Identifier for a Chat. Formatted as a UUID.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
