@@ -13,12 +13,12 @@ class PostedNudgeSpec(UniversalBaseModel):
 
     enabled: typing.Optional[bool] = pydantic.Field(default=None)
     """
-    EVI will nudge user after inactivity
+    If true, EVI will 'nudge' the user to speak after a determined interval of silence.
     """
 
     interval_secs: typing.Optional[int] = pydantic.Field(default=None)
     """
-    Time interval in seconds after which the nudge will be sent.
+    The interval of inactivity (in seconds) before a nudge is triggered.
     """
 
     if IS_PYDANTIC_V2:

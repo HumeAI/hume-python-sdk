@@ -23,19 +23,21 @@ class ReturnConfig(UniversalBaseModel):
 
     builtin_tools: typing.Optional[typing.List[typing.Optional[ReturnBuiltinTool]]] = pydantic.Field(default=None)
     """
-    List of built-in tools associated with this config
+    List of built-in tools associated with this Config.
     """
 
     created_on: typing.Optional[int] = pydantic.Field(default=None)
     """
-    The timestamp when the first version of this config was created.
+    Time at which the Config was created. Measured in seconds since the Unix epoch.
     """
 
     ellm_model: typing.Optional[ReturnEllmModel] = None
     event_messages: typing.Optional[ReturnEventMessageSpecs] = None
     evi_version: typing.Optional[str] = pydantic.Field(default=None)
     """
-    The version of the EVI used with this config.
+    Specifies the EVI version to use. See our [EVI Version  Guide](/docs/speech-to-speech-evi/configuration/evi-version) for differences between versions.
+    
+    **We're officially sunsetting EVI versions 1 and 2 on August 30, 2025**. To keep things running smoothly, be sure to [migrate to EVI 3](/docs/speech-to-speech-evi/configuration/evi-version#migrating-to-evi-3) before then.
     """
 
     id: typing.Optional[str] = pydantic.Field(default=None)
@@ -46,7 +48,7 @@ class ReturnConfig(UniversalBaseModel):
     language_model: typing.Optional[ReturnLanguageModel] = None
     modified_on: typing.Optional[int] = pydantic.Field(default=None)
     """
-    The timestamp when this version of the config was created.
+    Time at which the Config was last modified. Measured in seconds since the Unix epoch.
     """
 
     name: typing.Optional[str] = pydantic.Field(default=None)
@@ -59,17 +61,21 @@ class ReturnConfig(UniversalBaseModel):
     timeouts: typing.Optional[ReturnTimeoutSpecs] = None
     tools: typing.Optional[typing.List[typing.Optional[ReturnUserDefinedTool]]] = pydantic.Field(default=None)
     """
-    List of user-defined tools associated with this config.
+    List of user-defined tools associated with this Config.
     """
 
     version: typing.Optional[int] = pydantic.Field(default=None)
     """
-    Version number for a Config. Version numbers should be integers. The combination of configId and version number is unique.
+    Version number for a Config.
+    
+    Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+    
+    Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.
     """
 
     version_description: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Description that is appended to a specific version of a Config.
+    An optional description of the Config version.
     """
 
     voice: typing.Optional[ReturnVoice] = None

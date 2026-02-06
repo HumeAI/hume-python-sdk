@@ -1,5 +1,5 @@
 diff --git a/src/hume/expression_measurement/stream/stream/socket_client.py b/src/hume/expression_measurement/stream/stream/socket_client.py
-index fcd83929..85935e4e 100644
+index fcd8392..c0c0456 100644
 --- a/src/hume/expression_measurement/stream/stream/socket_client.py
 +++ b/src/hume/expression_measurement/stream/stream/socket_client.py
 @@ -1,18 +1,13 @@
@@ -21,7 +21,42 @@ index fcd83929..85935e4e 100644
  from .types.stream_models_endpoint_payload import StreamModelsEndpointPayload
  from .types.subscribe_event import SubscribeEvent
  
-@@ -83,74 +78,6 @@ class AsyncStreamSocketClient(EventEmitterMixin):
+@@ -31,7 +26,10 @@ class AsyncStreamSocketClient(EventEmitterMixin):
+ 
+     async def __aiter__(self):
+         async for message in self._websocket:
+-            yield parse_obj_as(StreamSocketClientResponse, json.loads(message))  # type: ignore
++            if isinstance(message, bytes):
++                yield message
++            else:
++                yield parse_obj_as(StreamSocketClientResponse, json.loads(message))  # type: ignore
+ 
+     async def start_listening(self):
+         """
+@@ -46,8 +44,11 @@ class AsyncStreamSocketClient(EventEmitterMixin):
+         await self._emit_async(EventType.OPEN, None)
+         try:
+             async for raw_message in self._websocket:
+-                json_data = json.loads(raw_message)
+-                parsed = parse_obj_as(StreamSocketClientResponse, json_data)  # type: ignore
++                if isinstance(raw_message, bytes):
++                    parsed = raw_message
++                else:
++                    json_data = json.loads(raw_message)
++                    parsed = parse_obj_as(StreamSocketClientResponse, json_data)  # type: ignore
+                 await self._emit_async(EventType.MESSAGE, parsed)
+         except (websockets.WebSocketException, JSONDecodeError) as exc:
+             await self._emit_async(EventType.ERROR, exc)
+@@ -66,6 +67,8 @@ class AsyncStreamSocketClient(EventEmitterMixin):
+         Receive a message from the websocket connection.
+         """
+         data = await self._websocket.recv()
++        if isinstance(data, bytes):
++            return data  # type: ignore
+         json_data = json.loads(data)
+         return parse_obj_as(StreamSocketClientResponse, json_data)  # type: ignore
+ 
+@@ -83,74 +86,6 @@ class AsyncStreamSocketClient(EventEmitterMixin):
          """
          await self._send(data.dict())
  
@@ -96,7 +131,42 @@ index fcd83929..85935e4e 100644
  
  class StreamSocketClient(EventEmitterMixin):
      def __init__(self, *, websocket: websockets_sync_connection.Connection):
-@@ -210,71 +137,3 @@ class StreamSocketClient(EventEmitterMixin):
+@@ -159,7 +94,10 @@ class StreamSocketClient(EventEmitterMixin):
+ 
+     def __iter__(self):
+         for message in self._websocket:
+-            yield parse_obj_as(StreamSocketClientResponse, json.loads(message))  # type: ignore
++            if isinstance(message, bytes):
++                yield message
++            else:
++                yield parse_obj_as(StreamSocketClientResponse, json.loads(message))  # type: ignore
+ 
+     def start_listening(self):
+         """
+@@ -174,8 +112,11 @@ class StreamSocketClient(EventEmitterMixin):
+         self._emit(EventType.OPEN, None)
+         try:
+             for raw_message in self._websocket:
+-                json_data = json.loads(raw_message)
+-                parsed = parse_obj_as(StreamSocketClientResponse, json_data)  # type: ignore
++                if isinstance(raw_message, bytes):
++                    parsed = raw_message
++                else:
++                    json_data = json.loads(raw_message)
++                    parsed = parse_obj_as(StreamSocketClientResponse, json_data)  # type: ignore
+                 self._emit(EventType.MESSAGE, parsed)
+         except (websockets.WebSocketException, JSONDecodeError) as exc:
+             self._emit(EventType.ERROR, exc)
+@@ -194,6 +135,8 @@ class StreamSocketClient(EventEmitterMixin):
+         Receive a message from the websocket connection.
+         """
+         data = self._websocket.recv()
++        if isinstance(data, bytes):
++            return data  # type: ignore
+         json_data = json.loads(data)
+         return parse_obj_as(StreamSocketClientResponse, json_data)  # type: ignore
+ 
+@@ -210,71 +153,3 @@ class StreamSocketClient(EventEmitterMixin):
          Send a Pydantic model to the websocket connection.
          """
          self._send(data.dict())

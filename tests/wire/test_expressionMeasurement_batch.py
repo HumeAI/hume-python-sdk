@@ -39,5 +39,5 @@ def test_expressionMeasurement_batch_start_inference_job_from_local_file() -> No
     """Test start-inference-job-from-local-file endpoint with WireMock"""
     test_id = "expression_measurement.batch.start_inference_job_from_local_file.0"
     client = get_client(test_id)
-    client.expression_measurement.batch.start_inference_job()
+    client.expression_measurement.batch.start_inference_job_from_local_file(file=["example_file"])
     verify_request_count(test_id, "POST", "/v0/batch/jobs", None, 1)

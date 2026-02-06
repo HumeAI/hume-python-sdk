@@ -13,7 +13,7 @@ class ReturnPrompt(UniversalBaseModel):
 
     created_on: int = pydantic.Field()
     """
-    The timestamp when the first version of this prompt was created.
+    Time at which the Prompt was created. Measured in seconds since the Unix epoch.
     """
 
     id: str = pydantic.Field()
@@ -23,7 +23,7 @@ class ReturnPrompt(UniversalBaseModel):
 
     modified_on: int = pydantic.Field()
     """
-    The timestamp when this version of the prompt was created.
+    Time at which the Prompt was last modified. Measured in seconds since the Unix epoch.
     """
 
     name: str = pydantic.Field()
@@ -33,7 +33,9 @@ class ReturnPrompt(UniversalBaseModel):
 
     text: str = pydantic.Field()
     """
-    Text used for this version of the Prompt.
+    Instructions used to shape EVI's behavior, responses, and style.
+    
+    You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles. For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).
     """
 
     version: int = pydantic.Field()
@@ -43,7 +45,7 @@ class ReturnPrompt(UniversalBaseModel):
 
     version_description: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Description that is appended to a specific version of a Prompt.
+    An optional description of the Prompt version.
     """
 
     version_type: str = pydantic.Field()

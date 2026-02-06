@@ -9,33 +9,27 @@ from .context_type import ContextType
 
 class ConnectSessionSettingsContext(UniversalBaseModel):
     """
-    Allows developers to inject additional context into the conversation, which is appended to the end of user messages for the session.
+    Field for injecting additional context into the conversation, which is appended to the end of user messages for the session.
 
     When included in a Session Settings message, the provided context can be used to remind the LLM of its role in every user message, prevent it from forgetting important details, or add new relevant information to the conversation.
 
-    Set to `null` to disable context injection.
+    Set to `null` to clear injected context.
     """
 
     text: typing.Optional[str] = pydantic.Field(default=None)
     """
     The context to be injected into the conversation. Helps inform the LLM's response by providing relevant information about the ongoing conversation.
     
-    This text will be appended to the end of user messages based on the chosen persistence level. For example, if you want to remind EVI of its role as a helpful weather assistant, the context you insert will be appended to the end of user messages as `{Context: You are a helpful weather assistant}`.
+    This text will be appended to the end of [user_messages](/reference/speech-to-speech-evi/chat#receive.UserMessage.message.content) based on the chosen persistence level. For example, if you want to remind EVI of its role as a helpful weather assistant, the context you insert will be appended to the end of user messages as `{Context: You are a helpful weather assistant}`.
     """
 
     type: typing.Optional[ContextType] = pydantic.Field(default=None)
     """
     The persistence level of the injected context. Specifies how long the injected context will remain active in the session.
     
-    There are three possible context types:
+    - **Temporary**: Context that is only applied to the following assistant response.
     
-    - **Persistent**: The context is appended to all user messages for the duration of the session.
-    
-    - **Temporary**: The context is appended only to the next user message.
-    
-     - **Editable**: The original context is updated to reflect the new context.
-    
-     If the type is not specified, it will default to `temporary`.
+    - **Persistent**: Context that is applied to all subsequent assistant responses for the remainder of the Chat.
     """
 
     if IS_PYDANTIC_V2:

@@ -9,6 +9,7 @@ from .. import core
 from ..core.api_error import ApiError
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.http_response import AsyncHttpResponse, HttpResponse
+from ..core.jsonable_encoder import jsonable_encoder
 from ..core.pydantic_utilities import parse_obj_as
 from ..core.request_options import RequestOptions
 from ..core.serialization import convert_and_respect_annotation_metadata
@@ -581,10 +582,10 @@ class RawTtsClient:
             method="POST",
             data={
                 "strip_headers": strip_headers,
-                "context": context,
-                "voice": voice,
-                "format": format,
-                "include_timestamp_types": include_timestamp_types,
+                "context": json.dumps(jsonable_encoder(context)),
+                "voice": json.dumps(jsonable_encoder(voice)),
+                "format": json.dumps(jsonable_encoder(format)),
+                "include_timestamp_types": json.dumps(jsonable_encoder(include_timestamp_types)),
             },
             files={
                 "audio": audio,
@@ -668,10 +669,10 @@ class RawTtsClient:
             method="POST",
             data={
                 "strip_headers": strip_headers,
-                "context": context,
-                "voice": voice,
-                "format": format,
-                "include_timestamp_types": include_timestamp_types,
+                "context": json.dumps(jsonable_encoder(context)),
+                "voice": json.dumps(jsonable_encoder(voice)),
+                "format": json.dumps(jsonable_encoder(format)),
+                "include_timestamp_types": json.dumps(jsonable_encoder(include_timestamp_types)),
             },
             files={
                 **({"audio": audio} if audio is not None else {}),
@@ -1280,10 +1281,10 @@ class AsyncRawTtsClient:
             method="POST",
             data={
                 "strip_headers": strip_headers,
-                "context": context,
-                "voice": voice,
-                "format": format,
-                "include_timestamp_types": include_timestamp_types,
+                "context": json.dumps(jsonable_encoder(context)),
+                "voice": json.dumps(jsonable_encoder(voice)),
+                "format": json.dumps(jsonable_encoder(format)),
+                "include_timestamp_types": json.dumps(jsonable_encoder(include_timestamp_types)),
             },
             files={
                 "audio": audio,
@@ -1368,10 +1369,10 @@ class AsyncRawTtsClient:
             method="POST",
             data={
                 "strip_headers": strip_headers,
-                "context": context,
-                "voice": voice,
-                "format": format,
-                "include_timestamp_types": include_timestamp_types,
+                "context": json.dumps(jsonable_encoder(context)),
+                "voice": json.dumps(jsonable_encoder(voice)),
+                "format": json.dumps(jsonable_encoder(format)),
+                "include_timestamp_types": json.dumps(jsonable_encoder(include_timestamp_types)),
             },
             files={
                 **({"audio": audio} if audio is not None else {}),
