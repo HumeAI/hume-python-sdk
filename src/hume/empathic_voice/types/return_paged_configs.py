@@ -14,12 +14,14 @@ class ReturnPagedConfigs(UniversalBaseModel):
 
     configs_page: typing.Optional[typing.List[ReturnConfig]] = pydantic.Field(default=None)
     """
-    List of prompts returned for the specified page number and page size.
+    List of configs returned for the specified `page_number` and `page_size`.
     """
 
     page_number: typing.Optional[int] = pydantic.Field(default=None)
     """
-    The page number of the returned results.
+    The page number of the returned list.
+    
+    This value corresponds to the `page_number` parameter specified in the request. Pagination uses zero-based indexing.
     """
 
     page_size: typing.Optional[int] = pydantic.Field(default=None)
