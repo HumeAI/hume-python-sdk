@@ -13,7 +13,9 @@ from .tool import Tool
 
 class SessionSettings(UniversalBaseModel):
     """
-    Settings for this chat session.
+    **Settings for this chat session.** Session settings are temporary and apply only to the current Chat session.
+
+    These settings can be adjusted dynamically based on the requirements of each session to ensure optimal performance and user experience. See our [Session Settings Guide](/docs/speech-to-speech-evi/configuration/session-settings) for a complete list of configurable settings.
     """
 
     audio: typing.Optional[AudioConfiguration] = pydantic.Field(default=None)
@@ -34,11 +36,11 @@ class SessionSettings(UniversalBaseModel):
 
     context: typing.Optional[Context] = pydantic.Field(default=None)
     """
-    Allows developers to inject additional context into the conversation, which is appended to the end of user messages for the session.
+    Field for injecting additional context into the conversation, which is appended to the end of user messages for the session.
     
     When included in a Session Settings message, the provided context can be used to remind the LLM of its role in every user message, prevent it from forgetting important details, or add new relevant information to the conversation.
     
-    Set to `null` to disable context injection.
+    Set to `null` to clear injected context.
     """
 
     custom_session_id: typing.Optional[str] = pydantic.Field(default=None)
@@ -87,10 +89,17 @@ class SessionSettings(UniversalBaseModel):
 
     variables: typing.Optional[typing.Dict[str, SessionSettingsVariablesValue]] = pydantic.Field(default=None)
     """
-    Dynamic values that can be used to populate EVI prompts.
+    This field allows you to assign values to dynamic variables referenced in your system prompt.
+    
+    Each key represents the variable name, and the corresponding value is the specific content you wish to assign to that variable within the session. While the values for variables can be strings, numbers, or booleans, the value will ultimately be converted to a string when injected into your system prompt.
+    
+    Using this field, you can personalize responses based on session-specific details. For more guidance, see our [guide on using dynamic variables](/docs/speech-to-speech-evi/features/dynamic-variables).
     """
 
-    voice_id: typing.Optional[str] = None
+    voice_id: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Allows you to change the voice during an active chat. Updating the voice does not affect chat context or conversation history.
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
