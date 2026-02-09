@@ -23,10 +23,9 @@ class File(UniversalBaseModel):
     The content type of the file.
     """
 
-    md_5_sum: typing_extensions.Annotated[str, FieldMetadata(alias="md5sum")] = pydantic.Field()
-    """
-    The MD5 checksum of the file.
-    """
+    md_5_sum: typing_extensions.Annotated[
+        str, FieldMetadata(alias="md5sum"), pydantic.Field(alias="md5sum", description="The MD5 checksum of the file.")
+    ]
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
