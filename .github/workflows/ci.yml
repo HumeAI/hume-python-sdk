@@ -59,10 +59,8 @@ jobs:
           curl -sSL https://install.python-poetry.org | python - -y --version 1.5.1
       - name: Install dependencies
         run: poetry install -E microphone
-      - name: Install Fern
-        run: npm install -g fern-api
       - name: Test
-        run: fern test --command "poetry run pytest -rP ."
+        run: poetry run pytest -rP .
 
   test-examples:
     runs-on: ubuntu-24.04
