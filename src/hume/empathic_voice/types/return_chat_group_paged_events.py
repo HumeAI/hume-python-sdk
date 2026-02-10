@@ -15,17 +15,19 @@ class ReturnChatGroupPagedEvents(UniversalBaseModel):
 
     events_page: typing.List[ReturnChatEvent] = pydantic.Field()
     """
-    List of chat_events returned for the specified page number and page size.
+    List of Chat Events for the specified `page_number` and `page_size`.
     """
 
     id: str = pydantic.Field()
     """
-    Identifier for the chat group. Any chat resumed from this chat will have the same chat_group_id. Formatted as a UUID.
+    Identifier for the Chat Group. Any Chat resumed from this Chat Group will have the same `chat_group_id`. Formatted as a UUID.
     """
 
     page_number: int = pydantic.Field()
     """
-    The page number of the returned results.
+    The page number of the returned list.
+    
+    This value corresponds to the `page_number` parameter specified in the request. Pagination uses zero-based indexing.
     """
 
     page_size: int = pydantic.Field()

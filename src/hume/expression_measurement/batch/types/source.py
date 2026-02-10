@@ -28,7 +28,7 @@ class Source_File(UniversalBaseModel):
     type: typing.Literal["file"] = "file"
     filename: typing.Optional[str] = None
     content_type: typing.Optional[str] = None
-    md_5_sum: typing_extensions.Annotated[str, FieldMetadata(alias="md5sum")]
+    md_5_sum: typing_extensions.Annotated[str, FieldMetadata(alias="md5sum"), pydantic.Field(alias="md5sum")]
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
