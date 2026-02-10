@@ -4,11 +4,11 @@ import typing
 from contextlib import asynccontextmanager, contextmanager
 
 import httpx
-import websockets.exceptions
 import websockets.sync.client as websockets_sync_client
 from ...core.api_error import ApiError
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.request_options import RequestOptions
+from ...core.websocket_compat import InvalidWebSocketStatus, get_status_code
 from ...core.serialization import convert_and_respect_annotation_metadata
 from ...core.query_encoder import single_query_encoder
 from ..types.connect_session_settings import ConnectSessionSettings
@@ -141,8 +141,8 @@ class ChatClient:
         try:
             with websockets_sync_client.connect(ws_url, additional_headers=headers) as protocol:
                 yield ChatSocketClient(websocket=protocol)
-        except websockets.exceptions.InvalidStatusCode as exc:
-            status_code: int = exc.status_code
+        except InvalidWebSocketStatus as exc:
+            status_code: int = get_status_code(exc)
             if status_code == 401:
                 raise ApiError(
                     status_code=status_code,
@@ -278,8 +278,8 @@ class AsyncChatClient:
         try:
             async with websockets_client_connect(ws_url, extra_headers=headers) as protocol:
                 yield AsyncChatSocketClient(websocket=protocol)
-        except websockets.exceptions.InvalidStatusCode as exc:
-            status_code: int = exc.status_code
+        except InvalidWebSocketStatus as exc:
+            status_code: int = get_status_code(exc)
             if status_code == 401:
                 raise ApiError(
                     status_code=status_code,
