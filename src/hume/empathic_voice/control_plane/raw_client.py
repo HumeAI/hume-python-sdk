@@ -5,6 +5,7 @@ import urllib.parse
 from contextlib import asynccontextmanager, contextmanager
 from json.decoder import JSONDecodeError
 
+import websockets.exceptions
 import websockets.sync.client as websockets_sync_client
 from ...core.api_error import ApiError
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
@@ -15,7 +16,6 @@ from ...core.query_encoder import encode_query
 from ...core.remove_none_from_dict import remove_none_from_dict
 from ...core.request_options import RequestOptions
 from ...core.serialization import convert_and_respect_annotation_metadata
-from ...core.websocket_compat import InvalidWebSocketStatus, get_status_code
 from ..errors.unprocessable_entity_error import UnprocessableEntityError
 from ..types.control_plane_publish_event import ControlPlanePublishEvent
 from ..types.http_validation_error import HttpValidationError
@@ -142,8 +142,8 @@ class RawControlPlaneClient:
         try:
             with websockets_sync_client.connect(ws_url, additional_headers=headers) as protocol:
                 yield ControlPlaneSocketClient(websocket=protocol)
-        except InvalidWebSocketStatus as exc:
-            status_code: int = get_status_code(exc)
+        except websockets.exceptions.InvalidStatusCode as exc:
+            status_code: int = exc.status_code
             if status_code == 401:
                 raise ApiError(
                     status_code=status_code,
@@ -269,8 +269,8 @@ class AsyncRawControlPlaneClient:
         try:
             async with websockets_client_connect(ws_url, extra_headers=headers) as protocol:
                 yield AsyncControlPlaneSocketClient(websocket=protocol)
-        except InvalidWebSocketStatus as exc:
-            status_code: int = get_status_code(exc)
+        except websockets.exceptions.InvalidStatusCode as exc:
+            status_code: int = exc.status_code
             if status_code == 401:
                 raise ApiError(
                     status_code=status_code,

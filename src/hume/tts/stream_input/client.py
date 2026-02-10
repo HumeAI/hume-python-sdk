@@ -4,6 +4,7 @@ import typing
 import urllib.parse
 from contextlib import asynccontextmanager, contextmanager
 
+import websockets.exceptions
 import websockets.sync.client as websockets_sync_client
 from ...core.api_error import ApiError
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
@@ -11,7 +12,6 @@ from ...core.jsonable_encoder import jsonable_encoder
 from ...core.query_encoder import encode_query
 from ...core.remove_none_from_dict import remove_none_from_dict
 from ...core.request_options import RequestOptions
-from ...core.websocket_compat import InvalidWebSocketStatus, get_status_code
 from ..types.audio_format_type import AudioFormatType
 from ..types.octave_version import OctaveVersion
 from ..types.timestamp_type import TimestampType
@@ -130,8 +130,8 @@ class StreamInputClient:
         try:
             with websockets_sync_client.connect(ws_url, additional_headers=headers) as protocol:
                 yield StreamInputSocketClient(websocket=protocol)
-        except InvalidWebSocketStatus as exc:
-            status_code: int = get_status_code(exc)
+        except websockets.exceptions.InvalidStatusCode as exc:
+            status_code: int = exc.status_code
             if status_code == 401:
                 raise ApiError(
                     status_code=status_code,
@@ -251,8 +251,8 @@ class AsyncStreamInputClient:
         try:
             async with websockets_client_connect(ws_url, extra_headers=headers) as protocol:
                 yield AsyncStreamInputSocketClient(websocket=protocol)
-        except InvalidWebSocketStatus as exc:
-            status_code: int = get_status_code(exc)
+        except websockets.exceptions.InvalidStatusCode as exc:
+            status_code: int = exc.status_code
             if status_code == 401:
                 raise ApiError(
                     status_code=status_code,
