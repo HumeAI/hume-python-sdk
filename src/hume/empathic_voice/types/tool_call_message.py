@@ -9,7 +9,9 @@ from .tool_type import ToolType
 
 class ToolCallMessage(UniversalBaseModel):
     """
-    When provided, the output is a tool call.
+    **Indicates that the supplemental LLM has detected a need to invoke the specified tool.** This message is only received for user-defined function tools.
+
+    Contains the tool name, parameters (as a stringified JSON schema), whether a response is required from the developer (either in the form of a `ToolResponseMessage` or a `ToolErrorMessage`), the unique tool call ID for tracking the request and response, and the tool type. See our [Tool Use Guide](/docs/speech-to-speech-evi/features/tool-use) for further details.
     """
 
     custom_session_id: typing.Optional[str] = pydantic.Field(default=None)
@@ -24,7 +26,9 @@ class ToolCallMessage(UniversalBaseModel):
 
     parameters: str = pydantic.Field()
     """
-    Parameters of the tool call. Is a stringified JSON schema.
+    Parameters of the tool.
+    
+    These parameters define the inputs needed for the tool's execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the tool receives data in the expected format.
     """
 
     response_required: bool = pydantic.Field()

@@ -16,32 +16,34 @@ class ReturnChatGroupPagedChats(UniversalBaseModel):
     active: typing.Optional[bool] = None
     chats_page: typing.List[ReturnChat] = pydantic.Field()
     """
-    List of chats and their metadata returned for the specified page number and page size.
+    List of Chats and their metadata returned for the specified `page_number` and `page_size`.
     """
 
     first_start_timestamp: int = pydantic.Field()
     """
-    The timestamp when the first chat in this chat group started, formatted as a Unix epoch milliseconds.
+    Time at which the first Chat in this Chat Group was created. Measured in seconds since the Unix epoch.
     """
 
     id: str = pydantic.Field()
     """
-    Identifier for the chat group. Any chat resumed from this chat will have the same chat_group_id. Formatted as a UUID.
+    Identifier for the Chat Group. Any Chat resumed from this Chat Group will have the same `chat_group_id`. Formatted as a UUID.
     """
 
     most_recent_start_timestamp: int = pydantic.Field()
     """
-    The timestamp when the most recent chat in this chat group started, formatted as a Unix epoch milliseconds.
+    Time at which the most recent Chat in this Chat Group was created. Measured in seconds since the Unix epoch.
     """
 
     num_chats: int = pydantic.Field()
     """
-    The total number of chats in this chat group.
+    The total number of Chats associated with this Chat Group.
     """
 
     page_number: int = pydantic.Field()
     """
-    The page number of the returned results.
+    The page number of the returned list.
+    
+    This value corresponds to the `page_number` parameter specified in the request. Pagination uses zero-based indexing.
     """
 
     page_size: int = pydantic.Field()
