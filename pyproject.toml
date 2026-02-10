@@ -4,7 +4,7 @@ dynamic = ["version"]
 
 [tool.poetry]
 name = "hume"
-version = "0.13.7"
+version = "0.13.8"
 description = "A Python SDK for Hume AI"
 readme = "README.md"
 authors = []
