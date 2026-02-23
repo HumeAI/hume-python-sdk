@@ -58,6 +58,14 @@ client = HumeClient(api_key="YOUR_API_KEY")
 client.empathic_voice.configs.list_configs()
 ```
 
+### Examples
+
+Starter projects that use this SDK:
+
+- **[EVI Python quickstart](https://github.com/HumeAI/hume-api-examples/tree/main/evi/evi-python-quickstart)** — Empathic Voice Interface
+- **[TTS Python quickstart](https://github.com/HumeAI/hume-api-examples/tree/main/tts/tts-python-quickstart)** — Text-to-speech
+- **[Expression Measurement streaming (Python)](https://github.com/HumeAI/hume-api-examples/tree/main/expression-measurement/streaming/python-streaming-example)** — Streaming expression measurement
+
 ## Async Client
 
 The SDK also exports an async client so that you can make non-blocking calls to our API.
@@ -104,7 +112,7 @@ from hume.client import HumeClient
 
 client = HumeClient(api_key="YOUR_API_KEY")
 
-client.emapthic_voice.         # APIs specific to Empathic Voice
+client.empathic_voice.         # APIs specific to Empathic Voice
 client.tts.                    # APIs specific to Text-to-speech
 client.expression_measurement. # APIs specific to Expression Measurement
 ```
@@ -114,13 +122,15 @@ client.expression_measurement. # APIs specific to Expression Measurement
 All errors thrown by the SDK will be subclasses of [`ApiError`](./src/hume/core/api_error.py).
 
 ```python
-import hume.client
+from hume.client import HumeClient
+from hume.core import ApiError
 
+client = HumeClient(api_key="YOUR_API_KEY")
 try:
-  client.expression_measurement.batch.get_job_predictions(...)
-except hume.core.ApiError as e: # Handle all errors
-  print(e.status_code)
-  print(e.body)
+    client.expression_measurement.batch.get_job_predictions(id="my-job-id")
+except ApiError as e:
+    print(e.status_code)
+    print(e.body)
 ```
 
 ## Pagination
@@ -128,12 +138,12 @@ except hume.core.ApiError as e: # Handle all errors
 Paginated requests will return a `SyncPager` or `AsyncPager`, which can be used as generators for the underlying object. For example, `list_tools` will return a generator over `ReturnUserDefinedTool` and handle the pagination behind the scenes:
 
 ```python
-import hume.client
+from hume.client import HumeClient
 
 client = HumeClient(api_key="YOUR_API_KEY")
 
 for tool in client.empathic_voice.tools.list_tools():
-  print(tool)
+    print(tool)
 ```
 
 you could also iterate page-by-page:
@@ -161,15 +171,16 @@ We expose a websocket client for interacting with the EVI API as well as Express
 When interacting with these clients, you can use them very similarly to how you'd use the common `websockets` library:
 
 ```python
-from hume import StreamDataModels
+import os
+
+from hume import AsyncHumeClient
 
 client = AsyncHumeClient(api_key=os.getenv("HUME_API_KEY"))
-
-async with client.expression_measurement.stream.connect(
-    options={"config": StreamDataModels(...)}
-) as hume_socket:
+async with client.expression_measurement.stream.connect() as hume_socket:
     print(await hume_socket.get_job_details())
 ```
+
+Model configuration (e.g. face, language, prosody) is sent per payload when you send data (e.g. via `send_publish()`, `send_text()`, or `send_file()`), not at connect time.
 
 The underlying connection, in this case `hume_socket`, will support intellisense/autocomplete for the different functions that are available on the socket!
 
