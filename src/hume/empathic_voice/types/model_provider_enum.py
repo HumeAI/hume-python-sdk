@@ -15,6 +15,7 @@ ModelProviderEnum = typing.Union[
         "PERPLEXITY",
         "SAMBANOVA",
         "CEREBRAS",
+        "X_AI",
     ],
     typing.Any,
 ]
