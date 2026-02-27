@@ -4,17 +4,19 @@ import typing
 
 ReturnChatEventType = typing.Union[
     typing.Literal[
+        "AGENT_MESSAGE",
+        "ASSISTANT_PROSODY",
+        "CHAT_START_MESSAGE",
+        "CHAT_END_MESSAGE",
         "FUNCTION_CALL",
         "FUNCTION_CALL_RESPONSE",
-        "CHAT_END_MESSAGE",
-        "AGENT_MESSAGE",
-        "SYSTEM_PROMPT",
-        "USER_RECORDING_START_MESSAGE",
-        "RESUME_ONSET",
-        "USER_INTERRUPTION",
-        "CHAT_START_MESSAGE",
         "PAUSE_ONSET",
+        "RESUME_ONSET",
+        "SESSION_SETTINGS",
+        "SYSTEM_PROMPT",
+        "USER_INTERRUPTION",
         "USER_MESSAGE",
+        "USER_RECORDING_START_MESSAGE",
     ],
     typing.Any,
 ]

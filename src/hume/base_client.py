@@ -6,6 +6,7 @@ import typing
 
 import httpx
 from .core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
+from .core.logging import LogConfig, Logger
 from .environment import HumeClientEnvironment
 
 if typing.TYPE_CHECKING:
@@ -42,6 +43,9 @@ class BaseHumeClient:
     httpx_client : typing.Optional[httpx.Client]
         The httpx client to use for making requests, a preconfigured client is used by default, however this is useful should you want to pass in any custom httpx configuration.
 
+    logging : typing.Optional[typing.Union[LogConfig, Logger]]
+        Configure logging for the SDK. Accepts a LogConfig dict with 'level' (debug/info/warn/error), 'logger' (custom logger implementation), and 'silent' (boolean, defaults to True) fields. You can also pass a pre-configured Logger instance.
+
     Examples
     --------
     from hume import HumeClient
@@ -60,6 +64,7 @@ class BaseHumeClient:
         timeout: typing.Optional[float] = None,
         follow_redirects: typing.Optional[bool] = True,
         httpx_client: typing.Optional[httpx.Client] = None,
+        logging: typing.Optional[typing.Union[LogConfig, Logger]] = None,
     ):
         _defaulted_timeout = (
             timeout if timeout is not None else 60 if httpx_client is None else httpx_client.timeout.read
@@ -74,18 +79,11 @@ class BaseHumeClient:
             if follow_redirects is not None
             else httpx.Client(timeout=_defaulted_timeout),
             timeout=_defaulted_timeout,
+            logging=logging,
         )
-        self._tts: typing.Optional[TtsClient] = None
         self._empathic_voice: typing.Optional[EmpathicVoiceClient] = None
+        self._tts: typing.Optional[TtsClient] = None
         self._expression_measurement: typing.Optional[ExpressionMeasurementClient] = None
-
-    @property
-    def tts(self):
-        if self._tts is None:
-            from .tts.client import TtsClient  # noqa: E402
-
-            self._tts = TtsClient(client_wrapper=self._client_wrapper)
-        return self._tts
 
     @property
     def empathic_voice(self):
@@ -94,6 +92,14 @@ class BaseHumeClient:
 
             self._empathic_voice = EmpathicVoiceClient(client_wrapper=self._client_wrapper)
         return self._empathic_voice
+
+    @property
+    def tts(self):
+        if self._tts is None:
+            from .tts.client import TtsClient  # noqa: E402
+
+            self._tts = TtsClient(client_wrapper=self._client_wrapper)
+        return self._tts
 
     @property
     def expression_measurement(self):
@@ -132,6 +138,9 @@ class AsyncBaseHumeClient:
     httpx_client : typing.Optional[httpx.AsyncClient]
         The httpx client to use for making requests, a preconfigured client is used by default, however this is useful should you want to pass in any custom httpx configuration.
 
+    logging : typing.Optional[typing.Union[LogConfig, Logger]]
+        Configure logging for the SDK. Accepts a LogConfig dict with 'level' (debug/info/warn/error), 'logger' (custom logger implementation), and 'silent' (boolean, defaults to True) fields. You can also pass a pre-configured Logger instance.
+
     Examples
     --------
     from hume import AsyncHumeClient
@@ -150,6 +159,7 @@ class AsyncBaseHumeClient:
         timeout: typing.Optional[float] = None,
         follow_redirects: typing.Optional[bool] = True,
         httpx_client: typing.Optional[httpx.AsyncClient] = None,
+        logging: typing.Optional[typing.Union[LogConfig, Logger]] = None,
     ):
         _defaulted_timeout = (
             timeout if timeout is not None else 60 if httpx_client is None else httpx_client.timeout.read
@@ -164,18 +174,11 @@ class AsyncBaseHumeClient:
             if follow_redirects is not None
             else httpx.AsyncClient(timeout=_defaulted_timeout),
             timeout=_defaulted_timeout,
+            logging=logging,
         )
-        self._tts: typing.Optional[AsyncTtsClient] = None
         self._empathic_voice: typing.Optional[AsyncEmpathicVoiceClient] = None
+        self._tts: typing.Optional[AsyncTtsClient] = None
         self._expression_measurement: typing.Optional[AsyncExpressionMeasurementClient] = None
-
-    @property
-    def tts(self):
-        if self._tts is None:
-            from .tts.client import AsyncTtsClient  # noqa: E402
-
-            self._tts = AsyncTtsClient(client_wrapper=self._client_wrapper)
-        return self._tts
 
     @property
     def empathic_voice(self):
@@ -184,6 +187,14 @@ class AsyncBaseHumeClient:
 
             self._empathic_voice = AsyncEmpathicVoiceClient(client_wrapper=self._client_wrapper)
         return self._empathic_voice
+
+    @property
+    def tts(self):
+        if self._tts is None:
+            from .tts.client import AsyncTtsClient  # noqa: E402
+
+            self._tts = AsyncTtsClient(client_wrapper=self._client_wrapper)
+        return self._tts
 
     @property
     def expression_measurement(self):

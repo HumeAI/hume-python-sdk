@@ -51,6 +51,7 @@ if typing.TYPE_CHECKING:
     from .posted_user_defined_tool_spec import PostedUserDefinedToolSpec
     from .posted_webhook_event_type import PostedWebhookEventType
     from .posted_webhook_spec import PostedWebhookSpec
+    from .prompt_expansion_spec import PromptExpansionSpec
     from .prosody_inference import ProsodyInference
     from .resume_assistant_message import ResumeAssistantMessage
     from .return_builtin_tool import ReturnBuiltinTool
@@ -170,6 +171,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "PostedUserDefinedToolSpec": ".posted_user_defined_tool_spec",
     "PostedWebhookEventType": ".posted_webhook_event_type",
     "PostedWebhookSpec": ".posted_webhook_spec",
+    "PromptExpansionSpec": ".prompt_expansion_spec",
     "ProsodyInference": ".prosody_inference",
     "ResumeAssistantMessage": ".resume_assistant_message",
     "ReturnBuiltinTool": ".return_builtin_tool",
@@ -311,6 +313,7 @@ __all__ = [
     "PostedUserDefinedToolSpec",
     "PostedWebhookEventType",
     "PostedWebhookSpec",
+    "PromptExpansionSpec",
     "ProsodyInference",
     "ResumeAssistantMessage",
     "ReturnBuiltinTool",

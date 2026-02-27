@@ -24,7 +24,7 @@ def test_tts_synthesize_file() -> None:
     test_id = "tts.synthesize_file.0"
     client = get_client(test_id)
     for _ in client.tts.synthesize_file(
-        context={"generation_id": "09ad914d-8e7f-40f8-a279-e34f07f7dab2"},
+        context={"generation_id": ""},
         format={"type": "mp3"},
         num_generations=1,
         utterances=[
