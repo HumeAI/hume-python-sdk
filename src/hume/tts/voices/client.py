@@ -129,7 +129,7 @@ class VoicesClient:
             api_key="YOUR_API_KEY",
         )
         client.tts.voices.create(
-            generation_id="795c949a-1510-4a80-9646-7d0863b023ab",
+            generation_id="",
             name="David Hume",
         )
         """
@@ -296,7 +296,7 @@ class AsyncVoicesClient:
 
         async def main() -> None:
             await client.tts.voices.create(
-                generation_id="795c949a-1510-4a80-9646-7d0863b023ab",
+                generation_id="",
                 name="David Hume",
             )
 

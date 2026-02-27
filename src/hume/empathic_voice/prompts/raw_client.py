@@ -10,8 +10,10 @@ from ...core.jsonable_encoder import jsonable_encoder
 from ...core.pagination import AsyncPager, SyncPager
 from ...core.pydantic_utilities import parse_obj_as
 from ...core.request_options import RequestOptions
+from ...core.serialization import convert_and_respect_annotation_metadata
 from ..errors.bad_request_error import BadRequestError
 from ..types.error_response import ErrorResponse
+from ..types.prompt_expansion_spec import PromptExpansionSpec
 from ..types.return_paged_prompts import ReturnPagedPrompts
 from ..types.return_prompt import ReturnPrompt
 
@@ -117,6 +119,7 @@ class RawPromptsClient:
         *,
         name: str,
         text: str,
+        prompt_expansion: typing.Optional[PromptExpansionSpec] = OMIT,
         version_description: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[typing.Optional[ReturnPrompt]]:
@@ -135,6 +138,8 @@ class RawPromptsClient:
 
             You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles. For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).
 
+        prompt_expansion : typing.Optional[PromptExpansionSpec]
+
         version_description : typing.Optional[str]
             An optional description of the Prompt version.
 
@@ -152,6 +157,9 @@ class RawPromptsClient:
             method="POST",
             json={
                 "name": name,
+                "prompt_expansion": convert_and_respect_annotation_metadata(
+                    object_=prompt_expansion, annotation=PromptExpansionSpec, direction="write"
+                ),
                 "text": text,
                 "version_description": version_description,
             },
@@ -270,6 +278,7 @@ class RawPromptsClient:
         id: str,
         *,
         text: str,
+        prompt_expansion: typing.Optional[PromptExpansionSpec] = OMIT,
         version_description: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[typing.Optional[ReturnPrompt]]:
@@ -288,6 +297,8 @@ class RawPromptsClient:
 
             You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles. For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).
 
+        prompt_expansion : typing.Optional[PromptExpansionSpec]
+
         version_description : typing.Optional[str]
             An optional description of the Prompt version.
 
@@ -304,6 +315,9 @@ class RawPromptsClient:
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
+                "prompt_expansion": convert_and_respect_annotation_metadata(
+                    object_=prompt_expansion, annotation=PromptExpansionSpec, direction="write"
+                ),
                 "text": text,
                 "version_description": version_description,
             },
@@ -733,6 +747,7 @@ class AsyncRawPromptsClient:
         *,
         name: str,
         text: str,
+        prompt_expansion: typing.Optional[PromptExpansionSpec] = OMIT,
         version_description: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[typing.Optional[ReturnPrompt]]:
@@ -751,6 +766,8 @@ class AsyncRawPromptsClient:
 
             You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles. For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).
 
+        prompt_expansion : typing.Optional[PromptExpansionSpec]
+
         version_description : typing.Optional[str]
             An optional description of the Prompt version.
 
@@ -768,6 +785,9 @@ class AsyncRawPromptsClient:
             method="POST",
             json={
                 "name": name,
+                "prompt_expansion": convert_and_respect_annotation_metadata(
+                    object_=prompt_expansion, annotation=PromptExpansionSpec, direction="write"
+                ),
                 "text": text,
                 "version_description": version_description,
             },
@@ -886,6 +906,7 @@ class AsyncRawPromptsClient:
         id: str,
         *,
         text: str,
+        prompt_expansion: typing.Optional[PromptExpansionSpec] = OMIT,
         version_description: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[typing.Optional[ReturnPrompt]]:
@@ -904,6 +925,8 @@ class AsyncRawPromptsClient:
 
             You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles. For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).
 
+        prompt_expansion : typing.Optional[PromptExpansionSpec]
+
         version_description : typing.Optional[str]
             An optional description of the Prompt version.
 
@@ -920,6 +943,9 @@ class AsyncRawPromptsClient:
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
+                "prompt_expansion": convert_and_respect_annotation_metadata(
+                    object_=prompt_expansion, annotation=PromptExpansionSpec, direction="write"
+                ),
                 "text": text,
                 "version_description": version_description,
             },

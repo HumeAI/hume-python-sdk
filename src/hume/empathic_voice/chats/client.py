@@ -143,7 +143,7 @@ class ChatsClient:
             api_key="YOUR_API_KEY",
         )
         response = client.empathic_voice.chats.list_chat_events(
-            id="470a49f6-1dec-4afe-8b61-035d3b2d63b0",
+            id="your-chat-id",
             page_number=0,
             page_size=3,
             ascending_order=True,
@@ -189,7 +189,7 @@ class ChatsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.chats.get_audio(
-            id="470a49f6-1dec-4afe-8b61-035d3b2d63b0",
+            id="your-chat-id",
         )
         """
         _response = self._raw_client.get_audio(id, request_options=request_options)
@@ -340,7 +340,7 @@ class AsyncChatsClient:
 
         async def main() -> None:
             response = await client.empathic_voice.chats.list_chat_events(
-                id="470a49f6-1dec-4afe-8b61-035d3b2d63b0",
+                id="your-chat-id",
                 page_number=0,
                 page_size=3,
                 ascending_order=True,
@@ -395,7 +395,7 @@ class AsyncChatsClient:
 
         async def main() -> None:
             await client.empathic_voice.chats.get_audio(
-                id="470a49f6-1dec-4afe-8b61-035d3b2d63b0",
+                id="your-chat-id",
             )
 
 

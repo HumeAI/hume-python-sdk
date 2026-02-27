@@ -212,7 +212,7 @@ class ToolsClient:
             api_key="YOUR_API_KEY",
         )
         response = client.empathic_voice.tools.list_tool_versions(
-            id="00183a3f-79ba-413d-9f3b-609864268bea",
+            id="your-tool-id",
         )
         for item in response:
             yield item
@@ -278,7 +278,7 @@ class ToolsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.tools.create_tool_version(
-            id="00183a3f-79ba-413d-9f3b-609864268bea",
+            id="your-tool-id",
             parameters='{ "type": "object", "properties": { "location": { "type": "string", "description": "The city and state, e.g. San Francisco, CA" }, "format": { "type": "string", "enum": ["celsius", "fahrenheit", "kelvin"], "description": "The temperature unit to use. Infer this from the users location." } }, "required": ["location", "format"] }',
             version_description="Fetches current weather and uses celsius, fahrenheit, or kelvin based on location of user.",
             fallback_content="Unable to fetch current weather.",
@@ -321,7 +321,7 @@ class ToolsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.tools.delete_tool(
-            id="00183a3f-79ba-413d-9f3b-609864268bea",
+            id="your-tool-id",
         )
         """
         _response = self._raw_client.delete_tool(id, request_options=request_options)
@@ -362,7 +362,7 @@ class ToolsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.tools.update_tool_name(
-            id="00183a3f-79ba-413d-9f3b-609864268bea",
+            id="your-tool-id",
             name="get_current_temperature",
         )
         """
@@ -405,7 +405,7 @@ class ToolsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.tools.get_tool_version(
-            id="00183a3f-79ba-413d-9f3b-609864268bea",
+            id="your-tool-id",
             version=1,
         )
         """
@@ -447,7 +447,7 @@ class ToolsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.tools.delete_tool_version(
-            id="00183a3f-79ba-413d-9f3b-609864268bea",
+            id="",
             version=1,
         )
         """
@@ -498,7 +498,7 @@ class ToolsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.tools.update_tool_description(
-            id="00183a3f-79ba-413d-9f3b-609864268bea",
+            id="your-tool-id",
             version=1,
             version_description="Fetches current temperature, precipitation, wind speed, AQI, and other weather conditions. Uses Celsius, Fahrenheit, or kelvin depending on user's region.",
         )
@@ -730,7 +730,7 @@ class AsyncToolsClient:
 
         async def main() -> None:
             response = await client.empathic_voice.tools.list_tool_versions(
-                id="00183a3f-79ba-413d-9f3b-609864268bea",
+                id="your-tool-id",
             )
             async for item in response:
                 yield item
@@ -805,7 +805,7 @@ class AsyncToolsClient:
 
         async def main() -> None:
             await client.empathic_voice.tools.create_tool_version(
-                id="00183a3f-79ba-413d-9f3b-609864268bea",
+                id="your-tool-id",
                 parameters='{ "type": "object", "properties": { "location": { "type": "string", "description": "The city and state, e.g. San Francisco, CA" }, "format": { "type": "string", "enum": ["celsius", "fahrenheit", "kelvin"], "description": "The temperature unit to use. Infer this from the users location." } }, "required": ["location", "format"] }',
                 version_description="Fetches current weather and uses celsius, fahrenheit, or kelvin based on location of user.",
                 fallback_content="Unable to fetch current weather.",
@@ -856,7 +856,7 @@ class AsyncToolsClient:
 
         async def main() -> None:
             await client.empathic_voice.tools.delete_tool(
-                id="00183a3f-79ba-413d-9f3b-609864268bea",
+                id="your-tool-id",
             )
 
 
@@ -907,7 +907,7 @@ class AsyncToolsClient:
 
         async def main() -> None:
             await client.empathic_voice.tools.update_tool_name(
-                id="00183a3f-79ba-413d-9f3b-609864268bea",
+                id="your-tool-id",
                 name="get_current_temperature",
             )
 
@@ -958,7 +958,7 @@ class AsyncToolsClient:
 
         async def main() -> None:
             await client.empathic_voice.tools.get_tool_version(
-                id="00183a3f-79ba-413d-9f3b-609864268bea",
+                id="your-tool-id",
                 version=1,
             )
 
@@ -1008,7 +1008,7 @@ class AsyncToolsClient:
 
         async def main() -> None:
             await client.empathic_voice.tools.delete_tool_version(
-                id="00183a3f-79ba-413d-9f3b-609864268bea",
+                id="",
                 version=1,
             )
 
@@ -1067,7 +1067,7 @@ class AsyncToolsClient:
 
         async def main() -> None:
             await client.empathic_voice.tools.update_tool_description(
-                id="00183a3f-79ba-413d-9f3b-609864268bea",
+                id="your-tool-id",
                 version=1,
                 version_description="Fetches current temperature, precipitation, wind speed, AQI, and other weather conditions. Uses Celsius, Fahrenheit, or kelvin depending on user's region.",
             )

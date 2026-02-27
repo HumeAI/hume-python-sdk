@@ -80,7 +80,7 @@ class ChatGroupsClient:
             page_number=0,
             page_size=1,
             ascending_order=True,
-            config_id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+            config_id="your-config-id",
         )
         for item in response:
             yield item
@@ -146,7 +146,7 @@ class ChatGroupsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.chat_groups.get_chat_group(
-            id="697056f0-6c7e-487d-9bd8-9c19df79f05f",
+            id="your-chat-group-id",
             page_number=0,
             page_size=1,
             ascending_order=True,
@@ -208,7 +208,7 @@ class ChatGroupsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.chat_groups.get_audio(
-            id="369846cf-6ad5-404d-905e-a8acb5cdfc78",
+            id="your-chat-group-id",
             page_number=0,
             page_size=10,
             ascending_order=True,
@@ -269,7 +269,7 @@ class ChatGroupsClient:
             api_key="YOUR_API_KEY",
         )
         response = client.empathic_voice.chat_groups.list_chat_group_events(
-            id="697056f0-6c7e-487d-9bd8-9c19df79f05f",
+            id="your-chat-group-id",
             page_number=0,
             page_size=3,
             ascending_order=True,
@@ -360,7 +360,7 @@ class AsyncChatGroupsClient:
                 page_number=0,
                 page_size=1,
                 ascending_order=True,
-                config_id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+                config_id="your-config-id",
             )
             async for item in response:
                 yield item
@@ -435,7 +435,7 @@ class AsyncChatGroupsClient:
 
         async def main() -> None:
             await client.empathic_voice.chat_groups.get_chat_group(
-                id="697056f0-6c7e-487d-9bd8-9c19df79f05f",
+                id="your-chat-group-id",
                 page_number=0,
                 page_size=1,
                 ascending_order=True,
@@ -505,7 +505,7 @@ class AsyncChatGroupsClient:
 
         async def main() -> None:
             await client.empathic_voice.chat_groups.get_audio(
-                id="369846cf-6ad5-404d-905e-a8acb5cdfc78",
+                id="your-chat-group-id",
                 page_number=0,
                 page_size=10,
                 ascending_order=True,
@@ -574,7 +574,7 @@ class AsyncChatGroupsClient:
 
         async def main() -> None:
             response = await client.empathic_voice.chat_groups.list_chat_group_events(
-                id="697056f0-6c7e-487d-9bd8-9c19df79f05f",
+                id="your-chat-group-id",
                 page_number=0,
                 page_size=3,
                 ascending_order=True,
