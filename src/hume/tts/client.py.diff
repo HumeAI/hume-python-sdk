@@ -1,0 +1,22 @@
+diff --git a/src/hume/tts/client.py b/src/hume/tts/client.py
+index a403e8f..ac791f8 100644
+--- a/src/hume/tts/client.py
++++ b/src/hume/tts/client.py
+@@ -231,7 +231,7 @@ class TtsClient:
+         )
+         client.tts.synthesize_file(
+             context=PostedContextWithGenerationId(
+-                generation_id="09ad914d-8e7f-40f8-a279-e34f07f7dab2",
++                generation_id="",
+             ),
+             format=FormatMp3(),
+             num_generations=1,
+@@ -811,7 +811,7 @@ class AsyncTtsClient:
+         async def main() -> None:
+             await client.tts.synthesize_file(
+                 context=PostedContextWithGenerationId(
+-                    generation_id="09ad914d-8e7f-40f8-a279-e34f07f7dab2",
++                    generation_id="",
+                 ),
+                 format=FormatMp3(),
+                 num_generations=1,
