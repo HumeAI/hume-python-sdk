@@ -73,8 +73,8 @@ def test_empathicVoice_tools_delete_tool_version() -> None:
     """Test delete-tool-version endpoint with WireMock"""
     test_id = "empathic_voice.tools.delete_tool_version.0"
     client = get_client(test_id)
-    client.empathic_voice.tools.delete_tool_version(id="your-tool-id", version=1)
-    verify_request_count(test_id, "DELETE", "/v0/evi/tools/your-tool-id/version/1", None, 1)
+    client.empathic_voice.tools.delete_tool_version(id="", version=1)
+    verify_request_count(test_id, "DELETE", "/v0/evi/tools/{id}/version/1", None, 1)
 
 
 def test_empathicVoice_tools_update_tool_description() -> None:
