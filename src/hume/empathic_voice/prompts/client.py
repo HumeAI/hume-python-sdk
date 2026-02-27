@@ -5,6 +5,7 @@ import typing
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.pagination import AsyncPager, SyncPager
 from ...core.request_options import RequestOptions
+from ..types.prompt_expansion_spec import PromptExpansionSpec
 from ..types.return_paged_prompts import ReturnPagedPrompts
 from ..types.return_prompt import ReturnPrompt
 from .raw_client import AsyncRawPromptsClient, RawPromptsClient
@@ -98,6 +99,7 @@ class PromptsClient:
         *,
         name: str,
         text: str,
+        prompt_expansion: typing.Optional[PromptExpansionSpec] = OMIT,
         version_description: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Optional[ReturnPrompt]:
@@ -115,6 +117,8 @@ class PromptsClient:
             Instructions used to shape EVI's behavior, responses, and style.
 
             You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles. For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).
+
+        prompt_expansion : typing.Optional[PromptExpansionSpec]
 
         version_description : typing.Optional[str]
             An optional description of the Prompt version.
@@ -140,7 +144,11 @@ class PromptsClient:
         )
         """
         _response = self._raw_client.create_prompt(
-            name=name, text=text, version_description=version_description, request_options=request_options
+            name=name,
+            text=text,
+            prompt_expansion=prompt_expansion,
+            version_description=version_description,
+            request_options=request_options,
         )
         return _response.data
 
@@ -191,7 +199,7 @@ class PromptsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.prompts.list_prompt_versions(
-            id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+            id="your-prompt-id",
         )
         """
         _response = self._raw_client.list_prompt_versions(
@@ -208,6 +216,7 @@ class PromptsClient:
         id: str,
         *,
         text: str,
+        prompt_expansion: typing.Optional[PromptExpansionSpec] = OMIT,
         version_description: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Optional[ReturnPrompt]:
@@ -225,6 +234,8 @@ class PromptsClient:
             Instructions used to shape EVI's behavior, responses, and style.
 
             You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles. For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).
+
+        prompt_expansion : typing.Optional[PromptExpansionSpec]
 
         version_description : typing.Optional[str]
             An optional description of the Prompt version.
@@ -245,13 +256,17 @@ class PromptsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.prompts.create_prompt_version(
-            id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+            id="your-prompt-id",
             text="<role>You are an updated version of an AI weather assistant providing users with accurate and up-to-date weather information. Respond to user queries concisely and clearly. Use simple language and avoid technical jargon. Provide temperature, precipitation, wind conditions, and any weather alerts. Include helpful tips if severe weather is expected.</role>",
             version_description="This is an updated version of the Weather Assistant Prompt.",
         )
         """
         _response = self._raw_client.create_prompt_version(
-            id, text=text, version_description=version_description, request_options=request_options
+            id,
+            text=text,
+            prompt_expansion=prompt_expansion,
+            version_description=version_description,
+            request_options=request_options,
         )
         return _response.data
 
@@ -281,7 +296,7 @@ class PromptsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.prompts.delete_prompt(
-            id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+            id="your-prompt-id",
         )
         """
         _response = self._raw_client.delete_prompt(id, request_options=request_options)
@@ -317,7 +332,7 @@ class PromptsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.prompts.update_prompt_name(
-            id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+            id="your-prompt-id",
             name="Updated Weather Assistant Prompt Name",
         )
         """
@@ -360,7 +375,7 @@ class PromptsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.prompts.get_prompt_version(
-            id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+            id="your-prompt-id",
             version=0,
         )
         """
@@ -402,7 +417,7 @@ class PromptsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.prompts.delete_prompt_version(
-            id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+            id="your-prompt-id",
             version=1,
         )
         """
@@ -453,7 +468,7 @@ class PromptsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.prompts.update_prompt_description(
-            id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+            id="your-prompt-id",
             version=1,
             version_description="This is an updated version_description.",
         )
@@ -558,6 +573,7 @@ class AsyncPromptsClient:
         *,
         name: str,
         text: str,
+        prompt_expansion: typing.Optional[PromptExpansionSpec] = OMIT,
         version_description: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Optional[ReturnPrompt]:
@@ -575,6 +591,8 @@ class AsyncPromptsClient:
             Instructions used to shape EVI's behavior, responses, and style.
 
             You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles. For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).
+
+        prompt_expansion : typing.Optional[PromptExpansionSpec]
 
         version_description : typing.Optional[str]
             An optional description of the Prompt version.
@@ -608,7 +626,11 @@ class AsyncPromptsClient:
         asyncio.run(main())
         """
         _response = await self._raw_client.create_prompt(
-            name=name, text=text, version_description=version_description, request_options=request_options
+            name=name,
+            text=text,
+            prompt_expansion=prompt_expansion,
+            version_description=version_description,
+            request_options=request_options,
         )
         return _response.data
 
@@ -664,7 +686,7 @@ class AsyncPromptsClient:
 
         async def main() -> None:
             await client.empathic_voice.prompts.list_prompt_versions(
-                id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+                id="your-prompt-id",
             )
 
 
@@ -684,6 +706,7 @@ class AsyncPromptsClient:
         id: str,
         *,
         text: str,
+        prompt_expansion: typing.Optional[PromptExpansionSpec] = OMIT,
         version_description: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Optional[ReturnPrompt]:
@@ -701,6 +724,8 @@ class AsyncPromptsClient:
             Instructions used to shape EVI's behavior, responses, and style.
 
             You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles. For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).
+
+        prompt_expansion : typing.Optional[PromptExpansionSpec]
 
         version_description : typing.Optional[str]
             An optional description of the Prompt version.
@@ -726,7 +751,7 @@ class AsyncPromptsClient:
 
         async def main() -> None:
             await client.empathic_voice.prompts.create_prompt_version(
-                id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+                id="your-prompt-id",
                 text="<role>You are an updated version of an AI weather assistant providing users with accurate and up-to-date weather information. Respond to user queries concisely and clearly. Use simple language and avoid technical jargon. Provide temperature, precipitation, wind conditions, and any weather alerts. Include helpful tips if severe weather is expected.</role>",
                 version_description="This is an updated version of the Weather Assistant Prompt.",
             )
@@ -735,7 +760,11 @@ class AsyncPromptsClient:
         asyncio.run(main())
         """
         _response = await self._raw_client.create_prompt_version(
-            id, text=text, version_description=version_description, request_options=request_options
+            id,
+            text=text,
+            prompt_expansion=prompt_expansion,
+            version_description=version_description,
+            request_options=request_options,
         )
         return _response.data
 
@@ -770,7 +799,7 @@ class AsyncPromptsClient:
 
         async def main() -> None:
             await client.empathic_voice.prompts.delete_prompt(
-                id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+                id="your-prompt-id",
             )
 
 
@@ -816,7 +845,7 @@ class AsyncPromptsClient:
 
         async def main() -> None:
             await client.empathic_voice.prompts.update_prompt_name(
-                id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+                id="your-prompt-id",
                 name="Updated Weather Assistant Prompt Name",
             )
 
@@ -867,7 +896,7 @@ class AsyncPromptsClient:
 
         async def main() -> None:
             await client.empathic_voice.prompts.get_prompt_version(
-                id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+                id="your-prompt-id",
                 version=0,
             )
 
@@ -917,7 +946,7 @@ class AsyncPromptsClient:
 
         async def main() -> None:
             await client.empathic_voice.prompts.delete_prompt_version(
-                id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+                id="your-prompt-id",
                 version=1,
             )
 
@@ -976,7 +1005,7 @@ class AsyncPromptsClient:
 
         async def main() -> None:
             await client.empathic_voice.prompts.update_prompt_description(
-                id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+                id="your-prompt-id",
                 version=1,
                 version_description="This is an updated version_description.",
             )

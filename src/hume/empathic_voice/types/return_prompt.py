@@ -4,6 +4,7 @@ import typing
 
 import pydantic
 from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .prompt_expansion_spec import PromptExpansionSpec
 
 
 class ReturnPrompt(UniversalBaseModel):
@@ -31,6 +32,7 @@ class ReturnPrompt(UniversalBaseModel):
     Name applied to all versions of a particular Prompt.
     """
 
+    prompt_expansion: typing.Optional[PromptExpansionSpec] = None
     text: str = pydantic.Field()
     """
     Instructions used to shape EVI's behavior, responses, and style.

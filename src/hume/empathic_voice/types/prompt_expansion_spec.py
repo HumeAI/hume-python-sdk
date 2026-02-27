@@ -6,14 +6,16 @@ import pydantic
 from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
-class PostedEllmModel(UniversalBaseModel):
+class PromptExpansionSpec(UniversalBaseModel):
     """
-    A eLLM model configuration to be posted to the server
+    Configuration for prompt expansion behavior.
     """
 
-    allow_short_responses: typing.Optional[bool] = pydantic.Field(default=None)
+    enabled: typing.Optional[bool] = pydantic.Field(default=None)
     """
-    Boolean indicating if the eLLM is allowed to generate short responses (new EVI 3 configs default to disabled; new versions inherit prior value when omitted).
+    Boolean indicating whether prompt expansion is enabled.
+    
+    Defaults to `true`. When set to `false`, no additional instructions are appended to the system prompt, giving full control over the prompt content. Only applicable when using an external supplemental language model.
     """
 
     if IS_PYDANTIC_V2:

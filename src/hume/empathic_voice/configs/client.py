@@ -186,7 +186,7 @@ class ConfigsClient:
         client.empathic_voice.configs.create_config(
             name="Weather Assistant Config",
             prompt=PostedConfigPromptSpec(
-                id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+                id="",
                 version=0,
             ),
             evi_version="3",
@@ -281,7 +281,7 @@ class ConfigsClient:
             api_key="YOUR_API_KEY",
         )
         response = client.empathic_voice.configs.list_config_versions(
-            id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+            id="your-config-id",
         )
         for item in response:
             yield item
@@ -378,11 +378,11 @@ class ConfigsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.configs.create_config_version(
-            id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+            id="your-config-id",
             version_description="This is an updated version of the Weather Assistant Config.",
             evi_version="3",
             prompt=PostedConfigPromptSpec(
-                id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+                id="",
                 version=0,
             ),
             voice=VoiceName(
@@ -457,7 +457,7 @@ class ConfigsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.configs.delete_config(
-            id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+            id="your-config-id",
         )
         """
         _response = self._raw_client.delete_config(id, request_options=request_options)
@@ -493,7 +493,7 @@ class ConfigsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.configs.update_config_name(
-            id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+            id="your-config-id",
             name="Updated Weather Assistant Config Name",
         )
         """
@@ -536,7 +536,7 @@ class ConfigsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.configs.get_config_version(
-            id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+            id="your-config-id",
             version=1,
         )
         """
@@ -578,7 +578,7 @@ class ConfigsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.configs.delete_config_version(
-            id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+            id="your-config-id",
             version=1,
         )
         """
@@ -629,7 +629,7 @@ class ConfigsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.configs.update_config_description(
-            id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+            id="your-config-id",
             version=1,
             version_description="This is an updated version_description.",
         )
@@ -817,7 +817,7 @@ class AsyncConfigsClient:
             await client.empathic_voice.configs.create_config(
                 name="Weather Assistant Config",
                 prompt=PostedConfigPromptSpec(
-                    id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+                    id="",
                     version=0,
                 ),
                 evi_version="3",
@@ -920,7 +920,7 @@ class AsyncConfigsClient:
 
         async def main() -> None:
             response = await client.empathic_voice.configs.list_config_versions(
-                id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+                id="your-config-id",
             )
             async for item in response:
                 yield item
@@ -1026,11 +1026,11 @@ class AsyncConfigsClient:
 
         async def main() -> None:
             await client.empathic_voice.configs.create_config_version(
-                id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+                id="your-config-id",
                 version_description="This is an updated version of the Weather Assistant Config.",
                 evi_version="3",
                 prompt=PostedConfigPromptSpec(
-                    id="af699d45-2985-42cc-91b9-af9e5da3bac5",
+                    id="",
                     version=0,
                 ),
                 voice=VoiceName(
@@ -1113,7 +1113,7 @@ class AsyncConfigsClient:
 
         async def main() -> None:
             await client.empathic_voice.configs.delete_config(
-                id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+                id="your-config-id",
             )
 
 
@@ -1159,7 +1159,7 @@ class AsyncConfigsClient:
 
         async def main() -> None:
             await client.empathic_voice.configs.update_config_name(
-                id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+                id="your-config-id",
                 name="Updated Weather Assistant Config Name",
             )
 
@@ -1210,7 +1210,7 @@ class AsyncConfigsClient:
 
         async def main() -> None:
             await client.empathic_voice.configs.get_config_version(
-                id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+                id="your-config-id",
                 version=1,
             )
 
@@ -1260,7 +1260,7 @@ class AsyncConfigsClient:
 
         async def main() -> None:
             await client.empathic_voice.configs.delete_config_version(
-                id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+                id="your-config-id",
                 version=1,
             )
 
@@ -1319,7 +1319,7 @@ class AsyncConfigsClient:
 
         async def main() -> None:
             await client.empathic_voice.configs.update_config_description(
-                id="1b60e1a0-cc59-424a-8d2c-189d354db3f3",
+                id="your-config-id",
                 version=1,
                 version_description="This is an updated version_description.",
             )

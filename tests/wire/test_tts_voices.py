@@ -13,7 +13,7 @@ def test_tts_voices_create() -> None:
     """Test create endpoint with WireMock"""
     test_id = "tts.voices.create.0"
     client = get_client(test_id)
-    client.tts.voices.create(generation_id="795c949a-1510-4a80-9646-7d0863b023ab", name="David Hume")
+    client.tts.voices.create(generation_id="", name="David Hume")
     verify_request_count(test_id, "POST", "/v0/tts/voices", None, 1)
 
 

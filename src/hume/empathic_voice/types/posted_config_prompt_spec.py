@@ -4,6 +4,7 @@ import typing
 
 import pydantic
 from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .prompt_expansion_spec import PromptExpansionSpec
 
 
 class PostedConfigPromptSpec(UniversalBaseModel):
@@ -16,6 +17,7 @@ class PostedConfigPromptSpec(UniversalBaseModel):
     Identifier for a Prompt. Formatted as a UUID.
     """
 
+    prompt_expansion: typing.Optional[PromptExpansionSpec] = None
     text: typing.Optional[str] = pydantic.Field(default=None)
     """
     Text used to create a new prompt for a particular config.
