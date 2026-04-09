@@ -17,9 +17,11 @@ from ..types.posted_builtin_tool import PostedBuiltinTool
 from ..types.posted_config_prompt_spec import PostedConfigPromptSpec
 from ..types.posted_ellm_model import PostedEllmModel
 from ..types.posted_event_message_specs import PostedEventMessageSpecs
+from ..types.posted_interruption_spec import PostedInterruptionSpec
 from ..types.posted_language_model import PostedLanguageModel
 from ..types.posted_nudge_spec import PostedNudgeSpec
 from ..types.posted_timeout_specs import PostedTimeoutSpecs
+from ..types.posted_turn_detection_spec import PostedTurnDetectionSpec
 from ..types.posted_user_defined_tool_spec import PostedUserDefinedToolSpec
 from ..types.posted_webhook_spec import PostedWebhookSpec
 from ..types.return_config import ReturnConfig
@@ -131,11 +133,13 @@ class RawConfigsClient:
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
         ellm_model: typing.Optional[PostedEllmModel] = OMIT,
         event_messages: typing.Optional[PostedEventMessageSpecs] = OMIT,
+        interruption: typing.Optional[PostedInterruptionSpec] = OMIT,
         language_model: typing.Optional[PostedLanguageModel] = OMIT,
         nudges: typing.Optional[PostedNudgeSpec] = OMIT,
         prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
         timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
         tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
+        turn_detection: typing.Optional[PostedTurnDetectionSpec] = OMIT,
         version_description: typing.Optional[str] = OMIT,
         voice: typing.Optional[VoiceRef] = OMIT,
         webhooks: typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]] = OMIT,
@@ -161,6 +165,8 @@ class RawConfigsClient:
 
         event_messages : typing.Optional[PostedEventMessageSpecs]
 
+        interruption : typing.Optional[PostedInterruptionSpec]
+
         language_model : typing.Optional[PostedLanguageModel]
 
         nudges : typing.Optional[PostedNudgeSpec]
@@ -171,6 +177,8 @@ class RawConfigsClient:
 
         tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
             Tool specification for a Config.
+
+        turn_detection : typing.Optional[PostedTurnDetectionSpec]
 
         version_description : typing.Optional[str]
             An optional description of the Config version.
@@ -206,6 +214,9 @@ class RawConfigsClient:
                     object_=event_messages, annotation=PostedEventMessageSpecs, direction="write"
                 ),
                 "evi_version": evi_version,
+                "interruption": convert_and_respect_annotation_metadata(
+                    object_=interruption, annotation=PostedInterruptionSpec, direction="write"
+                ),
                 "language_model": convert_and_respect_annotation_metadata(
                     object_=language_model, annotation=PostedLanguageModel, direction="write"
                 ),
@@ -223,6 +234,9 @@ class RawConfigsClient:
                     object_=tools,
                     annotation=typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]],
                     direction="write",
+                ),
+                "turn_detection": convert_and_respect_annotation_metadata(
+                    object_=turn_detection, annotation=PostedTurnDetectionSpec, direction="write"
                 ),
                 "version_description": version_description,
                 "voice": convert_and_respect_annotation_metadata(object_=voice, annotation=VoiceRef, direction="write"),
@@ -358,11 +372,13 @@ class RawConfigsClient:
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
         ellm_model: typing.Optional[PostedEllmModel] = OMIT,
         event_messages: typing.Optional[PostedEventMessageSpecs] = OMIT,
+        interruption: typing.Optional[PostedInterruptionSpec] = OMIT,
         language_model: typing.Optional[PostedLanguageModel] = OMIT,
         nudges: typing.Optional[PostedNudgeSpec] = OMIT,
         prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
         timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
         tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
+        turn_detection: typing.Optional[PostedTurnDetectionSpec] = OMIT,
         version_description: typing.Optional[str] = OMIT,
         voice: typing.Optional[VoiceRef] = OMIT,
         webhooks: typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]] = OMIT,
@@ -388,6 +404,8 @@ class RawConfigsClient:
 
         event_messages : typing.Optional[PostedEventMessageSpecs]
 
+        interruption : typing.Optional[PostedInterruptionSpec]
+
         language_model : typing.Optional[PostedLanguageModel]
 
         nudges : typing.Optional[PostedNudgeSpec]
@@ -398,6 +416,8 @@ class RawConfigsClient:
 
         tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
             Tool specification for a Config.
+
+        turn_detection : typing.Optional[PostedTurnDetectionSpec]
 
         version_description : typing.Optional[str]
             An optional description of the Config version.
@@ -432,6 +452,9 @@ class RawConfigsClient:
                     object_=event_messages, annotation=PostedEventMessageSpecs, direction="write"
                 ),
                 "evi_version": evi_version,
+                "interruption": convert_and_respect_annotation_metadata(
+                    object_=interruption, annotation=PostedInterruptionSpec, direction="write"
+                ),
                 "language_model": convert_and_respect_annotation_metadata(
                     object_=language_model, annotation=PostedLanguageModel, direction="write"
                 ),
@@ -448,6 +471,9 @@ class RawConfigsClient:
                     object_=tools,
                     annotation=typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]],
                     direction="write",
+                ),
+                "turn_detection": convert_and_respect_annotation_metadata(
+                    object_=turn_detection, annotation=PostedTurnDetectionSpec, direction="write"
                 ),
                 "version_description": version_description,
                 "voice": convert_and_respect_annotation_metadata(object_=voice, annotation=VoiceRef, direction="write"),
@@ -878,11 +904,13 @@ class AsyncRawConfigsClient:
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
         ellm_model: typing.Optional[PostedEllmModel] = OMIT,
         event_messages: typing.Optional[PostedEventMessageSpecs] = OMIT,
+        interruption: typing.Optional[PostedInterruptionSpec] = OMIT,
         language_model: typing.Optional[PostedLanguageModel] = OMIT,
         nudges: typing.Optional[PostedNudgeSpec] = OMIT,
         prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
         timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
         tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
+        turn_detection: typing.Optional[PostedTurnDetectionSpec] = OMIT,
         version_description: typing.Optional[str] = OMIT,
         voice: typing.Optional[VoiceRef] = OMIT,
         webhooks: typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]] = OMIT,
@@ -908,6 +936,8 @@ class AsyncRawConfigsClient:
 
         event_messages : typing.Optional[PostedEventMessageSpecs]
 
+        interruption : typing.Optional[PostedInterruptionSpec]
+
         language_model : typing.Optional[PostedLanguageModel]
 
         nudges : typing.Optional[PostedNudgeSpec]
@@ -918,6 +948,8 @@ class AsyncRawConfigsClient:
 
         tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
             Tool specification for a Config.
+
+        turn_detection : typing.Optional[PostedTurnDetectionSpec]
 
         version_description : typing.Optional[str]
             An optional description of the Config version.
@@ -953,6 +985,9 @@ class AsyncRawConfigsClient:
                     object_=event_messages, annotation=PostedEventMessageSpecs, direction="write"
                 ),
                 "evi_version": evi_version,
+                "interruption": convert_and_respect_annotation_metadata(
+                    object_=interruption, annotation=PostedInterruptionSpec, direction="write"
+                ),
                 "language_model": convert_and_respect_annotation_metadata(
                     object_=language_model, annotation=PostedLanguageModel, direction="write"
                 ),
@@ -970,6 +1005,9 @@ class AsyncRawConfigsClient:
                     object_=tools,
                     annotation=typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]],
                     direction="write",
+                ),
+                "turn_detection": convert_and_respect_annotation_metadata(
+                    object_=turn_detection, annotation=PostedTurnDetectionSpec, direction="write"
                 ),
                 "version_description": version_description,
                 "voice": convert_and_respect_annotation_metadata(object_=voice, annotation=VoiceRef, direction="write"),
@@ -1108,11 +1146,13 @@ class AsyncRawConfigsClient:
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
         ellm_model: typing.Optional[PostedEllmModel] = OMIT,
         event_messages: typing.Optional[PostedEventMessageSpecs] = OMIT,
+        interruption: typing.Optional[PostedInterruptionSpec] = OMIT,
         language_model: typing.Optional[PostedLanguageModel] = OMIT,
         nudges: typing.Optional[PostedNudgeSpec] = OMIT,
         prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
         timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
         tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
+        turn_detection: typing.Optional[PostedTurnDetectionSpec] = OMIT,
         version_description: typing.Optional[str] = OMIT,
         voice: typing.Optional[VoiceRef] = OMIT,
         webhooks: typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]] = OMIT,
@@ -1138,6 +1178,8 @@ class AsyncRawConfigsClient:
 
         event_messages : typing.Optional[PostedEventMessageSpecs]
 
+        interruption : typing.Optional[PostedInterruptionSpec]
+
         language_model : typing.Optional[PostedLanguageModel]
 
         nudges : typing.Optional[PostedNudgeSpec]
@@ -1148,6 +1190,8 @@ class AsyncRawConfigsClient:
 
         tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
             Tool specification for a Config.
+
+        turn_detection : typing.Optional[PostedTurnDetectionSpec]
 
         version_description : typing.Optional[str]
             An optional description of the Config version.
@@ -1182,6 +1226,9 @@ class AsyncRawConfigsClient:
                     object_=event_messages, annotation=PostedEventMessageSpecs, direction="write"
                 ),
                 "evi_version": evi_version,
+                "interruption": convert_and_respect_annotation_metadata(
+                    object_=interruption, annotation=PostedInterruptionSpec, direction="write"
+                ),
                 "language_model": convert_and_respect_annotation_metadata(
                     object_=language_model, annotation=PostedLanguageModel, direction="write"
                 ),
@@ -1198,6 +1245,9 @@ class AsyncRawConfigsClient:
                     object_=tools,
                     annotation=typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]],
                     direction="write",
+                ),
+                "turn_detection": convert_and_respect_annotation_metadata(
+                    object_=turn_detection, annotation=PostedTurnDetectionSpec, direction="write"
                 ),
                 "version_description": version_description,
                 "voice": convert_and_respect_annotation_metadata(object_=voice, annotation=VoiceRef, direction="write"),

@@ -31,6 +31,7 @@ if typing.TYPE_CHECKING:
     from .error_response import ErrorResponse
     from .http_validation_error import HttpValidationError
     from .inference import Inference
+    from .interruption_spec import InterruptionSpec
     from .json_message import JsonMessage
     from .language_model_type import LanguageModelType
     from .millisecond_interval import MillisecondInterval
@@ -42,12 +43,14 @@ if typing.TYPE_CHECKING:
     from .posted_ellm_model import PostedEllmModel
     from .posted_event_message_spec import PostedEventMessageSpec
     from .posted_event_message_specs import PostedEventMessageSpecs
+    from .posted_interruption_spec import PostedInterruptionSpec
     from .posted_language_model import PostedLanguageModel
     from .posted_nudge_spec import PostedNudgeSpec
     from .posted_timeout_spec import PostedTimeoutSpec
     from .posted_timeout_specs import PostedTimeoutSpecs
     from .posted_timeout_specs_inactivity import PostedTimeoutSpecsInactivity
     from .posted_timeout_specs_max_duration import PostedTimeoutSpecsMaxDuration
+    from .posted_turn_detection_spec import PostedTurnDetectionSpec
     from .posted_user_defined_tool_spec import PostedUserDefinedToolSpec
     from .posted_webhook_event_type import PostedWebhookEventType
     from .posted_webhook_spec import PostedWebhookSpec
@@ -80,6 +83,7 @@ if typing.TYPE_CHECKING:
     from .return_ellm_model import ReturnEllmModel
     from .return_event_message_spec import ReturnEventMessageSpec
     from .return_event_message_specs import ReturnEventMessageSpecs
+    from .return_interruption_spec import ReturnInterruptionSpec
     from .return_language_model import ReturnLanguageModel
     from .return_nudge_spec import ReturnNudgeSpec
     from .return_paged_chat_groups import ReturnPagedChatGroups
@@ -93,6 +97,7 @@ if typing.TYPE_CHECKING:
     from .return_prompt_version_type import ReturnPromptVersionType
     from .return_timeout_spec import ReturnTimeoutSpec
     from .return_timeout_specs import ReturnTimeoutSpecs
+    from .return_turn_detection_spec import ReturnTurnDetectionSpec
     from .return_user_defined_tool import ReturnUserDefinedTool
     from .return_user_defined_tool_tool_type import ReturnUserDefinedToolToolType
     from .return_user_defined_tool_version_type import ReturnUserDefinedToolVersionType
@@ -108,6 +113,7 @@ if typing.TYPE_CHECKING:
     from .tool_error_message import ToolErrorMessage
     from .tool_response_message import ToolResponseMessage
     from .tool_type import ToolType
+    from .turn_detection_spec import TurnDetectionSpec
     from .user_input import UserInput
     from .user_interruption import UserInterruption
     from .user_message import UserMessage
@@ -151,6 +157,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ErrorResponse": ".error_response",
     "HttpValidationError": ".http_validation_error",
     "Inference": ".inference",
+    "InterruptionSpec": ".interruption_spec",
     "JsonMessage": ".json_message",
     "LanguageModelType": ".language_model_type",
     "MillisecondInterval": ".millisecond_interval",
@@ -162,12 +169,14 @@ _dynamic_imports: typing.Dict[str, str] = {
     "PostedEllmModel": ".posted_ellm_model",
     "PostedEventMessageSpec": ".posted_event_message_spec",
     "PostedEventMessageSpecs": ".posted_event_message_specs",
+    "PostedInterruptionSpec": ".posted_interruption_spec",
     "PostedLanguageModel": ".posted_language_model",
     "PostedNudgeSpec": ".posted_nudge_spec",
     "PostedTimeoutSpec": ".posted_timeout_spec",
     "PostedTimeoutSpecs": ".posted_timeout_specs",
     "PostedTimeoutSpecsInactivity": ".posted_timeout_specs_inactivity",
     "PostedTimeoutSpecsMaxDuration": ".posted_timeout_specs_max_duration",
+    "PostedTurnDetectionSpec": ".posted_turn_detection_spec",
     "PostedUserDefinedToolSpec": ".posted_user_defined_tool_spec",
     "PostedWebhookEventType": ".posted_webhook_event_type",
     "PostedWebhookSpec": ".posted_webhook_spec",
@@ -198,6 +207,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ReturnEllmModel": ".return_ellm_model",
     "ReturnEventMessageSpec": ".return_event_message_spec",
     "ReturnEventMessageSpecs": ".return_event_message_specs",
+    "ReturnInterruptionSpec": ".return_interruption_spec",
     "ReturnLanguageModel": ".return_language_model",
     "ReturnNudgeSpec": ".return_nudge_spec",
     "ReturnPagedChatGroups": ".return_paged_chat_groups",
@@ -211,6 +221,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ReturnPromptVersionType": ".return_prompt_version_type",
     "ReturnTimeoutSpec": ".return_timeout_spec",
     "ReturnTimeoutSpecs": ".return_timeout_specs",
+    "ReturnTurnDetectionSpec": ".return_turn_detection_spec",
     "ReturnUserDefinedTool": ".return_user_defined_tool",
     "ReturnUserDefinedToolToolType": ".return_user_defined_tool_tool_type",
     "ReturnUserDefinedToolVersionType": ".return_user_defined_tool_version_type",
@@ -226,6 +237,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ToolErrorMessage": ".tool_error_message",
     "ToolResponseMessage": ".tool_response_message",
     "ToolType": ".tool_type",
+    "TurnDetectionSpec": ".turn_detection_spec",
     "UserInput": ".user_input",
     "UserInterruption": ".user_interruption",
     "UserMessage": ".user_message",
@@ -293,6 +305,7 @@ __all__ = [
     "ErrorResponse",
     "HttpValidationError",
     "Inference",
+    "InterruptionSpec",
     "JsonMessage",
     "LanguageModelType",
     "MillisecondInterval",
@@ -304,12 +317,14 @@ __all__ = [
     "PostedEllmModel",
     "PostedEventMessageSpec",
     "PostedEventMessageSpecs",
+    "PostedInterruptionSpec",
     "PostedLanguageModel",
     "PostedNudgeSpec",
     "PostedTimeoutSpec",
     "PostedTimeoutSpecs",
     "PostedTimeoutSpecsInactivity",
     "PostedTimeoutSpecsMaxDuration",
+    "PostedTurnDetectionSpec",
     "PostedUserDefinedToolSpec",
     "PostedWebhookEventType",
     "PostedWebhookSpec",
@@ -340,6 +355,7 @@ __all__ = [
     "ReturnEllmModel",
     "ReturnEventMessageSpec",
     "ReturnEventMessageSpecs",
+    "ReturnInterruptionSpec",
     "ReturnLanguageModel",
     "ReturnNudgeSpec",
     "ReturnPagedChatGroups",
@@ -353,6 +369,7 @@ __all__ = [
     "ReturnPromptVersionType",
     "ReturnTimeoutSpec",
     "ReturnTimeoutSpecs",
+    "ReturnTurnDetectionSpec",
     "ReturnUserDefinedTool",
     "ReturnUserDefinedToolToolType",
     "ReturnUserDefinedToolVersionType",
@@ -368,6 +385,7 @@ __all__ = [
     "ToolErrorMessage",
     "ToolResponseMessage",
     "ToolType",
+    "TurnDetectionSpec",
     "UserInput",
     "UserInterruption",
     "UserMessage",
