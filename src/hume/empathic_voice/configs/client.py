@@ -9,9 +9,11 @@ from ..types.posted_builtin_tool import PostedBuiltinTool
 from ..types.posted_config_prompt_spec import PostedConfigPromptSpec
 from ..types.posted_ellm_model import PostedEllmModel
 from ..types.posted_event_message_specs import PostedEventMessageSpecs
+from ..types.posted_interruption_spec import PostedInterruptionSpec
 from ..types.posted_language_model import PostedLanguageModel
 from ..types.posted_nudge_spec import PostedNudgeSpec
 from ..types.posted_timeout_specs import PostedTimeoutSpecs
+from ..types.posted_turn_detection_spec import PostedTurnDetectionSpec
 from ..types.posted_user_defined_tool_spec import PostedUserDefinedToolSpec
 from ..types.posted_webhook_spec import PostedWebhookSpec
 from ..types.return_config import ReturnConfig
@@ -111,11 +113,13 @@ class ConfigsClient:
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
         ellm_model: typing.Optional[PostedEllmModel] = OMIT,
         event_messages: typing.Optional[PostedEventMessageSpecs] = OMIT,
+        interruption: typing.Optional[PostedInterruptionSpec] = OMIT,
         language_model: typing.Optional[PostedLanguageModel] = OMIT,
         nudges: typing.Optional[PostedNudgeSpec] = OMIT,
         prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
         timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
         tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
+        turn_detection: typing.Optional[PostedTurnDetectionSpec] = OMIT,
         version_description: typing.Optional[str] = OMIT,
         voice: typing.Optional[VoiceRef] = OMIT,
         webhooks: typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]] = OMIT,
@@ -141,6 +145,8 @@ class ConfigsClient:
 
         event_messages : typing.Optional[PostedEventMessageSpecs]
 
+        interruption : typing.Optional[PostedInterruptionSpec]
+
         language_model : typing.Optional[PostedLanguageModel]
 
         nudges : typing.Optional[PostedNudgeSpec]
@@ -151,6 +157,8 @@ class ConfigsClient:
 
         tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
             Tool specification for a Config.
+
+        turn_detection : typing.Optional[PostedTurnDetectionSpec]
 
         version_description : typing.Optional[str]
             An optional description of the Config version.
@@ -221,11 +229,13 @@ class ConfigsClient:
             builtin_tools=builtin_tools,
             ellm_model=ellm_model,
             event_messages=event_messages,
+            interruption=interruption,
             language_model=language_model,
             nudges=nudges,
             prompt=prompt,
             timeouts=timeouts,
             tools=tools,
+            turn_detection=turn_detection,
             version_description=version_description,
             voice=voice,
             webhooks=webhooks,
@@ -305,11 +315,13 @@ class ConfigsClient:
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
         ellm_model: typing.Optional[PostedEllmModel] = OMIT,
         event_messages: typing.Optional[PostedEventMessageSpecs] = OMIT,
+        interruption: typing.Optional[PostedInterruptionSpec] = OMIT,
         language_model: typing.Optional[PostedLanguageModel] = OMIT,
         nudges: typing.Optional[PostedNudgeSpec] = OMIT,
         prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
         timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
         tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
+        turn_detection: typing.Optional[PostedTurnDetectionSpec] = OMIT,
         version_description: typing.Optional[str] = OMIT,
         voice: typing.Optional[VoiceRef] = OMIT,
         webhooks: typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]] = OMIT,
@@ -335,6 +347,8 @@ class ConfigsClient:
 
         event_messages : typing.Optional[PostedEventMessageSpecs]
 
+        interruption : typing.Optional[PostedInterruptionSpec]
+
         language_model : typing.Optional[PostedLanguageModel]
 
         nudges : typing.Optional[PostedNudgeSpec]
@@ -345,6 +359,8 @@ class ConfigsClient:
 
         tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
             Tool specification for a Config.
+
+        turn_detection : typing.Optional[PostedTurnDetectionSpec]
 
         version_description : typing.Optional[str]
             An optional description of the Config version.
@@ -419,11 +435,13 @@ class ConfigsClient:
             builtin_tools=builtin_tools,
             ellm_model=ellm_model,
             event_messages=event_messages,
+            interruption=interruption,
             language_model=language_model,
             nudges=nudges,
             prompt=prompt,
             timeouts=timeouts,
             tools=tools,
+            turn_detection=turn_detection,
             version_description=version_description,
             voice=voice,
             webhooks=webhooks,
@@ -737,11 +755,13 @@ class AsyncConfigsClient:
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
         ellm_model: typing.Optional[PostedEllmModel] = OMIT,
         event_messages: typing.Optional[PostedEventMessageSpecs] = OMIT,
+        interruption: typing.Optional[PostedInterruptionSpec] = OMIT,
         language_model: typing.Optional[PostedLanguageModel] = OMIT,
         nudges: typing.Optional[PostedNudgeSpec] = OMIT,
         prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
         timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
         tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
+        turn_detection: typing.Optional[PostedTurnDetectionSpec] = OMIT,
         version_description: typing.Optional[str] = OMIT,
         voice: typing.Optional[VoiceRef] = OMIT,
         webhooks: typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]] = OMIT,
@@ -767,6 +787,8 @@ class AsyncConfigsClient:
 
         event_messages : typing.Optional[PostedEventMessageSpecs]
 
+        interruption : typing.Optional[PostedInterruptionSpec]
+
         language_model : typing.Optional[PostedLanguageModel]
 
         nudges : typing.Optional[PostedNudgeSpec]
@@ -777,6 +799,8 @@ class AsyncConfigsClient:
 
         tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
             Tool specification for a Config.
+
+        turn_detection : typing.Optional[PostedTurnDetectionSpec]
 
         version_description : typing.Optional[str]
             An optional description of the Config version.
@@ -855,11 +879,13 @@ class AsyncConfigsClient:
             builtin_tools=builtin_tools,
             ellm_model=ellm_model,
             event_messages=event_messages,
+            interruption=interruption,
             language_model=language_model,
             nudges=nudges,
             prompt=prompt,
             timeouts=timeouts,
             tools=tools,
+            turn_detection=turn_detection,
             version_description=version_description,
             voice=voice,
             webhooks=webhooks,
@@ -948,11 +974,13 @@ class AsyncConfigsClient:
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
         ellm_model: typing.Optional[PostedEllmModel] = OMIT,
         event_messages: typing.Optional[PostedEventMessageSpecs] = OMIT,
+        interruption: typing.Optional[PostedInterruptionSpec] = OMIT,
         language_model: typing.Optional[PostedLanguageModel] = OMIT,
         nudges: typing.Optional[PostedNudgeSpec] = OMIT,
         prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
         timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
         tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
+        turn_detection: typing.Optional[PostedTurnDetectionSpec] = OMIT,
         version_description: typing.Optional[str] = OMIT,
         voice: typing.Optional[VoiceRef] = OMIT,
         webhooks: typing.Optional[typing.Sequence[typing.Optional[PostedWebhookSpec]]] = OMIT,
@@ -978,6 +1006,8 @@ class AsyncConfigsClient:
 
         event_messages : typing.Optional[PostedEventMessageSpecs]
 
+        interruption : typing.Optional[PostedInterruptionSpec]
+
         language_model : typing.Optional[PostedLanguageModel]
 
         nudges : typing.Optional[PostedNudgeSpec]
@@ -988,6 +1018,8 @@ class AsyncConfigsClient:
 
         tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
             Tool specification for a Config.
+
+        turn_detection : typing.Optional[PostedTurnDetectionSpec]
 
         version_description : typing.Optional[str]
             An optional description of the Config version.
@@ -1070,11 +1102,13 @@ class AsyncConfigsClient:
             builtin_tools=builtin_tools,
             ellm_model=ellm_model,
             event_messages=event_messages,
+            interruption=interruption,
             language_model=language_model,
             nudges=nudges,
             prompt=prompt,
             timeouts=timeouts,
             tools=tools,
+            turn_detection=turn_detection,
             version_description=version_description,
             voice=voice,
             webhooks=webhooks,
