@@ -6,14 +6,16 @@ from json.decoder import JSONDecodeError
 from ...core.api_error import ApiError
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.http_response import AsyncHttpResponse, HttpResponse
-from ...core.jsonable_encoder import jsonable_encoder
+from ...core.jsonable_encoder import encode_path_param
 from ...core.pagination import AsyncPager, SyncPager
+from ...core.parse_error import ParsingError
 from ...core.pydantic_utilities import parse_obj_as
 from ...core.request_options import RequestOptions
 from ..errors.bad_request_error import BadRequestError
 from ..types.error_response import ErrorResponse
 from ..types.return_paged_user_defined_tools import ReturnPagedUserDefinedTools
 from ..types.return_user_defined_tool import ReturnUserDefinedTool
+from pydantic import ValidationError
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -110,6 +112,10 @@ class RawToolsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def create_tool(
@@ -202,6 +208,10 @@ class RawToolsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def list_tool_versions(
@@ -246,7 +256,7 @@ class RawToolsClient:
         page_number = page_number if page_number is not None else 0
 
         _response = self._client_wrapper.httpx_client.request(
-            f"v0/evi/tools/{jsonable_encoder(id)}",
+            f"v0/evi/tools/{encode_path_param(id)}",
             base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
@@ -289,6 +299,10 @@ class RawToolsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def create_tool_version(
@@ -334,7 +348,7 @@ class RawToolsClient:
             Created
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"v0/evi/tools/{jsonable_encoder(id)}",
+            f"v0/evi/tools/{encode_path_param(id)}",
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
@@ -375,6 +389,10 @@ class RawToolsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def delete_tool(self, id: str, *, request_options: typing.Optional[RequestOptions] = None) -> HttpResponse[None]:
@@ -396,7 +414,7 @@ class RawToolsClient:
         HttpResponse[None]
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"v0/evi/tools/{jsonable_encoder(id)}",
+            f"v0/evi/tools/{encode_path_param(id)}",
             base_url=self._client_wrapper.get_environment().base,
             method="DELETE",
             request_options=request_options,
@@ -418,6 +436,10 @@ class RawToolsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def update_tool_name(
@@ -450,7 +472,7 @@ class RawToolsClient:
             Success
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"v0/evi/tools/{jsonable_encoder(id)}",
+            f"v0/evi/tools/{encode_path_param(id)}",
             base_url=self._client_wrapper.get_environment().base,
             method="PATCH",
             json={
@@ -479,6 +501,10 @@ class RawToolsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def get_tool_version(
@@ -510,7 +536,7 @@ class RawToolsClient:
             Success
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"v0/evi/tools/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+            f"v0/evi/tools/{encode_path_param(id)}/version/{encode_path_param(version)}",
             base_url=self._client_wrapper.get_environment().base,
             method="GET",
             request_options=request_options,
@@ -541,6 +567,10 @@ class RawToolsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def delete_tool_version(
@@ -571,7 +601,7 @@ class RawToolsClient:
         HttpResponse[None]
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"v0/evi/tools/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+            f"v0/evi/tools/{encode_path_param(id)}/version/{encode_path_param(version)}",
             base_url=self._client_wrapper.get_environment().base,
             method="DELETE",
             request_options=request_options,
@@ -593,6 +623,10 @@ class RawToolsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def update_tool_description(
@@ -632,7 +666,7 @@ class RawToolsClient:
             Success
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"v0/evi/tools/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+            f"v0/evi/tools/{encode_path_param(id)}/version/{encode_path_param(version)}",
             base_url=self._client_wrapper.get_environment().base,
             method="PATCH",
             json={
@@ -670,6 +704,10 @@ class RawToolsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
 
@@ -767,6 +805,10 @@ class AsyncRawToolsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def create_tool(
@@ -859,6 +901,10 @@ class AsyncRawToolsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def list_tool_versions(
@@ -903,7 +949,7 @@ class AsyncRawToolsClient:
         page_number = page_number if page_number is not None else 0
 
         _response = await self._client_wrapper.httpx_client.request(
-            f"v0/evi/tools/{jsonable_encoder(id)}",
+            f"v0/evi/tools/{encode_path_param(id)}",
             base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
@@ -949,6 +995,10 @@ class AsyncRawToolsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def create_tool_version(
@@ -994,7 +1044,7 @@ class AsyncRawToolsClient:
             Created
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"v0/evi/tools/{jsonable_encoder(id)}",
+            f"v0/evi/tools/{encode_path_param(id)}",
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
@@ -1035,6 +1085,10 @@ class AsyncRawToolsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def delete_tool(
@@ -1058,7 +1112,7 @@ class AsyncRawToolsClient:
         AsyncHttpResponse[None]
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"v0/evi/tools/{jsonable_encoder(id)}",
+            f"v0/evi/tools/{encode_path_param(id)}",
             base_url=self._client_wrapper.get_environment().base,
             method="DELETE",
             request_options=request_options,
@@ -1080,6 +1134,10 @@ class AsyncRawToolsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def update_tool_name(
@@ -1112,7 +1170,7 @@ class AsyncRawToolsClient:
             Success
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"v0/evi/tools/{jsonable_encoder(id)}",
+            f"v0/evi/tools/{encode_path_param(id)}",
             base_url=self._client_wrapper.get_environment().base,
             method="PATCH",
             json={
@@ -1141,6 +1199,10 @@ class AsyncRawToolsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def get_tool_version(
@@ -1172,7 +1234,7 @@ class AsyncRawToolsClient:
             Success
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"v0/evi/tools/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+            f"v0/evi/tools/{encode_path_param(id)}/version/{encode_path_param(version)}",
             base_url=self._client_wrapper.get_environment().base,
             method="GET",
             request_options=request_options,
@@ -1203,6 +1265,10 @@ class AsyncRawToolsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def delete_tool_version(
@@ -1233,7 +1299,7 @@ class AsyncRawToolsClient:
         AsyncHttpResponse[None]
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"v0/evi/tools/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+            f"v0/evi/tools/{encode_path_param(id)}/version/{encode_path_param(version)}",
             base_url=self._client_wrapper.get_environment().base,
             method="DELETE",
             request_options=request_options,
@@ -1255,6 +1321,10 @@ class AsyncRawToolsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def update_tool_description(
@@ -1294,7 +1364,7 @@ class AsyncRawToolsClient:
             Success
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"v0/evi/tools/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+            f"v0/evi/tools/{encode_path_param(id)}/version/{encode_path_param(version)}",
             base_url=self._client_wrapper.get_environment().base,
             method="PATCH",
             json={
@@ -1332,4 +1402,8 @@ class AsyncRawToolsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)

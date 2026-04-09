@@ -9,7 +9,8 @@ from ... import core
 from ...core.api_error import ApiError
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.http_response import AsyncHttpResponse, HttpResponse
-from ...core.jsonable_encoder import jsonable_encoder
+from ...core.jsonable_encoder import encode_path_param, jsonable_encoder
+from ...core.parse_error import ParsingError
 from ...core.pydantic_utilities import parse_obj_as
 from ...core.request_options import RequestOptions
 from ...core.serialization import convert_and_respect_annotation_metadata
@@ -23,6 +24,7 @@ from .types.transcription import Transcription
 from .types.union_job import UnionJob
 from .types.union_predict_result import UnionPredictResult
 from .types.when import When
+from pydantic import ValidationError
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -121,6 +123,10 @@ class RawBatchClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def start_inference_job(
@@ -202,6 +208,10 @@ class RawBatchClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def get_job_details(
@@ -224,7 +234,7 @@ class RawBatchClient:
 
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"v0/batch/jobs/{jsonable_encoder(id)}",
+            f"v0/batch/jobs/{encode_path_param(id)}",
             base_url=self._client_wrapper.get_environment().base,
             method="GET",
             request_options=request_options,
@@ -242,6 +252,10 @@ class RawBatchClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def get_job_predictions(
@@ -264,7 +278,7 @@ class RawBatchClient:
 
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"v0/batch/jobs/{jsonable_encoder(id)}/predictions",
+            f"v0/batch/jobs/{encode_path_param(id)}/predictions",
             base_url=self._client_wrapper.get_environment().base,
             method="GET",
             request_options=request_options,
@@ -282,6 +296,10 @@ class RawBatchClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     @contextlib.contextmanager
@@ -305,7 +323,7 @@ class RawBatchClient:
 
         """
         with self._client_wrapper.httpx_client.stream(
-            f"v0/batch/jobs/{jsonable_encoder(id)}/artifacts",
+            f"v0/batch/jobs/{encode_path_param(id)}/artifacts",
             base_url=self._client_wrapper.get_environment().base,
             method="GET",
             request_options=request_options,
@@ -323,6 +341,13 @@ class RawBatchClient:
                 except JSONDecodeError:
                     raise ApiError(
                         status_code=_response.status_code, headers=dict(_response.headers), body=_response.text
+                    )
+                except ValidationError as e:
+                    raise ParsingError(
+                        status_code=_response.status_code,
+                        headers=dict(_response.headers),
+                        body=_response.json(),
+                        cause=e,
                     )
                 raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
@@ -359,7 +384,7 @@ class RawBatchClient:
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             data={
-                "json": _json.dumps(jsonable_encoder(json)),
+                "json": _json.dumps(jsonable_encoder(json)) if json is not OMIT else OMIT,
             },
             files={
                 "file": file,
@@ -382,6 +407,10 @@ class RawBatchClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
 
@@ -478,6 +507,10 @@ class AsyncRawBatchClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def start_inference_job(
@@ -559,6 +592,10 @@ class AsyncRawBatchClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def get_job_details(
@@ -581,7 +618,7 @@ class AsyncRawBatchClient:
 
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"v0/batch/jobs/{jsonable_encoder(id)}",
+            f"v0/batch/jobs/{encode_path_param(id)}",
             base_url=self._client_wrapper.get_environment().base,
             method="GET",
             request_options=request_options,
@@ -599,6 +636,10 @@ class AsyncRawBatchClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def get_job_predictions(
@@ -621,7 +662,7 @@ class AsyncRawBatchClient:
 
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"v0/batch/jobs/{jsonable_encoder(id)}/predictions",
+            f"v0/batch/jobs/{encode_path_param(id)}/predictions",
             base_url=self._client_wrapper.get_environment().base,
             method="GET",
             request_options=request_options,
@@ -639,6 +680,10 @@ class AsyncRawBatchClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     @contextlib.asynccontextmanager
@@ -662,7 +707,7 @@ class AsyncRawBatchClient:
 
         """
         async with self._client_wrapper.httpx_client.stream(
-            f"v0/batch/jobs/{jsonable_encoder(id)}/artifacts",
+            f"v0/batch/jobs/{encode_path_param(id)}/artifacts",
             base_url=self._client_wrapper.get_environment().base,
             method="GET",
             request_options=request_options,
@@ -681,6 +726,13 @@ class AsyncRawBatchClient:
                 except JSONDecodeError:
                     raise ApiError(
                         status_code=_response.status_code, headers=dict(_response.headers), body=_response.text
+                    )
+                except ValidationError as e:
+                    raise ParsingError(
+                        status_code=_response.status_code,
+                        headers=dict(_response.headers),
+                        body=_response.json(),
+                        cause=e,
                     )
                 raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
@@ -717,7 +769,7 @@ class AsyncRawBatchClient:
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             data={
-                "json": _json.dumps(jsonable_encoder(json)),
+                "json": _json.dumps(jsonable_encoder(json)) if json is not OMIT else OMIT,
             },
             files={
                 "file": file,
@@ -740,4 +792,8 @@ class AsyncRawBatchClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)

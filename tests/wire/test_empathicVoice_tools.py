@@ -5,7 +5,10 @@ def test_empathicVoice_tools_list_tools() -> None:
     """Test list-tools endpoint with WireMock"""
     test_id = "empathic_voice.tools.list_tools.0"
     client = get_client(test_id)
-    client.empathic_voice.tools.list_tools(page_number=0, page_size=2)
+    client.empathic_voice.tools.list_tools(
+        page_number=0,
+        page_size=2,
+    )
     verify_request_count(test_id, "GET", "/v0/evi/tools", {"page_number": "0", "page_size": "2"}, 1)
 
 
@@ -27,7 +30,9 @@ def test_empathicVoice_tools_list_tool_versions() -> None:
     """Test list-tool-versions endpoint with WireMock"""
     test_id = "empathic_voice.tools.list_tool_versions.0"
     client = get_client(test_id)
-    client.empathic_voice.tools.list_tool_versions(id="your-tool-id")
+    client.empathic_voice.tools.list_tool_versions(
+        id="your-tool-id",
+    )
     verify_request_count(test_id, "GET", "/v0/evi/tools/your-tool-id", None, 1)
 
 
@@ -49,7 +54,9 @@ def test_empathicVoice_tools_delete_tool() -> None:
     """Test delete-tool endpoint with WireMock"""
     test_id = "empathic_voice.tools.delete_tool.0"
     client = get_client(test_id)
-    client.empathic_voice.tools.delete_tool(id="your-tool-id")
+    client.empathic_voice.tools.delete_tool(
+        id="your-tool-id",
+    )
     verify_request_count(test_id, "DELETE", "/v0/evi/tools/your-tool-id", None, 1)
 
 
@@ -57,7 +64,10 @@ def test_empathicVoice_tools_update_tool_name() -> None:
     """Test update-tool-name endpoint with WireMock"""
     test_id = "empathic_voice.tools.update_tool_name.0"
     client = get_client(test_id)
-    client.empathic_voice.tools.update_tool_name(id="your-tool-id", name="get_current_temperature")
+    client.empathic_voice.tools.update_tool_name(
+        id="your-tool-id",
+        name="get_current_temperature",
+    )
     verify_request_count(test_id, "PATCH", "/v0/evi/tools/your-tool-id", None, 1)
 
 
@@ -65,7 +75,10 @@ def test_empathicVoice_tools_get_tool_version() -> None:
     """Test get-tool-version endpoint with WireMock"""
     test_id = "empathic_voice.tools.get_tool_version.0"
     client = get_client(test_id)
-    client.empathic_voice.tools.get_tool_version(id="your-tool-id", version=1)
+    client.empathic_voice.tools.get_tool_version(
+        id="your-tool-id",
+        version=1,
+    )
     verify_request_count(test_id, "GET", "/v0/evi/tools/your-tool-id/version/1", None, 1)
 
 
@@ -73,8 +86,11 @@ def test_empathicVoice_tools_delete_tool_version() -> None:
     """Test delete-tool-version endpoint with WireMock"""
     test_id = "empathic_voice.tools.delete_tool_version.0"
     client = get_client(test_id)
-    client.empathic_voice.tools.delete_tool_version(id="your-tool-id", version=1)
-    verify_request_count(test_id, "DELETE", "/v0/evi/tools/your-tool-id/version/1", None, 1)
+    client.empathic_voice.tools.delete_tool_version(
+        id="",
+        version=1,
+    )
+    verify_request_count(test_id, "DELETE", "/v0/evi/tools/{id}/version/1", None, 1)
 
 
 def test_empathicVoice_tools_update_tool_description() -> None:

@@ -7,6 +7,7 @@ from importlib import import_module
 
 if typing.TYPE_CHECKING:
     from . import empathic_voice, expression_measurement, tts
+    from ._default_clients import DefaultAioHttpClient, DefaultAsyncHttpxClient
     from .client import AsyncHumeClient, HumeClient
     from .empathic_voice.chat.audio.asyncio_utilities import Stream
     from .empathic_voice.chat.audio.microphone_interface import MicrophoneInterface
@@ -14,6 +15,8 @@ if typing.TYPE_CHECKING:
     from .version import __version__
 _dynamic_imports: typing.Dict[str, str] = {
     "AsyncHumeClient": ".client",
+    "DefaultAioHttpClient": "._default_clients",
+    "DefaultAsyncHttpxClient": "._default_clients",
     "HumeClient": ".client",
     "HumeClientEnvironment": ".environment",
     "MicrophoneInterface": ".empathic_voice.chat.audio.microphone_interface",
@@ -48,6 +51,8 @@ def __dir__():
 
 __all__ = [
     "AsyncHumeClient",
+    "DefaultAioHttpClient",
+    "DefaultAsyncHttpxClient",
     "HumeClient",
     "HumeClientEnvironment",
     "MicrophoneInterface",

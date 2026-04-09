@@ -6,8 +6,9 @@ from json.decoder import JSONDecodeError
 from ...core.api_error import ApiError
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.http_response import AsyncHttpResponse, HttpResponse
-from ...core.jsonable_encoder import jsonable_encoder
+from ...core.jsonable_encoder import encode_path_param
 from ...core.pagination import AsyncPager, SyncPager
+from ...core.parse_error import ParsingError
 from ...core.pydantic_utilities import parse_obj_as
 from ...core.request_options import RequestOptions
 from ...core.serialization import convert_and_respect_annotation_metadata
@@ -16,6 +17,7 @@ from ..types.error_response import ErrorResponse
 from ..types.prompt_expansion_spec import PromptExpansionSpec
 from ..types.return_paged_prompts import ReturnPagedPrompts
 from ..types.return_prompt import ReturnPrompt
+from pydantic import ValidationError
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -112,6 +114,10 @@ class RawPromptsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def create_prompt(
@@ -195,6 +201,10 @@ class RawPromptsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def list_prompt_versions(
@@ -237,7 +247,7 @@ class RawPromptsClient:
             Success
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"v0/evi/prompts/{jsonable_encoder(id)}",
+            f"v0/evi/prompts/{encode_path_param(id)}",
             base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
@@ -271,6 +281,10 @@ class RawPromptsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def create_prompt_version(
@@ -311,7 +325,7 @@ class RawPromptsClient:
             Created
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"v0/evi/prompts/{jsonable_encoder(id)}",
+            f"v0/evi/prompts/{encode_path_param(id)}",
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
@@ -353,6 +367,10 @@ class RawPromptsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def delete_prompt(self, id: str, *, request_options: typing.Optional[RequestOptions] = None) -> HttpResponse[None]:
@@ -374,7 +392,7 @@ class RawPromptsClient:
         HttpResponse[None]
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"v0/evi/prompts/{jsonable_encoder(id)}",
+            f"v0/evi/prompts/{encode_path_param(id)}",
             base_url=self._client_wrapper.get_environment().base,
             method="DELETE",
             request_options=request_options,
@@ -396,6 +414,10 @@ class RawPromptsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def update_prompt_name(
@@ -423,7 +445,7 @@ class RawPromptsClient:
             Success
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"v0/evi/prompts/{jsonable_encoder(id)}",
+            f"v0/evi/prompts/{encode_path_param(id)}",
             base_url=self._client_wrapper.get_environment().base,
             method="PATCH",
             json={
@@ -452,6 +474,10 @@ class RawPromptsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def get_prompt_version(
@@ -483,7 +509,7 @@ class RawPromptsClient:
             Success
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"v0/evi/prompts/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+            f"v0/evi/prompts/{encode_path_param(id)}/version/{encode_path_param(version)}",
             base_url=self._client_wrapper.get_environment().base,
             method="GET",
             request_options=request_options,
@@ -514,6 +540,10 @@ class RawPromptsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def delete_prompt_version(
@@ -544,7 +574,7 @@ class RawPromptsClient:
         HttpResponse[None]
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"v0/evi/prompts/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+            f"v0/evi/prompts/{encode_path_param(id)}/version/{encode_path_param(version)}",
             base_url=self._client_wrapper.get_environment().base,
             method="DELETE",
             request_options=request_options,
@@ -566,6 +596,10 @@ class RawPromptsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def update_prompt_description(
@@ -605,7 +639,7 @@ class RawPromptsClient:
             Success
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"v0/evi/prompts/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+            f"v0/evi/prompts/{encode_path_param(id)}/version/{encode_path_param(version)}",
             base_url=self._client_wrapper.get_environment().base,
             method="PATCH",
             json={
@@ -643,6 +677,10 @@ class RawPromptsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
 
@@ -740,6 +778,10 @@ class AsyncRawPromptsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def create_prompt(
@@ -823,6 +865,10 @@ class AsyncRawPromptsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def list_prompt_versions(
@@ -865,7 +911,7 @@ class AsyncRawPromptsClient:
             Success
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"v0/evi/prompts/{jsonable_encoder(id)}",
+            f"v0/evi/prompts/{encode_path_param(id)}",
             base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
@@ -899,6 +945,10 @@ class AsyncRawPromptsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def create_prompt_version(
@@ -939,7 +989,7 @@ class AsyncRawPromptsClient:
             Created
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"v0/evi/prompts/{jsonable_encoder(id)}",
+            f"v0/evi/prompts/{encode_path_param(id)}",
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
@@ -981,6 +1031,10 @@ class AsyncRawPromptsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def delete_prompt(
@@ -1004,7 +1058,7 @@ class AsyncRawPromptsClient:
         AsyncHttpResponse[None]
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"v0/evi/prompts/{jsonable_encoder(id)}",
+            f"v0/evi/prompts/{encode_path_param(id)}",
             base_url=self._client_wrapper.get_environment().base,
             method="DELETE",
             request_options=request_options,
@@ -1026,6 +1080,10 @@ class AsyncRawPromptsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def update_prompt_name(
@@ -1053,7 +1111,7 @@ class AsyncRawPromptsClient:
             Success
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"v0/evi/prompts/{jsonable_encoder(id)}",
+            f"v0/evi/prompts/{encode_path_param(id)}",
             base_url=self._client_wrapper.get_environment().base,
             method="PATCH",
             json={
@@ -1082,6 +1140,10 @@ class AsyncRawPromptsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def get_prompt_version(
@@ -1113,7 +1175,7 @@ class AsyncRawPromptsClient:
             Success
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"v0/evi/prompts/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+            f"v0/evi/prompts/{encode_path_param(id)}/version/{encode_path_param(version)}",
             base_url=self._client_wrapper.get_environment().base,
             method="GET",
             request_options=request_options,
@@ -1144,6 +1206,10 @@ class AsyncRawPromptsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def delete_prompt_version(
@@ -1174,7 +1240,7 @@ class AsyncRawPromptsClient:
         AsyncHttpResponse[None]
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"v0/evi/prompts/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+            f"v0/evi/prompts/{encode_path_param(id)}/version/{encode_path_param(version)}",
             base_url=self._client_wrapper.get_environment().base,
             method="DELETE",
             request_options=request_options,
@@ -1196,6 +1262,10 @@ class AsyncRawPromptsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def update_prompt_description(
@@ -1235,7 +1305,7 @@ class AsyncRawPromptsClient:
             Success
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"v0/evi/prompts/{jsonable_encoder(id)}/version/{jsonable_encoder(version)}",
+            f"v0/evi/prompts/{encode_path_param(id)}/version/{encode_path_param(version)}",
             base_url=self._client_wrapper.get_environment().base,
             method="PATCH",
             json={
@@ -1273,4 +1343,8 @@ class AsyncRawPromptsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)

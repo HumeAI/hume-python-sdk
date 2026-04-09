@@ -1,11 +1,23 @@
 from .conftest import get_client, verify_request_count
 
+from hume.empathic_voice import (
+    PostedConfigPromptSpec,
+    PostedEllmModel,
+    PostedEventMessageSpec,
+    PostedEventMessageSpecs,
+    PostedLanguageModel,
+    VoiceName,
+)
+
 
 def test_empathicVoice_configs_list_configs() -> None:
     """Test list-configs endpoint with WireMock"""
     test_id = "empathic_voice.configs.list_configs.0"
     client = get_client(test_id)
-    client.empathic_voice.configs.list_configs(page_number=0, page_size=1)
+    client.empathic_voice.configs.list_configs(
+        page_number=0,
+        page_size=1,
+    )
     verify_request_count(test_id, "GET", "/v0/evi/configs", {"page_number": "0", "page_size": "1"}, 1)
 
 
@@ -15,15 +27,34 @@ def test_empathicVoice_configs_create_config() -> None:
     client = get_client(test_id)
     client.empathic_voice.configs.create_config(
         name="Weather Assistant Config",
-        prompt={"id": "", "version": 0},
+        prompt=PostedConfigPromptSpec(
+            id="",
+            version=0,
+        ),
         evi_version="3",
-        voice={"provider": "HUME_AI"},
-        language_model={"model_provider": "ANTHROPIC", "model_resource": "claude-3-7-sonnet-latest", "temperature": 1},
-        event_messages={
-            "on_new_chat": {"enabled": False, "text": ""},
-            "on_inactivity_timeout": {"enabled": False, "text": ""},
-            "on_max_duration_timeout": {"enabled": False, "text": ""},
-        },
+        voice=VoiceName(
+            provider="HUME_AI",
+            name="Ava Song",
+        ),
+        language_model=PostedLanguageModel(
+            model_provider="ANTHROPIC",
+            model_resource="claude-3-7-sonnet-latest",
+            temperature=1,
+        ),
+        event_messages=PostedEventMessageSpecs(
+            on_new_chat=PostedEventMessageSpec(
+                enabled=False,
+                text="",
+            ),
+            on_inactivity_timeout=PostedEventMessageSpec(
+                enabled=False,
+                text="",
+            ),
+            on_max_duration_timeout=PostedEventMessageSpec(
+                enabled=False,
+                text="",
+            ),
+        ),
     )
     verify_request_count(test_id, "POST", "/v0/evi/configs", None, 1)
 
@@ -32,7 +63,9 @@ def test_empathicVoice_configs_list_config_versions() -> None:
     """Test list-config-versions endpoint with WireMock"""
     test_id = "empathic_voice.configs.list_config_versions.0"
     client = get_client(test_id)
-    client.empathic_voice.configs.list_config_versions(id="your-config-id")
+    client.empathic_voice.configs.list_config_versions(
+        id="your-config-id",
+    )
     verify_request_count(test_id, "GET", "/v0/evi/configs/your-config-id", None, 1)
 
 
@@ -44,15 +77,36 @@ def test_empathicVoice_configs_create_config_version() -> None:
         id="your-config-id",
         version_description="This is an updated version of the Weather Assistant Config.",
         evi_version="3",
-        prompt={"id": "", "version": 0},
-        voice={"provider": "HUME_AI"},
-        language_model={"model_provider": "ANTHROPIC", "model_resource": "claude-3-7-sonnet-latest", "temperature": 1},
-        ellm_model={"allow_short_responses": True},
-        event_messages={
-            "on_new_chat": {"enabled": False, "text": ""},
-            "on_inactivity_timeout": {"enabled": False, "text": ""},
-            "on_max_duration_timeout": {"enabled": False, "text": ""},
-        },
+        prompt=PostedConfigPromptSpec(
+            id="",
+            version=0,
+        ),
+        voice=VoiceName(
+            provider="HUME_AI",
+            name="Ava Song",
+        ),
+        language_model=PostedLanguageModel(
+            model_provider="ANTHROPIC",
+            model_resource="claude-3-7-sonnet-latest",
+            temperature=1,
+        ),
+        ellm_model=PostedEllmModel(
+            allow_short_responses=True,
+        ),
+        event_messages=PostedEventMessageSpecs(
+            on_new_chat=PostedEventMessageSpec(
+                enabled=False,
+                text="",
+            ),
+            on_inactivity_timeout=PostedEventMessageSpec(
+                enabled=False,
+                text="",
+            ),
+            on_max_duration_timeout=PostedEventMessageSpec(
+                enabled=False,
+                text="",
+            ),
+        ),
     )
     verify_request_count(test_id, "POST", "/v0/evi/configs/your-config-id", None, 1)
 
@@ -61,7 +115,9 @@ def test_empathicVoice_configs_delete_config() -> None:
     """Test delete-config endpoint with WireMock"""
     test_id = "empathic_voice.configs.delete_config.0"
     client = get_client(test_id)
-    client.empathic_voice.configs.delete_config(id="your-config-id")
+    client.empathic_voice.configs.delete_config(
+        id="your-config-id",
+    )
     verify_request_count(test_id, "DELETE", "/v0/evi/configs/your-config-id", None, 1)
 
 
@@ -69,7 +125,10 @@ def test_empathicVoice_configs_update_config_name() -> None:
     """Test update-config-name endpoint with WireMock"""
     test_id = "empathic_voice.configs.update_config_name.0"
     client = get_client(test_id)
-    client.empathic_voice.configs.update_config_name(id="your-config-id", name="Updated Weather Assistant Config Name")
+    client.empathic_voice.configs.update_config_name(
+        id="your-config-id",
+        name="Updated Weather Assistant Config Name",
+    )
     verify_request_count(test_id, "PATCH", "/v0/evi/configs/your-config-id", None, 1)
 
 
@@ -77,7 +136,10 @@ def test_empathicVoice_configs_get_config_version() -> None:
     """Test get-config-version endpoint with WireMock"""
     test_id = "empathic_voice.configs.get_config_version.0"
     client = get_client(test_id)
-    client.empathic_voice.configs.get_config_version(id="your-config-id", version=1)
+    client.empathic_voice.configs.get_config_version(
+        id="your-config-id",
+        version=1,
+    )
     verify_request_count(test_id, "GET", "/v0/evi/configs/your-config-id/version/1", None, 1)
 
 
@@ -85,7 +147,10 @@ def test_empathicVoice_configs_delete_config_version() -> None:
     """Test delete-config-version endpoint with WireMock"""
     test_id = "empathic_voice.configs.delete_config_version.0"
     client = get_client(test_id)
-    client.empathic_voice.configs.delete_config_version(id="your-config-id", version=1)
+    client.empathic_voice.configs.delete_config_version(
+        id="your-config-id",
+        version=1,
+    )
     verify_request_count(test_id, "DELETE", "/v0/evi/configs/your-config-id/version/1", None, 1)
 
 
@@ -94,6 +159,8 @@ def test_empathicVoice_configs_update_config_description() -> None:
     test_id = "empathic_voice.configs.update_config_description.0"
     client = get_client(test_id)
     client.empathic_voice.configs.update_config_description(
-        id="your-config-id", version=1, version_description="This is an updated version_description."
+        id="your-config-id",
+        version=1,
+        version_description="This is an updated version_description.",
     )
     verify_request_count(test_id, "PATCH", "/v0/evi/configs/your-config-id/version/1", None, 1)

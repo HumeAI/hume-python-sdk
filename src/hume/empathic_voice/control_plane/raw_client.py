@@ -9,7 +9,8 @@ import websockets.sync.client as websockets_sync_client
 from ...core.api_error import ApiError
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.http_response import AsyncHttpResponse, HttpResponse
-from ...core.jsonable_encoder import jsonable_encoder
+from ...core.jsonable_encoder import encode_path_param, jsonable_encoder
+from ...core.parse_error import ParsingError
 from ...core.pydantic_utilities import parse_obj_as
 from ...core.query_encoder import encode_query
 from ...core.remove_none_from_dict import remove_none_from_dict
@@ -20,6 +21,7 @@ from ..errors.unprocessable_entity_error import UnprocessableEntityError
 from ..types.control_plane_publish_event import ControlPlanePublishEvent
 from ..types.http_validation_error import HttpValidationError
 from .socket_client import AsyncControlPlaneSocketClient, ControlPlaneSocketClient
+from pydantic import ValidationError
 
 try:
     from websockets.legacy.client import connect as websockets_client_connect  # type: ignore
@@ -58,7 +60,7 @@ class RawControlPlaneClient:
         HttpResponse[None]
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"v0/evi/chat/{jsonable_encoder(chat_id)}/send",
+            f"v0/evi/chat/{encode_path_param(chat_id)}/send",
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json=convert_and_respect_annotation_metadata(
@@ -87,6 +89,10 @@ class RawControlPlaneClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     @contextmanager
@@ -185,7 +191,7 @@ class AsyncRawControlPlaneClient:
         AsyncHttpResponse[None]
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"v0/evi/chat/{jsonable_encoder(chat_id)}/send",
+            f"v0/evi/chat/{encode_path_param(chat_id)}/send",
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json=convert_and_respect_annotation_metadata(
@@ -214,6 +220,10 @@ class AsyncRawControlPlaneClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     @asynccontextmanager

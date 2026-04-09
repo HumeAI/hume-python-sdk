@@ -6,8 +6,9 @@ from json.decoder import JSONDecodeError
 from ...core.api_error import ApiError
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.http_response import AsyncHttpResponse, HttpResponse
-from ...core.jsonable_encoder import jsonable_encoder
+from ...core.jsonable_encoder import encode_path_param
 from ...core.pagination import AsyncPager, SyncPager
+from ...core.parse_error import ParsingError
 from ...core.pydantic_utilities import parse_obj_as
 from ...core.request_options import RequestOptions
 from ..errors.bad_request_error import BadRequestError
@@ -18,6 +19,7 @@ from ..types.return_chat_group_paged_audio_reconstructions import ReturnChatGrou
 from ..types.return_chat_group_paged_chats import ReturnChatGroupPagedChats
 from ..types.return_chat_group_paged_events import ReturnChatGroupPagedEvents
 from ..types.return_paged_chat_groups import ReturnPagedChatGroups
+from pydantic import ValidationError
 
 
 class RawChatGroupsClient:
@@ -111,6 +113,10 @@ class RawChatGroupsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def get_chat_group(
@@ -156,7 +162,7 @@ class RawChatGroupsClient:
             Success
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"v0/evi/chat_groups/{jsonable_encoder(id)}",
+            f"v0/evi/chat_groups/{encode_path_param(id)}",
             base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
@@ -191,6 +197,10 @@ class RawChatGroupsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def get_audio(
@@ -232,7 +242,7 @@ class RawChatGroupsClient:
             Success
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"v0/evi/chat_groups/{jsonable_encoder(id)}/audio",
+            f"v0/evi/chat_groups/{encode_path_param(id)}/audio",
             base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
@@ -266,6 +276,10 @@ class RawChatGroupsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def list_chat_group_events(
@@ -309,7 +323,7 @@ class RawChatGroupsClient:
         page_number = page_number if page_number is not None else 0
 
         _response = self._client_wrapper.httpx_client.request(
-            f"v0/evi/chat_groups/{jsonable_encoder(id)}/events",
+            f"v0/evi/chat_groups/{encode_path_param(id)}/events",
             base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
@@ -352,6 +366,10 @@ class RawChatGroupsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
 
@@ -449,6 +467,10 @@ class AsyncRawChatGroupsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def get_chat_group(
@@ -494,7 +516,7 @@ class AsyncRawChatGroupsClient:
             Success
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"v0/evi/chat_groups/{jsonable_encoder(id)}",
+            f"v0/evi/chat_groups/{encode_path_param(id)}",
             base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
@@ -529,6 +551,10 @@ class AsyncRawChatGroupsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def get_audio(
@@ -570,7 +596,7 @@ class AsyncRawChatGroupsClient:
             Success
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"v0/evi/chat_groups/{jsonable_encoder(id)}/audio",
+            f"v0/evi/chat_groups/{encode_path_param(id)}/audio",
             base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
@@ -604,6 +630,10 @@ class AsyncRawChatGroupsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def list_chat_group_events(
@@ -647,7 +677,7 @@ class AsyncRawChatGroupsClient:
         page_number = page_number if page_number is not None else 0
 
         _response = await self._client_wrapper.httpx_client.request(
-            f"v0/evi/chat_groups/{jsonable_encoder(id)}/events",
+            f"v0/evi/chat_groups/{encode_path_param(id)}/events",
             base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
@@ -693,4 +723,8 @@ class AsyncRawChatGroupsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)

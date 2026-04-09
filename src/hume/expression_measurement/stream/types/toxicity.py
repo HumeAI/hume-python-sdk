@@ -5,3 +5,6 @@ import typing
 from .toxicity_item import ToxicityItem
 
 Toxicity = typing.List[ToxicityItem]
+"""
+Toxicity predictions returned as probabilities that the text can be classified into the following categories: toxic, severe_toxic, obscene, threat, insult, and identity_hate.
+"""

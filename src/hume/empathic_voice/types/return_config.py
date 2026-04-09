@@ -7,10 +7,12 @@ from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .return_builtin_tool import ReturnBuiltinTool
 from .return_ellm_model import ReturnEllmModel
 from .return_event_message_specs import ReturnEventMessageSpecs
+from .return_interruption_spec import ReturnInterruptionSpec
 from .return_language_model import ReturnLanguageModel
 from .return_nudge_spec import ReturnNudgeSpec
 from .return_prompt import ReturnPrompt
 from .return_timeout_specs import ReturnTimeoutSpecs
+from .return_turn_detection_spec import ReturnTurnDetectionSpec
 from .return_user_defined_tool import ReturnUserDefinedTool
 from .return_voice import ReturnVoice
 from .return_webhook_spec import ReturnWebhookSpec
@@ -45,6 +47,7 @@ class ReturnConfig(UniversalBaseModel):
     Identifier for a Config. Formatted as a UUID.
     """
 
+    interruption: typing.Optional[ReturnInterruptionSpec] = None
     language_model: typing.Optional[ReturnLanguageModel] = None
     modified_on: typing.Optional[int] = pydantic.Field(default=None)
     """
@@ -64,6 +67,7 @@ class ReturnConfig(UniversalBaseModel):
     List of user-defined tools associated with this Config.
     """
 
+    turn_detection: typing.Optional[ReturnTurnDetectionSpec] = None
     version: typing.Optional[int] = pydantic.Field(default=None)
     """
     Version number for a Config.

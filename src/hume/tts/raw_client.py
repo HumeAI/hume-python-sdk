@@ -10,6 +10,7 @@ from ..core.api_error import ApiError
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.http_response import AsyncHttpResponse, HttpResponse
 from ..core.jsonable_encoder import jsonable_encoder
+from ..core.parse_error import ParsingError
 from ..core.pydantic_utilities import parse_obj_as
 from ..core.request_options import RequestOptions
 from ..core.serialization import convert_and_respect_annotation_metadata
@@ -23,6 +24,7 @@ from .types.posted_utterance_voice import PostedUtteranceVoice
 from .types.return_tts import ReturnTts
 from .types.timestamp_type import TimestampType
 from .types.tts_output import TtsOutput
+from pydantic import ValidationError
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -150,6 +152,10 @@ class RawTtsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     @contextlib.contextmanager
@@ -272,6 +278,13 @@ class RawTtsClient:
                     raise ApiError(
                         status_code=_response.status_code, headers=dict(_response.headers), body=_response.text
                     )
+                except ValidationError as e:
+                    raise ParsingError(
+                        status_code=_response.status_code,
+                        headers=dict(_response.headers),
+                        body=_response.json(),
+                        cause=e,
+                    )
                 raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
             yield _stream()
@@ -393,6 +406,13 @@ class RawTtsClient:
                 except JSONDecodeError:
                     raise ApiError(
                         status_code=_response.status_code, headers=dict(_response.headers), body=_response.text
+                    )
+                except ValidationError as e:
+                    raise ParsingError(
+                        status_code=_response.status_code,
+                        headers=dict(_response.headers),
+                        body=_response.json(),
+                        cause=e,
                     )
                 raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
@@ -532,6 +552,13 @@ class RawTtsClient:
                     raise ApiError(
                         status_code=_response.status_code, headers=dict(_response.headers), body=_response.text
                     )
+                except ValidationError as e:
+                    raise ParsingError(
+                        status_code=_response.status_code,
+                        headers=dict(_response.headers),
+                        body=_response.json(),
+                        cause=e,
+                    )
                 raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
             yield _stream()
@@ -582,10 +609,12 @@ class RawTtsClient:
             method="POST",
             data={
                 "strip_headers": strip_headers,
-                "context": json.dumps(jsonable_encoder(context)),
-                "voice": json.dumps(jsonable_encoder(voice)),
-                "format": json.dumps(jsonable_encoder(format)),
-                "include_timestamp_types": json.dumps(jsonable_encoder(include_timestamp_types)),
+                "context": json.dumps(jsonable_encoder(context)) if context is not OMIT else OMIT,
+                "voice": json.dumps(jsonable_encoder(voice)) if voice is not OMIT else OMIT,
+                "format": json.dumps(jsonable_encoder(format)) if format is not OMIT else OMIT,
+                "include_timestamp_types": json.dumps(jsonable_encoder(include_timestamp_types))
+                if include_timestamp_types is not OMIT
+                else OMIT,
             },
             files={
                 "audio": audio,
@@ -618,6 +647,13 @@ class RawTtsClient:
                 except JSONDecodeError:
                     raise ApiError(
                         status_code=_response.status_code, headers=dict(_response.headers), body=_response.text
+                    )
+                except ValidationError as e:
+                    raise ParsingError(
+                        status_code=_response.status_code,
+                        headers=dict(_response.headers),
+                        body=_response.json(),
+                        cause=e,
                     )
                 raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
@@ -669,10 +705,12 @@ class RawTtsClient:
             method="POST",
             data={
                 "strip_headers": strip_headers,
-                "context": json.dumps(jsonable_encoder(context)),
-                "voice": json.dumps(jsonable_encoder(voice)),
-                "format": json.dumps(jsonable_encoder(format)),
-                "include_timestamp_types": json.dumps(jsonable_encoder(include_timestamp_types)),
+                "context": json.dumps(jsonable_encoder(context)) if context is not OMIT else OMIT,
+                "voice": json.dumps(jsonable_encoder(voice)) if voice is not OMIT else OMIT,
+                "format": json.dumps(jsonable_encoder(format)) if format is not OMIT else OMIT,
+                "include_timestamp_types": json.dumps(jsonable_encoder(include_timestamp_types))
+                if include_timestamp_types is not OMIT
+                else OMIT,
             },
             files={
                 **({"audio": audio} if audio is not None else {}),
@@ -719,6 +757,13 @@ class RawTtsClient:
                 except JSONDecodeError:
                     raise ApiError(
                         status_code=_response.status_code, headers=dict(_response.headers), body=_response.text
+                    )
+                except ValidationError as e:
+                    raise ParsingError(
+                        status_code=_response.status_code,
+                        headers=dict(_response.headers),
+                        body=_response.json(),
+                        cause=e,
                     )
                 raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
@@ -847,6 +892,10 @@ class AsyncRawTtsClient:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     @contextlib.asynccontextmanager
@@ -970,6 +1019,13 @@ class AsyncRawTtsClient:
                     raise ApiError(
                         status_code=_response.status_code, headers=dict(_response.headers), body=_response.text
                     )
+                except ValidationError as e:
+                    raise ParsingError(
+                        status_code=_response.status_code,
+                        headers=dict(_response.headers),
+                        body=_response.json(),
+                        cause=e,
+                    )
                 raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
             yield await _stream()
@@ -1092,6 +1148,13 @@ class AsyncRawTtsClient:
                 except JSONDecodeError:
                     raise ApiError(
                         status_code=_response.status_code, headers=dict(_response.headers), body=_response.text
+                    )
+                except ValidationError as e:
+                    raise ParsingError(
+                        status_code=_response.status_code,
+                        headers=dict(_response.headers),
+                        body=_response.json(),
+                        cause=e,
                     )
                 raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
@@ -1231,6 +1294,13 @@ class AsyncRawTtsClient:
                     raise ApiError(
                         status_code=_response.status_code, headers=dict(_response.headers), body=_response.text
                     )
+                except ValidationError as e:
+                    raise ParsingError(
+                        status_code=_response.status_code,
+                        headers=dict(_response.headers),
+                        body=_response.json(),
+                        cause=e,
+                    )
                 raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
             yield await _stream()
@@ -1281,10 +1351,12 @@ class AsyncRawTtsClient:
             method="POST",
             data={
                 "strip_headers": strip_headers,
-                "context": json.dumps(jsonable_encoder(context)),
-                "voice": json.dumps(jsonable_encoder(voice)),
-                "format": json.dumps(jsonable_encoder(format)),
-                "include_timestamp_types": json.dumps(jsonable_encoder(include_timestamp_types)),
+                "context": json.dumps(jsonable_encoder(context)) if context is not OMIT else OMIT,
+                "voice": json.dumps(jsonable_encoder(voice)) if voice is not OMIT else OMIT,
+                "format": json.dumps(jsonable_encoder(format)) if format is not OMIT else OMIT,
+                "include_timestamp_types": json.dumps(jsonable_encoder(include_timestamp_types))
+                if include_timestamp_types is not OMIT
+                else OMIT,
             },
             files={
                 "audio": audio,
@@ -1318,6 +1390,13 @@ class AsyncRawTtsClient:
                 except JSONDecodeError:
                     raise ApiError(
                         status_code=_response.status_code, headers=dict(_response.headers), body=_response.text
+                    )
+                except ValidationError as e:
+                    raise ParsingError(
+                        status_code=_response.status_code,
+                        headers=dict(_response.headers),
+                        body=_response.json(),
+                        cause=e,
                     )
                 raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
@@ -1369,10 +1448,12 @@ class AsyncRawTtsClient:
             method="POST",
             data={
                 "strip_headers": strip_headers,
-                "context": json.dumps(jsonable_encoder(context)),
-                "voice": json.dumps(jsonable_encoder(voice)),
-                "format": json.dumps(jsonable_encoder(format)),
-                "include_timestamp_types": json.dumps(jsonable_encoder(include_timestamp_types)),
+                "context": json.dumps(jsonable_encoder(context)) if context is not OMIT else OMIT,
+                "voice": json.dumps(jsonable_encoder(voice)) if voice is not OMIT else OMIT,
+                "format": json.dumps(jsonable_encoder(format)) if format is not OMIT else OMIT,
+                "include_timestamp_types": json.dumps(jsonable_encoder(include_timestamp_types))
+                if include_timestamp_types is not OMIT
+                else OMIT,
             },
             files={
                 **({"audio": audio} if audio is not None else {}),
@@ -1419,6 +1500,13 @@ class AsyncRawTtsClient:
                 except JSONDecodeError:
                     raise ApiError(
                         status_code=_response.status_code, headers=dict(_response.headers), body=_response.text
+                    )
+                except ValidationError as e:
+                    raise ParsingError(
+                        status_code=_response.status_code,
+                        headers=dict(_response.headers),
+                        body=_response.json(),
+                        cause=e,
                     )
                 raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 

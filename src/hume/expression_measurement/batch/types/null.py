@@ -3,3 +3,6 @@
 import typing
 
 Null = typing.Dict[str, typing.Any]
+"""
+No associated metadata for this model. Value will be `null`.
+"""

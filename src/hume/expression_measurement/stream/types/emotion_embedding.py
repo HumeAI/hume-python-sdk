@@ -5,3 +5,6 @@ import typing
 from .emotion_embedding_item import EmotionEmbeddingItem
 
 EmotionEmbedding = typing.List[EmotionEmbeddingItem]
+"""
+A high-dimensional embedding in emotion space.
+"""
