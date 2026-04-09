@@ -59,6 +59,11 @@ class RawVoicesClient:
         ascending_order : typing.Optional[bool]
 
         filter_tag : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            Filter voices by tag using `TAG:TAG_VALUE` syntax.
+
+            For example, `GENDER:Male` returns only voices with the `GENDER` tag set to `Male`. Tag types are case-insensitive; tag values are case-sensitive.
+
+            Multiple values are ANDed together; for example, `[GENDER:Male, LANGUAGE:Japanese]` returns only voices matching both criteria.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -266,6 +271,11 @@ class AsyncRawVoicesClient:
         ascending_order : typing.Optional[bool]
 
         filter_tag : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            Filter voices by tag using `TAG:TAG_VALUE` syntax.
+
+            For example, `GENDER:Male` returns only voices with the `GENDER` tag set to `Male`. Tag types are case-insensitive; tag values are case-sensitive.
+
+            Multiple values are ANDed together; for example, `[GENDER:Male, LANGUAGE:Japanese]` returns only voices matching both criteria.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
