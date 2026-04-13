@@ -6,5 +6,36 @@ generations:
     timestamp: 2026-03-04T21:44:25.857Z
     cli_version: unknown
     generator_versions: {}
-current_generation: 49870a174e0242036241ef71f5ed00f7573d11af
-patches: []
+  - commit_sha: 72bfa60839b4d20f97475e0731ae903b3e2524de
+    tree_hash: 9a01781251a0ad307bb854b3c77376c0265e3641
+    timestamp: 2026-04-09T18:31:39Z
+    cli_version: unknown
+    generator_versions:
+      fernapi/fern-python-sdk: 4.61.0
+    base_branch_head: aefc9b4e5b10518dcdefbe5a08af0239f1e182db
+current_generation: 72bfa60839b4d20f97475e0731ae903b3e2524de
+patches:
+  - id: patch-composite-aefc9b4e
+    content_hash: sha256:4d06aa73213dfb5e35184e2d21daaf2b9e865206e7f6f73b29c17140c7c159cc
+    original_commit: aefc9b4e5b10518dcdefbe5a08af0239f1e182db
+    original_message: Customer customizations (composite)
+    original_author: composite
+    base_generation: 72bfa60839b4d20f97475e0731ae903b3e2524de
+    files:
+      - tests/wire/test_empathicVoice_tools.py
+    patch_content: |
+      diff --git a/tests/wire/test_empathicVoice_tools.py b/tests/wire/test_empathicVoice_tools.py
+      index 8d4300a..8503476 100644
+      --- a/tests/wire/test_empathicVoice_tools.py
+      +++ b/tests/wire/test_empathicVoice_tools.py
+      @@ -73,8 +73,8 @@ def test_empathicVoice_tools_delete_tool_version() -> None:
+           """Test delete-tool-version endpoint with WireMock"""
+           test_id = "empathic_voice.tools.delete_tool_version.0"
+           client = get_client(test_id)
+      -    client.empathic_voice.tools.delete_tool_version(id="", version=1)
+      -    verify_request_count(test_id, "DELETE", "/v0/evi/tools/{id}/version/1", None, 1)
+      +    client.empathic_voice.tools.delete_tool_version(id="your-tool-id", version=1)
+      +    verify_request_count(test_id, "DELETE", "/v0/evi/tools/your-tool-id/version/1", None, 1)
+       
+       
+       def test_empathicVoice_tools_update_tool_description() -> None:
