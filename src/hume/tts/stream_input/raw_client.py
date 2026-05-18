@@ -35,9 +35,9 @@ class RawStreamInputClient:
         context_generation_id: typing.Optional[str] = None,
         format_type: typing.Optional[AudioFormatType] = None,
         include_timestamp_types: typing.Optional[typing.Union[TimestampType, typing.Sequence[TimestampType]]] = None,
-        instant_mode: typing.Optional[bool] = None,
         no_binary: typing.Optional[bool] = None,
         strip_headers: typing.Optional[bool] = None,
+        temperature: typing.Optional[float] = None,
         version: typing.Optional[OctaveVersion] = None,
         api_key: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
@@ -63,14 +63,21 @@ class RawStreamInputClient:
         include_timestamp_types : typing.Optional[typing.Union[TimestampType, typing.Sequence[TimestampType]]]
             The set of timestamp types to include in the response. Only supported for Octave 2 requests.
 
-        instant_mode : typing.Optional[bool]
-            Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
-
         no_binary : typing.Optional[bool]
             If enabled, no binary websocket messages will be sent to the client.
 
         strip_headers : typing.Optional[bool]
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+
+        temperature : typing.Optional[float]
+            Sampling temperature for the speech generation model. Higher values increase variation; lower values increase consistency.
+
+            **This is an experimental parameter.** It is recommended to use the default values for most use cases.
+
+            Defaults when omitted:
+            - Octave 1 voice creation (no voice specified): `0.9`
+            - Octave 1 text-to-speech: `0.8`
+            - Octave 2 text-to-speech: `0.75`
 
         version : typing.Optional[OctaveVersion]
             The version of the Octave Model to use. 1 for the legacy model, 2 for the new model.
@@ -96,9 +103,9 @@ class RawStreamInputClient:
                         "context_generation_id": context_generation_id,
                         "format_type": format_type,
                         "include_timestamp_types": include_timestamp_types,
-                        "instant_mode": instant_mode,
                         "no_binary": no_binary,
                         "strip_headers": strip_headers,
+                        "temperature": temperature,
                         "version": version,
                         "api_key": api_key,
                         **(
@@ -145,9 +152,9 @@ class AsyncRawStreamInputClient:
         context_generation_id: typing.Optional[str] = None,
         format_type: typing.Optional[AudioFormatType] = None,
         include_timestamp_types: typing.Optional[typing.Union[TimestampType, typing.Sequence[TimestampType]]] = None,
-        instant_mode: typing.Optional[bool] = None,
         no_binary: typing.Optional[bool] = None,
         strip_headers: typing.Optional[bool] = None,
+        temperature: typing.Optional[float] = None,
         version: typing.Optional[OctaveVersion] = None,
         api_key: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
@@ -173,14 +180,21 @@ class AsyncRawStreamInputClient:
         include_timestamp_types : typing.Optional[typing.Union[TimestampType, typing.Sequence[TimestampType]]]
             The set of timestamp types to include in the response. Only supported for Octave 2 requests.
 
-        instant_mode : typing.Optional[bool]
-            Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode).
-
         no_binary : typing.Optional[bool]
             If enabled, no binary websocket messages will be sent to the client.
 
         strip_headers : typing.Optional[bool]
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+
+        temperature : typing.Optional[float]
+            Sampling temperature for the speech generation model. Higher values increase variation; lower values increase consistency.
+
+            **This is an experimental parameter.** It is recommended to use the default values for most use cases.
+
+            Defaults when omitted:
+            - Octave 1 voice creation (no voice specified): `0.9`
+            - Octave 1 text-to-speech: `0.8`
+            - Octave 2 text-to-speech: `0.75`
 
         version : typing.Optional[OctaveVersion]
             The version of the Octave Model to use. 1 for the legacy model, 2 for the new model.
@@ -206,9 +220,9 @@ class AsyncRawStreamInputClient:
                         "context_generation_id": context_generation_id,
                         "format_type": format_type,
                         "include_timestamp_types": include_timestamp_types,
-                        "instant_mode": instant_mode,
                         "no_binary": no_binary,
                         "strip_headers": strip_headers,
+                        "temperature": temperature,
                         "version": version,
                         "api_key": api_key,
                         **(

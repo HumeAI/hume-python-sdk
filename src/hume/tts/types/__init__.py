@@ -8,6 +8,7 @@ from importlib import import_module
 if typing.TYPE_CHECKING:
     from .audio_encoding import AudioEncoding
     from .audio_format_type import AudioFormatType
+    from .context import Context
     from .error_response import ErrorResponse
     from .format import Format
     from .format_mp_3 import FormatMp3
@@ -20,6 +21,7 @@ if typing.TYPE_CHECKING:
     from .posted_context_with_generation_id import PostedContextWithGenerationId
     from .posted_context_with_utterances import PostedContextWithUtterances
     from .posted_tts import PostedTts
+    from .posted_tts_stream import PostedTtsStream
     from .posted_utterance import PostedUtterance
     from .posted_utterance_voice import PostedUtteranceVoice
     from .posted_utterance_voice_with_id import PostedUtteranceVoiceWithId
@@ -41,6 +43,7 @@ if typing.TYPE_CHECKING:
 _dynamic_imports: typing.Dict[str, str] = {
     "AudioEncoding": ".audio_encoding",
     "AudioFormatType": ".audio_format_type",
+    "Context": ".context",
     "ErrorResponse": ".error_response",
     "Format": ".format",
     "FormatMp3": ".format_mp_3",
@@ -53,6 +56,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "PostedContextWithGenerationId": ".posted_context_with_generation_id",
     "PostedContextWithUtterances": ".posted_context_with_utterances",
     "PostedTts": ".posted_tts",
+    "PostedTtsStream": ".posted_tts_stream",
     "PostedUtterance": ".posted_utterance",
     "PostedUtteranceVoice": ".posted_utterance_voice",
     "PostedUtteranceVoiceWithId": ".posted_utterance_voice_with_id",
@@ -98,6 +102,7 @@ def __dir__():
 __all__ = [
     "AudioEncoding",
     "AudioFormatType",
+    "Context",
     "ErrorResponse",
     "Format",
     "FormatMp3",
@@ -110,6 +115,7 @@ __all__ = [
     "PostedContextWithGenerationId",
     "PostedContextWithUtterances",
     "PostedTts",
+    "PostedTtsStream",
     "PostedUtterance",
     "PostedUtteranceVoice",
     "PostedUtteranceVoiceWithId",
