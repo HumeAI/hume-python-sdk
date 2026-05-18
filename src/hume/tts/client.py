@@ -53,7 +53,6 @@ class TtsClient:
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
         version: typing.Optional[OctaveVersion] = OMIT,
-        instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnTts:
         """
@@ -101,8 +100,6 @@ class TtsClient:
 
             For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
 
-        instant_mode : typing.Optional[bool]
-
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -147,7 +144,6 @@ class TtsClient:
             split_utterances=split_utterances,
             strip_headers=strip_headers,
             version=version,
-            instant_mode=instant_mode,
             request_options=request_options,
         )
         return _response.data
@@ -163,7 +159,6 @@ class TtsClient:
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
         version: typing.Optional[OctaveVersion] = OMIT,
-        instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Iterator[bytes]:
         """
@@ -211,8 +206,6 @@ class TtsClient:
 
             For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
 
-        instant_mode : typing.Optional[bool]
-
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
 
@@ -252,7 +245,6 @@ class TtsClient:
             split_utterances=split_utterances,
             strip_headers=strip_headers,
             version=version,
-            instant_mode=instant_mode,
             request_options=request_options,
         ) as r:
             yield from r.data
@@ -268,7 +260,6 @@ class TtsClient:
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
         version: typing.Optional[OctaveVersion] = OMIT,
-        instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Iterator[bytes]:
         """
@@ -314,8 +305,6 @@ class TtsClient:
 
             For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
 
-        instant_mode : typing.Optional[bool]
-
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
 
@@ -353,7 +342,6 @@ class TtsClient:
             split_utterances=split_utterances,
             strip_headers=strip_headers,
             version=version,
-            instant_mode=instant_mode,
             request_options=request_options,
         ) as r:
             yield from r.data
@@ -369,7 +357,6 @@ class TtsClient:
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
         version: typing.Optional[OctaveVersion] = OMIT,
-        instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Iterator[TtsOutput]:
         """
@@ -417,8 +404,6 @@ class TtsClient:
 
             For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
 
-        instant_mode : typing.Optional[bool]
-
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -458,7 +443,6 @@ class TtsClient:
             split_utterances=split_utterances,
             strip_headers=strip_headers,
             version=version,
-            instant_mode=instant_mode,
             request_options=request_options,
         ) as r:
             yield from r.data
@@ -620,7 +604,6 @@ class AsyncTtsClient:
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
         version: typing.Optional[OctaveVersion] = OMIT,
-        instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReturnTts:
         """
@@ -667,8 +650,6 @@ class AsyncTtsClient:
             Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
 
             For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
-
-        instant_mode : typing.Optional[bool]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -722,7 +703,6 @@ class AsyncTtsClient:
             split_utterances=split_utterances,
             strip_headers=strip_headers,
             version=version,
-            instant_mode=instant_mode,
             request_options=request_options,
         )
         return _response.data
@@ -738,7 +718,6 @@ class AsyncTtsClient:
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
         version: typing.Optional[OctaveVersion] = OMIT,
-        instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.AsyncIterator[bytes]:
         """
@@ -785,8 +764,6 @@ class AsyncTtsClient:
             Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
 
             For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
-
-        instant_mode : typing.Optional[bool]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
@@ -835,7 +812,6 @@ class AsyncTtsClient:
             split_utterances=split_utterances,
             strip_headers=strip_headers,
             version=version,
-            instant_mode=instant_mode,
             request_options=request_options,
         ) as r:
             async for _chunk in r.data:
@@ -852,7 +828,6 @@ class AsyncTtsClient:
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
         version: typing.Optional[OctaveVersion] = OMIT,
-        instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.AsyncIterator[bytes]:
         """
@@ -897,8 +872,6 @@ class AsyncTtsClient:
             Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
 
             For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
-
-        instant_mode : typing.Optional[bool]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
@@ -945,7 +918,6 @@ class AsyncTtsClient:
             split_utterances=split_utterances,
             strip_headers=strip_headers,
             version=version,
-            instant_mode=instant_mode,
             request_options=request_options,
         ) as r:
             async for _chunk in r.data:
@@ -962,7 +934,6 @@ class AsyncTtsClient:
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
         version: typing.Optional[OctaveVersion] = OMIT,
-        instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.AsyncIterator[TtsOutput]:
         """
@@ -1009,8 +980,6 @@ class AsyncTtsClient:
             Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
 
             For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.
-
-        instant_mode : typing.Optional[bool]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1059,7 +1028,6 @@ class AsyncTtsClient:
             split_utterances=split_utterances,
             strip_headers=strip_headers,
             version=version,
-            instant_mode=instant_mode,
             request_options=request_options,
         ) as r:
             async for _chunk in r.data:
