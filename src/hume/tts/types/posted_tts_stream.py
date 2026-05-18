@@ -4,15 +4,15 @@ import typing
 
 import pydantic
 from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .context import Context
 from .format import Format
 from .octave_version import OctaveVersion
-from .posted_context import PostedContext
 from .posted_utterance import PostedUtterance
 from .timestamp_type import TimestampType
 
 
-class PostedTts(UniversalBaseModel):
-    context: typing.Optional[PostedContext] = pydantic.Field(default=None)
+class PostedTtsStream(UniversalBaseModel):
+    context: typing.Optional[Context] = pydantic.Field(default=None)
     """
     Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
     """

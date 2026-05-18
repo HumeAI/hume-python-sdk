@@ -28,12 +28,12 @@ class BaseClientWrapper:
         import platform
 
         headers: typing.Dict[str, str] = {
-            "User-Agent": "hume/0.13.11",
+            "User-Agent": "hume/0.13.12",
             "X-Fern-Language": "Python",
             "X-Fern-Runtime": f"python/{platform.python_version()}",
             "X-Fern-Platform": f"{platform.system().lower()}/{platform.release()}",
             "X-Fern-SDK-Name": "hume",
-            "X-Fern-SDK-Version": "0.13.11",
+            "X-Fern-SDK-Version": "0.13.12",
             **(self.get_custom_headers() or {}),
         }
         if self.api_key is not None:
