@@ -50,6 +50,7 @@ class StreamInputClient:
         instant_mode: typing.Optional[bool] = None,
         no_binary: typing.Optional[bool] = None,
         strip_headers: typing.Optional[bool] = None,
+        temperature: typing.Optional[float] = None,
         version: typing.Optional[OctaveVersion] = None,
         api_key: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
@@ -84,6 +85,16 @@ class StreamInputClient:
         strip_headers : typing.Optional[bool]
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
 
+        temperature : typing.Optional[float]
+            Sampling temperature for the speech generation model. Higher values increase variation; lower values increase consistency.
+
+            **This is an experimental parameter.** It is recommended to use the default values for most use cases.
+
+            Defaults when omitted:
+            - Octave 1 voice creation (no voice specified): `0.9`
+            - Octave 1 text-to-speech: `0.8`
+            - Octave 2 text-to-speech: `0.75`
+
         version : typing.Optional[OctaveVersion]
             The version of the Octave Model to use. 1 for the legacy model, 2 for the new model.
 
@@ -111,6 +122,7 @@ class StreamInputClient:
                         "instant_mode": instant_mode,
                         "no_binary": no_binary,
                         "strip_headers": strip_headers,
+                        "temperature": temperature,
                         "version": version,
                         "api_key": api_key,
                         **(
@@ -171,6 +183,7 @@ class AsyncStreamInputClient:
         instant_mode: typing.Optional[bool] = None,
         no_binary: typing.Optional[bool] = None,
         strip_headers: typing.Optional[bool] = None,
+        temperature: typing.Optional[float] = None,
         version: typing.Optional[OctaveVersion] = None,
         api_key: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
@@ -205,6 +218,16 @@ class AsyncStreamInputClient:
         strip_headers : typing.Optional[bool]
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
 
+        temperature : typing.Optional[float]
+            Sampling temperature for the speech generation model. Higher values increase variation; lower values increase consistency.
+
+            **This is an experimental parameter.** It is recommended to use the default values for most use cases.
+
+            Defaults when omitted:
+            - Octave 1 voice creation (no voice specified): `0.9`
+            - Octave 1 text-to-speech: `0.8`
+            - Octave 2 text-to-speech: `0.75`
+
         version : typing.Optional[OctaveVersion]
             The version of the Octave Model to use. 1 for the legacy model, 2 for the new model.
 
@@ -232,6 +255,7 @@ class AsyncStreamInputClient:
                         "instant_mode": instant_mode,
                         "no_binary": no_binary,
                         "strip_headers": strip_headers,
+                        "temperature": temperature,
                         "version": version,
                         "api_key": api_key,
                         **(
