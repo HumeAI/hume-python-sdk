@@ -447,7 +447,7 @@ class ToolsClient:
             api_key="YOUR_API_KEY",
         )
         client.empathic_voice.tools.delete_tool_version(
-            id="",
+            id="your-tool-id",
             version=1,
         )
         """
@@ -1008,7 +1008,7 @@ class AsyncToolsClient:
 
         async def main() -> None:
             await client.empathic_voice.tools.delete_tool_version(
-                id="",
+                id="your-tool-id",
                 version=1,
             )
 
