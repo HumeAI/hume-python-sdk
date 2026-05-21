@@ -52,6 +52,7 @@ class TtsClient:
         num_generations: typing.Optional[int] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
+        temperature: typing.Optional[float] = OMIT,
         version: typing.Optional[OctaveVersion] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -93,6 +94,9 @@ class TtsClient:
 
         strip_headers : typing.Optional[bool]
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+
+        temperature : typing.Optional[float]
+            Sampling temperature for the speech generation model. Higher values increase variation; lower values increase consistency.
 
         version : typing.Optional[OctaveVersion]
             Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
@@ -146,6 +150,7 @@ class TtsClient:
             num_generations=num_generations,
             split_utterances=split_utterances,
             strip_headers=strip_headers,
+            temperature=temperature,
             version=version,
             instant_mode=instant_mode,
             request_options=request_options,
@@ -162,6 +167,7 @@ class TtsClient:
         num_generations: typing.Optional[int] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
+        temperature: typing.Optional[float] = OMIT,
         version: typing.Optional[OctaveVersion] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -203,6 +209,9 @@ class TtsClient:
 
         strip_headers : typing.Optional[bool]
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+
+        temperature : typing.Optional[float]
+            Sampling temperature for the speech generation model. Higher values increase variation; lower values increase consistency.
 
         version : typing.Optional[OctaveVersion]
             Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
@@ -251,6 +260,7 @@ class TtsClient:
             num_generations=num_generations,
             split_utterances=split_utterances,
             strip_headers=strip_headers,
+            temperature=temperature,
             version=version,
             instant_mode=instant_mode,
             request_options=request_options,
@@ -267,6 +277,7 @@ class TtsClient:
         num_generations: typing.Optional[int] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
+        temperature: typing.Optional[float] = OMIT,
         version: typing.Optional[OctaveVersion] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -306,6 +317,9 @@ class TtsClient:
 
         strip_headers : typing.Optional[bool]
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+
+        temperature : typing.Optional[float]
+            Sampling temperature for the speech generation model. Higher values increase variation; lower values increase consistency.
 
         version : typing.Optional[OctaveVersion]
             Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
@@ -352,6 +366,7 @@ class TtsClient:
             num_generations=num_generations,
             split_utterances=split_utterances,
             strip_headers=strip_headers,
+            temperature=temperature,
             version=version,
             instant_mode=instant_mode,
             request_options=request_options,
@@ -368,6 +383,7 @@ class TtsClient:
         num_generations: typing.Optional[int] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
+        temperature: typing.Optional[float] = OMIT,
         version: typing.Optional[OctaveVersion] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -409,6 +425,9 @@ class TtsClient:
 
         strip_headers : typing.Optional[bool]
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+
+        temperature : typing.Optional[float]
+            Sampling temperature for the speech generation model. Higher values increase variation; lower values increase consistency.
 
         version : typing.Optional[OctaveVersion]
             Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
@@ -457,6 +476,7 @@ class TtsClient:
             num_generations=num_generations,
             split_utterances=split_utterances,
             strip_headers=strip_headers,
+            temperature=temperature,
             version=version,
             instant_mode=instant_mode,
             request_options=request_options,
@@ -619,6 +639,7 @@ class AsyncTtsClient:
         num_generations: typing.Optional[int] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
+        temperature: typing.Optional[float] = OMIT,
         version: typing.Optional[OctaveVersion] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -660,6 +681,9 @@ class AsyncTtsClient:
 
         strip_headers : typing.Optional[bool]
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+
+        temperature : typing.Optional[float]
+            Sampling temperature for the speech generation model. Higher values increase variation; lower values increase consistency.
 
         version : typing.Optional[OctaveVersion]
             Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
@@ -721,6 +745,7 @@ class AsyncTtsClient:
             num_generations=num_generations,
             split_utterances=split_utterances,
             strip_headers=strip_headers,
+            temperature=temperature,
             version=version,
             instant_mode=instant_mode,
             request_options=request_options,
@@ -737,6 +762,7 @@ class AsyncTtsClient:
         num_generations: typing.Optional[int] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
+        temperature: typing.Optional[float] = OMIT,
         version: typing.Optional[OctaveVersion] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -778,6 +804,9 @@ class AsyncTtsClient:
 
         strip_headers : typing.Optional[bool]
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+
+        temperature : typing.Optional[float]
+            Sampling temperature for the speech generation model. Higher values increase variation; lower values increase consistency.
 
         version : typing.Optional[OctaveVersion]
             Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
@@ -834,6 +863,7 @@ class AsyncTtsClient:
             num_generations=num_generations,
             split_utterances=split_utterances,
             strip_headers=strip_headers,
+            temperature=temperature,
             version=version,
             instant_mode=instant_mode,
             request_options=request_options,
@@ -851,6 +881,7 @@ class AsyncTtsClient:
         num_generations: typing.Optional[int] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
+        temperature: typing.Optional[float] = OMIT,
         version: typing.Optional[OctaveVersion] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -890,6 +921,9 @@ class AsyncTtsClient:
 
         strip_headers : typing.Optional[bool]
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+
+        temperature : typing.Optional[float]
+            Sampling temperature for the speech generation model. Higher values increase variation; lower values increase consistency.
 
         version : typing.Optional[OctaveVersion]
             Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
@@ -944,6 +978,7 @@ class AsyncTtsClient:
             num_generations=num_generations,
             split_utterances=split_utterances,
             strip_headers=strip_headers,
+            temperature=temperature,
             version=version,
             instant_mode=instant_mode,
             request_options=request_options,
@@ -961,6 +996,7 @@ class AsyncTtsClient:
         num_generations: typing.Optional[int] = OMIT,
         split_utterances: typing.Optional[bool] = OMIT,
         strip_headers: typing.Optional[bool] = OMIT,
+        temperature: typing.Optional[float] = OMIT,
         version: typing.Optional[OctaveVersion] = OMIT,
         instant_mode: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -1002,6 +1038,9 @@ class AsyncTtsClient:
 
         strip_headers : typing.Optional[bool]
             If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+
+        temperature : typing.Optional[float]
+            Sampling temperature for the speech generation model. Higher values increase variation; lower values increase consistency.
 
         version : typing.Optional[OctaveVersion]
             Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
@@ -1058,6 +1097,7 @@ class AsyncTtsClient:
             num_generations=num_generations,
             split_utterances=split_utterances,
             strip_headers=strip_headers,
+            temperature=temperature,
             version=version,
             instant_mode=instant_mode,
             request_options=request_options,
