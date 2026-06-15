@@ -6,7 +6,7 @@ import typing
 from importlib import import_module
 
 if typing.TYPE_CHECKING:
-    from . import empathic_voice, expression_measurement, tts
+    from . import empathic_voice, tts
     from .client import AsyncHumeClient, HumeClient
     from .empathic_voice.chat.audio.asyncio_utilities import Stream
     from .empathic_voice.chat.audio.microphone_interface import MicrophoneInterface
@@ -20,7 +20,6 @@ _dynamic_imports: typing.Dict[str, str] = {
     "Stream": ".empathic_voice.chat.audio.asyncio_utilities",
     "__version__": ".version",
     "empathic_voice": ".empathic_voice",
-    "expression_measurement": ".expression_measurement",
     "tts": ".tts",
 }
 
@@ -54,6 +53,5 @@ __all__ = [
     "Stream",
     "__version__",
     "empathic_voice",
-    "expression_measurement",
     "tts",
 ]

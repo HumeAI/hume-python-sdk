@@ -11,7 +11,6 @@ from .environment import HumeClientEnvironment
 
 if typing.TYPE_CHECKING:
     from .empathic_voice.client import AsyncEmpathicVoiceClient, EmpathicVoiceClient
-    from .expression_measurement.client import AsyncExpressionMeasurementClient, ExpressionMeasurementClient
     from .tts.client import AsyncTtsClient, TtsClient
 
 
@@ -83,7 +82,6 @@ class BaseHumeClient:
         )
         self._empathic_voice: typing.Optional[EmpathicVoiceClient] = None
         self._tts: typing.Optional[TtsClient] = None
-        self._expression_measurement: typing.Optional[ExpressionMeasurementClient] = None
 
     @property
     def empathic_voice(self):
@@ -100,14 +98,6 @@ class BaseHumeClient:
 
             self._tts = TtsClient(client_wrapper=self._client_wrapper)
         return self._tts
-
-    @property
-    def expression_measurement(self):
-        if self._expression_measurement is None:
-            from .expression_measurement.client import ExpressionMeasurementClient  # noqa: E402
-
-            self._expression_measurement = ExpressionMeasurementClient(client_wrapper=self._client_wrapper)
-        return self._expression_measurement
 
 
 class AsyncBaseHumeClient:
@@ -178,7 +168,6 @@ class AsyncBaseHumeClient:
         )
         self._empathic_voice: typing.Optional[AsyncEmpathicVoiceClient] = None
         self._tts: typing.Optional[AsyncTtsClient] = None
-        self._expression_measurement: typing.Optional[AsyncExpressionMeasurementClient] = None
 
     @property
     def empathic_voice(self):
@@ -195,11 +184,3 @@ class AsyncBaseHumeClient:
 
             self._tts = AsyncTtsClient(client_wrapper=self._client_wrapper)
         return self._tts
-
-    @property
-    def expression_measurement(self):
-        if self._expression_measurement is None:
-            from .expression_measurement.client import AsyncExpressionMeasurementClient  # noqa: E402
-
-            self._expression_measurement = AsyncExpressionMeasurementClient(client_wrapper=self._client_wrapper)
-        return self._expression_measurement

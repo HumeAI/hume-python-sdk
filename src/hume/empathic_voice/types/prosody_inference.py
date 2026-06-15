@@ -14,7 +14,7 @@ class ProsodyInference(UniversalBaseModel):
     
     Scores typically range from 0 to 1, with higher values indicating a stronger confidence level in the measured attribute.
     
-    See our guide on [interpreting expression measurement results](/docs/expression-measurement/faq#how-do-i-interpret-my-results) to learn more.
+    See our guide on [interpreting expression measures](/docs/speech-to-speech-evi/faq#what-do-evis-expression-labels-and-measures-mean) to learn more.
     """
 
     if IS_PYDANTIC_V2:
