@@ -6,5 +6,168 @@ generations:
     timestamp: 2026-03-04T21:44:25.857Z
     cli_version: unknown
     generator_versions: {}
-current_generation: 49870a174e0242036241ef71f5ed00f7573d11af
-patches: []
+  - commit_sha: fe01fd08770ba763f2599c946a16b6b338e6e86f
+    tree_hash: d0b66290fa6e15f864f77fb3fd897340b79062eb
+    timestamp: 2026-06-15T20:50:01.935Z
+    cli_version: unknown
+    generator_versions:
+      fernapi/fern-python-sdk: 4.61.0
+current_generation: fe01fd08770ba763f2599c946a16b6b338e6e86f
+patches:
+  - id: patch-ece510a1
+    content_hash: sha256:2296c327028f8024cba5c6ffccf276bca01550441a8ddc9ec88499b9e056f429
+    original_commit: ece510a1ed2211a1803f6964767988211f2a74f9
+    original_message: Expose temperature parameter on TTS client (#486)
+    original_author: Rob Hughes <77rgh77@gmail.com>
+    base_generation: b5be3efc6b1ca84a043b82c57631736c867cac35
+    files:
+      - pyproject.toml
+    patch_content: |
+      diff --git a/pyproject.toml b/pyproject.toml
+      index 3b3bc72..d173560 100644
+      --- a/pyproject.toml
+      +++ b/pyproject.toml
+      @@ -4,7 +4,7 @@ dynamic = ["version"]
+       
+       [tool.poetry]
+       name = "hume"
+      -version = "0.13.12"
+      +version = "0.13.13"
+       description = "A Python SDK for Hume AI"
+       readme = "README.md"
+       authors = []
+    theirs_snapshot:
+      pyproject.toml: |
+        [project]
+        name = "hume"
+        dynamic = ["version"]
+
+        [tool.poetry]
+        name = "hume"
+        version = "0.13.13"
+        description = "A Python SDK for Hume AI"
+        readme = "README.md"
+        authors = []
+        keywords = [
+            "hume",
+            "ai",
+            "evi",
+            "empathic",
+            "multimodal",
+            "expression",
+            "analysis",
+            "sentiment",
+            "voice",
+            "recognition",
+            "detection",
+            "emotion",
+            "interface",
+            "speech",
+            "audio",
+            "vision",
+            "expressive",
+            "embeddings",
+            "communication",
+            "learning"
+        ]
+        license = "MIT"
+        classifiers = [
+            "Intended Audience :: Developers",
+            "Programming Language :: Python",
+            "Programming Language :: Python :: 3",
+            "Programming Language :: Python :: 3.9",
+            "Programming Language :: Python :: 3.10",
+            "Programming Language :: Python :: 3.11",
+            "Programming Language :: Python :: 3.12",
+            "Programming Language :: Python :: 3.13",
+            "Programming Language :: Python :: 3.14",
+            "Programming Language :: Python :: 3.15",
+            "Operating System :: OS Independent",
+            "Operating System :: POSIX",
+            "Operating System :: MacOS",
+            "Operating System :: POSIX :: Linux",
+            "Operating System :: Microsoft :: Windows",
+            "Topic :: Software Development :: Libraries :: Python Modules",
+            "Typing :: Typed",
+            "License :: OSI Approved :: MIT License"
+        ]
+        packages = [
+            { include = "hume", from = "src"}
+        ]
+
+        [tool.poetry.urls]
+        Documentation = 'https://dev.hume.ai'
+        Homepage = 'https://www.hume.ai/'
+        Repository = 'https://github.com/HumeAI/hume-python-sdk'
+
+        [tool.poetry.dependencies]
+        python = ">=3.9,<4"
+        aiofiles = "^24.1.0"
+        eval-type-backport = "^0.2.0"
+        exceptiongroup = "^1.3.0"
+        httpx = ">=0.21.2"
+        jupyter = { version = "^1.0.0", optional = true}
+        pydantic = ">= 1.9.2"
+        pydantic-core = ">=2.18.2"
+        sounddevice = { version = "^0.4.6", optional = true}
+        typing_extensions = ">= 4.0.0"
+        websockets = ">=12.0"
+
+        [tool.poetry.group.dev.dependencies]
+        mypy = "==1.13.0"
+        pytest = "^7.4.0"
+        pytest-asyncio = "^0.23.5"
+        pytest-xdist = "^3.6.1"
+        python-dateutil = "^2.9.0"
+        types-python-dateutil = "^2.9.0.20240316"
+        requests = "^2.31.0"
+        types-requests = "^2.31.0"
+        covcheck = { version = "^0.4.3", extras = ["toml"]}
+        pydocstyle = "^6.1.1"
+        pydub-stubs = "^0.25.1"
+        pylint = "^2.16.2"
+        pytest-cov = "^4.0.0"
+        ruff = "==0.11.5"
+        semver = "^2.13.0"
+        testbook = "^0.4.2"
+        types-aiofiles = "^24.1.0.20240626"
+
+        [tool.pytest.ini_options]
+        testpaths = [ "tests" ]
+        asyncio_mode = "auto"
+
+        [tool.mypy]
+        plugins = ["pydantic.mypy"]
+
+        [tool.ruff]
+        line-length = 120
+
+        [tool.ruff.lint]
+        select = [
+            "E",  # pycodestyle errors
+            "F",  # pyflakes
+            "I",  # isort
+        ]
+        ignore = [
+            "E402",  # Module level import not at top of file
+            "E501",  # Line too long
+            "E711",  # Comparison to `None` should be `cond is not None`
+            "E712",  # Avoid equality comparisons to `True`; use `if ...:` checks
+            "E721",  # Use `is` and `is not` for type comparisons, or `isinstance()` for insinstance checks
+            "E722",  # Do not use bare `except`
+            "E731",  # Do not assign a `lambda` expression, use a `def`
+            "F821",  # Undefined name
+            "F841"   # Local variable ... is assigned to but never used
+        ]
+
+        [tool.ruff.lint.isort]
+        section-order = ["future", "standard-library", "third-party", "first-party"]
+
+        [build-system]
+        requires = ["poetry-core"]
+        build-backend = "poetry.core.masonry.api"
+
+        [tool.poetry.extras]
+        examples=["jupyter"]
+        microphone=["sounddevice"]
+    status: unresolved
