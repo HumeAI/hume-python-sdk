@@ -23,7 +23,6 @@
         "optional": true
       },
       "eval-type-backport": "^0.2.0",
-      "aiofiles": "^24.1.0",
       "exceptiongroup": "^1.3.0"
     },
     "extra_dev_dependencies": {
@@ -38,8 +37,7 @@
         ]
       },
       "testbook": "^0.4.2",
-      "pydocstyle": "^6.1.1",
-      "types-aiofiles": "^24.1.0.20240626"
+      "pydocstyle": "^6.1.1"
     },
     "extras": {
       "examples": [
