@@ -29,7 +29,6 @@ The Hume Python SDK is compatible across several Python versions and operating s
 
 - For the [Empathic Voice Interface](https://dev.hume.ai/docs/empathic-voice-interface-evi/overview), Python versions `3.9` through `3.13` are supported on macOS and Linux.
 - For [Text-to-speech (TTS)](https://dev.hume.ai/docs/text-to-speech-tts/overview), Python versions `3.9` through `3.13` are supported on macOS, Linux, and Windows.
-- For [Expression Measurement](https://dev.hume.ai/docs/expression-measurement/overview), Python versions `3.9` through `3.13` are supported on macOS, Linux, and Windows.
 
 Below is a table which shows the version and operating system compatibilities by product:
 
@@ -37,7 +36,6 @@ Below is a table which shows the version and operating system compatibilities by
 | ------------------------ | -------------------------------------- | --------------------- |
 | Empathic Voice Interface | `3.9`, `3.10`, `3.11`, `3.12`, `3.13` | macOS, Linux          |
 | Text-to-speech (TTS)     | `3.9`, `3.10`, `3.11`, `3.12`, `3.13` | macOS, Linux, Windows |
-| Expression Measurement   | `3.9`, `3.10`, `3.11`, `3.12`, `3.13` | macOS, Linux, Windows |
 
 ## Installation
 
@@ -64,7 +62,6 @@ Starter projects that use this SDK:
 
 - **[EVI Python quickstart](https://github.com/HumeAI/hume-api-examples/tree/main/evi/evi-python-quickstart)** — Empathic Voice Interface
 - **[TTS Python quickstart](https://github.com/HumeAI/hume-api-examples/tree/main/tts/tts-python-quickstart)** — Text-to-speech
-- **[Expression Measurement streaming (Python)](https://github.com/HumeAI/hume-api-examples/tree/main/expression-measurement/streaming/python-streaming-example)** — Streaming expression measurement
 
 ## Async Client
 
@@ -83,25 +80,9 @@ async def main() -> None:
 asyncio.run(main())
 ```
 
-### Writing File
-
-Writing files with an async stream of bytes can be tricky in Python! `aiofiles` can simplify this some. For example,
-you can download your job artifacts like so:
-
-```python
-import aiofiles
-
-from hume import AsyncHumeClient
-
-client = AsyncHumeClient()
-async with aiofiles.open('artifacts.zip', mode='wb') as file:
-    async for chunk in client.expression_measurement.batch.get_job_artifacts(id="my-job-id"):
-        await file.write(chunk)
-```
-
 ## Namespaces
 
-This SDK contains the APIs for empathic voice, tts, and expression measurement. Even
+This SDK contains the APIs for empathic voice and tts. Even
 if you do not plan on using more than one API to start, the SDK provides easy access in
 case you would like to use additional APIs in the future.
 
@@ -112,9 +93,8 @@ from hume.client import HumeClient
 
 client = HumeClient(api_key="YOUR_API_KEY")
 
-client.empathic_voice.         # APIs specific to Empathic Voice
-client.tts.                    # APIs specific to Text-to-speech
-client.expression_measurement. # APIs specific to Expression Measurement
+client.empathic_voice. # APIs specific to Empathic Voice
+client.tts.            # APIs specific to Text-to-speech
 ```
 
 ## Exception Handling
@@ -127,7 +107,7 @@ from hume.core import ApiError
 
 client = HumeClient(api_key="YOUR_API_KEY")
 try:
-    client.expression_measurement.batch.get_job_predictions(id="my-job-id")
+    client.empathic_voice.configs.list_configs()
 except ApiError as e:
     print(e.status_code)
     print(e.body)
@@ -166,7 +146,7 @@ print(pager.items)
 
 ## WebSockets
 
-We expose a websocket client for interacting with the EVI API as well as Expression Measurement.
+We expose a websocket client for interacting with the EVI API.
 
 When interacting with these clients, you can use them very similarly to how you'd use the common `websockets` library:
 
@@ -174,13 +154,12 @@ When interacting with these clients, you can use them very similarly to how you'
 import os
 
 from hume import AsyncHumeClient
+from hume.empathic_voice.types import UserInput
 
 client = AsyncHumeClient(api_key=os.getenv("HUME_API_KEY"))
-async with client.expression_measurement.stream.connect() as hume_socket:
-    print(await hume_socket.get_job_details())
+async with client.empathic_voice.chat.connect() as hume_socket:
+    await hume_socket.send_user_input(message=UserInput(text="Hello!"))
 ```
-
-Model configuration (e.g. face, language, prosody) is sent per payload when you send data (e.g. via `send_publish()`, `send_text()`, or `send_file()`), not at connect time.
 
 The underlying connection, in this case `hume_socket`, will support intellisense/autocomplete for the different functions that are available on the socket!
 
@@ -208,7 +187,7 @@ from hume.core import RequestOptions
 client = HumeClient(...)
 
 # Override retries for a specific method
-client.expression_measurement.batch.get_job_predictions(...,
+client.empathic_voice.configs.list_configs(
     request_options=RequestOptions(max_retries=5)
 )
 ```
@@ -228,7 +207,7 @@ client = HumeClient(
 )
 
 # Override timeout for a specific method
-client.expression_measurement.batch.get_job_predictions(...,
+client.empathic_voice.configs.list_configs(
     request_options=RequestOptions(timeout_in_seconds=20)
 )
 ```

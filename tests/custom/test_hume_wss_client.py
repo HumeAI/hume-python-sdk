@@ -4,7 +4,6 @@ from typing import AsyncContextManager, AsyncIterator, Optional, Any
 from unittest.mock import Mock
 
 import websockets.legacy.client
-from hume.expression_measurement.stream.stream.socket_client import AsyncStreamSocketClient
 from pytest import MonkeyPatch
 
 from hume.client import AsyncHumeClient
@@ -41,9 +40,3 @@ async def test_chat_connect_basic(monkeypatch: MonkeyPatch) -> None:
     monkeypatch.setattr(websockets.legacy.client, "connect", get_mock_connect("wss://api.hume.ai/v0/evi/chat"))
     async with hu.empathic_voice.chat.connect() as socket:
         assert isinstance(socket, AsyncChatSocketClient)
-
-async def test_stream_models_connect_basic(monkeypatch: MonkeyPatch) -> None:
-    hu = AsyncHumeClient(api_key="0000-0000-0000-0000")
-    monkeypatch.setattr(websockets.legacy.client, "connect", get_mock_connect("wss://api.hume.ai/v0/stream/models"))
-    async with hu.expression_measurement.stream.connect() as socket:
-        assert isinstance(socket, AsyncStreamSocketClient)
