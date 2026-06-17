@@ -19,16 +19,9 @@ src/hume/client.py
 src/hume/empathic_voice/chat/client.py
 src/hume/empathic_voice/chat/raw_client.py
 
-# Needs to add .stream to reference expression measurement stream client
-# Also wrap the .batch client in BatchClientWithUtils
-src/hume/expression_measurement/client.py
-
 # Need to add .stream_input to reference stream_input client
 src/hume/tts/client.py
 
-src/hume/expression_measurement/batch/client_with_utils.py
-# Backward compatibility for InferenceJob.status
-src/hume/expression_measurement/batch/types/inference_job.py
 src/hume/empathic_voice/chat/audio/microphone.py
 src/hume/empathic_voice/chat/audio/microphone_interface.py
 src/hume/empathic_voice/chat/audio/microphone_sender.py
@@ -39,7 +32,6 @@ src/hume/empathic_voice/chat/audio/chat_client.py
 # Manually maintained to support deprecated methods
 src/hume/empathic_voice/chat/client.py
 src/hume/empathic_voice/chat/socket_client.py
-src/hume/expression_measurement/stream/stream/socket_client.py
 src/hume/core/websocket.py
 
 # Customize the GitHub workflow to run only Fern tests (not legacy)
