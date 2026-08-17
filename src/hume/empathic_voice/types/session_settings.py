@@ -7,8 +7,8 @@ from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .audio_configuration import AudioConfiguration
 from .builtin_tool_config import BuiltinToolConfig
 from .context import Context
-from .session_settings_variables_value import SessionSettingsVariablesValue
 from .tool import Tool
+from .variables_value import VariablesValue
 
 
 class SessionSettings(UniversalBaseModel):
@@ -87,7 +87,7 @@ class SessionSettings(UniversalBaseModel):
     For more information, please refer to the [Session Settings section](/docs/empathic-voice-interface-evi/configuration#session-settings) on the EVI Configuration page.
     """
 
-    variables: typing.Optional[typing.Dict[str, SessionSettingsVariablesValue]] = pydantic.Field(default=None)
+    variables: typing.Optional[typing.Dict[str, VariablesValue]] = pydantic.Field(default=None)
     """
     This field allows you to assign values to dynamic variables referenced in your system prompt.
     

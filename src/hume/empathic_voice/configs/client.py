@@ -20,6 +20,12 @@ from ..types.return_config import ReturnConfig
 from ..types.return_paged_configs import ReturnPagedConfigs
 from ..types.voice_ref import VoiceRef
 from .raw_client import AsyncRawConfigsClient, RawConfigsClient
+from .types.posted_config_ellm_model import PostedConfigEllmModel
+from .types.posted_config_event_messages import PostedConfigEventMessages
+from .types.posted_config_language_model import PostedConfigLanguageModel
+from .types.posted_config_nudges import PostedConfigNudges
+from .types.posted_config_prompt import PostedConfigPrompt
+from .types.posted_config_timeouts import PostedConfigTimeouts
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -111,13 +117,13 @@ class ConfigsClient:
         evi_version: str,
         name: str,
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
-        ellm_model: typing.Optional[PostedEllmModel] = OMIT,
-        event_messages: typing.Optional[PostedEventMessageSpecs] = OMIT,
+        ellm_model: typing.Optional[PostedConfigEllmModel] = OMIT,
+        event_messages: typing.Optional[PostedConfigEventMessages] = OMIT,
         interruption: typing.Optional[PostedInterruptionSpec] = OMIT,
-        language_model: typing.Optional[PostedLanguageModel] = OMIT,
-        nudges: typing.Optional[PostedNudgeSpec] = OMIT,
-        prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
-        timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
+        language_model: typing.Optional[PostedConfigLanguageModel] = OMIT,
+        nudges: typing.Optional[PostedConfigNudges] = OMIT,
+        prompt: typing.Optional[PostedConfigPrompt] = OMIT,
+        timeouts: typing.Optional[PostedConfigTimeouts] = OMIT,
         tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
         turn_detection: typing.Optional[PostedTurnDetectionSpec] = OMIT,
         version_description: typing.Optional[str] = OMIT,
@@ -141,19 +147,29 @@ class ConfigsClient:
         builtin_tools : typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]
             Built-in tool specification for a Config.
 
-        ellm_model : typing.Optional[PostedEllmModel]
+        ellm_model : typing.Optional[PostedConfigEllmModel]
+            The eLLM setup associated with this Config.
 
-        event_messages : typing.Optional[PostedEventMessageSpecs]
+            Hume's eLLM (empathic Large Language Model) is a multimodal language model that takes into account both expression measures and language. The eLLM generates short, empathic language responses and guides text-to-speech (TTS) prosody.
+
+        event_messages : typing.Optional[PostedConfigEventMessages]
+            Map of event messages associated with this config.
 
         interruption : typing.Optional[PostedInterruptionSpec]
 
-        language_model : typing.Optional[PostedLanguageModel]
+        language_model : typing.Optional[PostedConfigLanguageModel]
+            The supplemental language model associated with this Config.
 
-        nudges : typing.Optional[PostedNudgeSpec]
+            This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
 
-        prompt : typing.Optional[PostedConfigPromptSpec]
+        nudges : typing.Optional[PostedConfigNudges]
+            Configures nudges, brief audio prompts that can guide conversations when users pause or need encouragement to continue speaking. Nudges help create more natural, flowing interactions by providing gentle conversational cues.
 
-        timeouts : typing.Optional[PostedTimeoutSpecs]
+        prompt : typing.Optional[PostedConfigPrompt]
+            A Prompt associated with this Config.
+
+        timeouts : typing.Optional[PostedConfigTimeouts]
+            Map of timeouts associated with this config.
 
         tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
             Tool specification for a Config.
@@ -180,12 +196,14 @@ class ConfigsClient:
         Examples
         --------
         from hume import HumeClient
-        from hume.empathic_voice import (
-            PostedConfigPromptSpec,
-            PostedEventMessageSpec,
-            PostedEventMessageSpecs,
-            PostedLanguageModel,
-            VoiceName,
+        from hume.empathic_voice import VoiceName
+        from hume.empathic_voice.configs import (
+            PostedConfigEventMessages,
+            PostedConfigEventMessagesOnInactivityTimeout,
+            PostedConfigEventMessagesOnMaxDurationTimeout,
+            PostedConfigEventMessagesOnNewChat,
+            PostedConfigLanguageModel,
+            PostedConfigPrompt,
         )
 
         client = HumeClient(
@@ -193,7 +211,7 @@ class ConfigsClient:
         )
         client.empathic_voice.configs.create_config(
             name="Weather Assistant Config",
-            prompt=PostedConfigPromptSpec(
+            prompt=PostedConfigPrompt(
                 id="",
                 version=0,
             ),
@@ -202,21 +220,21 @@ class ConfigsClient:
                 provider="HUME_AI",
                 name="Ava Song",
             ),
-            language_model=PostedLanguageModel(
+            language_model=PostedConfigLanguageModel(
                 model_provider="ANTHROPIC",
                 model_resource="claude-3-7-sonnet-latest",
                 temperature=1.0,
             ),
-            event_messages=PostedEventMessageSpecs(
-                on_new_chat=PostedEventMessageSpec(
+            event_messages=PostedConfigEventMessages(
+                on_new_chat=PostedConfigEventMessagesOnNewChat(
                     enabled=False,
                     text="",
                 ),
-                on_inactivity_timeout=PostedEventMessageSpec(
+                on_inactivity_timeout=PostedConfigEventMessagesOnInactivityTimeout(
                     enabled=False,
                     text="",
                 ),
-                on_max_duration_timeout=PostedEventMessageSpec(
+                on_max_duration_timeout=PostedConfigEventMessagesOnMaxDurationTimeout(
                     enabled=False,
                     text="",
                 ),
@@ -384,8 +402,10 @@ class ConfigsClient:
         from hume.empathic_voice import (
             PostedConfigPromptSpec,
             PostedEllmModel,
-            PostedEventMessageSpec,
             PostedEventMessageSpecs,
+            PostedEventMessageSpecsOnInactivityTimeout,
+            PostedEventMessageSpecsOnMaxDurationTimeout,
+            PostedEventMessageSpecsOnNewChat,
             PostedLanguageModel,
             VoiceName,
         )
@@ -414,15 +434,15 @@ class ConfigsClient:
                 allow_short_responses=True,
             ),
             event_messages=PostedEventMessageSpecs(
-                on_new_chat=PostedEventMessageSpec(
+                on_new_chat=PostedEventMessageSpecsOnNewChat(
                     enabled=False,
                     text="",
                 ),
-                on_inactivity_timeout=PostedEventMessageSpec(
+                on_inactivity_timeout=PostedEventMessageSpecsOnInactivityTimeout(
                     enabled=False,
                     text="",
                 ),
-                on_max_duration_timeout=PostedEventMessageSpec(
+                on_max_duration_timeout=PostedEventMessageSpecsOnMaxDurationTimeout(
                     enabled=False,
                     text="",
                 ),
@@ -753,13 +773,13 @@ class AsyncConfigsClient:
         evi_version: str,
         name: str,
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
-        ellm_model: typing.Optional[PostedEllmModel] = OMIT,
-        event_messages: typing.Optional[PostedEventMessageSpecs] = OMIT,
+        ellm_model: typing.Optional[PostedConfigEllmModel] = OMIT,
+        event_messages: typing.Optional[PostedConfigEventMessages] = OMIT,
         interruption: typing.Optional[PostedInterruptionSpec] = OMIT,
-        language_model: typing.Optional[PostedLanguageModel] = OMIT,
-        nudges: typing.Optional[PostedNudgeSpec] = OMIT,
-        prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
-        timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
+        language_model: typing.Optional[PostedConfigLanguageModel] = OMIT,
+        nudges: typing.Optional[PostedConfigNudges] = OMIT,
+        prompt: typing.Optional[PostedConfigPrompt] = OMIT,
+        timeouts: typing.Optional[PostedConfigTimeouts] = OMIT,
         tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
         turn_detection: typing.Optional[PostedTurnDetectionSpec] = OMIT,
         version_description: typing.Optional[str] = OMIT,
@@ -783,19 +803,29 @@ class AsyncConfigsClient:
         builtin_tools : typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]
             Built-in tool specification for a Config.
 
-        ellm_model : typing.Optional[PostedEllmModel]
+        ellm_model : typing.Optional[PostedConfigEllmModel]
+            The eLLM setup associated with this Config.
 
-        event_messages : typing.Optional[PostedEventMessageSpecs]
+            Hume's eLLM (empathic Large Language Model) is a multimodal language model that takes into account both expression measures and language. The eLLM generates short, empathic language responses and guides text-to-speech (TTS) prosody.
+
+        event_messages : typing.Optional[PostedConfigEventMessages]
+            Map of event messages associated with this config.
 
         interruption : typing.Optional[PostedInterruptionSpec]
 
-        language_model : typing.Optional[PostedLanguageModel]
+        language_model : typing.Optional[PostedConfigLanguageModel]
+            The supplemental language model associated with this Config.
 
-        nudges : typing.Optional[PostedNudgeSpec]
+            This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
 
-        prompt : typing.Optional[PostedConfigPromptSpec]
+        nudges : typing.Optional[PostedConfigNudges]
+            Configures nudges, brief audio prompts that can guide conversations when users pause or need encouragement to continue speaking. Nudges help create more natural, flowing interactions by providing gentle conversational cues.
 
-        timeouts : typing.Optional[PostedTimeoutSpecs]
+        prompt : typing.Optional[PostedConfigPrompt]
+            A Prompt associated with this Config.
+
+        timeouts : typing.Optional[PostedConfigTimeouts]
+            Map of timeouts associated with this config.
 
         tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
             Tool specification for a Config.
@@ -824,12 +854,14 @@ class AsyncConfigsClient:
         import asyncio
 
         from hume import AsyncHumeClient
-        from hume.empathic_voice import (
-            PostedConfigPromptSpec,
-            PostedEventMessageSpec,
-            PostedEventMessageSpecs,
-            PostedLanguageModel,
-            VoiceName,
+        from hume.empathic_voice import VoiceName
+        from hume.empathic_voice.configs import (
+            PostedConfigEventMessages,
+            PostedConfigEventMessagesOnInactivityTimeout,
+            PostedConfigEventMessagesOnMaxDurationTimeout,
+            PostedConfigEventMessagesOnNewChat,
+            PostedConfigLanguageModel,
+            PostedConfigPrompt,
         )
 
         client = AsyncHumeClient(
@@ -840,7 +872,7 @@ class AsyncConfigsClient:
         async def main() -> None:
             await client.empathic_voice.configs.create_config(
                 name="Weather Assistant Config",
-                prompt=PostedConfigPromptSpec(
+                prompt=PostedConfigPrompt(
                     id="",
                     version=0,
                 ),
@@ -849,21 +881,21 @@ class AsyncConfigsClient:
                     provider="HUME_AI",
                     name="Ava Song",
                 ),
-                language_model=PostedLanguageModel(
+                language_model=PostedConfigLanguageModel(
                     model_provider="ANTHROPIC",
                     model_resource="claude-3-7-sonnet-latest",
                     temperature=1.0,
                 ),
-                event_messages=PostedEventMessageSpecs(
-                    on_new_chat=PostedEventMessageSpec(
+                event_messages=PostedConfigEventMessages(
+                    on_new_chat=PostedConfigEventMessagesOnNewChat(
                         enabled=False,
                         text="",
                     ),
-                    on_inactivity_timeout=PostedEventMessageSpec(
+                    on_inactivity_timeout=PostedConfigEventMessagesOnInactivityTimeout(
                         enabled=False,
                         text="",
                     ),
-                    on_max_duration_timeout=PostedEventMessageSpec(
+                    on_max_duration_timeout=PostedConfigEventMessagesOnMaxDurationTimeout(
                         enabled=False,
                         text="",
                     ),
@@ -1045,8 +1077,10 @@ class AsyncConfigsClient:
         from hume.empathic_voice import (
             PostedConfigPromptSpec,
             PostedEllmModel,
-            PostedEventMessageSpec,
             PostedEventMessageSpecs,
+            PostedEventMessageSpecsOnInactivityTimeout,
+            PostedEventMessageSpecsOnMaxDurationTimeout,
+            PostedEventMessageSpecsOnNewChat,
             PostedLanguageModel,
             VoiceName,
         )
@@ -1078,15 +1112,15 @@ class AsyncConfigsClient:
                     allow_short_responses=True,
                 ),
                 event_messages=PostedEventMessageSpecs(
-                    on_new_chat=PostedEventMessageSpec(
+                    on_new_chat=PostedEventMessageSpecsOnNewChat(
                         enabled=False,
                         text="",
                     ),
-                    on_inactivity_timeout=PostedEventMessageSpec(
+                    on_inactivity_timeout=PostedEventMessageSpecsOnInactivityTimeout(
                         enabled=False,
                         text="",
                     ),
-                    on_max_duration_timeout=PostedEventMessageSpec(
+                    on_max_duration_timeout=PostedEventMessageSpecsOnMaxDurationTimeout(
                         enabled=False,
                         text="",
                     ),

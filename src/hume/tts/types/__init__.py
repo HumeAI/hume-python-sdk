@@ -14,6 +14,7 @@ if typing.TYPE_CHECKING:
     from .format_pcm import FormatPcm
     from .format_wav import FormatWav
     from .http_validation_error import HttpValidationError
+    from .location_item import LocationItem
     from .millisecond_interval import MillisecondInterval
     from .octave_version import OctaveVersion
     from .posted_context import PostedContext
@@ -36,7 +37,6 @@ if typing.TYPE_CHECKING:
     from .timestamp_type import TimestampType
     from .tts_output import TtsOutput
     from .validation_error import ValidationError
-    from .validation_error_loc_item import ValidationErrorLocItem
     from .voice_provider import VoiceProvider
 _dynamic_imports: typing.Dict[str, str] = {
     "AudioEncoding": ".audio_encoding",
@@ -47,6 +47,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "FormatPcm": ".format_pcm",
     "FormatWav": ".format_wav",
     "HttpValidationError": ".http_validation_error",
+    "LocationItem": ".location_item",
     "MillisecondInterval": ".millisecond_interval",
     "OctaveVersion": ".octave_version",
     "PostedContext": ".posted_context",
@@ -69,7 +70,6 @@ _dynamic_imports: typing.Dict[str, str] = {
     "TimestampType": ".timestamp_type",
     "TtsOutput": ".tts_output",
     "ValidationError": ".validation_error",
-    "ValidationErrorLocItem": ".validation_error_loc_item",
     "VoiceProvider": ".voice_provider",
 }
 
@@ -104,6 +104,7 @@ __all__ = [
     "FormatPcm",
     "FormatWav",
     "HttpValidationError",
+    "LocationItem",
     "MillisecondInterval",
     "OctaveVersion",
     "PostedContext",
@@ -126,6 +127,5 @@ __all__ = [
     "TimestampType",
     "TtsOutput",
     "ValidationError",
-    "ValidationErrorLocItem",
     "VoiceProvider",
 ]

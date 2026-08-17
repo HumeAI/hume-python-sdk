@@ -2,4 +2,4 @@
 
 import typing
 
-ValidationErrorLocItem = typing.Union[str, int]
+LocationItem = typing.Union[str, int]

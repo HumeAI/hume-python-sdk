@@ -4,13 +4,16 @@ import typing
 
 import pydantic
 from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
-from .location_item import LocationItem
+from .return_timeout_spec import ReturnTimeoutSpec
 
 
-class ValidationError(UniversalBaseModel):
-    loc: typing.List[LocationItem]
-    msg: str
-    type: str
+class ReturnConfigTimeouts(UniversalBaseModel):
+    """
+    Map of timeouts associated with this config.
+    """
+
+    inactivity: ReturnTimeoutSpec
+    max_duration: ReturnTimeoutSpec
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

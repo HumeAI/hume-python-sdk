@@ -3,20 +3,18 @@
 import typing
 
 import pydantic
-from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
-from .posted_event_message_specs_on_inactivity_timeout import PostedEventMessageSpecsOnInactivityTimeout
-from .posted_event_message_specs_on_max_duration_timeout import PostedEventMessageSpecsOnMaxDurationTimeout
-from .posted_event_message_specs_on_new_chat import PostedEventMessageSpecsOnNewChat
+from ....core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .posted_config_event_messages_on_inactivity_timeout import PostedConfigEventMessagesOnInactivityTimeout
+from .posted_config_event_messages_on_max_duration_timeout import PostedConfigEventMessagesOnMaxDurationTimeout
+from .posted_config_event_messages_on_new_chat import PostedConfigEventMessagesOnNewChat
 
 
-class PostedEventMessageSpecs(UniversalBaseModel):
+class PostedConfigEventMessages(UniversalBaseModel):
     """
-    Collection of event messages returned by the server.
-
-    Event messages are sent by the server when specific events occur during a chat session. These messages are used to configure behaviors for EVI, such as controlling how EVI starts a new conversation.
+    Map of event messages associated with this config.
     """
 
-    on_inactivity_timeout: typing.Optional[PostedEventMessageSpecsOnInactivityTimeout] = pydantic.Field(default=None)
+    on_inactivity_timeout: typing.Optional[PostedConfigEventMessagesOnInactivityTimeout] = pydantic.Field(default=None)
     """
     Specifies the message EVI provides when the chat is about to be disconnected due to a user inactivity timeout, such as a message mentioning a lack of user input for a period of time.
     
@@ -27,12 +25,14 @@ class PostedEventMessageSpecs(UniversalBaseModel):
     However, if the inactivity message is not enabled, then reaching the inactivity timeout will immediately end the connection.
     """
 
-    on_max_duration_timeout: typing.Optional[PostedEventMessageSpecsOnMaxDurationTimeout] = pydantic.Field(default=None)
+    on_max_duration_timeout: typing.Optional[PostedConfigEventMessagesOnMaxDurationTimeout] = pydantic.Field(
+        default=None
+    )
     """
     Specifies the message EVI provides when the chat is disconnected due to reaching the maximum chat duration, such as a message mentioning the time limit for the chat has been reached.
     """
 
-    on_new_chat: typing.Optional[PostedEventMessageSpecsOnNewChat] = pydantic.Field(default=None)
+    on_new_chat: typing.Optional[PostedConfigEventMessagesOnNewChat] = pydantic.Field(default=None)
     """
     Specifies the initial message EVI provides when a new chat is started, such as a greeting or welcome message.
     """
