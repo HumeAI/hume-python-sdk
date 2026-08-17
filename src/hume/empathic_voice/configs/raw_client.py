@@ -27,6 +27,12 @@ from ..types.posted_webhook_spec import PostedWebhookSpec
 from ..types.return_config import ReturnConfig
 from ..types.return_paged_configs import ReturnPagedConfigs
 from ..types.voice_ref import VoiceRef
+from .types.posted_config_ellm_model import PostedConfigEllmModel
+from .types.posted_config_event_messages import PostedConfigEventMessages
+from .types.posted_config_language_model import PostedConfigLanguageModel
+from .types.posted_config_nudges import PostedConfigNudges
+from .types.posted_config_prompt import PostedConfigPrompt
+from .types.posted_config_timeouts import PostedConfigTimeouts
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -131,13 +137,13 @@ class RawConfigsClient:
         evi_version: str,
         name: str,
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
-        ellm_model: typing.Optional[PostedEllmModel] = OMIT,
-        event_messages: typing.Optional[PostedEventMessageSpecs] = OMIT,
+        ellm_model: typing.Optional[PostedConfigEllmModel] = OMIT,
+        event_messages: typing.Optional[PostedConfigEventMessages] = OMIT,
         interruption: typing.Optional[PostedInterruptionSpec] = OMIT,
-        language_model: typing.Optional[PostedLanguageModel] = OMIT,
-        nudges: typing.Optional[PostedNudgeSpec] = OMIT,
-        prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
-        timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
+        language_model: typing.Optional[PostedConfigLanguageModel] = OMIT,
+        nudges: typing.Optional[PostedConfigNudges] = OMIT,
+        prompt: typing.Optional[PostedConfigPrompt] = OMIT,
+        timeouts: typing.Optional[PostedConfigTimeouts] = OMIT,
         tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
         turn_detection: typing.Optional[PostedTurnDetectionSpec] = OMIT,
         version_description: typing.Optional[str] = OMIT,
@@ -161,19 +167,29 @@ class RawConfigsClient:
         builtin_tools : typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]
             Built-in tool specification for a Config.
 
-        ellm_model : typing.Optional[PostedEllmModel]
+        ellm_model : typing.Optional[PostedConfigEllmModel]
+            The eLLM setup associated with this Config.
 
-        event_messages : typing.Optional[PostedEventMessageSpecs]
+            Hume's eLLM (empathic Large Language Model) is a multimodal language model that takes into account both expression measures and language. The eLLM generates short, empathic language responses and guides text-to-speech (TTS) prosody.
+
+        event_messages : typing.Optional[PostedConfigEventMessages]
+            Map of event messages associated with this config.
 
         interruption : typing.Optional[PostedInterruptionSpec]
 
-        language_model : typing.Optional[PostedLanguageModel]
+        language_model : typing.Optional[PostedConfigLanguageModel]
+            The supplemental language model associated with this Config.
 
-        nudges : typing.Optional[PostedNudgeSpec]
+            This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
 
-        prompt : typing.Optional[PostedConfigPromptSpec]
+        nudges : typing.Optional[PostedConfigNudges]
+            Configures nudges, brief audio prompts that can guide conversations when users pause or need encouragement to continue speaking. Nudges help create more natural, flowing interactions by providing gentle conversational cues.
 
-        timeouts : typing.Optional[PostedTimeoutSpecs]
+        prompt : typing.Optional[PostedConfigPrompt]
+            A Prompt associated with this Config.
+
+        timeouts : typing.Optional[PostedConfigTimeouts]
+            Map of timeouts associated with this config.
 
         tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
             Tool specification for a Config.
@@ -208,27 +224,27 @@ class RawConfigsClient:
                     direction="write",
                 ),
                 "ellm_model": convert_and_respect_annotation_metadata(
-                    object_=ellm_model, annotation=PostedEllmModel, direction="write"
+                    object_=ellm_model, annotation=PostedConfigEllmModel, direction="write"
                 ),
                 "event_messages": convert_and_respect_annotation_metadata(
-                    object_=event_messages, annotation=PostedEventMessageSpecs, direction="write"
+                    object_=event_messages, annotation=PostedConfigEventMessages, direction="write"
                 ),
                 "evi_version": evi_version,
                 "interruption": convert_and_respect_annotation_metadata(
                     object_=interruption, annotation=PostedInterruptionSpec, direction="write"
                 ),
                 "language_model": convert_and_respect_annotation_metadata(
-                    object_=language_model, annotation=PostedLanguageModel, direction="write"
+                    object_=language_model, annotation=PostedConfigLanguageModel, direction="write"
                 ),
                 "name": name,
                 "nudges": convert_and_respect_annotation_metadata(
-                    object_=nudges, annotation=PostedNudgeSpec, direction="write"
+                    object_=nudges, annotation=PostedConfigNudges, direction="write"
                 ),
                 "prompt": convert_and_respect_annotation_metadata(
-                    object_=prompt, annotation=PostedConfigPromptSpec, direction="write"
+                    object_=prompt, annotation=PostedConfigPrompt, direction="write"
                 ),
                 "timeouts": convert_and_respect_annotation_metadata(
-                    object_=timeouts, annotation=PostedTimeoutSpecs, direction="write"
+                    object_=timeouts, annotation=PostedConfigTimeouts, direction="write"
                 ),
                 "tools": convert_and_respect_annotation_metadata(
                     object_=tools,
@@ -902,13 +918,13 @@ class AsyncRawConfigsClient:
         evi_version: str,
         name: str,
         builtin_tools: typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]] = OMIT,
-        ellm_model: typing.Optional[PostedEllmModel] = OMIT,
-        event_messages: typing.Optional[PostedEventMessageSpecs] = OMIT,
+        ellm_model: typing.Optional[PostedConfigEllmModel] = OMIT,
+        event_messages: typing.Optional[PostedConfigEventMessages] = OMIT,
         interruption: typing.Optional[PostedInterruptionSpec] = OMIT,
-        language_model: typing.Optional[PostedLanguageModel] = OMIT,
-        nudges: typing.Optional[PostedNudgeSpec] = OMIT,
-        prompt: typing.Optional[PostedConfigPromptSpec] = OMIT,
-        timeouts: typing.Optional[PostedTimeoutSpecs] = OMIT,
+        language_model: typing.Optional[PostedConfigLanguageModel] = OMIT,
+        nudges: typing.Optional[PostedConfigNudges] = OMIT,
+        prompt: typing.Optional[PostedConfigPrompt] = OMIT,
+        timeouts: typing.Optional[PostedConfigTimeouts] = OMIT,
         tools: typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]] = OMIT,
         turn_detection: typing.Optional[PostedTurnDetectionSpec] = OMIT,
         version_description: typing.Optional[str] = OMIT,
@@ -932,19 +948,29 @@ class AsyncRawConfigsClient:
         builtin_tools : typing.Optional[typing.Sequence[typing.Optional[PostedBuiltinTool]]]
             Built-in tool specification for a Config.
 
-        ellm_model : typing.Optional[PostedEllmModel]
+        ellm_model : typing.Optional[PostedConfigEllmModel]
+            The eLLM setup associated with this Config.
 
-        event_messages : typing.Optional[PostedEventMessageSpecs]
+            Hume's eLLM (empathic Large Language Model) is a multimodal language model that takes into account both expression measures and language. The eLLM generates short, empathic language responses and guides text-to-speech (TTS) prosody.
+
+        event_messages : typing.Optional[PostedConfigEventMessages]
+            Map of event messages associated with this config.
 
         interruption : typing.Optional[PostedInterruptionSpec]
 
-        language_model : typing.Optional[PostedLanguageModel]
+        language_model : typing.Optional[PostedConfigLanguageModel]
+            The supplemental language model associated with this Config.
 
-        nudges : typing.Optional[PostedNudgeSpec]
+            This model is used to generate longer, more detailed responses from EVI. Choosing an appropriate supplemental language model for your use case is crucial for generating fast, high-quality responses from EVI.
 
-        prompt : typing.Optional[PostedConfigPromptSpec]
+        nudges : typing.Optional[PostedConfigNudges]
+            Configures nudges, brief audio prompts that can guide conversations when users pause or need encouragement to continue speaking. Nudges help create more natural, flowing interactions by providing gentle conversational cues.
 
-        timeouts : typing.Optional[PostedTimeoutSpecs]
+        prompt : typing.Optional[PostedConfigPrompt]
+            A Prompt associated with this Config.
+
+        timeouts : typing.Optional[PostedConfigTimeouts]
+            Map of timeouts associated with this config.
 
         tools : typing.Optional[typing.Sequence[typing.Optional[PostedUserDefinedToolSpec]]]
             Tool specification for a Config.
@@ -979,27 +1005,27 @@ class AsyncRawConfigsClient:
                     direction="write",
                 ),
                 "ellm_model": convert_and_respect_annotation_metadata(
-                    object_=ellm_model, annotation=PostedEllmModel, direction="write"
+                    object_=ellm_model, annotation=PostedConfigEllmModel, direction="write"
                 ),
                 "event_messages": convert_and_respect_annotation_metadata(
-                    object_=event_messages, annotation=PostedEventMessageSpecs, direction="write"
+                    object_=event_messages, annotation=PostedConfigEventMessages, direction="write"
                 ),
                 "evi_version": evi_version,
                 "interruption": convert_and_respect_annotation_metadata(
                     object_=interruption, annotation=PostedInterruptionSpec, direction="write"
                 ),
                 "language_model": convert_and_respect_annotation_metadata(
-                    object_=language_model, annotation=PostedLanguageModel, direction="write"
+                    object_=language_model, annotation=PostedConfigLanguageModel, direction="write"
                 ),
                 "name": name,
                 "nudges": convert_and_respect_annotation_metadata(
-                    object_=nudges, annotation=PostedNudgeSpec, direction="write"
+                    object_=nudges, annotation=PostedConfigNudges, direction="write"
                 ),
                 "prompt": convert_and_respect_annotation_metadata(
-                    object_=prompt, annotation=PostedConfigPromptSpec, direction="write"
+                    object_=prompt, annotation=PostedConfigPrompt, direction="write"
                 ),
                 "timeouts": convert_and_respect_annotation_metadata(
-                    object_=timeouts, annotation=PostedTimeoutSpecs, direction="write"
+                    object_=timeouts, annotation=PostedConfigTimeouts, direction="write"
                 ),
                 "tools": convert_and_respect_annotation_metadata(
                     object_=tools,
