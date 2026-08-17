@@ -12,7 +12,13 @@ generations:
     cli_version: unknown
     generator_versions:
       fernapi/fern-python-sdk: 4.61.0
-current_generation: fe01fd08770ba763f2599c946a16b6b338e6e86f
+  - commit_sha: b21155d165c5eda96bfae671e090ae9c98eceabb
+    tree_hash: 068f2ae7fcb9908bbbafaf7be57a4354252aac95
+    timestamp: 2026-08-17T21:03:59.718Z
+    cli_version: unknown
+    generator_versions:
+      fernapi/fern-python-sdk: 4.61.0
+current_generation: b21155d165c5eda96bfae671e090ae9c98eceabb
 patches:
   - id: patch-ece510a1
     content_hash: sha256:2296c327028f8024cba5c6ffccf276bca01550441a8ddc9ec88499b9e056f429
@@ -170,4 +176,280 @@ patches:
         [tool.poetry.extras]
         examples=["jupyter"]
         microphone=["sounddevice"]
+    status: unresolved
+  - id: patch-660ad969
+    content_hash: sha256:a199931206f95b99cdf7c48c199c60c6d567cebaf9884f65e824be4d8a895d97
+    original_commit: 660ad9694a7a4fa844262c17134bc06011588a8a
+    original_message: bump version to 0.14.0 (#488)
+    original_author: Zachary Greathouse <26175515+zgreathouse@users.noreply.github.com>
+    base_generation: 3955934c6659aac3d3cac19ef77ac519e7146fb3
+    files:
+      - pyproject.toml
+      - src/hume/core/client_wrapper.py
+    patch_content: |
+      diff --git a/pyproject.toml b/pyproject.toml
+      index f0fe992..29341d2 100644
+      --- a/pyproject.toml
+      +++ b/pyproject.toml
+      @@ -4,7 +4,7 @@ dynamic = ["version"]
+       
+       [tool.poetry]
+       name = "hume"
+      -version = "0.13.14"
+      +version = "0.14.0"
+       description = "A Python SDK for Hume AI"
+       readme = "README.md"
+       authors = []
+      diff --git a/src/hume/core/client_wrapper.py b/src/hume/core/client_wrapper.py
+      index df93ad4..b22e882 100644
+      --- a/src/hume/core/client_wrapper.py
+      +++ b/src/hume/core/client_wrapper.py
+      @@ -28,12 +28,12 @@ class BaseClientWrapper:
+               import platform
+       
+               headers: typing.Dict[str, str] = {
+      -            "User-Agent": "hume/0.13.14",
+      +            "User-Agent": "hume/0.14.0",
+                   "X-Fern-Language": "Python",
+                   "X-Fern-Runtime": f"python/{platform.python_version()}",
+                   "X-Fern-Platform": f"{platform.system().lower()}/{platform.release()}",
+                   "X-Fern-SDK-Name": "hume",
+      -            "X-Fern-SDK-Version": "0.13.14",
+      +            "X-Fern-SDK-Version": "0.14.0",
+                   **(self.get_custom_headers() or {}),
+               }
+               if self.api_key is not None:
+    theirs_snapshot:
+      pyproject.toml: |
+        [project]
+        name = "hume"
+        dynamic = ["version"]
+
+        [tool.poetry]
+        name = "hume"
+        version = "0.14.0"
+        description = "A Python SDK for Hume AI"
+        readme = "README.md"
+        authors = []
+        keywords = [
+            "hume",
+            "ai",
+            "evi",
+            "empathic",
+            "multimodal",
+            "expression",
+            "analysis",
+            "sentiment",
+            "voice",
+            "recognition",
+            "detection",
+            "emotion",
+            "interface",
+            "speech",
+            "audio",
+            "vision",
+            "expressive",
+            "embeddings",
+            "communication",
+            "learning"
+        ]
+        license = "MIT"
+        classifiers = [
+            "Intended Audience :: Developers",
+            "Programming Language :: Python",
+            "Programming Language :: Python :: 3",
+            "Programming Language :: Python :: 3.9",
+            "Programming Language :: Python :: 3.10",
+            "Programming Language :: Python :: 3.11",
+            "Programming Language :: Python :: 3.12",
+            "Programming Language :: Python :: 3.13",
+            "Programming Language :: Python :: 3.14",
+            "Programming Language :: Python :: 3.15",
+            "Operating System :: OS Independent",
+            "Operating System :: POSIX",
+            "Operating System :: MacOS",
+            "Operating System :: POSIX :: Linux",
+            "Operating System :: Microsoft :: Windows",
+            "Topic :: Software Development :: Libraries :: Python Modules",
+            "Typing :: Typed",
+            "License :: OSI Approved :: MIT License"
+        ]
+        packages = [
+            { include = "hume", from = "src"}
+        ]
+
+        [tool.poetry.urls]
+        Documentation = 'https://dev.hume.ai'
+        Homepage = 'https://www.hume.ai/'
+        Repository = 'https://github.com/HumeAI/hume-python-sdk'
+
+        [tool.poetry.dependencies]
+        python = ">=3.9,<4"
+        eval-type-backport = "^0.2.0"
+        exceptiongroup = "^1.3.0"
+        httpx = ">=0.21.2"
+        jupyter = { version = "^1.0.0", optional = true}
+        pydantic = ">= 1.9.2"
+        pydantic-core = ">=2.18.2"
+        sounddevice = { version = "^0.4.6", optional = true}
+        typing_extensions = ">= 4.0.0"
+        websockets = ">=12.0"
+
+        [tool.poetry.group.dev.dependencies]
+        mypy = "==1.13.0"
+        pytest = "^7.4.0"
+        pytest-asyncio = "^0.23.5"
+        pytest-xdist = "^3.6.1"
+        python-dateutil = "^2.9.0"
+        types-python-dateutil = "^2.9.0.20240316"
+        requests = "^2.31.0"
+        types-requests = "^2.31.0"
+        covcheck = { version = "^0.4.3", extras = ["toml"]}
+        pydocstyle = "^6.1.1"
+        pydub-stubs = "^0.25.1"
+        pylint = "^2.16.2"
+        pytest-cov = "^4.0.0"
+        ruff = "==0.11.5"
+        semver = "^2.13.0"
+        testbook = "^0.4.2"
+
+        [tool.pytest.ini_options]
+        testpaths = [ "tests" ]
+        asyncio_mode = "auto"
+
+        [tool.mypy]
+        plugins = ["pydantic.mypy"]
+
+        [tool.ruff]
+        line-length = 120
+
+        [tool.ruff.lint]
+        select = [
+            "E",  # pycodestyle errors
+            "F",  # pyflakes
+            "I",  # isort
+        ]
+        ignore = [
+            "E402",  # Module level import not at top of file
+            "E501",  # Line too long
+            "E711",  # Comparison to `None` should be `cond is not None`
+            "E712",  # Avoid equality comparisons to `True`; use `if ...:` checks
+            "E721",  # Use `is` and `is not` for type comparisons, or `isinstance()` for insinstance checks
+            "E722",  # Do not use bare `except`
+            "E731",  # Do not assign a `lambda` expression, use a `def`
+            "F821",  # Undefined name
+            "F841"   # Local variable ... is assigned to but never used
+        ]
+
+        [tool.ruff.lint.isort]
+        section-order = ["future", "standard-library", "third-party", "first-party"]
+
+        [build-system]
+        requires = ["poetry-core"]
+        build-backend = "poetry.core.masonry.api"
+
+        [tool.poetry.extras]
+        examples=["jupyter"]
+        microphone=["sounddevice"]
+      src/hume/core/client_wrapper.py: |
+        # This file was auto-generated by Fern from our API Definition.
+
+        import typing
+
+        import httpx
+        from ..environment import HumeClientEnvironment
+        from .http_client import AsyncHttpClient, HttpClient
+        from .logging import LogConfig, Logger
+
+
+        class BaseClientWrapper:
+            def __init__(
+                self,
+                *,
+                api_key: typing.Optional[str] = None,
+                headers: typing.Optional[typing.Dict[str, str]] = None,
+                environment: HumeClientEnvironment,
+                timeout: typing.Optional[float] = None,
+                logging: typing.Optional[typing.Union[LogConfig, Logger]] = None,
+            ):
+                self.api_key = api_key
+                self._headers = headers
+                self._environment = environment
+                self._timeout = timeout
+                self._logging = logging
+
+            def get_headers(self) -> typing.Dict[str, str]:
+                import platform
+
+                headers: typing.Dict[str, str] = {
+                    "User-Agent": "hume/0.14.0",
+                    "X-Fern-Language": "Python",
+                    "X-Fern-Runtime": f"python/{platform.python_version()}",
+                    "X-Fern-Platform": f"{platform.system().lower()}/{platform.release()}",
+                    "X-Fern-SDK-Name": "hume",
+                    "X-Fern-SDK-Version": "0.14.0",
+                    **(self.get_custom_headers() or {}),
+                }
+                if self.api_key is not None:
+                    headers["X-Hume-Api-Key"] = self.api_key
+                return headers
+
+            def get_custom_headers(self) -> typing.Optional[typing.Dict[str, str]]:
+                return self._headers
+
+            def get_environment(self) -> HumeClientEnvironment:
+                return self._environment
+
+            def get_timeout(self) -> typing.Optional[float]:
+                return self._timeout
+
+
+        class SyncClientWrapper(BaseClientWrapper):
+            def __init__(
+                self,
+                *,
+                api_key: typing.Optional[str] = None,
+                headers: typing.Optional[typing.Dict[str, str]] = None,
+                environment: HumeClientEnvironment,
+                timeout: typing.Optional[float] = None,
+                logging: typing.Optional[typing.Union[LogConfig, Logger]] = None,
+                httpx_client: httpx.Client,
+            ):
+                super().__init__(api_key=api_key, headers=headers, environment=environment, timeout=timeout, logging=logging)
+                self.httpx_client = HttpClient(
+                    httpx_client=httpx_client,
+                    base_headers=self.get_headers,
+                    base_timeout=self.get_timeout,
+                    logging_config=self._logging,
+                )
+
+
+        class AsyncClientWrapper(BaseClientWrapper):
+            def __init__(
+                self,
+                *,
+                api_key: typing.Optional[str] = None,
+                headers: typing.Optional[typing.Dict[str, str]] = None,
+                environment: HumeClientEnvironment,
+                timeout: typing.Optional[float] = None,
+                logging: typing.Optional[typing.Union[LogConfig, Logger]] = None,
+                async_token: typing.Optional[typing.Callable[[], typing.Awaitable[str]]] = None,
+                httpx_client: httpx.AsyncClient,
+            ):
+                super().__init__(api_key=api_key, headers=headers, environment=environment, timeout=timeout, logging=logging)
+                self._async_token = async_token
+                self.httpx_client = AsyncHttpClient(
+                    httpx_client=httpx_client,
+                    base_headers=self.get_headers,
+                    base_timeout=self.get_timeout,
+                    async_base_headers=self.async_get_headers,
+                    logging_config=self._logging,
+                )
+
+            async def async_get_headers(self) -> typing.Dict[str, str]:
+                headers = self.get_headers()
+                if self._async_token is not None:
+                    token = await self._async_token()
+                    headers["Authorization"] = f"Bearer {token}"
+                return headers
     status: unresolved
