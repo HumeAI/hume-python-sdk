@@ -4,11 +4,11 @@ import typing
 
 import pydantic
 from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
-from .validation_error_loc_item import ValidationErrorLocItem
+from .location_item import LocationItem
 
 
 class ValidationError(UniversalBaseModel):
-    loc: typing.List[ValidationErrorLocItem]
+    loc: typing.List[LocationItem]
     msg: str
     type: str
 

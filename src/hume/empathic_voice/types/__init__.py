@@ -21,7 +21,6 @@ if typing.TYPE_CHECKING:
     from .connect_session_settings import ConnectSessionSettings
     from .connect_session_settings_audio import ConnectSessionSettingsAudio
     from .connect_session_settings_context import ConnectSessionSettingsContext
-    from .connect_session_settings_variables_value import ConnectSessionSettingsVariablesValue
     from .context import Context
     from .context_type import ContextType
     from .control_plane_publish_event import ControlPlanePublishEvent
@@ -34,6 +33,7 @@ if typing.TYPE_CHECKING:
     from .interruption_spec import InterruptionSpec
     from .json_message import JsonMessage
     from .language_model_type import LanguageModelType
+    from .location_item import LocationItem
     from .millisecond_interval import MillisecondInterval
     from .model_provider_enum import ModelProviderEnum
     from .pause_assistant_message import PauseAssistantMessage
@@ -43,6 +43,9 @@ if typing.TYPE_CHECKING:
     from .posted_ellm_model import PostedEllmModel
     from .posted_event_message_spec import PostedEventMessageSpec
     from .posted_event_message_specs import PostedEventMessageSpecs
+    from .posted_event_message_specs_on_inactivity_timeout import PostedEventMessageSpecsOnInactivityTimeout
+    from .posted_event_message_specs_on_max_duration_timeout import PostedEventMessageSpecsOnMaxDurationTimeout
+    from .posted_event_message_specs_on_new_chat import PostedEventMessageSpecsOnNewChat
     from .posted_interruption_spec import PostedInterruptionSpec
     from .posted_language_model import PostedLanguageModel
     from .posted_nudge_spec import PostedNudgeSpec
@@ -79,7 +82,14 @@ if typing.TYPE_CHECKING:
     from .return_chat_paged_events_status import ReturnChatPagedEventsStatus
     from .return_chat_status import ReturnChatStatus
     from .return_config import ReturnConfig
+    from .return_config_ellm_model import ReturnConfigEllmModel
+    from .return_config_event_messages import ReturnConfigEventMessages
+    from .return_config_language_model import ReturnConfigLanguageModel
+    from .return_config_nudges import ReturnConfigNudges
+    from .return_config_prompt import ReturnConfigPrompt
+    from .return_config_prompt_version_type import ReturnConfigPromptVersionType
     from .return_config_spec import ReturnConfigSpec
+    from .return_config_timeouts import ReturnConfigTimeouts
     from .return_ellm_model import ReturnEllmModel
     from .return_event_message_spec import ReturnEventMessageSpec
     from .return_event_message_specs import ReturnEventMessageSpecs
@@ -106,7 +116,6 @@ if typing.TYPE_CHECKING:
     from .return_webhook_spec import ReturnWebhookSpec
     from .role import Role
     from .session_settings import SessionSettings
-    from .session_settings_variables_value import SessionSettingsVariablesValue
     from .subscribe_event import SubscribeEvent
     from .tool import Tool
     from .tool_call_message import ToolCallMessage
@@ -118,7 +127,7 @@ if typing.TYPE_CHECKING:
     from .user_interruption import UserInterruption
     from .user_message import UserMessage
     from .validation_error import ValidationError
-    from .validation_error_loc_item import ValidationErrorLocItem
+    from .variables_value import VariablesValue
     from .voice_id import VoiceId
     from .voice_name import VoiceName
     from .voice_provider import VoiceProvider
@@ -147,7 +156,6 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConnectSessionSettings": ".connect_session_settings",
     "ConnectSessionSettingsAudio": ".connect_session_settings_audio",
     "ConnectSessionSettingsContext": ".connect_session_settings_context",
-    "ConnectSessionSettingsVariablesValue": ".connect_session_settings_variables_value",
     "Context": ".context",
     "ContextType": ".context_type",
     "ControlPlanePublishEvent": ".control_plane_publish_event",
@@ -160,6 +168,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "InterruptionSpec": ".interruption_spec",
     "JsonMessage": ".json_message",
     "LanguageModelType": ".language_model_type",
+    "LocationItem": ".location_item",
     "MillisecondInterval": ".millisecond_interval",
     "ModelProviderEnum": ".model_provider_enum",
     "PauseAssistantMessage": ".pause_assistant_message",
@@ -169,6 +178,9 @@ _dynamic_imports: typing.Dict[str, str] = {
     "PostedEllmModel": ".posted_ellm_model",
     "PostedEventMessageSpec": ".posted_event_message_spec",
     "PostedEventMessageSpecs": ".posted_event_message_specs",
+    "PostedEventMessageSpecsOnInactivityTimeout": ".posted_event_message_specs_on_inactivity_timeout",
+    "PostedEventMessageSpecsOnMaxDurationTimeout": ".posted_event_message_specs_on_max_duration_timeout",
+    "PostedEventMessageSpecsOnNewChat": ".posted_event_message_specs_on_new_chat",
     "PostedInterruptionSpec": ".posted_interruption_spec",
     "PostedLanguageModel": ".posted_language_model",
     "PostedNudgeSpec": ".posted_nudge_spec",
@@ -203,7 +215,14 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ReturnChatPagedEventsStatus": ".return_chat_paged_events_status",
     "ReturnChatStatus": ".return_chat_status",
     "ReturnConfig": ".return_config",
+    "ReturnConfigEllmModel": ".return_config_ellm_model",
+    "ReturnConfigEventMessages": ".return_config_event_messages",
+    "ReturnConfigLanguageModel": ".return_config_language_model",
+    "ReturnConfigNudges": ".return_config_nudges",
+    "ReturnConfigPrompt": ".return_config_prompt",
+    "ReturnConfigPromptVersionType": ".return_config_prompt_version_type",
     "ReturnConfigSpec": ".return_config_spec",
+    "ReturnConfigTimeouts": ".return_config_timeouts",
     "ReturnEllmModel": ".return_ellm_model",
     "ReturnEventMessageSpec": ".return_event_message_spec",
     "ReturnEventMessageSpecs": ".return_event_message_specs",
@@ -230,7 +249,6 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ReturnWebhookSpec": ".return_webhook_spec",
     "Role": ".role",
     "SessionSettings": ".session_settings",
-    "SessionSettingsVariablesValue": ".session_settings_variables_value",
     "SubscribeEvent": ".subscribe_event",
     "Tool": ".tool",
     "ToolCallMessage": ".tool_call_message",
@@ -242,7 +260,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "UserInterruption": ".user_interruption",
     "UserMessage": ".user_message",
     "ValidationError": ".validation_error",
-    "ValidationErrorLocItem": ".validation_error_loc_item",
+    "VariablesValue": ".variables_value",
     "VoiceId": ".voice_id",
     "VoiceName": ".voice_name",
     "VoiceProvider": ".voice_provider",
@@ -295,7 +313,6 @@ __all__ = [
     "ConnectSessionSettings",
     "ConnectSessionSettingsAudio",
     "ConnectSessionSettingsContext",
-    "ConnectSessionSettingsVariablesValue",
     "Context",
     "ContextType",
     "ControlPlanePublishEvent",
@@ -308,6 +325,7 @@ __all__ = [
     "InterruptionSpec",
     "JsonMessage",
     "LanguageModelType",
+    "LocationItem",
     "MillisecondInterval",
     "ModelProviderEnum",
     "PauseAssistantMessage",
@@ -317,6 +335,9 @@ __all__ = [
     "PostedEllmModel",
     "PostedEventMessageSpec",
     "PostedEventMessageSpecs",
+    "PostedEventMessageSpecsOnInactivityTimeout",
+    "PostedEventMessageSpecsOnMaxDurationTimeout",
+    "PostedEventMessageSpecsOnNewChat",
     "PostedInterruptionSpec",
     "PostedLanguageModel",
     "PostedNudgeSpec",
@@ -351,7 +372,14 @@ __all__ = [
     "ReturnChatPagedEventsStatus",
     "ReturnChatStatus",
     "ReturnConfig",
+    "ReturnConfigEllmModel",
+    "ReturnConfigEventMessages",
+    "ReturnConfigLanguageModel",
+    "ReturnConfigNudges",
+    "ReturnConfigPrompt",
+    "ReturnConfigPromptVersionType",
     "ReturnConfigSpec",
+    "ReturnConfigTimeouts",
     "ReturnEllmModel",
     "ReturnEventMessageSpec",
     "ReturnEventMessageSpecs",
@@ -378,7 +406,6 @@ __all__ = [
     "ReturnWebhookSpec",
     "Role",
     "SessionSettings",
-    "SessionSettingsVariablesValue",
     "SubscribeEvent",
     "Tool",
     "ToolCallMessage",
@@ -390,7 +417,7 @@ __all__ = [
     "UserInterruption",
     "UserMessage",
     "ValidationError",
-    "ValidationErrorLocItem",
+    "VariablesValue",
     "VoiceId",
     "VoiceName",
     "VoiceProvider",

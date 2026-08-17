@@ -4,13 +4,17 @@ import typing
 
 import pydantic
 from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
-from .location_item import LocationItem
+from .return_event_message_spec import ReturnEventMessageSpec
 
 
-class ValidationError(UniversalBaseModel):
-    loc: typing.List[LocationItem]
-    msg: str
-    type: str
+class ReturnConfigEventMessages(UniversalBaseModel):
+    """
+    Map of event messages associated with this config.
+    """
+
+    on_inactivity_timeout: typing.Optional[ReturnEventMessageSpec] = None
+    on_max_duration_timeout: typing.Optional[ReturnEventMessageSpec] = None
+    on_new_chat: typing.Optional[ReturnEventMessageSpec] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

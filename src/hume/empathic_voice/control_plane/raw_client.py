@@ -64,9 +64,6 @@ class RawControlPlaneClient:
             json=convert_and_respect_annotation_metadata(
                 object_=request, annotation=ControlPlanePublishEvent, direction="write"
             ),
-            headers={
-                "content-type": "application/json",
-            },
             request_options=request_options,
             omit=OMIT,
         )
@@ -191,9 +188,6 @@ class AsyncRawControlPlaneClient:
             json=convert_and_respect_annotation_metadata(
                 object_=request, annotation=ControlPlanePublishEvent, direction="write"
             ),
-            headers={
-                "content-type": "application/json",
-            },
             request_options=request_options,
             omit=OMIT,
         )

@@ -6,7 +6,7 @@ import pydantic
 from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .connect_session_settings_audio import ConnectSessionSettingsAudio
 from .connect_session_settings_context import ConnectSessionSettingsContext
-from .connect_session_settings_variables_value import ConnectSessionSettingsVariablesValue
+from .variables_value import VariablesValue
 
 
 class ConnectSessionSettings(UniversalBaseModel):
@@ -63,7 +63,7 @@ class ConnectSessionSettings(UniversalBaseModel):
     Allows you to change the voice during an active chat. Updating the voice does not affect chat context or conversation history.
     """
 
-    variables: typing.Optional[typing.Dict[str, ConnectSessionSettingsVariablesValue]] = pydantic.Field(default=None)
+    variables: typing.Optional[typing.Dict[str, VariablesValue]] = pydantic.Field(default=None)
     """
     This field allows you to assign values to dynamic variables referenced in your system prompt.
     

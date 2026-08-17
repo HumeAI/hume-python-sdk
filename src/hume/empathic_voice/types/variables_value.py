@@ -2,4 +2,4 @@
 
 import typing
 
-ValidationErrorLocItem = typing.Union[str, int]
+VariablesValue = typing.Union[str, float, bool]

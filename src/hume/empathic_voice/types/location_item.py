@@ -2,4 +2,4 @@
 
 import typing
 
-SessionSettingsVariablesValue = typing.Union[str, float, bool]
+LocationItem = typing.Union[str, int]
